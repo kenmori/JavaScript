@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./js/jquery.js"></script>
+	<script>
+	$(function(){
+
+
+	});
+	</script>
+</head>
+<body>
+
+<div id="div">
+
+5分でわかる
+bxスライダー5つ動かしたらiPhoneでピカピカちらついたんだけど
+transform:translate3d(0,0,0)をちらつく箇所に指定したら直った！
+なぜだ！！
+
+答えは
+tranlate3dを指定するとGPUで処理するようになるからだった
+
+説明
+CPUで処理をするアニメーションとGPUで処理をするアニメーションの違い
+
+CPU(GGO)
+position:absolut
+left:0
+
+こちらは例えるなら画用紙に書いては背景で塗りつぶして書いては移動
+ぺらぺら漫画に一枚背景の真っ白な一枚を挟んで移動しているようなもの
+
+
+GPU(GGO)
+transform:transtlate
+opacitiyのフェードイン
+
+GPUアクセラーレーションが有効になる＝アニメーションのレンダリングをソフトではなくハード（グラフィックチップスが担当になる）
+
+photoshopの背景レイヤーの上にある描画されているレイヤーが移動するようなもの
+
+Android OSが2.3以下はGPUアクセラーレーションが利かない
+
+レンダリング時の負荷によるアニメーションの遅れが一枚真っ白な背景がピカピカの原因
+
+
+パフォーマンスの違い
+css、animationだけで移動
+javascriptだけで移動
+
+css、translatetransform
+javascriptでtransform
+
+
+パフォーマンス
+ほかのGPUに演算させるプロパティは？？
+
+
+
+
+
+ここで注意
+GPUをbodyに指定するとよくないよ
+GPUは画像処理にすぐれているのでそのほかの演算がある要素やコンテンツに指定すると結果
+パフォーマンス落ちますよ
+ブラウザのバージョンによって異なる不要で無駄かもしれないレイヤーを形成しない
+
+
+
+・再描画されている箇所に的確に指定
+
+スクロールは？？
+再描画されているのでは？
+
+GIFアニメーションは？
+
+
+
+確かめる方法は？
+開発ツールのrectangle
+
+
+
+今後のGPUの行方
+WebCLでWebデベロッパもGPUやCPUのマルチコアをブラウザ内で有効利用（==並列処理）できるようになる
+http://jp.techcrunch.com/2014/03/20/20140319webcl-will-soon-let-web-developers-harness-the-power-of-multi-core-gpus-and-cpus-from-the-browser/
+
+
+CSS will-changeプロパティについて知っておくべきこと
+https://dev.opera.com/articles/ja/css-will-change-property/
+
+transform: translate3d(0, 0, 0);
+こうした方法でハードウェア・アクセラレーションを行うと、
+合成レイヤーとして知られているものが生成されます。
+これは、GPUにアップロードされGPUによって合成されるレイヤーです。
+しかし、CSSハックを用いたレイヤー生成は、パフォーマンス・ボトルネックの解消に必ずしも役立ちません。
+レイヤーを作らせることでページ表示速度は速くなるかも知れませんが、コストがかかります。
+RAMやGPUのメモリ使用量が多くなり（特にモバイル端末では）、
+レイヤーをたくさん抱えると悪影響が及びます（特にモバイル端末では）。
+ですから、ハックを使うときは慎重に扱わなければなりません。
+ハードウェア・アクセラレーションの実行によって本当にページ表示が最適化されるのか、
+そしてその操作で新たなパフォーマンス・ボトルネックが起きていないことを確認した上で、
+これらのテクニックを使うようにしなければなりません。
+
+
+transform:transform3dは
+cssハックだった!
+
+なぜ3次元の処理を2次元のアニメーションに指定しているのか！！
+ブラウザをだましてレイヤー生成を促すCSSハック！
+
+null transoin
+
+まとめ
+GPUちゃんと使おうGPU
+
+
+
+参考
+
+GPUの可視化
+Visualizing WebKit's hardware acceleration
+
+Web制作にGPU処理を取り入れる
+https://w3g.jp/blog/studies/web_gpu_adopt
+
+Mobile Safariで2Dアニメーションを実行する時に、本当にtranslate3dを使用すべきなのか検証してみました
+http://blog.bluearrowslab.com/smartphone/topicks/663/
+
+</div>
+
+
+
+
+
+
+chromeデベロッパーツール
+パフォーマンスの調べ方を完全にマスター
+
+will-changeプロパティ
+要素に変更を加える前に前もってブラウザに知らせておけるプロパティ
+だが
+上述したスタックコンテキストや包含ブロックを生じるような場合以外に、will-changeが要素に直接的な影響を与えることはありません。
+レクタングルの操作
+
+
+
+例えば、clip-pathとopacityプロパティはいずれも、デフォルト値以外の値を指定した時、対象となる要素にスタックコンテキストを生成します。
+包含ブロック
+
+パフォーマンス・ヒットとクラッシュ
+
+</body>
+</html>
