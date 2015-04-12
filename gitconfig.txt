@@ -1,0 +1,180 @@
+[core]
+	excludesfile = /Users/No51/.gitignore_global
+	quotepath = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = Kenji Morita
+	email = kennjimoritata@yahoo.co.jp
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+
+	# ===[ALIAS-START]===
+
+[alias]
+	c    = config -l
+	s    = status -sb
+	l    = log --pretty=oneline --abbrev-commit --abbrev=4 --decorate -25
+	ll   = log --pretty=oneline --abbrev-commit --abbrev=4 --decorate
+	g    = log --pretty=oneline --abbrev-commit --abbrev=4 -25 --graph --decorate
+	gg   = log --pretty=oneline --abbrev-commit --abbrev=4 --graph --decorate
+	rp   = rev-parse --short=4
+	b    = branch
+	ss   = !git snapshot
+	save = !git snapshot
+
+
+	# General purpose aliases:
+	#     snapshot
+	#     backup
+	#     stat
+	#     days
+	#
+	# Educational aliases:
+	#    create-file
+	#    simple-commit
+	#    multiple-commit
+	#    simple-loop
+	#    simple-loop2
+	#    clear
+	#    branches
+
+
+	# Alias: snapshot
+	# Example:
+	#
+	#    git snapshot This is my very important commit...
+	#    git snapshot "This is my very important commit...
+	#    git snapshot
+	#
+	snapshot = "!snapshot() { COMMENT=wip; if [ \"$*\" ]; then  COMMENT=\"$*\"; fi; git add -A; git commit -m \"$COMMENT\"; }; snapshot"
+
+
+	# Alias: backup
+	# Example:
+	#
+	#    git backup This is my very important commit...
+	#    git backup "This is my very important commit..."
+	#
+	backup = "!backup() { git snapshot \"$*\"; git push; }; backup"
+
+
+	# Alias: days
+	# Example:
+	#
+	#    git days
+	#
+	days = "!days() { git log --pretty=format:%cd --date=short | uniq; }; days"
+
+
+	# Alias: stat
+	# Example:
+	#
+	#    git stat
+	#
+	stat = "!stat() { echo -n Number of revisions:; git log --oneline | wc -l; echo -n Number of developers:; git shortlog -s | wc -l; echo -n Number of days:; git days | wc -l; echo -n The working directory:; du -h -s --exclude=.git; echo -n The git directory:; du -h -s .git; echo -n Number of files in the working dir:; git ls-files | wc -l; }; stat"
+
+
+	# Alias: create-file
+	# Example:
+	#
+	#    git create-file lorem
+	#    git create-file lorem ipsum dolor
+	#
+	create-file = "!createFile() { for name in \"$@\"; do echo $name>$name.txt; done; }; createFile"
+
+
+	# Alias: simple-commit
+	# Example:
+	#
+	#    git simple-commit a
+	#    git simple-commit a b c
+	#
+	simple-commit = "!simpleCommit() { for name in \"$@\"; do git create-file \"$name\"; git snapshot $name; done; }; simpleCommit"
+
+
+	# Alias: multiple-commit
+	# Example:
+	#
+	#    git multi-commit lorem
+	#    git multi-commit lorem ipsum dolor
+	#
+	multi-commit = "!multiCommit() { for name in \"$@\"; do git create-file $name; done; git snapshot \"$*\"; }; multiCommit"
+
+
+	# Alias: simple-loop
+	# Example:
+	#
+	#    git simple-loop lorem 5
+	#
+	simple-loop = "!simpleLoop() { NAME=$1; i="1"; while [ $i -le $2 ]; do git simple-commit $NAME$i; i=$[$i+1]; done; }; simpleLoop"
+
+
+	# Alias: simple-loop2
+	# Example:
+	#
+	#    git simple-loop2 lorem 7 13
+	#
+	simple-loop2 = "!simpleLoop2() { NAME=$1; i=$2; while [ $i -le $3 ]; do git simple-commit $NAME$i; i=$[$i+1]; done; }; simpleLoop2"
+
+
+	# Alias: branches
+	# Example:
+	#
+	#    git branches lorem ipsum dolor
+	#
+	branches = "!branches() { for name in \"$@\"; do git branch $name; done; }; branches"
+
+
+
+	# Clonning with remote branches
+	#
+	# Command to list remote branches:
+	#
+	#    git branch -r | sed "/->/d; s/  origin\///g"
+	#
+	list-remote-branches = "!listRemoteBranches() { git branch -r | sed \"/->/d; s/  origin\\///g\"; }; listRemoteBranches"
+	checkout-remote-branches = "!checkoutRemoteBranches() { for name in `git list-remote-branches`; do git checkout $name; done; }; checkoutRemoteBranches"
+	#
+	# Example:
+	#
+	#   git clone-with-branches dirSrc dirDest
+	#
+	clone-with-branches = "!cloneWithBranches() { git clone $1 $2; cd $2; git checkout-remote-branches; git remote rm origin; }; cloneWithBranches"
+
+	#@todo: check parameters:
+	#   git clone-with-branches URL
+
+
+
+	# Example:
+	#
+	#   git checkout beta
+	#   git set-version 0.1.0
+	#
+	# assumptions:
+	#  - clean repo
+	#
+	# @git get-version === cat version.txt
+
+	set-version = "!setVersion() { echo $1 > version.txt; git snapshot Version $1; git tag -a v$1 -m \"Release $1\";  }; setVersion"
+	get-version = "!getVersion() { cat version.txt; }; getVersion"
+
+
+
+	# Remove old commits
+	#
+	#    git clear-reflog-now
+	#
+	clear-reflog-now = "!clearReflogNow() { git reflog expire --all --expire=now;  }; clearReflogNow"
+	remove-old-commits = "!removeOldCommits() { git clear-reflog-now; git prune;  }; removeOldCommits"
+
+
+	#
+	# ===[ALIAS-STOP]===
