@@ -1,40 +1,39 @@
-'use strict';
+var gulp = require("gulp");
+var connect = require("gulp-connect");
+var path = require("path");
+var sass = require("gulp-sass");
 
-var gulp = require('gulp'),
-concat = require('gulp-concat'),
-uglify = require('gulp-uglify'),
-minifyCss = require('gulp-minify-css'),
-imagemin = require('gulp-imagemin');
+var path = [
+"./html/*.html",
+"./css/*.css",
+"./scss/*.scss"
+];
+gulp.task("sass",function(){
+			gulp.src(['./scss/*.scss']) // srcを指定
+			.pipe(sass())                 // 指定したファイルをJSにコンパイル
+			.pipe(gulp.dest('./dest'))      // dest先に出力する
+		});
 
-var path = {
-js: ['../vendor/**/*.js'],
-css: ['../vendor/**/*.css']
-}
-
-gulp.task('bench-concat', function() {
-gulp.src(path.js)
-	.pipe(concat('all.js'))
-	.pipe(gulp.dest('dist/js/'));
+gulp.task("html",function(){
+	gulp.src('./html/*.html')
+});
+gulp.task("connect", function() {
+	connect.server({
+		livereload: true,
+		port: 8000,
+		root: './'
+	});
 });
 
-gulp.task('bench-uglify', function() {
-gulp.src(path.js)
-	.pipe(uglify())
-	.pipe(concat('all.min.js'))
-	.pipe(gulp.dest('dist/js/'));
+gulp.task("watch", function() {
+	gulp.watch(path, ['sass','html','reload']);
 });
 
-gulp.task('bench-cssmin', function() {
-gulp.src(path.css)
-	.pipe(concat('all.min.css'))
-	.pipe(minifyCss())
-	.pipe(gulp.dest('dist/css/'));
+gulp.task("reload", function() {
+	gulp.src('./html/*.html')
+	.pipe(connect.reload());
+	gulp.src('./scss/*.html')
+	.pipe(connect.reload());
 });
 
-gulp.task('bench-imagemin', function() {
-gulp.src(['../images/**/*.{png,jpg,gif}'])
-	.pipe(imagemin())
-	.pipe(gulp.dest('dist/images/'));
-});
-
-gulp.task('default', ['bench-concat', 'bench-uglify', 'bench-cssmin', 'bench-imagemin']);
+gulp.task("default", ["connect", "watch"]);
