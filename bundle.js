@@ -44,7 +44,17 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	document.write("hello");
+	var print = __webpack_require__(1);
+	print("Hello webpack");
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(msg){
+		document.write("[print]" + msg);
+	};
 
 
 /***/ }
