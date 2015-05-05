@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./js/jquery.js"></script>
+	<script>
+	$(function(){
+		var a = ['fafa','dede','ggg'];
+		var b = ['www','aaa','ccc'];
+		var marge = $.merge(a,b);//配列aとbをマージ
+		console.log(marge);
+
+
+		var makeArray = $.makeArray(document.getElementsByTagName('a'));//aタグを配列として生成class,id名も
+		console.log(makeArray);
+
+		//要素を配列にして被っているものは除外
+		var divmarge = $.merge($('div').get(),$('.content').get());
+		console.log($.unique(divmarge));
+
+		//typeof演算子では配列や正規表現、nullはobjectを返す。$.type()は判別できる
+		//DOMEオブジェクトは判別できない。その場合$.isPlainObjectメソッドで判別する
+		typeof 'jQuery';//string
+		$.type('jQuery');//string
+		
+	});
+	</script>
+</head>
+<body>
+<div>
+<a href="#" class="1" id="01">リンク1</a>
+<a href="#" class="2" id="02">リンク2</a>
+<a href="#" class="3" id="03">リンク3</a>
+<a href="#" class="4" id="04">リンク4</a>
+
+<div id="first" class="content">first</div>
+<div id="second" class="content">first</div>
+</div>
+
+
+</body>
+</html>
