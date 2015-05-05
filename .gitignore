@@ -1,4 +1,8 @@
-node_modues/
+node_modules/
+survey_builder/
+ab/
+json_au/
+
 
 # コメントになる
 */.DS_Store

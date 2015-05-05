@@ -4,17 +4,13 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>Document</title>
 	<script type="text/javascript" src="./jquery.js"></script>
-	<script>
-	$(function(){
-
-	});
-	</script>	
 </head>
 <body>
-<div>
-<img src="1.jpg" alt="写真1">
-<img src="2.jpg" alt="写真2">
-<img src="3.jpg" alt="写真3">
+<div id="demo">
+	<div>{{message}}</div>
+	<input v-model="message">
 </div>
 </body>
+<!-- スクリプトは最後に読まないとエラー起こす-->
+<script type="text/javascript" src="bundle.js" charset="utf-8"></script>
 </html>
