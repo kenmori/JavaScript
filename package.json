@@ -38,5 +38,8 @@
   },
   "scripts": {
     "build": "gulp"
+  },
+  "dependencies": {
+    "webpack": "^1.8.11"
   }
 }
