@@ -14,27 +14,6 @@ var target = {
 	local : "./html/*.html",
 	host : "./study/html/"
 };
-//
-// gulp.task("fafa", function(){
-// 	return gulp.src(target.local)
-// 		.pipe(ftp({
-// 			host : "ftp.80452ec58b45dc2b.lolipop.jp",
-// 			user : "lolipop.jp-80452ec58b45dc2b",
-// 			pass : "ok365a12",
-// 			remotePath : target.host
-// 		}))
-// 		.pipe(gutil.noop());
-// });
-// gulp.task("all", function(){
-// 	return gulp.src("./html/150404_2.html")
-// 		.pipe(sftp({
-// 			host :"kenjimorita.jp",
-// 			user : "lolipop.jp-80452ec58b45dc2b",
-// 			pass : "ok365a12",
-// 			remotePath : "/lolipop.jp-80452ec58b45dc2b/study/html"
-// 		}));
-// });
-
 
 gulp.task("sass",function(){
 	gulp.src(['./scss/*.scss'])// srcを指定
