@@ -1,1 +1,2 @@
-document.write("hello");
+var print = require("./print");
+print("Hello webpack");
