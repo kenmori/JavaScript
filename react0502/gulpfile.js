@@ -17,15 +17,17 @@ path = [
 ];
 
 var spritesmith = require('gulp.spritesmith');
-gulp.task('sprite',function(){
-	var spriteData = gulp.src(path[3] + '*')
-	.pipe(spritesmith({
-		imgName: 'sprite.png',
-		cssName: 'sprite.scss'
-	}));
-	spriteData.pipe(gulp.dest(path[5]));
-	spriteData.pipe(gulp.dest(path[2]));
-});
+// gulp.task('sprite',function(){
+// 	var spriteData = gulp.src(path[3] + '*')
+// 	.pipe(spritesmith({
+// 		imgName: 'sprite.png',
+// 		cssName: 'sprite.scss'
+// 	}));
+// 	spriteData.pipe(gulp.dest(path[5]));
+// 	spriteData.pipe(gulp.dest(path[2]));
+// });
+//
+
 gulp.task('min',function(){
 	gulp.src(path[3] + '*')
 	.pipe(imagemin({
@@ -33,7 +35,7 @@ gulp.task('min',function(){
 		svgoPlugins: [{removeViewBox:false}],
 		use:[pngquant()]
 	}))
-	.pipe(gulp.dest(dist));
+	.pipe(gulp.dest('./src/img/min/'));
 });
 
 
@@ -70,24 +72,22 @@ gulp.task("server",function(){
 	});
 });
 
-
-// gulp.task('scss', function () {
-//   gulp.src(path[2])
-//     .pipe(sass({
-//         style : 'expanded'
-//     }))
-//     .pipe(gulp.dest('src/css/'))
-// 	.pipe(browser.reload({stream:true}))
-// });
-
-
-
-var scss = require("gulp-sass");
-gulp.task('scss',function(){
-	gulp.src('./src/scss/*.scss')
-	.pipe(scss())
-	.pipe(gulp.dest(path[1]))
+var sass = require("gulp-ruby-sass");
+gulp.task('scss',function(){//1.0.0から配列やアスタリスクは使えない
+    	sass('./src/scss/', { style: 'expanded' })
+		.pipe(browser.reload({stream:true}))
+        .pipe(gulp.dest('./src/css/'))
 });
+gulp.task('sprite',function(){
+	var spriteData = gulp.src(path[3] + '*')
+	.pipe(spritesmith({
+		imgName: 'sprite.png',
+		cssName: 'sprite.scss'
+	}));
+	spriteData.pipe(gulp.dest(path[5]));
+	spriteData.pipe(gulp.dest(path[2]));
+});
+
 
 gulp.task('html',function(){
 	gulp.src(path[0])
