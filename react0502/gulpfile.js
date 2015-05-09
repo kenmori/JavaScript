@@ -6,6 +6,11 @@ var pngquant = require('imagemin-pngquant');
 var csso = require("gulp-csso");
 var autoprefixer = require('gulp-autoprefixer');
 var path = require("path");
+var zip = require("gulp-zip");
+var cssmin = require("gulp-cssmin");
+var concat = require("gulp-concat");
+var csscomb = require("gulp-csscomb");
+var coffee = require("gulp-coffee");
 
 path = [
 	"index.html",
@@ -13,7 +18,8 @@ path = [
 	"./src/scss/sprite.scss",
 	"./src/img/min/",//path[3]
 	"./src/js/",
-	"./src/img/dest/min/"
+	"./src/img/dest/min/",
+	"./src/coffee/"
 ];
 
 var spritesmith = require('gulp.spritesmith');
@@ -28,7 +34,7 @@ var spritesmith = require('gulp.spritesmith');
 // });
 //
 
-gulp.task('min',function(){
+gulp.task('minimage',function(){
 	gulp.src(path[3] + '*')
 	.pipe(imagemin({
 		progressive:true,
@@ -72,6 +78,12 @@ gulp.task("server",function(){
 	});
 });
 
+gulp.task('zip', function () {
+    return gulp.src('src/*')
+        .pipe(zip('archive.zip'))
+        .pipe(gulp.dest('dist'));
+});
+
 var sass = require("gulp-ruby-sass");
 gulp.task('scss',function(){//1.0.0から配列やアスタリスクは使えない
     	sass('./src/scss/', { style: 'expanded' })
@@ -87,7 +99,11 @@ gulp.task('sprite',function(){
 	spriteData.pipe(gulp.dest(path[5]));
 	spriteData.pipe(gulp.dest(path[2]));
 });
-
+gulp.task('coffee',function(){//1.0.0から配列やアスタリスクは使えない
+    	gulp.src('./src/coffee/')
+		.pipe(gulp.coffee())
+        .pipe(gulp.dest('./src/js/'))
+});
 
 gulp.task('html',function(){
 	gulp.src(path[0])
@@ -97,5 +113,6 @@ gulp.task('html',function(){
 gulp.task("default",['server'], function() {
 	// gulp.watch(["./**/*.html","!html/min/**/*.html"],["html"]);
 	gulp.watch(path[0],["html"]);
-    gulp.watch(path[2],["scss"]);
+	gulp.watch(path[2],["scss"]);
+	gulp.watch(path[6],["coffee"]);
 });
