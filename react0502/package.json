@@ -36,6 +36,7 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.2.4",
     "gulp-webpack": "^1.1.2",
+    "gulp-zip": "^3.0.2",
     "gulp.spritesmith": "^3.5.4",
     "i": "^0.3.3",
     "imagemin-pngquant": "^4.1.0",
