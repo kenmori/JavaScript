@@ -1,0 +1,545 @@
+@charset "utf-8";
+@import "compass";
+
+// mixin
+@import "mixin";
+
+// default margin
+$margin: 10px auto 0 auto;
+// font size rem
+@mixin font-size($s:14) {
+    font-size:$s + px;
+}
+@mixin img-border{
+    border: 1px solid #e2e2e2;
+}
+// line-height
+$line-height:1.4;
+
+// base color
+$gray:#a4a4a4;
+$lightgray:#e2e2e2;
+
+// default border
+$border: 1px solid $lightgray;
+
+$font-color: #333;
+
+
+// ----------------------------------------------------
+// icon
+// ----------------------------------------------------
+// sprite icon
+$icon: sprite-map("icon/*.png");
+$sprites-icon: sprite-url($icon);
+.tokuten-icon {
+  background-image: $sprites-icon;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  @include background-size(40px auto);
+  &.tokuten-icon-pop{
+    margin-right: 4px;
+  }
+  &.tokuten-icon-nav{
+    margin: -2px 5px 0 0;
+  }
+}
+
+// ----------------------------------------------------
+// 共通
+// ----------------------------------------------------
+body{
+    line-height: $line-height;
+    font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ','Meiryo','ＭＳ Ｐゴシック','sans-serif';
+    overflow-x:hidden;
+    width: 100%;
+}
+section{width: 320px; margin: 0 auto; overflow: hidden;}
+.fv__background{
+    padding:10px 0 5px;
+    margin-bottom: 15px;
+    background: #2b0f00;
+}
+
+// ----------------------------------------------------
+// TOP
+// ----------------------------------------------------
+
+// メインバナー・メイン背景
+.main{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.main__bnr{
+    height: 0;
+    padding-top: 68.75%;
+
+    background-image: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/smapass-day__main-bnr.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    -webkit-background-size: 100%;
+
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.timeline__headline {
+  background-image: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/timeline_headline.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  -webkit-background-size: 100%;
+  width: 320px;
+  overflow: hidden;
+  margin: 0 auto;
+  height: 25px;
+}
+
+//タイムライン
+.timeline__item {
+    display: table;
+    width: 318px;
+    padding: 5px 0;
+    background: #fff;
+    margin: 0 auto;
+    border: 1px solid #e9a400;
+}
+.timeline__item li {
+    display: table;
+    width: 100%;
+}
+.timeline__item li div {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+    vertical-align: top;
+    border-right: 1px solid #b9b9b9;
+    font-size: 10px;
+}
+.timeline__image-wrap{
+    position: relative;
+}
+.sold-out{
+    position: absolute;
+    top: 0;
+    right: 7px;
+    background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/150302/soldout_s.png) no-repeat;
+    background-size: 100%;
+    -webkit-background-size: 100%;
+    background-position: 50%;
+    width: 66px;
+    height: 44px;
+    display: block;
+
+}
+.timeline__item-img{border: 1px solid #d3d3d3;}
+.timeline__item li div:last-child{
+    border-right: none;
+}
+.timeline__txt-inner {
+    overflow: hidden;
+    display: block;
+    padding: 0px 5px 3px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.state-open{
+    display: table;
+    width: 99%;
+    text-align: center;
+    // height: 22px;
+    .state-open__icon-wrap{
+        display: table-cell;
+        vertical-align: middle;
+        display: inline-block;
+        height: 20px;
+        margin-left: 2px 0 0 5px;
+        .state-open__icon{
+            background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/icon_starttime.png) no-repeat;
+            background-size: 100%;
+              -webkit-background-size: 100%;
+            width: 20px;
+            height: 17px;
+            position: relative;
+            display: inline-block;
+            padding: 2px;
+        }
+    }
+    .state-open__time-wrap{
+        display: table-cell;
+        font-size: 11px;
+        vertical-align: middle;
+        line-height: 1.1;
+        text-align: left;
+        padding-right: 10px
+    }
+    .state-open__time{
+        display: table;
+        width: 98%;
+        margin: 0 auto;
+        font-size: 12px;
+    }
+}
+.state-close{
+    display: block;
+    width: 99%;
+    // height: 25px;
+    .state-close-icon{
+      background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/icon_soldout.png) no-repeat center;
+      background-size: 100%;
+      -webkit-background-size: 100%;
+      width: 40px;
+      height: 11px;
+      display: inline-block;
+      text-align: center;
+      margin-top: 4px;
+    }
+}
+//本日開催中ラベル
+.label{
+    background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/honjitu_red.png) no-repeat;
+    background-size: 100%;
+    -webkit-background-size: 100%;
+    height: 76px;
+    .label__bkg{
+        background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/honjitu_txt.png) no-repeat center center;
+        background-size: 320px 76px;
+        -webkit-background-size: 320px 76px;
+        width: 320px;
+        margin: 0 auto;
+        height: 76px;
+    }
+}
+.label--to-start{
+    background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/honjitu.png) no-repeat;
+    background-size: 100%;
+    -webkit-background-size: 100%;
+    height: 76px;
+    .label__bkg{
+        height: 76px;
+    }
+    .pt-5{padding-top: 5px;}
+}
+.timer{
+    padding-top: 44px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    width: 320px;
+    margin: 0 auto;
+}
+.timer{
+    @extend .timer;
+    padding-top: 17px;
+    color: #333;
+    height: 60px;
+    line-height: 1;
+    .timer__txt{
+        color: #664100;
+        font-size: 14px;
+    }
+    .timer__to-start{
+        font-weight: bold;
+        color: #f00;
+        .timer__txt-big{
+            padding-top: 5px;
+            display: inline-block;
+            font-size: 25px;
+        }
+        .timer__txt-normal{
+            font-size: 19px;
+        }
+    }
+    .timer__to-close{
+        display: inline-block;
+        padding-top: 25px;
+        font-weight: bold;
+        color: #fff;
+        .timer__txt-big{
+            font-size: 25px;
+        }
+        .timer__txt-normal{
+            font-size: 19px;
+            font-weight: normal;
+        }
+    }
+}
+
+//注目ラベル
+.notice{
+    width: 320px;
+   　height: 36px;
+    position: relative;
+    top: 10px;
+    margin: 15px auto 0;
+    background-image: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/smapass-day__headline.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    color: $font-color;
+    font-size: 15px;
+    text-align: center;
+    line-height: 2.4;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 2;
+    &:before{
+        content: '';
+        width: 0;
+        position: absolute;
+        top: 32px;
+        left: 3px;
+        overflow: hidden;
+        border: 8px solid transparent;
+        border-left: 8px solid #887441;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+    }
+    &:after{
+        content: '';
+        width: 0;
+        border: 8px solid transparent;
+        border-left: 8px solid #887441;
+        position: absolute;
+        top: 32px;
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        right: 2px;
+    }
+    .notice__item-name{
+        width: 320px;
+        height: 40px;
+        padding: 3px 0 0 38px;
+        text-align: center;
+        overflow: hidden;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+    .notice__icon-wrap{
+        position: absolute;
+        top: -15px;
+        left: 0;
+    }
+}
+
+.notice__item{
+    width: 300px;
+    background: #fff;
+    margin: 0 auto;
+    border: solid 5px #ffd800;
+    .notice__icon{
+        font-size:0;
+    }
+    .notice__item-txt{
+        padding: 10px 10px 20px;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    .notice__item-btn{
+        margin: 0 auto 10px ;
+        width: 268px;
+        .notice__item-btnlink{
+            display: block;
+            font-size: 0;
+        }
+    }
+}
+
+.notice__item-main{
+    margin: 0 auto 20px;
+    border:6px solid #ffd800;
+    .notice__item-soldout{
+        position: absolute;
+        background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/soldout_b.png) no-repeat;
+        width: 300px;
+        -webkit-background-size: 100%;
+        background-size: 100%;
+        height: 200px;
+        z-index: 1;
+    }
+    .notice__item-img{
+        font-size: 0;
+    }
+    .notice__item-image{
+        border: 1px solid #d3d3d3;
+        font-size: 0;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        width: 300px;
+    }
+}
+
+.content{
+    .article__last-margin20{
+        margin-bottom: 20px;
+    }
+}
+.content__headline-wrap{
+    background: #cd9f00;
+}
+.content__headline-wrap--nextinfo{
+    background: #23a7B9
+}
+.content__headline{
+    width: 300px;
+    height: 40px;
+    margin: 0 auto;
+    padding: 0 10px;
+    font-size:18px;
+    font-weight: bold;
+    text-align:left;
+    color: #fff;
+    .content__headline-name{
+        font-weight: normal;
+        height: 40px;
+        font-size: 17px;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 2.5;
+        :after{
+            display:block;
+            content:'.';
+            height: 0;
+            font-size: 0;
+            visibility:hidden;
+            clear:both;
+        }
+    }
+}
+
+//1枚画像記事
+.article-bnr{
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #9b9b9b;
+    font-size:0;
+    position: relative;
+    .article-bnr__label-yokoku{
+        position: absolute;
+    }
+    .bnr-border{
+        border: 1px solid #d3d3d3;
+    }
+}
+.article-bnr__link{
+    width: 298px;
+    height: 198px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    .article-bnr__item-soldout{
+        position: absolute;
+        background: url(//cdn-img.auone.jp/pass/asset/sp/tokuten/smapassday/img/soldout_b.png) no-repeat;
+        width: 300px;
+        -webkit-background-size: 100%;
+        background-size: 100%;
+        height: 200px;
+    }
+}
+.article-bnr:last-child{
+    margin-bottom: 20px;
+}
+
+//次回予告
+.nextinfo{
+    .nextinfo__txt{
+        width: 300px;
+        margin: 0 auto;
+        padding: 10px;
+        text-align: left;
+        .nextinfo__fsz14{font-size: 14px;}
+        .nextinfo__fsz19{font-size: 19px;}
+        .nextinfo__fsz19--color{color: #fe5400}
+    }
+    .nextinfo__img{
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
+}
+.content__headline-wrap--nextinfo{
+    @extend .content__headline-wrap;
+    background: #23a7B9;
+    .content__headline--nextinfo{
+        @extend .content__headline;
+        background: #23a7B9;
+        height: 30px;
+        padding-left: 10px;
+        line-height: 1.9;
+    }
+}
+.headline__icon{
+    width:20px;
+    float: left;
+    padding-right: 5px;
+    font-size: 0;
+    padding: 3px 0 0 0;
+}
+.content__headline-name--nextinfo{
+    font-weight: normal;
+    font-size: 17px;
+    vertical-align: middle;
+    height: 30px;
+    :after{
+        display:block;
+        content:'.';
+        height: 0;
+        font-size: 0;
+        visibility:hidden;
+        clear:both;
+    }
+    .content__headline-nameinner{
+        padding-left: 8px;
+    }
+}
+
+.bottom-btn{
+    width: 100%;
+    text-align: center;
+    a{
+        display: block;
+        width: 314px;
+        margin: 0 auto;
+    }
+    .bottom-btn__img{
+        font-size: 0;
+    }
+}
+.bottom-btn__check-tokuten{
+    margin: 13px 0 20px;
+}
+.bottom-btn__what-smapass{
+    margin-bottom: 14px;
+}
+
+// sns
+.smapassday__sns{
+    position: absolute;
+    bottom: 1px;
+    height: 40px;
+    left: 50%;
+    margin-left: -160px;
+    .smapassday__sns-position{
+        width: 320px;
+        margin: 0 auto;
+        position: relative;
+        top: 10px;
+    }
+    .smapassday__sns-twitter{
+        position: absolute;
+        left: 10px;
+    }
+    .smapassday___sns-facebook{
+        position: absolute;
+        left: 50%;
+        margin-left: -45px;
+    }
+    .smapassday__sns-line{
+        position: absolute;
+        right: 10px;
+    }
+}
