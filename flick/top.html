@@ -453,7 +453,11 @@ $(function(){
         }
     }
     function sliderTab(current){
-        $('.js-moveTag').css('position','relative').css('left','0px');
+        $('.js-moveTag').css('position','relative').css(
+            {
+            'left':'0px',
+            'right':'0px'
+            });
         //window幅/2の位置に移動したい。
         //360 180px -37px(一つのタブの半分) ,640 320px
         function moveTab(current){
@@ -493,10 +497,18 @@ $(function(){
                 break;
             }
         }
-        $('.js-moveTag').animate({
-            left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
-        },400);
-        $($li[current]).addClass('t-scroll-tabs__nav--active');
+        if(current != 0){
+            $('.js-moveTag').animate({
+                left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
+            },400);
+            $($li[current]).addClass('t-scroll-tabs__nav--active');
+        }else if(current == 0){
+            $('.js-moveTag').animate({
+                left: 0,
+                right : '+=140'//フリック時のタブ中央位置調整
+            },400);
+            $($li[current]).addClass('t-scroll-tabs__nav--active');
+        }
 
     }
 
