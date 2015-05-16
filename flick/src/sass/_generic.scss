@@ -1,0 +1,55 @@
+@charset "utf-8";
+// ----------------------------------------------------
+// 汎用
+// ----------------------------------------------------
+.news-top_initialize{
+  margin-top:0 ;
+  padding-top:0;
+}
+.news-margin_top_initialize{
+  margin-top:0;
+}
+.news-nobdr{
+  border:none;
+}
+.mt0{
+  margin-top: 0px;
+}
+.mb0{
+  margin-bottom: 0px;
+}
+.mt10{
+  margin-top: 10px;
+}
+.mb10{
+  margin-bottom: 10px;
+}
+.mt15{
+  margin-top: 15px;
+}
+.mb15{
+  margin-bottom: 15px;
+}
+.mt20{
+  margin-top: 20px;
+}
+.mb20{
+  margin-bottom: 20px;
+}
+.mt04{
+  margin-top: 4px;
+}
+.pb15{
+  padding-bottom: 15px;
+}
+.news-topbdr{
+  border-top:1px solid #e2e2e2;
+}
+.news-btmbdr{
+  border-bottom:1px solid #e2e2e2;
+}
+.news-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

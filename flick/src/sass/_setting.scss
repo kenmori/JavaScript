@@ -1,0 +1,57 @@
+@charset "utf-8";
+//※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
+// 変数・element style
+//※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
+
+// ------------------------------------
+// 各種設定
+// ------------------------------------
+
+// ベースフォント
+$base_font: sans-serif !default;
+
+// ベースカラー
+$base_color: #fff;
+
+// コーポレートカラー
+$corporate_color: #f76b1f;
+
+// ベースフォントサイズ
+$base_font_size: 14px;
+
+// ベーステキストカラー
+$base_font_color: #333;
+
+// テキストカラー
+$color_gray: #666;
+$color_lightgrey: #ccc;
+
+// 行間
+$line-height:1.2;
+
+// 角丸
+$border-radius:4px;
+
+// borderカラー
+$boder_color_gray:#a4a4a4;
+$boder_color_lightgrey:#e2e2e2;
+
+$small: "only screen and (max-width:480px)";
+$large: "only screen and (min-width:480px)";
+
+
+// ----------------------------------------------------
+// extend
+// ----------------------------------------------------
+// エラー
+%error{
+  background:#ffecec;
+  color: #d90000;
+}
+// 余白
+%space{
+  margin-top:10px;
+  padding:0 10px;
+}
+
+

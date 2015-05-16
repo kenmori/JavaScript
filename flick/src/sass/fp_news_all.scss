@@ -1,0 +1,31 @@
+@charset "utf-8";
+// ------------------------------------
+// ベンダープレフィックス
+// ------------------------------------
+$experimental-support-for-webkit : true !default;
+$experimental-support-for-mozilla : false !default;
+$experimental-support-for-opera : false !default;
+$experimental-support-for-microsoft : false !default;
+$support-ie6: false;
+$support-ie7: false;
+$support-ie8: false;
+
+// ===================================================================
+// 各SCSSファイルのインポート・設定
+// ===================================================================
+
+// mixin
+@import "mixin";
+
+// 共通設定
+@import "setting";
+
+//　news独自
+@import "fp_news_common";
+
+//　news独自 シニア端末対応
+@import "senior.scss";
+
+
+
+
