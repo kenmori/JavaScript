@@ -305,10 +305,10 @@
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
-                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
-                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
-                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
+                <li>33333333333333333333<br />3333333333333333333333</li>
+                <li>33333333333333333333<br />3333333333333333333333</li>
+                <li>33333333333333333333<br />3333333333333333333333</li>
+                <li>33333333333333333333<br />3333333333333333333333</li>
 
             </ul>
         </div>
@@ -371,10 +371,10 @@
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
-                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
-                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
-                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
+                <li>10 10 10 10 10 <br />10 10 10 10</li>
+                <li>10 10 10 10 10 <br />10 10 10 10</li>
+                <li>10 10 10 10 10 <br />10 10 10 10</li>
+                <li>10 10 10 10 10 <br />10 10 10 10</li>
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
@@ -410,7 +410,6 @@ $(function(){
 
 
     //残タスク
-    //フリック時に真ん中にアクティブ
     //タブそのものをフリック
     //セッションストレージ
 
@@ -439,7 +438,7 @@ $(function(){
     var w = $(window).width();
     var ww = $(window).width()/2 +38;
     var nW = 910;//tabの長さ
-    var moveTab = 70;
+
     var clonedAddFirst = $('.js-cloneAddFirst');
     var clonedAddlast = $('.js-moveTag').find('li').clone(true);
     $('.js-ftab_0').addClass('t-scroll-tabs__nav--active');//タグに記述するとクローン時にアクティブが２つになるのを避けるため動的に処理
@@ -457,19 +456,56 @@ $(function(){
         $('.js-moveTag').css('position','relative').css('left','0px');
         //window幅/2の位置に移動したい。
         //360 180px -37px(一つのタブの半分) ,640 320px
-        //
-            clone(current);
-            $('.js-moveTag').animate({
-                left : '-=' + (moveTab*(current -1)),//フリック時のタブ中央位置調整
-            },400);
-            $($li[current]).addClass('t-scroll-tabs__nav--active');
+        function moveTab(current){
+            switch(current){
+                case 1 :
+                return 10;
+                break;
+                case 2 :
+                return 0;
+                break;
+                case 3 :
+                return 40;
+                break;
+                case 4:
+                return 50;
+                break;
+                case 5://国内
+                return 60;
+                break;
+                case 6:
+                return 62;
+                break;
+                case 7:
+                return 62;
+                break;
+                case 8://科学
+                return 64;
+                break;
+                case 9://動画
+                return 67;
+                break;
+                case 10://漫画
+                return 60;
+                break;
+                case 11://コネタ
+                return 54;
+                break;
+            }
+        }
+        $('.js-moveTag').animate({
+            left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
+        },400);
+        $($li[current]).addClass('t-scroll-tabs__nav--active');
+
     }
 
     function chengeContent(current,direction){
         $($item[current]).css('display','block');
         if(direction == 'toLeft'){
             $('.js-tableft-arrow').fadeIn(300).fadeOut(300);
-        }else{
+        };
+        if(direction == 'toRight'){
             $('.js-tabright-arrow').fadeIn(300).fadeOut(300);
         }
         // moveTargetTag(current);
