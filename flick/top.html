@@ -226,9 +226,9 @@
     <!-- /includeHTML -->
 
 
-    <script src="http://cdn-img.auone.jp/pass/asset/tentomushi/js/jquery-1.11.1.min.js"></script>
+    <script src="./src/js/jquery-1.11.1.min.js"></script>
     <!-- ↓検証中だけコチラを表示させてください -->
-    <script src="http://cdn-img.mdev.auone.jp/pass/asset/tentomushi/js/t.js"></script>
+    <script src="./src/js/t.js"></script>
 
 
 <style>
@@ -260,12 +260,15 @@
         position: absolute;
         left: 0;
     }
+    .news-list{
+        width :100%;
+    }
 
 </style>
 <div class="js-ftab ftab">
-    <div class="js-ftab-nav" style="">
-        <ul class="t-scroll-tabs__navs js-moveTag slider slider-nav slick-initialized slick-slider">
-            <li><a class="t-scroll-tabs__nav t-scroll-tabs__nav--active js-ftab_0" href="#">ニュース</a></li>
+    <div class="js-ftab-nav" style="overflow:hidden;">
+        <ul class="t-scroll-tabs__navs js-moveTag" style="width: 1200px;">
+            <li><a class="t-scroll-tabs__nav js-ftab_0" href="#">ニュース</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_1" href="#">話題</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_2" href="#">スポーツ</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_3" href="#">芸能</a></li>
@@ -275,8 +278,8 @@
             <li><a class="t-scroll-tabs__nav js-ftab_7" href="#">国際</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_8" href="#">IT・科学</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_9" href="#">動画</a></li>
-            <li><a class="t-scroll-tabs__nav js-ftab_10" href="#">マンガ</a></li>
-            <li><a class="t-scroll-tabs__nav js-ftab_11" href="#">コネタ</a></li>
+            <li class="js-cloneAddFirst"><a class="t-scroll-tabs__nav js-ftab_10" href="#">マンガ</a></li>
+            <li class="js-cloneAddFirst"><a class="t-scroll-tabs__nav js-ftab_11" href="#">コネタ</a></li>
         </ul>
     </div>
     <div class="arrow">
@@ -286,112 +289,110 @@
     <div class="js-ftb-contents">
         <div class="t-scroll-tabs__items" style="display:block;">
             <ul class="news-list">
-                <li>111111111111111111111111111111111111111</li>
-                <li>111111111111111111111111111111111111111</li>
-                <li>111111111111111111111111111111111111111</li>
-                <li>111111111111111111111111111111111111111</li>
+                <li>11111111111111<br />1111111111111111111111111</li>
+                <li>11111111111111111111111111<br />111111111111111111111111111</li>
+                <li>11111111111111111111111111<br />111111111111111111111111111</li>
+                <li>11111111111111111111111111<br />111111111111111111111111111</li>
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-            <li>2222222222222222222222222222222222222222</li>
-            <li>2222222222222222222222222222222222222222</li>
-            <li>2222222222222222222222222222222222222222</li>
-            <li>2222222222222222222222222222222222222222</li>
+            <li>22222222222222211111111111111<br />22222211111111111111<br /></li>
+            <li>2222222222222222211111111111111<br />22222222222222222222222</li>
+            <li>2222222222222222211111111111111<br />22222222222222222222222</li>
+            <li>2222222222222222211111111111111<br />22222222222222222222222</li>
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>333333333333333333333333333333333333333333</li>
-                <li>333333333333333333333333333333333333333333</li>
-                <li>333333333333333333333333333333333333333333</li>
-                <li>333333333333333333333333333333333333333333</li>
+                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
+                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
+                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
+                <li>3333333333333333333311111111111111<br />3333333333333333333333</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>444444444444444444444444444444444444444444444444444444</li>
-                <li>444444444444444444444444444444444444444444444444444444</li>
-                <li>444444444444444444444444444444444444444444444444444444</li>
-                <li>444444444444444444444444444444444444444444444444444444</li>
+                <li>44444444444444444444444<br />4444444444444444444444444444444</li>
+                <li>444444444444444444444444<br />444444444444444444444444444444</li>
+                <li>44444444444444444444444<br />4444444444444444444444444444444</li>
+                <li>44444444444444444444444<br />4444444444444444444444444444444</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>555555555555555555555555555555555555555555555555555555</li>
-                <li>555555555555555555555555555555555555555555555555555555</li>
-                <li>555555555555555555555555555555555555555555555555555555</li>
-                <li>555555555555555555555555555555555555555555555555555555</li>
-                <li>555555555555555555555555555555555555555555555555555555</li>
+                <li>555555555555555555555555<br />555555555555555555555555555555</li>
+                <li>55555555555555555555555<br />5555555555555555555555555555555</li>
+                <li>555555555555555555555555<br />555555555555555555555555555555</li>
+                <li>55555555555555555555555<br />5555555555555555555555555555555</li>
+                <li>55555555555555555555555<br />5555555555555555555555555555555</li>
 
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>66666666666666666666666666666666666666666666666666666666</li>
-                <li>66666666666666666666666666666666666666666666666666666666</li>
-                <li>66666666666666666666666666666666666666666666666666666666</li>
-                <li>66666666666666666666666666666666666666666666666666666666</li>
+                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
+                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
+                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
+                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>777777777777777777777777777777777777777777777777777777777777</li>
-                <li>777777777777777777777777777777777777777777777777777777777777</li>
-                <li>777777777777777777777777777777777777777777777777777777777777</li>
-                <li>777777777777777777777777777777777777777777777777777777777777</li>
-                <li>777777777777777777777777777777777777777777777777777777777777</li>
+                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
+                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
+                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
+                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
+                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>88888888888888888888888888888888888888888888888888888888</li>
-                <li>88888888888888888888888888888888888888888888888888888888</li>
-                <li>88888888888888888888888888888888888888888888888888888888</li>
-                <li>88888888888888888888888888888888888888888888888888888888</li>
+                <li>8888888888888888888888888<br />8888888888888888888888888888888</li>
+                <li>8888888888888888888888888<br />8888888888888888888888888888888</li>
+                <li>88888888888888888888888888<br />888888888888888888888888888888</li>
+                <li>8888888888888888888888888<br />8888888888888888888888888888888</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>999999999999999999999999999999999999999999999999999999999999999999</li>
-                <li>999999999999999999999999999999999999999999999999999999999999999999</li>
-                <li>999999999999999999999999999999999999999999999999999999999999999999</li>
-                <li>999999999999999999999999999999999999999999999999999999999999999999</li>
-                <li>999999999999999999999999999999999999999999999999999999999999999999</li>
+                <li>9999999999999999999999999999<br />99999999999999999999</li>
+                <li>9999999999999999999999999999<br />99999999999999999999</li>
+                <li>9999999999999999999999999999<br />99999999999999999999</li>
+                <li>9999999999999999999999999999<br />99999999999999999999</li>
+                <li>9999999999999999999999999999<br />99999999999999999999</li>
+            </ul>
+        </div>
+        <div class="t-scroll-tabs__items">
+            <ul class="news-list">
+                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
+                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
+                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
+                <li>11 11 111 11 11 11 <br />111>11 11 111</li>
+            </ul>
+        </div>
+        <div class="t-scroll-tabs__items">
+            <ul class="news-list">
+                <li>12121212121221212<br />1212121221212121212112</li>
+                <li>121212121212121221<br />21212121221212121212112</li>
+                <li>12121212121212122<br />121212121221212121212112</li>
+                <li>12121212121212122<br />121212121221212121212112</li>
+                <li>12121212121212122<br />121212121221212121212112</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111</li>
-                <li>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111</li>
-                <li>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111</li>
-                <li>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111>11 11 111 11 11 111 111</li>
-
-            </ul>
-        </div>
-        <div class="t-scroll-tabs__items">
-            <ul class="news-list">
-                <li>121212121212121211212121212121212121121212121212121212112</li>
-                <li>121212121212121211212121212121212121121212121212121212112</li>
-                <li>121212121212121211212121212121212121121212121212121212112</li>
-                <li>121212121212121211212121212121212121121212121212121212112</li>
-                <li>121212121212121211212121212121212121121212121212121212112</li>
-
-            </ul>
-        </div>
-        <div class="t-scroll-tabs__items">
-            <ul class="news-list">
-                <li>fafafafafafaffafafafafafaffafafafafafaffafafafafafaffafafafafafaf<li>
-                    <li>fafafafafafaffafafafafafaffafafafafafaffafafafafafaffafafafafafaf<li>
-                        <li>fafafafafafaffafafafafafaffafafafafafaffafafafafafaffafafafafafaf<li>
-                            <li>fafafafafafaffafafafafafaffafafafafafaffafafafafafaffafafafafafaf<li>
+                <li>fafafafafafaffafafafafafaffafafaf<br />afafaffafafafafafaffafafafafafaf<li>
+                    <li>fafafafafafaffafafafafafaffaf<br />afafafafaffafafafafafaffafafafafafaf<li>
+                        <li>fafafafafafaffafafafafafa<br />ffafafafafafaffafafafafafaffafafafafafaf<li>
+                            <li>fafafafafafaffafafafafafa<br />ffafafafafafaffafafafafafaffafafafafafaf<li>
 
             </ul>
         </div>
@@ -406,7 +407,12 @@
 <script src="./src/js/min/slick.min.js"></script>
 <script>
 $(function(){
-    //タブを押すと
+
+
+    //残タスク
+    //フリック時に真ん中にアクティブ
+    //タブそのものをフリック
+    //セッションストレージ
 
     /////////////////////////////////////////////////////////////
     var $li = $('.js-ftab-nav').find('a');
@@ -414,8 +420,8 @@ $(function(){
     var $item = $('.js-ftb-contents').children('div');
     var itemLength = $item.length;
     var current = 0;
+    var originCurrent;
     $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
-
     // function moveTargetTag(current){
     //     var moveRegistance = current * 76;
     //     var $moveTagNavi = $('.js-moveTag');
@@ -424,46 +430,46 @@ $(function(){
     //         {
     //             left: moveRegistance
     //         },500);
-    // }
+    //
+    //
+    //
+    // window.widthに対して真ん中
+    // 前後1、2番目はアニメーションなし
+
+    var w = $(window).width();
+    var ww = $(window).width()/2 +38;
+    var nW = 910;//tabの長さ
+    var moveTab = 70;
+    var clonedAddFirst = $('.js-cloneAddFirst');
+    var clonedAddlast = $('.js-moveTag').find('li').clone(true);
+    $('.js-ftab_0').addClass('t-scroll-tabs__nav--active');//タグに記述するとクローン時にアクティブが２つになるのを避けるため動的に処理
+
+    function clone(current){
+        if(current == 1){//右から左にフリック
+            $('.js-moveTag').prepend(clonedAddFirst);
+            return;
+        }
+        if(current == tabLength){//左から右にフリック
+            $('.js-moveTag').append(clonedAddlast);
+        }
+    }
     function sliderTab(current){
-        //タブの数を取得
-        //押されたタブの位置
-        //アニメーション
-        //
-        // $('.slider-for').slick({
-        //   slidesToShow: 1,
-        //   slidesToScroll: 1,
-        //   arrows: false,
-        //   fade: true,
-        //   asNavFor: '.slider-nav'
-        // });
-        // $('.slider-nav').slick({
-        //   slidesToShow: 3,
-        //   slidesToScroll: 1,
-        //   asNavFor: '.slider-for',
-        //   dots: true,
-        //   centerMode: true,
-        //   focusOnSelect: true
-        // });
-        //
-        //
-        var w = $(window).width();
-        var ww = $(window).width()/2;
         $('.js-moveTag').css('position','relative').css('left','0px');
-
-        $('.js-moveTag').animate({
-            "left" : '+=' + ww,
-        },500)
-
-        $($li[current]).addClass('t-scroll-tabs__nav--active');
+        //window幅/2の位置に移動したい。
+        //360 180px -37px(一つのタブの半分) ,640 320px
+        //
+            clone(current);
+            $('.js-moveTag').animate({
+                left : '-=' + (moveTab*(current -1)),//フリック時のタブ中央位置調整
+            },400);
+            $($li[current]).addClass('t-scroll-tabs__nav--active');
     }
 
     function chengeContent(current,direction){
         $($item[current]).css('display','block');
         if(direction == 'toLeft'){
             $('.js-tableft-arrow').fadeIn(300).fadeOut(300);
-        }
-        if(direction == 'toRight'){
+        }else{
             $('.js-tabright-arrow').fadeIn(300).fadeOut(300);
         }
         // moveTargetTag(current);
@@ -499,7 +505,7 @@ $(function(){
             }else if(current >= tabLength){
                     $($li[current]).removeClass('t-scroll-tabs__nav--active');
                     $($item[current]).css('display','none');
-                    current = 0;
+                        current = 0;
                     chengeContent(current,direction);
                     sliderTab(current);
             };
