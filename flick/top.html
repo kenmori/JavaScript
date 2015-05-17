@@ -267,7 +267,7 @@
 </style>
 <div class="js-ftab ftab">
     <div class="js-ftab-nav" style="overflow:hidden;">
-        <ul class="t-scroll-tabs__navs js-moveTag" style="width: 1200px;">
+        <ul class="t-scroll-tabs__navs js-moveTag js-moveTagFlick" style="width: 1200px;">
             <li><a class="t-scroll-tabs__nav js-ftab_0" href="#">ニュース</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_1" href="#">話題</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_2" href="#">スポーツ</a></li>
@@ -314,49 +314,49 @@
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>44444444444444444444444<br />4444444444444444444444444444444</li>
-                <li>444444444444444444444444<br />444444444444444444444444444444</li>
-                <li>44444444444444444444444<br />4444444444444444444444444444444</li>
-                <li>44444444444444444444444<br />4444444444444444444444444444444</li>
+                <li>44444444444444444444444</li>
+                <li>444444444444444444444444</li>
+                <li>44444444444444444444444</li>
+                <li>44444444444444444444444</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>555555555555555555555555<br />555555555555555555555555555555</li>
-                <li>55555555555555555555555<br />5555555555555555555555555555555</li>
-                <li>555555555555555555555555<br />555555555555555555555555555555</li>
-                <li>55555555555555555555555<br />5555555555555555555555555555555</li>
-                <li>55555555555555555555555<br />5555555555555555555555555555555</li>
+                <li>555555555555555555555555</li>
+                <li>55555555555555555555555</li>
+                <li>555555555555555555555555</li>
+                <li>55555555555555555555555</li>
+                <li>55555555555555555555555</li>
 
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
-                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
-                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
-                <li>66666666666666666666666666<br />666666666666666666666666666666</li>
+                <li>66666666666666666666666666</li>
+                <li>66666666666666666666666666</li>
+                <li>66666666666666666666666666</li>
+                <li>66666666666666666666666666</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
-                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
-                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
-                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
-                <li>777777777777777777777777777<br />777777777777777777777777777777777</li>
+                <li>777777777777777777777777777</li>
+                <li>777777777777777777777777777</li>
+                <li>777777777777777777777777777</li>
+                <li>777777777777777777777777777</li>
+                <li>777777777777777777777777777</li>
 
             </ul>
         </div>
         <div class="t-scroll-tabs__items">
             <ul class="news-list">
-                <li>8888888888888888888888888<br />8888888888888888888888888888888</li>
-                <li>8888888888888888888888888<br />8888888888888888888888888888888</li>
-                <li>88888888888888888888888888<br />888888888888888888888888888888</li>
-                <li>8888888888888888888888888<br />8888888888888888888888888888888</li>
+                <li>8888888888888888888888888</li>
+                <li>8888888888888888888888888</li>
+                <li>88888888888888888888888888</li>
+                <li>8888888888888888888888888</li>
 
             </ul>
         </div>
@@ -411,6 +411,7 @@ $(function(){
 
     //タブ部分。いったん現行と同じ横幅372まで対応させているが、タブレットをサポートするとclone等の実装が必要
     //タブそのものをフリック
+    //ipad等もサポートするのか否か
     //ウィンドウサイズに合わせて中央にくるようにしたい
 
     /////////////////////////////////////////////////////////////
@@ -422,8 +423,14 @@ $(function(){
     var arrowFadeSpeed = 300;
     var w = $(window).width();
     var nW = 910;//tabの長さ
+    var addwidth ='';
 
-
+    //各タブのwidthを配列に格納
+    // var widtharray;
+    // $li.each(function(i){
+    //     addwidth += $li[i].clientWidth+',';
+    //     widtharray = addwidth.split(',')
+    // });
     function sliderTab(current){
         $('.js-moveTag').css('position','relative').css(
             {
@@ -433,6 +440,7 @@ $(function(){
         //window幅/2の位置に移動したい。
         //360 180px -37px(一つのタブの半分) ,640 320px
         function moveTab(current){
+            //["76", "71", "76", "71", "71", "71", "90", "71", "75", "71", "71", "71", ""]
             switch(current){//文字数で値を出すように修正したい
                 case 1 :
                 return 10;
@@ -441,10 +449,10 @@ $(function(){
                 return 0;
                 break;
                 case 3 :
-                return 40;
+                return 38;
                 break;
                 case 4:
-                return 50;
+                return 45;
                 break;
                 case 5://国内
                 return 60;
@@ -459,13 +467,13 @@ $(function(){
                 return 64;
                 break;
                 case 9://動画
-                return 67;
+                return 68;
                 break;
                 case 10://漫画
-                return 60;
+                return 66;
                 break;
                 case 11://コネタ
-                return 54;
+                return 59;
                 break;
             }
         }
@@ -529,7 +537,31 @@ $(function(){
         sessionStorage.setItem('current',current);
     };
 
-    $li.on('touchstart',function(e){//clickより切り替えが早いが、現行のフリックとの共存がうまくいくか検証必要
+
+
+    $('.js-moveTagFlick').on({
+        'touchstart' : function(){
+            this.touchX = event.changedTouches[0].pageX;
+            this.slideX = $(this).position().left;
+        },
+        'touchmove' : function(){
+            this.slideX = this.slideX - (this.touchX - event.changedTouches[0].pageX );
+            $(this).css({left:this.slideX});
+            this.touchX = event.changedTouches[0].pageX;
+        },
+        'touchend' : function(){
+            var direction = "";
+            if (this.slideX > 70) {//右から左へフリック
+               this.slideX = 0;
+           }else if(this.slideX < -70 && this.slideX > -600) {//左から右へフリック
+               this.slideX = -600;
+           }else{//タップ時は反応しないように
+               return;
+           }
+        }
+    });
+
+    $li.on('click',function(e){//clickより切り替えが早いが、現行のフリックとの共存がうまくいくか検証必要
         var target = e.target.className;
         rgex = /[\d]{1,}/;//各タブに割り当てられている末尾2桁数字を検索//動的に要素の数だけ付与するようにする予定
         var clickedNum = rgex.exec(target);
