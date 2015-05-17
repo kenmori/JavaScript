@@ -428,6 +428,8 @@ $(function(){
     var itemLength = $item.length;
     var current = 0;
     var originCurrent;
+    var tabMoveSpeed = 400;
+    var arrowFadeSpeed = 300;
     $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
     // function moveTargetTag(current){
     //     var moveRegistance = current * 76;
@@ -508,25 +510,23 @@ $(function(){
         if(current != 0){
             $('.js-moveTag').animate({
                 left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
-            },400);
+            },tabMoveSpeed);
         }else if(current == 0){
             $('.js-moveTag').animate({
                 left: 0,
                 right : '+=140'//フリック時のタブ中央位置調整
-            },400);
+            },tabMoveSpeed);
         }
         $($li[current]).addClass('t-scroll-tabs__nav--active');
-    }
+    };
 
     function chengeContent(current,direction){
         $($item[current]).css('display','block');
         if(direction == 'toLeft'){
-            $('.js-tableft-arrow').fadeIn(300).fadeOut(300);
-        };
-        if(direction == 'toRight'){
-            $('.js-tabright-arrow').fadeIn(300).fadeOut(300);
+            $('.js-tableft-arrow').fadeIn(arrowFadeSpeed).fadeOut(arrowFadeSpeed);
+        }else{
+            $('.js-tabright-arrow').fadeIn(arrowFadeSpeed).fadeOut(arrowFadeSpeed);
         }
-        // moveTargetTag(current);
     };
     function changeTab(direction){
         for (var i =0;i<tabLength;i++){//すでにタブを直接押下していた場合のcurrentを抽出、更新
