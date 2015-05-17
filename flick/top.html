@@ -561,7 +561,7 @@ $(function(){
         $($li[current]).removeClass('t-scroll-tabs__nav--active');
         $($item[current]).css('display','none');
         current = clickedNum;
-        chengeContent(current);
+        $($item[current]).css('display','block');
         $($li[current]).addClass('t-scroll-tabs__nav--active');
     });
 
