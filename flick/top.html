@@ -493,7 +493,7 @@ $(function(){
     $($li[current]).addClass('t-scroll-tabs__nav--active');
     $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
 
-    function chengeContent(current,direction){
+    function changeContent(current,direction){
         $($item[current]).css('display','block');
         if(direction === 'toLeft'){
             $('.js-tableft-arrow').fadeIn(arrowFadeSpeed).fadeOut(arrowFadeSpeed);
@@ -524,7 +524,7 @@ $(function(){
                     current = 0;
             };
         };
-        chengeContent(current,direction);
+        changeContent(current,direction);
         sliderTab(current);
         sessionStorage.setItem('current',current);
     };
@@ -537,7 +537,7 @@ $(function(){
             $($li[current]).removeClass('t-scroll-tabs__nav--active');
             $($item[current]).css('display','none');
             current = parseInt(clickedNum,10);//カレント更新
-            chengeContent(current);
+            changeContent(current);
             sliderTab(current);
             $($li[current]).addClass('t-scroll-tabs__nav--active');
         }else{
