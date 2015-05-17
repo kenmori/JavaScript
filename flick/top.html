@@ -533,12 +533,16 @@ $(function(){
         var target = e.target.className;
         rgex = /[\d]{1,}/;//各タブに割り当てられている末尾2桁数字を検索//動的に要素の数だけ付与するようにする予定
         var clickedNum = rgex.exec(target);
-        $($li[current]).removeClass('t-scroll-tabs__nav--active');
-        $($item[current]).css('display','none');
-        current = parseInt(clickedNum,10);
-        chengeContent(current);
-        sliderTab(current);
-        $($li[current]).addClass('t-scroll-tabs__nav--active');
+        if(current != clickedNum){//カレント以外を押下したか否かの判定
+            $($li[current]).removeClass('t-scroll-tabs__nav--active');
+            $($item[current]).css('display','none');
+            current = parseInt(clickedNum,10);//カレント更新
+            chengeContent(current);
+            sliderTab(current);
+            $($li[current]).addClass('t-scroll-tabs__nav--active');
+        }else{
+            return;
+        }
         sessionStorage.setItem('current',current);
     });
 
