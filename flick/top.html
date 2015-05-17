@@ -430,38 +430,11 @@ $(function(){
     var originCurrent;
     var tabMoveSpeed = 400;
     var arrowFadeSpeed = 300;
-    $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
-    // function moveTargetTag(current){
-    //     var moveRegistance = current * 76;
-    //     var $moveTagNavi = $('.js-moveTag');
-    //
-    //     $moveTagNavi.animate(
-    //         {
-    //             left: moveRegistance
-    //         },500);
-    //
-    //
-    //
-    // window.widthに対して真ん中
-    // 前後1、2番目はアニメーションなし
-
     var w = $(window).width();
     var ww = $(window).width()/2 +38;
     var nW = 910;//tabの長さ
 
-    var clonedAddFirst = $('.js-cloneAddFirst');
-    var clonedAddlast = $('.js-moveTag').find('li').clone(true);
-    $('.js-ftab_0').addClass('t-scroll-tabs__nav--active');//タグに記述するとクローン時にアクティブが２つになるのを避けるため動的に処理
-
-    function clone(current){
-        if(current === 1){//右から左にフリック
-            $('.js-moveTag').prepend(clonedAddFirst);
-            return;
-        }
-        if(current === tabLength){//左から右にフリック
-            $('.js-moveTag').append(clonedAddlast);
-        }
-    }
+    $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
     function sliderTab(current){
         $('.js-moveTag').css('position','relative').css(
             {
