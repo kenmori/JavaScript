@@ -408,7 +408,15 @@
 <script>
 $(function(){
 
+    if(typeof sesstionStorage === 'undefined'){
+        console.log('このブラウザはwebStorage機能が実装されていません');
+    }else{
+        console.log('このブラウザはwebStorage機能が実装されています');
+    }
 
+
+    // sessionStorage = getItem();
+    //
     //残タスク
     //タブそのものをフリック
     //セッションストレージ
@@ -501,15 +509,13 @@ $(function(){
             $('.js-moveTag').animate({
                 left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
             },400);
-            $($li[current]).addClass('t-scroll-tabs__nav--active');
         }else if(current == 0){
             $('.js-moveTag').animate({
                 left: 0,
                 right : '+=140'//フリック時のタブ中央位置調整
             },400);
-            $($li[current]).addClass('t-scroll-tabs__nav--active');
         }
-
+        $($li[current]).addClass('t-scroll-tabs__nav--active');
     }
 
     function chengeContent(current,direction){
@@ -523,46 +529,34 @@ $(function(){
         // moveTargetTag(current);
     };
     function changeTab(direction){
-        for (var i =0;i<tabLength;i++){
+        for (var i =0;i<tabLength;i++){//すでにタブを直接押下していた場合のcurrentを抽出、更新
             if($($li[i]).hasClass("t-scroll-tabs__nav--active") == true){
                 current =  i;
             }
         };
+        $($li[current]).removeClass('t-scroll-tabs__nav--active');
+        $($item[current]).css('display','none');
         if(direction　== 'toLeft'){
             if(current == 0){
-                $($li[current]).removeClass('t-scroll-tabs__nav--active');
-                $($item[current]).css('display','none');
                 current = tabLength;
-                chengeContent(current,direction);
-                sliderTab(current);
             }else if(current <= tabLength){
-                $($li[current]).removeClass('t-scroll-tabs__nav--active');
-                $($item[current]).css('display','none');
                 current = current - 1;
-                chengeContent(current,direction);
-                sliderTab(current);
             };
         }else if(direction　== 'toRight'){
             if (current < tabLength){
-                $($li[current]).removeClass('t-scroll-tabs__nav--active');
-                $($item[current]).css('display','none');
                 current += 1;
-                chengeContent(current,direction);
-                sliderTab(current);
-
             }else if(current >= tabLength){
-                    $($li[current]).removeClass('t-scroll-tabs__nav--active');
-                    $($item[current]).css('display','none');
-                        current = 0;
-                    chengeContent(current,direction);
-                    sliderTab(current);
+                    current = 0;
             };
         };
+        chengeContent(current,direction);
+        sliderTab(current);
+        sessionStorage.setItem(current);
     };
 
-    $li.on('touchstart',function(e){
+    $li.on('touchstart',function(e){//clickより切り替えが早いが、現行のフリックとの共存がうまくいくか検証必要
         var target = e.target.className;
-        rgex = /[\d]{1,}/;//各タブに割り当てられている「js-ftab_1」末尾数字をマッチ
+        rgex = /[\d]{1,}/;//各タブに割り当てられている末尾2桁数字を検索//動的に要素の数だけ付与するようにする予定
         var clickedNum = rgex.exec(target);
         $($li[current]).removeClass('t-scroll-tabs__nav--active');
         $($item[current]).css('display','none');
@@ -583,13 +577,13 @@ $(function(){
         },
         'touchend': function(e) {
             var direction = "";
-            if (this.slideX > 70) {
+            if (this.slideX > 70) {//右から左へフリック
                this.slideX = 0;
                direction = 'toLeft';
-           }else if(this.slideX < -70 && this.slideX > -600) {
+           }else if(this.slideX < -70 && this.slideX > -600) {//左から右へフリック
                this.slideX = -600;
                direction = 'toRight';
-           }else{
+           }else{//タップ時は反応しないように
                return;
            }
            changeTab(direction);
