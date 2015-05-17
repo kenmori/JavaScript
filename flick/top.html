@@ -403,14 +403,15 @@
 
 
 
-<script src="./src/js/tabflick.js"></script>
+<!-- <script src="./src/js/tabflick.js"></script>
+ -->
 <script>
 $(function(){
 
-    // sessionStorage = getItem();
+
     //タブ部分。いったん現行と同じ横幅372まで対応させているが、タブレットをサポートするとclone等の実装が必要
     //タブそのものをフリック
-    //セッションストレージ
+    //ウィンドウサイズに合わせて中央にくるようにしたい
 
     /////////////////////////////////////////////////////////////
     var $li = $('.js-ftab-nav').find('a');
@@ -484,10 +485,7 @@ $(function(){
         $($li[current]).addClass('t-scroll-tabs__nav--active');
     };
 
-//
-//
-//
-//タブのアクティブ位置の初期設定
+
     hasSesstionNum = sessionStorage.getItem('current');//セッションストレージを持っていたら前回のタブを中央に移動
     if(hasSesstionNum){
         current = parseInt(hasSesstionNum,10);
@@ -497,10 +495,7 @@ $(function(){
     }
     $($li[current]).addClass('t-scroll-tabs__nav--active');
     $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
-//
-//
-//
-//
+
     function chengeContent(current,direction){
         $($item[current]).css('display','block');
         if(direction === 'toLeft'){
@@ -541,8 +536,9 @@ $(function(){
         var clickedNum = rgex.exec(target);
         $($li[current]).removeClass('t-scroll-tabs__nav--active');
         $($item[current]).css('display','none');
-        current = clickedNum;
-        $($item[current]).css('display','block');
+        current = parseInt(clickedNum,10);
+        chengeContent(current);
+        sliderTab(current);
         $($li[current]).addClass('t-scroll-tabs__nav--active');
         sessionStorage.setItem('current',current);
     });
