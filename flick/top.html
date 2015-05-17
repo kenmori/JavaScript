@@ -419,13 +419,13 @@ $(function(){
     var itemLength = $item.length;
     var current = 0;
     var originCurrent;
-    var tabMoveSpeed = 400;
+    var tabMoveSpeed = 200;
     var arrowFadeSpeed = 300;
     var w = $(window).width();
     var ww = $(window).width()/2 +38;
     var nW = 910;//tabの長さ
 
-    $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
+
     function sliderTab(current){
         $('.js-moveTag').css('position','relative').css(
             {
@@ -484,6 +484,23 @@ $(function(){
         $($li[current]).addClass('t-scroll-tabs__nav--active');
     };
 
+//
+//
+//
+//タブのアクティブ位置の初期設定
+    hasSesstionNum = sessionStorage.getItem('current');//セッションストレージを持っていたら前回のタブを中央に移動
+    if(hasSesstionNum){
+        current = parseInt(hasSesstionNum,10);
+        $($item[0]).css('display','none');
+        chengeContent(current);
+        sliderTab(current);
+    }
+    $($li[current]).addClass('t-scroll-tabs__nav--active');
+    $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
+//
+//
+//
+//
     function chengeContent(current,direction){
         $($item[current]).css('display','block');
         if(direction === 'toLeft'){
@@ -515,7 +532,7 @@ $(function(){
         };
         chengeContent(current,direction);
         sliderTab(current);
-        sessionStorage.setItem(current);
+        sessionStorage.setItem('current',current);
     };
 
     $li.on('touchstart',function(e){//clickより切り替えが早いが、現行のフリックとの共存がうまくいくか検証必要
@@ -527,6 +544,7 @@ $(function(){
         current = clickedNum;
         $($item[current]).css('display','block');
         $($li[current]).addClass('t-scroll-tabs__nav--active');
+        sessionStorage.setItem('current',current);
     });
 
     $('.js-ftb-contents').on({
