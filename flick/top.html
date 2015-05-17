@@ -497,8 +497,10 @@ $(function(){
         $($item[current]).css('display','block');
         if(direction === 'toLeft'){
             $('.js-tableft-arrow').fadeIn(arrowFadeSpeed).fadeOut(arrowFadeSpeed);
-        }else{
+        }else if(direction === 'toRight'){
             $('.js-tabright-arrow').fadeIn(arrowFadeSpeed).fadeOut(arrowFadeSpeed);
+        }else{
+            return //直タブ押下時渡る。明示
         }
     };
     function changeTab(direction){
