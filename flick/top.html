@@ -408,12 +408,6 @@
 <script>
 $(function(){
 
-
-    //タブ部分。いったん現行と同じ横幅372まで対応させているが、タブレットをサポートするとclone等の実装が必要
-    //ipad等もサポートするのか否か
-    //ウィンドウサイズに合わせて中央にくるようにしたい
-
-    /////////////////////////////////////////////////////////////
     var $li = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
     var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
     var tabLength = $li.length -1;
@@ -462,80 +456,41 @@ $(function(){
         console.log(allTabLength);
         console.log($('.js-moveTag').offsetLeft);
         if(w <= allTabLength){//タブがwindowをはみ出していたら
-            var zahyou = ['0','76','147','223','294','365','436','526','597','672','743','815','886'];
-            var fafaaf = zahyou[current] - $(window).innerWidth();
-            console.log(fafaaf);
+            var zahyou = ['0','76','147','223','294','365','436','526','597','672','743','815','886'];//365が6
+            console.log(diffWindowWidthCurrentY);
             console.log('タブがウィンドウからはみ出してます');
             console.log(zahyou[passCurrent]);
             $($li[current]).addClass('t-scroll-tabs__nav--active');
             for(var i =0;i< current;i++){
                 t_math += allTabArray[i];
             };
-            // console.log(t_math);
-            // console.log(allTabArray[i]);
             var animateLeft = 0;
             var animateRight = 0;
             var animateMove = (current - 1);
-            console.log();
-            if (fafaaf < 0){
-                if(0 < c){
+
+
+
+
+            var diffWindowWidthCurrentY = (885 - zahyou[current]) - $(window).innerWidth();
+            if (diffWindowWidthCurrentY > 0){
+                if(0 < c){//右のタブをクリック時
                     animateLeft = '-' + zahyou[current];
                     $('.js-moveTag').animate({
                         left : animateLeft,
                     },tabMoveSpeed);
                 };
-                if(0 > c){
-                    animateRight= '+' + zahyou[current];
+            }else{
+                if(0 < c){//右のタブをクリック時 885-588
+                    animateRight = w - 910;//w + 25(全てのタブの合計＋25px微調整)
                     $('.js-moveTag').animate({
-                        left : animateRight
+                        left : animateRight,
                     },tabMoveSpeed);
-                }
+                };
             }
-
-
-
-            // if(current == 0){//最初のタブ
-            //     console.log('なにもしない')
-            // }else if(current != tabLength){//最後以外のタブ
-            //     for(var i =0;i< current;i++){
-            //         t_math += allTabArray[i];
-            //     };
-            //     // console.log(t_math);
-            //     // console.log(allTabArray[i]);
-            //     var animateMove = (current - 1);
-            //
-            //
-            //     $('.js-moveTag').animate({
-            //         left : '-='   + sahyou[animateMove]
-            //     },tabMoveSpeed);
-            // }else if(current == tabLength || current == tabLength-1){
-            //
-            // }else{
-            //     // $($li[current]).addClass('t-scroll-tabs__nav--active');
-            //     // // console.log((w　/　2) - allTabwidth[current]/2);
-            //     // $('.js-moveTag').animate({
-            //     //     left : '-=' + window.screenLeft + fafa.left
-            //     // },tabMoveSpeed);
-            // };
-
         }else{
             $($li[current]).addClass('t-scroll-tabs__nav--active');
         }
-
-
-        // if(current != 0){
-        //     $('.js-moveTag').animate({
-        //         left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
-        //     },tabMoveSpeed);
-        // }else if(current === 0){
-        //     $('.js-moveTag').animate({
-        //         left: 0,
-        //         right : '+=140'//フリック時のタブ中央位置調整
-        //     },tabMoveSpeed);
-        // }
-        // $($li[current]).addClass('t-scroll-tabs__nav--active');
     };
-
 
     hasSesstionNum = sessionStorage.getItem('current');//セッションストレージを持っていたら前回のタブを中央に移動
     if(hasSesstionNum){
