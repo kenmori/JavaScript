@@ -278,8 +278,8 @@
             <li><a class="t-scroll-tabs__nav js-ftab_7" href="#">国際</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_8" href="#">IT・科学</a></li>
             <li><a class="t-scroll-tabs__nav js-ftab_9" href="#">動画</a></li>
-            <li class="js-cloneAddFirst"><a class="t-scroll-tabs__nav js-ftab_10" href="#">マンガ</a></li>
-            <li class="js-cloneAddFirst"><a class="t-scroll-tabs__nav js-ftab_11" href="#">コネタ</a></li>
+            <li><a class="t-scroll-tabs__nav js-ftab_10" href="#">マンガ</a></li>
+            <li><a class="t-scroll-tabs__nav js-ftab_11" href="#">コネタ</a></li>
         </ul>
     </div>
     <div class="arrow">
@@ -410,84 +410,130 @@ $(function(){
 
 
     //タブ部分。いったん現行と同じ横幅372まで対応させているが、タブレットをサポートするとclone等の実装が必要
-    //タブそのものをフリック
     //ipad等もサポートするのか否か
     //ウィンドウサイズに合わせて中央にくるようにしたい
 
     /////////////////////////////////////////////////////////////
-    var $li = $('.js-ftab-nav').find('a');
+    var $li = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
+    var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
     var tabLength = $li.length -1;
     var $item = $('.js-ftb-contents').children('div');
     var current = 0;
     var tabMoveSpeed = 200;
     var arrowFadeSpeed = 300;
     var w = $(window).width();
-    var nW = 910;//tabの長さ
-    var addwidth ='';
+    var allTabArray= [];
+    var fafa;
+    var t_math = 0;
+    var passCurrent =0;
+    // 各タブのwidthを配列に格納
+    //
 
-    //各タブのwidthを配列に格納
-    // var widtharray;
-    // $li.each(function(i){
-    //     addwidth += $li[i].clientWidth+',';
-    //     widtharray = addwidth.split(',')
-    // });
+    var allTabLength = 0;//タブ全体の長さ
+
+    // window.onorientationchange = function(){
+    // };
+    $tabList.each(function(i){
+        allTabArray.push($li[i].clientWidth);
+        allTabLength += parseInt($li[i].clientWidth,10);
+    });
+    console.log(allTabArray);
+    console.log(w　 + 'window幅');
+    console.log(allTabLength　+ 'タブの長さ');
+
+
+    // allTabArray.slice(current);
+    console.log(window.screenLeft);//0
+
     function sliderTab(current){
+
+
+
+        var c = current - passCurrent;
+        console.log(c + 'これだけ移動しました');
+
+        fafa = $li[current].getBoundingClientRect();
         $('.js-moveTag').css('position','relative').css(
             {
             'left':'0px',
             'right':'0px'
-            });
-        //window幅/2の位置に移動したい。
-        //360 180px -37px(一つのタブの半分) ,640 320px
-        function moveTab(current){
-            //["76", "71", "76", "71", "71", "71", "90", "71", "75", "71", "71", "71", ""]
-            switch(current){//文字数で値を出すように修正したい
-                case 1 :
-                return 10;
-                break;
-                case 2 :
-                return 0;
-                break;
-                case 3 :
-                return 38;
-                break;
-                case 4:
-                return 45;
-                break;
-                case 5://国内
-                return 60;
-                break;
-                case 6:
-                return 62;
-                break;
-                case 7:
-                return 62;
-                break;
-                case 8://科学
-                return 64;
-                break;
-                case 9://動画
-                return 68;
-                break;
-                case 10://漫画
-                return 66;
-                break;
-                case 11://コネタ
-                return 59;
-                break;
             }
+        );
+        console.log(allTabLength);
+        console.log($('.js-moveTag').offsetLeft);
+        if(w <= allTabLength){//タブがwindowをはみ出していたら
+            var zahyou = ['0','76','147','223','294','365','436','526','597','672','743','815','886'];
+            var fafaaf = zahyou[current] - $(window).innerWidth();
+            console.log(fafaaf);
+            console.log('タブがウィンドウからはみ出してます');
+            console.log(zahyou[passCurrent]);
+            $($li[current]).addClass('t-scroll-tabs__nav--active');
+            for(var i =0;i< current;i++){
+                t_math += allTabArray[i];
+            };
+            // console.log(t_math);
+            // console.log(allTabArray[i]);
+            var animateLeft = 0;
+            var animateRight = 0;
+            var animateMove = (current - 1);
+            console.log();
+            if (fafaaf < 0){
+                if(0 < c){
+                    animateLeft = '-' + zahyou[current];
+                    $('.js-moveTag').animate({
+                        left : animateLeft,
+                    },tabMoveSpeed);
+                };
+                if(0 > c){
+                    animateRight= '+' + zahyou[current];
+                    $('.js-moveTag').animate({
+                        left : animateRight
+                    },tabMoveSpeed);
+                }
+            }
+
+
+
+            // if(current == 0){//最初のタブ
+            //     console.log('なにもしない')
+            // }else if(current != tabLength){//最後以外のタブ
+            //     for(var i =0;i< current;i++){
+            //         t_math += allTabArray[i];
+            //     };
+            //     // console.log(t_math);
+            //     // console.log(allTabArray[i]);
+            //     var animateMove = (current - 1);
+            //
+            //
+            //     $('.js-moveTag').animate({
+            //         left : '-='   + sahyou[animateMove]
+            //     },tabMoveSpeed);
+            // }else if(current == tabLength || current == tabLength-1){
+            //
+            // }else{
+            //     // $($li[current]).addClass('t-scroll-tabs__nav--active');
+            //     // // console.log((w　/　2) - allTabwidth[current]/2);
+            //     // $('.js-moveTag').animate({
+            //     //     left : '-=' + window.screenLeft + fafa.left
+            //     // },tabMoveSpeed);
+            // };
+
+        }else{
+            $($li[current]).addClass('t-scroll-tabs__nav--active');
         }
-        if(current != 0){
-            $('.js-moveTag').animate({
-                left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
-            },tabMoveSpeed);
-        }else if(current === 0){
-            $('.js-moveTag').animate({
-                left: 0,
-                right : '+=140'//フリック時のタブ中央位置調整
-            },tabMoveSpeed);
-        }
-        $($li[current]).addClass('t-scroll-tabs__nav--active');
+
+
+        // if(current != 0){
+        //     $('.js-moveTag').animate({
+        //         left : '-=' + (moveTab(current) *(current -1)),//フリック時のタブ中央位置調整
+        //     },tabMoveSpeed);
+        // }else if(current === 0){
+        //     $('.js-moveTag').animate({
+        //         left: 0,
+        //         right : '+=140'//フリック時のタブ中央位置調整
+        //     },tabMoveSpeed);
+        // }
+        // $($li[current]).addClass('t-scroll-tabs__nav--active');
     };
 
 
@@ -512,7 +558,7 @@ $(function(){
         }
     };
     function changeTab(direction){
-        for (var i =0;i<tabLength;i++){//すでにタブを直接押下していた場合のcurrentを抽出、更新
+        for (var i =0;i<tabLength;i++){//カレントがどこにいるか。すでにタブを直接押下していた場合のcurrentを抽出、更新
             if($($li[i]).hasClass("t-scroll-tabs__nav--active") == true){
                 current =  i;
             }
@@ -568,13 +614,16 @@ $(function(){
         if(current != clickedNum){//カレント以外を押下したか否かの判定
             $($li[current]).removeClass('t-scroll-tabs__nav--active');
             $($item[current]).css('display','none');
-            current = parseInt(clickedNum,10);//カレント更新
+            passCurrent = current;
+            current = parseInt(clickedNum,10);
+            //カレント更新
             changeContent(current);
             sliderTab(current);
             $($li[current]).addClass('t-scroll-tabs__nav--active');
         }else{
             return;
         }
+        passCurrent = current;
         sessionStorage.setItem('current',current);
     });
 
@@ -593,16 +642,20 @@ $(function(){
             if (this.slideX > 70) {//右から左へフリック
                this.slideX = 0;
                direction = 'toLeft';
+               passCurrent = current;
            }else if(this.slideX < -70 && this.slideX > -600) {//左から右へフリック
                this.slideX = -600;
                direction = 'toRight';
+               passCurrent = current;
+
            }else{//タップ時は反応しないように
                return;
            }
+           console.log(passCurrent + '元のカレント');
            changeTab(direction);
         }
     });
-})
+});
 </script>
 
 
