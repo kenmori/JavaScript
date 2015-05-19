@@ -407,7 +407,14 @@
  -->
  <script>
  $(function(){
-
+     //storageにtxtを加えたい
+     //1ページしか見ていないでセッションが切れた人にナビをfadeInさせたい
+     //オリエントチェンジ
+     //タブのアクティブをwindow幅の真ん中にしたい
+     //ajax読み込みをさせたい
+     //パフォーマンスよく
+     //バグ対応大丈夫か
+     //
      var $li = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
      var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
      var tabLength = $li.length -1;
@@ -554,34 +561,32 @@
 
 
      $('.js-moveTagFlick').on({
-         'touchstart' : function(){
+         /* フリック開始時 */
+         'touchstart': function(e) {
              this.touchX = event.changedTouches[0].pageX;
              this.slideX = $(this).position().left;
          },
-         'touchmove' : function(){
+         'touchmove': function(e) {
+             e.preventDefault();
              this.slideX = this.slideX - (this.touchX - event.changedTouches[0].pageX );
              $(this).css({left:this.slideX});
+             this.accel = (event.changedTouches[0].pageX - this.touchX) * 5;
              this.touchX = event.changedTouches[0].pageX;
-             if(this.touchX < 200){
-                 $(this).stop().animate({
-                     left: "0px"
-                 },500);
-             }else if(this.touchX > 200){
-                 $(this).stop().animate({
-                     left: "360px"
-                 },500);
-             }
-             console.log(this.touchX);
          },
-         'touchend' : function(){
-             var direction = "";
-             if (this.slideX > 70) {//右から左へフリック
+         /* フリック終了 */
+         'touchend': function(e) {
+             this.slideX += this.accel
+             $(this).animate({left : this.slideX },100,'linear');
+             this.accel = 0;
+             wR = - ( $(this).width() - $(this).parent("#flame").width() );
+             if (this.slideX > 0) {
                 this.slideX = 0;
-            }else if(this.slideX < -70 && this.slideX > -600) {//左から右へフリック
-                this.slideX = -600;
-            }else{//タップ時は反応しないように
-                return;
-            }
+                $(this).animate({left:this.slideX},100);
+             }
+             if (this.slideX < wR) {
+                this.slideX = wR;
+                $(this).animate({left:this.slideX},100);
+             }
          }
      });
 
