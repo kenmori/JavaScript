@@ -421,122 +421,68 @@
      var $tab = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
      var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
      var tabLength = $tab.length -1;
-     var $contentItems = $('.js-flickContentItems').children('div');
+     var $contentItems = $('.js-flickContentItems').children('div');//class名検討
      var current = 0;
      var naviMoveSpeed = 200;
      var arrowFadeSpeed = 300;
      var windowWidth = $(window).width();
      var tabsWidthArray= [];
-    //  var t_math = 0;
-     var passCurrent =0;
-     // 各タブのwidthを配列に格納
-     //
+     var passCurrent = 0;
      var slideNavibWidth = 0;//タブ全体の長さ
-     // window.onorientationchange = function(){
-     // };
+     var passedTabX = 0;//naviを直接押した時、その前時点でのactiveだったタブの位置
+
+
+     var tabPositionX = ['0','78','151','229','302','374','448','540','613','690','763','836'];
+
+//隣り合う要素を足す
+    //  var _tabPositionX = [];
+    //  var sum  = function(tabsWidthArray) {
+    //      _tabPositionX[0] = 0;
+    //      return tabsWidthArray.reduce(function(prev, current, i, tabsWidthArray) {
+    //          return _tabPositionX[i] = prev+current;
+    //      });
+    //  };
      $tabList.each(function(i){
          tabsWidthArray.push($tab[i].clientWidth);
          slideNavibWidth += parseInt($tab[i].clientWidth,10);//navi全体の長さを取得
      });
-    //  console.log(tabsWidthArray);
-    //  console.log(w　 + 'window幅');
-    //  console.log(slideNavibWidth　+ 'naviの横幅');
-    //  window.onorientationchange = function(){
-    //      $tabList.each(function(i){
-    //          addwidth += parseInt($tab[i].clientWidth,10);
-    //      });
-    //      alert(w);
-    //      alert(addwidth);
-    //  };
-     // tabsWidthArray.slice(current);
-     //
-    //  console.log(window.screenLeft);//0
-     var passedTabX = 0;//naviを直接押した時、その前時点でのactiveだったタブの位置
+    //  console.log( sum(tabsWidthArray) ); // 15
+    //  console.log(_tabPositionX);
 
 
-
+// オリエンテイションションチェンジ
+     window.onorientationchange = function(){
+         alert('fafa');
+     };
      function sliderNavi(current){
-        //  var c = current - passCurrent;//カレントー直前のカレントをすることでどちらの方向にタブが押されたか取得
-        //  console.log(slideNavibWidth);
-        //  console.log($('.js-slideNavi').offsetLeft);
-         var tabPositionX = ['0','78','151','229','302','374','448','540','613','690','763','836'];//365が6 //910
-        //  var tabPositionX = ['ニュース','話題2','151スポーツ3','229芸能4','302ライフ5','374国内6','政治5','540国際','613IT科学','690動画','763マンガ','836コネタ'];//365が6
          var animateLeftValue = 0;
-         var leastTabWidth = 0;
-         var animateMove = (current - 1);
-         var diffWindowWidthCurrentX = (910 - tabPositionX[current]) - windowWidth ;
-        //  console.log(c + 'これだけ移動しました');
-        //  fafa = $tab[current].getBoundingClientRect();
+         var diffWindowWidthCurrentX = (910 - tabPositionX[current]) - windowWidth;
          $('.js-slideNavi').css('position','relative').css(
              {
              'left': passedTabX
              }
          );
          function animate(ajustLeastWidth){
-
              if(ajustLeastWidth == undefined){
                  animateLeftValue = '-' +  tabPositionX[current];
-
              }else{
                  animateLeftValue = '-' +  ajustLeastWidth;
              };
              $('.js-slideNavi').animate({
-                 left : animateLeftValue,
+                 left : animateLeftValue
              },naviMoveSpeed);
              passedTabX = animateLeftValue;
          };
          if(windowWidth <= slideNavibWidth){//naviがwindowをはみ出していたら
              $($tab[current]).addClass('t-scroll-tabs__nav--active');
-            //  for(var i =0;i< current;i++){
-            //      t_math += tabsWidthArray[i];//全てのタブのwidthを取得
-            //  };
-            //  console.log('タブの長さ - 現在位置　- window幅' + diffWindowWidthCurrentX);
              if (diffWindowWidthCurrentX > 0){//window幅に対してnaviがはみ出ていたら
-                //  console.log('まだ余裕');
-                //  if(0 < c){//右のタブをクリック時
-                //      animateLeftValue = '-' +  tabPositionX[current];//配列に文字列ではなく数値を取得するか
-                //      $('.js-slideNavi').animate({
-                //          left : animateLeftValue,
-                //      },naviMoveSpeed);
-                //      passedTabX = animateLeftValue;//一つ前に押されたタブを更新することで次タブが押された時の距離を図る材料にしている
-                //  }else if(0 > c){
-                //     //  console.log('現在のタブより左が押されました');
-                //      animateLeftValue = '-' +  tabPositionX[current];
-                //      $('.js-slideNavi').animate({
-                //          left : animateLeftValue,
-                //      },naviMoveSpeed);
-                //      passedTabX = animateLeftValue;
-                 //
-                //  };
-                //
-                animate()
-
-
-
-
+                animate();
              }else if(diffWindowWidthCurrentX < 0){
-                // console.log('現在地から残りのタブがwindowに対して足りません');
                 var ajustLeastWidth  = parseInt(tabPositionX[current]) + parseInt(diffWindowWidthCurrentX);
-                // if(0 < c){
-                //     animateLeftValue = '-' +  ajustLeastWidth;
-                //     $('.js-slideNavi').animate({
-                //         left : animateLeftValue
-                //     },naviMoveSpeed);
-                //     passedTabX = animateLeftValue;
-                // }
-                animate(ajustLeastWidth)
-
+                animate(ajustLeastWidth);
              }
          };
-         $($tab[current]).addClass('t-scroll-tabs__nav--active');
      };
-
-
-
-
-
-
-
 
 //初期に実行される関数
      hasSesstionNum = sessionStorage.getItem('current');//セッションストレージを持っていたら前回のタブを中央に移動
@@ -558,10 +504,9 @@
          }else if(direction === 'toRight'){
              $('.js-tabright-arrow').fadeIn(arrowFadeSpeed).fadeOut(arrowFadeSpeed);
          }else{
-             return //直タブ押下時渡る。明示
+             return; //直タブ押下時渡る。明示
          }
      };
-
 
 
 
@@ -584,16 +529,15 @@
          }else if(direction　=== 'toRight'){
              if (current < tabLength){
                  current += 1;
-             }else if(current >= tabLength){
+             }else if(current == tabLength){
                      current = 0;
              };
          };
          changeContentItem(current,direction);
          sliderNavi(current);
+         $($tab[current]).addClass('t-scroll-tabs__nav--active');
          sessionStorage.setItem('current',current);
      };
-
-
 
      $('.js-flickTabs').on({
          /* フリック開始時 */
@@ -605,25 +549,29 @@
              e.preventDefault();
              this.slideX = this.slideX - (this.touchX - event.changedTouches[0].pageX );
              $(this).css({left:this.slideX});
-             this.accel = (event.changedTouches[0].pageX - this.touchX) * 5;
+            //  this.accel = (event.changedTouches[0].pageX - this.touchX) * 5;
              this.touchX = event.changedTouches[0].pageX;
          },
          /* フリック終了 */
          'touchend': function(e) {
-             this.slideX += this.accel
+            //  this.slideX += this.accel
              $(this).animate({left : this.slideX },100,'linear');
-             this.accel = 0;
+            //  this.accel = 0;
              if (this.slideX > 0) {
                 this.slideX = 0;
                 $(this).animate({left:this.slideX},100);
              }
-             if (this.slideX < -480) {
-                 console.log('faa');
-                $(this).animate({left:-535},100);
+             if (this.slideX < -480) {//最後のタブが進入するまでのnaviのposition
+                function left(){//計算する関数をつくる
+                    return - 536;
+                    // console.log(add);
+                    // return -536;
+                }
+                $(this).animate({left:left()},100);//naviの左を0として最後のタブがwindowに進入し終わるまでの移動距離
              }
          }
      });
-     $tab.on('click',function(e){//clickより切り替えが早いが、現行のフリックとの共存がうまくいくか検証必要
+     $tab.on('click',function(e){
          var target = e.target.className;
          rgex = /[\d]{1,}/;//各タブに割り当てられている末尾2桁数字を検索//動的に要素の数だけ付与するようにする予定
          var clickedNum = rgex.exec(target);
@@ -636,12 +584,12 @@
              changeContentItem(current);
              sliderNavi(current);
              $($tab[current]).addClass('t-scroll-tabs__nav--active');
-         }else{
-             return;
-         }
-        //  passCurrent = current;
-         sessionStorage.setItem('current',current);
+             sessionStorage.setItem('current',current);
+         };
      });
+
+
+
      $('.js-flickContentItems').on({
          'touchstart': function(e) {
              this.touchX = event.changedTouches[0].pageX;
@@ -654,7 +602,7 @@
          },
          'touchend': function(e) {
              var direction = "";
-             if (this.slideX > 70) {//右から左へフリック
+             if(this.slideX > 70) {//右から左へフリック
                 this.slideX = 0;
                 direction = 'toLeft';
                 // passCurrent = current;
@@ -665,7 +613,6 @@
             }else{//タップ時は反応しないように
                 return;
             }
-            // console.log(passCurrent + '元のカレント');
             flickedCntentItem(direction);
          }
      });
