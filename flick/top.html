@@ -430,8 +430,6 @@
      var passCurrent = 0;
      var slideNavibWidth = 0;//タブ全体の長さ
      var passedTabX = 0;//naviを直接押した時、その前時点でのactiveだったタブの位置
-
-
      var tabPositionX = ['0','78','151','229','302','374','448','540','613','690','763','836'];
 
 //隣り合う要素を足す
@@ -553,7 +551,6 @@
          if(current != clickedNum){//カレント以外を押下したか否かの判定
              $($tab[current]).removeClass('t-scroll-tabs__nav--active');
              $($contentItems[current]).css('display','none');
-            //  passCurrent = current;
              current = parseInt(clickedNum,10);
              //カレント更新
              changeContentItem(current);
@@ -567,15 +564,21 @@
 
 var obj = function Direction(direction){
     this.direction = direction;
+    this.current = current;
 };
 obj.prototype.flickedContentItem = function(direction){
     for (var i =0;i<tabLength;i++){//カレントがどこにいるか。すでにタブを直接押下していた場合のcurrentを抽出、更新
         if($($tab[i]).hasClass("t-scroll-tabs__nav--active") == true){
-            current =  i;
+        return  current =  i;
         }
     };
+};
+
+obj.prototype.removeFunc = function(){
     $($tab[current]).removeClass('t-scroll-tabs__nav--active');
     $($contentItems[current]).css('display','none');
+}
+obj.prototype.currentUpDate = function(){
     if(this.direction　=== 'toLeft'){
         if(current === 0){
             current = tabLength;
@@ -589,11 +592,16 @@ obj.prototype.flickedContentItem = function(direction){
                 current = 0;
         };
     };
+}
+obj.prototype.showFunc = function(){
     changeContentItem(current,this.direction);
     sliderNavi(current);
     $($tab[current]).addClass('t-scroll-tabs__nav--active');
     sessionStorage.setItem('current',current);
 }
+
+
+
 
 
 
@@ -615,12 +623,18 @@ obj.prototype.flickedContentItem = function(direction){
              if(this.slideX > 70) {//右から左へフリック
                 this.slideX = 0;
                 var left = new obj('toLeft');
-                left.flickedContentItem(this.direction);
+                left.current = left.flickedContentItem(this.direction);
+                left.removeFunc();
+                left.currentUpDate();
+                left.showFunc();
                 // passCurrent = current;
             }else if(this.slideX < -70 && this.slideX > -600) {//左から右へフリック
                 this.slideX = -600;
                 var right = new obj('toRight');
-                right.flickedContentItem(this.direction);
+                right.current = right.flickedContentItem(this.direction);
+                right.removeFunc();
+                right.currentUpDate();
+                right.showFunc();
                 // passCurrent = current;
             }else{//タップ時は反応しないように
                 return;
