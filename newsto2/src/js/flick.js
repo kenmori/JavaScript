@@ -32,11 +32,12 @@ $(function(){
    //
    //
    //
+   var NAVIWIDTH = [];
    var tabPositionX = [];
    $tabList.each(function(i){
        tabPositionX.push($tabList[i].offsetLeft);
+       NAVIWIDTH += parseInt($tabList[i].clientWidth,10);
    });
-
 
    $tabList.each(function(i){
        tabsWidthDivideArray.push($tab[i].clientWidth /2);
@@ -68,6 +69,12 @@ $(function(){
                 '-webkit-transform':'translate3d(0px,0,0)'
                 // '-webkit-duration':'1s'
             });
+
+//
+
+
+
+
             var hamidasi = 925 - $(window).width();//はみ出したタブの長さ
             var umami = 925 - hamidasi;//windowの画面とナビが中央に揃うnaviの長さ
             var Tc = 925 /2 ;//タブの中央位置
@@ -81,7 +88,8 @@ $(function(){
                         $('.js-slideNavi').css({
                             // transform: translate('-' + animateLeftValue),
                             '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            '-webkit-duration':'10s'
+                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            '-webkit-duration':'5000s'
                         });
                         return;
                     }else{
@@ -96,7 +104,8 @@ $(function(){
                 $('.js-slideNavi').css({
                     // transform :translate( '-' + animateLeftValue),
                     '-webkit-transform':'translate3d('+ animateLeftValue +'px,0,0)',
-                    '-webkit-duration':'10s'
+                    'transform':'translate3d('+ animateLeftValue +'px,0,0)',
+                    '-webkit-duration':'5000s'
                 });
                 passedTabX = animateLeftValue;
             }
@@ -130,7 +139,7 @@ $(function(){
     // sliderNavi(current);
 
     $($tab[current]).addClass('t-scroll-tabs__nav--active');
-    $('.js-timeline__tab-arrow').fadeIn(200).fadeOut(3000);
+    $('.js-timeline__tab-arrow').fadeIn(200);
     $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
     function changeContentItem(current,direction){
         $($contentItems[current]).css('display','block');
@@ -182,6 +191,7 @@ $(function(){
     //     }
     // });
     $tab.on('click',function(e){
+        $('.js-timeline__tab-arrow').fadeOut(200);
         var target = e.target.className;
         rgex = /[\d]{1,}/;//各タブに割り当てられている末尾2桁数字を検索//動的に要素の数だけ付与するようにする予定
         var clickedNum = rgex.exec(target);
@@ -204,6 +214,9 @@ var obj = function Direction(direction){
    this.current = current;
 };
 obj.prototype.flickedContentItem = function(direction){
+    if($('.js-timeline__tab-arrow').css('display') == 'block'){
+        $('.js-timeline__tab-arrow').fadeOut(200);
+    };
    for (var i =0;i<tabLength;i++){//カレントがどこにいるか。すでにタブを直接押下していた場合のcurrentを抽出、更新
        if($($tab[i]).hasClass("t-scroll-tabs__nav--active") == true){
        return  current =  i;
@@ -235,11 +248,13 @@ obj.prototype.showFunc = function(){
    sliderNavi(current);
    $($tab[current]).addClass('t-scroll-tabs__nav--active');
    sessionStorage.setItem('topTabNumber',current);
-}
+};
+
 
 
     $('.js-flickContentItems').on({
         'touchstart': function(e) {
+            e.preventDefault();
             this.touchX = event.changedTouches[0].pageX;
             this.slideX = $(this).position().left;
         },
