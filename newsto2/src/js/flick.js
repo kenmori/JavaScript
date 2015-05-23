@@ -4,8 +4,6 @@ $(function(){
     //可変なタブに対応させる
     //オリエントチェンジ
     //ajax読み込みをさせたい
-    //パフォーマンスよく
-    //バグ対応大丈夫か
     //
     var $tab = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
     var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
@@ -53,7 +51,7 @@ $(function(){
        overflow: 'hidden'
    });
 
-// オリエンテイションションチェンジ
+// オリエントチェンジ
     window.onorientationchange = function(){
         alert('fafa');
     };
@@ -143,7 +141,6 @@ $(function(){
     //     };
     // };//セッションストレージを持っていたら前回のタブを中央に移動
     var current = sessionStorage.getItem('topTabNumber');
-    alert(current);
     $($contentItems[0]).css('display','none');
     $($contentItems[current]).css('display','block');
     // sliderNavi(current);
