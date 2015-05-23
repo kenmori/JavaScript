@@ -8,15 +8,18 @@ $(function(){
     var $tab = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
     var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
     var tabLength = $tab.length -1;
+    var tabTatal = $tab.length;
     var $contentItems = $('.js-flickContentItems').children('div');//class名検討
     var naviMoveSpeed = 200;
     var arrowFadeSpeed = 200;
     var windowWidth = $(window).width();
     var tabsWidthDivideArray= [];
     var passCurrent = 0;
-    var slideNavibWidth = 0;//タブ全体の長さ
+    var tabsWidth = 0;//タブ全体の長さ
     var passedTabX = 0;//naviを直接押した時、その前時点でのactiveだったタブの位置
-
+    var tabPadding = tabTatal * 2;
+    var slideNaviWidth = tabsWidth + tabPadding;//現数値923をこれに置き換えるとnaviをスクロールできる
+    var tabPositionX = [];
 //隣り合う要素を足す
    //  var _tabPositionX = [];
    //  var sum  = function(tabsWidthDivideArray) {
@@ -30,18 +33,11 @@ $(function(){
    //
    //
    //
-   var NAVIWIDTH = [];
-   var tabPositionX = [];
    $tabList.each(function(i){
        tabPositionX.push($tabList[i].offsetLeft);
-       NAVIWIDTH += parseInt($tabList[i].clientWidth,10);
-   });
-
-   $tabList.each(function(i){
        tabsWidthDivideArray.push($tab[i].clientWidth /2);
-       slideNavibWidth += parseInt($tab[i].clientWidth,10);//navi全体の長さを取得//925がぽったし
-   });
-   // console.log(slideNavibWidth);
+       tabsWidth += parseInt($tab[i].clientWidth);
+    });
 
    //  console.log( sum(tabsWidthDivideArray) ); // 15
    //  console.log(_tabPositionX);
@@ -57,7 +53,7 @@ $(function(){
     };
     function sliderNavi(current){
         var animateLeftValue = 0;
-        var diffWindowWidthCurrentX = (925 - tabPositionX[current]) - windowWidth;//925
+        var diffWindowWidthCurrentX = (923 - tabPositionX[current]) - windowWidth;//923
 
         function animate(ajustLeastWidth){
             $('.js-slideNavi').css({
@@ -73,9 +69,9 @@ $(function(){
 
 
 
-            var hamidasi = 925 - $(window).width();//はみ出したタブの長さ
-            var umami = 925 - hamidasi;//windowの画面とナビが中央に揃うnaviの長さ
-            var Tc = 925 /2 ;//タブの中央位置
+            var hamidasi = 923 - $(window).width();//はみ出したタブの長さ
+            var umami = 923 - hamidasi;//windowの画面とナビが中央に揃うnaviの長さ
+            var Tc = 923 /2 ;//タブの中央位置
             var Wc = $(window).width() /2;
             var I = parseInt((tabPositionX[current] + tabsWidthDivideArray[current]));//タブのwidthを含めた中央
             animateLeftValue = '-' +(I - Wc);//タブの中央とwindow中央を合わせた差
@@ -117,7 +113,7 @@ $(function(){
                 passedTabX = animateLeftValue;
             }
         };
-        if(925　>= windowWidth){//window幅がnaviより短かったら
+        if(923　>= windowWidth){//window幅がnaviより短かったら
             // alert($(window).width());
             $($tab[current]).addClass('t-scroll-tabs__nav--active');
             // alert(diffWindowWidthCurrentX);
