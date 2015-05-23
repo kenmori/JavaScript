@@ -1,10 +1,12 @@
+//ISSUE
+//
+//ナビをフリックなしでスクロールする
+//話題を押した際に処理されないバグ
+//可変なタブに対応させる
+//オリエントチェンジ
+//ajax読み込みをさせたい
+
 $(function(){
-    //ナビをフリックなしでスクロールする
-    //ulのwidth925の値を動的に取る
-    //可変なタブに対応させる
-    //オリエントチェンジ
-    //ajax読み込みをさせたい
-    //
     var $tab = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
     var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
     var tabLength = $tab.length -1;
@@ -85,7 +87,6 @@ $(function(){
                             'transform':'translate3d(' + animateLeftValue +'px,0,0)',
                             '-webkit-duration':'5000s'
                         });
-                        console.log('fafa');
                         return;
                     }else if (current == 0){
                         animateLeftValue = tabPositionX[current];
