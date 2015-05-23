@@ -1,0 +1,34 @@
+@charset "utf-8";
+// ----------------------------------------------------
+// 汎用
+// ----------------------------------------------------
+.news-top_initialize{
+  margin-top:0 ;
+  padding-top:0;
+}
+.news-margin_top_initialize{
+  margin-top:0;
+}
+.news-nobdr{
+  border:none;
+}
+.mt10{
+  margin-top: 10px;
+}
+.mt04{
+  margin-top: 4px;
+}
+.pb15{
+  padding-bottom: 15px;
+}
+.news-topbdr{
+  border-top:1px solid #e2e2e2;
+}
+.news-btmbdr{
+  border-bottom:1px solid #e2e2e2;
+}
+.news-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
