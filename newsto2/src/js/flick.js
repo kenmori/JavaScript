@@ -1,8 +1,8 @@
 $(function(){
-    //storageにtxtを加えたい
-    //1ページしか見ていないでセッションが切れた人にナビをfadeInさせたい
+    //ナビをフリックなしでスクロールする
+    //ulのwidth925の値を動的に取る
+    //可変なタブに対応させる
     //オリエントチェンジ
-    //タブのアクティブをwindow幅の真ん中にしたい
     //ajax読み込みをさせたい
     //パフォーマンスよく
     //バグ対応大丈夫か
@@ -91,7 +91,16 @@ $(function(){
                             'transform':'translate3d(' + animateLeftValue +'px,0,0)',
                             '-webkit-duration':'5000s'
                         });
+                        console.log('fafa');
                         return;
+                    }else if (current == 0){
+                        animateLeftValue = tabPositionX[current];
+                        $('.js-slideNavi').css({
+                            // transform: translate('-' + animateLeftValue),
+                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            '-webkit-duration':'5000s'
+                        });
                     }else{
                         return;
                     }
@@ -134,6 +143,7 @@ $(function(){
     //     };
     // };//セッションストレージを持っていたら前回のタブを中央に移動
     var current = sessionStorage.getItem('topTabNumber');
+    alert(current);
     $($contentItems[0]).css('display','none');
     $($contentItems[current]).css('display','block');
     // sliderNavi(current);
@@ -249,7 +259,9 @@ obj.prototype.showFunc = function(){
    $($tab[current]).addClass('t-scroll-tabs__nav--active');
    sessionStorage.setItem('topTabNumber',current);
 };
-
+obj.prototype.moveBackground = function(){
+    $($tab[passedCurrent])
+};
 
 
     $('.js-flickContentItems').on({
