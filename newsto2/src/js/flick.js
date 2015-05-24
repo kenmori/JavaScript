@@ -20,7 +20,6 @@ $(function(){
     var tabsWidth = 0;//タブ全体の長さ
     var passedTabX = 0;//naviを直接押した時、その前時点でのactiveだったタブの位置
     var tabPadding = tabTatal * 2;
-    var slideNaviWidth = tabsWidth + tabPadding;//現数値923をこれに置き換えるとnaviをスクロールできる
     var tabPositionX = [];
 //隣り合う要素を足す
    //  var _tabPositionX = [];
@@ -40,6 +39,7 @@ $(function(){
        tabsWidthDivideArray.push($tab[i].clientWidth /2);
        tabsWidth += parseInt($tab[i].clientWidth);
     });
+    var slideNaviWidth = tabsWidth + tabPadding;//現数値923をこれに置き換えるとnaviをスクロールできる
 
    //  console.log( sum(tabsWidthDivideArray) ); // 15
    //  console.log(_tabPositionX);
@@ -55,55 +55,77 @@ $(function(){
     };
     function sliderNavi(current){
         var animateLeftValue = 0;
-        var diffWindowWidthCurrentX = (923 - tabPositionX[current]) - windowWidth;//923
+        var diffWindowWidthCurrentX = (slideNaviWidth - tabPositionX[current]) - windowWidth;//slideNaviWidth
 
         function animate(ajustLeastWidth){
             $('.js-slideNavi').css({
-                'width': '925px',
+                // 'width': '923px',
                 'position': 'absolute',
                 // left : 0,
                 '-webkit-transform':'translate3d(0px,0,0)'
                 // '-webkit-duration':'1s'
             });
-
-//
-
-
-
-
-            var hamidasi = 923 - $(window).width();//はみ出したタブの長さ
-            var umami = 923 - hamidasi;//windowの画面とナビが中央に揃うnaviの長さ
-            var Tc = 923 /2 ;//タブの中央位置
-            var Wc = $(window).width() /2;
-            var I = parseInt((tabPositionX[current] + tabsWidthDivideArray[current]));//タブのwidthを含めた中央
-            animateLeftValue = '-' +(I - Wc);//タブの中央とwindow中央を合わせた差
+            var hamidasi = slideNaviWidth - windowWidth;//はみ出したタブの長さ
+            var umami = slideNaviWidth - hamidasi;//windowの画面とナビが中央に揃うnaviの長さ
+            var Tc = slideNaviWidth /2 ;//タブの中央位置
+            var Wc = parseInt(windowWidth /2);
+            var I = parseInt('-' + ((tabPositionX[current] + tabsWidthDivideArray[current])));//タブのwidthを含めた中央
+            var nokori = slideNaviWidth + I;
+            var WcPos = parseInt('-' + Wc);
+            animateLeftValue = '' + (I - WcPos);//タブの中央とwindow中央を合わせた差
             // var C = tabPositionX[current] + animateLeftValue;
             if(ajustLeastWidth == undefined){//
-                if(hamidasi > 0){
-                    if(I > Wc){//カレントがタブの中央がwindowの中央より右に位置していれば
-                        $('.js-slideNavi').css({
-                            // transform: translate('-' + animateLeftValue),
-                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            '-webkit-duration':'5000s'
-                        });
-                        return;
-                    }else if (current == 0){
-                        animateLeftValue = tabPositionX[current];
-                        $('.js-slideNavi').css({
-                            // transform: translate('-' + animateLeftValue),
-                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            '-webkit-duration':'5000s'
-                        });
-                    }else{
-                        return;
-                    }
-                }else if(hamidasi <= 0){
+                if(nokori > Wc && I < WcPos){//残りのタブがWcよりあれば
+                    $('.js-slideNavi').css({
+                        // transform: translate('-' + animateLeftValue),
+                        '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                        'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                        '-webkit-duration':'5000s'
+                    });
                     return;
+                }else if (nokori < Wc && I  > WcPos){
+                    animateLeftValue = tabPositionX[current];
+                    $('.js-slideNavi').css({
+                        // transform: translate('-' + animateLeftValue),
+                        '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                        'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                        '-webkit-duration':'5000s'
+                    });
+                }else if(nokori > Wc && I > WcPos){
+
+                    if(current < passCurrent){//右から来た
+                        // console.log(tabPositionX[current]);
+                        // console.log(tabPositionX[passCurrent]);
+                        animateLeftValue = -tabPositionX[passCurrent] + tabPositionX[passCurrent];
+                        $('.js-slideNavi').css({
+                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            '-webkit-duration':'5000s'
+                        });
+                    }else{//左から来た
+                        console.log('おかしい');
+                    }
+                }else if(nokori < Wc){
+                    if(current< passCurrent){//右から来た
+                        animateLeftValue = I + Wc + (Wc - (I + slideNaviWidth));
+                        $('.js-slideNavi').css({
+                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            '-webkit-duration':'5000s'
+                        });
+                    }else{//左から来た
+                        animateLeftValue = I + Wc + (Wc - (I + slideNaviWidth));
+                        $('.js-slideNavi').css({
+                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
+                            '-webkit-duration':'5000s'
+                        });
+                    }
                 }
-                passedTabX = animateLeftValue;
+                passedTabX = I;
             }else{
+
+
                 animateLeftValue = '-'+  parseInt(ajustLeastWidth)
                 $('.js-slideNavi').css({
                     // transform :translate( '-' + animateLeftValue),
@@ -111,19 +133,19 @@ $(function(){
                     'transform':'translate3d('+ animateLeftValue +'px,0,0)',
                     '-webkit-duration':'5000s'
                 });
-                passedTabX = animateLeftValue;
+                passedTabX = I;
             }
         };
-        if(923　>= windowWidth){//window幅がnaviより短かったら
-            // alert($(window).width());
-            $($tab[current]).addClass('t-scroll-tabs__nav--active');
+        if(slideNaviWidth　>= windowWidth){//window幅がnaviより短かったら
+            // alert(windowWidth);
             // alert(diffWindowWidthCurrentX);
             if (diffWindowWidthCurrentX > 0){//window幅に対してnaviがはみ出ていたら
                animate();
             }else if(diffWindowWidthCurrentX < 0){
                var ajustLeastWidth  = parseInt(tabPositionX[current]) + parseInt(diffWindowWidthCurrentX);
-               animate(ajustLeastWidth);
+               animate();
             }
+            $($tab[current]).addClass('t-scroll-tabs__nav--active');
         };
 
     };
@@ -202,6 +224,7 @@ $(function(){
         if(current != clickedNum){//カレント以外を押下したか否かの判定
             $($tab[current]).removeClass('t-scroll-tabs__nav--active');
             $($contentItems[current]).css('display','none');
+            passCurrent = parseInt(current);
             current = parseInt(clickedNum,10);
             //カレント更新
             changeContentItem(current);
@@ -277,7 +300,7 @@ obj.prototype.moveBackground = function(){
                left.removeFunc();
                left.currentUpDate();
                left.showFunc();
-               // passCurrent = current;
+               passCurrent = current;
            }else if(this.slideX < -60 && this.slideX > -600) {//左から右へフリック
                this.slideX = -600;
                var right = new obj('toRight');
@@ -285,7 +308,7 @@ obj.prototype.moveBackground = function(){
                right.removeFunc();
                right.currentUpDate();
                right.showFunc();
-               // passCurrent = current;
+               passCurrent = current;
            }else{//タップ時は反応しないように
                return;
            }
