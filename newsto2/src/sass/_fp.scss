@@ -1,0 +1,251 @@
+@charset "utf-8";
+/* ヘッダフッタ調整 --------------------------------------------------------*/
+.t-header__title a {
+    display: block;
+    padding: 0;
+    line-height: 1;
+    height: 20px;
+}
+/*2015/01/21 22：52 タイトルからh1を外し損ねていたため下記でずれ対応*/
+.t-header__title.fp-fix h1 a{
+    margin:0;
+}
+
+/* 検索 --------------------------------------------------------*/
+
+/* サーチにフォーカスを充てる */
+.t-search__box input[type="search"]:focus {
+    color: #ff5300;
+    outline: solid 2px #ff5300;
+    outline-offset: -2px;
+}
+/* 検索アイコンエリアを広げる */
+.t-search__box input{
+    min-height: 30px;
+}
+.t-search_inner-small .t-search__submit a {
+    display: block;
+}
+
+/*ADフォーカス --------------------------------------------------------*/
+.medibaAdBanner a:active {
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+/* 記事リスト --------------------------------------------------------*/
+
+/* トップリスト横幅いっぱい調整 */
+/* ニュースリスト左右反転 */
+.news-list li a{
+    font-size: 14px;
+    line-height: 1.4em;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    display: table;
+}
+.news-list__text {
+    padding: 0 10px !important;
+    p{
+        text-align: left;
+    }
+}
+.news-list__text p:first-of-type{
+    margin-top:6px;
+ }
+.news-list__img{
+    background: #f2f2f2;
+    padding:0;
+    display: table-cell;
+    border: solid 10px #fff;
+    border-left: none;
+    width: 110px;
+}
+/*写真なし*/
+.news-list__only_text {
+    display: block;
+  p{
+    text-align: left;
+  }
+  .news-list__text--info {
+    padding-top: 5px;
+  }
+}
+
+/* プルダウンメニュー --------------------------------------------------------*/
+
+.t-select.fptop_title{
+    border-bottom: 2px solid #e2e2e2;
+    height: 37px;
+    margin: 0 10px 5px;
+    padding: 0;
+    border-radius: 0px;
+    .t-select__layout {
+        position: relative;
+        height: 34px;
+        border: none;
+        border-radius: 0 ;
+        position: relative;
+        margin-top: 10px;
+        width: 100%;
+        background: #f8f8f8;
+        background: linear-gradient(#fff 0,#f8f8f8 100%);
+        background: -webkit-linear-gradient(#fff 0,#f8f8f8 100%);
+        background: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f8f8f8));
+        border-top: 2px solid #f76b1f;
+        border-bottom: 1px solid #fff;
+        &.fpsub_title{
+            border-top: 2px solid #e2e2e2;
+        }
+        &:before {
+            width: 39px;
+            height: 39px;
+        border-radius: 0 ;
+            top: -2px;
+        }
+        &:after {
+            top: 15px;
+            right: 15px;
+        }
+        .t-select__select{
+            font-size: 16px;
+            line-height: 16px;
+            border-radius: 0px;
+            select{
+                font-size: 20px;
+                height: 37px;
+                line-height: 37px;
+                padding-left: 10px;
+                border-left: 2px solid #e2e2e2;
+            }
+        }
+    }
+}
+
+/* タイトル --------------------------------------------------------*/
+.t-crosshead {
+    //margin-top: 20px;
+    div{
+        .t-crosshead__text{
+            font-size: 20px;
+        }
+    }
+}
+/* コネタ連携部 ----------------------------------------------------*/
+
+.edit_inner{
+    margin-top: 20px;
+}
+
+/* 急上昇ワード ----------------------------------------------------*/
+.t-list {
+font-size: 16px;
+}
+
+/* ランダム画像 ----------------------------------------------------*/
+.news-random_top{
+  position:relative;
+  margin: 20px auto;
+  min-height: 170px;
+  width: 340px;
+  .t-bx__item {
+      a{
+            position: absolute;
+            display: block;
+            top:0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 100;
+        }
+      img{
+            width: 340px;
+            display: block;
+        }
+        .t-bx__item-text.js-link{
+            height: 51px;
+            width: 340px;
+        }
+    }
+}
+
+/*2&3カラムグリッド調整------------------------------------------ */
+
+.t-grid__3columns {
+    width: 100%;
+    padding: 10px 3px 0 3px;
+    box-sizing: border-box;
+}
+.news-gridlist__inner {
+    position: relative;
+    margin: 0 auto;
+    min-height: 75px;
+    max-width: 100px;
+    -webkit-box-sizing: border-box;
+    box-sizing: content-box;
+    width: auto;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.t-grid__column p img{
+    max-width: 100px;
+    max-height: 75px;
+    }
+
+.t-grid__column .news-gridlist__inner--img {
+    width:100px;
+    height: 75px;
+    background: #f2f2f2;
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 0;
+}
+.t-grid img {
+    background: #ccc;
+    max-height: 75px;
+    max-width: 100px;
+}
+.news-gridlist__inner--img + p {
+    margin: 5px auto 0;
+    max-width: 100px;
+}
+
+/* 画像拡大ページ詳細 -----------------------------------------*/
+.fp_news_img{
+    max-width: 640px;
+    margin: 10px auto;
+    padding: 10px;
+    img{
+        width: 100%;
+    }
+    //キャプション
+    figcaption{
+        margin: 10px 0 ;
+    }
+}
+/* ページャー -----------------------------------------*/
+/* 前へあとへの間のページ数 */
+.t-pager{
+    margin: 20px auto;
+    ul{
+        a{
+            border: none;
+        }
+        .pager_count{
+            display: block;
+            text-align: center;
+            border: none;
+            box-shadow: none;
+            background: none;
+            min-width: 40px;
+        }
+    }
+}
+/* t.css と news_common.cssの重複調整 */
+.t-pagenav__list--item a,
+.t-pagenav ul .t-pagenav__list--acrive a{
+    background: none !important;
+    border: none !important;
+}
+.t-pagenav ul a {
+  box-sizing: content-box;
+}
