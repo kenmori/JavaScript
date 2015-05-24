@@ -33,7 +33,6 @@ $(function(){
    //
    //
    //
-   //
    $tabList.each(function(i){
        tabPositionX.push($tabList[i].offsetLeft);
        tabsWidthDivideArray.push($tab[i].clientWidth /2);
