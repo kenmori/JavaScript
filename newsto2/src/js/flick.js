@@ -1,14 +1,27 @@
 //ISSUE
+
+//オリエントチェンジ（window幅を計算しなおし実行に値を渡す処理必要。調査してからだから時間必要）
+//2.1でフリックできない（ただスクロールはできるからね）
+//フリック時のセッション値取得
+//初回流入時にタブがアクティブになっていない
 //
-//ナビをフリックなしでスクロールする
-//話題を押した際に処理されないバグ
-//可変なタブに対応させる
-//オリエントチェンジ
-//ajax読み込みをさせたい
+//リファクタリング
+//width値かぶっていない？？
+//・未使用変数
+//・変数名変更(tabLength,tabTatal,)
+//・関数内の役割分散(scrollCenter)
+//・-問題
+//・変数をオブジェクト化してカスタマイズしやすくしたい
+//・cssを外に出せないか
+//・無駄なメソッド計算
+//・スピードは早いか
+//・汚染しない書き方に変更したい
+//・適切に分岐されているか
 
 $(function(){
     var $tab = $('.js-ftab-nav').find('a');//引数名変更しなくちゃいけない
     var $tabList = $('.js-ftab-nav').find('li');//引数名変更する
+    var $ftWrap = $('.js-ftwrap');
     var tabLength = $tab.length -1;
     var tabTatal = $tab.length;
     var $contentItems = $('.js-flickContentItems').children('div');//class名検討
@@ -18,154 +31,130 @@ $(function(){
     var tabsWidthDivideArray= [];
     var passCurrent = 0;
     var tabsWidth = 0;//タブ全体の長さ
-    var passedTabX = 0;//naviを直接押した時、その前時点でのactiveだったタブの位置
-    var tabPadding = tabTatal * 2;
+    var tabPadding = tabTatal * 2;//タブが持っているliの両サイドのパディング（1px + 1px = 2）
     var tabPositionX = [];
-//隣り合う要素を足す
-   //  var _tabPositionX = [];
-   //  var sum  = function(tabsWidthDivideArray) {
-   //      _tabPositionX[0] = 0;
-   //      return tabsWidthDivideArray.reduce(function(prev, current, i, tabsWidthDivideArray) {
-   //          return _tabPositionX[i] = prev+current;
-   //      });
-   //  };
-   //
-   //
-   //
-   //
+    var current = 0;
+    var moveNaviDistance = 0;
+
    $tabList.each(function(i){
        tabPositionX.push($tabList[i].offsetLeft);
        tabsWidthDivideArray.push($tab[i].clientWidth /2);
        tabsWidth += parseInt($tab[i].clientWidth);
     });
-    var slideNaviWidth = tabsWidth + tabPadding;//現数値923をこれに置き換えるとnaviをスクロールできる
-
-   //  console.log( sum(tabsWidthDivideArray) ); // 15
-   //  console.log(_tabPositionX);
-   $('.js-tabcover').css({
-       position: 'relative',
-       width: '100%',
-       overflow: 'hidden'
+    var slideNaviWidth;
+    slideNaviWidth = tabsWidth + tabPadding;//現数値923をこれに置き換えるとnaviをスクロールできる
+    $ftWrap.css({
+       width: '100%',//autoや100%ではなく絶対値が必要。ないとアニメーション後のタブ位置が外れる
+       overflow: 'auto',
+       height: '37px',
+       left: '0px',
+       scrollLeft: 0
    });
-
 // オリエントチェンジ
-    window.onorientationchange = function(){
-        alert('fafa');
-    };
+    // window.onorientationchange = function(){
+    //     // $tabList.each(function(i){
+    //     //     tabPositionX.push($tabList[i].offsetLeft);
+    //     //     tabsWidthDivideArray.push($tab[i].clientWidth /2);
+    //     //     tabsWidth += parseInt($tab[i].clientWidth);
+    //     // });
+    //     // slideNaviWidth = tabsWidth + tabPadding;
+    //     alert('window!!');
+    // };
+    // $(window).on('orientationchange resize',function(){
+    //     // alert("回転しました");
+    //     // if(Math.abs(window.orientation) == 90){
+    //     //     alert(slideNaviWidth);
+    //     // }else{
+    //     //     alert(slideNaviWidth);
+    //     // }
+    //     alert('回転しました');
+    // });
+    // var isAndroid = navigator.userAgent.indexOf('Android') != -1;
+    // if( typeof window.onorientationchange === 'object' && ! isAndroid ) {
+    //      $(window).on( 'orientationchange', function(){ hoge(); } );
+    // }else{
+    //      $(window).on( 'resize', function(){ hoge(); } );
+    // }
+    $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(300).fadeOut(300);
+//場所を上に変えた
+//更新を繰り返すと時々動作する
+//動作する際はアラートでセキュリティ証書がでる→関係ない
+//class指定をマルチからシングルに変えた→関係ない
+//処理が重い？？fadeInをひとつにした→関係ない
+//URL#タグ？？
+//20%ぐらいの頻度で使える
+//
     function sliderNavi(current){
-        var animateLeftValue = 0;
         var diffWindowWidthCurrentX = (slideNaviWidth - tabPositionX[current]) - windowWidth;//slideNaviWidth
-
-        function animate(ajustLeastWidth){
+        function scrollCenter(ajustLeastWidth){
             $('.js-slideNavi').css({
-                // 'width': '923px',
-                'position': 'absolute',
-                // left : 0,
-                '-webkit-transform':'translate3d(0px,0,0)'
-                // '-webkit-duration':'1s'
+                'width': slideNaviWidth
             });
-            var hamidasi = slideNaviWidth - windowWidth;//はみ出したタブの長さ
-            var umami = slideNaviWidth - hamidasi;//windowの画面とナビが中央に揃うnaviの長さ
-            var Tc = slideNaviWidth /2 ;//タブの中央位置
-            var Wc = parseInt(windowWidth /2);
+            var windowCenterWidth = parseInt(windowWidth /2);
             var I = parseInt('-' + ((tabPositionX[current] + tabsWidthDivideArray[current])));//タブのwidthを含めた中央
-            var nokori = slideNaviWidth + I;
-            var WcPos = parseInt('-' + Wc);
-            animateLeftValue = '' + (I - WcPos);//タブの中央とwindow中央を合わせた差
-            // var C = tabPositionX[current] + animateLeftValue;
-            if(ajustLeastWidth == undefined){//
-                if(nokori > Wc && I < WcPos){//残りのタブがWcよりあれば
-                    $('.js-slideNavi').css({
-                        // transform: translate('-' + animateLeftValue),
-                        '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                        'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                        '-webkit-duration':'5000s'
-                    });
+            var restNaviWidth = slideNaviWidth + I;
+            var windowCenterPositon = parseInt('-' + windowCenterWidth);
+            if(ajustLeastWidth === undefined){
+                if(restNaviWidth > windowCenterWidth && I < windowCenterPositon){
+                    $ftWrap.animate({
+                        scrollLeft : (tabPositionX[current] + tabsWidthDivideArray[current]) - windowCenterWidth
+                    },100);
                     return;
-                }else if (nokori < Wc && I  > WcPos){
-                    animateLeftValue = tabPositionX[current];
-                    $('.js-slideNavi').css({
-                        // transform: translate('-' + animateLeftValue),
-                        '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                        'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                        '-webkit-duration':'5000s'
-                    });
-                }else if(nokori > Wc && I > WcPos){
+                }else if (restNaviWidth < windowCenterWidth && I  > windowCenterPositon){
+                    // $ftWrap.scrollLeft(positionClick);
+                    // いらない条件の可能性。。検証中
+                }else if(restNaviWidth > windowCenterWidth && I > windowCenterPositon){
 
-                    if(current < passCurrent){//右から来た
-                        // console.log(tabPositionX[current]);
-                        // console.log(tabPositionX[passCurrent]);
-                        animateLeftValue = -tabPositionX[passCurrent] + tabPositionX[passCurrent];
-                        $('.js-slideNavi').css({
-                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            '-webkit-duration':'5000s'
+                    if(current < passCurrent){//左から来た
+                        $ftWrap.animate({
+                            scrollLeft : 0
                         });
-                    }else{//左から来た
-                        console.log('おかしい');
+                    }else{
+                        $ftWrap.animate({
+                            scrollLeft : 0
+                        },100);
                     }
-                }else if(nokori < Wc){
+                }else if(restNaviWidth < windowCenterWidth){
                     if(current< passCurrent){//右から来た
-                        animateLeftValue = I + Wc + (Wc - (I + slideNaviWidth));
-                        $('.js-slideNavi').css({
-                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            '-webkit-duration':'5000s'
-                        });
-                    }else{//左から来た
-                        animateLeftValue = I + Wc + (Wc - (I + slideNaviWidth));
-                        $('.js-slideNavi').css({
-                            '-webkit-transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            'transform':'translate3d(' + animateLeftValue +'px,0,0)',
-                            '-webkit-duration':'5000s'
-                        });
+                        moveNaviDistance = slideNaviWidth - windowWidth;
+                        $ftWrap.scrollLeft(moveNaviDistance);
+
+                    }else{//左から来て、//真ん中に位置できない場合
+                        moveNaviDistance = slideNaviWidth - windowWidth;
+                        if (current === 0){
+                            $ftWrap.animate({
+                                scrollLeft : 0
+                            });
+                        }else{
+                            $ftWrap.scrollLeft(moveNaviDistance);
+                        }
                     }
                 }
-                passedTabX = I;
-            }else{
-
-
-                animateLeftValue = '-'+  parseInt(ajustLeastWidth)
-                $('.js-slideNavi').css({
-                    // transform :translate( '-' + animateLeftValue),
-                    '-webkit-transform':'translate3d('+ animateLeftValue +'px,0,0)',
-                    'transform':'translate3d('+ animateLeftValue +'px,0,0)',
-                    '-webkit-duration':'5000s'
-                });
-                passedTabX = I;
+            }else{//中央に配置させることで足りなくなる場合
+                if(passCurrent < current){
+                    $ftWrap.animate({
+                    scrollLeft : (tabPositionX[current] + tabsWidthDivideArray[current]) - windowCenterWidth
+                    },100);
+                }else{
+                    $ftWrap.animate({
+                    scrollLeft : tabPositionX[current] + tabsWidthDivideArray[current] + windowCenterPositon
+                    },100);
+                }
             }
-        };
+        }
         if(slideNaviWidth　>= windowWidth){//window幅がnaviより短かったら
-            // alert(windowWidth);
-            // alert(diffWindowWidthCurrentX);
             if (diffWindowWidthCurrentX > 0){//window幅に対してnaviがはみ出ていたら
-               animate();
+                scrollCenter();
             }else if(diffWindowWidthCurrentX < 0){
                var ajustLeastWidth  = parseInt(tabPositionX[current]) + parseInt(diffWindowWidthCurrentX);
-               animate();
+               scrollCenter(ajustLeastWidth);
             }
             $($tab[current]).addClass('t-scroll-tabs__nav--active');
-        };
+        }
+    }
 
-    };
-
-//初期に実行される関数
-    // var fafafa  = function(){
-    //     var topTabNumber = parseInt(sessionStorage.getItem('topTabNumber'));
-    //     if(topTabNumber == Number){
-    //     return topTabNumber;
-    // }else{
-    //     return 0;
-    //     };
-    // };//セッションストレージを持っていたら前回のタブを中央に移動
-    var current = sessionStorage.getItem('topTabNumber');
     $($contentItems[0]).css('display','none');
     $($contentItems[current]).css('display','block');
-    // sliderNavi(current);
-
-    $($tab[current]).addClass('t-scroll-tabs__nav--active');
-    $('.js-timeline__tab-arrow').fadeIn(200);
-    $('.js-tabright-arrow,.js-tableft-arrow').fadeIn(1000).fadeOut(1000);
     function changeContentItem(current,direction){
         $($contentItems[current]).css('display','block');
         if(direction === 'toLeft'){
@@ -175,51 +164,16 @@ $(function(){
         }else{
             return; //直タブ押下時渡る。明示
         }
-    };
+    }
 
-
-
-
-
-
-
-    // $('.js-flickTabs').on({
-    //     /* フリック開始時 */
-    //     'touchstart': function(e) {
-    //         this.touchX = event.changedTouches[0].pageX;
-    //         this.slideX = $(this).position().left;
-    //     },
-    //     'touchmove': function(e) {
-    //         e.preventDefault();
-    //         this.slideX = this.slideX - (this.touchX - event.changedTouches[0].pageX );
-    //         $(this).css({left:this.slideX});
-    //        //  this.accel = (event.changedTouches[0].pageX - this.touchX) * 5;
-    //         this.touchX = event.changedTouches[0].pageX;
-    //     },
-    //     /* フリック終了 */
-    //     'touchend': function(e) {
-    //        //  this.slideX += this.accel
-    //         $(this).animate({left : this.slideX },100,'linear');
-    //        //  this.accel = 0;
-    //         if (this.slideX > 0) {
-    //            this.slideX = 0;
-    //            $(this).animate({left:this.slideX},100);
-    //         }
-    //         if (this.slideX < -480) {//最後のタブが進入するまでのnaviのposition
-    //         //    function left(){//計算する関数をつくる
-    //         //        return - 536;
-    //         //        // console.log(add);
-    //         //        // return -536;
-    //         //    };
-    //         //    $(this).animate({left:left()},100);//naviの左を0として最後のタブがwindowに進入し終わるまでの移動距離
-    //         }
-    //     }
-    // });
+    var positionClick;
+    var windowSize;
     $tab.on('click',function(e){
-        $('.js-timeline__tab-arrow').fadeOut(200);
         var target = e.target.className;
         rgex = /[\d]{1,}/;//各タブに割り当てられている末尾2桁数字を検索//動的に要素の数だけ付与するようにする予定
         var clickedNum = rgex.exec(target);
+        positionClick = parseInt('-' + $(this).position().left);
+        windowSize = $(window).width();
         if(current != clickedNum){//カレント以外を押下したか否かの判定
             $($tab[current]).removeClass('t-scroll-tabs__nav--active');
             $($contentItems[current]).css('display','none');
@@ -229,60 +183,53 @@ $(function(){
             changeContentItem(current);
             sliderNavi(current);
             $($tab[current]).addClass('t-scroll-tabs__nav--active');
-            sessionStorage.setItem('topTabNumber',current);
-        };
+            sessionStorage.setItem('topTabNumber',current);//一旦ここやらないとおかしな挙動なるので見せるために
+        }
     });
 
 
 
-var obj = function Direction(direction){
+var obj = function Direction(direction ,current){
    this.direction = direction;
    this.current = current;
 };
-obj.prototype.flickedContentItem = function(direction){
-    if($('.js-timeline__tab-arrow').css('display') == 'block'){
-        $('.js-timeline__tab-arrow').fadeOut(200);
-    };
+obj.prototype.flickedContentItem = function(direction ,current){
    for (var i =0;i<tabLength;i++){//カレントがどこにいるか。すでにタブを直接押下していた場合のcurrentを抽出、更新
-       if($($tab[i]).hasClass("t-scroll-tabs__nav--active") == true){
-       return  current =  i;
+       if($($tab[i]).hasClass("t-scroll-tabs__nav--active") === true){
+           current = i;
        }
-   };
+   }
 };
 
 obj.prototype.removeFunc = function(){
    $($tab[current]).removeClass('t-scroll-tabs__nav--active');
    $($contentItems[current]).css('display','none');
-}
+};
 obj.prototype.currentUpDate = function(){
    if(this.direction　=== 'toLeft'){
        if(current === 0){
            current = tabLength;
        }else if(current <= tabLength){
            current = current - 1;
-       };
+       }
    }else if(this.direction　=== 'toRight'){
        if (current < tabLength){
            current += 1;
        }else if(current == tabLength){
                current = 0;
-       };
-   };
-}
+       }
+   }
+};
 obj.prototype.showFunc = function(){
    changeContentItem(current,this.direction);
    sliderNavi(current);
    $($tab[current]).addClass('t-scroll-tabs__nav--active');
-   sessionStorage.setItem('topTabNumber',current);
 };
-obj.prototype.moveBackground = function(){
-    $($tab[passedCurrent])
-};
+
 
 
     $('.js-flickContentItems').on({
         'touchstart': function(e) {
-            e.preventDefault();
             this.touchX = event.changedTouches[0].pageX;
             this.slideX = $(this).position().left;
         },
@@ -300,6 +247,7 @@ obj.prototype.moveBackground = function(){
                left.currentUpDate();
                left.showFunc();
                passCurrent = current;
+               sessionStorage.setItem('topTabNumber',current);//一旦ここやらないとおかしな挙動なるので見せるために
            }else if(this.slideX < -60 && this.slideX > -600) {//左から右へフリック
                this.slideX = -600;
                var right = new obj('toRight');
@@ -308,6 +256,7 @@ obj.prototype.moveBackground = function(){
                right.currentUpDate();
                right.showFunc();
                passCurrent = current;
+               sessionStorage.setItem('topTabNumber',current);//一旦ここやらないとおかしな挙動なるので見せるために
            }else{//タップ時は反応しないように
                return;
            }
