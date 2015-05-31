@@ -44,7 +44,7 @@ console.log(contact.has('email'));//false
 //attributesへ直接アクセス
 //
 contact.attributes.email = 'kenjimoritata@fafa.com';
-console.log(contact.get('email'));
+console.log(contact.get('email'));//kenjimoritata@fafa.com
 
 //setされた値をattributesから直接取得できる
 contact.set('address','Ohashi');
@@ -61,6 +61,26 @@ contact.on('change: email',function(){
 });
 
 //イベント監視の解除
-contact.off();
-//イベント名を指定
-contact.off('change');
+// contact.off();
+// //イベント名を指定
+// contact.off('change');
+//
+//
+
+// コールバック関数を特定して解除
+var onChange = function(){
+	console.log('属性が変更されました');
+};
+var onChangeEmail = function(){
+	console.log('email属性が変更されました');
+};
+contact.on('change',onChange);
+contact.on('change',onChangeEmail);
+
+//'change'イベントに対してonChange()メソッドを
+//紐付けた監視だけを解除する
+//
+contact.off('change',onChange);
+
+//この属性値の変更に反応するのはonChangeEmail()メソッドのみとなる
+contact.set('email','henderson@example.com');
