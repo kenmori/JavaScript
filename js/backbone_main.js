@@ -33,3 +33,12 @@ console.log(contact.get('lastName'));//Morita
 //
 console.log(contact.has('firstName'));//true
 console.log(contact.has('email'));//false
+
+//attributesへ直接アクセス
+//
+contact.attributes.email = 'kenjimoritata@fafa.com';
+console.log(contact.get('email'));
+
+//setされた値をattributesから直接取得できる
+contact.set('address','Ohashi');
+console.log(contact.attributes.address);
