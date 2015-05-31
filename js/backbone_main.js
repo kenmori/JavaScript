@@ -19,3 +19,12 @@ var Contact = Backbone.Model.extend({
 	}
 });
 var contact = new Contact();
+//プロパティの設定
+contact.set('firstName','Kenji');
+//オブジェクトで複数setする
+contact.set({
+	firstName : 'Kenji',
+	lastName : 'Morita'
+})
+console.log(contact.get('firstName'));//Kenji
+console.log(contact.get('lastName'));//Morita
