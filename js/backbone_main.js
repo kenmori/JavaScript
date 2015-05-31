@@ -16,6 +16,13 @@
 var Contact = Backbone.Model.extend({
 	initialize : function(){
 		console.log('Contactが初期化されました');
+		//自身が発するイベントを自分でも捕捉したい場合はinitialize内に記述
+		this.on('change', function(){
+			console.log('属性が変更されました');
+		});
+		this.on('change: email',function(){
+			console.log('email属性が変更されました');
+		});
 	}
 });
 var contact = new Contact();
@@ -42,3 +49,18 @@ console.log(contact.get('email'));
 //setされた値をattributesから直接取得できる
 contact.set('address','Ohashi');
 console.log(contact.attributes.address);
+
+//changeイベントの監視
+contact.on('change',function(){
+	console.log('属性が変更されました');
+});
+//change:属性名と記述することで
+//特定の属性値の変化に絞って監視できる
+contact.on('change: email',function(){
+	console.log('email属性が変更されました');
+});
+
+//イベント監視の解除
+contact.off();
+//イベント名を指定
+contact.off('change');
