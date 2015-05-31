@@ -28,3 +28,8 @@ contact.set({
 })
 console.log(contact.get('firstName'));//Kenji
 console.log(contact.get('lastName'));//Morita
+
+//属性値の有無の確認
+//
+console.log(contact.has('firstName'));//true
+console.log(contact.has('email'));//false
