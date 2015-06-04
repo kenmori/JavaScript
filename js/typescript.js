@@ -9,7 +9,7 @@ var cat = (function () {
         get: function () { return this.localAge; },
         set: function (value) {
             if (value < 0)
-                throw "ageは負の数では無いはずです";
+                throw "ageは負の数では無いはず";
             this.localAge = value;
         },
         enumerable: true,
