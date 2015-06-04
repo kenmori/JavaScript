@@ -1,26 +1,21 @@
-//function x(p){
-//	if(typeof p == "number"){
-//		alert("numberの" + p + "です");
-//	}
-//	else{
-//		alert("stringの" + p + "です");
-//	}
-//}
-//x(1234);
-//x("1234");
-
-
-//↑これだとPが「any」となり{}が渡ったら壊れる。stringとnumberしか渡らないようにしなくてはいけない
-//オーバーロード機能を使う。
-function x(p: string);//関数の定義と実装を分離する。これは関数の定義
-function x(p: number);
-function x(p: any){//関数の実装
-	if(typeof p == "number"){
-		alert("numberの" + p + "です");
+class cat {
+	name : string;
+	myau(){alert(this.name + 'は泣きました')}
+	localAge : number;
+	get age(){return this.localAge;}
+	set age(value){
+		if(value < 0) throw "ageは負の数では無いはずです";
+		this.localAge = value;
 	}
-	else{
-		alert("stringの" + p + "です");
+	constructor(){
+		alert("constructed");
+		this.name = "Unknown";
+		this.age = 1;
 	}
 }
-x(1234);
-x("1234");
+var x = new cat();
+x.name = "nya-chan";
+alert(x.name);
+x.myau();
+x.age = 5;
+alert(x.age);
