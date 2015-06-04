@@ -1,12 +1,20 @@
-function x(message) {
-    var a = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        a[_i - 1] = arguments[_i];
+//function x(p){
+//	if(typeof p == "number"){
+//		alert("numberの" + p + "です");
+//	}
+//	else{
+//		alert("stringの" + p + "です");
+//	}
+//}
+//x(1234);
+//x("1234");
+function x(p) {
+    if (typeof p == "number") {
+        alert("numberの" + p + "です");
     }
-    var sum = 0;
-    for (var i = 0; i < a.length; i++) {
-        sum += a[i];
+    else {
+        alert("stringの" + p + "です");
     }
-    return message + sum;
 }
-x('sum of numbers is ', 400, 200, 122, 500);
+x(1234);
+x("1234");
