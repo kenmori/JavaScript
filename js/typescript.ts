@@ -26,5 +26,15 @@ class greetingMan extends man{
 		alert(this.name + "君");
 	}
 }
-var morita = new greetingMan("morita");
-morita.greeting();
+//superの問題
+//
+class kenjikun extends greetingMan{
+	constructor(){
+		super("eee");
+	}
+}
+var kenji = new kenjikun("morita");
+kenji.greeting();
+
+var shima = new greetingMan("shima");
+shima.greeting();
