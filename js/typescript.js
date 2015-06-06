@@ -1,8 +1,3 @@
-// 継承したクラスのインスタンスは、親クラスの型としても扱える
-// つまりgreetingManクラスのオブジェクトを型とする変数に格納できる
-// しかし、それからgreeting関数は呼び出せない。中に入っているオブジェクトはそれを持っているが
-// 変数の型がそれをもっていないから
-// 3種類の型の変数で同じmoritaオブジェクトを受けた場合の違いをみてみる
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -20,20 +15,21 @@ var greetingMan = (function (_super) {
     function greetingMan() {
         _super.apply(this, arguments);
     }
-    greetingMan.prototype.greeging = function () {
-        alert(this.name + "君");
+    greetingMan.prototype.greeting = function () {
+        alert(this.name + "さん!");
     };
     return greetingMan;
 })(man);
-var morita = (function (_super) {
-    __extends(morita, _super);
-    function morita() {
-        _super.call(this, "kenji");
+var moritaKun = (function (_super) {
+    __extends(moritaKun, _super);
+    function moritaKun() {
+        _super.call(this, "morita");
     }
-    return morita;
+    moritaKun.prototype.greeting = function () {
+        _super.prototype.greeting.call(this);
+        alert(this.name + "君");
+    };
+    return moritaKun;
 })(greetingMan);
-var kenji1 = new morita();
-var kenji2 = new morita();
-var kenji3 = new morita();
-kenji2.greeting();
-kenji3.greeting();
+var morita = new moritaKun();
+morita.greeting();

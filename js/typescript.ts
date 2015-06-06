@@ -1,27 +1,48 @@
-// 継承したクラスのインスタンスは、親クラスの型としても扱える
-// つまりgreetingManクラスのオブジェクトを型とする変数に格納できる
-// しかし、それからgreeting関数は呼び出せない。中に入っているオブジェクトはそれを持っているが
-// 変数の型がそれをもっていないから
-// 3種類の型の変数で同じmoritaオブジェクトを受けた場合の違いをみてみる
-
-class man {
-	constructor(public name:string){
-
+// class man{
+// 	constructor(public name: string){
+// 	}
+// }
+// class greetingMan extends man{
+// 	greeting(){
+// 		alert(this.name + "さん!");
+// 	}
+// }
+// class moritaKun extends greetingMan{
+// 	greeting(){
+// 		alert(this.name + "君")
+// 	}
+// 	constructor(){
+// 		super("morita");
+// 	}
+// }
+// var morita1:man = new moritaKun();
+// var morita2:greetingMan = new moritaKun();
+// var morita3:moritaKun = new moritaKun();
+//型の上書き「その型とみなしてください」という意味
+// (<greetingMan>morita1).greeting();
+// morita2.greeting();
+// morita3.greeting();
+//greetingManクラスのgreeting関数はmoritaKunクラスのgreeting関数によって
+//置き換えられてしまったので
+//必ず置き換え済みの関数が呼び出されてしまう
+//superキーワード経由で親クラスを呼び出してみる
+class man{
+	constructor(public name: string){
 	}
 }
 class greetingMan extends man{
-	greeging(){
-		alert(this.name + "君");
+	greeting(){
+		alert(this.name + "さん!");
 	}
 }
-class morita extends greetingMan{
+class moritaKun extends greetingMan{
+	greeting(){
+		super.greeting();
+		alert(this.name + "君")
+	}
 	constructor(){
-		super("kenji");
+		super("morita");
 	}
 }
-var kenji1: man = new morita();
-var kenji2: greetingMan = new morita();
-var kenji3: morita = new morita();
-
-kenji2.greeting();
-kenji3.greeting();
+var morita = new moritaKun();
+morita.greeting();
