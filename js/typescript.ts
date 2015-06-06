@@ -1,40 +1,27 @@
-// class man {
-// 	constructor(public name: string){}
-// }
-// function greeting(){
-// 	alert(this.name + "君");
-// }
-// man.prototype["greeting"] = greeting;
-// var morita = new man("morita");
-// morita["greeting"]();
-//
-// var morim = new man("morim");
-// morim["greeting"]();
+// 継承したクラスのインスタンスは、親クラスの型としても扱える
+// つまりgreetingManクラスのオブジェクトを型とする変数に格納できる
+// しかし、それからgreeting関数は呼び出せない。中に入っているオブジェクトはそれを持っているが
+// 変数の型がそれをもっていないから
+// 3種類の型の変数で同じmoritaオブジェクトを受けた場合の違いをみてみる
 
-//上記だとgreeting機能が要らない場合無駄が増える
-//greetingのつづりを間違えてもコンパイルエラーにはならない
-//greeting　お引数の数や型を間違えてもコンパイルエラーにはならない
-//型に関する扱いが杜撰すぎる
-
-
-//上記の問題を解決
 class man {
-	constructor(public name : string){}
+	constructor(public name:string){
+
+	}
 }
 class greetingMan extends man{
-	greeting(){
+	greeging(){
 		alert(this.name + "君");
 	}
 }
-//superの問題
-//
-class kenjikun extends greetingMan{
+class morita extends greetingMan{
 	constructor(){
-		super("eee");
+		super("kenji");
 	}
 }
-var kenji = new kenjikun("morita");
-kenji.greeting();
+var kenji1: man = new morita();
+var kenji2: greetingMan = new morita();
+var kenji3: morita = new morita();
 
-var shima = new greetingMan("shima");
-shima.greeting();
+kenji2.greeting();
+kenji3.greeting();
