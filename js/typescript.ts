@@ -1,35 +1,18 @@
 interface abstractPerson{
 	name : string;
-	greeting():void;
+	greeting(): void;
 }
-class kodai implements abstractPerson{
-	name = "kodai";
+interface abstractPersonWithAge extends abstractPerson{
+	age: number;
+}
+class realPerson implements abstractPersonWithAge{
+	name: string;
+	age: number;
 	greeting(){
-		alert("Hello,I'm"+ this.name );
-	}
-	shoot(){
-		alert("Fire!");
+		alert("Hello,I'm " + this.name + "and My age is" + this.age + ".");
 	}
 }
-class morita implements abstractPerson{
-	name = "morita";
-	greeting(){
-		alert("Hello,I'm" + this.name);
-	}
-	warp(){
-		alert("Warp!");
-	}
-}
-class yuki implements abstractPerson{
-	name = "yuki";
-	greeting(){
-		alert("My name is" + this.name);
-	}
-	coffee(){
-		alert("Coffee!!");
-	}
-}
-var all: abstractPerson[] = [new kodai(),new morita(),new yuki()];
-for(var i = 0;i< all.length; i++){
-	all[i].greeting();
-}
+var a = new realPerson();
+a.name = "Morita";
+a.age = 34;
+a.greeting();
