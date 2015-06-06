@@ -1,26 +1,14 @@
-// class player{
-// 	static kago: number = 0;
-// 	throwTama(balls:number){
-// 		player.kago += balls;
-//
-//// }
-// var player1 = new player();
-// var player2 = new player();
-// var player3 = new player();
-//
-// player1.throwTama(3);
-// player2.throwTama(2);
-// player3.throwTama(5);
-// alert("かごの中の玉は" + player.kago + "個です。");
-var player = (function () {
-    function player() {
-        this.kago = 0;
+var man = (function () {
+    function man(name) {
+        this.name = name;
     }
-    player.kago = 0;
-    return player;
+    return man;
 })();
-player.kago = 2;
-var kenji = new player();
-kenji.kago = 1;
-console.log(player.kago);
-console.log(kenji.kago);
+function greeting() {
+    alert(this.name + "君");
+}
+man.prototype["greeting"] = greeting;
+var morita = new man("morita");
+morita["greeting"]();
+var morim = new man("morim");
+morim["greeting"]();
