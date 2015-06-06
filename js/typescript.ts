@@ -1,46 +1,39 @@
-// class cat {
-// 	public name = "Unknown";
-// }
-// var x = new cat();
-// alert(x.name);
+// class player{
+// 	static kago: number = 0;
+// 	throwTama(balls:number){
+// 		player.kago += balls;
+//
+//// }
+// var player1 = new player();
+// var player2 = new player();
+// var player3 = new player();
+//
+// player1.throwTama(3);
+// player2.throwTama(2);
+// player3.throwTama(5);
+// alert("かごの中の玉は" + player.kago + "個です。");
 
 
-//###1
-// class cat {
-// 	public name: string;
-// 	public age: number;
-// 	constructor(name: string,age: number){
-// 		this.name = name;
-// 		this.age = age;
+
+//玉の数を数えるだけの関数をインスタンス化しないで静的メンバとして扱う時
+//
+// class player{
+// 	static kago: number = 0;
+// 	static throwTama(balls:number){
+// 		player.kago += balls;
 // 	}
 // }
-// var x = new cat("Mee-kun",1);
-// alert(x.name + "は" + x.age + "歳");
+// player.throwTama(3);
+// player.throwTama(5);
+// player.throwTama(2);
 
-//###2
-//1と全く同じ結果を出すコンストラクター
-//コンストラクターにアクセシビリティのキーワードが付くと、その引数には同名のメンバーが存在し
-//そのメンバーに値が引き継がれることを意味する。
-//メンバーを宣言せずともメンバーが誕生し、コンストラクタでの代入が行われなくともそこに引数を経由して値が入る
-//
-// class cat {
-// 	constructor(public name: string,public age: number){
-//
-// 	}
-// }
-// var x = new cat("Mee-Kun",1);
-// alert(x.name + "は" + x.age + "歳");
-
-
-//上記を使うには制約がある
-//引数名とメンバーが同じ
-//値をコンスタラクターで加工することがない
-//
-class man {
-	public name: string;
-	constructor(firstName: string, lastName: string){
-		this.name = lastName + firstName;
-	}
+//以下の場kagoは別物となる
+class player {
+	static kago: number = 0;
+	kago: number = 0;
 }
-var x = new man("賢二","森田");
-x.name[1];
+player.kago = 2;
+var kenji = new player();
+kenji.kago = 1;
+console.log(player.kago);
+console.log(kenji.kago);
