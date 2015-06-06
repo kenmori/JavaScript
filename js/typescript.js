@@ -1,35 +1,33 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var man = (function () {
-    function man(name) {
-        this.name = name;
+// class realPerson{
+// 	name : string;
+// 	greeting(){
+// 		alert("Hello,I'm" + this.name);
+// 	}
+// }
+// var a = new realPerson();
+// a.name = "Kodai";
+// a.greeting();
+//
+//interfaceは実装を持たないことを特徴とする
+//これと同じ定義を持つインターフェースはキーワードinterfaceを用いて
+//以下のように定義することができる
+//
+//
+// interface abstractPerson{
+// 	name: string;
+// 	greeting():void;//実装が内interfaceの場合は
+//明示的に教えないと型が決まらない
+// }
+// var a = new abstractPerson();
+//動作するための実体を持っていない
+var realPerson = (function () {
+    function realPerson() {
     }
-    return man;
+    realPerson.prototype.greeting = function () {
+        alert("Hello,I'm" + this.name);
+    };
+    return realPerson;
 })();
-var greetingMan = (function (_super) {
-    __extends(greetingMan, _super);
-    function greetingMan() {
-        _super.apply(this, arguments);
-    }
-    greetingMan.prototype.greeting = function () {
-        alert(this.name + "さん!");
-    };
-    return greetingMan;
-})(man);
-var moritaKun = (function (_super) {
-    __extends(moritaKun, _super);
-    function moritaKun() {
-        _super.call(this, "morita");
-    }
-    moritaKun.prototype.greeting = function () {
-        _super.prototype.greeting.call(this);
-        alert(this.name + "君");
-    };
-    return moritaKun;
-})(greetingMan);
-var morita = new moritaKun();
-morita.greeting();
+var a = new realPerson();
+a.name = "Morita";
+a.greeting();
