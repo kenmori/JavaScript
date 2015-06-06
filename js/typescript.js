@@ -1,33 +1,40 @@
-// class realPerson{
-// 	name : string;
-// 	greeting(){
-// 		alert("Hello,I'm" + this.name);
-// 	}
-// }
-// var a = new realPerson();
-// a.name = "Kodai";
-// a.greeting();
-//
-//interfaceは実装を持たないことを特徴とする
-//これと同じ定義を持つインターフェースはキーワードinterfaceを用いて
-//以下のように定義することができる
-//
-//
-// interface abstractPerson{
-// 	name: string;
-// 	greeting():void;//実装が内interfaceの場合は
-//明示的に教えないと型が決まらない
-// }
-// var a = new abstractPerson();
-//動作するための実体を持っていない
-var realPerson = (function () {
-    function realPerson() {
+var kodai = (function () {
+    function kodai() {
+        this.name = "kodai";
     }
-    realPerson.prototype.greeting = function () {
+    kodai.prototype.greeting = function () {
         alert("Hello,I'm" + this.name);
     };
-    return realPerson;
+    kodai.prototype.shoot = function () {
+        alert("Fire!");
+    };
+    return kodai;
 })();
-var a = new realPerson();
-a.name = "Morita";
-a.greeting();
+var morita = (function () {
+    function morita() {
+        this.name = "morita";
+    }
+    morita.prototype.greeting = function () {
+        alert("Hello,I'm" + this.name);
+    };
+    morita.prototype.warp = function () {
+        alert("Warp!");
+    };
+    return morita;
+})();
+var yuki = (function () {
+    function yuki() {
+        this.name = "yuki";
+    }
+    yuki.prototype.greeting = function () {
+        alert("My name is" + this.name);
+    };
+    yuki.prototype.coffee = function () {
+        alert("Coffee!!");
+    };
+    return yuki;
+})();
+var all = [new kodai(), new morita(), new yuki()];
+for (var i = 0; i < all.length; i++) {
+    all[i].greeting();
+}
