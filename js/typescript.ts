@@ -1,51 +1,36 @@
-//以下のソースコードは成立しない、female型のオブジェクトはmale型と同じ名前のメンバーを持っていないからだ
+//アロー関数(匿名関数の置き換え)
 //
+//
+setTimeout(() => {
+	alert("1秒が経過しました");
+},1000)
 
-// class male{
-// 	sayMale(){
-// 		alert("俺は男だ");
-// 	}
-// }
-// class female{
-// 	sayFemale(){
-// 		alert("俺は女だ");
-// 	}
-// }
-// var x : male = new female();
-// x.sayFemale();
-//俺は女だ;
-//
-//
-////male型とfemale型は相互に何の関係もない型であるにもかかわらず、メンバーの名前を揃えると
-//コンパイルが通ってしまう
-
-// class male {
-// 	say(){
-// 		alert("俺は男だ");
-// 	}
-// }
-// class female{
-// 	say(){
-// 		alert("俺は女だ");
-// 	}
-// }
-// var x : male = new female();
-// x.say();//俺は女だ
-
-//オブジェクトリテラルは匿名のクラスを直接型として書き込む機能
-//
-class male {
-	say(){
-		alert("俺は男だ");
-	}
+//右側に戻り値の型を書く
+function mainFunc(f:(a:number,b: number) => number){
+	alert(f(1,2));
 }
-class female{
-	say(){
-		alert("俺は女だ");
-	}
-}
+mainFunc((a,b) => {return a + b;})
+//戻り値が無い場合は()=>voidのように記述する
 
-var x : {say(): void} = new female();
-x.say();//俺は女だ
-//このように書き換えるとｘの型はmaleクラスからsay関数を含むオブジェクトに変化する
-//男の型という解釈から解放される
+//アロー関数はreturn文一つきりの時
+function makeName(f:(a:string,b:string) => string){
+	alert(f("battle","star"));
+}
+makeName((a,b)=> a+ b);
+//returnと{}を省略できる
+
+//引数が一つの時、アロー関数は引数の小括弧をはずせる
+function makeName(f:(a: string) => string){
+	alert(f("はい"));
+}
+makeName((a) => a+ a+ a);
+
+//外したパターン
+function makeName(f: (a: string) => string){
+	alert(f("はい"));
+}
+makeName(a => a + a + a);
+
+class a{
+	b = "I'm class a";
+}
