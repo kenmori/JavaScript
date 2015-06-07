@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>0607</title>
+</head>
+<body>
+
+
+
+<script type="text/javascript">
+///////////////////////////////////////////
+//定義されていて初期値がない
+	var result="";
+	if(typeof somevar !== "undefind"){result = "yes"};
+
+	var result = (a===1) ? "a is one" : "a is not one";//代替文法
+
+//do while
+var i = 0;
+do {
+	i++;
+} while(i<0)
+
+//arguments
+function args (){return arguments;}
+args(1,4,5,true,'morita');//[1, 4, 5, true, "morita"]
+//argument.lengthは実際渡された引数の数
+//
+
+///////////////////////////////////////////
+parseFloat('124eee');
+//124　10進数としてみなす//引数は1つ
+
+///////////////////////////////////////////
+//コールバックのサンプル
+////悪い例
+function multiplyByTwo(a,b,c){
+	var i,ar = [];
+	for(i = 0; i< 3;i++){
+		ar[i] = arguments[i] * 2;
+	}
+	return ar;
+}
+function addOne(a){
+	return a + 1;
+}
+multiplyByTwo(1,4,6);
+addOne(100);
+//改善の余地あるまだましな例
+//関数が続くならcallback使えるか検討
+var myarr = [];
+myarr = multiplyByTwo(10,20,30);//受け取る
+for(var i = 0;i< 3; i++){myarr[i] = addOne(myarr[i]);}
+myarr;//[21, 41, 61]
+//ループが2つある
+//繰り返し毎に関数を呼ぶ
+//
+//callbackを使ったいい例
+//
+function multiplyByTwo(a,b,c,callback){
+	var i,ar = [];
+	for(i=0;i<3;i++){
+		ar[i] = callback(arguments[i] * 2);
+	}
+	return ar;
+}
+myarr = multiplyByTwo(1,2,3,addOne);//無名関数をつかってグローバル変数を減らすことができる
+//[3,5,7]
+myarr = multiplyByTwo(1,2,3,function(a){return a + 1});//無名関数なら必要に応じて変更することができる
+
+///////////////////////////////////////////
+//自己実行可能な無名関数→グローバル定義をせずに処理を行うことができる//一度だけ実行される処理や初期化のタスクを書くのに適している
+(function(){alert('boo');})()
+(function(name){alert('Hello ' + name + '!');})('morita');//自分に対して引数を渡して実行
+
+
+///////////////////////////////////////////
+//これを関数リテラル表記にする
+function a(param){
+	function b(theinput){
+		return theinput * 2;
+	};
+	return 'The result is ' + b(param);
+};
+a(2);
+//
+//リテラル表記にするとbはプライベート関数となる
+//プライベート関数のメリット
+//グローバルの名前空間をきれいにする
+//関数を内部に隠蔽できる
+var a = function(param){
+	var b = function(theinput){
+		return theinput *2;
+	};
+	return 'The result is ' + b(param);
+};
+///////////////////////////////////////////
+//関数を返す関数
+function a(){
+	alert('A');//実行して
+	return function(){//関数を返す
+		alert('B');
+	};
+}
+var newFunc = a();//実行して関数を格納
+newFunc();//格納した関数を実行
+//
+//a()()とするとチェーンになる
+///////////////////////////////////////////
+//自分自身を置き換える関数
+function a(){
+	alert('A');//実行して
+	return function(){//関数を返す
+		alert('B');
+	};
+}
+a = a();//次a()をやるとBが呼ばれる。初期化を一度だけ行いたい時便利
+
+//最初の呼び出し時に自分自身の関数を書き換える
+function a(){
+	alert('A!');
+	a = function(){
+		alert('B!');
+	}
+}
+//個の関数を実行すると
+//A!とだけアラート。これを一度だけやりたい準備作業だとする
+//グローバル変数aを定義し直し、B!とアラートを出す新しい設定する
+//以降にa()を呼び出すとずーとB
+//
+//今までのテクニックを使う
+var a = function(){
+	function someSetUp(){
+		var setup = 'done';
+	}
+	function actualWork(){
+		alert('Worky-Worky');
+	}
+	someSetUp();
+	return actualWork;//この関数への参照が返っている
+}();
+//初回ロード時 undefind
+//a()実行時 'Worky-Worky'
+//
+</script>
+</body>
+</html>
