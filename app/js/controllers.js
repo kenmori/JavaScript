@@ -1,13 +1,8 @@
-$scope.phones = [
-	{	'name' : 'Nexus S',
-		'snippet' : 'Fast just got faseter with Nexus S.'
-	},
-	{
-		'name' : 'Motorola XOOM? width Wi-Fi',
-		'snippet' : 'The Next,Next Generation tablet.'
-	},
-	{
-		'name' : 'MOTOROLA XOOM?',
-		'snippet' : 'The Next,Next Genaration tablet.'
-	}
-];
+var MyController = function($scope){
+	$scope.message = 'moritasann!!';
+	$scope.action = function (){
+		$scope.message = 'sayonara!!';
+	};
+};
+var appModule = angular.module('app',[]);
+appModule.controller('myController',MyController);

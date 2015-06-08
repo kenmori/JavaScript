@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="app"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
+	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body>
-<div ng-init="items = ['AngularJS','Backbone.js','Ember.js','Knockout.js']"></div>
-	<ul>
-		<li ng-repeat="item in items">
-			{{item}}
-		</li>
-	</ul>
+<!-- <div ng-init="items = ['kenji','morita']"></div>
+<ul>
+	<li ng-repeat="item in items">
+		{{item}}
+	</li>
+</ul> -->
+
+<!-- <input type="text" ng-model="message">
+<div>{{message}}</div> -->
+<!-- スコープはテンプレートに公開するプロパティやメソッドを定義するオブジェクトで、
+コントローラはスコープオブジェクトをセットアップする関数
+ -->
+<div ng-controller="myController">
+	<div>
+		{{message}}
+	</div>
+	<button type="text" ng-click="action()">push</button>
+</div>
+
+</div>
 </body>
 </html>
