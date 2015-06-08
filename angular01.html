@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/css/foundation.css">
 </head>
 <body>
-	<h1>{{hello}}</h1>
+	<div ng-app="">
 	<input type="text" ng-model="hello">
+	<div class="{{hello}}">ここが装飾される</div>
+	</div>
 </body>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.6/angular.js"></script>
 </html>
