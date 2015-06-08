@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app>
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
-	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/css/foundation.css">
 	<script type="text/javascript" src="./js/angular.js"></script>
 </head>
 <body>
-<div ng-app>
-	{{'Hell!world!'}}
-</div>
+<div ng-init="items = ['AngularJS','Backbone.js','Ember.js','Knockout.js']"></div>
+	<ul>
+		<li ng-repeat="item in items">
+			{{item}}
+		</li>
+	</ul>
 </body>
-<script type="text/javascript" src="app/js/controllers.js"></script>
 </html>
