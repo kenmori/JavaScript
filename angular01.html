@@ -1,65 +1,24 @@
 <!DOCTYPE html>
-<html ng-app><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
-<body>
-	<h1>ng-repeat</h1>
-	<p>より便利にループを処理するためループ内でインデックスが取得できます。<br>
-		また、ng-repeat-start ng-repeat-endで、明示的にループ開始と終了を宣言することが可能です<br>
+<body ng-controller="myController">
+	<h1>イベント ng-click</h1>
+	<input type="button" value="クリックで+1" ng-click="count=count+1">
+	<input type="button" value="クリックで*2" ng-click="click()">
+	<p>{{ count }}</p>
 
-<p>シンプルな配列</p>
-<ul ng-init="authors=['can_i_do_web','zoetro','teyosh']">
-	<li ng-repeat="author in authors">{{ author }}</li>
-</ul>
-
-<p>ハッシュオブジェクトの配列</p>
-<ul ng-init="authorsInfo=[
-{id : 1, name: 'can_i_do_web'},
-{id : 2, name: 'zoetoro'},
-{id : 3, name: 'teyosh'}
-	]">
-	<li ng-repeat="author in authorsInfo">
-		<p>ID: {{ author.id }} Name: {{ author.name }}</p>
-	</li>
-</ul>
-
-<p>ハッシュオブジェクトのみ</p>
-<ul ng-init="authorDate={ id: 1, name: 'can_i_do_web', bloodType:'A'}">
-	<li ng-repeat="(key,val) in authorDate">{{ key }} - {{ val }}</li>
-</ul>
-
-<p>インデックスを取得する</p>
-<table ng-init="week=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">
-	<thead>
-		<tr>
-			<th>day</th>
-			<th>$index</th>
-			<th>$first</th>
-			<th>$middle</th>
-			<th>$last</th>
-			<th>$even</th>
-			<th>$odd</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="day in week" ng-class="{ evenRow: $even, oddRow : $odd}">
-			<td>{{ day }}</td>
-			<td>{{ $index }}</td>
-			<td>{{ ($first)? '○': '×' }}</td>
-			<td>{{ ($middle)? '○': '×' }}</td>
-			<td>{{ ($last)? '○' : '×' }}</td>
-			<td>{{ ($even)? '○' : 'x' }}</td>
-			<td>{{ ($odd)? 'o' : 'x' }}</td>
-		</tr>
-	</tbody>
-</table>
-
-<p>ng-repeat-start/ng-repeat-end</p>
-<span ng-repeat-start="day in week">index : {{ $index }}</span>
-<p></p>
+	<script>
+		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+			$scope.count = 0; //countの初期化
+			$scope.click = function(){
+				$scope.count = $scope.count * 2;
+			}
+		}]);
+	</script>
 </body>
 </html>
