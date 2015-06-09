@@ -1,17 +1,27 @@
 <!DOCTYPE html>
-<html ng-app><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
+	<style>
+		.del{text-decoration : line-through;}
+	</style>
 </head>
-<body>
-	<h1>イベント ng-dblclick</h1>
-	<p>ng-clickと同様、ng-showで評価されるフラグ値を反転させている</p>
-<br>
-<button ng-dblclick="isOpen=!isOpen">ダブルクリック</button>
-<div ng-show="isOpen">表示されました!</div>
+<body ng-controller="myController">
+	<p ng-mousedown="mousedown()" ng-style="myStyle">マウスダウンで文字が大きくなる</p>
+	<p ng-mouseup="mouseup()" ng-class="{del : mouseUpped}">マウスアップで打ち消し線</p>
+	<script>
+		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+			$scope.mousedown = function(){
+				$scope.myStyle = {fontSize: 'x-large'};
+			},
+			$scope.mouseup = function(){
+				$scope.mouseUpped = true;
+			}
+		}]);
+	</script>
 
 
 </body>
