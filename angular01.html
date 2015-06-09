@@ -7,39 +7,14 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body>
-	<h1>ngClass</h1>
+	<h1>ngClassEven</h1>
+	<p>ngRepeatディレクティブで表示された偶数行に対して指定する</p>
 	<style>
 		h1{font-size:40px;}
-		.lightgray{color: #999;}
-		.learge{font-size: x-large;}
-		.underline{text-decoration:underline;}
+		.large{font-size: 30px}
 	</style>
-	<p>一般的なCSSのような定義方法</p>
-	<p ng-class="'lightgray'">lightgray</p>
-	<p ng-class="'learge'">learge</p>
-	<p ng-class="'underline'">underline</p>
-	<p ng-class="'lightgray learge underline'">lightgray learge underline</p><br>
-
-	<p ng-init="
-		mdlLightGray='lightgray';
-		mdlLearge='learge';
-		mdlUnderline='underline';">配列での定義方法</p>
-
-	<p ng-class="['lightgray','underline']">lightgray underline</p><br />
-	<p ng-class="[mdLightGray,'learge']">model & 文字列</p><br/>
-
-
-	<p>ハッシュオブジェクトでの定義方法</p>
-	<p ng-class="{
-		lightgray: chkLightGray,
-		learge : chkLearge,
-		underline: chkUnderline
-	}">Target Text
-	</p>
-	<input type="checkbox" ng-model="chkLightGray">lightgray<br>
-	<input type="checkbox" ng-model="chkLearge">Learge<br>
-	<input type="checkbox" ng-model="chkUnderline">underline<br>
-
-</div>
+	<ul ng-init="users=['can_i_do_web','zoetro','teyosh','かない','いけぞえ','よしだ']">
+		<li ng-repeat="user in users" ng-class-even="'large'">{{ user }}</li>
+	</ul>
 </body>
 </html>
