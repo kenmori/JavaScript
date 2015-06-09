@@ -6,22 +6,60 @@
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
-<body ng-model="isShow" ng-init="isShow=true">
-	<h1>ng-switch</h1>
-	<p>javascriptのswitchのようなケース分けをする<br>
-	ng-switch属性で評価式を定義して<br>
-	ng-switch-whenでケースを設定<br>
-	ng-switch-defaultでデフォルトを設定することも可能</p>
-	<input type="radio" ng-model="greeting" value="morning">朝
-	<input type="radio" ng-model="greeting" value="daytime">昼
-	<input type="radio" ng-model="greeting" value="night">夜
+<body>
+	<h1>ng-repeat</h1>
+	<p>より便利にループを処理するためループ内でインデックスが取得できます。<br>
+		また、ng-repeat-start ng-repeat-endで、明示的にループ開始と終了を宣言することが可能です<br>
 
-	<div ng-switch="greeting">
-		<div ng-switch-when="morning">おはよう</div>
-		<div ng-switch-when="daytime">こんにちは</div>
-		<div ng-switch-when="night">こんばんは</div>
-		<div ng-switch-default>選択してください</div>
-	</div>
+<p>シンプルな配列</p>
+<ul ng-init="authors=['can_i_do_web','zoetro','teyosh']">
+	<li ng-repeat="author in authors">{{ author }}</li>
+</ul>
 
+<p>ハッシュオブジェクトの配列</p>
+<ul ng-init="authorsInfo=[
+{id : 1, name: 'can_i_do_web'},
+{id : 2, name: 'zoetoro'},
+{id : 3, name: 'teyosh'}
+	]">
+	<li ng-repeat="author in authorsInfo">
+		<p>ID: {{ author.id }} Name: {{ author.name }}</p>
+	</li>
+</ul>
+
+<p>ハッシュオブジェクトのみ</p>
+<ul ng-init="authorDate={ id: 1, name: 'can_i_do_web', bloodType:'A'}">
+	<li ng-repeat="(key,val) in authorDate">{{ key }} - {{ val }}</li>
+</ul>
+
+<p>インデックスを取得する</p>
+<table ng-init="week=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">
+	<thead>
+		<tr>
+			<th>day</th>
+			<th>$index</th>
+			<th>$first</th>
+			<th>$middle</th>
+			<th>$last</th>
+			<th>$even</th>
+			<th>$odd</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="day in week" ng-class="{ evenRow: $even, oddRow : $odd}">
+			<td>{{ day }}</td>
+			<td>{{ $index }}</td>
+			<td>{{ ($first)? '○': '×' }}</td>
+			<td>{{ ($middle)? '○': '×' }}</td>
+			<td>{{ ($last)? '○' : '×' }}</td>
+			<td>{{ ($even)? '○' : 'x' }}</td>
+			<td>{{ ($odd)? 'o' : 'x' }}</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>ng-repeat-start/ng-repeat-end</p>
+<span ng-repeat-start="day in week">index : {{ $index }}</span>
+<p></p>
 </body>
 </html>
