@@ -10,16 +10,12 @@
 	</style>
 </head>
 <body ng-controller="myController">
-	<p ng-mousedown="mousedown()" ng-style="myStyle">マウスダウンで文字が大きくなる</p>
-	<p ng-mouseup="mouseup()" ng-class="{del : mouseUpped}">マウスアップで打ち消し線</p>
+	<p ng-mouseenter="mouseenter()" ng-hide="mouseEntered">マウスエンターで非表示</p>
 	<script>
 		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-			$scope.mousedown = function(){
-				$scope.myStyle = {fontSize: 'x-large'};
-			},
-			$scope.mouseup = function(){
-				$scope.mouseUpped = true;
-			}
+				$scope.mouseenter = function(){
+					$scope.mouseEntered = true;
+				}
 		}]);
 	</script>
 
