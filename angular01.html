@@ -7,11 +7,21 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body ng-model="isShow" ng-init="isShow=true">
-	<h1>ng-if</h1>
-	<p>値がfalseと評価された場合に定義したDOMをDOMツリーから削除する。<br>ng-hideは該当するDOM要素を非表示にするだけで
-	DOMツリー上には存在するがng-ifは削除する。<br>trueになったら元の場所に追加される</p>
-	<input type="checkbox" ng-model="check">表示切り替え
-	<p ng-if="check">ng-ifでDOMに追加</p>
+	<h1>ng-switch</h1>
+	<p>javascriptのswitchのようなケース分けをする<br>
+	ng-switch属性で評価式を定義して<br>
+	ng-switch-whenでケースを設定<br>
+	ng-switch-defaultでデフォルトを設定することも可能</p>
+	<input type="radio" ng-model="greeting" value="morning">朝
+	<input type="radio" ng-model="greeting" value="daytime">昼
+	<input type="radio" ng-model="greeting" value="night">夜
+
+	<div ng-switch="greeting">
+		<div ng-switch-when="morning">おはよう</div>
+		<div ng-switch-when="daytime">こんにちは</div>
+		<div ng-switch-when="night">こんばんは</div>
+		<div ng-switch-default>選択してください</div>
+	</div>
 
 </body>
 </html>
