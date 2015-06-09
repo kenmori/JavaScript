@@ -7,16 +7,29 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body ng-model="isShow" ng-init="isShow=true">
-	<h1>ng-open</h1>
-	<p>details要素に対して表示非表示できる</p>
-	<details ng-open="isOpen">
-		<summary>著者</summary>
-		<ul>
-			<li>can_i_do_web</li>
-			<li>zoetro</li>
-			<li>teyosh</li>
-		</ul>
-	</details>
-
+	<h1>ng-Pluralise</h1>
+	<p>数値によって表示を切り替える</p>
+	<input type="number" ng-model="myCount" ng-init="myCount=0">
+	<div ng-pluralize
+		count="myCount"
+		when="{
+			'0' : '0',
+			'1' : '1です',
+			'2' : '2のとき',
+			'other' : '{}以上です'
+		}">
+	</div>
+	<input type="text" ng-list ng-init="list=['A','B','C']" ng-model="list">
+	<div ng-pluralize
+		count="list.length"
+		offset="2"
+		when="{
+			'0' : '0',
+			'1' : '{{ list[0] }}',
+			'2' : '{{ list[0] }}さんと{{ list[1] }}さんが既読',
+			'one' : '{{ list[0] }}さんと{{ list[1] }}さんともう1人が既読',
+			'other' : '{{ list[0] }}さんと{{ list[1] }}さんとその他{}以上が既読'
+		}">
+	</div>
 </body>
 </html>
