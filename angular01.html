@@ -7,24 +7,38 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body>
-<!-- <div ng-init="items = ['kenji','morita']"></div>
-<ul>
-	<li ng-repeat="item in items">
-		{{item}}
-	</li>
-</ul> -->
+	<h1>ngClass</h1>
+	<style>
+		h1{font-size:40px;}
+		.lightgray{color: #999;}
+		.learge{font-size: x-large;}
+		.underline{text-decoration:underline;}
+	</style>
+	<p>一般的なCSSのような定義方法</p>
+	<p ng-class="'lightgray'">lightgray</p>
+	<p ng-class="'learge'">learge</p>
+	<p ng-class="'underline'">underline</p>
+	<p ng-class="'lightgray learge underline'">lightgray learge underline</p><br>
 
-<!-- <input type="text" ng-model="message">
-<div>{{message}}</div> -->
-<!-- スコープはテンプレートに公開するプロパティやメソッドを定義するオブジェクトで、
-コントローラはスコープオブジェクトをセットアップする関数
- -->
-<div ng-controller="myController">
-	<div>
-		{{message}}
-	</div>
-	<button type="text" ng-click="action()">push</button>
-</div>
+	<p ng-init="
+		mdlLightGray='lightgray';
+		mdlLearge='learge';
+		mdlUnderline='underline';">配列での定義方法</p>
+
+	<p ng-class="['lightgray','underline']">lightgray underline</p><br />
+	<p ng-class="[mdLightGray,'learge']">model & 文字列</p><br/>
+
+
+	<p>ハッシュオブジェクトでの定義方法</p>
+	<p ng-class="{
+		lightgray: chkLightGray,
+		learge : chkLearge,
+		underline: chkUnderline
+	}">Target Text
+	</p>
+	<input type="checkbox" ng-model="chkLightGray">lightgray<br>
+	<input type="checkbox" ng-model="chkLearge">Learge<br>
+	<input type="checkbox" ng-model="chkUnderline">underline<br>
 
 </div>
 </body>
