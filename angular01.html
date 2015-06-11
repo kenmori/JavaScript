@@ -7,25 +7,23 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body ng-controller="myController">
-	<h1>ng-copy</h1>
-	<textarea cols="60" rows="15" ng-model="target" ng-copy="copy()" ng-cut="cut()" ng-paste="paste()"></textarea>
-	<p>{{ copied }}</p>
-	<p>{{ pasted }}</p>
+	<h1>ng-submit</h1>
+	<p>
+		ng-submitでは、action属性の有無によりデフォルト動作を実行するかどうかを判定します<br>
+		action、data-action、x-action属性のいずれかを設定するとデフォルトの動作となります
+		つまり、指定されたaction先にリクエストの送信とそれに伴う画面遷移を行います
+		一方、action、data-action、x-actionの属性を記述しない場合は抑止されます
+	</p>
+	<form ng-submit="submit()"><label><input type="checkbox" ng-model="myModel">同意する</input></label>
+	<input type="submit" value="submit">
+	</form>
+	<p>{{ message }}</p>
 	<script>
-	angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-		$scope.target = 'コピーしてください。Ctrl + c / command + c';
-		$scope.copy = function(){
-			$scope.copied = 'コピーしました';
-		},
-		$scope.cut = function(){
-			$scope.copied = 'カットしました';
-		},
-		$scope.paste = function(){
-			$scope.pasted = 'ペーストしました';
-		}
-	}]);
+		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+			$scope.submit = function(){
+				$scope.message = (!$scope.myModel)? 'チェックしてください' : '';
+			}
+		}]);
 	</script>
-
-
 </body>
 </html>
