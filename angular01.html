@@ -7,12 +7,15 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body ng-controller="myController">
-	<h1>focus</h1>
-	<input type="text" ng-focus="focus()" ng-model="focusedText">
+	<h1>focus blur</h1>
+	<input type="text" ng-focus="focus()" ng-blur="blur()" ng-model="focusedText">
 	<script>
 		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
 			$scope.focus = function(){
 				$scope.focusedText = 'フォーカスしました';
+			}
+			$scope.blur= function(){
+				$scope.focusedText = '';
 			}
 		}])
 	</script>
