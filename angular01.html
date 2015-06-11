@@ -8,13 +8,20 @@
 </head>
 <body ng-controller="myController">
 	<h1>ng-copy</h1>
-	<textarea cols="60" rows="15" ng-model="target" ng-copy="copy()"></textarea>
+	<textarea cols="60" rows="15" ng-model="target" ng-copy="copy()" ng-cut="cut()" ng-paste="paste()"></textarea>
 	<p>{{ copied }}</p>
+	<p>{{ pasted }}</p>
 	<script>
 	angular.module('myApp',[]).controller('myController',['$scope',function($scope){
 		$scope.target = 'コピーしてください。Ctrl + c / command + c';
 		$scope.copy = function(){
 			$scope.copied = 'コピーしました';
+		},
+		$scope.cut = function(){
+			$scope.copied = 'カットしました';
+		},
+		$scope.paste = function(){
+			$scope.pasted = 'ペーストしました';
 		}
 	}]);
 	</script>
