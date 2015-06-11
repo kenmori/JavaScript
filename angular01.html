@@ -7,17 +7,18 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body ng-controller="myController">
-	<h1>focus blur</h1>
-	<input type="text" ng-focus="focus()" ng-blur="blur()" ng-model="focusedText">
+	<h1>ng-keydown</h1>
+	<input type="text" ng-keydown="keydown()">
+	<p>keydownイベント : {{ count }}</p>
+
+
 	<script>
 		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-			$scope.focus = function(){
-				$scope.focusedText = 'フォーカスしました';
+			$scope.count = 0;
+			$scope.keydown = function(){
+				$scope.count ++;
 			}
-			$scope.blur= function(){
-				$scope.focusedText = '';
-			}
-		}])
+		}]);
 	</script>
 </body>
 </html>
