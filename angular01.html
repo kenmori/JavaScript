@@ -1,34 +1,16 @@
 <!DOCTYPE html>
-<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
-<body ng-controller="myController">
-	<h1>ng-change</h1>
-	<p>入力値が変更されたときに定義されている処理が実行されます</p>
-	<textarea rows="15" cols="60" ng-change="change()" ng-model="tweet"></textarea>
-	<p><span ng-hide="isOver">残り</span>{{ count }}文字
-		<span ng-show="isOver">オーバー</span>
-	</p>
-
-	<script>
-		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-			var maxCount = 140;
-			$scope.count = maxCount;
-			$scope.change = function(){
-				$scope.count = maxCount = $scope.tweet.length;
-				if($scope.count < 0){
-					$scope.count = Math.abs($scope.count);
-					$scope.isOver = true;
-				}
-				else{
-					$scope.isOver = false;
-				}
-			}
-		}]);
-	</script>
+<body>
+	<h1>ng-checked</h1>
+	<div><label><input type="checkbox" ng-model="allCheck">まとめてチェック</label></div>
+	<div><label><input type="checkbox" ng-checked="allCheck">can_i_do_web</input></label></div>
+	<div><label><input type="checkbox" ng-checked="allCheck">zoetro</input></label></div>
+	<div><label><input type="checkbox" ng-checked="allCheck">teyosh</input></label></div>
 </body>
 </html>
