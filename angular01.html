@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
-<body ng-controller="myController">
-	<p ng-mousemove="mousemove()" ng-style="bgColor">マウスムーブで徐々に背景が黒くなる</p>
-
-	<script>
-		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-			var color = 255;
-			$scope.mousemove = function(){
-				color = (color > 5) ? color - 5 : color;
-				$scope.bgColor =
-				{backgroundColor : 'rgb(' + color + ',' + color + ',' + color + ')'};
-			}
-		}]);
-	</script>
+<body>
+	<h1>mouseleave</h1>
+	<p ng-mouseenter="status='over'" ng-mouseleave="status='leave'">
+		マウスオーバー/リーブでメッセージを切り替える
+		<div ng-switch="status">
+			<p ng-switch-when="over">マウスオーバー</p>
+			<p ng-switch-when="leave">マウスリーブ</p>
+		</div>
+	</p>
 </body>
 </html>
