@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html ng-app><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
-<body>
-	<h1>mouseleave</h1>
-	<p ng-mouseenter="status='over'" ng-mouseleave="status='leave'">
-		マウスオーバー/リーブでメッセージを切り替える
-		<div ng-switch="status">
-			<p ng-switch-when="over">マウスオーバー</p>
-			<p ng-switch-when="leave">マウスリーブ</p>
-		</div>
-	</p>
+<body ng-controller="myController">
+	<h1>focus</h1>
+	<input type="text" ng-focus="focus()" ng-model="focusedText">
+	<script>
+		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+			$scope.focus = function(){
+				$scope.focusedText = 'フォーカスしました';
+			}
+		}])
+	</script>
 </body>
 </html>
