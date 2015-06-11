@@ -5,16 +5,17 @@
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
-	<style>
-		.del{text-decoration : line-through;}
-	</style>
 </head>
 <body ng-controller="myController">
-	<p ng-mouseenter="mouseenter()" ng-hide="mouseEntered">マウスエンターで非表示</p>
+	<h1>ng-mouseOver</h1>
+	<p ng-mouseover="mouseover()" ng-style="color">マウスオーバーで色が反転</p>
 	<script>
 		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-				$scope.mouseenter = function(){
-					$scope.mouseEntered = true;
+				$scope.mouseover = function(){
+					$scope.color = {
+						backgroundColor: '#000',
+						color : '#FFF'
+					};
 				}
 		}]);
 	</script>
