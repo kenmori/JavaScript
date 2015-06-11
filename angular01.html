@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html ng-app><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
-<body>
-	<h1>ng-checked</h1>
-	<div><label><input type="checkbox" ng-model="allCheck">まとめてチェック</label></div>
-	<div><label><input type="checkbox" ng-checked="allCheck">can_i_do_web</input></label></div>
-	<div><label><input type="checkbox" ng-checked="allCheck">zoetro</input></label></div>
-	<div><label><input type="checkbox" ng-checked="allCheck">teyosh</input></label></div>
+<body ng-controller="myController">
+	<h1>ng-copy</h1>
+	<textarea cols="60" rows="15" ng-model="target" ng-copy="copy()"></textarea>
+	<p>{{ copied }}</p>
+	<script>
+	angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+		$scope.target = 'コピーしてください。Ctrl + c / command + c';
+		$scope.copy = function(){
+			$scope.copied = 'コピーしました';
+		}
+	}]);
+	</script>
+
+
 </body>
 </html>
