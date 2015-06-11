@@ -7,19 +7,18 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 </head>
 <body ng-controller="myController">
-	<h1>ng-mouseOver</h1>
-	<p ng-mouseover="mouseover()" ng-style="color">マウスオーバーで色が反転</p>
+	<p ng-mouseover="mouseover">fafa</p>
+
 	<script>
-		angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+		angular.module('myApp',[]).controller('myController',function($scope,{
 				$scope.mouseover = function(){
-					$scope.color = {
-						backgroundColor: '#000',
-						color : '#FFF'
-					};
+					$scope.style = {
+						backgroundColor : '#000',
+						color : '#fff'
+					}
 				}
-		}]);
+			})
+		);
 	</script>
-
-
 </body>
 </html>
