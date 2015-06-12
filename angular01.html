@@ -1,30 +1,67 @@
 <!DOCTYPE html>
-<html><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
-</head>
-<body ng-app="app">
-	<h1>ディレクティブの仕組み</h1>
-	<div my-directive></div>
 	<script>
-		angular.module('app')
-		.directive('myDirective',function(){
-			return {
-				compile: function compile(tElement, tAttrs, tTransclude){
-					tElement.text('This is my favorite directive!');
-					//コンパイル処理 : preタグ内のテキストを設定する
-					return function link(scope, iElement, iAttrs, controller, iTransclude){
-						//リンク処理: スコープ内の変数が変化したら、preタグ内のテキストを変更する
-						scope.$watch('message', function(newVal){
-							tElement.text(newVal);
-						});
-					}
+		//Define a module
+		var myApp = angular.module('myApp',[]);
+
+		//register services to myApp Module.
+		myApp.factory('MenuService', function(){
+			var menu = [
+				"Hamburger",
+				"Curry",
+				"Stew",
+				"Stake"
+			]
+			return{
+				getMenu : function(){
+					return menu;
+				},
+				addMenu : function(yourMenu){
+					menu.push(yourMenu);
+				},
+				removeMenu : function(){
+					menu.splice(0,1);
 				}
 			}
 		});
+		myApp.controller('ManageCtrl', function($scope, MenuService){
+			$scope.menuName = "";
+			$scope.addMenu = function(){
+				if($scope.menuName !==""){
+					MenuService.addMenu($scope.menuName);
+				}
+			}
+			$scope.removeMenu = function(){
+				MenuService.removeMenu();
+			}
+		});
+		myApp.controller('ListCtrl', function($scope, MenuService){
+			$scope.myMenu = MenuService.getMenu();
+		})
 	</script>
+</head>
+<body>
+	<h1>Share Data and Methods between Controllers with Service.</h1>
+	<div ng-controller="ManageCtrl" style="background:#FFFFCC;">
+		<h2>[secondCtrl controller]</h2>
+		<h3>Add Menu</h3>
+		<input type="text" ng-model="menuName">
+		<button ng-click="addMenu()">AddMenu</button>
+		<h3>removeMenu</h3>
+		<button ng-click="removeMenu()">removeMenu</button><br><br>
+	</div>
+	<div ng-controller="ListCtrl" style="background:#CCFF66">
+		<h2>[indexCtrl Controller]</h2>
+		<h3>Menu</h3>
+		<ul>
+			<li ng-repeat="items in myMenu track by $index">{{ items }}</li>
+		</ul>
+	</div>
+
 </body>
 </html>
