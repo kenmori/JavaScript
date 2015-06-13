@@ -5,42 +5,20 @@
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
-	<script>
-	var myApp = angular.module('myApp', []);
-	myApp.controller("cus1Ctrl", function($scope) {
-	$scope.products = [
-		{product_name: "デジタルカメラ",price: 8500},
-		{product_name: "ノートパソコン",price: 39000},
-		{product_name: "テレビ",price: 15900},
-		{product_name: "ファンヒーター",price: 9800}
-	];
-	});
-
-	myApp.directive("productsList", function () {
-	return {
-		link: function (scope, element, attrs) {
-		scope.data = scope[attrs["productsList"]];
-		},
-		scope: true,
-		template: "<ol><li ng-repeat='item in data'>{{item.product_name}}　：　{{item.price | number:0}}円</li></ol>",
-		restrict: "A"
-	}
-	});
-		</script>
-</head>
+	</head>
 <body>
-	<h1>カスタムディレクトリ使用する場合と未使用の比較</h1>
-<!-- 	使用しない場合 -->
-<!-- 	<div ng-controller="cus1Ctrl">
-	<ol>
-		<li ng-repeat="item in products">
-			{{ item.product_name }} : {{ item.price | number:0 }}円
-		</li>
-	</ol>
-</div> -->
-	<!-- 使用 -->
-	<div products-list="products"></div>
 
+	<h1>サービス</h1>
+	<div ng-controller="serviceCtrl"></div>
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('serviceCtrl', ['$interval', function($interval){
+			var num = 0;
+			$interval(function(){
+				console.log(num++);
+			},1000);
+		}]);
+	</script>
 
 </body>
 </html>
