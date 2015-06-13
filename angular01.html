@@ -5,39 +5,12 @@
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
-	<script type="text/javascript" src="./js/rootScope.js"></script>
+	<script type="text/javascript" src="./js/timeout.js"></script>
 	</head>
 <body>
-	<h1>サービス $location</h1>
-
-<p>
-	・absUrl()
-		完全なURL (http://example.jp/path?serch=x#hash)を取得
-	.protocol()
-		プロトコル(httpやhttps)を取得
-	・port()
-		使用しているポート番号(80や443)を取得
-	・host()
-		URLのホスト名(example.jp)を取得
-	・path()
-		URLのパス(/path)を取得
-	・search()
-		URLの検索部分(?search=x)を取得
-	・hash()
-		URLのハッシュ(#hash)を取得
-	・url()
-		URLのホスト以外の部分(/path?search=x#hash)を取得
-
-	以下のメソッドは引数を与えることで$locationを返す
-	・path('/new')
-		URLのパスを/newに変更
-	・search('new','y')
-		URLの検索部分を?new=yに変更
-	・hash('new')
-		URLのハッシュ部分を#newに変更
-	・url("/url?search=y#hash2")
-		URLのホスト名以外の部分を/url?search=y#hash2に変更
-
-</p>
+	<h1>サービス $timeout</h1>
+	<div ng-controller="timeout">
+		<p>{{ count }}</p>
+	</div>
 </body>
 </html>
