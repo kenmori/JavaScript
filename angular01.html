@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="app"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
+	<script type="text/javascript" src="./js/rootScope.js"></script>
 	</head>
 <body>
-
-	<h1>サービス</h1>
-	<div ng-controller="serviceCtrl"></div>
-	<script>
-		var app = angular.module('myApp', []);
-		app.controller('serviceCtrl', ['$interval', function($interval){
-			var num = 0;
-			$interval(function(){
-				console.log(num++);
-			},1000);
-		}]);
-	</script>
-
+	<h1>サービス rootScope</h1>
+	<div ng-controller="scope1">
+		<p>{{ test }}</p>
+		<p>{{ rootTest }}</p>
+	</div>
+	<div ng-controller="scope2">
+		<p>{{ test }}</p>
+		<p>{{ rootTest }}</p>
+	</div>
 </body>
 </html>
