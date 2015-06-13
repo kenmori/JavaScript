@@ -6,62 +6,107 @@
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 	<script>
-		//Define a module
-		var myApp = angular.module('myApp',[]);
 
-		//register services to myApp Module.
-		myApp.factory('MenuService', function(){
-			var menu = [
-				"Hamburger",
-				"Curry",
-				"Stew",
-				"Stake"
-			]
-			return{
-				getMenu : function(){
-					return menu;
-				},
-				addMenu : function(yourMenu){
-					menu.push(yourMenu);
-				},
-				removeMenu : function(){
-					menu.splice(0,1);
-				}
+	// angular.module('myApp',[]).factory('service',function(){
+	// 	var menu = {
+	// 		App : 'apple',
+	// 		supe : 'supe',
+	// 		rice : 'rice'
+	// 	},
+	// 	addMenu : function(youreMenu){
+	// 		menu.push(youreMenu);
+	// 		return menu;
+	// 	},
+	// 	removeMenu : function(){
+	// 		menu.split(0,1);
+	// 		return menu;
+	// 	}
+	// 	return menu;
+	// })
+
+	var myApp = angular.module('myApp',[]);//インスタンスを作る
+	myApp.factory('service',function(){
+		var menu = [//配列
+			"Hamburger",
+			"Curry",
+			"Stew",
+			"Stake"
+		]
+		return {//共有したいオブジェクトを返す
+			getMenu : function(){//初期表示の為の関数
+				return menu;
+			},
+			addMenu : function(yourMenu){
+				menu.push(yourMenu);
+				//returnはいらない
+			},
+			removeMenu : function(){
+				menu.splice(0,1);
+				//returnは要らない
 			}
-		});
-		myApp.controller('ManageCtrl', function($scope, MenuService){
-			$scope.menuName = "";
-			$scope.addMenu = function(){
-				if($scope.menuName !==""){
-					MenuService.addMenu($scope.menuName);
-				}
+		}
+	});
+
+
+
+	// angular.module('myApp',[]).controller('morita',function($scope, service){
+	// 	$scope.menu = "";
+	// 	service.addMenu = function(){
+	//
+	// 	}
+	// });
+	// インスタンスからメソッドを呼び出す
+	myApp.controller('morita',function($scope,service){
+		$scope.menu = "";//初期表示
+		//クリックされた時の記述
+		$scope.addMenu = function(){
+			if($scope.menu !== ""){
+				service.addMenu($scope.menu);//サービスの呼び出し
 			}
-			$scope.removeMenu = function(){
-				MenuService.removeMenu();
-			}
-		});
-		myApp.controller('ListCtrl', function($scope, MenuService){
-			$scope.myMenu = MenuService.getMenu();
-		})
+		}
+		$scope.removeMenu = function(){//同じコントロール内
+			service.removeMenu();//サービスの呼び出しは'サービス名+メンバー'
+		}
+	});
+	// anguler.module('myApp',[]).controller('kenji',function($scope, service){
+	// 	$scope.click = function(){
+	// 		removeMenu();
+	// 	}
+	// });
+	myApp.controller('kenji',function($scope, service){
+		$scope.menu = service.getMenu();//サービス内のメンバー呼び出し
+	})
+	//
+	//
+	// angular.module('myApp',[]).controller('cont',function($scope){
+	// 	menu
+	// }
 	</script>
 </head>
 <body>
 	<h1>Share Data and Methods between Controllers with Service.</h1>
-	<div ng-controller="ManageCtrl" style="background:#FFFFCC;">
-		<h2>[secondCtrl controller]</h2>
-		<h3>Add Menu</h3>
-		<input type="text" ng-model="menuName">
-		<button ng-click="addMenu()">AddMenu</button>
-		<h3>removeMenu</h3>
-		<button ng-click="removeMenu()">removeMenu</button><br><br>
-	</div>
-	<div ng-controller="ListCtrl" style="background:#CCFF66">
-		<h2>[indexCtrl Controller]</h2>
+	<div ng-controller="morita" style="background:#ffffcc;">
+		<p>Add Menu</p>
+<!-- 		<input type="text" ng-click="addMenu()" ng-model="menu">
+ -->		<input type="text" ng-model="menu">
+			<button ng-click="addMenu()">AddMenu</button>
+
+	<p>removeMenu</p>
+<!-- 	<div ng-controller="kenji">
+	<button ng-click="removeMenu()">removeMenu</button>
+</div> -->
+	<button ng-click="removeMenu()">removeMenu</button><br><br><!-- コントロールはいらない -->
+</div><!-- コントロール内に入っていない物は同じコントロール定義内から呼べない -->
+	<p>indexCtr Controller</p>
+<!-- 	<ul ng-controller="cont" ng-model="menu">
+	<li ng-repeat="item in menu">{{ item }}</li>
+</ul> -->
+	<div ng-controller="kenji" style="background:#CCFF66;">
+		<h2>[indexCtr Controller]</h2>
 		<h3>Menu</h3>
 		<ul>
-			<li ng-repeat="items in myMenu track by $index">{{ items }}</li>
+			<li ng-repeat='item in menu track by $index'>{{ item }}</li><!-- track by $index (重複要素も数える)-->
 		</ul>
 	</div>
-
 </body>
 </html>
