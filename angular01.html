@@ -6,107 +6,41 @@
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 	<script>
-
-	// angular.module('myApp',[]).factory('service',function(){
-	// 	var menu = {
-	// 		App : 'apple',
-	// 		supe : 'supe',
-	// 		rice : 'rice'
-	// 	},
-	// 	addMenu : function(youreMenu){
-	// 		menu.push(youreMenu);
-	// 		return menu;
-	// 	},
-	// 	removeMenu : function(){
-	// 		menu.split(0,1);
-	// 		return menu;
-	// 	}
-	// 	return menu;
-	// })
-
-	var myApp = angular.module('myApp',[]);//インスタンスを作る
-	myApp.factory('service',function(){
-		var menu = [//配列
-			"Hamburger",
-			"Curry",
-			"Stew",
-			"Stake"
-		]
-		return {//共有したいオブジェクトを返す
-			getMenu : function(){//初期表示の為の関数
-				return menu;
-			},
-			addMenu : function(yourMenu){
-				menu.push(yourMenu);
-				//returnはいらない
-			},
-			removeMenu : function(){
-				menu.splice(0,1);
-				//returnは要らない
-			}
-		}
+	var myApp = angular.module('myApp', []);
+	myApp.controller("cus1Ctrl", function($scope) {
+	$scope.products = [
+		{product_name: "デジタルカメラ",price: 8500},
+		{product_name: "ノートパソコン",price: 39000},
+		{product_name: "テレビ",price: 15900},
+		{product_name: "ファンヒーター",price: 9800}
+	];
 	});
 
-
-
-	// angular.module('myApp',[]).controller('morita',function($scope, service){
-	// 	$scope.menu = "";
-	// 	service.addMenu = function(){
-	//
-	// 	}
-	// });
-	// インスタンスからメソッドを呼び出す
-	myApp.controller('morita',function($scope,service){
-		$scope.menu = "";//初期表示
-		//クリックされた時の記述
-		$scope.addMenu = function(){
-			if($scope.menu !== ""){
-				service.addMenu($scope.menu);//サービスの呼び出し
-			}
-		}
-		$scope.removeMenu = function(){//同じコントロール内
-			service.removeMenu();//サービスの呼び出しは'サービス名+メンバー'
-		}
+	myApp.directive("productsList", function () {
+	return {
+		link: function (scope, element, attrs) {
+		scope.data = scope[attrs["productsList"]];
+		},
+		scope: true,
+		template: "<ol><li ng-repeat='item in data'>{{item.product_name}}　：　{{item.price | number:0}}円</li></ol>",
+		restrict: "A"
+	}
 	});
-	// anguler.module('myApp',[]).controller('kenji',function($scope, service){
-	// 	$scope.click = function(){
-	// 		removeMenu();
-	// 	}
-	// });
-	myApp.controller('kenji',function($scope, service){
-		$scope.menu = service.getMenu();//サービス内のメンバー呼び出し
-	})
-	//
-	//
-	// angular.module('myApp',[]).controller('cont',function($scope){
-	// 	menu
-	// }
-	</script>
+		</script>
 </head>
 <body>
-	<h1>Share Data and Methods between Controllers with Service.</h1>
-	<div ng-controller="morita" style="background:#ffffcc;">
-		<p>Add Menu</p>
-<!-- 		<input type="text" ng-click="addMenu()" ng-model="menu">
- -->		<input type="text" ng-model="menu">
-			<button ng-click="addMenu()">AddMenu</button>
-
-	<p>removeMenu</p>
-<!-- 	<div ng-controller="kenji">
-	<button ng-click="removeMenu()">removeMenu</button>
+	<h1>カスタムディレクトリ使用する場合と未使用の比較</h1>
+<!-- 	使用しない場合 -->
+<!-- 	<div ng-controller="cus1Ctrl">
+	<ol>
+		<li ng-repeat="item in products">
+			{{ item.product_name }} : {{ item.price | number:0 }}円
+		</li>
+	</ol>
 </div> -->
-	<button ng-click="removeMenu()">removeMenu</button><br><br><!-- コントロールはいらない -->
-</div><!-- コントロール内に入っていない物は同じコントロール定義内から呼べない -->
-	<p>indexCtr Controller</p>
-<!-- 	<ul ng-controller="cont" ng-model="menu">
-	<li ng-repeat="item in menu">{{ item }}</li>
-</ul> -->
-	<div ng-controller="kenji" style="background:#CCFF66;">
-		<h2>[indexCtr Controller]</h2>
-		<h3>Menu</h3>
-		<ul>
-			<li ng-repeat='item in menu track by $index'>{{ item }}</li><!-- track by $index (重複要素も数える)-->
-		</ul>
-	</div>
+	<!-- 使用 -->
+	<div products-list="products"></div>
+
+
 </body>
 </html>
