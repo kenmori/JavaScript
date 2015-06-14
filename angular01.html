@@ -7,90 +7,18 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
 <body>
-	<h1>module</h1>
-	<p>関数やオブジェクトをグループ化して管理すること</p>
-	<p>ディレクティブ、サービス、フィルター
-	コントローラなどすべてモジュール機能によって管理されている
-	モジュール機能を利用することで名前の衝突を避け、部品の再利用性も向上している
-	テスト実行時には無関係なモジュールを読み込まず、初期化時間の短縮できるメリットもある
-	Angular.js向けのサードバーティ製ライブラリもモジュールで管理されているためライブラリを利用する際は依存関係に
-	モジュールを追加するだけ
-	</p>
+	<h1>serviceの使い方</h1>
+	<ul>
+		<li>value:コントローラやサービスで共有したい場合はvalue。DIを利用してサービスをインジェクトできない。</li>
+		<li>constant:利用可能のタイミングが他と違う。directiveで利用したい場合はconstant。Module#configへのインジェクトが可能。プロバイダのコンストラクタにインジェクトできる。decoratorメソッドで上書きできない。:コントローラやサービスで共有したい場合はvalue。DIを利用してサービスをインジェクトできない。</li>
+		<li>factory:インジェクトして利用することができる、共有したいオブジェクトを返す関数を登録する。シングルトンとして同じインスタンスが共有される。</li>
+		<li>service:インジェクトして利用することができる、共有したいオブジェクトのコンストラクタ関数を登録する。シングルトン(アプリケーション内で各サービスのインスタンスは1つだけ)として同じインスタンスが共有される.newでインスタンスを作成するためfactoryのようにプリミティブ型を提供できない</li>
+		<li>provider：共有したいオブジェクトを返す$getメソッドを持ったオブジェクトを定義する必要がある。Module#configメソッドでパラメーターのセッティングが可能。Module#confgにプロバイダをインジェクトする際の名前は「サービス名+Provider」。インジェクトの仕方が登録した関数へのインジェクトと$getメソッドへのインジェクトがある</li>
+	</ul>
+
 
 	<script>
-		var app = angular.module('myapp',[]);//第二引数に依存モジュールを指定すると新しいモジュールが作成できる。依存するモジュールがない場合でもモジュール作成にはrequiresを必ず指定する
 
-		//requiresを指定しない場合、angular.moduleを呼び出すと先ほど作成したモジュールを取得する
-		var app = angular.module('myapp');
-		//指定せずにまだ作成していないモジュールを呼び出すと例外が投げられる
-		var app = angular.module('notExistsApp');
-		//同じ名前は上書きされる
-		var app1 = angular.module('myapp', []);
-		var app2 = angular.module('myapp', []);
-	</script>
-	<h2>モジュールへのサービスの登録</h2>
-	Module#value//モジュールに関数やオブジェクトを登録するメソッド。登録されると他のコードから参照可能になる
-	Module#constant
-	Module#factory
-	Module#service
-	Module#provider
-	Module#controller
-	Module#directive
-	Module#animation
-
-	<script>
-		angular.module('app1', [])
-		.value('AdditionService',function(a,b){
-			return a + b;
-		});
-		//angular.moduleの戻り値を一旦変数に格納してから登録することも可能
-		var app2 = angular.module('app2',[]);
-		app2.value('AdditionService',function(a,b){
-			return a + b;
-		});
-
-
-		//アプリ規模によってはモジュール作成処理とサービスの登録処理を別々の箇所に記述することも可能
-		//1))
-		angular.module('app3', []);
-		//2))
-		angular.module('app3')
-		.value('AdditionService',function(a,b){
-			return a + b;
-		})
-
-
-		//angular.valueメソッドの戻り値はModuleのインスタンスであるのでメソッドチェーンで記述することもできる
-		angular.module('app4',[])
-		.value('AdditionService', function(a,b){
-			return a + b;
-		})
-		.value('SubtractionService',function(a,b){
-			return a - b;
-		});
-	</script>
-	<h2>依存関係の定義</h2>
-	<script>
-		//myLibモジュールに登録したサービスがmyAppモジュールに登録したサービスから利用可能になる
-		angular.module('myLib',[]);
-		angular.module('myApp',['myLib']);
-	</script>
-	<h2>モジュールの依存関係の記述例</h2>
-	<script>
-	angula.module('myLib',[])
-	.filter('MyFilter',function(){
-		//フィルターの実装
-	})
-	.directive('MyDirective',function(){
-		//ディレクティブの実装
-	});
-	angular.module('myApp',['ngResource','myLib'])
-	.service('MyService',function(){
-		//サービスの実装
-	})
-	.controller('MyController',function(){
-		//コントローラー
-	});
 	</script>
 </body>
 </html>
