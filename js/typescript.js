@@ -1,11 +1,19 @@
-//列挙型
-var team;
-(function (team) {
-    team[team["紅組"] = 0] = "紅組";
-    team[team["白組"] = 1] = "白組";
-})(team || (team = {}));
-var win = team.紅組;
-if (win == team.紅組)
-    alert("紅組の勝利です");
-else
-    alert("白組の勝利です!");
+var Hoge = (function () {
+    function Hoge(caller) {
+        if (caller == Hoge.getInstance)
+            console.log("インスタンスを作成。一度しか呼ばれない");
+        else if (Hoge._instance)
+            throw new Error("既にインスタンスが存在する為エラー");
+        else
+            throw new Error("コンストラクタの引数が不正な為エラー");
+    }
+    Hoge.getInstance = function () {
+        console.log("Hogeクラスインスタンスの取得");
+        if (!this._instance)
+            this._instance = new Hoge(Hoge.getInstance);
+        return this._instance;
+    };
+    return Hoge;
+})();
+var hoge1 = Hoge.getInstance();
+var hoge2 = Hoge.getInstance();

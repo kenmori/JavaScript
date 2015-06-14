@@ -1,20 +1,23 @@
-//列挙型
-
-// var win:string = "紅組";//ここが「赤組」となると白組が勝利してします。関係の無い文字列が入力されてしまうのが問題
-// if(win == "紅組") alert("紅組の勝利です");
-// else alert("白組の勝利です");
-//自由度の高い文字列ではなくonかoffかのbooleanをつかう
-
-// var win:boolean = true;
-// if(win) alert("紅組の勝利です");
-// else alert("白組の勝利です");
-//これではtrueと文字列は無関係
-
-enum team {
-	紅組,白組
+//http://qiita.com/tonkotsuboy_com/items/6d86d68200326757195d
+class Hoge
+{
+	//インスタンス
+	private static _instance: Hoge;
+	public static getInstance() : Hoge
+	{
+		console.log("Hogeクラスインスタンスの取得");
+		if(!this._instance)
+		this._instance = new Hoge(Hoge.getInstance);
+		return this._instance;
+	}
+	constructor(caller: Function){
+		if(caller == Hoge.getInstance)
+			console.log("インスタンスを作成。一度しか呼ばれない");
+		else if(Hoge._instance)
+			throw new Error("既にインスタンスが存在する為エラー");
+		else
+			throw new Error("コンストラクタの引数が不正な為エラー")
+	}
 }
-var win: team = team.紅組;
-if(win == team.紅組) alert("紅組の勝利です");
-else alert("白組の勝利です!");
-
-//これで変数の値がnullやundefinedの場合の誤判定やany型などを使用して型システムをバイパスしてしまう場合の問題を除けば対処できた
+var hoge1:Hoge = Hoge.getInstance();
+var hoge2:Hoge = Hoge.getInstance();
