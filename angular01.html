@@ -1,24 +1,54 @@
 <!DOCTYPE html>
-<html ng-app="app"><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
-<body>
-	<h1>serviceの使い方</h1>
+<body ng-controller="myController">
+	<h1>filter</h1>
+	<input type="text" ng-model="mySearch">
 	<ul>
-		<li>value:コントローラやサービスで共有したい場合はvalue。DIを利用してサービスをインジェクトできない。</li>
-		<li>constant:利用可能のタイミングが他と違う。directiveで利用したい場合はconstant。Module#configへのインジェクトが可能。プロバイダのコンストラクタにインジェクトできる。decoratorメソッドで上書きできない。:コントローラやサービスで共有したい場合はvalue。DIを利用してサービスをインジェクトできない。</li>
-		<li>factory:インジェクトして利用することができる、共有したいオブジェクトを返す関数を登録する。シングルトンとして同じインスタンスが共有される。</li>
-		<li>service:インジェクトして利用することができる、共有したいオブジェクトのコンストラクタ関数を登録する。シングルトン(アプリケーション内で各サービスのインスタンスは1つだけ)として同じインスタンスが共有される.newでインスタンスを作成するためfactoryのようにプリミティブ型を提供できない</li>
-		<li>provider：共有したいオブジェクトを返す$getメソッドを持ったオブジェクトを定義する必要がある。Module#configメソッドでパラメーターのセッティングが可能。Module#confgにプロバイダをインジェクトする際の名前は「サービス名+Provider」。インジェクトの仕方が登録した関数へのインジェクトと$getメソッドへのインジェクトがある</li>
+		<li ng-repeat="person in myList | filter: mySearch">{{ person.name }}</li>
 	</ul>
-
+	<div>
+		<input type="text" ng-model="mySearchTwitter.twitterId"><!-- モデル名.fittername -->
+		twitterIdで絞り込み
+	</div>
+	<table>
+		<thead>
+		<tr>
+			<th>twitterId</th>
+			<th>following</th>
+			<th>followers</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="info in twitterInfo | filter:mySearchTwitter"><!-- モデル名 -->
+				<td>{{ info.twitterId }}</td>
+				<td>{{ info.following }}</td>
+				<td>{{ info.followers }}</td>
+			</tr>
+		</tbody>
+	</table>
 
 	<script>
-
+	angular.module('myApp',[]).controller('myController',['$scope',function($scope){
+		$scope.myList = [
+			{name: 'kanai'},
+			{name: 'ikezoe'},
+			{name: 'yosida'},
+			{name: 'can_i_do_web'},
+			{name: 'zoetro'},
+			{name: 'teyosh'}
+		];
+		$scope.twitterInfo = [
+			{ twitterId: 'can_ido_web', following: 100, followers: 10},
+			{ twitterId: 'zoetro', following: 200, followers: 1000},
+			{ twitterId: 'teyosh', following: 200, followers: 500}
+		]
+	}])
 	</script>
 </body>
 </html>
