@@ -7,48 +7,40 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
 <body ng-controller="myController">
-	<h1>filter</h1>
-	<input type="text" ng-model="mySearch">
-	<ul>
-		<li ng-repeat="person in myList | filter: mySearch">{{ person.name }}</li>
-	</ul>
-	<div>
-		<input type="text" ng-model="mySearchTwitter.twitterId"><!-- モデル名.fittername -->
-		twitterIdで絞り込み
+	<h1>TodoList</h1>
+	<input type="text" ng-model="list">
+	<input type="text" ng-model="message">
+	<button ng-click="addClick()">追加する</button>
+	<div ng-model="products">
+		<ul>
+			<li ng-repeat="item in products">
+				{{ item.products_name }} : {{ item.price }}
+			</li>
+		</ul>
 	</div>
-	<table>
-		<thead>
-		<tr>
-			<th>twitterId</th>
-			<th>following</th>
-			<th>followers</th>
-		</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="info in twitterInfo | filter:mySearchTwitter"><!-- モデル名 -->
-				<td>{{ info.twitterId }}</td>
-				<td>{{ info.following }}</td>
-				<td>{{ info.followers }}</td>
-			</tr>
-		</tbody>
-	</table>
-
+	<div product-list="products"></div>
 	<script>
-	angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-		$scope.myList = [
-			{name: 'kanai'},
-			{name: 'ikezoe'},
-			{name: 'yosida'},
-			{name: 'can_i_do_web'},
-			{name: 'zoetro'},
-			{name: 'teyosh'}
-		];
-		$scope.twitterInfo = [
-			{ twitterId: 'can_ido_web', following: 100, followers: 10},
-			{ twitterId: 'zoetro', following: 200, followers: 1000},
-			{ twitterId: 'teyosh', following: 200, followers: 500}
+	var demoApp = angular.module('myApp',[]);
+	demoApp.controller('myController',function($scope){
+		$scope.products = [
+			{products_name: "デジタルカメラ",price: 85000},
+			{products_name: "一眼レフカメラ",price: 15000},
+			{products_name: "デジタルカメラ",price: 85000},
+			{products_name: "デジタルカメラ",price: 85000}
 		]
-	}])
+	});
+	demoApp.directive('productList',function(){
+		return {
+			link: function(scope, element, attrs){
+				scope.data = scope[attrs["productList"]];
+			},
+			scope: true,
+			template : "<ol><li ng-repeat='item in data'>{{ item.products_name }} : {{ item.price | number:0 }} </li>",
+			restict: "A"
+		}
+	})
+
+
 	</script>
 </body>
 </html>
