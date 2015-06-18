@@ -7,25 +7,47 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
 <body>
-	<h1>AsAyntaxController</h1>
-	<p>スコープはテンプレートに公開する変数や関数を定義するオブジェクトで、コントローラはそのスコープオブジェクトをセットアップする
-	関数である。スコープオブジェクトを利用せず、コントローラ関数をスコープオブジェクトとして利用する方法もある。
-	コントローラをスコープとして利用するにはng-controllerで「コントローラ名 as 別名」と指定する。プロパティやメソッドに
-	アクセスする際には「別名.value」と記述する
-	コントローラ定義に引数$scopeを受け取らずテンプレートに公開するプロパティやメソッドをコントローラ自身(this)に登録する
-	この記法の場合コントローラを階層化してもスコープが自動的に軽装されるわけでもない。もしスコープの派生と同じ機能を実現したいのであれば
-	コントローラを明示的にプロトタイプ継承するように実装する</p>
-	<div ng-controller="AsAyntaxController as ctrl">
-		<p>value: {{ ctrl.value }}</p>
-		<p>upperValue: {{ ctrl.getUpperValue() }}</p>
+	<h1>スコープ間連携</h1>
+	<div ng-controller="UpperSubscriberController">
+		UpperMessage: {{ upperMessage }}
+		<div ng-controller="PublisherController">
+			<input type="text" ng-model="inputText">
+			<button ng-click="emitMessage()">emit</button>
+			<button ng-click="broadcastMessage()">broadcast</button>
+			<div ng-controller="LowerSubscriberController1">
+				LowerMessege1: {{ lowerMessage1 }}
+			</div>
+			<div ng-controller="LowerSubscriberController2">
+				LowerMessage2: {{ lowerMessage2 }}
+			</div>
+
+		</div>
 	</div>
 	<script>
-		var myApp = angular.module('myApp',[]);
-		myApp.controller('AsAyntaxController',['$scope',function($scope){
-			this.value = 'Hello,World';
-			this.getUpperValue = function(){
-				return angular.uppercase(this.value);
-			}
+		angular.module('myApp',[])
+		.controller('PublisherController',['$scope',function($scope){
+			$scope.emitMessage = function(){
+				$scope.$emit('MyEvent',$scope.inputText + 'by emit');
+			};
+			$scope.broadcastMessage = function(){
+				$scope.$broadcast('MyEvent',$scope.inputText + 'by broadcast');
+			};
+		}])
+		.controller('UpperSubscriberController',['$scope',function($scope){
+			$scope.$on('MyEvent',function(event, data){
+				$scope.upperMessage = data;
+			});
+		}])
+		.controller('LowerSubscriberController1',['$scope',function($scope){
+			$scope.$on('MyEvent',function(event,data){
+				$scope.lowerMessage1 = data;
+			});
+		}])
+		.controller('LowerSubscriberController2',['$scope',function($scope){
+			$scope.$on('MyEvent',function(event,data){
+				event.preventDefault();
+				$scope.lowerMessage2 = data;
+			});
 		}]);
 	</script>
 </body>
