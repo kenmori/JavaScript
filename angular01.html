@@ -8,22 +8,53 @@
 	</head>
 <body>
 	<h1>プロトタイプの継承</h1>
-	<div ng-controller="parentController">
-			{{ parentmessage }}
-		<div ng-controller="childController">
-			{{ childmessage }} {{ parentmessage }}
+	<div ng-controller="parentController1">
+		<h3>parent</h3>
+		<p>value: {{ value }}</p>
+		<button ng-click="incrementValue()">increment value</button>
+		<div ng-controller="childController1">
+			<h3>child</h3>
+			<p>value: {{ value }}</p>
+			<button ng-click="decrementValue()">decrement value</button>
 		</div>
 	</div>
+
+	<div ng-controller="parentController2">
+		<h3>parent</h3>
+		<p>value: {{ value }}</p>
+		<p>data.value: {{ data.value }}</p>
+		<div ng-controller="childController2">
+			<h3>child</h3>
+			<p>value: {{ $parent.value }}</p>
+			<p>data.value: {{ data.value }}</p>
+			<button ng-click="changeValue()">changeValue</button>
+		</div>
+	</div>
+
 	<script>
 		var myApp = angular.module('myApp',[]);
-		myApp.controller('parentController',['$scope',function($scope){
-			$scope.parentmessage = '親です';
+		myApp.controller('parentController1',['$scope',function($scope){
+			$scope.value = 123;
+			$scope.incrementValue = function(){
+				this.value++;
+			}
 		}]);
-		myApp.controller('childController',['$scope',function($scope){
-			$scope.childmessage = '子供です';
-			$scope.$parent.parentmessage = "書き換えました";
+		myApp.controller('childController1',['$scope',function($scope){
+			$scope.decrementValue = function(){
+				this.value--;
+			}
 		}]);
-
+		//controller2
+		myApp.controller('parentController2',['$scope',function($scope){
+			$scope.value = 123;
+			$scope.data = {value:456};
+		}])
+		.controller('childController2',['$scope',function($scope){
+			$scope.changeValue = function(){
+				$scope.$parent.value = 321;
+				$scope.data.value = 645
+			};
+		}]);
 	</script>
 </body>
 </html>
