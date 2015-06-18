@@ -7,23 +7,25 @@
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
 <body>
-	<h1>rootScope</h1>
-	<div ng-controller="RootScopeController">
-		<input type="text" ng-model="message">
-		<button ng-click="setMessage(message)">set</button>
-	</div>
-	<div ng-controller="RootScopeController">
-		<p>{{ getMessage() }}</p>
+	<h1>AsAyntaxController</h1>
+	<p>スコープはテンプレートに公開する変数や関数を定義するオブジェクトで、コントローラはそのスコープオブジェクトをセットアップする
+	関数である。スコープオブジェクトを利用せず、コントローラ関数をスコープオブジェクトとして利用する方法もある。
+	コントローラをスコープとして利用するにはng-controllerで「コントローラ名 as 別名」と指定する。プロパティやメソッドに
+	アクセスする際には「別名.value」と記述する
+	コントローラ定義に引数$scopeを受け取らずテンプレートに公開するプロパティやメソッドをコントローラ自身(this)に登録する
+	この記法の場合コントローラを階層化してもスコープが自動的に軽装されるわけでもない。もしスコープの派生と同じ機能を実現したいのであれば
+	コントローラを明示的にプロトタイプ継承するように実装する</p>
+	<div ng-controller="AsAyntaxController as ctrl">
+		<p>value: {{ ctrl.value }}</p>
+		<p>upperValue: {{ ctrl.getUpperValue() }}</p>
 	</div>
 	<script>
 		var myApp = angular.module('myApp',[]);
-		myApp.controller('RootScopeController',['$rootScope',function($rootScope){
-			$rootScope.setMessage = function (message){
-				$rootScope.message = message;
-			};
-			$rootScope.getMessage = function(){
-				return $rootScope.message;
-			};
+		myApp.controller('AsAyntaxController',['$scope',function($scope){
+			this.value = 'Hello,World';
+			this.getUpperValue = function(){
+				return angular.uppercase(this.value);
+			}
 		}]);
 	</script>
 </body>
