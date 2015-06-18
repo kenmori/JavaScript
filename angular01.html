@@ -6,40 +6,23 @@
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
-<body ng-controller="myController">
-	<h1>TodoList</h1>
-	<input type="text" ng-model="list">
-	<input type="text" ng-model="message">
-	<button ng-click="addClick()">追加する</button>
-	<div ng-model="products">
-		<ul>
-			<li ng-repeat="item in products">
-				{{ item.products_name }} : {{ item.price }}
-			</li>
-		</ul>
+<body>
+	<h1>プロトタイプの継承</h1>
+	<div ng-controller="parentController">
+			{{ parentmessage }}
+		<div ng-controller="childController">
+			{{ childmessage }} {{ parentmessage }}
+		</div>
 	</div>
-	<div product-list="products"></div>
 	<script>
-	var demoApp = angular.module('myApp',[]);
-	demoApp.controller('myController',function($scope){
-		$scope.products = [
-			{products_name: "デジタルカメラ",price: 85000},
-			{products_name: "一眼レフカメラ",price: 15000},
-			{products_name: "デジタルカメラ",price: 85000},
-			{products_name: "デジタルカメラ",price: 85000}
-		]
-	});
-	demoApp.directive('productList',function(){
-		return {
-			link: function(scope, element, attrs){
-				scope.data = scope[attrs["productList"]];
-			},
-			scope: true,
-			template : "<ol><li ng-repeat='item in data'>{{ item.products_name }} : {{ item.price | number:0 }} </li>",
-			restict: "A"
-		}
-	})
-
+		var myApp = angular.module('myApp',[]);
+		myApp.controller('parentController',['$scope',function($scope){
+			$scope.parentmessage = '親です';
+		}]);
+		myApp.controller('childController',['$scope',function($scope){
+			$scope.childmessage = '子供です';
+			$scope.$parent.parentmessage = "書き換えました";
+		}]);
 
 	</script>
 </body>
