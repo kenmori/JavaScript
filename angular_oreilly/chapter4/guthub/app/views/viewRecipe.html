@@ -1,0 +1,22 @@
+<h2>{{recipe.title}}</h2>
+
+<div>{{recipe.description}}</div>
+
+<h3>Ingredients</h3>
+<span ng-show="recipe.ingredients.length == 0">No Ingredients</span>
+<ul class="unstyled" ng-hide="recipe.ingredients.length == 0">
+  <li ng-repeat="ingredient in recipe.ingredients">
+    <span>{{ingredient.amount}}</span>
+    <span>{{ingredient.amountUnits}}</span>
+    <span>{{ingredient.ingredientName}}</span>
+  </li>
+</ul>
+
+<h3>Instructions</h3>
+<div>{{recipe.instructions}}</div>
+
+<form ng-submit="edit()" class="form-horizontal">
+  <div class="form-actions">
+    <button class="btn btn-primary">Edit</button>
+  </div>
+</form>
