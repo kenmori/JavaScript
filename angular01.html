@@ -1,54 +1,33 @@
 <!DOCTYPE html>
-<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
+<html ng-app="app"><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
 	</head>
-<body>
-	<h1>スコープ間連携</h1>
-	<div ng-controller="UpperSubscriberController">
-		UpperMessage: {{ upperMessage }}
-		<div ng-controller="PublisherController">
-			<input type="text" ng-model="inputText">
-			<button ng-click="emitMessage()">emit</button>
-			<button ng-click="broadcastMessage()">broadcast</button>
-			<div ng-controller="LowerSubscriberController1">
-				LowerMessege1: {{ lowerMessage1 }}
-			</div>
-			<div ng-controller="LowerSubscriberController2">
-				LowerMessage2: {{ lowerMessage2 }}
-			</div>
+<body ng-controller="transCtrl">
+	<h1>カスタムディレクティブ</h1>
 
-		</div>
+	<input type="text" ng-model="title"><br/>
+	<textarea ng-model="text" rows="3"></textarea><br/>
+	{{ title }}
+	<panel title="{{ title }}">{{ text }}</panel>
 	</div>
 	<script>
-		angular.module('myApp',[])
-		.controller('PublisherController',['$scope',function($scope){
-			$scope.emitMessage = function(){
-				$scope.$emit('MyEvent',$scope.inputText + 'by emit');
-			};
-			$scope.broadcastMessage = function(){
-				$scope.$broadcast('MyEvent',$scope.inputText + 'by broadcast');
-			};
-		}])
-		.controller('UpperSubscriberController',['$scope',function($scope){
-			$scope.$on('MyEvent',function(event, data){
-				$scope.upperMessage = data;
-			});
-		}])
-		.controller('LowerSubscriberController1',['$scope',function($scope){
-			$scope.$on('MyEvent',function(event,data){
-				$scope.lowerMessage1 = data;
-			});
-		}])
-		.controller('LowerSubscriberController2',['$scope',function($scope){
-			$scope.$on('MyEvent',function(event,data){
-				event.preventDefault();
-				$scope.lowerMessage2 = data;
-			});
-		}]);
+		var app = angular.module('app',[]);
+		app.controller("transCtrl", function($scope) {
+		  $scope.title = 'パネルのタイトル';
+		  $scope.text = 'パネルの本文';
+		});
+		demoApp.directive("panel", function () {
+		  return {
+		    restrict: "E",
+		    scope: { title:'@' },
+		    template: '<div class="panel panel-default"><div class="panel-heading"><h4>cccc</h4></div><div class="panel-body"><p ng-transclude></p></div></div>',
+		    transclude: true,
+		  }
+		});
 	</script>
 </body>
 </html>
