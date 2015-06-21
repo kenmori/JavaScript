@@ -1,0 +1,8 @@
+<div ng-init="items = [1, 2, 'Fizz', 4, 'Buzz', 'Fizz', 7, 8, 'Fizz', 'Buzz', 11, 'Fizz', 13, 14, 'Fizz Buzz']">
+  奇数: <input type="checkbox" ng-model="allowOdd"><br/>
+  偶数: <input type="checkbox" ng-model="allowEven"><br/>
+
+  <div ng-repeat="item in items | pickupNumber:!allowOdd:!allowEven:'<':'>'">
+    {{item}}<br/>
+  </div>
+</div>

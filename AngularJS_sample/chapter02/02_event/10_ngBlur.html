@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-blur</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <input type="text" ng-focus="focus()" ng-blur="blur()" ng-model="focusedText">
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.focus = function(){
+        $scope.focusedText = 'フォーカスしました';
+      }
+      $scope.blur = function(){
+        $scope.focusedText = '';
+      }
+    }]);
+  </script>
+</body>
+</html>

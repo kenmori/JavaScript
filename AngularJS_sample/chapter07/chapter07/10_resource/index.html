@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="../../angular/angular-resource.js"></script>
+  <script type="text/javascript" src="../../angular/angular-mocks.js"></script>
+  <script type="text/javascript" src="../httpmock.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body ng-controller="UserCtrl">
+<ul>
+  <li ng-repeat="user in users">
+    <span ng-bind="user.id"></span>
+    <input type="text" ng-model="user.name">
+    <input type="text" ng-model="user.year">
+    <button ng-click="save(user)">保存</button>
+    <button ng-click="birthday(user)">誕生日</button>
+  </li>
+</ul>
+</body>
+
+</html>

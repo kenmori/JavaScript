@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>currency</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<input type="text" ng-model="dollar">
+
+<p>フィルター無し: {{ dollar }}</p>
+
+<p>フィルター: {{ dollar | currency }}</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.dollar = 1000000;
+  }]);
+</script>
+</body>
+</html>

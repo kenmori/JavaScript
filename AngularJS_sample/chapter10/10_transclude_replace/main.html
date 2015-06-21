@@ -1,0 +1,21 @@
+<div ng-init="message='Hello, World!'"></div>
+
+<h2>transclude:true, replace:false</h2>
+<transclude-true-replace-false>
+  <pre>msg: {{message}}</pre>
+</transclude-true-replace-false>
+
+<h2>transclude:true, replace:true</h2>
+<transclude-true-replace-true>
+  <pre>msg: {{message}}</pre>
+</transclude-true-replace-true>
+
+<h2>transclude:element, replace:false</h2>
+<transclude-element-replace-false>
+  <pre>msg: {{message}}</pre>
+</transclude-element-replace-false>
+
+<h2>transclude:element, replace:true</h2>
+<transclude-element-replace-true>
+  <pre>msg: {{message}}</pre>
+</transclude-element-replace-true>

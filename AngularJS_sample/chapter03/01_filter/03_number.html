@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>number</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<input type="text" ng-model="myNumber">
+
+<p>フィルター無し: {{ myNumber }}</p>
+
+<p>フィルター: {{ myNumber | number:0 }}</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.myNumber = 100 / 3;
+  }]);
+</script>
+</body>
+</html>

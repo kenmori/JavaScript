@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-strict-di>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="watch.js"></script>
+</head>
+
+<body>
+<h2>$scope.$watch</h2>
+
+<div ng-controller="WatchController">
+  <input type="text" ng-model="message">
+
+  <p>{{result}}</p>
+</div>
+</body>
+
+</html>

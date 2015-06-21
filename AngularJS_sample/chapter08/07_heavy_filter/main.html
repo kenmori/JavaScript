@@ -1,0 +1,9 @@
+<div ng-controller="SimpleController">
+  <input type="text" ng-model="message"><br/>
+  <button ng-click="addMessage(message)">add</button>
+  <br/>
+
+  <div ng-repeat="msg in messages">
+    {{msg | heavyFilter}}<br/>
+  </div>
+</div>

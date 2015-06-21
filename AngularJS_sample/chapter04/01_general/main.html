@@ -1,0 +1,9 @@
+<div ng-controller="GeneralApiController">
+  <select ng-model="selectedItem" ng-options="item for item in items"
+          ng-change="updateCode()"></select>
+
+  <p>ファイル名: {{selectedItem}}</p>
+  <pre>{{code}}</pre>
+  <button ng-click="run()">run</button>
+  <pre>{{result}}</pre>
+</div>

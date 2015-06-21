@@ -1,0 +1,10 @@
+<div ng-controller="bookShelfController">
+  <notification timeout="3000" enable="enableMessage">
+    {{message}}
+  </notification>
+  <book-list>
+    <div ng-repeat="book in books">
+      <book-item item="book" statuses="statuses"/>
+    </div>
+  </book-list>
+</div>

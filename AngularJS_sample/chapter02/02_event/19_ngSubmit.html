@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-submit</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <form ng-submit="submit()">
+    <label><input type="checkbox" ng-model="myModel">同意する</label>
+    <input type="submit" value="submit">
+  </form>
+  <p>{{ message }}</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.submit = function(){
+        $scope.message = (!$scope.myModel)? 'チェックしてください': '';
+      }
+    }]);
+  </script>
+</body>
+</html>

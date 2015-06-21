@@ -1,0 +1,9 @@
+<div ng-controller="notificationController">
+  <div ng-repeat="item in items">
+    <notification timeout="50000" enable="item.enableMessage">
+      {{item.message}} ({{item.time | date:'HH:mm:ss'}})
+    </notification>
+  </div>
+  <input type="text" ng-model="message">
+  <button ng-click="addMessage(message)">add</button>
+</div>

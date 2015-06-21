@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-change</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <textarea cols="60" rows="15" ng-change="change()" ng-model="tweet"></textarea>
+  <p><span ng-hide="isOver">残り</span>{{ count }}文字<span ng-show="isOver">オーバー</span></p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      var maxCount = 140;
+      $scope.count = maxCount;
+      $scope.change = function(){
+        $scope.count = maxCount - $scope.tweet.length;
+        if($scope.count < 0){
+          $scope.count = Math.abs($scope.count);
+          $scope.isOver = true;
+        }
+        else {
+          $scope.isOver = false;
+        }
+      }
+    }]);
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app ng-strict-di>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+</head>
+
+<body>
+<input type="text" ng-model="message">
+
+<div>
+  <p>onetime: {{::message}}</p>
+
+  <p>always: {{message}}</p>
+</div>
+</body>
+
+</html>

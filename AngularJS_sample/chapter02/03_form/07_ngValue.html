@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ngValue</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+<form ng-init="user.selected=''">
+  <ul ng-init="list=['can_i_do_web', 'zoetro', 'teyosh']">
+    <li ng-repeat="name in list">
+      <input type="radio" ng-model="user.selected" ng-value="name">{{name}}
+    </li>
+  </ul>
+  <div>{{user.selected}} is selected.</div>
+</form>
+</body>
+</html>

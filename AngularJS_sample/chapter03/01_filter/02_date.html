@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>date</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<input type="date" ng-model="today">
+
+<p>フィルター無し: {{ today }}</p>
+
+<p>フィルター: {{ today | date: 'yyyy年MM月dd日 HH時MM分ss.sss秒' }}</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.today = new Date();
+  }]);
+</script>
+</body>
+</html>

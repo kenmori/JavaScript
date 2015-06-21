@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-cut</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <textarea cols="60" rows="15" ng-model="target" ng-cut="cut()"></textarea>
+  <p>{{ copied }}</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.target = 'カットしてください。Ctrl + x / command + x';
+      $scope.cut = function(){
+        $scope.copied = 'カットしました。';
+      }
+    }]);
+  </script>
+</body>
+</html>

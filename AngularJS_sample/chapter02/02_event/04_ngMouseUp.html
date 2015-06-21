@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-mouseup</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <p ng-mouseup="mouseup()" ng-class="{ del: mouseUpped }">マウスアップで打ち消し線</p>
+
+  <style>
+    .del{ text-decoration: line-through; }
+  </style>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.mouseup = function(){
+        $scope.mouseUpped = true;
+      }
+    }]);
+  </script>
+</body>
+</html>

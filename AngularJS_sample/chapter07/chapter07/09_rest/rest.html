@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="../../angular/angular-mocks.js"></script>
+  <script type="text/javascript" src="../httpmock.js"></script>
+  <script type="text/javascript" src="rest.js"></script>
+</head>
+
+<body ng-controller="RESTCtrl">
+  <button ng-click="getList()">getList</button>
+  name: <input ng-model="name"> year: <input ng-model="year"><button ng-click="addUser({name: name, year: year})">addUser</button>
+  <table>
+    <tr ng-show="users">
+      <th>id</th>
+      <th>name</th>
+      <th>year</th>
+      <th>取得</th>
+      <th>削除</th>
+    </tr>
+    <tr ng-repeat="user in users">
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.year}}</td>
+      <td><button ng-click="getUser(user.id)">getUser</button></td>
+      <td><button ng-click="removeUser(user.id)">removeUser</button></td>
+    </tr>
+    <tr ng-show="user">
+      <th>id</th>
+      <th>name</th>
+      <th>year</th>
+      <th>更新</th>
+    </tr>
+    <tr ng-show="user">
+      <td>{{user.id}}</td>
+      <td><input ng-model="user.name"></td>
+      <td><input ng-model="user.year"></td>
+      <td><button ng-click="saveUser(user)">saveUser</button></td>
+  </table>
+</body>
+
+</html>
+

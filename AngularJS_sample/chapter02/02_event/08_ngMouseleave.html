@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ng-mouseleave</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <p ng-mouseenter="status='over'" ng-mouseleave="status='leave'">
+    マウスオーバー/リーブでメッセージを切り替える</p>
+  <div ng-switch="status">
+    <p ng-switch-when="over">マウスオーバー</p>
+    <p ng-switch-when="leave">マウスリーブ</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-copy</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <textarea cols="60" rows="15" ng-model="target" ng-copy="copy()"></textarea>
+  <p>{{ copied }}</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.target = 'コピーしてください。Ctrl + c / command + c';
+      $scope.copy = function(){
+        $scope.copied = 'コピーしました。';
+      }
+    }]);
+  </script>
+</body>
+</html>

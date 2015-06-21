@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>filter</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<input type="text" ng-model="mySearch">
+<ul>
+  <li ng-repeat="person in myList | filter:mySearch">{{ person.name }}</li>
+</ul>
+
+<div>
+  <input type="text" ng-model="mySearchTwetter.twitterId">
+  twitterIdで絞り込み
+</div>
+<table>
+  <thead>
+  <tr>
+    <th>twitterId</th>
+    <th>following</th>
+    <th>followers</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="info in twitterInfo | filter: mySearchTwetter">
+    <td>{{ info.twitterId }}</td>
+    <td>{{ info.following }}</td>
+    <td>{{ info.followers }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.myList = [
+      { name: 'kanai' },
+      { name: 'ikezoe' },
+      { name: 'yoshida' },
+      { name: 'can_i_do_web' },
+      { name: 'zoetro' },
+      { name: 'teyosh' }
+    ];
+
+    $scope.twitterInfo = [
+      { twitterId: 'can_i_do_web', following: 100, followers: 10},
+      { twitterId: 'zoetro', following: 200, followers: 1000},
+      { twitterId: 'teyosh', following: 200, followers: 500}
+    ];
+  }]);
+</script>
+</body>
+</html>

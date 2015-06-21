@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ng-hide</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-model="isShow" ng-init="isShow=true">
+  <p>ng-hide="isShow" : <span ng-hide="isHide">○</span></p>
+  <p>ng-hide="!ishide" : <span ng-hide="!isHide">○</span></p>
+  <p>ng-hide="true" : <span ng-hide="true">○</span></p>
+  <p>ng-hide="'true'" : <span ng-hide="'true'">○</span></p>
+  <p>ng-hide="false" : <span ng-hide="false">○</span></p>
+  <p>ng-hide="'false'" : <span ng-hide="'false'">○</span></p>
+  <p>ng-hide="1 > 0" : <span ng-hide="1 > 0">○</span></p>
+  <p>ng-hide="1 > 3" : <span ng-hide="1 > 3">○</span></p>
+</body>
+</html>

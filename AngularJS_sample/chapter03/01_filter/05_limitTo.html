@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>limitTo</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<p>フィルター無し</p>
+<ul>
+  <li ng-repeat="person in myList">{{ person }}</li>
+</ul>
+
+<p>フィルター</p>
+<ul>
+  <li ng-repeat="person in myList | limitTo: 3">{{ person }}</li>
+</ul>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.myList = ['kanai', 'ikezoe', 'yoshida', 'can_i_do_web', 'zoetro', 'teyosh'];
+  }]);
+</script>
+</body>
+</html>

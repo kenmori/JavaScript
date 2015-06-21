@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-transclude</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <div sample>
+    <ul>
+    <li>item1</li>
+    <li>item2</li>
+    <li>item3</li>
+    </ul>
+  </div>
+
+  <script>
+    angular.module('myApp', [])
+      .directive('sample', [function(){
+      return {
+        template: '<div><p>title</p><div ng-transclude></div></div>',
+        replace: true,
+        transclude: true,
+        link: function($scope, iElm, iAttrs, controller) {
+        }
+      };
+      }]);
+  </script>
+</body>
+</html>

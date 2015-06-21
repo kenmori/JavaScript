@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>user-login-angular</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-app>
+<form action="login" name="loginForm" novalidate>
+  <p>ログインID</p>
+  <input type="text" name="userLoginId"
+         ng-model="user.loginId"
+         ng-minlength="4"
+         ng-maxlength="8"
+         ng-pattern="/^[a-zA-Z0-9]+$/"
+         required>
+  <span ng-show="loginForm.userLoginId.$error.minlength">4文字以上です</span>
+  <span ng-show="loginForm.userLoginId.$error.maxlength">8文字以下です</span>
+  <span ng-show="loginForm.userLoginId.$error.pattern">半角英数字です</span>
+  <span ng-show="loginForm.userLoginId.$error.required">必須です</span>
+  <br>
+
+  <p>パスワード</p>
+  <input type="password" name="userPassword"
+         ng-model="user.password"
+         ng-pattern="/^[a-zA-Z0-9]{4,8}$/"
+         ng-required="true">
+  <span ng-show="loginForm.userPassword.$error.pattern">半角英数字です</span>
+  <span ng-show="loginForm.userPassword.$error.required">必須です</span>
+  <br>
+
+  <input type="submit" value="ログイン" ng-disabled="loginForm.$invalid">
+</form>
+</body>
+</html>

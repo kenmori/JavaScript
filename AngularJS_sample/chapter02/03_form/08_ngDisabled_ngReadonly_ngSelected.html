@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ngDisabled/ngReadonly/ngSelected</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <input type="button" value="ボタン" ng-disabled="disabled">
+  <input type="checkbox" ng-model="disabled">disabled<br>
+
+  <input type="text" ng-readonly="readonly">
+  <input type="checkbox" ng-model="readonly">readonly<br>
+
+  <select>
+    <option>ngDisabled</option>
+    <option ng-selected="selected">ngSelected</option>
+    <option>ngReadonly</option>
+  </select>
+  <input type="checkbox" ng-model="selected">selected
+</body>
+</html>

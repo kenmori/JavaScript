@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-strict-di>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="../../angular/angular-sanitize.js"></script>
+  <script type="text/javascript" src="ui-utils.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+  <style>
+    .ui-match {
+      background: yellow;
+    }
+  </style>
+</head>
+
+<body>
+<div ng-controller="hightlightController">
+  <input type="text" ng-model="highlightKeyword">
+
+  <p ng-bind-html="message | highlight:highlightKeyword"></p>
+</div>
+</body>
+
+</html>

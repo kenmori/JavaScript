@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>json</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<p>フィルター無し: {{ myJson }}</p>
+
+<p>フィルター: {{ myJson | json }}</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.myJson = {
+      name: 'kanai',
+      twitterId: 'can_i_do_web'
+    };
+  }]);
+</script>
+</body>
+</html>

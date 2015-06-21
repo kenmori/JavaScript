@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>select/ngOptions</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <select ng-model="colorModel" ng-options="color.name for color in arrayOptions">
+    <option value="">選択してください</option>
+  </select>
+  {{ colorModel }}<br><br>
+
+  <select ng-model="colorModel2" ng-options="color.code as color.name for color in arrayOptions">
+    <option value="">選択してください</option>
+  </select>
+  {{ colorModel2 }}<br><br>
+
+  <select ng-model="colorModel3" ng-options="color.name group by color.type for color in arrayOptions">
+    <option value="">選択してください</option>
+  </select>
+  {{ colorModel3 }}<br><br>
+
+  <select ng-model="colorModel4" ng-options="key for (key, value) in hashOptions">
+    <option value="">選択してください</option>
+  </select>
+  {{ colorModel4 }}<br><br>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.arrayOptions = [
+        { id: 1, name: 'red', code: '#ff0000', type:'group_1' },
+        { id: 2, name: 'green', code: '#00ff00', type:'group_1' },
+        { id: 3, name: 'blue', code: '#0000ff', type:'group_2' },
+        { id: 4, name: 'orange', code: '#ffa500', type:'group_2' },
+        { id: 5, name: 'gray', code: '#808080', type:'group_3' }
+      ];
+      $scope.hashOptions = {
+        color: 'red',
+        code: 'ff0000',
+        type: 'group_1'
+      };
+    }]);
+  </script>
+</body>
+</html>

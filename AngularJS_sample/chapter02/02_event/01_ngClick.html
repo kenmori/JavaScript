@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-click</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <input type="button" value="クリックで+1" ng-click="count=count+1">
+  <input type="button" value="クリックで*2" ng-click="click()">
+  <p>{{ count }}</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.count = 0;   // count の初期化
+      $scope.click = function(){
+        $scope.count = $scope.count * 2;
+      }
+    }]);
+  </script>
+</body>
+</html>

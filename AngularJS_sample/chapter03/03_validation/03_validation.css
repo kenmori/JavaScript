@@ -1,0 +1,3 @@
+input.ng-dirty.ng-invalid {
+  border: solid 1px red;
+}

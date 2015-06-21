@@ -1,0 +1,15 @@
+<div ng-init="cats = [
+  'アメリカンボブテイル',
+  'アメリカンショートヘア',
+  'エキゾチックショートヘア',
+  'ペルシャ',
+  'マンチカン',
+  'スコティッシュフォールド']"/>
+
+<input type="text" ng-model="searchWord">
+<ul>
+  <li ng-repeat="cat in cats | filter:searchWord as filtered_cats">
+    {{cat}}
+  </li>
+</ul>
+件数: {{filtered_cats.length}}

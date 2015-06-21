@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>$event</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <div ng-mouseover="over($event)" ng-mousemove="move($event)" ng-mouseleave="leave($event)" class="box">
+    <p>mouseover ( x: {{ ev.mo.x }}, y: {{ ev.mo.y }} )</p>
+    <p>mousemove ( x: {{ ev.mm.x }}, y: {{ ev.mm.y }} )</p>
+    <p>mouseleave ( x: {{ ev.ml.x }}, y: {{ ev.ml.y }} )</p>
+  </div>
+
+  <style>
+    .box{ width: 300px; height: 300px; border: solid 1px #666; }
+  </style>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.ev = {
+        mo: {}, mm: {}, ml: {}
+      };
+
+      $scope.over = function($event){
+        $scope.ev.mo = { x: $event.x, y: $event.y };
+      }
+      $scope.move = function($event){
+        $scope.ev.mm = { x: $event.x, y: $event.y };
+      }
+      $scope.leave = function($event){
+        $scope.ev.ml = { x: $event.x, y: $event.y };
+      }
+    }]);
+  </script>
+</body>
+</html>

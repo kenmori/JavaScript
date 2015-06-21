@@ -1,0 +1,11 @@
+<div ng-controller="storageController">
+  <input type="text" ng-model="name">
+  <input type="text" ng-model="value">
+  <button ng-click="addItem(name, value)">add</button>
+  <ul>
+    <li ng-repeat="item in items">
+      {{item.name}}: {{item.storage.get()}}
+    </li>
+  </ul>
+  <button ng-click="clear()">clear</button>
+</div>

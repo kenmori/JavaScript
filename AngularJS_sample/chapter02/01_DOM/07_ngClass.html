@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ng-class</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <style>
+    .lightgray{ color: #999; }
+    .learge{ font-size: x-large; }
+    .underline{ text-decoration: underline; }
+  </style>
+
+  <p>一般的なCSSのような定義方法</p>
+  <p ng-class="'lightgray'">lightgray</p>
+  <p ng-class="'learge'">learge</p>
+  <p ng-class="'underline'">underline</p>
+  <p ng-class="'lightgray learge underline'">lightgray learge underline</p><br>
+
+  <p ng-init="
+    mdlLightGray='lightgray';
+    mdlLearge='learge';
+    mdlUnderline='underline';">配列での定義方法</p>
+  <p ng-class="['lightgray', 'underline']">lightgray underline</p><br>
+  <p ng-class="[mdlLightGray, 'learge']">model＆文字列</p><br>
+
+  <p>ハッシュオブジェクトでの定義方法</p>
+  <p ng-class="{
+    lightgray: chkLightGray,
+    learge: chkLearge,
+    underline: chkUnderline
+  }">Target Text</p>
+  <input type="checkbox" ng-model="chkLightGray">lightgray<br>
+  <input type="checkbox" ng-model="chkLearge">learge<br>
+  <input type="checkbox" ng-model="chkUnderline">underline
+</body>
+</html>

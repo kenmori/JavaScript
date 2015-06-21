@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>uppercase</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<input type="text" ng-model="myAccount" ng-change="change()">
+
+<p>フィルター無し</p>
+
+<p>{{ myAccount }}</p>
+
+<p>フィルター</p>
+
+<p>{{ myAccount | uppercase }}</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.myAccount = '';
+  }]);
+</script>
+</body>
+</html>

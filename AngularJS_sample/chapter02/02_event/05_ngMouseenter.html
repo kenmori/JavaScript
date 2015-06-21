@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-mouseenter</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<p ng-mouseenter="mouseenter()" ng-hide="mouseEntered">マウスエンターで非表示</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.mouseenter = function () {
+      $scope.mouseEntered = true;
+    }
+  }]);
+</script>
+</body>
+</html>

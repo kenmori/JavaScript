@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-strict-di>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="ui-layout.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+  <link rel="stylesheet" type="text/css" href="ui-layout.css">
+  <style>
+    .layout .header {
+      background: #d3d3d3;
+    }
+
+    .layout .sidebar {
+      background: lightcyan;
+    }
+
+    .layout .content {
+      background: lightgoldenrodyellow;
+    }
+
+    .layout .footer {
+      background: lightgreen;
+    }
+  </style>
+</head>
+
+<body>
+<div ui-layout options="{flow: 'row'}" class="layout">
+  <div size="20%" class="header"></div>
+  <div ui-layout options="{flow: 'column'}">
+    <div size="30%" class="sidebar"></div>
+    <div class="content"></div>
+  </div>
+  <div size="10%" class="footer"></div>
+</div>
+</body>
+
+</html>

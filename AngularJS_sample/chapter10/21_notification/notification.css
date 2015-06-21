@@ -1,0 +1,11 @@
+.notification {
+  background-color: #fbe0e0;
+  border-color: #fb8080;
+  padding: 8px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+.notification a {
+  float: right;
+}
