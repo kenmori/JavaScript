@@ -1,0 +1,17 @@
+<div ng-controller="EscapeController" class="ng-scope">
+  <h3>Dangerous HTML</h3>
+  <!-- HTML要素の内容に危険な文字列を出力 -->
+  <div class="ng-binding">&lt;button onclick="alert('danger &amp; danger!')"&gt;push&lt;/button&gt;</div>
+  <br>
+
+  <h3>Dangerous Attribute</h3>
+  <!-- value属性の内容に危険な文字列を出力 -->
+  <input type="text" value="&quot;+onmouseover%3d&quot;alert('danger &amp; danger!')">
+  <br>
+
+  <h3>Dangerous Link</h3>
+  <!-- href属性の内容に危険な文字列を出力 -->
+  <a href="unsafe:javascript:alert(&quot;danger &amp; danger!&quot;)">danger!</a>
+  <a ng-href="javascript:alert(&quot;danger &amp; danger!&quot;)"
+     href="unsafe:javascript:alert(&quot;danger &amp; danger!&quot;)">danger!</a>
+</div>

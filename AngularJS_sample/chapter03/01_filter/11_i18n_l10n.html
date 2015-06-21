@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>i18n/l10n</title>
+  <script src="../../angular/angular.js"></script>
+  <script src="../../angular/angular-locale_ja-jp.js"></script>
+</head>
+<body ng-controller="myController">
+<p>1000 | currency -> {{ 1000 | currency }}</p>
+
+<p>today | date: 'EEEE' -> {{ today | date: 'EEEE' }}</p>
+
+<p>today | date: 'EEE' -> {{ today | date: 'EEE' }}</p>
+
+<p>today | date: 'medium' -> {{ today | date: 'medium' }} --format: 'y/MM/dd H:mm:ss'</p>
+
+<p>today | date: 'short' -> {{ today | date: 'short' }} --format: 'y/MM/dd'</p>
+
+<p>today | date: 'fullDate' -> {{ today | date: 'fullDate' }} --format: 'y年M月d日EEEE'</p>
+
+<p>today | date: 'longDate' -> {{ today | date: 'longDate' }} --format: 'y年M月d日'</p>
+
+<p>today | date: 'mediumDate' -> {{ today | date: 'mediumDate' }} --format: 'y/MM/dd'</p>
+
+<p>today | date: 'shortDate' -> {{ today | date: 'shortDate' }} --format: 'y/MM/dd'</p>
+
+<p>today | date: 'mediumTime' -> {{ today | date: 'mediumTime' }} --format: 'H:mm:ss'</p>
+
+<p>today | date: 'shortTime' -> {{ today | date: 'shortTime' }} --format: 'H:mm'</p>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.today = new Date();
+  }]);
+</script>
+</body>
+</html>

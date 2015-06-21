@@ -1,0 +1,16 @@
+<div ng-controller="EscapeController">
+  <h3>Dangerous HTML</h3>
+  <!-- HTML要素の内容に危険な文字列を出力 -->
+  <div>{{dangerousHtml}}</div>
+  <br/>
+
+  <h3>Dangerous Attribute</h3>
+  <!-- value属性の内容に危険な文字列を出力 -->
+  <input type="text" value="{{dangerousAttr}}">
+  <br/>
+
+  <h3>Dangerous Link</h3>
+  <!-- href属性の内容に危険な文字列を出力 -->
+  <a href="{{dangerousLink}}">danger!</a>
+  <a ng-href="{{dangerousLink}}">danger!</a>
+</div>

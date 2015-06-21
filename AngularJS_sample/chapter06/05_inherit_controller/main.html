@@ -1,0 +1,16 @@
+<div ng-controller="ParentController">
+  <h3>parent</h3>
+  <ul>
+    <li>value: {{value}}</li>
+    <li>upperValue: {{getUpperValue()}}</li>
+    <li>newValue: {{newValue}}</li>
+  </ul>
+  <div ng-controller="ChildController">
+    <h3>child</h3>
+    <ul>
+      <li>value: {{value}}</li>
+      <li>upperValue: {{getUpperValue()}}</li>
+      <li>newValue: {{newValue}}</li>
+    </ul>
+  </div>
+</div>

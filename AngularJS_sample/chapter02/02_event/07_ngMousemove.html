@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-mousemove</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <p ng-mousemove="mousemove()" ng-style="bgColor">マウスムーブで徐々に背景が黒くなる</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      var color = 255;
+      $scope.mousemove = function(){
+        color = (color > 5)? color - 5: color;
+        $scope.bgColor = { backgroundColor: 'rgb(' + color + ',' + color + ',' + color + ')' };
+      }
+    }]);
+  </script>
+</body>
+</html>

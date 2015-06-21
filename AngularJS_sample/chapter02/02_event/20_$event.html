@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>$event</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <button ng-click="click($event)">クリック</button>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.click = function($event){
+        console.log($event);
+      }
+    }]);
+  </script>
+</body>
+</html>

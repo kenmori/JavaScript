@@ -1,0 +1,15 @@
+<div ng-controller="ParentController2">
+  <h3>parent</h3>
+  <ul>
+    <li>value: {{value}}</li>
+    <li>data.value: {{data.value}}</li>
+  </ul>
+  <div ng-controller="ChildController2">
+    <h3>child</h3>
+    <ul>
+      <li>$parent.value: {{$parent.value}}</li>
+      <li>data.value: {{data.value}}</li>
+    </ul>
+    <button ng-click="changeValue()">change value</button>
+  </div>
+</div>

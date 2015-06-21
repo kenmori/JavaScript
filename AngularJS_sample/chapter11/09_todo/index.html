@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-strict-di>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="todo.js"></script>
+</head>
+
+<body>
+<div ng-controller="ToDoController">
+  <form ng-submit="add()">
+    <input ng-model="inputText">
+  </form>
+
+  <ul>
+    <li ng-repeat="todo in todos">
+      <input type="checkbox" ng-model="todo.done">
+      <label>{{todo.title}}</label>
+    </li>
+  </ul>
+</div>
+</body>
+
+</html>

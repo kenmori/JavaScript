@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ng-repeat</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <p>シンプルな配列</p>
+  <ul ng-init="authors=['can_i_do_web','zoetro','teyosh']">
+    <li ng-repeat="author in authors">{{ author }}</li>
+  </ul>
+
+  <p>ハッシュオブジェクトの配列</p>
+  <ul ng-init="authorsInfo=[
+    { id: 1, name: 'can_i_do_web' },
+    { id: 2, name: 'zoetro' },
+    { id: 3, name: 'teyosh' }]">
+    <li ng-repeat="author in authorsInfo">
+      <p>ID: {{ author.id }} Name: {{ author.name }}</p>
+    </li>
+  </ul>
+
+  <p>ハッシュオブジェクトのみ</p>
+  <ul ng-init="authorData= { id: 1, name: 'can_i_do_web', bloodType: 'A' }">
+    <li ng-repeat="(key, val) in authorData">{{ key }} - {{ val }}</li>
+  </ul>
+
+  <p>インデックスを取得する</p>
+  <table ng-init="week=['Sun', 'Mon','Tue','Wed','Thu','Fri','Sat']">
+    <thead>
+      <tr>
+        <th>day</th>
+        <th>$index</th>
+        <th>$first</th>
+        <th>$middle</th>
+        <th>$last</th>
+        <th>$even</th>
+        <th>$odd</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="day in week" ng-class="{ evenRow: $even, oddRow: $odd }">
+        <td>{{ day }}</td>
+        <td>{{ $index }}</td>
+        <td>{{ ($first)? '○': '×' }}</td>
+        <td>{{ ($middle)? '○': '×' }}</td>
+        <td>{{ ($last)? '○': '×' }}</td>
+        <td>{{ ($even)? '○': '×' }}</td>
+        <td>{{ ($odd)? '○': '×' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>ng-repeat-start/ng-repeat-end</p>
+  <span ng-repeat-start="day in week">index: {{ $index }}</span>
+  <span>day: {{ day }}</span>
+  <span ng-repeat-end><br></span>
+</body>
+</html>

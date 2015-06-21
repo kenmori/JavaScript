@@ -1,0 +1,9 @@
+<div ng-controller="MyController">
+  <div ng-repeat="message in items">
+    <my-directive-compile></my-directive-compile>
+    <my-directive-compile readonly></my-directive-compile>
+    <my-directive-link ng-model="item"></my-directive-link>
+    <my-directive-post-link ng-model="item"></my-directive-post-link>
+    <div my-directive-post-link-only ng-model="item"></div>
+  </div>
+</div>

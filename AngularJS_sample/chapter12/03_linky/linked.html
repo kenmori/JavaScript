@@ -1,0 +1,42 @@
+<div ng-controller="LinkyController" class="ng-scope">
+  <h3>Linky Filter</h3>
+
+  <div ng-bind-html="link1 | linky" class="ng-binding">
+    <a href="http://example.com">http://example.com</a>
+  </div>
+  <br>
+
+  <div ng-bind-html="link2 | linky" class="ng-binding">
+    normal text <a href="http://example.com">http://example.com</a>
+  </div>
+  <br>
+
+  <div ng-bind-html="link3 | linky" class="ng-binding">
+    <a href="mailto:hoge@sample.com">hoge@sample.com</a>
+  </div>
+  <br>
+
+  <div ng-bind-html="link4 | linky" class="ng-binding">
+    <a href="mailto:hoge@sample.com">hoge@sample.com</a>
+  </div>
+  <br>
+
+  <div ng-bind-html="link5 | linky" class="ng-binding">
+    <a href="https://localhost.com">https://localhost.com</a>
+  </div>
+  <br>
+
+  <div ng-bind-html="link6 | linky" class="ng-binding">
+    <a href="ftp://foobar.co.jp">ftp://foobar.co.jp</a>
+  </div>
+  <br>
+
+  <div ng-bind-html="link7 | linky" class="ng-binding">
+    file:///home/username/file.txt
+  </div>
+
+  <div ng-bind-html="link8 | linky" class="ng-binding">
+    <a href="http://日本語ドメイン.com">http://日本語ドメイン.com</a>
+  </div>
+  <br>
+</div>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ng-model-options</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <p>ng-model-options="{ updateOn: 'default', debounce: 1000 }"</p>
+  <input type="text" ng-model="delay" ng-model-options="{ updateOn: 'default', debounce: 1000 }">{{delay}}<br>
+
+  <p>ng-model-options="{ updateOn: 'blur' }"</p>
+  <input type="text" ng-model="blur" ng-model-options="{ updateOn: 'blur' }">{{blur}}<br>
+
+  <p>ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"</p>
+  <input type="text" ng-model="delayDefault"
+    ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }">{{delayDefault}}<br>
+</body>
+</html>

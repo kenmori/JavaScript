@@ -1,0 +1,7 @@
+.tax.ng-valid.ng-dirty {
+  border: solid green 2px;
+}
+
+.tax.ng-invalid.ng-dirty {
+  border: solid red 2px;
+}

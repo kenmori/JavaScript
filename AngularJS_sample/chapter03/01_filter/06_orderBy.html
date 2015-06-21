@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>orderBy</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+<p>フィルター無し</p>
+<ul>
+  <li ng-repeat="person in myList">{{ person.name }}</li>
+</ul>
+
+<p>フィルター</p>
+<ul>
+  <li ng-repeat="person in myList | orderBy:'name'">{{ person.name }}</li>
+</ul>
+
+<script>
+  angular.module('myApp', []).controller('myController', ['$scope', function ($scope) {
+    $scope.myList = [
+      { name: 'kanai' },
+      { name: 'ikezoe' },
+      { name: 'yoshida' },
+      { name: 'can_i_do_web' },
+      { name: 'zoetro' },
+      { name: 'teyosh' }
+    ];
+  }]);
+</script>
+</body>
+</html>

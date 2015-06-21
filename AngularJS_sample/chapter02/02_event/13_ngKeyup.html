@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-keyup</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <input type="text" ng-keydown="keydown()" ng-keypress="keypress()" ng-keyup="keyup()">
+  <p>keydownイベント : {{ count.keydown }}</p>
+  <p>keypressイベント : {{ count.keypress }}</p>
+  <p>keyupイベント : {{ count.keyup }}</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.count = {
+        keydown: 0,
+        keypress: 0,
+        keyup: 0
+      };
+      $scope.keydown = function(){
+        $scope.count.keydown ++;
+      }
+      $scope.keypress = function(){
+        $scope.count.keypress ++;
+      }
+      $scope.keyup = function(){
+        $scope.count.keyup ++;
+      }
+    }]);
+  </script>
+</body>
+</html>

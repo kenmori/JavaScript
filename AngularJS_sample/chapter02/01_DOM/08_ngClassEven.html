@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ng-class-even</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <style>
+    .large{ font-size: 40px; }
+  </style>
+  <ul ng-init="users=['can_i_do_web','zoetro','teyosh', 'かない','いけぞえ','よしだ']">
+    <li ng-repeat="user in users" ng-class-even="'large'">{{ user }}</li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<ul>
+  <li class="schedulePane close" ng-repeat="day in days">
+    <div>
+      <span>{{select.year}} / {{select.month}} / {{$index+1}}</span>
+      <input type="text" ng-model="day.input">
+      <button class="button" ng-click="createSchedule(day)" >追加</button>
+    </div>
+    <div ng-click="toggle($event)">
+      <p ng-repeat="schedule in day.schedules">{{schedule.content}}</p>
+    </div>
+  </li>
+</ul>

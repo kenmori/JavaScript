@@ -1,0 +1,27 @@
+
+.book-item {
+  margin: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #dedede;
+}
+
+.edit-mode {
+  background-color: lightyellow;
+}
+
+input {
+  display: block;
+  width: 150px;
+  float: left;
+}
+
+label {
+  float: left;
+  width: 100px;
+  text-align: right;
+  padding-right: 15px;
+}
+
+br {
+  clear: left;
+}

@@ -1,0 +1,62 @@
+<form class="book-item">
+  <div ng-hide="isEditMode">
+    <table>
+      <tr>
+        <td>タイトル</td>
+        <td>{{book.title}}</td>
+      </tr>
+      <tr>
+        <td>著者</td>
+        <td>{{book.author}}</td>
+      </tr>
+      <tr>
+        <td>ステータス</td>
+        <td>{{book.status}}</td>
+      </tr>
+      <tr>
+        <td>評価</td>
+        <td>
+          <rating ng-model="book.rate" max="5" readonly="true"></rating>
+        </td>
+      </tr>
+      <tr>
+        <td>読了日</td>
+        <td>{{book.readDate | fromnow}}</td>
+      </tr>
+    </table>
+    <button ng-click="startEdit()">編集</button>
+  </div>
+  <div class="edit-mode" ng-show="isEditMode">
+    <table>
+      <tr>
+        <td>タイトル</td>
+        <td><input type="text" ng-model="book.title"></td>
+      </tr>
+      <tr>
+        <td>著者</td>
+        <td><input type="text" ng-model="book.author"></td>
+      </tr>
+      <tr>
+        <td>ステータス</td>
+        <td>
+          <combo-box selected-item="book.status" all-items="statuses"></combo-box>
+        </td>
+      </tr>
+      <tr>
+        <td>評価</td>
+        <td>
+          <rating ng-model="book.rate" max="5"></rating>
+        </td>
+      </tr>
+      <tr>
+        <td>読了日</td>
+        <td>
+          <input type="date" ng-model="book.readDate">
+        </td>
+      </tr>
+    </table>
+    <br/>
+    <button ng-click="save()">保存</button>
+    <button ng-click="cancel()">キャンセル</button>
+  </div>
+</form>

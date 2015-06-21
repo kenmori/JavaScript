@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ngMessages/ngMessage</title>
+  <script src="../../angular/angular.js"></script>
+  <script src="../../angular/angular-messages.js"></script>
+</head>
+<body ng-controller="myController">
+  <input type="text" ng-model="status" ng-change="change()">
+
+  <div ng-messages="statusList.messages">
+    <p ng-message="200">OK</p>
+    <p ng-message="404">Not Found</p>
+    <p ng-message="500">Internal Server Error</p>
+    <p ng-message="503">Service Unavailable</p>
+  </div>
+  <p ng-show="!status.length">200, 400, 500, 503のどれかを入力してください</p>
+
+  <script>
+    angular.module('myApp', ['ngMessages']).controller('myController', ['$scope', function($scope){
+      $scope.statusList = {
+        messages: {
+          "200": false,
+          "404": false,
+          "500": false,
+          "503": false
+        }
+      };
+
+      $scope.change = function($event){
+        angular.forEach($scope.statusList.messages, function(value, key){
+          $scope.statusList.messages[key] = false;
+        });
+
+        if($scope.status in $scope.statusList.messages){
+          $scope.statusList.messages[$scope.status] = true;
+        }
+      }
+    }]);
+  </script>
+</body>
+</html>

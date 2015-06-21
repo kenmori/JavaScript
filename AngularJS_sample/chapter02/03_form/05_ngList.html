@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+  <meta charset="UTF-8">
+  <title>ngList</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body>
+  <input type="text" ng-model="list" ng-list>カンマ区切り<br>
+  <ul>
+    <li ng-repeat="item in list">{{ item }}</li>
+  </ul>
+
+   <input type="text" ng-model="customList" ng-list="@">@区切り<br>
+  <ul>
+    <li ng-repeat="item in customList">{{ item }}</li>
+  </ul>
+</body>
+</html>

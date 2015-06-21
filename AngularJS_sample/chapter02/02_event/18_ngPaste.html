@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>ng-paste</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+  <textarea cols="60" rows="15" ng-model="target" ng-copy="copy()" ng-cut="cut()"></textarea>
+  <p>{{ copiedOrCut }}</p>
+  <input type="text" placeholder="ペーストしてください" ng-paste="paste()">
+  <p>{{ pasted }}</p>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.target = 'コピーもしくはカットしてください。\nCtrl + c / command + c\nCtrl + x / command + x';
+      $scope.copy = function(){
+        $scope.copiedOrCut = 'コピーしました。';
+      }
+      $scope.cut = function(){
+        $scope.copiedOrCut = 'カットしました。';
+      }
+      $scope.paste = function(){
+        $scope.pasted = 'ペーストしました。';
+      }
+    }]);
+  </script>
+</body>
+</html>

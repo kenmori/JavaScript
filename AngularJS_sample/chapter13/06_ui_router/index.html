@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-strict-di>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../../angular/angular.js"></script>
+  <script type="text/javascript" src="angular-ui-router.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body>
+<a ui-sref="state1" target="_self">state1を開く</a>
+<a ui-sref="state2" target="_self">state2を開く</a>
+
+<div ui-view="viewA"></div>
+<div ui-view="viewB"></div>
+</body>
+
+</html>

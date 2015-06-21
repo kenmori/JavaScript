@@ -1,0 +1,32 @@
+
+.combobox {
+  position: relative;
+  width: 150px;
+  text-align: left;
+  display: inline;
+}
+
+.combobox input {
+  width: 150px;
+  height: 1.5em;
+  z-index: 0;
+}
+
+.combobox ul {
+  width: 145px;
+  padding: 1px;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  position: absolute;
+  top: 0.5em;
+  z-index: 1;
+}
+
+.combobox li {
+  display: block;
+  width: 100%;
+}
+
+.combobox li:hover {
+  background-color: #bbb;
+}

@@ -1,0 +1,88 @@
+html, body, #wrapper {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+#header {
+  color: #373435;
+  background: #ffffff;
+  text-align: center;
+}
+
+#header div h1 {
+  margin: 0px;
+  padding: 10px;
+}
+
+#header div p {
+  margin: 0px;
+}
+
+
+#select {
+  color: #f0f1f1;
+  text-align: center;
+}
+
+#select select{
+  border: 0px;
+  font-size: large;
+}
+
+
+#scheduler app-calender ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+#scheduler app-calender ul li {
+  list-style-type: none;
+  margin: 0px;
+  padding: 15px 0px;
+  border-top: solid gray 1px;
+  border-bottom: solid gray 1px;
+  background: white;
+  height: 60px;
+  width: 100%;
+  overflow: hidden;
+  top: 0px;
+}
+
+#scheduler app-calender ul li.open {
+  height: auto;
+  min-height: 60px;
+}
+#scheduler app-calender ul li span {
+  margin: 10px;
+}
+
+#scheduler app-calender ul li p {
+  margin: 0px 5px;
+  position: relative;
+}
+
+
+li.schedulePane p.ng-move,
+li.schedulePane p.ng-enter,
+li.schedulePane p.ng-leave {
+  -webkit-transition: all linear 0.3s;
+  -moz-transition: all linear 0.3s;
+  -ms-transition: all linear 0.3s;
+  -o-transition: all linear 0.3s;
+  transition: all linear 0.3s;
+}
+
+li.schedulePane p.ng-enter {
+  left: 100%;
+}
+li.schedulePane p.ng-enter.ng-enter-active {
+  left: 0;
+}
+
+li.schedulePane p.ng-leave {
+  left: 0;
+}
+li.schedulePane p.ng-leave.ng-leave-active{
+  left: -100%;
+}

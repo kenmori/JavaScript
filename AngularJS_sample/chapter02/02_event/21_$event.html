@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>$event</title>
+  <script src="../../angular/angular.js"></script>
+</head>
+<body ng-controller="myController">
+
+  <div ng-click="outerClick()" class="box">
+    <p>外側をクリック</p>
+    <button ng-click="innerClick()" class="box">ボタンをクリック</button>
+    <!-- (1) クリックイベントに$eventを渡す -->
+    <button ng-click="stopBubbling($event)" class="box">バブリングしないボタン</button>
+  </div>
+  <p>外側をクリック: {{ outerClickCount }}</p>
+  <p>ボタンをクリック: {{ innerClickCount }}</p>
+  <p>バブリングしないボタン: {{ stopBubblingCount }}</p>
+
+  <style>
+    .box{ border: solid 1px #666; padding: 16px; }
+  </style>
+
+  <script>
+    angular.module('myApp', []).controller('myController', ['$scope', function($scope){
+      $scope.outerClickCount = 0;
+      $scope.innerClickCount = 0;
+      $scope.stopBubblingCount = 0;
+
+      $scope.outerClick = function(){
+        $scope.outerClickCount ++;
+      }
+      $scope.innerClick = function(){
+        $scope.innerClickCount ++;
+      }
+      $scope.stopBubbling = function($event){
+        // (2) イベントのバブリングを制止
+        $event.stopPropagation();
+        $scope.stopBubblingCount ++;
+      }
+    }]);
+  </script>
+</body>
+</html>

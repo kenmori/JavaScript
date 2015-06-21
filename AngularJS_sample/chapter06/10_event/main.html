@@ -1,0 +1,16 @@
+<div ng-controller="UpperSubscriberController">
+  <div>
+    UpperMessage: {{upperMessage}}
+  </div>
+  <div ng-controller="PublisherController">
+    <input type="text" ng-model="inputText">
+    <button ng-click="emitMessage()">emit</button>
+    <button ng-click="broadcastMessage()">broadcast</button>
+    <div ng-controller="LowerSubscriberController1">
+      LowerMessage1: {{lowerMessage1}}
+    </div>
+    <div ng-controller="LowerSubscriberController2">
+      LowerMessage2: {{lowerMessage2}}
+    </div>
+  </div>
+</div>
