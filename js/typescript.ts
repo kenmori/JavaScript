@@ -1,23 +1,16 @@
-//http://qiita.com/tonkotsuboy_com/items/6d86d68200326757195d
-class Hoge
-{
-	//インスタンス
-	private static _instance: Hoge;
-	public static getInstance() : Hoge
-	{
-		console.log("Hogeクラスインスタンスの取得");
-		if(!this._instance)
-		this._instance = new Hoge(Hoge.getInstance);
-		return this._instance;
-	}
-	constructor(caller: Function){
-		if(caller == Hoge.getInstance)
-			console.log("インスタンスを作成。一度しか呼ばれない");
-		else if(Hoge._instance)
-			throw new Error("既にインスタンスが存在する為エラー");
-		else
-			throw new Error("コンストラクタの引数が不正な為エラー")
-	}
+//引数省略時に補う値を書き込んでおく
+function x(a, b=100) {
+	return a + b;
 }
-var hoge1:Hoge = Hoge.getInstance();
-var hoge2:Hoge = Hoge.getInstance();
+alert(x(100));
+
+//可変長変数.
+//レスト引数
+function x(...a: number[]){
+	var sum = 0;
+	for(var i = 0; i < a.length; i++){
+		sum += a[i];
+	}
+	return sum;
+}
+alert(x(100,200,300,400,500));
