@@ -17,64 +17,78 @@
 </head>
 <body>
 	<div ng-app="taskApp">
-		<div tmpl-bar ng-controller="BarCtrl" data="top"></div>
+		<div class="authbar" ng-controller="AuthCtrl">
+			<button ng-click="auth.toggle()">{{auth.label}}</button> {{auth.user}}
+		</div>
 		<div ng-controller="TaskCtrl">
-			<h1>{{conf.appName}}</h1>
+		    <h1>{{conf.appName}}</h1>
 			<form ng-submit="addTask()">
-				<input type="text" ng-model="taskTitle" placehodler="タスクを入力してください">
-				<span>{{error}}</span>
-				</ul>
+				<input ng-model="taskTitle" placeholder="タスクを入力してください">
+				<span class="error">{{error}}</span>
 			</form>
-			<ul clas="taskList">
+			<ul class="taskList">
 				<li ng-repeat="task in tasks" class="closed-{{task.closed}}">
 					<input type="checkbox" ng-model="task.closed">
 					<span class="title">{{task.title}}</span>
-					<a ng-click="delTask($event,$index)" href="#">x</a>
+					<a class="del" ng-click="delTask($event, $index)" href="#">x</a>
 				</li>
 			</ul>
 			<button class="clear" ng-click="delAllTask()">全て削除</button>
 		</div>
-		<div tmpl-bar ng-controller="BarCtrl" data="bottom"></div>
 	</div>
 	<script>
-		var taskApp = angular.module('taskApp',[]);
-		taskApp.controller('TaskCtrl',function($scope){
+	angular.module('auth', []).
+		service('authService', function(){
+			return {
+				user : '',
+				label : 'LOGIN',
+				toggle : function(){
+					if(this.label == 'LOGIN'){
+						this.label = 'LOGOUT';
+						this.user = 'kenji morita';
+					}
+					else{
+						this.label = 'LOGIN';
+						this.user = '';
+					}
+				}
+			}
+		});
+	angular.module('taskApp', ['auth']).
+		controller('TaskCtrl', function($scope){
 			$scope.conf = {
 				appName : 'TODO'
 			}
+			$scope.taskTitle = '';
 			$scope.tasks = [];
 			$scope.addTask = function(){
 				if(!$scope.taskTitle.length){
-					$scope.error = 'タスクが入力されていません!'
+					$scope.error = 'タスクが入力されてません！'
 					return;
 				}
 				$scope.tasks.push({
-					title : $scope.taskTitle,
+					title: $scope.taskTitle,
 					closed: false
 				});
 				$scope.taskTitle = '';
 				$scope.error = '';
-			},
-			$scope.delTask = function($event,$index){
+			}
+			$scope.delTask = function($event, $index){
 				$event.preventDefault();
-				$scope.tasks.splice($index,1)
-			},
+				$scope.tasks.splice($index, 1)
+			}
 			$scope.delAllTask = function(){
-				if(confirm('タスクを全て削除しますか?')){
-				$scope.tasks = [];
+				if(confirm('タスクを全て削除しますか？')){
+					$scope.tasks = [];
 				}
 			}
-		}).controller('BarCtrl',function($scope){
-			$scope.top = {title:'HEAD'};
-			$scope.bottom = {title:'FOOT'};
-		}).directive('tmplBar',function(){
-			return {
-				scope: {
-					bar : '=data'
-				},
-				templateUrl: 'tmpl-bar.html'
-			};
-		});
+		}).
+		controller('AuthCtrl',
+			function($rootScope, authService){ // authServiceの取得
+				$rootScope.auth = authService;
+			}
+		);
+
 	</script>
 </body>
 </html>
