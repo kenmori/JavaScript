@@ -1,33 +1,65 @@
 <!DOCTYPE html>
-<html ng-app="app"><!-- js側で定義してたappモジュールを利用できる -->
+<html><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
-	</head>
-<body ng-controller="transCtrl">
-	<h1>カスタムディレクティブ</h1>
-
-	<input type="text" ng-model="title"><br/>
-	<textarea ng-model="text" rows="3"></textarea><br/>
-	{{ title }}
-	<panel title="{{ title }}">{{ text }}</panel>
+	<style>
+		li.closed-true .title{
+			color: gray;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<div ng-app="taskApp">
+		<div ng-controller="TaskCtrl">
+			<h1>{{conf.appName}}</h1>
+			<form ng-submit="addTask()">
+				<input type="text" ng-model="taskTitle" placehodler="タスクを入力してください">
+				<span>{{error}}</span>
+				</ul>
+			</form>
+			<ul clas="taskList">
+				<li ng-repeat="task in tasks" class="closed-{{task.closed}}">
+					<input type="checkbox" ng-model="task.closed">
+					<span class="title">{{task.title}}</span>
+					<a ng-click="delTask($event,$index)" href="#">x</a>
+				</li>
+			</ul>
+			<button class="clear" ng-click="delAllTask()">全て削除</button>
+		</div>
 	</div>
 	<script>
-		var app = angular.module('app',[]);
-		app.controller("transCtrl", function($scope) {
-		  $scope.title = 'パネルのタイトル';
-		  $scope.text = 'パネルの本文';
-		});
-		demoApp.directive("panel", function () {
-		  return {
-		    restrict: "E",
-		    scope: { title:'@' },
-		    template: '<div class="panel panel-default"><div class="panel-heading"><h4>cccc</h4></div><div class="panel-body"><p ng-transclude></p></div></div>',
-		    transclude: true,
-		  }
-		});
+		var taskApp = angular.module('taskApp',[]);
+		taskApp.controller('TaskCtrl',function($scope){
+			$scope.conf = {
+				appName : 'TODO'
+			}
+			$scope.tasks = [];
+			$scope.addTask = function(){
+				if(!$scope.taskTitle.length){
+					$scope.error = 'タスクが入力されていません!'
+					return;
+				}
+				$scope.tasks.push({
+					title : $scope.taskTitle,
+					closed: false
+				});
+				$scope.taskTitle = '';
+				$scope.error = '';
+			},
+			$scope.delTask = function($event,$index){
+				$event.preventDefault();
+				$scope.tasks.splice($index,1)
+			},
+			$scope.delAllTask = function(){
+				if(confirm('タスクを全て削除しますか?')){
+				$scope.tasks = [];
+				}
+			}
+		})
 	</script>
 </body>
 </html>
