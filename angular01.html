@@ -1,54 +1,65 @@
 <!DOCTYPE html>
-<html ng-app="myApp"><!-- js側で定義してたappモジュールを利用できる -->
+<html><!-- js側で定義してたappモジュールを利用できる -->
 <head>
 	<meta charset="UTF-8">
 	<title>angular</title>
 	<script type="text/javascript" src="./js/angular.js"></script>
 	<script type="text/javascript" src="./js/app2.js"></script>
-	</head>
-<body ng-controller="myController">
-	<h1>filter</h1>
-	<input type="text" ng-model="mySearch">
-	<ul>
-		<li ng-repeat="person in myList | filter: mySearch">{{ person.name }}</li>
-	</ul>
-	<div>
-		<input type="text" ng-model="mySearchTwitter.twitterId"><!-- モデル名.fittername -->
-		twitterIdで絞り込み
+	<style>
+		li.closed-true .title{
+			color: gray;
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+<body>
+	<div ng-app="taskApp">
+		<div ng-controller="TaskCtrl">
+			<h1>{{conf.appName}}</h1>
+			<form ng-submit="addTask()">
+				<input type="text" ng-model="taskTitle" placehodler="タスクを入力してください">
+				<span>{{error}}</span>
+				</ul>
+			</form>
+			<ul clas="taskList">
+				<li ng-repeat="task in tasks" class="closed-{{task.closed}}">
+					<input type="checkbox" ng-model="task.closed">
+					<span class="title">{{task.title}}</span>
+					<a ng-click="delTask($event,$index)" href="#">x</a>
+				</li>
+			</ul>
+			<button class="clear" ng-click="delAllTask()">全て削除</button>
+		</div>
 	</div>
-	<table>
-		<thead>
-		<tr>
-			<th>twitterId</th>
-			<th>following</th>
-			<th>followers</th>
-		</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="info in twitterInfo | filter:mySearchTwitter"><!-- モデル名 -->
-				<td>{{ info.twitterId }}</td>
-				<td>{{ info.following }}</td>
-				<td>{{ info.followers }}</td>
-			</tr>
-		</tbody>
-	</table>
-
 	<script>
-	angular.module('myApp',[]).controller('myController',['$scope',function($scope){
-		$scope.myList = [
-			{name: 'kanai'},
-			{name: 'ikezoe'},
-			{name: 'yosida'},
-			{name: 'can_i_do_web'},
-			{name: 'zoetro'},
-			{name: 'teyosh'}
-		];
-		$scope.twitterInfo = [
-			{ twitterId: 'can_ido_web', following: 100, followers: 10},
-			{ twitterId: 'zoetro', following: 200, followers: 1000},
-			{ twitterId: 'teyosh', following: 200, followers: 500}
-		]
-	}])
+		var taskApp = angular.module('taskApp',[]);
+		taskApp.controller('TaskCtrl',function($scope){
+			$scope.conf = {
+				appName : 'TODO'
+			}
+			$scope.tasks = [];
+			$scope.addTask = function(){
+				if(!$scope.taskTitle.length){
+					$scope.error = 'タスクが入力されていません!'
+					return;
+				}
+				$scope.tasks.push({
+					title : $scope.taskTitle,
+					closed: false
+				});
+				$scope.taskTitle = '';
+				$scope.error = '';
+			},
+			$scope.delTask = function($event,$index){
+				$event.preventDefault();
+				$scope.tasks.splice($index,1)
+			},
+			$scope.delAllTask = function(){
+				if(confirm('タスクを全て削除しますか?')){
+				$scope.tasks = [];
+				}
+			}
+		})
 	</script>
 </body>
 </html>
