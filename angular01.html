@@ -10,10 +10,14 @@
 			color: gray;
 			text-decoration: line-through;
 		}
+		.bar{
+			background: #ccc;
+		}
 	</style>
 </head>
 <body>
 	<div ng-app="taskApp">
+		<div tmpl-bar ng-controller="BarCtrl" data="top"></div>
 		<div ng-controller="TaskCtrl">
 			<h1>{{conf.appName}}</h1>
 			<form ng-submit="addTask()">
@@ -30,6 +34,7 @@
 			</ul>
 			<button class="clear" ng-click="delAllTask()">全て削除</button>
 		</div>
+		<div tmpl-bar ng-controller="BarCtrl" data="bottom"></div>
 	</div>
 	<script>
 		var taskApp = angular.module('taskApp',[]);
@@ -59,7 +64,17 @@
 				$scope.tasks = [];
 				}
 			}
-		})
+		}).controller('BarCtrl',function($scope){
+			$scope.top = {title:'HEAD'};
+			$scope.bottom = {title:'FOOT'};
+		}).directive('tmplBar',function(){
+			return {
+				scope: {
+					bar : '=data'
+				},
+				templateUrl: 'tmpl-bar.html'
+			};
+		});
 	</script>
 </body>
 </html>
