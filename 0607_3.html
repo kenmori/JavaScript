@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>0607_3</title>
+</head>
+<body>
+
+
+
+<script type="text/javascript">
+///////////////////////////////////////////
+//イテレータ(繰り返し処理)
+//
+//http://uhyohyo.net/javascript/16_2.html
+//ES6 (for ofの仕様)
+//配列の中をひとつひとつ処理していく
+var arr=[0,1,2,3,4];
+for(var value of arr){
+	console.log(value);
+}
+//文字を人文字ずつ処理するイテレータ
+var string="moritakenji";
+for(var value of string){
+	console.log(value);
+}
+///////////////////////////////////////////
+// オプションオブジェクトの渡し方と受け取り側のコンストラクタ
+
+var alert = new Alert(app, message, {
+	width: 150,
+	height: 100,
+	title: "Error",
+	titleColor: "blue",
+	bgColor: "white",
+	textColor: "black",
+	icon: "error",
+	modal: true
+});
+
+
+function Alert(parent, message, opts){
+	opts = opts || {}; //デフォルトは空のオブジェクト
+	this.width = opts.width === undefined ? 320 : opts.width;//0が有効であってデフォルトではないのでundefinedで判定する
+	this.height = opts.height === undefined ? 240 : opts.height;
+	this.x = opts.x === undefined ? (parent.width / 2) - (this.width / 2) : opts.x;
+	this.y = opts.y === undefined ? (parent.height / 2) - (this.height /2) : opts.y;
+	this.title = opts.title || "Alert";//空文字がデフォルトではないので論理OR演算子を使う
+	this.titleColor = opts.titleColor || "gray";
+	this.bgColor = opts.bgColor || "white";
+	this.textColor = opts.textColor || "black";
+	this.icon = opts.icon || "info";
+	this.modal = !!opts.modal;//!!を使って引数をブール値に強制している
+	this.message = message;
+}
+//オブジェクトの拡張、併合
+//extendを使った場合。存在チェックのロジックを実装する手間が省ける
+function Alert(parent, message, opts){
+	opts = extend({//extendが2つあるが、widthがデフォルト値に依存しているから先にデフォルト定義しておく
+		width: 320,
+		height: 240
+	});
+	opts = extend({
+		x: (parent.width / 2) - (opts.width / 2),
+		y: (parent.height / 2) - (opts.height /2),
+		title : "Alert",
+		titleColor: "gray",
+		bgColor: "white",
+		textColor: "black",
+		icon: "info",
+		modal: false
+	}, opts);
+	this.width = opts.width;
+	this.height = opts.height;
+	this.x = opts.x;
+	this.y = opts.y;
+	this.title = opts.title;
+	this.titleColor = opts.titleColor;
+	this.bgColor = opts.bgColor;
+	this.textColor = opts.textColor;
+	this.icon = opts.icon;
+	this.modal = opts.modal;
+}
+//典型的なこれらの実装はソースオブジェクトのプロパティを列挙してそれらをundefinedでなければ
+//ターゲットにコピーするという仕組みである
+function extend(target, source){
+	if(source){
+		for(var key in source){
+			var val = source[key];
+			if(typeof val !== "undefined"){
+				target[key] = val;
+			}
+		}
+	}
+	return target;
+}
+
+//APIを読みやすく覚えやすくするためにオブションオブジェクトを使う
+//オプションオブジェクトとして扱う引数はすべてオプションとして扱う
+//オプションオブジェクトから値を抽出するロジックはextendユーティリティ関数によって抽象化できる
+</script>
+</body>
+</html>
