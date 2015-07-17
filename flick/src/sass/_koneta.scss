@@ -1,0 +1,31 @@
+@charset "utf-8";
+.edit_inner {
+    iframe{
+        text-align:center;
+        display: block;
+        margin: 20px auto 20px auto;
+        width:100%;
+        max-width:560px;
+        @media screen and (min-width: 768px) {
+            margin: 20px auto 20px auto;
+        }
+    }
+    #description{
+        margin: 0 10px 10px;
+        font-size:16px;
+        line-height:1.5;
+        a{
+            text-decoration: underline;
+            color: #0066CC;
+        }
+        p{
+            margin-bottom:15px;
+            text-indent: 16px;
+            strong,
+            b,
+            h2{
+                font-weight:bold;
+            }
+        }
+    }
+}
