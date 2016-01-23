@@ -1,0 +1,2 @@
+[alias]	
+	gh = log --graph --oneline --decorate=full
