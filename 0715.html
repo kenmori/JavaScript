@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style media="screen">
+		.toGoalChild{
+		  margin:10px 0 20px;
+		}
+		.text1,.text2{
+		position:relative;
+		background:#117A99;
+		color:#fff;
+		display: inline-block;
+		padding: 10px 30px;
+		}
+		.before_shikaku{
+		top: 0px;
+		right: 101px;
+		position: absolute;
+		width: 10px;
+		display: block;
+		position: absolute;
+		height: 0;
+		border-top: 20px solid transparent;
+		border-bottom: 20px solid transparent;
+		border-left: 20px solid #fff;
+		
+		}
+		.shikaku{
+		z-index:100;
+		top: 0px;
+		right: -20px;
+		position:absolute;
+		width: 10px;
+		display: block;
+		position: absolute;
+		height: 0;
+		border-top: 20px solid transparent;
+		border-bottom: 20px solid transparent;
+		border-left: 20px solid #117A99;
+
+		}
+		.textGole{
+		width: 48px;
+		background-color: #117A99;
+		display: block;
+		margin-left: 15px;
+		}
+		</style>
+	</head>
+	<body>
+<div class="toGoalParent">
+<div class="toGoalChild">
+<span class="text1">
+情報入力<span class="shikaku"></span>
+</span>
+<span class="text2">
+<span class="before_shikaku"></span><span class="textGole">完了<span><span class="shikaku"></span>
+</span>
+</div>
+</div>
+
+
+						<div class="col-xs-12 col-sm-12 notice">
+						  <h2>アカウントの作成</h2>
+						  <div style="margin: 10px 0 25px; padding: 10px; font-size: 12pt; background: #efefef;">
+						    <div style="margin-bottom: 7px; font-weight: bold;">
+						      <span style="color: green;">&#10003;</span>今ならすべての機能が1ヶ月間無料でお試しいただけます！
+						    </div>
+						    <div style="font-size: 9pt; text-indent: -0.5em;">（お試し期間終了後に自動で料金が発生することはありません）</div>
+						  </div>
+						  <div class="premium">
+						    <img alt="" src="https://d12q7y5h7i6pa2.cloudfront.net/assets/signup_premium-306528bf46f682c89c68f036283840d1.png">
+						  </div>
+							<div class="toGoalParent">
+								<div class="toGoalChild">
+									<span class="text1">
+									情報入力<span class="shikaku"></span>
+									</span>
+									<span class="text2">
+										<span class="before_shikaku"></span><span class="textGole">完了<span><span class="shikaku"></span>
+									</span>
+								</div>
+							</div>
+						  <form class="form-horizontal" id="signup-form">
+						    <fieldset>
+						      <div class="height-form">
+						        <div class="form-group login">
+						          <label class="col-sm-3 control-label" for="signup-form-login">アカウント名</label>
+						          <div class="col-sm-5">
+						            <input autocapitalize="off" autocorrect="off" autofocus="" class="col-sm-3 form-control" data-field-name="login" id="signup-form-login" type="text">
+						            <div class="note">英数字と一部の記号が使用できます。
+						              <br>※お店の名前は後で決めます！
+						            </div>
+						          </div>
+						          <div class="col-sm-4">
+						            <span class="help-block error" style="display: none;"></span>
+						          </div>
+						        </div>
+						        <div class="form-group email">
+						          <label class="col-sm-3 control-label" for="signup-form-email">Emailアドレス</label>
+						          <div class="col-sm-5">
+						            <input autocapitalize="off" autocorrect="off" class="col-xs-3 form-control" data-field-name="email" id="signup-form-email" type="email">
+						          </div>
+						          <div class="col-sm-4">
+						            <span class="help-block error" style="display: none;"></span>
+						          </div>
+						        </div>
+						        <div class="form-group phone">
+						          <label class="col-sm-3 control-label" for="signup-form-phone">電話番号</label>
+						          <div class="col-sm-5">
+						            <input autocapitalize="off" autocorrect="off" class="col-xs-3 form-control" data-field-name="phone" id="signup-form-phone" type="tel">
+						          </div>
+						          <div class="col-sm-4">
+						            <span class="help-block error" style="display: none;"></span>
+						          </div>
+						        </div>
+						        <hr>
+						        <div class="form-group password">
+						          <label class="col-sm-3 control-label" for="signup-form-password">パスワード</label>
+						          <div class="col-sm-5">
+						            <input autocapitalize="off" autocorrect="off" class="col-xs-3 form-control" data-field-name="password" id="signup-form-password" type="password">
+						            <input class="col-xs-3 preview form-control" disabled="" style="display:none" type="text">
+						          </div>
+						          <div class="col-sm-4">
+						            <span class="help-block error" style="display: none;"></span>
+						          </div>
+						        </div>
+						        <div class="form-group password_confirmation">
+						          <label class="col-sm-3 control-label" for="signup-form-password-confirmation">パスワードの確認</label>
+						          <div class="col-sm-5">
+						            <input autocapitalize="off" autocorrect="off" class="col-xs-3 form-control" data-field-name="password_confirmation" id="signup-form-password-confirmation" type="password">
+						            <input class="col-xs-3 preview form-control" disabled="" style="display:none" type="text">
+						            <div class="note">英数字と一部の記号が使用できます。</div>
+						          </div>
+						          <div class="col-sm-4">
+						            <span class="help-block error" style="display: none;"></span>
+						          </div>
+						          <div class="col-sm-offset-3 col-xs-12 col-sm-5">
+						            <a class="btn btn-default reveal-password-button">
+						              <span class="glyphicon glyphicon-eye-open"></span>確認のため2秒間だけパスワードを表示
+						            </a>
+						          </div>
+						        </div>
+						        <hr>
+						        <div class="form-group code">
+						          <label class="col-sm-3 control-label" for="signup-form-code">登録コード</label>
+						          <div class="col-sm-6">
+						            <input autocapitalize="off" autocorrect="off" class="col-xs-3 col-xs-3 form-control" data-field-name="signup_code" id="signup-form-code" type="text">
+						          </div>
+						          <div class="col-sm-2">
+						            <span class="help-block error" style="display: none;"></span>
+						          </div>
+						        </div>
+						        <div class="form-group">
+						          <div class="col-sm-offset-3 col-sm-9 col-xs-12">
+						            <div class="note">営業担当者からコードをお渡ししている場合は入力してください。
+						              <br>そうでない場合は空欄にしてください。
+						            </div>
+						          </div>
+						        </div>
+						        <hr>
+						        <div class="form-group">
+						          <div class="col-sm-offset-3 col-sm-9 col-xs-12" style="font-size:12px;">「作成する」をクリックすると
+						            <ul style="margin-top: 10px;">
+						              <li>ユビレジの
+						                <a target="_blank" href="https://ubiregi.com/ja/terms">利用規約</a>
+						              </li>
+						              <li>個人情報の取り扱いについて定めた
+						                <a target="_blank" href="https://ubiregi.com/ja/terms#t2">プライバシーポリシー</a>
+						              </li>
+						              <li>アップグレードおよびサポートの期間について定めた
+						                <a target="_blank" href="https://ubiregi.com/ja/terms#t3">リリースポリシー</a>
+						              </li>
+						            </ul>の全てについて、読み、理解し、同意したことになります。
+						          </div>
+						        </div>
+						        <div class="form-group">
+						          <div class="col-sm-offset-3 col-sm-9 signup-btn-style">
+						            <input class="btn btn-lg btn-warning btn-signup btn-signup-extend" type="submit" value="アカウントを作成する<<無料>>">
+						            <span class="loading-icon" style="display: none;">
+						              <img alt="" src="https://d12q7y5h7i6pa2.cloudfront.net/assets/ajax-loader-small-6376aedf6ff118868907f9a2c32d367e.gif">
+						            </span>
+						          </div>
+						        </div>
+						      </div>
+						    </fieldset>
+						  </form>
+						</div>
+	</body>
+</html>

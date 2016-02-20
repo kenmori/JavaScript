@@ -4,6 +4,7 @@ var path = require("path");
 var sass = require("gulp-sass");
 var gutil = require("gulp-util");
 var ftp = require("gulp-ftp");
+var browserSync = require("browser-sync");
 var webpack = require('gulp-webpack');
 var webpackConfig = require('./webpack.config.js');
 
@@ -36,6 +37,20 @@ gulp.task("connect", function() {
 
 gulp.task("watch", function() {
 	gulp.watch(path, ['sass','html','reload']);
+});
+
+// タスクの設定
+gulp.task("browserSyncTask", function () {
+    browserSync({
+        server: {
+            baseDir: "src" // ルートとなるディレクトリを指定
+        }
+    });
+
+    // srcフォルダ以下のファイルを監視
+    gulp.watch("src/**", function() {
+        browserSync.reload();   // ファイルに変更があれば同期しているブラウザをリロード
+    });
 });
 
 gulp.task('cleanBuild',function(cb){
