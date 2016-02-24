@@ -4,7 +4,9 @@ javascriptの基礎的な所は知っているけど自分がどのくらい理�
 ・var afa = {a: ‘a'}とvar ee = {b:’b'}をmergeしたmを出力してください e.g {a:’a’,b:’b'}
 
 ```js
-var m = Object.assign(afa,ee);
+var afa = {a: 'a'};
+var ee = {b:'b'};
+var m = Object.assign(afa, ee);
 m //
 ```
 
@@ -84,6 +86,8 @@ for( key in obj2){
 var array3 = ['fafa','eee','ccc']配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
 
 ```js
+
+var array3 = ['fafa','eee','ccc'];
 var ee = "";
 var count = array3.length;
 for(var i= 0; i < count; i++){
@@ -627,13 +631,13 @@ array.forEach(function(Element, ind, array){
  }
 })
 console.log(array2);
-
-
 ```
+
 配列```var passed = [12, 5, 8, 130, 44]```
 の要素全てが10以上かどうかを評価してtrueかfalseを返しなさい。また10以上のものが一つでもあった場合trueを返しなさい。
 
 ```js
+
 function isBigEnough(ele, ind, arry){
  return (ele >= 10);
 };
@@ -642,16 +646,40 @@ passed //false
 
 ```
 
+二次元配列
+```
+[["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
+];
+```
+
+の"two"の値を取得してください
+
 ```js
+
+var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
+];
+var map = new Map(fafa);
+map.get("two");//"send@fafa"
 
 ```
 
+先の変数fafaにインデックス3番目の要素として["four",fafa@eee]の配列を追加しなさい
+
 ```js
+var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
+];
+map.set("four", "fafa@eee");
 
 ```
 
-```js
+変数fafaに内にある要素を全て取得しなさい
 
+```js
+var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"];
+var entries = map.entries();
+for (var entry of entries){
+ console.log(entry)
+}
 ```
 
 ```js
