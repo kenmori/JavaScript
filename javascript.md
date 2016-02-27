@@ -682,6 +682,8 @@ for (var entry of entries){
 }
 ```
 
+
+
 ```js
 
 ```
@@ -715,30 +717,100 @@ for (var entry of entries){
 
 ES6
 
+もじれつ```foo```をイテレーターを使った反復処理で配列```["f","o","o"]```を出力しなさい。
+こちらでやるとさくっと試せるよ
+[http://jsbin.com/?js,console](http://jsbin.com/?js,console)
+
+
 ```js
+//ES6,Babel
+
+var chars = [];
+for (let n of "foo"){
+ chars.push(n);
+}
+console.log(chars);//["f","o","o"]
 
 ```
 
+IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力しなさい
+
 ```js
+
+var arr = ["ooo", "eee"];
+
+var Iterator = arr[Symbol.iterator]();
+console.log(Iterator.next()); // { done: false, value: "ooo"}
+console.log(Iterator.next()); // { done: false, value: "eee" }
+console.log(Iterator.next()); //{ done: true, value: undefined }
+
+```
+文字列"foo"を```["f","o","o"]```と出力してください
+
+```js
+//スプレッドオペレータ
+var arr = [..."foo"];
+console.log(arr);
+```
+
+文字列```morita```の1文字目```m```を変数```index0```に代入、2文字目```o```を```index1```に代入、残りを配列```rest```の各要素として出力してください
+
+```js
+//分割代入
+var [index0, index1, ...rest] = "morita";
+console.log(index0,index1, rest);
+//"m"
+//"o"
+//["r", "i", "t", "a"]
 
 ```
 
+```add()```を実行した際```3```、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
+
 ```js
+//デフォルトパラメータ
+function add(a = 1, b = 2){
+ return a + b;
+}
+add();// 3
+add(2);//4
+add(2,3)//5
+
 
 ```
+
+```foo(1, 2, 3, 4, 5, 6)```
+
+を実行したら1がfirst、2がsecond、残りが配列の要素になるような ```foo```
+を定義しなさい
+
+
 ```js
+//レストパラメータ
+
+function foo(first, second, ...rest){
+ console.log("first", first);
+ console.log("second", second);
+ console.log("rest", rest);
+}
+
+foo(1,2,3,4,5,6);
 
 ```
 
-```js
 
-```
-
-```js
-
-```
+配列```arr = [1, 2, 3]```
+にArray#concatを使わずに
+```arr2 = [4, 5, 6]```を結合させ```[1, 2, 3, 4, 5, 6]```となるようにしてください
 
 ```js
+
+//スプレッドオペレータ
+
+var arr2 = [4, 5, 6];
+var arr = [1, 2, 3, ...arr2];
+console.log(arr);//[1, 2, 3, 4, 5, 6]
+
 
 ```
 
