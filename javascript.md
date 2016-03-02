@@ -813,15 +813,68 @@ console.log(arr);//[1, 2, 3, 4, 5, 6]
 
 
 ```
+あるファイル(module.js)で記述した```var foo = "foo"```、```function bar(){}```、```class Baz{
+  baz(){}
+}```を別のファイル(import.js)にexport、個別のメンバとして読み込む記述を示しなさい。また「module」という別名で全てのメンバを取得する記述も示しなさい
+※module.jsとimport.jsは同階層にあるものとする
 
 ```js
+//読み込まれる側
+var foo = "foo";
+function bar(){};
+class Baz{
+  baz(){}
+}
+export {foo, bar, Baz};
+
+//読み込む側
+//メンバ毎にインポート
+import {foo, bar, Baz} from "./module";
+//console.log(foo);
+//bar();
+//new Baz();
+
+//インポートする変数名の指定
+import {foo as poo} from "./module";
+console.log(poo)
+
+//モジュールまとめてインポート
+import * as from "./module";
+//console.log(module.foo)
 
 ```
 
+```var obj = {foo: foo, bar: bar}```
+オブジェクトのkeyとvalueが等しい場合の記述せよ
+
 ```js
+var obj = {foo: foo, bar: bar};
+var obj = {foo, bar};
+
 
 ```
+
+
+
+コンピューテッドプロパティ
+
 ```js
+var key = "foo";
+
+//es5
+var obj = {};
+obj[key] = 0;
+obj[key + "_bar"] = 1;
+
+//es6
+var obj = {
+  [key] : 0,
+  [key + "_bar"] : 1
+}
+
+//common
+console.log(obj.foo, obj.foo_bar);
+//0, 1
 
 ```
 
