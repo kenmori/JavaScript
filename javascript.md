@@ -895,7 +895,12 @@ console.log(`my name is ${ff()}`);
 
 ```
 
+文字列 ```line1```と```line2```を改行てconsole.log出力しなさい
+
 ```js
+console.log(`line1
+line2
+`);
 
 ```
 
