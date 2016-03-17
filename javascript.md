@@ -904,8 +904,18 @@ line2
 
 ```
 
-```js
+Tagged template strings
 
+
+```js
+var long = '30px';
+var weight = '40px';
+
+function tag(strings, ...values){
+  //console.log(strings);["身長","で、体重は","です"]
+  return `m:${values[0]}、p:${values[1]}`; };
+
+var str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
 ```
 
 ```js
