@@ -878,11 +878,20 @@ console.log(obj.foo, obj.foo_bar);
 
 ```
 
-
+```
+function ff(){
+  return "fff";
+}
+```
+このような関数をconsole.log内からテンプレートリテラルを使って出力してください
+[参照](https://gist.github.com/kuu/b7eb679a3ad48d980ed3)
 
 ```js
+function ff(){
+  return "fff";
+}
 
-
+console.log(`my name is ${ff()}`);
 
 ```
 
