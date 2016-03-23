@@ -536,7 +536,18 @@ var o = Object.create(Object.prototype);
 o = Object.create({}, {p: {value : 42}});
 ```
 
+```1234``という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
+
+
 ```js
+
+var count = 1234;
+var ee = count.toString();
+var arr = [];
+for(var i = 0; i < ee.length; i++){
+ arr[i] = ee.charAt(i);
+}
+console.log(arr)//["1","2","3","4"];
 
 ```
 
