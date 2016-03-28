@@ -1,6 +1,7 @@
-javascriptの基礎的な所は知っているけど自分がどのくらい理解しているのか確認したい。実務で使わないメソッドの扱いが不安。何かを参照しながら書くことはできるけどさささっと書きたい。
+## javascriptの基礎的な所は知っているけど自分がどのくらい理解しているのか確認したい。実務で使わないメソッドの扱いが不安。何かを参照しながら書くことはできるけどさささっと書きたい。
 
-・var afa = {a: ‘a'}とvar ee = {b:’b'}をmergeしたmを出力してください e.g {a:’a’,b:’b'}
+```var afa = {a: 'a'}```と```var ee = {b: 'b'}```をmergeした```m```を出力してください
+(```e.g {a:`a`,b:’b'}
 
 ```js
 var afa = {a: 'a'};
@@ -680,7 +681,8 @@ passed //false
 var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
 ];
 var map = new Map(fafa);
-map.get("two");//"send@fafa"
+map.get("two");
+//"send@fafa"
 
 ```
 
@@ -693,29 +695,57 @@ map.set("four", "fafa@eee");
 
 ```
 
-変数fafaに内にある要素を全て取得しなさい
+<!-- 変数fafaに内にある要素を全て取得しなさい
 
 ```js
-var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"];
+var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]];
 var entries = map.entries();
 for (var entry of entries){
- console.log(entry)
-}
+ console.log(entry);
+} -->
 ```
 
+## 正規表現
 
+文字列
+```"morita kenji"```をRegExpオブジェクトを使って配列["morita kenji"]が返るようにしてください。(空白スペースにマッチする正規表現を使うこととする)
 
 ```js
 
+//正解例
+/\w+\s\w+/.exec("morita kenji")
+
 ```
+下のようなstrとstr2がある。
+```var str = "It is an important problem";```
+
+```var str2 = "The import duty is not cheap";```
+str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
+
+参照(正規表現書き方ドリル/技術評論社)
 
 ```js
 
+var str = "It is an important problem";
+var str2 = "The import duty is not cheap";
+var ii = /.*\bimport\b.*/.test(str);//false
+var ii = /.*\bimport\b.*/.test(str2);//true
+
 ```
+
+ひらがな全てにマッチ、半角カタカナ全てにマッチ、カタカナ全てにマッチする正規表現を記述しなさい
 ```js
+//ひらがな
+[ぁ-ん]
+//カタカナ
+[ァ-ヶ]
+//半角カタカナ
+[ｦ-゜]
 
 ```
 
+「ヤッホー」の後に続く1文字が英単語を構成する文字以外の文字列が1回以上繰り返される場合にマッチする正規表現を記述しなさい
+(正規表現書き方ドリル/技術評論社)
 ```js
 
 ```
