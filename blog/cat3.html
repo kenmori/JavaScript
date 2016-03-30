@@ -1,8 +1,90 @@
-## ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)
+## ある日僕は猫にjavascriptを教えることになった第3話(変数の中身を出力する)
 
 [caption id="attachment_9380" align="alignnone" width="900"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/banner1.gif" alt="ある日僕は猫にjavascriptを教えることになった" width="900" height="450" class="size-full wp-image-9380" />ある日僕は猫にjavascriptを教えることになった[/caption]
 
 にゃーちゃん[前回の続き][1]からやるよ？？にゃーちゃんどうしたの？そんな変な顔して。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 近所の猫にプログラム勉強していること言ったら笑われたぞ。 そんなのできなくても縁側で寝てる方が楽で、気持ちいいぞって。 </span> たしかに気持ちいいね。にゃーちゃんはなんでプログラムやりたいの？
+
+
+じゃあ今日もここか直接下のやつに書いていこうか
+<a class="jsbin-embed" href="http://jsbin.com/kohageguhe/embed?console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.35.11"></script>
+
+この前は
+var name = "nyaachan";
+と書いたんだったよね。
+
+これは変数(箱)に文字(文字列)を入れて(代入して)いるのでした。
+
+じゃあこの状態で一番右横までカーソルを持って行き、shift + Enterを打ってみようか。
+
+カーソルが下に移動した？？
+
+にゃーちゃんにはむずかしいね
+
+間違った場合、undefinedか赤い文字が出よ。
+
+赤い文字が出た場合はどこかの文字が間違っていることを意味するよ。
+
+まちがったにゃー
+
+間違えてしまった場合、右上にある「clear」を押せば綺麗になるし、
+ctrl + L　でも綺麗になるよ。使い方は慣れてね笑
+
+もし間違えてもう一度var name = "morita";を書くのがだるかったら 「上」十字キーを押せば過去に書いたものが出てくるよ。
+先程の打ち込んだものが出てくる。
+出てきたら今度は間違えないように「;」(打ち込んだ文字の一番右)まで移動してshift + Enterを打ってね。
+するとカーソルが下に移動して「入力待ち状態」になるよ。
+
+なるよなる
+
+そのような状態になったら、さらに
+
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+  name;
+</div>
+
+と打ちEnter;
+
+[caption id="attachment_9337" align="alignnone" width="927"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/dojo-3_1.gif" alt="javascript道場" width="927" height="538" class="size-full wp-image-9337" />][7][2] javascript道場[/caption]
+
+上のgifアニメを見て同じ事をしてみて。
+
+<div style="background:#efefef;padding:10px;margin:10px 0;">
+  var name = "morita";<br>
+  name;
+</div>
+
+これは何をしているかというと
+
+<div style="background:#efefef;padding:10px;margin:10px 0;">
+  name;
+</div>
+
+を書くことで「出力」しているよ。
+
+出力？？
+
+nameという「箱の中身を出力」ことです。
+なのでこれを実行した際に(Enterを押したことで)
+
+その前に書かれてあるvar nameの中身、つまり "morita" と出たんだよ。
+
+今日はこの動き、何をしているかだけ覚えようか。
+意味が分からない場合は[昨日の記事][1]に戻ろう。
+
+<div style="background:#efefef;padding:10px;margin:10px 0;">
+  var name = "nyaachan";
+  name;
+</div>
+
+と書く、さらに実行した際に
+
+その箱の中身が参照(調べられ)出力される。
+
+
+ではまたーー。
+
+
+ーーーーーーーーーーーーーーーーーーー
 
 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 縁側でさ、寝ててもさ、口開けていれば、お魚入れてくれるようなさ、そんなプログラムを作りたいんだよ。 そーすれば今より楽だろ？だからだよ！できるだろ？ </span>
 
@@ -28,7 +110,14 @@
 
 にゃーちゃんじゃあ、まず上の文字を正確に打ってみて？
 
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 正確に？？ </span> 正確に。一字もまちがえちゃいけないよ？？半角スペースとか「;」に注意して！ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 打ったよ？？ </span>
+<span class="catsay">
+    <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif">
+      <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" />
+    </a>
+   正確に？？
+ </span>
+
+  正確に。一字もまちがえちゃいけないよ？？半角スペースとか「;」に注意して！ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 打ったよ？？ </span>
 
 これは何をしているか説明するよ。
 
@@ -126,6 +215,6 @@ var は「**宣言**」しているよ。 宣言とは「わたしはこれか�
 
 ここまで理解したら今日はおしまいにしようか？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃー </span> にゃーちゃんアイスたべる？？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーにゃー </span>
 
- [1]: http://kenjimorita.jp/catjs1/
+ [1]: http://kenjimorita.jp/catjs2/
  [2]: http://jsbin.com/lujufufaze/1/edit?console
  [3]: http://kenjimorita.jp/wp-content/uploads/2016/03/cat-2.gif
