@@ -1,220 +1,135 @@
+### 前回までのあらすじ
+
+ある日僕の飼っている猫「にゃーちゃん」がjavascriptを覚えたいっていうんだ。 javascript？javascriptってのはプログラミング言語なんだけど、なんでにゃーちゃんが教えて欲しいのかは まだよく分かっていないんだ。 とりあえずほっぺた舐められちゃったから「しょーがないな、、」って感じで教えているんだよ。 僕も猫に教えたことはないからゆっくり丁寧に教えているつもりだよ。 え？？あなたも猫？？なんで猫ばかりくるんだろう。。
+
+**前回までの話**
+
+[ある日僕は猫にjavascriptを教えることになった第1話][1]
+
+[ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)][2]
+
 ## ある日僕は猫にjavascriptを教えることになった第3話(変数の中身を出力する)
 
 [caption id="attachment_9380" align="alignnone" width="900"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/banner1.gif" alt="ある日僕は猫にjavascriptを教えることになった" width="900" height="450" class="size-full wp-image-9380" />ある日僕は猫にjavascriptを教えることになった[/caption]
 
-にゃーちゃん[前回の続き][1]からやるよ？？にゃーちゃんどうしたの？そんな変な顔して。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 近所の猫にプログラム勉強していること言ったら笑われたぞ。 そんなのできなくても縁側で寝てる方が楽で、気持ちいいぞって。 </span> たしかに気持ちいいね。にゃーちゃんはなんでプログラムやりたいの？
+にゃーちゃん[前回の続き][2]からやるよ？？にゃーちゃんどうしたの？そんな変な顔して。 <span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > 桜桜ってなんでみんな桜が好きなんだい？？ </span> にゃーちゃん、桜はね、短い期間しか咲かない、春の象徴なんだよ、綺麗だし、温かくなる頃に咲いてさ、冬で寒い寒いゆってた、つまり「冬ごもり」していた、 <span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > もういいよ。早くjavascript教えてくれよ </span> にゃーちゃんは桜より話が散るの早いね <span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > そーゆのもいいから早く教えてよ </span> じゃあ今日も[ここのサイト][3]かもしくは直接下のやつに書いていこうか(スマホの人は頑張って書いてね)
 
-
-じゃあ今日もここか直接下のやつに書いていこうか
 <a class="jsbin-embed" href="http://jsbin.com/kohageguhe/embed?console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.35.11"></script>
 
 この前は
-var name = "nyaachan";
-と書いたんだったよね。
+
+<div class="code">
+  var name = "nyaachan";
+</div>
+
+と書いたんだったよね。じゃあちょっと書いてない人は書いてみよう
+
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a >もういっかいかくにゃー！</span>
 
 これは変数(箱)に文字(文字列)を入れて(代入して)いるのでした。
 
-じゃあこの状態で一番右横までカーソルを持って行き、shift + Enterを打ってみようか。
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a >にゃんにゃん </span>
 
-カーソルが下に移動した？？
+じゃあこの状態でカーソルの下を押した後、shift + Enterを打ってみようか。 <span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > 矢印と点滅が下にきたにゃー！ </span>
 
-にゃーちゃんにはむずかしいね
+[caption id="attachment_9552" align="alignnone" width="366"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging1.png" alt="ある日僕は猫にjavascriptを教えることになった" width="366" height="266" class="size-full wp-image-9552" />][4][4] カーソルをshift + Enterで移動させる[/caption]
 
-間違った場合、undefinedか赤い文字が出よ。
+まちがったところでEnter押すとこうなるよ
 
-赤い文字が出た場合はどこかの文字が間違っていることを意味するよ。
+[caption id="attachment_9553" align="alignnone" width="296"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging.png" alt="まちがったところでEnter押すとこうなるよ" width="296" height="190" class="size-full wp-image-9553" />][5][5] まちがったところでEnter押すとこうなるよ[/caption]
 
-まちがったにゃー
+間違った場合、undefinedか赤い文字が出るよ。
 
-間違えてしまった場合、右上にある「clear」を押せば綺麗になるし、
-ctrl + L　でも綺麗になるよ。使い方は慣れてね笑
+もしくは下のように赤い文字が出た場合はどこかの記述が間違っていることを意味するよ。
 
-もし間違えてもう一度var name = "morita";を書くのがだるかったら 「上」十字キーを押せば過去に書いたものが出てくるよ。
-先程の打ち込んだものが出てくる。
-出てきたら今度は間違えないように「;」(打ち込んだ文字の一番右)まで移動してshift + Enterを打ってね。
-するとカーソルが下に移動して「入力待ち状態」になるよ。
+[caption id="attachment_9551" align="alignnone" width="366"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging2.png" alt="どこかの記述が間違っていることを意味するよ。" width="366" height="266" class="size-full wp-image-9551" />][6][6] どこかの記述が間違っていることを意味するよ。[/caption]
 
-なるよなる
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > まちがったにゃー </span>
+
+[caption id="attachment_9549" align="alignnone" width="705"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging4.png" alt="間違えてしまった場合、右上にある「clear」を押せば綺麗になるし、 ctrl + L　でも綺麗になるよ。" width="705" height="293" class="size-full wp-image-9549" />][7][7] 間違えてしまった場合、右上にある「clear」を押せば綺麗になるし、 ctrl + L　でも綺麗になるよ。[/caption]
+
+間違えてしまった場合、右上にある「clear」を押せば綺麗になるし、 ctrl + L　でも綺麗になるよ。使い方は慣れてね笑
+
+undefinedが出てしまった場合は気にしないでキーボードの上を押してみて？？前に書いたものが復活するからこんどはカーソルと矢印を下に持ってきてね(shift + Enter)
+
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > できたけど、慣れるためにわざと間違えたにゃー！ほんとだキーボードの上を押すと前回書いたものが出てくるにゃーー！ </span>
+
+さらに上を押すとさらにさかのぼるよ。カーソルが下に移動して「入力待ち状態」になった？？
+
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > にゃー </span>
 
 そのような状態になったら、さらに
 
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+<div class="code">
   name;
 </div>
 
 と打ちEnter;
 
-[caption id="attachment_9337" align="alignnone" width="927"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/dojo-3_1.gif" alt="javascript道場" width="927" height="538" class="size-full wp-image-9337" />][7][2] javascript道場[/caption]
+[caption id="attachment_9570" align="alignnone" width="467"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/04/shouhizeijavascript1.gif" alt="スマホの人は拡大してね" width="467" height="200" class="size-full wp-image-9570" />][8][8][/caption] 上のgifアニメを見て同じ事をしてみて。
 
-上のgifアニメを見て同じ事をしてみて。
-
-<div style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "morita";<br>
-  name;
+<div class="code">
+  var name = "nyaachan";<br /> name;
 </div>
 
 これは何をしているかというと
 
-<div style="background:#efefef;padding:10px;margin:10px 0;">
-  name;
+その後、nameと書くことで「出力」しようとしているよ。
+
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > にゃー出力？？ </span>
+
+nameという「箱の中身を参照して出しそう(実行しよう)としている
+
+じゃあ下のコードで
+
+<div class="code">
+  var name = "nyaachan"; name;
 </div>
 
-を書くことで「出力」しているよ。
+実際にEnterで実行してみようか <span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > "nyaachan"　ってでたにゃーー！ </span>
 
-出力？？
+[caption id="attachment_9568" align="alignnone" width="467"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/04/shouhizeijavascript.gif" alt="スマホで見づらかったら拡大してね" width="467" height="200" class="size-full wp-image-9568" />][9][9][/caption]
 
-nameという「箱の中身を出力」ことです。
-なのでこれを実行した際に(Enterを押したことで)
+"nyaachan"と出た。実行して箱の中身が参照され出力されたんだね
 
-その前に書かれてあるvar nameの中身、つまり "morita" と出たんだよ。
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > でもこれがなんだっていうんだにゃー？？毛並み揃えている方が楽しいにゃー？？ </span>
 
-今日はこの動き、何をしているかだけ覚えようか。
-意味が分からない場合は[昨日の記事][1]に戻ろう。
+これだけだと確かに毛並み揃えていた方が楽しいよね。 ただこれが毛並み揃えているより楽しくなるはずだよ
 
-<div style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "nyaachan";
-  name;
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > アイス食べていいにゃー？ </span>
+
+いいよ。じゃあ今日のまとめ。
+
+## 今日のまとめ
+
+この動き、
+
+<div class="code">
+  <p>
+    var name = "nyaachan";//箱に入れる
+  </p>
+
+  <p>
+    name;//ここで実行すると前の行に書いたnameの中身が参照されて出力される
+  </p>
 </div>
 
-と書く、さらに実行した際に
+何をしているかだけ覚えようか。 意味が分からない場合は[昨日の記事][2]に戻ろう。 さらに実行した際に その箱の中身が参照(調べられ)出力される。
 
-その箱の中身が参照(調べられ)出力される。
+<span class="catsay"> <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /> </a > そんなことよりアイスアイスにゃー</span>
 
+**前回までの話**
 
-ではまたーー。
+[ある日僕は猫にjavascriptを教えることになった第1話][1]
 
+[ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)][2]
 
-ーーーーーーーーーーーーーーーーーーー
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 縁側でさ、寝ててもさ、口開けていれば、お魚入れてくれるようなさ、そんなプログラムを作りたいんだよ。 そーすれば今より楽だろ？だからだよ！できるだろ？ </span>
-
-それはjavascriptでは無理かな。じゃーさっそく始めるよ？？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーい </span>
-
-[ここのサイト][2]を使うから、にゃーちゃんスマートフォンじゃなくてパソコン でアクセスして？？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> なぜだい？ </span>
-
-だってスマートフォンで英語の文字打つのは大変だろ？
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーい </span>
-
-それか既にこのサイトをPCで見ていたらさっきのところにアクセスしないでも下のここに直接入力すれば簡単にプログラミングを始められるよ
-
-<a class="jsbin-embed" href="http://jsbin.com/kohageguhe/embed?console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.35.11"></script>
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> カーソルが点滅しているね </span>
-
-## 　やること1
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "nyaachan";
-</div>
-
-にゃーちゃんじゃあ、まず上の文字を正確に打ってみて？
-
-<span class="catsay">
-    <a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif">
-      <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" />
-    </a>
-   正確に？？
- </span>
-
-  正確に。一字もまちがえちゃいけないよ？？半角スペースとか「;」に注意して！ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 打ったよ？？ </span>
-
-これは何をしているか説明するよ。
-
-[caption id="attachment_9423" align="alignnone" width="927"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat-2.gif" alt="ある日僕は猫にJAVASCRIPTを教えることになった第2話(変数に代入しよう)" width="927" height="538" class="size-full wp-image-9423" />][3][3] var name = "nyaachan";[/caption]
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> してして！ </span>
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var
-</div>
-
-var は「**宣言**」しているよ。 宣言とは「わたしはこれから〜をします」ということだよね。javascriptでvarは 「これからわたしはここの場所に"変数"を新たに使うことを宣言します」ということだよ。
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 変数？？？ </span>
-
-変数といのは**なんでも入る箱**だよ。「わたしはここに空き箱を置きます！」と言っているんだよ。
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> そんなことしてどうするんだい？？ </span>
-
-これからこの箱にいろいろなものを入れて、取り出したり、箱を渡したり、加工したり、箱の中身を入れ替えたりして操作するんだよ。
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> ちょっとよくわからないにゃー </span> にゃーちゃん、徐々にわかってくるよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃー </span>
-
-にゃーちゃん次は何を書いた？ nameだよね？<div class="code"　style="background:#efefef;padding:10px;margin:10px 0;"> name </div>
-
-このnameは今宣言した箱に名前をつけているよ。 つまりここまででこの記述は「この空き箱を「name」と名付けます！」と宣言したことになるよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> なるなる </span> ここで注意があるよ。var とnameの間は半角スペースを空けないといけない。varnameはだめだよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 正確に入力しろってそういうことか。。 </span> nameは箱の名前。 これを「変数名」といいます。 にゃーちゃんが宣言した箱、この名前はなんでも構いよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> うんうん </span> 例えば
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var age
-</div>
-
-でも
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var fafafa
-</div>
-
-でも
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var iii
-</div>
-
-でも構わないよ。 使えない箱の名前もあるけどそれは今の時点では気にしないでいいよ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> きにしないきにしない </span> さてにゃーちゃん次は何を書いた？？
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  "nyaachan";
-</div>
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーちゃんってかいたにゃー </span> この意味は 「宣言したnameという箱にnyaachanという文字をいれる」っていう意味だよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 文字？？？ </span> 文字。
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  " "(ダブルクォーテーション)
-</div>
-
-や
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  ''(シングルクォーテーション)
-</div>
-
-で挟んだ文字は「文字列」というんだ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> ふむふむ </span> で最後はこれだったよね？
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  ;(セミコロン)
-</div>
-
-<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> うん </span> この
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  ;
-</div>
-
-セミコロンは「以上」 という意味だよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 言いたいこと言い終わったってことかな？？？？ </span> にゃーちゃん正解。
-
-まとめるね。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> まとめてまとめて！ </span>
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "nyaachan";
-</div>
-
-という文は「宣言。nameという箱にnyaachanという文字を入れます!以上」 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> うんうん </span> これをややかたくるしいの言葉で言うと 「宣言します。nameという変数にnyaachanという**文字列**を**代入**します。以上」といいうよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> うんうん </span> 変数ってのは箱ね。代入っていうのは入れることだよ。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> ふむふむ </span> 文字列というのは[""]ダブルで囲ったところだよ。文字ね。これも何を入れるかを決めるのはにゃーちゃんなのでなんでもいいんだ。 例えば
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "sakana"；
-</div>
-
-でもいいですし
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "niboshi";
-</div>
-
-でもいいよ。
-
-ここまで理解したら今日はおしまいにしようか？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃー </span> にゃーちゃんアイスたべる？？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーにゃー </span>
-
- [1]: http://kenjimorita.jp/catjs2/
- [2]: http://jsbin.com/lujufufaze/1/edit?console
- [3]: http://kenjimorita.jp/wp-content/uploads/2016/03/cat-2.gif
+ [1]: http://kenjimorita.jp/catjs1/
+ [2]: http://kenjimorita.jp/catjs2/
+ [3]: http://jsbin.com/?console
+ [4]: http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging1.png
+ [5]: http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging.png
+ [6]: http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging2.png
+ [7]: http://kenjimorita.jp/wp-content/uploads/2016/04/JS_Bin_-_Collaborative_JavaScript_Debugging4.png
+ [8]: http://kenjimorita.jp/wp-content/uploads/2016/04/shouhizeijavascript1.gif
+ [9]: http://kenjimorita.jp/wp-content/uploads/2016/04/shouhizeijavascript.gif

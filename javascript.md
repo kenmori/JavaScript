@@ -946,11 +946,22 @@ console.log(`my name is ${ff()}`);
 
 ```
 
+Destructuring assignment
+
+変数a,bにそれぞれ1,2を代入してください
+
+
 ```js
+let [a, b] = [1, 2];
 
 ```
 
+ユーザー定義関数funを作り、実行時の引数として、オブジェクトkeyにa,b。値をそれぞれ1,4として加算して返してください
 ```js
+function fun({a, b}){
+  return a + b;
+}
+fun({a: 1, b: 4});//5
 
 ```
 
