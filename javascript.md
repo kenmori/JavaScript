@@ -750,21 +750,116 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 
 ```
 
+```x = new Boolean(false)```。if文の式として渡すと実行されるか答えなさい
+
+[参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+
+```js
+
+x = new Boolean(false);
+if (x) {
+ //実行される
+}
+//undefinedやnull以外のオブジェクトは実行されます
+```
+以下のコードは何をtrueかfalseか
+```
+myFalse = new Boolean(false);
+g = new Boolean(myFalse);
+```
+
+```js
+myFalse = new Boolean(false);
+g = new Boolean(myFalse);
+g//true
+
+//Boolean オブジェクトの初期値としてオブジェクトを指定した場合、それが値が false の Boolean オブジェクトであっても、新しい Boolean オブジェクトは true の値を持ちます
+```
+
+
+```
+undefined == null
+```
+の真偽値は何か
+
+```js
+
+if (undefined == null){
+  //run
+}
+//実行されます
+```
+なんでもいいのでクロージャーを作りなさい
+
+```js
+var ii = function(){
+  var pp = "oo";
+  return function(value){
+    console.log(pp + value);
+  }
+}
+var kk = ii();
+kk("jj");
+//oojj
+
+```
+
+今の時間、何時何分何秒を表しなさい
+
+```js
+var now = new Date();
+var nowtime = "今" + now.getHours() + "時" +  now.getMinutes() + "分" + now.getSeconds() + "秒";
+nowtime
+//"今23時49分56秒"
+
+```
+
+
 ```js
 
 ```
 
-```js
-
-```
 
 ```js
 
 ```
 
+
 ```js
 
 ```
+
+
+```js
+
+```
+
+
+```js
+
+```
+
+
+```js
+
+```
+
+
+```js
+
+```
+
+
+```js
+
+```
+
+
+```js
+
+```
+
+
 
 ES6
 
