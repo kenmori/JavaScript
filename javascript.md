@@ -814,25 +814,39 @@ nowtime
 
 ```
 
+年月日曜日
+```js
+
+```
+
+```
+
+セッション
+
 
 ```js
 
 ```
 
+cookeiee
+```js
+
+```
+
+userAgent
+
 
 ```js
 
 ```
 
+要素の位置情報
 
 ```js
 
 ```
 
-
-```js
-
-```
+正規表現
 
 
 ```js
@@ -1060,32 +1074,162 @@ fun({a: 1, b: 4});//5
 
 ```
 
-```js
+```var aa = [["morita", "kenji", "keiko"],["morita", "kenji", "keiko"]```
 
-```
-
-```js
-
-```
+全てのaaにある多次元配列の全ての要素に文字列"san"を付け加えて一つの配列として出力してください
 
 ```js
 
 ```
 
+mapとforEachの違いは何か
+
+```
+The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing "with" is what the post you cite meant by "side-effects", I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
+```
+
+[http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-method-have-that-map-cant-do](http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-method-have-that-map-cant-do)
+
+
+```js
+
+//map
+//新しいarrayを返す
+
+var a = [{ val: 1 }, { val: 2 }, { val: 3 }];
+var uu = a.map(function(el) {
+    el.val++;
+    return el.val
+});
+a//[{ val: 2 }, { val: 3 }, { val: 4 }]
+uu//[2, 3, 4]
+
+//forEach
+var a = [{ val: 1 }, { val: 2 }, { val: 3 }];
+a.forEach(function(el) {
+    el.val++;
+    console.log(el.val);
+});
+//2
+//3
+//4
+
+//実行するだけ
+//forEachならこんなことも
+
+//forEachが配列の要素を編集して配列で返すには
+//
+var a = [1,2,3],
+    b = [];
+a.forEach(function(el) {
+    b.push(el+1);
+});
+
+// b is now [2,3,4], a is unchanged [1, 2, 3]
+
+var a = [1, 2, 3];
+var b = a.map(function(elem){
+  return  elem + 1;
+});
+b// [2, 3, 4]
+a// [1, 2, 3]
+
+
+//メソッドを実行
+cats.forEach(function(cat) {
+    cat.meow(); // nicer than cats[x].meow()
+});
+
+
+var oo = [2,3,4,5,6];
+var aa = oo.map(function(x){
+    return x + 1;
+});
+aa //[3, 4, 5, 6, 7]
+
+//forEach
+それぞれの配列の要素に対して何かしたいとき
+var oo = [2,3,4,5,6];
+var aa = oo.forEach(function(x){
+    return x + 1;
+});
+aa// undefined
+
+//forEachは元の配列を変更できる
+
+//map
+元の配列を変更せず変換やcopyをしたいとき
+
+```
+
+配列
+```[{name: "kenji"},{name: "morita"}]```の要素のvalueを次のように書き出しなさい
+(文字列"san"を付けています)
+```
+["kenjisan", "moritasan"]
+```
+
+```js
+var aa = [{name: "kenji"},{name: "morita"}];
+var result = aa.map(function(ele, i){
+   return ele.name + "san";
+});
+result//["kenjisan", "moritasan"]
+
+```
+
+同じ事をforEachでしてください
+
+
+
+```js
+
+var aa = [{name: "kenji"},{name: "morita"}];
+var arry = [];
+aa.forEach(function(ele, i){
+      for (var key in ele){
+           arry.push(ele[key] + "san")
+      }
+});
+arry//["kenjisan", "moritasan"]
+
+```
+下記のようなURLのファイルパスごとに配列に格納してください
+```https://github.com/kenmori/Angular2_TypeScript/tree/master/angular2-quickstart```
+p347 ぱーふぇくとjavascript
+
+
+```js
+
+
+var filepath = location.pathname.substring(1).split('/');
+filepath;
+
+//["kenmori", "Angular2_TypeScript", "tree", "master", "angular2-quickstart"]
+
+```
+
+cacheマニフェスト
 ```js
 
 ```
 
-```js
+localstrage
 
-```
-```js
-
-```
 
 ```js
 
 ```
+
+windowオブジェクトを7つ答えてください
+
+navigator
+location
+history
+screen
+frames
+document
+parent, top, self
 
 ```js
 
