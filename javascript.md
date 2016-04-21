@@ -814,25 +814,39 @@ nowtime
 
 ```
 
+年月日曜日
+```js
+
+```
+
+```
+
+セッション
+
 
 ```js
 
 ```
 
+cookeiee
+```js
+
+```
+
+userAgent
+
 
 ```js
 
 ```
 
+要素の位置情報
 
 ```js
 
 ```
 
-
-```js
-
-```
+正規表現
 
 
 ```js
@@ -1026,19 +1040,26 @@ console.log(obj.foo, obj.foo_bar);
 
 ```
 function ff(){
-  return "fff";
+  return "kenji";
 }
 ```
 このような関数をconsole.log内からテンプレートリテラルを使って出力してください
+
+期待する出力
+
+```
+my name is kenji
+```
+
 [参照](https://gist.github.com/kuu/b7eb679a3ad48d980ed3)
 
 ```js
 function ff(){
-  return "fff";
+  return "kenji";
 }
 
 console.log(`my name is ${ff()}`);
-
+//my name is kenji
 ```
 
 Destructuring assignment
@@ -1060,57 +1081,281 @@ fun({a: 1, b: 4});//5
 
 ```
 
-```js
+```var aa = [["morita", "kenji", "keiko"],["morita", "kenji", "keiko"]```
 
-```
-
-```js
-
-```
+全てのaaにある多次元配列の全ての要素に文字列"san"を付け加えて一つの配列として出力してください
 
 ```js
 
 ```
 
+mapとforEachの違いは何か
+
+```
+The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing "with" is what the post you cite meant by "side-effects", I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
+```
+
+[http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-method-have-that-map-cant-do](http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-method-have-that-map-cant-do)
+
+
+```js
+
+//map
+//新しいarrayを返す
+
+var a = [{ val: 1 }, { val: 2 }, { val: 3 }];
+var uu = a.map(function(el) {
+    el.val++;
+    return el.val
+});
+a//[{ val: 2 }, { val: 3 }, { val: 4 }]
+uu//[2, 3, 4]
+
+//forEach
+var a = [{ val: 1 }, { val: 2 }, { val: 3 }];
+a.forEach(function(el) {
+    el.val++;
+    console.log(el.val);
+});
+//2
+//3
+//4
+
+//実行するだけ
+//forEachならこんなことも
+
+//forEachが配列の要素を編集して配列で返すには
+//
+var a = [1,2,3],
+    b = [];
+a.forEach(function(el) {
+    b.push(el+1);
+});
+
+// b is now [2,3,4], a is unchanged [1, 2, 3]
+
+var a = [1, 2, 3];
+var b = a.map(function(elem){
+  return  elem + 1;
+});
+b// [2, 3, 4]
+a// [1, 2, 3]
+
+
+//メソッドを実行
+cats.forEach(function(cat) {
+    cat.meow(); // nicer than cats[x].meow()
+});
+
+
+var oo = [2,3,4,5,6];
+var aa = oo.map(function(x){
+    return x + 1;
+});
+aa //[3, 4, 5, 6, 7]
+
+//forEach
+それぞれの配列の要素に対して何かしたいとき
+var oo = [2,3,4,5,6];
+var aa = oo.forEach(function(x){
+    return x + 1;
+});
+aa// undefined
+
+//forEachは元の配列を変更できる
+
+//map
+元の配列を変更せず変換やcopyをしたいとき
+
+```
+
+配列
+```[{name: "kenji"},{name: "morita"}]```の要素のvalueを次のように書き出しなさい
+(文字列"san"を付けています)
+```
+["kenjisan", "moritasan"]
+```
+
+```js
+var aa = [{name: "kenji"},{name: "morita"}];
+var result = aa.map(function(ele, i){
+   return ele.name + "san";
+});
+result//["kenjisan", "moritasan"]
+
+```
+
+同じ事をforEachでしてください
+
+
+
+```js
+
+var aa = [{name: "kenji"},{name: "morita"}];
+var arry = [];
+aa.forEach(function(ele, i){
+      for (var key in ele){
+           arry.push(ele[key] + "san")
+      }
+});
+arry//["kenjisan", "moritasan"]
+
+```
+下記のようなURLのファイルパスごとに配列に格納してください
+```https://github.com/kenmori/Angular2_TypeScript/tree/master/angular2-quickstart```
+p347 ぱーふぇくとjavascript
+
+
+```js
+
+
+var filepath = location.pathname.substring(1).split('/');
+filepath;
+
+//["kenmori", "Angular2_TypeScript", "tree", "master", "angular2-quickstart"]
+
+```
+
+cacheマニフェスト
 ```js
 
 ```
 
-```js
+localstrage
 
-```
-```js
-
-```
 
 ```js
 
 ```
 
-```js
+windowオブジェクトを7つ答えてください
 
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-```js
-
-```
+navigator
+location
+history
+screen
+frames
+document
+parent, top, self
 
 ```js
 
 ```
 
+```var aaa = [["oo","oo1"], ["ll","ll2"]];```
+このような
+多次元配列のインデックス0番目だけを出力しなさい
 ```js
+var aaa = [["oo","oo1"], ["ll","ll2"]];
+aaa.forEach(function(ee){
+  ee.filter(function(eee, i){
+  if(i == 0){
+      console.log(eee);
+    }
+  });
+});
+//oo ll
+
+```
+
+シャローコピーとディープコピーの違いを教えてください。また
+```var aa = ["oo", "ll"];```
+aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
+
+
+```js
+//concat
+var aa = ["oo", "ll"];
+var arry = [];
+var bb = arry.concat(aa);//shallow copy
+bb[0] = "kk";
+aa//["oo", "ll"]
+bb//["kk", "ll"]
+
+//slice
+var aa = ["oo", "ll"];
+var bb = aa.slice(0, aa.length);
+bb[0] = "kk";
+aa//["oo", "ll"]
+bb//["kk", "ll"]
+
+//bad
+//spliceは破壊的メソッド(元参照を変える)
+var aa = ["oo", "ll"];
+var bb = aa.splice(0, aa.length);
+bb//["oo", "ll"]
+aa//[]
+
+
+
+```
+
+```var aa = ["oo", "ll"];```
+をbbにコピーしてaaは["kk", "jj"];
+が挿入されるようにしなさい。期待する結果
+bb//["oo", "ll"];
+aa//["kk", "jj"];
+
+```js
+var aa = ["oo", "ll"];
+var bb = aa.splice(0, aa.length, ["kk","jj"])
+bb//["oo", "ll"];
+aa//["kk", "jj"];
+
+```
+
+このような配列
+```var aa = ["ii", "jj", "kk"];```
+がある。
+"jj"要素を削除するために
+deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
+
+```js
+
+deleteは削除されたインデックスを残す。spliseは間を詰める。
+var aa = ["ii", "jj", "kk"];
+delete aa[1];
+aa//["ii", undefined, "kk"]
+var aa = ["ii", "jj", "kk"];
+aa.splice(1,1);
+aa//["ii", "kk"]
+
+```
+
+```var text = "key and value";```
+
+このような文字列を単語毎に配列の要素として格納してください
+//期待する結果
+//["key","and","value"]
+
+
+```js
+var text = "key and value";
+var arraytext = ii.match(/\w+/g);
+arraytext
+["text", "and", "value"]
+
+```
+
+
+```var text = 'abc def ghi jkl';```
+の空白の直前の文字をグループ化してカンマ文字の後ろに移動させなさい。
+期待する文字列
+"ab,cde,fgh,ijkl"
+
+```js
+
+var text = 'abc def ghi jkl';
+text.replace(/(.)\s/g,',$1');
+"ab,cde,fgh,ijkl"
+
+//or
+
+var text = 'abc def ghi jkl';
+text.replace(/(.)\s/g,function(m0, m1){
+   return "," + m1
+});
+"ab,cde,fgh,ijkl"
 
 ```
 
