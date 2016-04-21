@@ -2,7 +2,7 @@ node_modules/
 survey_builder/
 ab/
 json_au/
-suma/
+./suma/
 **/*.swp
 **/.module-cache/
 sprite.scssc
