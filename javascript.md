@@ -1040,19 +1040,26 @@ console.log(obj.foo, obj.foo_bar);
 
 ```
 function ff(){
-  return "fff";
+  return "kenji";
 }
 ```
 このような関数をconsole.log内からテンプレートリテラルを使って出力してください
+
+期待する出力
+
+```
+my name is kenji
+```
+
 [参照](https://gist.github.com/kuu/b7eb679a3ad48d980ed3)
 
 ```js
 function ff(){
-  return "fff";
+  return "kenji";
 }
 
 console.log(`my name is ${ff()}`);
-
+//my name is kenji
 ```
 
 Destructuring assignment
@@ -1235,26 +1242,120 @@ parent, top, self
 
 ```
 
+```var aaa = [["oo","oo1"], ["ll","ll2"]];```
+このような
+多次元配列のインデックス0番目だけを出力しなさい
 ```js
+var aaa = [["oo","oo1"], ["ll","ll2"]];
+aaa.forEach(function(ee){
+  ee.filter(function(eee, i){
+  if(i == 0){
+      console.log(eee);
+    }
+  });
+});
+//oo ll
 
 ```
 
+シャローコピーとディープコピーの違いを教えてください。また
+```var aa = ["oo", "ll"];```
+aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
+
+
 ```js
+//concat
+var aa = ["oo", "ll"];
+var arry = [];
+var bb = arry.concat(aa);//shallow copy
+bb[0] = "kk";
+aa//["oo", "ll"]
+bb//["kk", "ll"]
+
+//slice
+var aa = ["oo", "ll"];
+var bb = aa.slice(0, aa.length);
+bb[0] = "kk";
+aa//["oo", "ll"]
+bb//["kk", "ll"]
+
+//bad
+//spliceは破壊的メソッド(元参照を変える)
+var aa = ["oo", "ll"];
+var bb = aa.splice(0, aa.length);
+bb//["oo", "ll"]
+aa//[]
+
+
 
 ```
 
+```var aa = ["oo", "ll"];```
+をbbにコピーしてaaは["kk", "jj"];
+が挿入されるようにしなさい。期待する結果
+bb//["oo", "ll"];
+aa//["kk", "jj"];
+
 ```js
+var aa = ["oo", "ll"];
+var bb = aa.splice(0, aa.length, ["kk","jj"])
+bb//["oo", "ll"];
+aa//["kk", "jj"];
 
 ```
+
+このような配列
+```var aa = ["ii", "jj", "kk"];```
+がある。
+"jj"要素を削除するために
+deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
+
 ```js
+
+deleteは削除されたインデックスを残す。spliseは間を詰める。
+var aa = ["ii", "jj", "kk"];
+delete aa[1];
+aa//["ii", undefined, "kk"]
+var aa = ["ii", "jj", "kk"];
+aa.splice(1,1);
+aa//["ii", "kk"]
 
 ```
 
+```var text = "key and value";```
+
+このような文字列を単語毎に配列の要素として格納してください
+//期待する結果
+//["key","and","value"]
+
+
 ```js
+var text = "key and value";
+var arraytext = ii.match(/\w+/g);
+arraytext
+["text", "and", "value"]
 
 ```
 
+
+```var text = 'abc def ghi jkl';```
+の空白の直前の文字をグループ化してカンマ文字の後ろに移動させなさい。
+期待する文字列
+"ab,cde,fgh,ijkl"
+
 ```js
+
+var text = 'abc def ghi jkl';
+text.replace(/(.)\s/g,',$1');
+"ab,cde,fgh,ijkl"
+
+//or
+
+var text = 'abc def ghi jkl';
+text.replace(/(.)\s/g,function(m0, m1){
+   return "," + m1
+});
+"ab,cde,fgh,ijkl"
 
 ```
 
