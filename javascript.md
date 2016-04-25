@@ -1027,10 +1027,159 @@ var str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
 
 ```
 
+Objects
+
+object-shorthandを使って書き換えてください
 ```js
+const atom = {
+  value: 1,
+  addValue: function (value) {
+    return atom.value + value;
+  },
+};
+
+//ok
+const atom = {
+  value: 1,
+  addValue(value) {
+    return atom.value + value;
+  },
+};
+```
+
+こちらのobjをkey内でメソッド呼び出しされているのをコンピューティッドプロパティを使って書き換えてください
+```js
+function getKey(k) {
+  return `a key named ${k}`;
+}
+
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+};
+obj[getKey('enabled')] = true;
+
+//ok
+function getKey(k) {
+  return `a key named ${k}`;
+}
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+  [getKey('enabled')]: true,
+};
+```
+
+下記のようなobj内のkeyと値が一緒の際できるshorthandで記述してください
+
+```js
+const lukeSkywalker = 'Luke Skywalker';
+
+// bad
+const obj = {
+  lukeSkywalker: lukeSkywalker,
+};
+
+
+//ok
+const obj = {
+  lukeSkywalker,
+};
+```
+
+spread Array
+
+下記のようなある配列itemsの要素をコピーしている記述をspreadArrayを使って簡潔に記述してください
+```js
+const len = items.length;
+const itemsCopy = [];
+let i;
+
+for (i = 0; i < len; i++) {
+  itemsCopy[i] = items[i];
+}
+```
+答え
+
+```js
+
+const itemCopy = [...items];
+
+```
+
+
+Destructuring
+
+下のようにuserというnameとidをプロパティで持ったオブジェクトを再割り当てやマルチプルなobjectを扱う際に簡潔な書き方にしてください
+
+```js
+function add (user){
+  const name = user.name;
+  const id = user.id;
+  return `${name} ${id}`;
+}
+
+```
+答え
+```js
+//ベター
+function add (user) {
+  const { name, id } = user;
+  return `${name} ${id}`;
+}
+
+//best
+function add ({name, id}){
+  return `${name} ${id}`;
+}
+
+```
+
+
+Array destructuringとして簡潔に記述しなさい
+
+```js
+
+
+```
+
+
+```js
+
 
 ```
 
 ```js
+
+
+```
+
+```js
+
+
+```
+
+```js
+
+
+```
+
+```js
+
+
+```
+
+```js
+
+
+```
+
+```js
+
+
+```
+
+```js
+
 
 ```
