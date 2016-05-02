@@ -1062,11 +1062,79 @@ console.log(`my name is ${ff()}`);
 //my name is kenji
 ```
 
+<<<<<<< HEAD
 Destructuring assignment
 
 変数a,bにそれぞれ1,2を代入してください
 
 
+=======
+文字列 ```line1```と```line2```を改行てconsole.log出力しなさい
+
+```js
+console.log(`line1
+line2
+`);
+
+```
+
+Tagged template strings
+
+
+```js
+var long = '30px';
+var weight = '40px';
+
+function tag(strings, ...values){
+  //console.log(strings);["身長","で、体重は","です"]
+  return `m:${values[0]}、p:${values[1]}`; };
+
+var str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
+```
+
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+
+```js
+
+```
+>>>>>>> master
 ```js
 let [a, b] = [1, 2];
 
@@ -1176,21 +1244,54 @@ aa// undefined
 ["kenjisan", "moritasan"]
 ```
 
+Objects
+
+object-shorthandを使って書き換えてください
 ```js
+<<<<<<< HEAD
 var aa = [{name: "kenji"},{name: "morita"}];
 var result = aa.map(function(ele, i){
    return ele.name + "san";
 });
 result//["kenjisan", "moritasan"]
+=======
+const atom = {
+  value: 1,
+  addValue: function (value) {
+    return atom.value + value;
+  },
+};
+>>>>>>> master
 
+//ok
+const atom = {
+  value: 1,
+  addValue(value) {
+    return atom.value + value;
+  },
+};
 ```
 
+<<<<<<< HEAD
 同じ事をforEachでしてください
 
 
 
+=======
+こちらのobjをkey内でメソッド呼び出しされているのをコンピューティッドプロパティを使って書き換えてください
+>>>>>>> master
 ```js
+function getKey(k) {
+  return `a key named ${k}`;
+}
 
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+};
+obj[getKey('enabled')] = true;
+
+<<<<<<< HEAD
 var aa = [{name: "kenji"},{name: "morita"}];
 var arry = [];
 aa.forEach(function(ele, i){
@@ -1200,14 +1301,35 @@ aa.forEach(function(ele, i){
 });
 arry//["kenjisan", "moritasan"]
 
+=======
+//ok
+function getKey(k) {
+  return `a key named ${k}`;
+}
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+  [getKey('enabled')]: true,
+};
+>>>>>>> master
 ```
 下記のようなURLのファイルパスごとに配列に格納してください
 ```https://github.com/kenmori/Angular2_TypeScript/tree/master/angular2-quickstart```
 p347 ぱーふぇくとjavascript
 
 
-```js
+下記のようなobj内のkeyと値が一緒の際できるshorthandで記述してください
 
+```js
+const lukeSkywalker = 'Luke Skywalker';
+
+// bad
+const obj = {
+  lukeSkywalker: lukeSkywalker,
+};
+
+
+<<<<<<< HEAD
 
 var filepath = location.pathname.substring(1).split('/');
 filepath;
@@ -1217,17 +1339,38 @@ filepath;
 ```
 
 cacheマニフェスト
-```js
-
+=======
+//ok
+const obj = {
+  lukeSkywalker,
+};
 ```
+
+spread Array
+
+下記のようなある配列itemsの要素をコピーしている記述をspreadArrayを使って簡潔に記述してください
+>>>>>>> master
+```js
+const len = items.length;
+const itemsCopy = [];
+let i;
+
+for (i = 0; i < len; i++) {
+  itemsCopy[i] = items[i];
+}
+```
+答え
 
 localstrage
 
 
 ```js
 
+const itemCopy = [...items];
+
 ```
 
+<<<<<<< HEAD
 windowオブジェクトを7つ答えてください
 
 navigator
@@ -1238,13 +1381,45 @@ frames
 document
 parent, top, self
 
+=======
+
+Destructuring
+
+下のようにuserというnameとidをプロパティで持ったオブジェクトを再割り当てやマルチプルなobjectを扱う際に簡潔な書き方にしてください
+
 ```js
+function add (user){
+  const name = user.name;
+  const id = user.id;
+  return `${name} ${id}`;
+}
+
+```
+答え
+>>>>>>> master
+```js
+//ベター
+function add (user) {
+  const { name, id } = user;
+  return `${name} ${id}`;
+}
+
+//best
+function add ({name, id}){
+  return `${name} ${id}`;
+}
 
 ```
 
+<<<<<<< HEAD
 ```var aaa = [["oo","oo1"], ["ll","ll2"]];```
 このような
 多次元配列のインデックス0番目だけを出力しなさい
+=======
+
+Array destructuringとして簡潔に記述しなさい
+
+>>>>>>> master
 ```js
 var aaa = [["oo","oo1"], ["ll","ll2"]];
 aaa.forEach(function(ee){
@@ -1256,12 +1431,16 @@ aaa.forEach(function(ee){
 });
 //oo ll
 
+
 ```
 
+<<<<<<< HEAD
 シャローコピーとディープコピーの違いを教えてください。また
 ```var aa = ["oo", "ll"];```
 aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
 
+=======
+>>>>>>> master
 
 ```js
 //concat
@@ -1288,6 +1467,7 @@ aa//[]
 
 
 
+
 ```
 
 ```var aa = ["oo", "ll"];```
@@ -1302,8 +1482,10 @@ var bb = aa.splice(0, aa.length, ["kk","jj"])
 bb//["oo", "ll"];
 aa//["kk", "jj"];
 
+
 ```
 
+<<<<<<< HEAD
 このような配列
 ```var aa = ["ii", "jj", "kk"];```
 がある。
@@ -1319,6 +1501,10 @@ aa//["ii", undefined, "kk"]
 var aa = ["ii", "jj", "kk"];
 aa.splice(1,1);
 aa//["ii", "kk"]
+=======
+```js
+
+>>>>>>> master
 
 ```
 
@@ -1335,6 +1521,7 @@ var arraytext = ii.match(/\w+/g);
 arraytext
 ["text", "and", "value"]
 
+
 ```
 
 
@@ -1345,6 +1532,7 @@ arraytext
 
 ```js
 
+<<<<<<< HEAD
 var text = 'abc def ghi jkl';
 text.replace(/(.)\s/g,',$1');
 "ab,cde,fgh,ijkl"
@@ -1356,17 +1544,22 @@ text.replace(/(.)\s/g,function(m0, m1){
    return "," + m1
 });
 "ab,cde,fgh,ijkl"
+=======
+>>>>>>> master
 
 ```
 
 ```js
 
-```
-
-```js
 
 ```
 
 ```js
+
+
+```
+
+```js
+
 
 ```
