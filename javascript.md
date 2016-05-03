@@ -1,7 +1,7 @@
 ## javascriptの基礎的な所は知っているけど自分がどのくらい理解しているのか確認したい。実務で使わないメソッドの扱いが不安。何かを参照しながら書くことはできるけどさささっと書きたい。
 
 ```var afa = {a: 'a'}```と```var ee = {b: 'b'}```をmergeした```m```を出力してください
-(```e.g {a:`a`,b:’b'}
+e.g```{a:'a',b:'b'}```
 
 ```js
 var afa = {a: 'a'};
@@ -12,18 +12,17 @@ m //
 
 配列
 
-```var uu = ["oo","pp","ll","jj","hh","kk","mm"];```
+```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```
 の要素jj,hh,kkを要素、型を配列で返す記述をしてください
 
 
 ```js
 var yy = uu.slice(-4,-1);
 //or
-
 var yy = uu.slice(3,-1);
 ```
 
-・var arry = ['eee','ccc’]の要素を抜き取ってください e.g “eee” と “ccc"
+```var arry = ['eee','ccc’]```の要素を抜き取ってください e.g ```'eee'``` と ```'ccc'```
 
 ```js
 var arry = ['aa','ccc'];
@@ -34,7 +33,7 @@ arry.map(function(key,i){
 //"ccc"
 ```
 
-・var arry = [‘eee’, ‘ccc’]を要素にindexを足された文字列を出力してください e.g “eee0” と “ccc1"
+var arry = [‘eee’, ‘ccc’]を要素にindexを足された文字列を出力してください e.g “eee0” と “ccc1"
 
 ```js
 var arry = ['aa','ccc'];
@@ -50,7 +49,6 @@ e.g true
 
 ```js
 Array.isArray(ee) //true
-
 ```
 
 var aa = "fafa"を出力した後完全に削除し、削除されたことを出力してくださいe.g
@@ -211,7 +209,11 @@ myArray.join("/").split("/");
 
 ```
 
-```var gArray =  ["おはよう","こんにちは","おやすみなさい"];```配列の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+```
+var gArray =  ["おはよう","こんにちは","おやすみなさい"];
+```
+配列の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+
 ```js
 var gArray =  ["おはよう","こんにちは","おやすみなさい"];
 var g = gArray[Math.floor(Math.random() * 3)];
@@ -242,21 +244,63 @@ o.getName()
 
 浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください。
 
-```
-**shallow copy**
-プロパティ値や要素値だけのコピーでその先の参照まではコピーしない
-例
+```js
+//**shallow copy**
+//プロパティ値や要素値だけのコピーでその先の参照まではコピーしない
+//例
 var arr = [{x : 2}];//オブジェクト参照をもつ配列
 var arr2 = [].concat(arr);//要素をコピー
 arr2[0].x = 123;//変数arr2から見える要素の参照先オブジェクトを変更。
 arr[0].x//変数arrから変更が見える(shallowだから)
 //123
 
-**deep copy**
-コピー元とコピー先が別のオブジェクトを参照していること。プロパティが別のオブジェクトを参照していれば参照崎のオブジェクトも含めてコピーします。deepcopyが必要な場面はない。自分で実装する必要がある。パーフェクトP199
-
+//**deep copy**
+//コピー元とコピー先が別のオブジェクトを参照していること。プロパティが別のオブジェクトを参照していれば参照崎のオブジェクトも含めてコピーします。deepcopyが必要な場面はない。自分で実装する必要がある。パーフェクトP199
 
 ```
+
+var array = ["e","a","k","B","c"];
+array.sort();
+を実行した結果を答えてください
+
+```js
+["B", "a", "c", "e", "k"]
+
+//note 順番は文字エンコーディングによって決まる
+//要素に数値が会った場合文字列に置き換えられる
+
+```
+期待する大文字小文字区別なく順番通りにするようにしてください。
+期待する結果
+[a","B","c", "e", "k"]
+
+```js
+var array = ["e","a","k","B","c"];
+array.sort(function(a,b){
+ return a.toUpperCase() > b.toUpperCase() ? 1 : -1 ;
+});
+
+//["a", "B", "c", "e", "k"]
+
+```
+
+このような```[20,100,3,35,0]```
+比較する配列の要素が数値の場合、「降順」にsortしてください
+期待する結果
+```[100, 35, 20, 3, 0]```
+
+```js
+var numArray = [20,100,3,35,0];
+numArray.sort(function(a,b){
+ return b - a;
+});
+[100, 35, 20, 3, 0]
+
+//昇順の場合
+return a - b
+```
+
+
 
 文字列```"10"```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
@@ -288,9 +332,9 @@ add(1,2) //3
 ```
 
 
-クロージャーを使ったファクトリー関数。下記のような実行をしたら渡したname(ここではmorita)が表示されるメソッドintroduceを持つファクトリー関数を定義しなさい
-。
-```
+クロージャーを使ったファクトリー関数。下記のような実行をしたら渡したname(ここではmorita)が表示されるメソッドintroduceを持つファクトリー関数を定義しなさい。
+
+```js
 var fafa = Factory("morita");
 fafa.introduce()
 "morita"
@@ -320,6 +364,7 @@ bind、call、apply
 と返す関数を作成し、それをapplyで実行してください。また
 applyの第一引数にnullを渡す場合とオブジェクトを渡す場合のそれぞれのthisは何を指しますか答えてください
 p83
+
 ```js
 var sayHi = function(name){
  return "hello!" + (name ? name : "");
@@ -344,6 +389,7 @@ greeting.sayHi.apply(greeting);//渡さない
 ECMAScript5
 
 ```var obj = {x : 2, y: 3};```このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
+
 ```js
 var obj = {x : 2, y: 3};
 Object.preventExtensions(obj);
@@ -383,6 +429,7 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 
 ```var obj2 = {x : 2};```
 にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
+
 ```js
 var obj2 = {x : 2};
 Object.defineProperty(obj2, 'y', {value: 3, enumerable: true});
@@ -415,6 +462,7 @@ f(2)
 ```var arr = ["2","23","0","16"];```
 を小さい順にソードしてください。
 その後ソートをできないようにread-onlyにしてください
+
 ```js
 var arr = ["2","23","0","16"];
 arr.sort(function(a,b){ return a - b ;});
@@ -423,7 +471,6 @@ Object.freeze(arr);
 //["0", "2", "16", "23"]
 arr.sort();
 //.fseventsd/"Cannot assign to read only property '1' of [object Array]"
-
 ```
 
 ```var arr = [3,4,5];```をconcat以外で```arr2```にコピーしてください。
@@ -441,12 +488,10 @@ arr
 arr2
 //[123, 4, 5]
 ```
-```js
-
-```
 JSON文字列```{"x" : 1, "y": 2}```
 をオブジェクトに変換してJSON文字列に変換してください。またなぜ下記の2つはエラーになるか答えてください。
-```
+
+```js
 var s = JSON.parse("'foo'");
 var arr = JSON.parse("{x : 1}");
 ```
@@ -456,7 +501,7 @@ var s = '{"x" : 1, "y": 2}';
 var obj = JSON.parse(s);
 JSON.stringify(obj);
 //"{\"x\":1,\"y\":2}"
-**下記はなぜエラーになるか**
+//**下記はなぜエラーになるか**
 var s = JSON.parse("'foo'");
 //シングルクォーテーションの文字列はエラー-
 var arr = JSON.parse("{x : 1}");
@@ -481,11 +526,11 @@ P222 パーフェクト
 
 for in文に関する注意点を3つ挙げてください
 p89 パーフェクト
+
 ```
 - プロパティを列挙する順序がオブジェクトリテラルと配列リテラルで違う
 - 列挙できないプロパティがある(Array.lengthなど)
 - プロトタイプ継承したプロパティも列挙するところ
-
 ```
 これは2秒後に```"hello!kenji!"```とconsole.logに出力されることを期待していますが動きません。正しく修正してください。なぜそうなるか理由もください。
 
@@ -547,11 +592,9 @@ var o = Object.create(Object.prototype);
 o = Object.create({}, {p: {value : 42}});
 ```
 
-```1234``という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
-
+```1234```という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
 
 ```js
-
 var count = 1234;
 var ee = count.toString();
 var arr = [];
@@ -562,7 +605,6 @@ console.log(arr)//["1","2","3","4"];
 
 ```
 
-```js
 ## lodash.js
 
 0~9までの要素を持つ配列を返しなさい
@@ -630,6 +672,7 @@ var mul = function(a,  b) {
 ```
 
 下記のような配列内にある連想配列のkey、mail値を配列に格納して返せ
+
 ```
 array = [
 {name: "kenji", mail:"fafa@eee.com"},
@@ -637,6 +680,7 @@ array = [
 ]
 ```
 答え
+
 ```js
 
 array = [
@@ -703,7 +747,6 @@ var entries = map.entries();
 for (var entry of entries){
  console.log(entry);
 } -->
-```
 
 ## 正規表現
 
@@ -734,6 +777,7 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 ```
 
 ひらがな全てにマッチ、半角カタカナ全てにマッチ、カタカナ全てにマッチする正規表現を記述しなさい
+
 ```js
 //ひらがな
 [ぁ-ん]
@@ -746,6 +790,7 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 
 「ヤッホー」の後に続く1文字が英単語を構成する文字以外の文字列が1回以上繰り返される場合にマッチする正規表現を記述しなさい
 (正規表現書き方ドリル/技術評論社)
+
 ```js
 
 ```
@@ -1199,9 +1244,10 @@ aa// undefined
 配列
 ```[{name: "kenji"},{name: "morita"}]```の要素のvalueを次のように書き出しなさい
 (文字列"san"を付けています)
-```
-["kenjisan", "moritasan"]
-```
+e.g
+``` ["kenjisan", "moritasan"]```
+
+```js
 
 var aa = [{name: "kenji"},{name: "morita"}];
 var result = aa.map(function(ele, i){
@@ -1212,7 +1258,8 @@ result//["kenjisan", "moritasan"]
 ```
 
 同じ事をforEachでしてください
-```
+
+```js
 var aa = [{name: "kenji"},{name: "morita"}];
 var arry = [];
 aa.forEach(function(ele, i){
@@ -1499,17 +1546,159 @@ text.replace(/(.)\s/g,function(m0, m1){
 
 ```
 
-```js
+```
+var array = ["aa","bb","cc","dd","ff"];
+```
+このような配列の要素"bb"の前に"ff"を移動させて
 
+```
+["aa","ff","bb","cc","dd"]
+```
+このような配列を完成させてください
+
+```js
+array.splice(1,0,array.splice(4,1)[0])
+//array
+//["aa","ff","bb","cc","dd"]
 
 ```
 
+nullの比較についてそれぞれtureかfalseか答えてください
+
 ```js
+null < 1
+null > 1
+null < -1
+null > -1
+
+null < 0
+null <= 0
+null >= 0
+null > 0
+null == 0
+null === 0
+
+//Anserw
+null < 1 //ture
+null > 1 //false
+null < -1 //false
+null > -1 //true
+//数値コンテキストではnullは0と解釈されるため、1より小さく、-1より大きい。
+null < 0 //false
+null <= 0 //true
+null >= 0 //true
+null > 0 //false
+null == 0 //false
+null === 0 //false
+//0以下であるが0より小さくはない。
+//0以上であっても0より大きくはない。
+```
+こちらの2つのif分の条件式の違いを教えてください
+
+```js
+if('a' in obj)
+if(obj.a)
+```
+
+**in演算子の場合**
+objにキーaが存在する場合(undefinedでも)trueを返す
+if('a' in obj)は実行される
+
+**obj.aの場合**
+undefinedの場合falseを返す
+if(obj.a)が存在しても未定義だと実行されない
 
 
+```var arr = [ 10, 20 ];```
+においてarr[2]が存在しないことを確認してください
+
+```js
+2 in arry;
+```
+
+文字列
+
+```var string = "-9";```
+を数値に変換してください
+
+```js
+string - 0
+//-9
+```
+
+sliceとsubstringの違いを教えてください
+
+```js
+//引数に-を与えた際に違いが出ます
+
+var str = "あいうえお";
+str.length
+str.slice(0,-2)
+//"あいう"
+//0からインデックス最後の文字を-1とし後ろから数える
+
+var str = "あいうえお";
+str.substring(0, -2);
+//""
+//負の数字は0とみなす。
+//0から0を取得するので空文字を返す
+
+//sliceは開始位置が終了位置以上だと空文字を返す
 ```
 
 ```js
+var str = "あいうえお";
+str.slice(1,1)
+//""
 
+//「い」を取得したい場合
+var str = "あいうえお";
+str.slice(1,2)
+"い"
 
+//substringの場合
+//開始位置が終了位置より大きいと交換されて解釈される
+
+var str = "あいうえお";
+str.substring(1,-3);
+//substring(-3,1)と解釈され負の数は0と見なされ
+//substring(0,1)と同等の処理をする
+
+//"あ"
+```
+
+次のような文字列```abcdefg```のcとeそれぞれを大文字にしてください
+
+```js
+var str = "abcdefg";
+var replaced = str.replace(/[ce]/g,function(str){
+ return str.toUpperCase();
+});
+//replaced "abCdEfg"
+```
+
+次のような文字列をvar str = "こんにちは";
+var name = "もりたさん";
+連結し"いい天気ですね"を付け足した新しい文字列を生成してください
+
+期待する結果
+
+```
+"こんにちはもりたさんいい天気ですね"```
+
+連結してもstrは元の文字列のママなことを確認
+str
+//こんにちは
+
+```js
+var str = "こんにちは";
+var name = "もりたさん";
+var newstr = str.concat(name, "いい天気ですね");
+newstr
+"こんにちはもりたさんいい天気ですね"
+
+str //こんにちは
+
+//String.concatのパフォーマンスについて
+//https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/concat
 ```
