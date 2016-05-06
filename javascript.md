@@ -1791,10 +1791,18 @@ console.log(Object.getOwnPropertyNames(arr));
 ```
 
 
+オブジェクトoに対してaという値が'morita'、列挙可能、削除可能、書き換え可能なプロパティを作成してください
 
+[参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 
 ```js
-
+let o = {};
+Object.definedProperty(o,"a",{
+  value: 'morita',
+  writable: true,
+  configurable: true,
+  enumerable: true,
+});
 ```
 
 
