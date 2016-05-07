@@ -1806,16 +1806,42 @@ Object.definedProperty(o,"a",{
 ```
 
 
-
+下記のようなthisへの参照をsaveせずに書き換えなさい
 
 ```js
 
 ```
 
 
+下のlib/math.jsに入っている1と2を別のファイルで使えるようにして
+受け取る方app.jsも記述しなさい
+```js
+//lib/math.js
+//1
+function sum(x, y) {
+  return x + y;
+}
+//2
+var pi = 3.141593;
+```
 
 
 ```js
+//lib/math.js
+export function sum(x, y) {
+  return x + y;
+}
+export var pi = 3.141593;
+
+//app.js
+import * as math from 'lib/math';
+import {sum, pi} from 'lib/math';
+//e.g.
+math.sum(x, y){
+    console.log(math.pi);
+    return x + y;
+}
+sum(1, 3)
 
 ```
 
