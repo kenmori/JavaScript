@@ -1,20 +1,150 @@
-## ある日僕は猫にjavascriptを教えることになった第3話(連結)
+<h3> ある日僕は猫にjavascriptを教えることになった第5話()</h3>
 
-[caption id="attachment_9380" align="alignnone" width="900"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/banner1.gif" alt="ある日僕は猫にjavascriptを教えることになった" width="900" height="450" class="size-full wp-image-9380" />ある日僕は猫にjavascriptを教えることになった[/caption]
+<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/banner1.gif" alt="ある日僕は猫にjavascriptを教えることになった" width="900" height="450" class="size-full wp-image-9380" />
 
-にゃーちゃん[前回の続き][1]からやるよ？？にゃーちゃんどうしたの？そんな変な顔して。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 近所の猫にプログラム勉強していること言ったら笑われたぞ。 そんなのできなくても縁側で寝てる方が楽で、気持ちいいぞって。 </span> たしかに気持ちいいね。にゃーちゃんはなんでプログラムやりたいの？
+前回までのあらすじ
+<p>
+ある日僕の飼っている猫「にゃーちゃん」がjavascriptを覚えたいっていうんだ。 javascript？javascriptってのはプログラミング言語なんだけど、なんでにゃーちゃんが教えて欲しいのかは まだよく分かっていないんだ。 とりあえずほっぺた舐められちゃったから「しょーがないな、、」って感じで教えているんだよ。 僕も猫に教えたことはないからゆっくり丁寧に教えているつもりだよ。
+</p>
+<strong>前回までの話</strong>
+
+<a href="http://kenjimorita.jp/catjs1/">ある日僕は猫にjavascriptを教えることになった第1話</a>
+
+<a href="http://kenjimorita.jp/catjs2/">ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)</a>
+
+<a href="http://kenjimorita.jp/catjs3/">ある日僕は猫にjavascriptを教えることになった第3話(変数の中身を出力する)</a>
+<a href="http://kenjimorita.jp/catjs4/">ある日僕は猫にjavascriptを教えることになった第4話()</a>
+
+<h3>ある日僕は猫にjavascriptを教えることになった第5話()</h3>
+
+<!--more-->
+にゃーちゃん<a href="http://kenjimorita.jp/catjs4/">前回の続き</a>からやるよ？？忘れちゃったら戻ってね。にゃーちゃんどうしたの？そんな変な顔して。
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a>この前向かいの家の台所にお魚が置いてあったにゃー。</span>
+うん
 
 
 
-じゃあ今日もここか直接下のやつに書いていこうか
-<a class="jsbin-embed" href="http://jsbin.com/kohageguhe/embed?console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.35.11"></script>
+
+じゃあ違う問題。
+これの出力はなんだと思う？
+
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+  var number = 1;
+  number + 2;
+</div>
+
+3？？
+
+そうなんだよ
+
+変数numberには1が入っているから
+
+1 + 2
+
+は3だよ
+でも先程と違うのはこの式は
+数値 + 数値　だから
+結果は3という「数値」なんだよ
+これをNumber型(ナンバー型)っていうよ。
+
+型ってなんにゃー？
+
+型。文字列をstring型(ストリング型)といって数値を(ナンバー型)というよ。
+今は「""」や「’’」で囲まれたものをstring型というと覚えておいていいよ。
+で数字はNumber型で。
+
+じゃあこれは？
+"3"
+
+「ストリングがた」にゃ？？
+
+そうこれはString型だよ。数字の顔しているけどね。
+他にもいろいろな型があるけどおいおい教えるね？？
+
+にゃーー
+
+じゃあこれはどうだい？？
+
+var number = 1;
+number += 3
+
+わからないにゃー。これはいったい何をしているにゃ？？
+
+これは「加算代入」といって上の意味は
+number = number + 3
+という意味だよ。
+
+にゃ？？
+
+実際何が行われているかというと
+var number = 1;//
+number = number + 3
+
+number + 3　を計算した後同じnumberという変数に戻しているんだ。
+
+これを
+number += 3
+という風に書くことができる。
+
+ふむふむ
 
 
 
+じゃあ次の問題。これの出力は何だと思う？？
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+  var number = 1;
+    number += "desu";
+</div>
+
+えーと
++=　は「左辺の変数に予め+してから戻す」意味だから、、、実際はこうで、、
+var number = number + "desu";
+↓
+んで、右辺の計算が、
+number + "desu"
+↓
+1 + "desu"だから
+
+？？
+
+1 + "desu"
+って計算できるのかにゃ？？
+
+今までは数値 + 数値だから結果もナンバー型
+文字列 + 文字列だから結果もストリング型だったね
+今度は数値 + 文字列だよ。
+
+1というnumber型と"desu"というstring型
+
+これはね文字列として計算されるんだよ。
+
+なんでにゃー！！
+
+これは「暗黙の型変換」が行われている為だよ。
+
+だから右辺は
+"1desu"
+となって
+それをnumberっていう変数に入れなおすから
 
 
-ここまで理解したら今日はおしまいにしようか？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃー </span> にゃーちゃんアイスたべる？？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーにゃー </span>
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+  var number = 1;
+    number += "desu";
+    //"1desu"
+</div>
+出力結果は"1desu"となるんだ。
 
- [1]: http://kenjimorita.jp/catjs3/
- [2]: http://jsbin.com/lujufufaze/1/edit?console
- [3]: http://kenjimorita.jp/wp-content/uploads/2016/03/cat-2.gif
+むずいにゃ
+
+次は違う計算をしたりしてもうちょっと慣れようか！
+
+にゃーー
+
+
+<strong>前回までの話</strong>
+
+<a href="http://kenjimorita.jp/catjs1/">ある日僕は猫にjavascriptを教えることになった第1話</a>
+<a href="http://kenjimorita.jp/catjs2/">ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)</a>
+<a href="http://kenjimorita.jp/catjs3/">ある日僕は猫にjavascriptを教えることになった第3話(変数の中身を出力する)</a>
+<a href="http://kenjimorita.jp/catjs4/">ある日僕は猫にjavascriptを教えることになった第4話()</a>
