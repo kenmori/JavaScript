@@ -894,23 +894,73 @@ userAgent
 正規表現
 
 
+Object matching shorthandを使い、こちら
+```
+function getSomething(){
+  return {
+    first: 1,
+    second: 2,
+    third: 3
+  }
+}
+```
+の関数を
+first,second,thirdにそれぞれ代入してください
+
 ```js
+function getSomething(){
+  return {
+    first: 1,
+    second: 2,
+    third: 3
+  }
+}
+var { first, second, third } = getSomething();
+first
+//1
+second
+//2
+third
+//3
 
 ```
 
+Parameter destructuringとして
 
+```
+function g({name: x}) {
+  console.log(x);
+}
+g({name: 5});
+```
+こちらが5を出力するトランスパイルされたjsを記述してください
 ```js
+
+function g(_ref) {
+  var x = _ref.name;
+  console.log(x);
+}
+g({ name: 5 });
 
 ```
 
+文字列"fafafakenjifafafa"
+に"kenji"が含まれているかどうかの真偽値を出力しなさい
+expect //true
 
 ```js
+console.log("fafaeeekenjifa".includes("kenji"));
+//true
 
 ```
 
+文字列"repeat"を2回繰り返した結果を出力しなさい
+
+expect //"repeatrepeat"
 
 ```js
-
+console.log("repeat".repeat(2));
+//"repeatrepeat"
 ```
 
 
@@ -1846,32 +1896,82 @@ sum(1, 3)
 ```
 
 
+配列
+
+```
+["morita","kenji","fafafa"]
+```
+
+の要素
+```
+"fafafa"
+```
+のインデックスを返してください
+
+expect //2
 
 ```js
+["morita","kenji","fafafa"].findIndex(x => x == "fafafa")
+//2
 
 ```
 
+配列["A","B","C"]を配列の0番目のインデックス値になるようにしてください
+expect [["A"],["B"],["C"]]
 
 
 ```js
+//better
+["A","B","C"].map(x => Array.of(x));
+
+//best
+["A","B","C"].map(x => [x])
+
+//http://www.2ality.com/2014/05/es6-array-methods.html
 
 ```
 
-
+配列
+```
+['a', 'b', 'c']
+```
+のインデックス1番だけを文字列"kenji"に変えてください
 
 ```js
+['a', 'b', 'c'].fill('kenji', 1, 2);
+//["a","kenji","c"]
 
+//http://www.2ality.com/2014/05/es6-array-methods.html
 ```
 
 
+配列
+```
+ [6, -5, 8]
+```
+を0未満の要素だけ出力しなさい
 
 ```js
-
+const i = [3, 0, 6, -1].find(x=> x < 0);
+console.log(i)
+//-1
 ```
 
 
-
+gen.next().valueを実行すると値が1づつ返ってくるようなGenerator関数を作り1,2,3と出力しなさい
 ```js
+
+function* idMaker(){
+    var index = 0;
+    while(true)
+        yield index++;
+}
+
+var gen = idMaker();
+
+console.log(gen.next().value); // 0
+console.log(gen.next().value); // 1
+console.log(gen.next().value); // 2
 
 ```
 
