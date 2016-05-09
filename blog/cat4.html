@@ -1,64 +1,72 @@
-## ある日僕は猫にjavascriptを教えることになった第3話(連結)
+<h3> ある日僕は猫にjavascriptを教えることになった第4話(文字列の連結と未定義)</h3>
 
-[caption id="attachment_9380" align="alignnone" width="900"][<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/banner1.gif" alt="ある日僕は猫にjavascriptを教えることになった" width="900" height="450" class="size-full wp-image-9380" />ある日僕は猫にjavascriptを教えることになった[/caption]
+<img src="http://kenjimorita.jp/wp-content/uploads/2016/03/banner1.gif" alt="ある日僕は猫にjavascriptを教えることになった" width="900" height="450" class="size-full wp-image-9380" />
 
-にゃーちゃん[前回の続き][1]からやるよ？？にゃーちゃんどうしたの？そんな変な顔して。 <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> 近所の猫にプログラム勉強していること言ったら笑われたぞ。 そんなのできなくても縁側で寝てる方が楽で、気持ちいいぞって。 </span> たしかに気持ちいいね。にゃーちゃんはなんでプログラムやりたいの？
+前回までのあらすじ
+<p>
+ある日僕の飼っている猫「にゃーちゃん」がjavascriptを覚えたいっていうんだ。 javascript？javascriptってのはプログラミング言語なんだけど、なんでにゃーちゃんが教えて欲しいのかは まだよく分かっていないんだ。 とりあえずほっぺた舐められちゃったから「しょーがないな、、」って感じで教えているんだよ。 僕も猫に教えたことはないからゆっくり丁寧に教えているつもりだよ。
+</p>
+<strong>前回までの話</strong>
 
-この前向かいの家の台所にお魚が置いてあったにゃー。
+<a href="http://kenjimorita.jp/catjs1/">ある日僕は猫にjavascriptを教えることになった第1話</a>
 
+<a href="http://kenjimorita.jp/catjs2/">ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)</a>
+
+<a href="http://kenjimorita.jp/catjs3/">ある日僕は猫にjavascriptを教えることになった第3話(変数の中身を出力する)</a>
+
+<h3>ある日僕は猫にjavascriptを教えることになった第4話(文字列の連結と未定義)</h3>
+
+<!--more-->
+にゃーちゃん<a href="http://kenjimorita.jp/catjs3/">前回の続き</a>からやるよ？？忘れちゃったら戻ってね。にゃーちゃんどうしたの？そんな変な顔して。
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a>この前向かいの家の台所にお魚が置いてあったにゃー。</span>
 うん
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > ちょっと高いテーブルにあったからまず椅子にジャンプして、でテーブルにのっかったんだにゃー </span>
+    うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > でお魚をこっちへこいこっちへこいやって、 </span>
+    うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > あれなんていうんだ。ピカピカ透明のシートが掛かっていてさ、</span>
 
-ちょっと高いテーブルにあったからまず椅子にジャンプして、でテーブルにのっかったんだにゃー
+    ラップだね。うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > どーにもそれが難儀難儀だにゃ</span>
+      うん。
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 普段だと、わたくしの爪がこー、お魚にこー引っかかって、こっちにくるにゃー、 </span>
+    うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a >今日という今日は、透明のシートで、、</span>
+      うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a >お皿全体はくるけど</span>
+    うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > ピカピカ透明がなかなかはがれないにゃー </span>
+    うん
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 諦めたにゃー </span>
+    にゃーちゃん。
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > にゃ？ </span>
 
-うん
+    勉強しようか？
+    <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"> <img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > にゃー！！</span>
 
-でお魚をこっちへこいこっちへこいやって、
 
-うん
-
-ちょっとこれラップ掛かっていてさ、お皿からこー、すーーーっとこっちへこないにゃー、
-
-うん
-
-普段ならこちらの爪がこー、お魚にこー引っかかって、こっちにくるにゃー、
-
-うん
-
-こないにゃー
-
-うん
-
-諦めたにゃー
-
-にゃーちゃん。javascriptの勉強しようか？
-
-しようしよう
-
-今日は文字列の結合をやるよ
-
-結合
-
-そう結合
-
-変数を代入したよね
+前回は変数を代入してnameを参照したらniboshiと出力された
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
   var name = "niboshi";
+  name;//"niboshi"
 </div>
 
-した
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var name = "niboshi";
-</div>
-
-じゃあこう書いてみよう
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > にゃーにゃー </span>
+今回は文字列の結合をやるよ
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 文字列の結合?? </span>
+ちょっと書いてみよう
+<a class="jsbin-embed" href="http://jsbin.com/gocujazedo/1/embed?console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.35.12"></script>
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
   var name = "niboshi";
   name + "san";
 </div>
 
-この「+」は演算子(えんざんし)といって簡単にいうとこの右と左を足しているよ
-その結果(評価)したものが
+
+この2行目の「+」は演算子(えんざんし)といって簡単にいうとこの右と左を足しているよ。
+
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 算数と一緒かにゃ？？ </span>
+
+そうだね。その計算(評価)したものが
 
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
   var name = "niboshi";
@@ -66,83 +74,113 @@
   //"niboshisan"
 </div>
 
-これは
-左項のnameが文字列が代入されている変数 + 文字列なので
-出力も"niboshisan"という文字列なんだよ。
+だよ。
+ここではnameという中身("niboshi")に対して足しているところを確認してね？？
 
-つまりこうしているということなんだ
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > うん。わかったんだけどなんで </span>
+
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+var name = "niboshi";
+var name + "san";
+name
+</div>
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > こうじゃないにゃ？？ </span>
+
+varっていうのは新たに変数を宣言するためのキーワードだったよね？？
+
+にゃーちゃんの指摘した下のこの意味だと
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+var name = "niboshi";//①新たな変数nameに"niboshi"を入れる
+var name + "san";//②新たな変数nameに"san"を加算したい。
+</div>
+って書いていることとなるんだよ。
+
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 同じ名前の変数を宣言しているにゃ？？ </span>
+そうなんだ。同じ変数名を宣言することは好ましくないけどできなくはないんだけど、中身が何か考えて欲しいんだ。
+
+②のvar name でまた初期化していることになるんだよ。
+
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 初期化ってなんにゃ？？ </span>
+簡単にいうと「最初の中身の状態」を決めることだよ。
+これは②の時点でまだ何も入っていないnameに+で足そうとしているので「エラー」なんだよ。
+
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > エラー？？ </span>
+エラー。
+"Unexpected token +"
+なぜエラーかというと、
+var name = 1
+これは1が入っているでしょ？
+
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > にゃーにゃー </span>
+かたや
+<div class="code">
+  var name;
+</div>
+だけだと未定義(この場合nameとは何かを「定義されていない」)とされて、undefinedっていうものが入っているんだ。
+なので簡単に言うと「そこで使う+はそこでは変じゃないですか？？」っていうエラーメッセージが出ている。
+
+ここは重要なところだから試しに新たな変数
+<div class="code">
+var fafa;
+</div>
+とだけ書いて出力してみようか！
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > にゃー </span>
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+  var fafa;
+  fafa;
+</div>
+とだけ書いてEnterおして？？
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 本当だundefinedが返ってくるにゃ！ </span>
+その意味はjavascriptはfafaを参照したけど中身がないから、
+どこかにある(定義されている)んじゃないかと思って探したけどなかった。なのでundefinedが出力されるんだよ。
+
+じゃあ戻ると、さっきの質問のコードは、
+<div class="code">
+  var name + "san";
+</div>
+
+何も入っていない変数に+で加算しようとしている。
+つまり
+<div class="code">
+undefined + "san"
+</div>
+内部でこう解釈されて、エラーになるんだよ。
+まとめると、
+
+<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
+//①
+var name = "niboshi";
+name + "san";
+name //"niboshisan"
+
+//②
+var name = "niboshi";
+var name + "san";//"Unexpected token +"
+name
+</div>
+①と②の違いは
+①はnameを参照した行の時には中身(niboshi)が入っている。そこに"san"が足されて
 "niboshi" + "san";
+nameと最後の行で参照したときに"niboshisan"が出力される
 
-じゃあこれの出力はなんだと思う？
-
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var number = 1;
-  number + 2;
-</div>
-
-3
-
-そうなんだよ
-
-numberには1が入っているから
-
-1 + 2
-
-は3だよ
-そうだよ。数値 + 数値　だから
-結果は3という数値だよ
-これをnumber型っていうよ。
-
-型？
-
-型。文字列をstring型(ストリング型)といって数値を(ナンバー型)というよ
-今は「""」や「’’」で囲まれたものをstring型というと覚えておいていいよ。
-で数字はnumber型で。
-
-じゃあこれは？
-"3"
-これはstring型だよ。数字だけどね。
-型については今度また教えるね
+2のほうは
+varで同じ変数を宣言した際に初期化されてundefinedという中身が入っていないことを示す「未定義」が入っている。
+何も入っていないのに"san"を足そうとしているからError
 
 
-じゃあこれの出力は何だと思う？？
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-  var number = 1;
-  number + "desu";
-</div>
+今日はこれだけ覚えようか！！
 
-
-1 + "desu"だから
-
-？？
-
-今までは数値 + 数値だから結果も数値
-文字列 + 文字列だから結果も文字列だったね
-
-今度は数値 + 文字列だよ。
-
-1というnumber型と"desu"というstring型
-
-これはね文字列なんだよ。
+にゃーちゃんはこれからどこか行くの？？
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > 行くにゃーー！！ </span>
+どこいくの？？
+<span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a > お友達猫誘って岩盤浴だにゃー！ </span>
+にゃーちゃんは美意識高いね〜
 
 
 
 
+<strong>前回までの話</strong>
 
-
-
-
-
-
-じゃあ今日もここか直接下のやつに書いていこうか
-<a class="jsbin-embed" href="http://jsbin.com/kohageguhe/embed?console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.35.11"></script>
-
-
-
-
-
-ここまで理解したら今日はおしまいにしようか？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃー </span> にゃーちゃんアイスたべる？？ <span class="catsay"><a href="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif"><img src="http://kenjimorita.jp/wp-content/uploads/2016/03/cat.gif" alt="猫jsのにゃーちゃん" width="30" height="30" class="alignnone size-full wp-image-9379" /></a> にゃーにゃー </span>
-
- [1]: http://kenjimorita.jp/catjs3/
- [2]: http://jsbin.com/lujufufaze/1/edit?console
- [3]: http://kenjimorita.jp/wp-content/uploads/2016/03/cat-2.gif
+<a href="http://kenjimorita.jp/catjs1/">ある日僕は猫にjavascriptを教えることになった第1話</a>
+<a href="http://kenjimorita.jp/catjs2/">ある日僕は猫にjavascriptを教えることになった第2話(実際に書いてみよう)</a>
+<a href="http://kenjimorita.jp/catjs3/">ある日僕は猫にjavascriptを教えることになった第3話(変数の中身を出力する)</a>
