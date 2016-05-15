@@ -773,23 +773,15 @@ for(var i = 0; i < ee.length; i++){
  arr[i] = ee.charAt(i);
 }
 console.log(arr)//["1","2","3","4"];
-
 ```
 
-## lodash.js
-
-0~9までの要素を持つ配列を返しなさい
-
-```js
-_.range(10);
-//[0,1,2,3,4,5,6,7,8,9]
-
-```
+**問45**
 [こちら](http://jsbin.com/wacumupuqo/1/edit?js,console,output)を実行するとundefinedが返ってきます。nameが返るように修正してください。またそうなる理由を述べてください
 
 理由thisの実行コンテキストがPersonを差していないから。
 [答え1](http://jsbin.com/gikakeyepu/1/edit?js,console,output)
 
+**問46**
 ```js
 var Speaker = {
  say : function(wordsGetter){
@@ -910,36 +902,30 @@ map.set("four", "fafa@eee");
 
 ```
 
-<!-- 変数fafaに内にある要素を全て取得しなさい
+変数fafaに内にある要素を全て取得しなさい
 
 ```js
 var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]];
 var entries = map.entries();
 for (var entry of entries){
  console.log(entry);
-} -->
+}
 
-## 正規表現
+```
 
-文字列
+
 ```"morita kenji"```をRegExpオブジェクトを使って配列["morita kenji"]が返るようにしてください。(空白スペースにマッチする正規表現を使うこととする)
 
 ```js
-
 //正解例
 /\w+\s\w+/.exec("morita kenji")
-
 ```
-下のようなstrとstr2がある。
-```var str = "It is an important problem";```
 
-```var str2 = "The import duty is not cheap";```
-str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
+このようなstrとstr2がある ```var str = "It is an important problem";``` ```var str2 = "The import duty is not cheap";``` str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
 
 参照(正規表現書き方ドリル/技術評論社)
 
 ```js
-
 var str = "It is an important problem";
 var str2 = "The import duty is not cheap";
 var ii = /.*\bimport\b.*/.test(str);//false
@@ -962,11 +948,7 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 「」の中に「ヤッホー!」の文字列が1回以上続く場合にのみマッチする正規表現を書いてください。(！が英単語を構成する文字以外の場合はどうか、また「ヤッホー！」が2回以上3回以下にマッチにはどう書きますか)
 
 ```js
-
-var str = "「ヤッホー！ヤッホー！」";
-/「(ヤッホー！)+」/.exec(str);
-//["「ヤッホー！ヤッホー！」", "ヤッホー！"]
-
+var str = "「ヤッホー！ヤッホー！」"; /「(ヤッホー！)+」/.exec(str); //["「ヤッホー！ヤッホー！」", "ヤッホー！"]
 
 //メタ文字
 
@@ -975,24 +957,15 @@ var str = "「ヤッホー?ヤッホー@」";
 ["「ヤッホー?ヤッホー@」", "ヤッホー@"]
 ```
 
-```
-
-「ヤッホー」の後に続く1文字が英単語を構成する文字以外の文字列が1回以上繰り返される場合にマッチする正規表現を記述しなさい
-(正規表現書き方ドリル/技術評論社)
-
-```js
 
 
-```
 
-
-```
-(ありがとう|こんにちは｜さようなら)
-```
-と
+``` (ありがとう|こんにちは｜さようなら) ```
+ と
 
 ```
 ありがとう|こんにちは｜さようなら
+
 ```
 の違いを教えてください
 。それぞれexecメソッドを使用した際の返り値を教えてください
@@ -1014,54 +987,8 @@ var str = "彼はありがとうと言った";
 ```js
 var str = "How";
 /Wh(en|ere|o|at|y|)|How/.exec(str);
-
 ```
 
-```js
-
-```
-
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
 
 ```
 x = new Boolean(false)
@@ -1071,7 +998,6 @@ if文の式として渡すと実行されるか答えなさい
 [参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
 
 ```js
-
 x = new Boolean(false);
 if (x) {
  //実行される
@@ -1122,18 +1048,15 @@ g//true
 ```
 
 
-```
-undefined == null
-```
-の真偽値は何か
+``` undefined == null ``` の真偽値は何か
 
 ```js
-
 if (undefined == null){
   //run
 }
 //実行されます
 ```
+
 なんでもいいのでクロージャーを作りなさい
 
 ```js
@@ -1190,9 +1113,6 @@ userAgent
 ```js
 
 ```
-
-正規表現
-
 
 Object matching shorthandを使い、こちら
 ```
@@ -1273,12 +1193,9 @@ console.log("repeat".repeat(2));
 ES6
 
 もじれつ```foo```をイテレーターを使った反復処理で配列```["f","o","o"]```を出力しなさい。
-こちらでやるとさくっと試せるよ
-[http://jsbin.com/?js,console](http://jsbin.com/?js,console)
+ ```js
 
-
-```js
-//ES6,Babel
+ //ES6,Babel
 
 var chars = [];
 for (let n of "foo"){
@@ -1594,6 +1511,7 @@ aa// undefined
 配列
 ```[{name: "kenji"},{name: "morita"}]```の要素のvalueを次のように書き出しなさい
 (文字列"san"を付けています)
+
 e.g
 ``` ["kenjisan", "moritasan"]```
 
@@ -1670,10 +1588,10 @@ const obj = {
   name: 'San Francisco',
   [getKey('enabled')]: true,
 };
-```
+
 下記のようなURLのファイルパスごとに配列に格納してください
 ```https://github.com/kenmori/Angular2_TypeScript/tree/master/angular2-quickstart```
-p347 ぱーふぇくとjavascript
+
 
 
 ```js
@@ -1722,13 +1640,9 @@ for (i = 0; i < len; i++) {
   itemsCopy[i] = items[i];
 }
 
-
-
 const itemCopy = [...items];
 
 ```
-
-
 windowオブジェクトを7つ答えてください
 
 navigator
@@ -1773,7 +1687,6 @@ function add ({name, id}){
 多次元配列のインデックス0番目だけを出力しなさい
 
 ```js
-
 var aaa = [["oo","oo1"], ["ll","ll2"]];
 aaa.forEach(function(ee){
   ee.filter(function(eee, i){
@@ -1786,7 +1699,6 @@ aaa.forEach(function(ee){
 ```
 
 Array destructuringとして簡潔に記述しなさい
-
 
 シャローコピーとディープコピーの違いを教えてください。また
 ```var aa = ["oo", "ll"];```
@@ -1815,10 +1727,6 @@ var aa = ["oo", "ll"];
 var bb = aa.splice(0, aa.length);
 bb//["oo", "ll"]
 aa//[]
-
-
-
-
 ```
 
 ```var aa = ["oo", "ll"];```
@@ -1832,8 +1740,6 @@ var aa = ["oo", "ll"];
 var bb = aa.splice(0, aa.length, ["kk","jj"])
 bb//["oo", "ll"];
 aa//["kk", "jj"];
-
-
 ```
 
 このような配列
@@ -1843,7 +1749,6 @@ aa//["kk", "jj"];
 deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
 
 ```js
-
 deleteは削除されたインデックスを残す。spliseは間を詰める。
 var aa = ["ii", "jj", "kk"];
 delete aa[1];
@@ -1851,10 +1756,6 @@ aa//["ii", undefined, "kk"]
 var aa = ["ii", "jj", "kk"];
 aa.splice(1,1);
 aa//["ii", "kk"]
-
-```js
-
-
 ```
 
 ```var text = "key and value";```
@@ -1869,8 +1770,6 @@ var text = "key and value";
 var arraytext = ii.match(/\w+/g);
 arraytext
 ["text", "and", "value"]
-
-
 ```
 
 
@@ -1880,8 +1779,6 @@ arraytext
 "ab,cde,fgh,ijkl"
 
 ```js
-
-
 var text = 'abc def ghi jkl';
 text.replace(/(.)\s/g,',$1');
 "ab,cde,fgh,ijkl"
@@ -1893,18 +1790,11 @@ text.replace(/(.)\s/g,function(m0, m1){
    return "," + m1
 });
 "ab,cde,fgh,ijkl"
-
 ```
 
-```
-var array = ["aa","bb","cc","dd","ff"];
-```
-このような配列の要素"bb"の前に"ff"を移動させて
 
-```
-["aa","ff","bb","cc","dd"]
-```
-このような配列を完成させてください
+
+``` var array = ["aa","bb","cc","dd","ff"]; ``` このような配列の要素"bb"の前に"ff"を移動させて ``` ["aa","ff","bb","cc","dd"] ``` このような配列を完成させてください
 
 ```js
 array.splice(1,0,array.splice(4,1)[0])
@@ -1948,7 +1838,7 @@ null === 0 //false
 ```js
 if('a' in obj)
 if(obj.a)
-```
+
 
 **in演算子の場合**
 objにキーaが存在する場合(undefinedでも)trueを返す
@@ -1959,11 +1849,10 @@ undefinedの場合falseを返す
 if(obj.a)が存在しても未定義だと実行されない
 ```
 
-```
 
-var arr = [ 10, 20 ];
-```
+``` var arr = [ 10, 20 ]; ```
 においてarr[2]が存在しないことを確認してください
+
 
 ```js
 2 in arry;
@@ -2122,21 +2011,13 @@ var passed = [2, 5, 8, 1, 4].some(isBigEnough);
 // passed は false
 passed = [12, 5, 8, 1, 4].some(isBigEnough);
 // passed は true
-
-[参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/some)
-
 ```
 
 この
+``` const arry = ['a','b','c']; ``` の列挙可能なプロパティと不可能なプロパティを出力してください
 
-```
-const arry = ['a','b','c'];
-```
-の列挙可能なプロパティと不可能なプロパティを出力してください
 期待する結果
-```
-["0","1","2","length"]
-```
+``` ["0","1","2","length"] ```
 
 ```js
 const arr = ['a','b','c'];
@@ -2145,9 +2026,8 @@ console.log(Object.getOwnPropertyNames(arr));
 ```
 
 
-オブジェクトoに対してaという値が'morita'、列挙可能、削除可能、書き換え可能なプロパティを作成してください
+オブジェクトoに対してaという値が"morita"、列挙可能、削除可能、書き換え可能なプロパティを作成してください
 
-[参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 
 ```js
 let o = {};
@@ -2328,7 +2208,7 @@ console.log(fafa === null);//true //同値演算子を使う
 
 ```
 
-
+ここから
 
 ```js
 
@@ -2523,15 +2403,7 @@ console.log(fafa === null);//true //同値演算子を使う
 ```
 
 XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか教えてください。またもしそれを書かない場合の実体参照、
-```
->
-```
-と
-```
-<
-```
-をどのように書くか教えてください。また&と"、'はそれぞれエスケープ文字でどのように書きますか？
-
+``` > ``` と ``` < ``` をどのように書くか教えてください。また&と"、'はそれぞれエスケープ文字でどのように書きますか？
 ```js
 <script><![CDATA[
 
@@ -2576,11 +2448,7 @@ http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-wi
 
 次の
 文章中の
-```
-My name is Taro Suzuki and I am a researcher at ABC.
-```
-
-小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
+``` My name is Taro Suzuki and I am a researcher at ABC. ``` 小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
 
 
 ```js
@@ -2593,7 +2461,6 @@ console.log(str7.match(/\ba\w*\b/g));
 //\sa\w*\sだと\sは文字の先頭や末尾にはマッチしないので、文章の先頭や末尾にある英単語が対象から外れてしまうことに注意してください。
 
 ```
-
 <p>
 や<img src='fafafa'>
 など
@@ -2606,19 +2473,10 @@ console.log(str7.match(/\ba\w*\b/g));
 ※</ではじまる閉じタグは除外
 
 タグ名のみ
-```
-p
-```
+``` p ``` や ``` img ``` ※いろいろあると思うので答えは一例とさせていただきます
 
-や
-```
-img
-```
-
-※いろいろあると思うので答えは一例とさせていただきます
-```js
-//ごめん適当
-const str3 = "<img src='fafa.com'>"
+ ```js
+  //ごめん適当 const str3 = "<img src='fafa.com'>"
 const str4 = "<p>"
 const reg2 = /<(\S+)(\s+.+)?>/;//キャプチャあり
 const reg3 = /<(?:\S+)(?:\s+.+)?>/;//キャプチャさせない
@@ -2638,14 +2496,12 @@ console.log(re4);
 //["<p>","p",null]
 console.log(re4[0]);
 //<p>
-
 ```
 
 下のこちらを使い
-```
-var myRe=/ken*/g;
-var str2 = "fafakenfafkenji";
-```
+
+``` var myRe=/ken*/g; var str2 = "fafakenfafkenji"; ```
+
 文字列の中のkenだけをexecメソッドを使いマッチした文字を全て出力、マッチした文字列の後のインデックスを同時に出力してください
 
 ```js
@@ -2663,15 +2519,12 @@ while ((array = myRe.exec(str2)) !== null) {
 先読み
 
 次の
-```
-const string3 = "washable reasonable accessible assemble answerable";
-```
+``` const string3 = "washable reasonable accessible assemble answerable"; ```
+
 こちらの文字列,
 「able」で終わる英単語の前の部分([able]を除いた部分)にマッチする正規表現を書きなさい。期待する結果
 
-```
-["wash","reason","answer"]
-```
+``` ["wash","reason","answer"] ```
 
 ```js
 const string3 = "washable reasonable accessible assemble answerable";
