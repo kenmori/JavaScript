@@ -106,7 +106,7 @@
 
 .t-scroll-tabs__nav {
   margin: 0px 0 0 2px;
-  background: #fbb996;
+  background: #4A9A00;
   color: #fff !important;
   min-width: 71px;
 }
@@ -1057,7 +1057,7 @@ ul.ma-tieup li a p {
   background: linear-gradient(#ffffff 0%, #f8f8f8 100%);
   background: -webkit-linear-gradient(white 0, #f8f8f8 100%);
   background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f8f8f8));
-  border-top: 2px solid #f76b1f;
+  border-top: 2px solid #4DF71F;
   border-bottom: 1px solid #fff;
 }
 .t-select.fptop_title .t-select__layout.fpsub_title {
