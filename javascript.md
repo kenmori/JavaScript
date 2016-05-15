@@ -1,5 +1,7 @@
 ## javascriptの基礎的な所は知っているけど自分がどのくらい理解しているのか確認したい。実務で使わないメソッドの扱いが不安。何かを参照しながら書くことはできるけどさささっと書きたい。
 
+**問1**
+
 ```var afa = {a: 'a'}```と```var ee = {b: 'b'}```をmergeした```m```を出力してください
 e.g```{a:'a',b:'b'}```
 
@@ -10,7 +12,7 @@ var m = Object.assign(afa, ee);
 m //
 ```
 
-配列
+**問2**
 
 ```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```
 の要素jj,hh,kkを要素、型を配列で返す記述をしてください
@@ -22,6 +24,7 @@ var yy = uu.slice(-4,-1);
 var yy = uu.slice(3,-1);
 ```
 
+**問3**
 ```var arry = ['eee','ccc’]```の要素を抜き取ってください e.g ```'eee'``` と ```'ccc'```
 
 ```js
@@ -33,7 +36,8 @@ arry.map(function(key,i){
 //"ccc"
 ```
 
-var arry = [‘eee’, ‘ccc’]を要素にindexを足された文字列を出力してください e.g “eee0” と “ccc1"
+**問4**
+```var arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g “eee0”```と```“ccc1"```
 
 ```js
 var arry = ['aa','ccc'];
@@ -44,6 +48,7 @@ arry.forEach(function(key,i){
 //"ccc1"
 ```
 
+**問5**
 var ee = [1,2]は配列かどうか検査したbloolean値(true)ください
 e.g true
 
@@ -51,7 +56,8 @@ e.g true
 Array.isArray(ee) //true
 ```
 
-var aa = "fafa"を出力した後完全に削除し、削除されたことを出力してくださいe.g
+**問6**
+```var aa = "fafa"```を出力した後完全に削除し、削除されたことを出力してくださいe.g
 "aa is not defined"
 
 ```js
@@ -63,9 +69,10 @@ delete aa
 //true
 aa
 //"aa is not defined"
-
 ```
- ee(2,4,5)を実行したら引数が全て配列で返る関数eeを定義しなさい
+
+**問7**
+ ```ee(2,4,5)```を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -75,7 +82,7 @@ function ee(){
 ee(2,4,5)//[2.4,5]
 ```
 
-
+**問8**
 var obj2 = {
 key: "eee",
 key2:"ccc"
@@ -92,7 +99,8 @@ for( key in obj2){
 }
 ```
 
-var array3 = ['fafa','eee','ccc']配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
+**問9**
+```var array3 = ["fafa","eee","ccc"]```配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
 
 ```js
 
@@ -104,10 +112,10 @@ for(var i= 0; i < count; i++){
 }
 ee
 //"fafaeeeccc"
-
 ```
 
-Array.isArrayが実行できない環境を想定してvar ee = [1,2]が配列であることを検査できる拡張された関数を定義してください
+**問10**
+Array.isArrayが実行できない環境を想定して```var ee = [1,2]```が配列であることを検査できる拡張された関数を定義してください
 ヒント
 if分岐、Object.prototype、返り値 [object Array]
 
@@ -121,7 +129,9 @@ if(typeof Array.isArray === "undefined"){
 }
 
 ```
-var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]
+
+**問11**
+```var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]```
 をid番号が若い順にソートしたオブジェクトを含む配列を出力してね
 
 ```js
@@ -152,12 +162,13 @@ arry4.sort(function(a,b){
 }]
 */
 ```
-fetchSomething1に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
 
-```js
+**問12**
 
-```
+```fetchSomething1```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
 
+
+**問13**
 next()を実行しただけ返り値が1増える関数を定義してね
 P70
 
@@ -174,14 +185,13 @@ next();//2
 next();//3
 ```
 
-class Fafaf {}を作成した際の内部の動きを教えてください。
+**問14**
+```class Fafaf {}```を作成した際の内部の動きを教えてください。
 
-```js
 
-```
 
-12/15
-配列```myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"]```の1〜3番目の要素をそれぞれred,green,yellowに置き換えてください。また実行した際の返り値を教えてください
+**問15**
+配列```myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"]```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
 
 ```js
 var myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"];
@@ -191,6 +201,7 @@ myArray.splice(0,2,"green","red","yellow");//インデックス0から2つの要
 
 ```
 
+**問16**
 ```myArray= ["kkk1","kkk2","kkk3","kkk4","kkk5"];```
 の2つ目〜4つ目の要素を取り出し配列とし出力しなさい。実行された後のMyarrayの要素を教えてください
 
@@ -201,6 +212,7 @@ console.log(fafa);//["kkk2", "kkk3","kkk4"]
 //Myarrayは["kkk1","kkk2","kkk3","kkk4","kkk5"]で変わらず
 ```
 
+**問17**
 ```var myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"];```の全ての要素を```/```で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
 
 ```js
@@ -209,10 +221,8 @@ myArray.join("/").split("/");
 
 ```
 
-```
-var gArray =  ["おはよう","こんにちは","おやすみなさい"];
-```
-配列の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+**問18**
+配列```var gArray =  ["おはよう","こんにちは","おやすみなさい"];```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
 
 ```js
 var gArray =  ["おはよう","こんにちは","おやすみなさい"];
@@ -220,7 +230,7 @@ var g = gArray[Math.floor(Math.random() * 3)];
 g//おはよう or こんにちは or おやすみなさい
 ```
 
-
+**問19**
 Objectオブジェクトで空のオブジェクトを作成し、値が42のプロパティpを持ちなさい
 
 ```js
@@ -228,6 +238,8 @@ var o = Object.create({}, { p: { value : 42 }})
 o.p //42
 ```
 
+
+**問20**
 オブジェクトWhoを作成し、初期化時に"morita"(String)を渡しnameプロパティに代入、インスタンス「o」のメソッドを使いWho.prototype.name値が返ってくるいわゆる「classのようなもの」を作成してください
 ※インスタンスメソッドはprototype継承で代入してください
 
@@ -242,6 +254,7 @@ var o = new Who("morita");
 o.getName()
 ```
 
+**問21**
 浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください。
 
 ```js
@@ -259,6 +272,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 
 ```
 
+**問21**
 var array = ["e","a","k","B","c"];
 array.sort();
 を実行した結果を答えてください
@@ -270,6 +284,8 @@ array.sort();
 //要素に数値が会った場合文字列に置き換えられる
 
 ```
+
+**問22**
 期待する大文字小文字区別なく順番通りにするようにしてください。
 期待する結果
 [a","B","c", "e", "k"]
@@ -284,6 +300,7 @@ array.sort(function(a,b){
 
 ```
 
+**問23**
 このような```[20,100,3,35,0]```
 比較する配列の要素が数値の場合、「降順」にsortしてください
 期待する結果
@@ -301,7 +318,7 @@ return a - b
 ```
 
 
-
+**問24**
 文字列```"10"```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
@@ -314,6 +331,7 @@ a.toString();
 
 ```
 
+**問25**
 カーリー化されたadd(1)(2)もしくはadd(1,2)
 を実行した際両方とも返り値3になる関数を定義しなさい。p85
 
@@ -331,7 +349,7 @@ add(1)(2) //3
 add(1,2) //3
 ```
 
-
+**問26**
 クロージャーを使ったファクトリー関数。下記のような実行をしたら渡したname(ここではmorita)が表示されるメソッドintroduceを持つファクトリー関数を定義しなさい。
 
 ```js
@@ -360,6 +378,8 @@ bind、call、apply
 ```js
 
 ```
+
+**問27**
 関数```sayHi```に自分の名前を引数で渡した際に```hello!yourname```、何も渡さない場合```hello!```
 と返す関数を作成し、それをapplyで実行してください。また
 applyの第一引数にnullを渡す場合とオブジェクトを渡す場合のそれぞれのthisは何を指しますか答えてください
@@ -388,6 +408,7 @@ greeting.sayHi.apply(greeting);//渡さない
 
 ECMAScript5
 
+**問28**
 ```var obj = {x : 2, y: 3};```このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
 
 ```js
@@ -398,13 +419,15 @@ Object.key(obj);
 //["x", "y"]
 ```
 
+**問29**
 ```var obj = {}```と等価をObjctメソッドで生成してください
-  パーフェクトP148
 
 ```js
 var obj = Object.create(Object.prototype);
 
 ```
+
+**問30**
 ```var obj = {x : 2, y: 3}```と等価をObjectメソッドで生成してください
 
 ```js
@@ -415,6 +438,8 @@ var obj = Object.create(Object.prototype, {
 
 ```
 
+
+**問31**
 ```var obj = { x : 2}```の属性を出力してください
 
 ```js
@@ -427,6 +452,8 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 //.fseventsd/}
 ```
 
+
+**問31**
 ```var obj2 = {x : 2};```
 にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
 
@@ -447,6 +474,7 @@ Object.getOwnPropertyDescriptor(obj2, 'y')
 //}
 ```
 
+**問32**
 実引数の数を出力、第一引数を出力する関数fを実行してください
 
 ```js
@@ -459,6 +487,8 @@ f(2)
 //2
 
 ```
+
+**問33**
 ```var arr = ["2","23","0","16"];```
 を小さい順にソードしてください。
 その後ソートをできないようにread-onlyにしてください
@@ -473,6 +503,7 @@ arr.sort();
 //.fseventsd/"Cannot assign to read only property '1' of [object Array]"
 ```
 
+**問34**
 ```var arr = [3,4,5];```をconcat以外で```arr2```にコピーしてください。
 その後```arr2[0] = 123```を代入すると```arr```は何を出力するか答えなさい
 
@@ -488,6 +519,8 @@ arr
 arr2
 //[123, 4, 5]
 ```
+
+**問35**
 JSON文字列```{"x" : 1, "y": 2}```
 をオブジェクトに変換してJSON文字列に変換してください。またなぜ下記の2つはエラーになるか答えてください。
 
@@ -506,10 +539,10 @@ var s = JSON.parse("'foo'");
 //シングルクォーテーションの文字列はエラー-
 var arr = JSON.parse("{x : 1}");
 //プロパティ名が文字列でないとエラー
-
 ```
-strict modeの代表的な制約を9つ挙げなさい
-P222 パーフェクト
+
+**問36**
+strict modeの代表的な制約を挙げて説明してください。
 
 ```
 - 暗黙のグローバル変数の禁止
@@ -524,14 +557,16 @@ P222 パーフェクト
 
 ```
 
+**問37**
 for in文に関する注意点を3つ挙げてください
-p89 パーフェクト
 
 ```
 - プロパティを列挙する順序がオブジェクトリテラルと配列リテラルで違う
 - 列挙できないプロパティがある(Array.lengthなど)
 - プロトタイプ継承したプロパティも列挙するところ
 ```
+
+**問38**
 これは2秒後に```"hello!kenji!"```とconsole.logに出力されることを期待していますが動きません。正しく修正してください。なぜそうなるか理由もください。
 
 ```js
@@ -548,6 +583,7 @@ morita.sayHello()
 
 ```
 
+**問39**
 配列```var arr = ['f','o', 'x', 'k'];```
 を要素順に出力させなさい
 
@@ -558,6 +594,8 @@ for(var letter of arr){
 }
 
 ```
+
+**問40**
 またイテレーターを使い順番にす出力しなさい
 
 ```js
@@ -570,6 +608,7 @@ eArr.next().value //k
 
 ```
 
+**問41**
 配列```["angel", "clown", "drum", "mandarin", "surgeon"]```
 のインデックス2に"morita"という要素を加えなさい。```["angel", "clown", "morita", "drum", "mandarin", "surgeon"]```
 
@@ -579,6 +618,7 @@ myFish.splice(2, 0 , "morita");
 myFish//["angel", "clown", "morita", "drum", "mandarin", "surgeon"]
 ```
 
+**問42**
 これ```var o = {};```と同じ意味を持つコードをObjectを使って生成しなさい
 
 
@@ -586,12 +626,14 @@ myFish//["angel", "clown", "morita", "drum", "mandarin", "surgeon"]
 var o = Object.create(Object.prototype);
 ```
 
+**問43**
 {p: 42}となるようなオブジェクトをObjectメンバを使って生成しなさい
 
 ```js
 o = Object.create({}, {p: {value : 42}});
 ```
 
+**問44**
 ```1234```という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
 
 ```js
