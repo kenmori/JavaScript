@@ -546,15 +546,142 @@ strict modeの代表的な制約を挙げて説明してください。
 
 ```
 - 暗黙のグローバル変数の禁止
+(標準モードではvarを伴わす変数に値を割り当てると現在のスコープに関係なくグローバルオブジェクトにその名前のプロパティを追加してしまう。strictモードでは明示的にエラーになる)
 - 関数内でthis参照がグローバルオブジェクトを参照しない
-- NaN、Infinity、undefinedのグローバル変数を読み込み専用
-- 同名のプロパティ名を禁止
-- 同名の仮引数名を禁止
-- arguments.calleeアクセスの禁止
-- Functionオブジェクトのcallerプロパティのアクセス禁止
-- with文の禁止
-- evalが新しいシンボルを作らない
 
+- NaN、Infinity、undefinedのグローバル変数を読み込み専用
+
+- 重複のプロパティ名とパラメータ名を禁止
+
+リテラルでのオブジェクト生成時同じ名前を持つプロパティを複数定義する場合や、関数に同じ名前を持つパラメータを複数与える場合標準モードでは後に定義されたものが優先されますがstrictモードではこのようなコードを実行する際にエラーが発生します。
+"use strict";
+
+//オブジェクト生成時にエラー//標準モードで実行する場合は後に定義されたものが反映される
+
+var object = {
+  prop1 : 100,
+  prop1 : 200
+}
+
+//関数定義字にエラー発生
+
+function func(val, val){
+  console.log(val);
+}
+func(1, 2);
+//2
+
+
+パラメータとargumentsがそれぞれ独立
+。
+標準モードでは関数にパラメータを設定している場合、関数本体におけるパラメータの名前を持つ変数はパラメータの一にあるargumentsオブジェクトの要素のエイリアスとして定義されていました
+。つまり最初のパラメータとargument[0]は、名前は異なるものの、その実体は同じものでした。
+strictモードではこれが変更されパラメータとargumentsは独立した存在として扱われるようになり、それぞれ個別の引数が割り当てられます。
+(function (param){
+  "use strict";
+  //引数がプリミティブ型の場合はStrictモードと標準モードで動作がことなる。
+
+  pram = "param";
+  console.log(param, arguments[0]);
+  //"param"
+  //(標準モードの場合)
+  "param" "param"
+
+  arguments[0] = "arg";
+  console.log(param, arguments[0]);
+  //"param" "arg";
+  //標準モードの場合 "arg" "arg"
+  })("引数") //関数に文字列を渡して実行
+
+但し、引数がオブジェクトの場合はパラメータとargumentsに同じオブジェクトへの参照が格納されるためプロパティへのアクセスは事実上同じものへのアクセスとなります。
+
+arguments オブジェクトへの値の割り当ての禁止
+
+関数実行時に与えられた引数はarguments変数に格納されます。Strictモードではこのargumentsオブジェクトに別の新たなオブジェクトを割り当てることができません。
+"use strict";
+
+//arguments変数を別の値で置き換えることができない
+
+(function(){
+  //SyntaxErrorが発生
+
+  arguments = [100, 200, 300];//別の値でまるまる置き換えている。。
+
+  })();
+
+  //argumentsへの要素の追加や変更は可能
+
+  (function(){
+    //要素の置き換え
+    arguments[0] = 200;
+    要素の追加
+    arguments[1] = 300;
+    console.log(arguments[0], arguments[1]);
+    //200, 300
+    })()
+
+    - arguments.calleeアクセスの禁止
+
+再帰などの目的で関数内でその関数自身にアクセスする必要がある場合にはarguments.calleeではなく、関数名を使って呼び出します。関数式を使用する場合は無名関数にするのではなく、その関数に名前を与えておく必要があります。
+8進数リテラルの禁止
+
+"use strict";
+//8進数リテラルを使用するとsyntaxError
+//標準モードで実行する場合はあoctに数値8が割り当てられる。
+var oct = 010;
+
+- Functionオブジェクトのcallerプロパティのアクセス禁止
+
+ブロック内の関数分の禁止
+
+
+"use strict";
+//ブロック内部の関数宣言はsyntaxError
+if(true) {
+  function func(val){return  val;}
+}
+
+//ブロック内部での関数式の定義は問題なし
+
+if(true){
+  val fun = function(val) {return val};
+}
+
+
+delateによる変数や関数の削除の禁止
+
+標準モードでは演算対象が削除できない変数や関数であっても暗黙的に失敗していた。strictモードではエラーを発生させる。Configurable属性にfalseが設定されている再設定不可プロパティの削除時もエラーが発生します。
+
+- with文の禁止
+使用するとSyntaxErrorが発生する
+
+- evalが新しいシンボルを作らない
+-
+evalコードが独自のスコープで動作する。標準モードでevalに文字列を渡してコードを実行するとそのコードは呼び出しているスコープ上で動作する。つまりevalの実行中に宣言された変数は呼び出したスコープに定義される。
+
+strictモードではevalで実行されるコードが自身のスコープを持ちます。このスコープから外側のスコープにある変数にはアクセスできますが外側のスコープに変数を定義することはできません。関数スコープと同じです。
+
+
+//"use strict"は複数のstrictモード記述のあるjsファイルの結合されて本番のファイルを構成している場合先頭のファイルの先頭部に置いた"use strict"文によって結合されたスクリプト全体がstrictモードになりその結果コードが誤作動するという事例があった。
+ある関数がstrictモードで動作するかの判定は呼び出し時のスコープではなく、定義されたスコープで行われる。Strictモードのコード内で呼び出しても標準モードで定義された関数は標準モードで実行される。argumentsとevalを使っているか？使っていたらそこがstrictモードかどうかを確認しましょう。※scriptタグはタグ単位でスクリプトの実行環境を生成する。そのため<script>タグごとにモードの選択をする。Strictモード内で<script>タグを動的に生成する場合も新しく生成されたタグ内のScriptは指示序文を与えなければ標準モードで動作します。node.jsのrequire()で呼び出すコードは呼び出し元の指示序文に影響されません。strictでも呼び出すコードのコンテクストが標準モードならそのコードは標準モードで動作する
+
+//strictモードの即時実行関数
+
+(function(){
+  "use strict";
+  //loose関数の中身はStrictモードではエラーが発生するコード
+  loose();
+  })()
+  function loose(){
+    //varを忘れて、8進数リテラルを使用
+    a = 010;
+  }
+
+  //loose関数は標準モードで動作するため、aがグローバルオブジェクトのプロパティとして追加されている
+  console.log(a);
+  //8
+
+//thisの値にnullやundefinedが競ってされていた場合標準モードではthisはこれらの代わりにグローバルオブジェクトを参照する。strictモードではこの強制的な変換は行われずthisにはそれぞれの値がそのまま格納される。this値にプリミティブ値が競ってされた場合標準モードではそのthisはプリミティブ値の型に対応するプリミティブラッパー型オブジェクトを参照するがstrictはこの型変換もしない。
 ```
 
 **問37**
@@ -934,8 +1061,11 @@ var str = "How";
 
 ```
 
-```x = new Boolean(false)```。if文の式として渡すと実行されるか答えなさい
+```
+x = new Boolean(false)
+```
 
+if文の式として渡すと実行されるか答えなさい
 [参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
 
 ```js
@@ -945,8 +1075,37 @@ if (x) {
  //実行される
 }
 //undefinedやnull以外のオブジェクトは実行されます
+
+//真偽値オブジェクトは格納されている値がfalseであってもtrueと評価される。
+var falseValue = new Boolean(false);
+console.log(falseValue)//false,真偽値オブジェクトが出力される
+if(falseValue){//真偽値オブジェクトの内容がfalseでもオブジェクト自体は常にtrue値をみなされる
+  //run
+}
+
+
+//もし真偽値でない値を真偽値に変換したいのであればnew演算子を使用せずBoolean()に値を渡してください。Boolean()はプリミティブ値のtrueもしくはfalseを返します。以下は全てfalse
+
+console.log(Boolean(0));
+console.log(Boolean(-0));
+console.log(Boolean(false));
+console.log(Boolean(''));
+console.log(Boolean(undefined));
+console.log(Boolean(null));
+
+
+//以下は全てtrue
+
+console.log(Boolean(1789));
+console.log(Boolean('false'));//'false'という文字列は真偽値プリミティブのfalseとは異なる
+
+console.log(Boolean(Math);
+console.log(Boolean(Array()));
+
+//see: 開眼!Javascirpt(O'REILLY)
 ```
-以下のコードは何をtrueかfalseか
+
+以下のコードはtrueかfalseか
 ```
 myFalse = new Boolean(false);
 g = new Boolean(myFalse);
@@ -1796,9 +1955,12 @@ if('a' in obj)は実行される
 **obj.aの場合**
 undefinedの場合falseを返す
 if(obj.a)が存在しても未定義だと実行されない
+```
 
+```
 
-```var arr = [ 10, 20 ];```
+var arr = [ 10, 20 ];
+```
 においてarr[2]が存在しないことを確認してください
 
 ```js
@@ -1944,6 +2106,7 @@ Object.keys(obj).length != 0 ? true : false;
 forでループさせるのとforEachで処理する際の違いを教えてください
 
 ```js
+
 //forは構文
 //returnで返り値を返し、その関数処理を終える
 
@@ -2114,221 +2277,52 @@ console.log(gen.next().value); // 2
 
 ```
 
-
+ラッパーオブジェクトについて教えてください。
+//解答は理解していてある程度どういうものか答えられればいいものとします
 
 ```js
+//trueなどのプリミティブ値のプロパティにアクセスするとjavascirptはプリミティブ値に対応するコンストラクタからラッパーオブジェクトを作り、そのラッパーオブジェクトのプロパティやメソッドにアクセスできるようになる。(「オブジェクトのように」あつかうことができる。)作られたラッパーオブジェクトはオブジェクトへのアクセスが終わると破棄されて元のプリミティブ値に戻します。
+例えば下記は文字列オブジェクトから文字列を生成しています。
+var string = new String('foo');
+string.length;//3 オブジェクトがもつプロパティにアクセスできます。
+var string = 'foo'//プリミティブ値として代入
+string.length //3 文字列プリミティブをオブジェクトとしてアクセス。同じ3を出力していますが内部的に一時的にラッパーオブジェクトを呼び、オブジェクトにアクセス。その後破棄しています
+
+よく「javascriptは全てがObjectである」と言われるのはこのため
+
+//プリミティブ値・・・文字列,数値,真偽値などtypeofの評価でObjectを返さないそれら
 
 ```
 
 
+nullとundefinedの違いを教えてください
 
 ```js
+//nullはプロパティは設定しているものの、値の初期値としてなんらかの理由で値が入っていないことを明示する際にnullを入れる。変数やプロパティにがその時点で利用不可能にするためにnullを明示的に入れる
+
+//undefinedは存在自体がない
+```
+
+値がnullかどうかを確認してください
+
+```js
+
+var fafa = null;
+console.log(typeof fafa)//Object
+console.log(fafa == undefined)//等値演算子ではtrueになってしまう
+console.log(fafa === null);//true //同値演算子を使う
+
+//等値演算子ではnullとundefinedはtrueになってしまうことに注意してください。
 
 ```
 
+プリミティブ型と参照型の同値比較の違いを教えてください。
 
 
 ```js
+//プリミティブ型の同値比較は文字通り同じ値かどうかが評価される。
 
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-```js
-
-```
-
-
-```js
-
-```
-
-
-```js
-
-```
-
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-
-```js
-
-```
-
-
-
-
-```js
-
-```
-
-
-
-
-```js
-
-```
-
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
-
-```
-
-
-
-```js
+//参照型同士の同値比較は同じオブジェクトを参照しているかどうかが評価される。オブジェクトの代入は参照先の代入であることが理解できればok(参照渡し)
 
 ```
 
@@ -2414,5 +2408,410 @@ console.log(gen.next().value); // 2
 
 
 ```js
+
+```
+
+```js
+
+```
+
+
+```js
+
+```
+
+
+```js
+
+```
+
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+
+```js
+
+```
+
+
+
+
+```js
+
+```
+
+
+
+
+```js
+
+```
+
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか教えてください。またもしそれを書かない場合の実体参照、
+```
+>
+```
+と
+```
+<
+```
+をどのように書くか教えてください。また&と"、'はそれぞれエスケープ文字でどのように書きますか？
+
+```js
+<script><![CDATA[
+
+  //something...
+
+]]></script>
+
+//<h2>
+&lt;h2&gt;
+
+
+//" quote
+&quot;
+
+//&
+&amp;
+
+//'
+&#039
+```
+
+実体参照に直すscriptを書いてください
+
+```js
+//参照
+
+http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
+```
+
+
+
+
+```js
+
+```
+
+
+
+```js
+
+```
+
+次の
+文章中の
+```
+My name is Taro Suzuki and I am a researcher at ABC.
+```
+
+小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
+
+
+```js
+const str7 = "My name is Taro Suzuki and I am a researcher at ABC.";
+
+ //str.match(/\ba.*\b/); これだと大文字と次の単語にmatchしてしまう
+console.log(str7.match(/\ba\w*\b/g));
+//["and","am","a","at"]
+
+//\sa\w*\sだと\sは文字の先頭や末尾にはマッチしないので、文章の先頭や末尾にある英単語が対象から外れてしまうことに注意してください。
+
+```
+
+<p>
+や<img src='fafafa'>
+など
+タグにマッチする
+正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
+
+期待する値
+["<img src='fafafa'>"]
+["<p>"]
+※</ではじまる閉じタグは除外
+
+タグ名のみ
+```
+p
+```
+
+や
+```
+img
+```
+
+※いろいろあると思うので答えは一例とさせていただきます
+```js
+//ごめん適当
+const str3 = "<img src='fafa.com'>"
+const str4 = "<p>"
+const reg2 = /<(\S+)(\s+.+)?>/;//キャプチャあり
+const reg3 = /<(?:\S+)(?:\s+.+)?>/;//キャプチャさせない
+const re2 = str3.match(reg2);
+const re3 = str3.match(reg3);
+const re4 = str4.match(reg2);
+console.log(re2);
+//["<img src='fafa.com'>","img"," src='fafa.com'"]
+console.log(re2[0]);
+//<img src='fafa.com'>
+console.log(re3);
+//["<img src='fafa.com'>"]
+
+console.log(re3[0]);
+//<img src='fafa.com'>
+console.log(re4);
+//["<p>","p",null]
+console.log(re4[0]);
+//<p>
+
+```
+
+下のこちらを使い
+```
+var myRe=/ken*/g;
+var str2 = "fafakenfafkenji";
+```
+文字列の中のkenだけをexecメソッドを使いマッチした文字を全て出力、マッチした文字列の後のインデックスを同時に出力してください
+
+```js
+const myRe=/ken*/g;
+const str2 = "fafakenfafkenji";
+let array;
+while ((array = myRe.exec(str2)) !== null) {
+ let msg = array[0] + " を見つけました。";
+  msg += "次のマッチは " + myRe.lastIndex + " からです。";
+  console.log(msg);
+}
+//https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
+```
+
+先読み
+
+次の
+```
+const string3 = "washable reasonable accessible assemble answerable";
+```
+こちらの文字列,
+「able」で終わる英単語の前の部分([able]を除いた部分)にマッチする正規表現を書きなさい。期待する結果
+
+```
+["wash","reason","answer"]
+```
+
+```js
+const string3 = "washable reasonable accessible assemble answerable";
+const reg5 = /\b\w+(?=able\b)/g;
+console.log(string3.match(reg5));
+//["wash","reason","answer"]
+```
+
+否定先読み
+
+こちらの文字列
+```
+const nen1 = "ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である"
+```
+を使い、後ろに「年」および数字以外の文字が続く1桁以上の数字にマッチする正規表現を書いてください
+
+期待する結果
+```
+["35","64"]
+```
+
+```js
+const nen1 = "ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である"
+const reg6 = /\d+(?![年\d])/g;
+console.log(nen1.match(reg6));
+//["35","64"]
+//see:正規表現書き方ドリル(技術評論社)
+
+//※ 一番最初に見つけたマッチだけが欲しい場合、execの方がいいかもしれません
+//see: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
+```
+
+最短マッチ
+
+
+下のような文字列
+```
+const str222 = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+```
+のカギ括弧内とその文字列にマッチするような正規表現を書いてください
+
+期待する結果
+["「もりた」","「もりけん」"]
+
+```js
+const str = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+
+const re = /「(.+?)」/ig;
+const result = str.match(re);
+console.log(result);
+//["「もりた」","「もりけん」"]
+
+```
+
+上記の文字列を使ってexecメソッドを使い文字列とし2つとも出力してください
+
+期待する結果
+//「もりた」「もりけん」
+
+
+```js
+
+const str222 = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+
+const re222 = /「(.+?)」/ig;
+
+let result;
+while ((result = re222.exec(str222)) !== null){
+  console.log(result[0],"ここ")
+}
+
+```
+
+キャプチャ
+したの文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
+
+○あの客はよく柿食う客だ
+
+×あの客はよく柿食う人だ
+
+○あの友達はよく柿食う友達だ
+
+×あの親友はよく柿食う友達だ
+
+
+```js
+//解答例
+
+const str5 = "あの客はよく柿食う客だ";
+const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
+console.log(res5[0]);
+//あの客はよく柿食う客だ
+
+//※[0]にはマッチした箇所が、この場合[1]にはキャプチャが入る
+```
+
+```js
+const str5 = "あの客はよく柿食う客だ";
+const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
+console.log(res5[0]);
+
+```
+
+次のタグ
+
+```js
+const tag = "<div><h1>kenjimorita.jp</h1></div>";
+//<1><2>kenjimorita.jp</3></4>
+```
+
+の1と4、2と3が同じ場合にtrue、違う場合はfalseを返す正規表現を書いてそれぞれ出力し確認してください
+
+
+```js
+
+const tag = "<div><h1>kenjimorita.jp</h1></div>";
+console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag))
+//true
+
+const tag2 = "<div><h1>kenjimorita.jp</a1></div>";
+console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
+//false
+```
+
+
+
+```js
+
+```
+
+```
+[2, 3,-1, -6, 0, -108, 42, 10].sort();
+```
+こちらのsortは正しくsortされない。コンパレータ関数を渡して正しい順序として出力してください。
+
+```js
+
+[2, 3,-1, -6, 0, -108, 42, 10].sort(function(x, y){
+if(x < y) return -1;
+if(y < x) return 1;
+return 0;
+});
+//[-108, -6, -1, 0, 2, 3, 10, 42]
 
 ```
