@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+
+</head>
+<body>
+<div>
+  <div id="parent"></div>
+  <ul id="js-btns">
+    <li class="js-btn"</li>
+    <li class="js-btn"</li>
+    <li class="js-btn"</li>
+  </ul>
+</div>
+  <ul class="js-contener">
+    <li class="js-content">ふぁふぁ</li>
+    <li class="js-content">ふぁふぁ</li>
+    <li class="js-content">ふぁふぁ</li>
+  </ul>
+
+  <script>
+  // var createName = function(name, fun){
+  //   if(fun(name)){
+  //    return name + "iii";
+  //  }
+  // }
+  // var isString = function(value){
+  //   if(typeof value === "string"){
+  //       return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  //
+  // console.log(isString("fa"));
+  // console.log(createName("kenji", isString));
+  //
+
+//bad
+var parent = document.getElementById('parent');
+for(var i = 0; i < 10; i++){
+  var child = document.createElement('div');
+  parent.appendChild(child);;
+}
+
+//good
+var fragment = document.createDocumentFragment();
+for(var i = 0; i < 10; i++) {
+  var child = document.createElement('div')
+  fragment.appendChild(child);//不要な描画を避ける
+}
+
+document.getElementById('parent').appendChild(fragment);
+
+	</script>
+</body>
+</html>

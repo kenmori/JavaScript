@@ -2208,9 +2208,29 @@ console.log(fafa === null);//true //同値演算子を使う
 
 ```
 
-ここから
+ここか
+ら
+DOM操作
+
+div要素を10個作ってidがparentの子要素として追加してください
 
 ```js
+
+//bad
+var parent = document.getElementById('parent');
+for(var i = 0; i < 10; i++){
+  var child = document.createElement('div');
+  parent.appendChild(child);;
+}
+
+//good
+var fragment = document.createDocumentFragment();
+for(var i = 0; i < 10; i++){
+  var child = document.createElement('div');
+  fragment.appendChild('child');
+}
+
+document.getElementById('parent').appendChild(fragment);
 
 ```
 
