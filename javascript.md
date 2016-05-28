@@ -56,6 +56,11 @@ e.g true
 
 ```js
 Array.isArray(ee) //true
+
+//ee instanceof Array //true
+//instanceof比較は継承しているオブジェクトのインスタンス比較なので
+// ee instanceof Objectでもtrueが返ってく る
+
 ```
 
 **問6**
@@ -2250,6 +2255,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
 ```
 
+
 **問125**
 次の文章中の
 ``` My name is Taro Suzuki and I am a researcher at ABC. ``` 小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
@@ -2472,4 +2478,87 @@ return 0;
 });
 //[-108, -6, -1, 0, 2, 3, 10, 42]
 
+```
+
+
+**問題**
+
+```js
+var i = document.getElementById();
+i.parentNode.tagName
+
+nodeType[1] = ElementNode;
+nodeType[2] = AttributeNode;
+nodeType[3] = TextNode;
+
+i.childNodes; //子要素を返す
+
+i.firstChild //最初の子要素
+```
+
+問題
+
+```
+<div id="top" align="center">
+  <div id="nested">
+    <div><p><a></a></p></div>
+  </div>
+</div>
+```
+上のようなnodeがある。```#nested```
+要素を削除してください。
+
+答え
+
+```js
+var i = document.getElementById('top');
+var f = document.getElementById('nested');
+i.removeChild(f);
+```
+
+nestedの親要素が不明の場合の時nestedを削除してください
+
+https://developer.mozilla.org/ja/docs/Web/API/Node/removeChild
+
+ ```js
+var node = document.getElementById("nested");
+
+if (node.parentNode) {
+  node.parentNode.removeChild(node);
+}
+ ```
+
+ topの子要素全て削除してください
+
+ ```js
+ var element = document.getElementById("top");
+
+ while (element.firstChild) {
+   element.removeChild(element.firstChild);
+ }
+ ```
+
+
+
+
+
+
+```js
+
+function Human (name){
+ this.name = name;
+}
+function Megurokumin(number, name){
+ this.ID = number;
+ Human.call(this, name);
+}
+Megurokumin.prototype = new Human();
+var ii = new Megurokumin("090", "morita");
+ii.name;
+ii.ID
+fafa = new Megurokumin("778", "oosato");
+fafa.name
+
+ii instanceof Megurokumin
+//true
 ```
