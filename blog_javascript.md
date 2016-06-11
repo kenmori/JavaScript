@@ -2,7 +2,7 @@
 もともと私自身が「もうちょっとJavaScirpt使いこなして、やれるようになりたい。あとでテストしよう」という想いから半年以上書きためた練習問題です。
 <!--more-->
 
-初心者じゃないけど上級者とも胸を張って言えない。実務で使わないメソッドとか「あれ何だっけ？」を解消したい。とにかく記述して身につけたい私とあなたの「JavaScript中級者問の為の題集」です。
+初心者じゃないけど上級者とも胸を張って言えない。実務で使わないメソッドとか「あれ何だっけ？」を解消したい。とにかく記述して身につけたいわたしとあなたの「JavaScript中級者問の為の題集」です。
 <span style="color: red;">※カテゴリ別にまとまってない、問題の意味がよくわからない、インデント見にくいのは書き殴ったWIPだからです。また答えはあくまで一例ぐらいに思っていいただけたらです。これを作るにあたり参照した多くの書籍やドキュメントがありました。ありがとうございました。ありがとうございました後ほど書きます</span>
 
 わたしはよくこの問題やったり、ちょっとした動きを試したいとき<a href="http://jsbin.com/?console">jsbinのコンソール</a>でカタカタしたり
@@ -374,7 +374,8 @@ return a - b
 
 var a = parseInt("10");
 typeof a
-isNaN(e);
+//"number"
+isNaN(a);//false
 a.toString();
 //"10"
 </div>
@@ -383,7 +384,7 @@ a.toString();
 問25</h4>
 カーリー化されたadd(1)(2)もしくはadd(1,2)
 
-を実行した際両方とも返り値3になる関数を定義しなさい。<h4>A</h4>
+を実行した際両方とも返り値3になる実装がされているadd関数を定義しなさい。<h4>A</h4>
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
 function add(x, y){
 if(typeof y == "undefined"){//部分適用
@@ -396,6 +397,7 @@ return x + y
 }
 add(1)(2) //3
 add(1,2) //3
+
 </div>
 <hr/>
 <h4>
@@ -422,6 +424,20 @@ console.log(getName());
 var fafa = Factory("morita");
 fafa.introduce()
 //morita
+
+//別解
+
+var Factory = function(name){
+ return {
+  introduce(){
+   return name;
+  }
+ }
+}
+var fafa = Factory("morita");
+fafa.introduce()
+//"morita"
+
 </div>
 <hr/>
 <h4>
@@ -454,13 +470,13 @@ greeting.sayHi.apply(greeting);//渡さない
 <h3>ECMAScript5<h3>
 <h4>
 問28</h4>
-var obj = {x : 2, y: 3};このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
+var obj = {x : 2, y: 3};このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでfalseが返る事を確認した後、objのkeyを列挙してください。
 <h4>A</h4>
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
 var obj = {x : 2, y: 3};
 Object.preventExtensions(obj);
 Objcet.isExtensible(obj);//true
-Object.key(obj);
+Object.keys(obj);
 //["x", "y"]
 </div>
 <hr/>
@@ -536,7 +552,7 @@ f(2)
 <h4>
 問33</h4>
 var arr = ["2","23","0","16"];
-を小さい順にソードしてください。
+を小さい順にソートしてください。
 その後ソートをできないようにread-onlyにしてください
 <h4>A</h4>
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
@@ -551,7 +567,7 @@ arr.sort();
 <hr/>
 <h4>
 問34</h4>
-var arr = [3,4,5];をconcat以外でarr2にコピーしてください。
+var arr = [3,4,5];をconcat以外で新たな配列としてarr2にコピーしてください。
 その後arr2[0] = 123を代入するとarrは何を出力するか答えなさい
 <h4>A</h4>
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
@@ -564,6 +580,12 @@ arr
 //[3, 4, 5]//変数arrから変更は見えない(要素をコピーしているから)
 arr2
 //[123, 4, 5]
+
+//別解
+
+var arr2 = arr.map(ele => ele);
+arr2
+//[3, 4, 5]
 </div>
 <hr/>
 <h4>
@@ -726,34 +748,31 @@ for in文に関する注意点を3つ挙げてください
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
 - プロパティを列挙する順序がオブジェクトリテラルと配列リテラルで違う
 - 列挙できないプロパティがある(Array.lengthなど)
-- プロトタイプ継承したプロパティも列挙するところ
-</div>
+- プロトタイプ継承したプロパティも列挙する</div>
 <hr/>
 <h4>
 問38</h4>
 これは2秒後に"hello!kenji!"とconsole.logに出力されることを期待していますが動きません。正しく修正してください。なぜそうなるか理由もください。<h4>A</h4>
-<div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-var Person = function (name) {
-this.name = name;
-}
-Person.prototype.sayHello = function() {
-console.log('hello!' + this.name + '!');
-}
-
-var morita = new Person('kenji');
-morita.sayHello()
-</div>
+WIP
 <hr/>
 <h4>
 問39</h4>
-配列var arr = ['f','o', 'x', 'k'];
+var arr = ["f","o","x","k"];
 を要素順に出力させなさい
 <h4>A</h4>
 <div class="code" style="background:#efefef;padding:10px;margin:10px 0;">
-var arr = ['f','o', 'x', 'k'];
-for(var letter of arr){
-console.log(letter)
+var arr = ["f","o","x","k"];
+for(var j of arr){
+console.log(j)
 }
+
+//別解
+
+var arr = ["f","o","x","k"];
+arr.forEach(function(ele){
+ console.log(ele);
+ }
+)
 </div>
 <hr/>
 <h4>
