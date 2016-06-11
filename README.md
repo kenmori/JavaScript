@@ -1,4 +1,4 @@
-## JavasSript中級者練習問題集(WIP)
+## 芸人が書いたJavasSript問題集(WIP)
 
 
 **問1**
