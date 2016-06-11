@@ -189,7 +189,7 @@ P70
 var setUp = function(){
   var count = 0;
   return function(){
-    return (count += 1);
+return (count += 1);
   }
 };
 var next = setUp();
@@ -356,7 +356,7 @@ a.toString();
 function add(x, y){
  if(typeof y == "undefined"){//部分適用
   return function(y){
-    return x + y
+return x + y
   }
  }
  //完全適用
@@ -504,7 +504,7 @@ f(2)
 
 **問33**
 ```var arr = ["2","23","0","16"];```
-を小さい順にソードしてください。
+を小さい順にソートしてください。
 その後ソートをできないようにread-onlyにしてください
 
 ```js
@@ -518,7 +518,7 @@ arr.sort();
 ```
 
 **問34**
-```var arr = [3,4,5];```をconcat以外で```arr2```にコピーしてください。
+```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。
 その後```arr2[0] = 123```を代入すると```arr```は何を出力するか答えなさい
 
 ```js
@@ -532,6 +532,13 @@ arr
 //[3, 4, 5]//変数arrから変更は見えない(要素をコピーしているから)
 arr2
 //[123, 4, 5]
+
+
+//別解
+
+var arr2 = arr.map(ele => ele);
+arr2
+//[3, 4, 5]
 ```
 
 **問35**
@@ -704,7 +711,7 @@ for in文に関する注意点を3つ挙げてください
 ```
 - プロパティを列挙する順序がオブジェクトリテラルと配列リテラルで違う
 - 列挙できないプロパティがある(Array.lengthなど)
-- プロトタイプ継承したプロパティも列挙するところ
+- プロトタイプ継承したプロパティも列挙する
 ```
 
 **問38**
@@ -712,28 +719,27 @@ for in文に関する注意点を3つ挙げてください
 
 ```js
 
-var Person = function (name) {
-    this.name = name;
-}
-Person.prototype.sayHello = function() {
-    console.log('hello!' + this.name + '!');
-}
-
-var morita = new Person('kenji');
-morita.sayHello()
-
+WIP
 ```
 
 **問39**
-配列```var arr = ['f','o', 'x', 'k'];```
+配列```var arr = ["f","o","x","k"];```
 を要素順に出力させなさい
 
 ```js
-var arr = ['f','o', 'x', 'k'];
-for(var letter of arr){
- console.log(letter)
+var arr = ["f","o","x","k"];
+for(var j of arr){
+console.log(j)
 }
 
+
+//別解
+
+var arr = ["f","o","x","k"];
+arr.forEach(function(ele){
+ console.log(ele);
+ }
+)
 ```
 
 **問40**
@@ -2540,7 +2546,7 @@ if (node.parentNode) {
 
 
 
-
+ブログ未投稿================================================
 
 
 ```js
@@ -2561,4 +2567,50 @@ fafa.name
 
 ii instanceof Megurokumin
 //true
+```
+
+
+問
+
+下のfooオブジェクトが自身のプロパティとしてbarを持っていないことを示してください
+
+```js
+
+// Object.prototype汚染
+Object.prototype.bar = 1;
+var foo = {goo: undefined};
+
+foo.bar; // 1
+'bar' in foo; // true
+```
+
+答え
+```
+
+foo.hasOwnProperty('bar'); // false
+foo.hasOwnProperty('goo'); // true
+
+```
+
+問
+
+こちらのfor inループでも汚染された継承されたプロパティも
+列挙される
+
+```js
+// Object.prototype汚染
+Object.prototype.bar = 1;
+
+var foo = {moo: 2};
+for(var i in foo) {
+console.log(i); // barとmooが両方とも表示される
+}
+
+//good
+// 継承されているfoo
+for(var i in foo) {
+    if (foo.hasOwnProperty(i)) {
+        console.log(i);
+    }
+}
 ```
