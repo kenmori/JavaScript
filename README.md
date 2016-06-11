@@ -1,4 +1,4 @@
-## javascript中級者練習問題集(WIP)
+## JavasSript中級者練習問題集(WIP)
 
 
 **問1**
