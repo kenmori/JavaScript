@@ -78,7 +78,11 @@ aa
 ```
 
 **問7**
- ```ee(2,4,5)```を実行したら引数が全て配列で返る関数eeを定義しなさい
+
+ ```
+ ee(2,4,5)
+ ```
+ を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
