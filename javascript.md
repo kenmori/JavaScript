@@ -2450,7 +2450,6 @@ const tag = '<div>
 
 の1と4、2と3が同じ場合にtrue、違う場合はfalseを返す正規表現を書いてそれぞれ出力し確認してください
 
-
 ```js
 
 const tag = '<div><h1>kenjimorita.jp</h1></div>';
@@ -2461,7 +2460,6 @@ const tag2 = '<div><h1>kenjimorita.jp</a1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 //false
 ```
-
 
 
 **問000**
@@ -3017,58 +3015,105 @@ var result = Array.prototype.filter.call(classA,function(classA){
 result instanceof Array
 ```
 
+**問000**
+このような
+
+```
+<div class="fafa"><span></span></div>
+<div class="fafa"><span></span></div>
+<div class="fafa"><span></span></div>
+<div class="fafa"><span></span></div>
+```
+for文でNodeListを使うのを避けるため、
+DOMのspanタグの分だけ取得してNodeListをArrayに変えてください。
+
+
+```js
+var tag = document.getElementsByTagName('span');
+var array = Array.prototype.slice.call(tag);
+console.log(array instanceof Array );
+```
+
+**問000**
+
+このようなODMがある
+```
+<div id="main">
+  <p class="content">
+    <a class="link" href="http://kenjimorita.jp">
+    1st Link
+  </a>
+    <p class="dummy"></p>
+    <p class="content">
+      <a href="http://example.com/">2link</a>
+    </p>
+    <p class="content">
+      <a href="http://example.com/">3link</a>
+    </p>
+    <a href="http://example.com/">5th</a>
+</div>
+```
+
+XPathを使ってidがmainのdiv、classにcontentを含むp要素の3番目hrefがhttp://example.comから始まるa要素を辿り
+「3link」を出力してください
+
+```js
+var result = document.evaluate(
+  '//div[@id="main"]/p[contains(@class,"content")][3]/a[starts-with(@href,"http://example.com")]',
+  document,
+  null,
+  XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+  null
+);
+
+console.log(result.snapshotLength); //1
+var elem = result.snapshotItem(0);
+console.log(elem.innerHTML);
+```
+
+
+**問000**
 
 ```js
 ```
 
 
-
+**問000**
 ```js
 ```
 
-
-
+**問000**
 ```js
 ```
 
-
-
+**問000**
 ```js
 ```
 
-
+**問000**
 ```js
 ```
 
-
+**問000**
 ```js
 ```
 
-
+**問000**
 ```js
 ```
 
-
+**問000**
 ```js
 ```
 
-
-
+**問000**
 ```js
 ```
 
-
+**問000**
 ```js
 ```
 
-
-```js
-```
-
-
-```js
-```
-
-
+**問000**
 ```js
 ```
