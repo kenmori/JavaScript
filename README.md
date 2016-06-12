@@ -116,7 +116,7 @@ for( key in obj2){
 
 ```js
 var array3 = ['fafa','eee','ccc'];
-var ee = ';
+var ee = '';
 var count = array3.length;
 for(var i= 0; i < count; i++){
   ee += array3[i];
@@ -400,14 +400,14 @@ p83
 
 ```js
 var sayHi = function(name){
- return 'hello!' + (name ? name : ');
+ return 'hello!' + (name ? name : '');
 };
 sayHi('kenji');
 sayHi();
 sayHi.apply(null,['kenji']);//関数呼び出し
 var greeting = {
   sayHi: function(name){
-    return 'hello!' + (name ? name : ');
+    return 'hello!' + (name ? name : '');
   }
 };
 //メソッド呼び出し
@@ -1808,12 +1808,17 @@ text.replace(/(.)\s/g,function(m0, m1){
 
 
 **問97**
-``` var array = ['aa','bb','cc','dd','ff']; ``` このような配列の要素'bb'の前に'ff'を移動させて ``` ['aa','ff','bb','cc','dd"] ``` このような配列を完成させてください
+
+``` var array = ['aa','bb','cc','dd','ff'];```
+このような配列の要素'bb'の前に'ff'を移動させて
+```
+['aa','ff','bb','cc','dd']
+``` このような配列を完成させてください
 
 ```js
 array.splice(1,0,array.splice(4,1)[0])
 //array
-//["aa","ff","bb","cc","dd"]
+//['aa','ff','bb','cc','dd']
 
 ```
 
@@ -1871,8 +1876,6 @@ if(obj.a)が存在しても未定義だと実行されない
 ``` var arr = [ 10, 20 ]; ```
 においてarr[2]が存在しないことを確認してください
 
-答え
-
 ```js
 2 in arry;
 ```
@@ -1880,7 +1883,7 @@ if(obj.a)が存在しても未定義だと実行されない
 ### 文字列
 
 **問101**
-```var string = "-9";```を数値に変換してください
+```var string = '-9';```を数値に変換してください
 
 ```js
 string - 0
@@ -1892,43 +1895,41 @@ string - 0
 **問102**
 sliceとsubstringの違いを教えてください
 
-答え
-
 ```js
 //引数に-を与えた際に違いが出ます
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.length
 str.slice(0,-2)
-//"あいう"
+//'あいう'
 //0からインデックス最後の文字を-1とし後ろから数える
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.substring(0, -2);
-//""
+//'
 //負の数字は0とみなす。
 //0から0を取得するので空文字を返す
 
 //sliceは開始位置が終了位置以上だと空文字を返す
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.slice(1,1)
-//""
+//'
 
 //「い」を取得したい場合
-var str = "あいうえお";
+var str = 'あいうえお';
 str.slice(1,2)
-"い"
+'い'
 
 //substringの場合
 //開始位置が終了位置より大きいと交換されて解釈される
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.substring(1,-3);
 //substring(-3,1)と解釈され負の数は0と見なされ
 //substring(0,1)と同等の処理をする
 
-//"あ"
+//'あ'
 ```
 
 **問103**
@@ -1936,30 +1937,30 @@ str.substring(1,-3);
 次のような文字列```abcdefg```のcとeそれぞれを大文字にしてください
 
 ```js
-var str = "abcdefg";
+var str = 'abcdefg';
 var replaced = str.replace(/[ce]/g,function(str){
  return str.toUpperCase();
 });
-//replaced "abCdEfg"
+//replaced 'abCdEfg'
 ```
 
 **問104**
-次のような文字列をvar str = "こんにちは";
-var name = "もりたさん";
-連結し"いい天気ですね"を付け足した新しい文字列を生成してください
+次のような文字列をvar str = 'こんにちは';
+var name = 'もりたさん';
+連結し'いい天気ですね'を付け足した新しい文字列を生成してください
 
-期待する結果```"こんにちはもりたさんいい天気ですね"```
+期待する結果```'こんにちはもりたさんいい天気ですね'```
 
 連結してもstrは元の文字列のママなことを確認
 str
 //こんにちは
 
 ```js
-var str = "こんにちは";
-var name = "もりたさん";
-var newstr = str.concat(name, "いい天気ですね");
+var str = 'こんにちは';
+var name = 'もりたさん';
+var newstr = str.concat(name, 'いい天気ですね');
 newstr
-"こんにちはもりたさんいい天気ですね"
+'こんにちはもりたさんいい天気ですね'
 
 str //こんにちは
 
@@ -2037,24 +2038,24 @@ passed = [12, 5, 8, 1, 4].some(isBigEnough);
 この``` const arry = ['a','b','c']; ``` の列挙可能なプロパティと不可能なプロパティを出力してください
 
 期待する結果
-``` ["0","1","2","length"] ```
+``` ['0','1','2','length'] ```
 
 答え
 
 ```js
 const arr = ['a','b','c'];
 console.log(Object.getOwnPropertyNames(arr));
-//["0","1","2","length"]
+//['0','1','2','length']
 ```
 
 **問111**
 
-オブジェクトoに対してaという値が"morita"、列挙可能、削除可能、書き換え可能なプロパティを作成してください
+オブジェクトoに対してaという値が'morita'、列挙可能、削除可能、書き換え可能なプロパティを作成してください
 
 
 ```js
 let o = {};
-Object.definedProperty(o,"a",{
+Object.definedProperty(o,'a',{
   value: 'morita',
   writable: true,
   configurable: true,
@@ -2100,39 +2101,39 @@ sum(1, 3)
 
 **問113**
 
-```["morita","kenji","fafafa"]```の要素 ```"fafafa"```
+```['morita','kenji','fafafa']```の要素 ```'fafafa'```
 のインデックスを返してください
 
 期待する値 2
 
 
 ```js
-["morita","kenji","fafafa"].findIndex(x => x == "fafafa")
+['morita','kenji','fafafa'].findIndex(x => x == 'fafafa')
 //2
 ```
 
 **問114**
-配列```["A","B","C"]```を配列の0番目のインデックス値になるようにしてください
-expect [["A"],["B"],["C"]]
+配列```['A','B','C']```を配列の0番目のインデックス値になるようにしてください
+expect [['A'],['B'],['C']]
 
 
 ```js
 //better
-["A","B","C"].map(x => Array.of(x));
+['A','B','C'].map(x => Array.of(x));
 
 //best
-["A","B","C"].map(x => [x])
+['A','B','C'].map(x => [x])
 
 //http://www.2ality.com/2014/05/es6-array-methods.html
 ```
 
 **問115**
-配列```['a', 'b', 'c']```のインデックス1番だけを文字列"kenji"に変えてください
+配列```['a', 'b', 'c']```のインデックス1番だけを文字列'kenji'に変えてください
 
 
 ```js
 ['a', 'b', 'c'].fill('kenji', 1, 2);
-//["a","kenji","c"]
+//['a','kenji','c']
 
 //http://www.2ality.com/2014/05/es6-array-methods.html
 ```
@@ -2239,7 +2240,7 @@ document.getElementById('parent').appendChild(fragment);
 
 **問123**
 XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか教えてください。またもしそれを書かない場合の実体参照、
-``` > ``` と ``` < ``` をどのように書くか教えてください。また&と"、'はそれぞれエスケープ文字でどのように書きますか？
+``` > ``` と ``` < ``` をどのように書くか教えてください。また&と'、'はそれぞれエスケープ文字でどのように書きますか？
 
 ```js
 <script><![CDATA[
@@ -2252,7 +2253,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 &lt;h2&gt;
 
 
-//" quote
+//' quote
 &quot;
 
 //&
@@ -2268,21 +2269,22 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 ```js
 //参照
 
-http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
+//http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
 ```
 
 
 **問125**
 次の文章中の
-``` My name is Taro Suzuki and I am a researcher at ABC. ``` 小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
+``` My name is Taro Suzuki and I am a researcher at ABC. ```
+小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
 
 
 ```js
-const str7 = "My name is Taro Suzuki and I am a researcher at ABC.";
+const str7 = 'My name is Taro Suzuki and I am a researcher at ABC.';
 
  //str.match(/\ba.*\b/); これだと大文字と次の単語にmatchしてしまう
 console.log(str7.match(/\ba\w*\b/g));
-//["and","am","a","at"]
+//['and','am','a','at']
 
 //\sa\w*\sだと\sは文字の先頭や末尾にはマッチしないので、文章の先頭や末尾にある英単語が対象から外れてしまうことに注意してください。
 ```
@@ -2293,49 +2295,49 @@ console.log(str7.match(/\ba\w*\b/g));
 正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
 
 期待する値
-"<img class='fafafa'>"
-["<p>"]
+'<img class='fafafa'>'
+['<p>']
 ※</ではじまる閉じタグは除外
 
 タグ名のみ
 ``` p ``` や ``` img ``` ※いろいろあると思うので答えは一例とさせていただきます
 
  ```js
-  //ごめん適当 const str3 = "<img src='fafa.com'>"
-const str4 = "<p>"
+const str3 = '<img src="fafa.com">'
+const str4 = '<p>'
 const reg2 = /<(\S+)(\s+.+)?>/;//キャプチャあり
 const reg3 = /<(?:\S+)(?:\s+.+)?>/;//キャプチャさせない
 const re2 = str3.match(reg2);
 const re3 = str3.match(reg3);
 const re4 = str4.match(reg2);
 console.log(re2);
-//["<img src='fafa.com'>","img"," src='fafa.com'"]
+//['<img src="fafa.com">','img','src="fafa.com"']
 console.log(re2[0]);
-//<img src='fafa.com'>
+//<img src="fafa.com">
 console.log(re3);
-//["<img src='fafa.com'>"]
+//['<img src="fafa.com">']
 
 console.log(re3[0]);
-//<img src='fafa.com'>
+//<img src="fafa.com">
 console.log(re4);
-//["<p>","p",null]
+//['<p>','p',null]
 console.log(re4[0]);
 //<p>
 ```
 
 下のこちらを使い
 
-``` var myRe=/ken*/g; var str2 = "fafakenfafkenji"; ```
+``` var myRe=/ken*/g; var str2 = 'fafakenfafkenji'; ```
 
 文字列の中のkenだけをexecメソッドを使いマッチした文字を全て出力、マッチした文字列の後のインデックスを同時に出力してください
 
 ```js
 const myRe=/ken*/g;
-const str2 = "fafakenfafkenji";
+const str2 = 'fafakenfafkenji';
 let array;
 while ((array = myRe.exec(str2)) !== null) {
- let msg = array[0] + " を見つけました。";
-  msg += "次のマッチは " + myRe.lastIndex + " からです。";
+ let msg = array[0] + ' を見つけました。';
+  msg += '次のマッチは ' + myRe.lastIndex + ' からです。';
   console.log(msg);
 }
 //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
@@ -2344,38 +2346,38 @@ while ((array = myRe.exec(str2)) !== null) {
 先読み
 
 次の
-``` const string3 = "washable reasonable accessible assemble answerable"; ```
+``` const string3 = 'washable reasonable accessible assemble answerable'; ```
 
 こちらの文字列,
 「able」で終わる英単語の前の部分([able]を除いた部分)にマッチする正規表現を書きなさい。期待する結果
 
-``` ["wash","reason","answer"] ```
+``` ['wash','reason','answer'] ```
 
 ```js
-const string3 = "washable reasonable accessible assemble answerable";
+const string3 = 'washable reasonable accessible assemble answerable';
 const reg5 = /\b\w+(?=able\b)/g;
 console.log(string3.match(reg5));
-//["wash","reason","answer"]
+//['wash','reason','answer']
 ```
 
 否定先読み
 
 こちらの文字列
 ```
-const nen1 = "ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である"
+const nen1 = 'ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である'
 ```
 を使い、後ろに「年」および数字以外の文字が続く1桁以上の数字にマッチする正規表現を書いてください
 
 期待する結果
 ```
-["35","64"]
+['35','64']
 ```
 
 ```js
-const nen1 = "ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である"
+const nen1 = 'ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である'
 const reg6 = /\d+(?![年\d])/g;
 console.log(nen1.match(reg6));
-//["35","64"]
+//['35','64']
 //see:正規表現書き方ドリル(技術評論社)
 
 //※ 一番最初に見つけたマッチだけが欲しい場合、execの方がいいかもしれません
@@ -2387,20 +2389,20 @@ console.log(nen1.match(reg6));
 
 下のような文字列
 ```
-const str222 = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';
 ```
 のカギ括弧内とその文字列にマッチするような正規表現を書いてください
 
 期待する結果
-["「もりた」","「もりけん」"]
+['「もりた」','「もりけん」']
 
 ```js
-const str = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+const str = 'わたしの名前は「もりた」です。あだなは「もりけん」です';
 
 const re = /「(.+?)」/ig;
 const result = str.match(re);
 console.log(result);
-//["「もりた」","「もりけん」"]
+//['「もりた」','「もりけん」']
 
 ```
 
@@ -2412,13 +2414,13 @@ console.log(result);
 
 ```js
 
-const str222 = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';
 
 const re222 = /「(.+?)」/ig;
 
 let result;
 while ((result = re222.exec(str222)) !== null){
-  console.log(result[0],"ここ")
+  console.log(result[0],'ここ')
 }
 
 ```
@@ -2438,7 +2440,7 @@ while ((result = re222.exec(str222)) !== null){
 ```js
 //解答例
 
-const str5 = "あの客はよく柿食う客だ";
+const str5 = 'あの客はよく柿食う客だ';
 const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
 console.log(res5[0]);
 //あの客はよく柿食う客だ
@@ -2447,7 +2449,7 @@ console.log(res5[0]);
 ```
 
 ```js
-const str5 = "あの客はよく柿食う客だ";
+const str5 = 'あの客はよく柿食う客だ';
 const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
 console.log(res5[0]);
 
@@ -2456,7 +2458,7 @@ console.log(res5[0]);
 次のタグ
 
 ```js
-const tag = "<div><h1>kenjimorita.jp</h1></div>";
+const tag = '<div><h1>kenjimorita.jp</h1></div>';
 //<1><2>kenjimorita.jp</3></4>
 ```
 
@@ -2465,11 +2467,11 @@ const tag = "<div><h1>kenjimorita.jp</h1></div>";
 
 ```js
 
-const tag = "<div><h1>kenjimorita.jp</h1></div>";
+const tag = '<div><h1>kenjimorita.jp</h1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag))
 //true
 
-const tag2 = "<div><h1>kenjimorita.jp</a1></div>";
+const tag2 = '<div><h1>kenjimorita.jp</a1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 //false
 ```
@@ -2515,8 +2517,8 @@ i.firstChild //最初の子要素
 問題
 
 ```
-<div id="top" align="center">
-  <div id="nested">
+<div id='top' align='center'>
+  <div id='nested'>
     <div><p><a></a></p></div>
   </div>
 </div>
@@ -2537,7 +2539,7 @@ nestedの親要素が不明の場合の時nestedを削除してください
 https://developer.mozilla.org/ja/docs/Web/API/Node/removeChild
 
  ```js
-var node = document.getElementById("nested");
+var node = document.getElementById('nested');
 
 if (node.parentNode) {
   node.parentNode.removeChild(node);
@@ -2547,7 +2549,7 @@ if (node.parentNode) {
  topの子要素全て削除してください
 
  ```js
- var element = document.getElementById("top");
+ var element = document.getElementById('top');
 
  while (element.firstChild) {
    element.removeChild(element.firstChild);
@@ -2555,8 +2557,7 @@ if (node.parentNode) {
  ```
 
 
-
-ブログ未投稿================================================
+**WIP================================================**
 
 
 ```js
@@ -2688,13 +2689,13 @@ var numObj = 12345.6789;```
 var numObj = 12345.6789;
 numObj.toFixed();
 //12346
-
-
 ```
+
 
 こちらの
 
-```var thing = 'global';
+```
+var thing = 'global';
 function foo(){
   console.log(thing);
   if(true){
