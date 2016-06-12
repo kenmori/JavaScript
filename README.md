@@ -1,4 +1,4 @@
-## JavasSript中級者練習問題集(WIP)
+## JavasSript練習問題集(WIP)
 
 
 **問1**
@@ -2594,7 +2594,7 @@ ii instanceof Megurokumin
 ```
 
 
-問
+**問000**
 
 下のfooオブジェクトが自身のプロパティとしてbarを持っていないことを示してください
 
@@ -2616,7 +2616,7 @@ foo.hasOwnProperty('goo'); // true
 
 ```
 
-問
+**問000**
 
 こちらのfor inループでも汚染された継承されたプロパティも
 列挙される
@@ -2639,6 +2639,8 @@ for(var i in foo) {
 }
 ```
 
+**問000**
+
 new Mapとnew WeakMapの違いを教えていください
 
 
@@ -2654,6 +2656,7 @@ Mapは内部で参照元を保持し自分自身で「含まれるオブジェ�
 
 ```
 
+**問000**
 
 [0,0,0]の配列をインデックス1と2を7にした配列にしてください
 expect : [0, 7, 7]
@@ -2664,6 +2667,8 @@ ary.fill(7,1)
 //[0, 7, 7]
 
 ```
+
+**問000**
 
 このような
 <style>
@@ -2679,6 +2684,7 @@ var h3 = document.querySelector('h3');
 var result = getComputedStyle(h3, ':after').content;
 ```
 
+**問000**
 
 少なくとも400pxあるビューポートに対してスタイルを制御したい際のif文を書いてください
 
@@ -2690,6 +2696,7 @@ if(window.matchMedia('(min-width:400)').matches){
 }
 ```
 
+**問000**
 
 こちらの```
 var numObj = 12345.6789;```
@@ -2704,6 +2711,7 @@ numObj.toFixed();
 //12346
 ```
 
+**問000**
 
 こちらの
 
@@ -2746,6 +2754,8 @@ function foo(){
 foo();
 ```
 
+**問000**
+
 先程のfoo()を実行した際に期待する値が出力されるるようにしてください
 
 ```js
@@ -2761,7 +2771,9 @@ foo();
 //block scope。変数スコープがブレース{}の中に閉じる
 ```
 
-div要素をnodeListとして取得し、Arrayのメソッドで配列の様なオブジェクトから配列に変換してください
+**問000**
+
+div要素をnodeListとして取得し、Arrayのメソッドで「配列の様なオブジェクト」から配列に変換してください
 
 ```js
 
@@ -2772,52 +2784,272 @@ var turnArrayFun = function(obj){
     })
 }
 turnArrayFun(likeArray);
+```
 
+**問000**
+
+下記のようなDOMがある
+```
+<div id="target">
+  (1)
+  <span>既存の内容</span>
+</div>
+```
+この「既存の内容」より前(1)に```<p>子要素</p>```を挿入してください。但しdocument.writeやinnerHTMLは使わないものとする。
+
+```js
+
+var target = document.querySelector('div#target');
+var html = '<p>子要素</p>';
+target.insertAdjacentHTML('afterbegin',html);
+
+//https://developer.mozilla.org/ja/docs/Web/API/Element/insertAdjacentHTML
+
+```
+
+**問000**
+こちら
+
+```
+(1)
+<div id="target">
+  <span>既存の内容</span>
+  (2)
+</div>
+
+(3)
+```
+上記問題と同じDOM構造でそれぞれtargetより前に挿入(1)、「既存の内容より弟」位置に挿入(2)、targetより後に挿入(3)する記述をしてください
+
+```js
+var target = document.querySelector('div#target');
+var html = '<p>子要素</p>';
+var position =
+beforebegin//(1)
+beforeend//(2)
+afterend //(3)
+
+target.insertAdjacentHTML(position,html);
 
 
 ```
+
+**問000**
+
+下記```
+const key = 'greeting';
+var objA = {};
+objA[key] = 'おはよう';
+objA.greeting
+//'おはよう'
+```
+をECMAScript2015を意識した省略記述してください
+
+
 ```js
 
-
+const key = 'greeting';
+var objA = {
+  [key] : 'おはよう'
+};
+objA.greeting
 
 ```
+
+**問000**
+
+こちらの記述```
+var objA = {
+ add: function(a,b){
+  return a + b;
+ }
+}
+objA.add(2,5);
+//7
+```
+を省略記述してください
+
 ```js
-
-
+var objA = {
+ add(a,b){
+  return a + b;
+ }
+}
+objA.add(2,5);
+//7
 
 ```
+
+**問000**
+
+上記の問題のadd関数をobjA内でアロー関数で記述してください
+
 ```js
-
-
+var objA = {
+ add: (a,b)=>{
+  return a + b;
+ }
+}
+objA.add(2,5);
+//7
 
 ```
+
+**問000**
+
+このような
+```var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+```
+配列がある。
+変数aに'shinjuku'、bに'ikebukuro'が代入されるように簡潔に記述してください
+
+
 ```js
+var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+var [,a,,,,, b] = array;
 
+a
+//"shinjuku"
 
+b
+//"ikebukuro"
+```
+
+**問000**
+
+このような
+```
+var obj = {
+ name : 'kenji',
+ twon: 'shibuya'
+}
+```
+objを変数name、twonに代入して出力してください
+
+```js
+var obj = {
+ name : 'kenji',
+ twon: 'shibuya'
+}
+var {name, twon} = obj;
+obj.name
+"kenji"
+obj.twon
+"shibuya"
 
 ```
+
+**問000**
+
+var name = 'KenjiMorita';
+のKとMだけをそれぞれ変数a,ｂに入れてください
+
 ```js
-
-
+var name = 'KenjiMorita';
+var [a,,,,,b] = name;
 
 ```
+
+**問000**
+
+変数
+```
+var a = 1;
+var b = 'goodby';
+```
+のaを'goodby'、bを
+1として出力されるようにしてください(変数のSwap)
+
 ```js
-
-
+var a = 1
+var b = 'goodby'
+b = [a, a = b][0];
+a
+//'goodby'
+b
+//1
 
 ```
+
+**問000**
+
+上記と同じ事をECMAScript2015ライクに簡潔に記述してください
+
 ```js
+var a = 1;
+var b = 'goodby';
+[a,b] = [b, a]
+["goodby", 1]
 
-
-
+//http://qiita.com/gaogao_9/items/18b20ad9b76c9c81b5fa#_reference-4b73dec38a62a3fb0ab7
 ```
+
+**問000**
+
+こちら```const input = [0,[1,2,3],4,5,[6]];```
+を
+```[0,1,2,3,4,5,6] ```となるようにしてください
+
+ ```js
+ //展開演算子(スプレッド演算子)
+const input = [0,[1,2,3],4,5,[6]];
+const inputB = [input[0],...input[1],input[2],input[3],...input[4]];
+inputB
+//[0,1,2,3,4,5,6]
+ ```
+
+
 ```js
-
-
-
 ```
+
+
+
 ```js
+```
 
 
 
+```js
+```
+
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
 ```
