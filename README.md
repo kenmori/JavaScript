@@ -2902,8 +2902,10 @@ objA.add(2,5);
 
 このような
 
-```var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
 ```
+var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+```
+
 配列がある。
 変数aに'shinjuku'、bに'ikebukuro'が代入されるように簡潔に記述してください
 
