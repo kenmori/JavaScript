@@ -10,7 +10,7 @@ e.g```{a:'a',b:'b'}```
 var afa = {a: 'a'};
 var ee = {b:'b'};
 var m = Object.assign(afa, ee);
-m //
+m //{a: "a", b: "b"}
 ```
 
 **問2**
