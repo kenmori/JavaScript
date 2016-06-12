@@ -1201,13 +1201,13 @@ console.log('repeat'.repeat(2));
 ```
 
 
-## ES6
+## ECMAScript2015
 
 **問67**
 文字列```foo```をイテレーターを使った反復処理で配列```['f','o','o']```を出力しなさい。
 
  ```js
- //ES6,Babel
+ //ECMAScript2015,Babel
 var chars = [];
 for (let n of 'foo'){
  chars.push(n);
@@ -1889,7 +1889,8 @@ if(obj.a)が存在しても未定義だと実行されない
 string - 0
 //-9
 
-//別解+string
+//別解
+//+string
 //-9
 ```
 **問102**
@@ -1969,7 +1970,7 @@ str //こんにちは
 ```
 
 **問105**
-引数targetがnullかundefinedのときのみの判定をしてください
+引数targetがnullかundefinedのときのみの判定がtrueになる条件式を書いてください
 
 ```js
 target == null
@@ -2165,10 +2166,12 @@ console.log(gen.next().value); // 2
 ```
 
 **問118**
-ラッパーオブジェクトについて教えてください。
+ラッパーオブジェクトとは何ですか？教えてください。
 //解答は理解していてある程度どういうものか答えられればいいものとします
 
 ```js
+//回答例
+
 //trueなどのプリミティブ値のプロパティにアクセスするとjavascirptはプリミティブ値に対応するコンストラクタからラッパーオブジェクトを作り、そのラッパーオブジェクトのプロパティやメソッドにアクセスできるようになる。(「オブジェクトのように」あつかうことができる。)作られたラッパーオブジェクトはオブジェクトへのアクセスが終わると破棄されて元のプリミティブ値に戻します。
 例えば下記は文字列オブジェクトから文字列を生成しています。
 var string = new String('foo');
@@ -2272,6 +2275,8 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 //http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
 ```
 
+## 正規表現
+
 
 **問125**
 次の文章中の
@@ -2288,6 +2293,12 @@ console.log(str7.match(/\ba\w*\b/g));
 
 //\sa\w*\sだと\sは文字の先頭や末尾にはマッチしないので、文章の先頭や末尾にある英単語が対象から外れてしまうことに注意してください。
 ```
+
+
+# **ここから下鋭意作成中================================================**
+
+
+**問000**
 <p>
 や<img \src=\'fafafa\'>
 など
@@ -2325,6 +2336,8 @@ console.log(re4[0]);
 //<p>
 ```
 
+**問000**
+
 下のこちらを使い
 
 ``` var myRe=/ken*/g; var str2 = 'fafakenfafkenji'; ```
@@ -2343,7 +2356,7 @@ while ((array = myRe.exec(str2)) !== null) {
 //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 ```
 
-先読み
+**問000**
 
 次の
 ``` const string3 = 'washable reasonable accessible assemble answerable'; ```
@@ -2360,7 +2373,7 @@ console.log(string3.match(reg5));
 //['wash','reason','answer']
 ```
 
-否定先読み
+**問000**
 
 こちらの文字列
 ```
@@ -2384,8 +2397,7 @@ console.log(nen1.match(reg6));
 //see: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
 ```
 
-最短マッチ
-
+**問000**
 
 下のような文字列
 ```
@@ -2406,6 +2418,8 @@ console.log(result);
 
 ```
 
+**問000**
+
 上記の文字列を使ってexecメソッドを使い文字列とし2つとも出力してください
 
 期待する結果
@@ -2425,8 +2439,9 @@ while ((result = re222.exec(str222)) !== null){
 
 ```
 
-キャプチャ
-したの文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
+**問000**
+
+下記の文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
 
 ○あの客はよく柿食う客だ
 
@@ -2454,6 +2469,7 @@ const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
 console.log(res5[0]);
 
 ```
+**問000**
 
 次のタグ
 
@@ -2478,9 +2494,7 @@ console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 
 
 
-```js
-
-```
+**問000**
 
 ```
 [2, 3,-1, -6, 0, -108, 42, 10].sort();
@@ -2499,7 +2513,7 @@ return 0;
 ```
 
 
-**問題**
+**問000**
 
 ```js
 var i = document.getElementById();
@@ -2514,7 +2528,7 @@ i.childNodes; //子要素を返す
 i.firstChild //最初の子要素
 ```
 
-問題
+**問000**
 
 ```
 <div id='top' align='center'>
@@ -2524,15 +2538,15 @@ i.firstChild //最初の子要素
 </div>
 ```
 上のようなnodeがある。```#nested```
-要素を削除してください。
-
-答え
+要素を削除してください
 
 ```js
 var i = document.getElementById('top');
 var f = document.getElementById('nested');
 i.removeChild(f);
 ```
+
+**問000**
 
 nestedの親要素が不明の場合の時nestedを削除してください
 
@@ -2546,6 +2560,8 @@ if (node.parentNode) {
 }
  ```
 
+**問000**
+
  topの子要素全て削除してください
 
  ```js
@@ -2555,9 +2571,6 @@ if (node.parentNode) {
    element.removeChild(element.firstChild);
  }
  ```
-
-
-**WIP================================================**
 
 
 ```js
