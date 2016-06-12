@@ -3009,6 +3009,77 @@ inputB
 //[0,1,2,3,4,5,6]
  ```
 
+**問000**
+
+下記のような
+
+```html
+<div id='outer'>
+  outer
+  <div id='inner'>inner</div>
+</div>
+```
+
+に対してload時に#innerのtextを任意の文字列に変えるようにしください。なおwindow.onloadは使わないようにする。
+
+```js
+
+document.addEventListener('DOMContentload',function(){
+ var target = document.getElementById('inner');
+ target.textContent('fafa');
+},false)
+
+//’load'はHTMLの全てのloadが終わったタイミングで発火。
+//'DOMContentload'はDOM解析が終わってDOMに触れるようになったら発火。
+//この場合'DOMContentload'を使用。画像が読み込まれる前に実行されて高速。だが画像幅に対してのレイアウト変更をするようであれば'load'
+//[参照](http://qiita.com/gaogao_9/items/ec2b867d6941173fd0b1#_reference-1aa15cfa5c1cf1f77a86)
+
+```
+
+**問000**
+このような
+
+```
+addeventListener('DOMcontentLoad',function(){something},[true,false])
+```
+イベントリスナーの第三引数のフラグは何か説明してください
+
+```js
+useCapture設定。
+例えばclickイベントを親と子、両方に設定している場合、親にtrue設定すると子供(内側)をclickすると親が先に発火(キャプチャフェーズ)、続いて子供となる。useCaptureによって発生するイベントの順番が変わる。
+defalutはfalse
+
+
+イベントフェーズ
+
+キャプチャフェーズ(ルート要素から発生要素を探しに行く)
+
+ターゲットフェーズ(発生用をを検出する)
+バグリングフェーズ(ルート要素を辿っていく)
+see //http://qiita.com/hosomichi/items/49500fea5fdf43f59c58
+
+```
+
+**問000**
+このような
+
+```
+<div class="classA">
+    <div>some1</div>
+    <p><div>some2</div></p>
+    <div>some3</div>
+</div>
+```
+DOMがある。classAより子供のdiv要素のみ取得してください
+
+```js
+var classA = document.getElementsByClassName('classA');
+var result = Array.prototype.filter.call(classA,function(classA){
+ return classA.nodeName === 'DIV'
+});
+result instanceof Array
+```
+
 
 ```js
 ```
