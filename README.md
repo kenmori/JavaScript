@@ -2756,7 +2756,7 @@ foo();
 
 **問000**
 
-先程のfoo()を実行した際に期待する値が出力されるるようにしてください
+先程のfoo()を実行した際に期待する値が出力されるようにしてください
 
 ```js
 const thing = 'global';
@@ -2816,7 +2816,6 @@ target.insertAdjacentHTML('afterbegin',html);
   <span>既存の内容</span>
   (2)
 </div>
-
 (3)
 ```
 上記問題と同じDOM構造でそれぞれtargetより前に挿入(1)、「既存の内容より弟」位置に挿入(2)、targetより後に挿入(3)する記述をしてください
@@ -2836,15 +2835,17 @@ target.insertAdjacentHTML(position,html);
 
 **問000**
 
-下記```
+下記
+
+```
 const key = 'greeting';
 var objA = {};
 objA[key] = 'おはよう';
 objA.greeting
 //'おはよう'
 ```
-をECMAScript2015を意識した省略記述してください
 
+をECMAScript2015を意識した省略記述してください
 
 ```js
 
@@ -2858,7 +2859,8 @@ objA.greeting
 
 **問000**
 
-こちらの記述```
+こちらの記述
+```
 var objA = {
  add: function(a,b){
   return a + b;
@@ -2867,6 +2869,7 @@ var objA = {
 objA.add(2,5);
 //7
 ```
+
 を省略記述してください
 
 ```js
@@ -2898,6 +2901,7 @@ objA.add(2,5);
 **問000**
 
 このような
+
 ```var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
 ```
 配列がある。
@@ -2918,6 +2922,7 @@ b
 **問000**
 
 このような
+
 ```
 var obj = {
  name : 'kenji',
