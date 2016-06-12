@@ -1,6 +1,5 @@
-## javascript中級者練習問題集
+## JavasSript練習問題集(WIP)
 
-javascript中級者の為の問題集です。練習問題を重ねて力を付けましょう。
 
 **問1**
 
@@ -11,14 +10,12 @@ e.g```{a:'a',b:'b'}```
 var afa = {a: 'a'};
 var ee = {b:'b'};
 var m = Object.assign(afa, ee);
-m //
+m //{a: "a", b: "b"}
 ```
 
 **問2**
 
-```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```
-の要素jj,hh,kkを要素、型を配列で返す記述をしてください
-
+```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```の要素jj,hh,kkを要素、型を配列で返す記述をしてください
 
 ```js
 var yy = uu.slice(-4,-1);
@@ -34,20 +31,20 @@ var arry = ['aa','ccc'];
 arry.map(function(key,i){
  console.log(key)
 })
-//"aa"
-//"ccc"
+//'aa'
+//'ccc'
 ```
 
 **問4**
-```var arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g “eee0”```と```“ccc1"```
+```var arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
 
 ```js
 var arry = ['aa','ccc'];
 arry.forEach(function(key,i){
  console.log(key + i)
 })
-//"aa0"
-//"ccc1"
+//'aa0'
+//'ccc1'
 ```
 
 **問5**
@@ -64,22 +61,23 @@ Array.isArray(ee) //true
 ```
 
 **問6**
-```var aa = "fafa"```を出力した後完全に削除し、削除されたことを出力してくださいe.g
-"aa is not defined"
+```var aa = 'fafa'```を出力した後完全に削除し、削除されたことを出力してくださいe.g
+'aa is not defined'
 
 ```js
 
-var aa = "fee";
+var aa = 'fee';
 aa
-//"fee"
+//'fee'
 delete aa
 //true
 aa
-//"aa is not defined"
+//'aa is not defined'
 ```
 
 **問7**
- ```ee(2,4,5)```を実行したら引数が全て配列で返る関数eeを定義しなさい
+
+```ee(2,4,5)```を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -95,16 +93,16 @@ ee(2,4,5)//[2.4,5]
 
 ```
 var obj2 = {
-　key: "eee",
-　key2:"ccc"
+　key: 'eee',
+　key2:'ccc'
 };
 ```
 の中のkeyとvalueを全て出力しなさい
 
 ```js
 var obj2 = {
-  key: "eee",
-  key2:"ccc"
+  key: 'eee',
+  key2:'ccc'
 };
 for( key in obj2){
  console.log(key);
@@ -113,17 +111,17 @@ for( key in obj2){
 ```
 
 **問9**
-```var array3 = ["fafa","eee","ccc"]```配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
+```var array3 = ['fafa','eee','ccc']```配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
 
 ```js
 var array3 = ['fafa','eee','ccc'];
-var ee = "";
+var ee = '';
 var count = array3.length;
 for(var i= 0; i < count; i++){
   ee += array3[i];
 }
 ee
-//"fafaeeeccc"
+//'fafaeeeccc'
 ```
 
 **問10**
@@ -134,9 +132,9 @@ if分岐、Object.prototype、返り値 [object Array]
 //51P
 
 ```js
-if(typeof Array.isArray === "undefined"){
+if(typeof Array.isArray === 'undefined'){
  Array.isArray = function(arg){
-  return Object.prototype.toString.call(arg) === "[object Array]";
+  return Object.prototype.toString.call(arg) === '[object Array]';
  };
 }
 
@@ -161,16 +159,16 @@ arry4.sort(function(a,b){
 /*
 [[object Object] {
   id: 89,
-  name: "kenji"
+  name: 'kenji'
 }, [object Object] {
   id: 2739,
-  name: "kenji"
+  name: 'kenji'
 }, [object Object] {
   id: 7827,
-  name: "uro"
+  name: 'uro'
 }, [object Object] {
   id: 34343,
-  name: "morita"
+  name: 'morita'
 }]
 */
 ```
@@ -180,6 +178,7 @@ arry4.sort(function(a,b){
 ```fetchSomething1```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
 ```
 WIP
+```
 
 **問13**
 next()を実行しただけ返り値が1増える関数を定義してね
@@ -199,46 +198,47 @@ next();//3
 ```
 
 **問14**
+
 ```class Fafaf {}```を作成した際の内部の動きを教えてください。
 
 WIP
 
 **問15**
-配列```myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"]```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
+配列```myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
 
 ```js
-var myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"];
-myArray.splice(0,2,"green","red","yellow");//インデックス0から2つの要素を削除。
-//返り値:["kkk1", "kkk2"]
-//myArray:["green", "red", "yellow", "kkk3", "kkk4", "kkk5"]
+var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+myArray.splice(0,2,'green','red','yellow');//インデックス0から2つの要素を削除。
+//返り値:['kkk1', 'kkk2']
+//myArray:['green', 'red', 'yellow', 'kkk3', 'kkk4', 'kkk5']
 
 ```
 
 **問16**
-```myArray= ["kkk1","kkk2","kkk3","kkk4","kkk5"];```
+```myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];```
 の2つ目〜4つ目の要素を取り出し配列とし出力しなさい。実行された後のMyarrayの要素を教えてください
 
 ```js
-var myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"];
+var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
 var fafa = myArray.slice(1,4);
-console.log(fafa);//["kkk2", "kkk3","kkk4"]
-//Myarrayは["kkk1","kkk2","kkk3","kkk4","kkk5"]で変わらず
+console.log(fafa);//['kkk2', 'kkk3','kkk4']
+//Myarrayは['kkk1','kkk2','kkk3','kkk4','kkk5']で変わらず
 ```
 
 **問17**
-```var myArray = ["kkk1","kkk2","kkk3","kkk4","kkk5"];```の全ての要素を```/```で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
+```var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];```の全ての要素を```/```で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
 
 ```js
-var myArray =  ["kkk1","kkk2","kkk3","kkk4","kkk5"];
-myArray.join("/").split("/");
+var myArray =  ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+myArray.join('/').split('/');
 
 ```
 
 **問18**
-配列```var gArray =  ["おはよう","こんにちは","おやすみなさい"];```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+配列```var gArray =  ['おはよう','こんにちは','おやすみなさい'];```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
 
 ```js
-var gArray =  ["おはよう","こんにちは","おやすみなさい"];
+var gArray =  ['おはよう','こんにちは','おやすみなさい'];
 var g = gArray[Math.floor(Math.random() * 3)];
 g//おはよう or こんにちは or おやすみなさい
 ```
@@ -253,7 +253,7 @@ o.p //42
 
 
 **問20**
-オブジェクトWhoを作成し、初期化時に"morita"(String)を渡しnameプロパティに代入、インスタンス「o」のメソッドを使いWho.prototype.name値が返ってくるいわゆる「classのようなもの」を作成してください
+オブジェクトWhoを作成し、初期化時に'morita'(String)を渡しnameプロパティに代入、インスタンス「o」のメソッドを使いWho.prototype.name値が返ってくるいわゆる「classのようなもの」を作成してください
 ※インスタンスメソッドはprototype継承で代入してください
 
 ```js
@@ -263,7 +263,7 @@ function Who(name){
 Who.prototype.getName = function(){
  console.log('Myname is ' + this.name);
 };
-var o = new Who("morita");
+var o = new Who('morita');
 o.getName()
 ```
 
@@ -289,13 +289,13 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 下記
 
 ```
-var array = ["e","a","k","B","c"];
+var array = ['e','a','k','B','c'];
 array.sort();
 ```
 を実行した結果を答えてください
 
 ```js
-["B", "a", "c", "e", "k"]
+['B', 'a', 'c', 'e', 'k']
 
 //note 順番は文字エンコーディングによって決まる
 //要素に数値が会った場合文字列に置き換えられる
@@ -304,16 +304,15 @@ array.sort();
 
 **問22**
 期待する大文字小文字区別なく順番通りにするようにしてください。
-期待する結果
-[a","B","c", "e", "k"]
+e.g.```[a','B','c', 'e', 'k']```
 
 ```js
-var array = ["e","a","k","B","c"];
+var array = ['e','a','k','B','c'];
 array.sort(function(a,b){
  return a.toUpperCase() > b.toUpperCase() ? 1 : -1 ;
 });
 
-//["a", "B", "c", "e", "k"]
+//['a', 'B', 'c', 'e', 'k']
 
 ```
 
@@ -336,15 +335,15 @@ return a - b
 
 
 **問24**
-文字列```"10"```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
+文字列```'10'```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
 
-var a = parseInt("10");
+var a = parseInt('10');
 typeof a
 isNaN(e);
 a.toString();
-//"10"
+//'10'
 
 ```
 
@@ -354,7 +353,7 @@ a.toString();
 
 ```js
 function add(x, y){
- if(typeof y == "undefined"){//部分適用
+ if(typeof y == 'undefined'){//部分適用
   return function(y){
 return x + y
   }
@@ -370,9 +369,9 @@ add(1,2) //3
 クロージャーを使ったファクトリー関数。
 
 ```js
-var fafa = Factory("morita");
+var fafa = Factory('morita');
 fafa.introduce()
-//"morita"
+//'morita'
 ```
 上記のような実行をしたら渡したname(ここではmorita)が表示されるメソッドintroduceを持つファクトリー関数を定義しなさい。
 
@@ -388,7 +387,7 @@ function Factory(name){
    }
  }
 };
-var fafa = Factory("morita");
+var fafa = Factory('morita');
 fafa.introduce()
 //morita
 ```
@@ -401,18 +400,18 @@ p83
 
 ```js
 var sayHi = function(name){
- return "hello!" + (name ? name : "");
+ return 'hello!' + (name ? name : '');
 };
-sayHi("kenji");
+sayHi('kenji');
 sayHi();
-sayHi.apply(null,["kenji"]);//関数呼び出し
+sayHi.apply(null,['kenji']);//関数呼び出し
 var greeting = {
   sayHi: function(name){
-    return "hello!" + (name ? name : "");
+    return 'hello!' + (name ? name : '');
   }
 };
 //メソッド呼び出し
-greeting.sayHi.apply(greeting,["kenji"]);//渡す
+greeting.sayHi.apply(greeting,['kenji']);//渡す
 greeting.sayHi.apply(greeting);//渡さない
 
 
@@ -430,7 +429,7 @@ var obj = {x : 2, y: 3};
 Object.preventExtensions(obj);
 Objcet.isExtensible(obj);//true
 Object.key(obj);
-//["x", "y"]
+//['x', 'y']
 ```
 
 **問29**
@@ -503,18 +502,16 @@ f(2)
 ```
 
 **問33**
-```var arr = ["2","23","0","16"];```
-を小さい順にソートしてください。
-その後ソートをできないようにread-onlyにしてください
+```var arr = ['2','23','0','16'];```を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
 
 ```js
-var arr = ["2","23","0","16"];
+var arr = ['2','23','0','16'];
 arr.sort(function(a,b){ return a - b ;});
-//["0", "2", "16", "23"]
+//['0', '2', '16', '23']
 Object.freeze(arr);
-//["0", "2", "16", "23"]
+//['0', '2', '16', '23']
 arr.sort();
-//.fseventsd/"Cannot assign to read only property '1' of [object Array]"
+//.fseventsd/'Cannot assign to read only property '1' of [object Array]'
 ```
 
 **問34**
@@ -542,23 +539,22 @@ arr2
 ```
 
 **問35**
-JSON文字列```{"x" : 1, "y": 2}```
-をオブジェクトに変換してJSON文字列に変換してください。またなぜ下記の2つはエラーになるか答えてください。
+JSON文字列```{'x' : 1, 'y': 2}```をオブジェクトに変換してJSON文字列に変換してください。またなぜ下記の2つはエラーになるか答えてください。
 
 ```js
-var s = JSON.parse("'foo'");
-var arr = JSON.parse("{x : 1}");
+var s = JSON.parse(''foo'');
+var arr = JSON.parse('{x : 1}');
 ```
 
 ```js
-var s = '{"x" : 1, "y": 2}';
+var s = '{'x' : 1, 'y': 2}';
 var obj = JSON.parse(s);
 JSON.stringify(obj);
-//"{\"x\":1,\"y\":2}"
+//'{\'x\':1,\'y\':2}'
 //**下記はなぜエラーになるか**
-var s = JSON.parse("'foo'");
+var s = JSON.parse(''foo'');
 //シングルクォーテーションの文字列はエラー-
-var arr = JSON.parse("{x : 1}");
+var arr = JSON.parse('{x : 1}');
 //プロパティ名が文字列でないとエラー
 ```
 
@@ -567,7 +563,7 @@ strict modeの代表的な制約を挙げて説明してください。
 
 ```
 - 暗黙のグローバル変数の禁止
-(標準モードではvarを伴わす変数に値を割り当てると現在のスコープに関係なくグローバルオブジェクトにその名前のプロパティを追加してしまう。strictモードでは明示的にエラーになる)
+(標準モードではvarを伴わず変数に値を割り当てると現在のスコープに関係なくグローバルオブジェクトにその名前のプロパティを追加してしまう。strictモードでは明示的にエラーになる)
 - 関数内でthis参照がグローバルオブジェクトを参照しない
 
 - NaN、Infinity、undefinedのグローバル変数を読み込み専用
@@ -575,7 +571,7 @@ strict modeの代表的な制約を挙げて説明してください。
 - 重複のプロパティ名とパラメータ名を禁止
 
 リテラルでのオブジェクト生成時同じ名前を持つプロパティを複数定義する場合や、関数に同じ名前を持つパラメータを複数与える場合標準モードでは後に定義されたものが優先されますがstrictモードではこのようなコードを実行する際にエラーが発生します。
-"use strict";
+'use strict';
 
 //オブジェクト生成時にエラー//標準モードで実行する場合は後に定義されたものが反映される
 
@@ -599,27 +595,27 @@ func(1, 2);
 。つまり最初のパラメータとargument[0]は、名前は異なるものの、その実体は同じものでした。
 strictモードではこれが変更されパラメータとargumentsは独立した存在として扱われるようになり、それぞれ個別の引数が割り当てられます。
 (function (param){
-  "use strict";
+  'use strict';
   //引数がプリミティブ型の場合はStrictモードと標準モードで動作がことなる。
 
-  pram = "param";
+  pram = 'param';
   console.log(param, arguments[0]);
-  //"param"
+  //'param'
   //(標準モードの場合)
-  "param" "param"
+  'param' 'param'
 
-  arguments[0] = "arg";
+  arguments[0] = 'arg';
   console.log(param, arguments[0]);
-  //"param" "arg";
-  //標準モードの場合 "arg" "arg"
-  })("引数") //関数に文字列を渡して実行
+  //'param' 'arg';
+  //標準モードの場合 'arg' 'arg'
+  })('引数') //関数に文字列を渡して実行
 
 但し、引数がオブジェクトの場合はパラメータとargumentsに同じオブジェクトへの参照が格納されるためプロパティへのアクセスは事実上同じものへのアクセスとなります。
 
 arguments オブジェクトへの値の割り当ての禁止
 
 関数実行時に与えられた引数はarguments変数に格納されます。Strictモードではこのargumentsオブジェクトに別の新たなオブジェクトを割り当てることができません。
-"use strict";
+'use strict';
 
 //arguments変数を別の値で置き換えることができない
 
@@ -646,7 +642,7 @@ arguments オブジェクトへの値の割り当ての禁止
 再帰などの目的で関数内でその関数自身にアクセスする必要がある場合にはarguments.calleeではなく、関数名を使って呼び出します。関数式を使用する場合は無名関数にするのではなく、その関数に名前を与えておく必要があります。
 8進数リテラルの禁止
 
-"use strict";
+'use strict';
 //8進数リテラルを使用するとsyntaxError
 //標準モードで実行する場合はあoctに数値8が割り当てられる。
 var oct = 010;
@@ -656,7 +652,7 @@ var oct = 010;
 ブロック内の関数分の禁止
 
 
-"use strict";
+'use strict';
 //ブロック内部の関数宣言はsyntaxError
 if(true) {
   function func(val){return  val;}
@@ -683,13 +679,13 @@ evalコードが独自のスコープで動作する。標準モードでevalに
 strictモードではevalで実行されるコードが自身のスコープを持ちます。このスコープから外側のスコープにある変数にはアクセスできますが外側のスコープに変数を定義することはできません。関数スコープと同じです。
 
 
-//"use strict"は複数のstrictモード記述のあるjsファイルの結合されて本番のファイルを構成している場合先頭のファイルの先頭部に置いた"use strict"文によって結合されたスクリプト全体がstrictモードになりその結果コードが誤作動するという事例があった。
+//'use strict'は複数のstrictモード記述のあるjsファイルの結合されて本番のファイルを構成している場合先頭のファイルの先頭部に置いた'use strict'文によって結合されたスクリプト全体がstrictモードになりその結果コードが誤作動するという事例があった。
 ある関数がstrictモードで動作するかの判定は呼び出し時のスコープではなく、定義されたスコープで行われる。Strictモードのコード内で呼び出しても標準モードで定義された関数は標準モードで実行される。argumentsとevalを使っているか？使っていたらそこがstrictモードかどうかを確認しましょう。※scriptタグはタグ単位でスクリプトの実行環境を生成する。そのため<script>タグごとにモードの選択をする。Strictモード内で<script>タグを動的に生成する場合も新しく生成されたタグ内のScriptは指示序文を与えなければ標準モードで動作します。node.jsのrequire()で呼び出すコードは呼び出し元の指示序文に影響されません。strictでも呼び出すコードのコンテクストが標準モードならそのコードは標準モードで動作する
 
 //strictモードの即時実行関数
 
 (function(){
-  "use strict";
+  'use strict';
   //loose関数の中身はStrictモードではエラーが発生するコード
   loose();
   })()
@@ -715,7 +711,7 @@ for in文に関する注意点を3つ挙げてください
 ```
 
 **問38**
-これは2秒後に```"hello!kenji!"```とconsole.logに出力されることを期待していますが動きません。正しく修正してください。なぜそうなるか理由もください。
+これは2秒後に```'hello!kenji!'```とconsole.logに出力されることを期待していますが動きません。正しく修正してください。なぜそうなるか理由もください。
 
 ```js
 
@@ -723,11 +719,10 @@ WIP
 ```
 
 **問39**
-配列```var arr = ["f","o","x","k"];```
-を要素順に出力させなさい
+配列```var arr = ['f','o','x','k'];```を要素順に出力させなさい
 
 ```js
-var arr = ["f","o","x","k"];
+var arr = ['f','o','x','k'];
 for(var j of arr){
 console.log(j)
 }
@@ -735,7 +730,7 @@ console.log(j)
 
 //別解
 
-var arr = ["f","o","x","k"];
+var arr = ['f','o','x','k'];
 arr.forEach(function(ele){
  console.log(ele);
  }
@@ -746,7 +741,7 @@ arr.forEach(function(ele){
 またイテレーターを使い順番にす出力しなさい
 
 ```js
-var arr = ["f", "o", "x", "k"];
+var arr = ['f', 'o', 'x', 'k'];
 var eArr = arr[Symbol.iterator]();
 eArr.next().value //f
 eArr.next().value //o
@@ -756,13 +751,13 @@ eArr.next().value //k
 ```
 
 **問41**
-配列```["angel", "clown", "drum", "mandarin", "surgeon"]```
-のインデックス2に"morita"という要素を加えなさい。```["angel", "clown", "morita", "drum", "mandarin", "surgeon"]```
+配列```['angel', 'clown', 'drum', 'mandarin', 'surgeon']```
+のインデックス2に'morita'という要素を加えなさい。```['angel', 'clown', 'morita', 'drum', 'mandarin', 'surgeon']```
 
 ```js
-var myFish = ["angel", "clown", "drum", "mandarin", "surgeon"];
-myFish.splice(2, 0 , "morita");
-myFish//["angel", "clown", "morita", "drum", "mandarin", "surgeon"]
+var myFish = ['angel', 'clown', 'drum', 'mandarin', 'surgeon'];
+myFish.splice(2, 0 , 'morita');
+myFish//['angel', 'clown', 'morita', 'drum', 'mandarin', 'surgeon']
 ```
 
 **問42**
@@ -790,7 +785,7 @@ var arr = [];
 for(var i = 0; i < ee.length; i++){
  arr[i] = ee.charAt(i);
 }
-console.log(arr)//["1","2","3","4"];
+console.log(arr)//['1','2','3','4'];
 ```
 
 **問45**
@@ -860,23 +855,22 @@ var mul = function(a,  b) {
 
 ```
 array = [
-{name: "kenji", mail:"fafa@eee.com"},
-{name: "morita", mail: "kkk@faf.com"}
+{name: 'kenji', mail:'fafa@eee.com'},
+{name: 'morita', mail: 'kkk@faf.com'}
 ]
 ```
 
 答え
 
 ```js
-
 array = [
-{name: "kenji", mail:"fafa@eee.com"},
-{name: "morita", mail: "kkk@faf.com"}
+{name: 'kenji', mail:'fafa@eee.com'},
+{name: 'morita', mail: 'kkk@faf.com'}
 ];
 var array2 = [];
 array.forEach(function(Element, ind, array){
    for(var key in Element){
-    if(key == "mail"){
+    if(key == 'mail'){
 
   array2.push(Element[key])
   }
@@ -886,8 +880,7 @@ console.log(array2);
 ```
 
 **問48**
-配列```var passed = [12, 5, 8, 130, 44]```
-の要素全てが10以上かどうかを評価してtrueかfalseを返しなさい。また10以上のものが一つでもあった場合trueを返しなさい。
+配列```var passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返しなさい。また10以上のものが一つでもあった場合trueを返しなさい。
 
 ```js
 
@@ -902,29 +895,29 @@ passed //false
 **問49**
 二次元配列
 ```
-[["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
+[['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
 ```
 
-の"two"の値を取得してください
+の'two'の値を取得してください
 
 ```js
 
-var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
+var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
 var map = new Map(fafa);
-map.get("two");
-//"send@fafa"
+map.get('two');
+//'send@fafa'
 
 ```
 
 **問50**
-先程の変数fafaにインデックス3番目の要素として["four",fafa@eee]の配列を追加しなさい
+先程の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加しなさい
 
 ```js
-var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]
+var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
-map.set("four", "fafa@eee");
+map.set('four', 'fafa@eee');
 
 ```
 
@@ -932,7 +925,7 @@ map.set("four", "fafa@eee");
 先程の問50の変数fafaに内にある要素を全て取得しなさい
 
 ```js
-var fafa = [["one", "info@fa"],["two", "send@fafa"],["three", "hoso@fafa"]];
+var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
 var entries = map.entries();
 for (var entry of entries){
  console.log(entry);
@@ -941,21 +934,21 @@ for (var entry of entries){
 ```
 
 **問52**
-```"morita kenji"```をRegExpオブジェクトを使って配列["morita kenji"]が返るようにしてください。(空白スペースにマッチする正規表現を使うこととする)
+```'morita kenji'```をRegExpオブジェクトを使って配列['morita kenji']が返るようにしてください。(空白スペースにマッチする正規表現を使うこととする)
 
 ```js
 //正解例
-/\w+\s\w+/.exec("morita kenji")
+/\w+\s\w+/.exec('morita kenji')
 ```
 
 **問5３**
-このようなstrとstr2がある ```var str = "It is an important problem";``` ```var str2 = "The import duty is not cheap";``` str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
+このようなstrとstr2がある ```var str = 'It is an important problem';``` ```var str2 = 'The import duty is not cheap';``` str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
 
 参照(正規表現書き方ドリル/技術評論社)
 
 ```js
-var str = "It is an important problem";
-var str2 = "The import duty is not cheap";
+var str = 'It is an important problem';
+var str2 = 'The import duty is not cheap';
 var ii = /.*\bimport\b.*/.test(str);//false
 var ii = /.*\bimport\b.*/.test(str2);//true
 
@@ -970,7 +963,12 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 //カタカナ
 [ァ-ヶ]
 //半角カタカナ
-[ｦ-゜]
+/^[\uFF65-\uFF9F]+$/
+
+//半角以外にmatch
+//[
+^A-Za-z0-9
+]
 
 ```
 
@@ -978,13 +976,13 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 「」の中に「ヤッホー!」の文字列が1回以上続く場合にのみマッチする正規表現を書いてください。(！が英単語を構成する文字以外の場合はどうか、また「ヤッホー！」が2回以上3回以下にマッチにはどう書きますか)
 
 ```js
-var str = "「ヤッホー！ヤッホー！」"; /「(ヤッホー！)+」/.exec(str); //["「ヤッホー！ヤッホー！」", "ヤッホー！"]
+var str = '「ヤッホー！ヤッホー！」'; /「(ヤッホー！)+」/.exec(str); //['「ヤッホー！ヤッホー！」', 'ヤッホー！']
 
 //メタ文字
 
-var str = "「ヤッホー?ヤッホー@」";
+var str = '「ヤッホー?ヤッホー@」';
 /「(ヤッホー\W)+」/.exec(str);
-["「ヤッホー?ヤッホー@」", "ヤッホー@"]
+['「ヤッホー?ヤッホー@」', 'ヤッホー@']
 ```
 
 
@@ -995,21 +993,21 @@ var str = "「ヤッホー?ヤッホー@」";
 ```js
 //文中に使えるかどうか
 //
-var str = "彼はありがとうと言った";
+var str = '彼はありがとうと言った';
 /彼は(ありがとう|こんにちは｜さようなら)と言った/.exec(str);
-//["彼はありがとうと言った", "ありがとう"]
+//['彼はありがとうと言った', 'ありがとう']
 
 //
-var str = "彼はありがとうと言った";
+var str = '彼はありがとうと言った';
 /彼はありがとう|こんにちは｜さようならと言った/.exec(str);
-//["彼はありがとう"]
+//['彼はありがとう']
 ```
 
 **問57**
 「When」、「Where」、「Who」、「What」、「Why」、「How」の単語のみにマッチする正規表現を書きなさい
 
 ```js
-var str = "How";
+var str = 'How';
 /Wh(en|ere|o|at|y|)|How/.exec(str);
 ```
 
@@ -1083,8 +1081,6 @@ g//true
 
 ``` undefined == null ``` の真偽値は何か
 
-答え
-
 ```js
 if (undefined == null){
   //run
@@ -1097,13 +1093,13 @@ if (undefined == null){
 
 ```js
 var ii = function(){
-  var pp = "oo";
+  var pp = 'oo';
   return function(value){
     console.log(pp + value);
   }
 }
 var kk = ii();
-kk("jj");
+kk('jj');
 //oojj
 
 ```
@@ -1113,9 +1109,9 @@ kk("jj");
 
 ```js
 var now = new Date();
-var nowtime = "今" + now.getHours() + "時" +  now.getMinutes() + "分" + now.getSeconds() + "秒";
+var nowtime = '今' + now.getHours() + '時' +  now.getMinutes() + '分' + now.getSeconds() + '秒';
 nowtime
-//"今23時49分56秒"
+//'今23時49分56秒'
 ```
 
 
@@ -1177,58 +1173,57 @@ g({ name: 5 });
 
 **問65**
 
-文字列```"fafafakenjifafafa"```
-に```"kenji"```が含まれているかどうかの真偽値を出力しなさい
+文字列```'fafafakenjifafafa'```に```'kenji'```が含まれているかどうかの真偽値を出力しなさい
 expect //true
 
 ```js
-console.log("fafaeeekenjifa".includes("kenji"));
+console.log('fafaeeekenjifa'.includes('kenji'));
 //true
 ```
 
 **問66**
-文字列"repeat"を2回繰り返した結果を出力しなさい
+文字列'repeat'を2回繰り返した結果を出力しなさい
 
-expect //"repeatrepeat"
+expect //'repeatrepeat'
 
 ```js
-console.log("repeat".repeat(2));
-//"repeatrepeat"
+console.log('repeat'.repeat(2));
+//'repeatrepeat'
 ```
 
 
-## ES6
+## ECMAScript2015
 
 **問67**
-文字列```foo```をイテレーターを使った反復処理で配列```["f","o","o"]```を出力しなさい。
+文字列```foo```をイテレーターを使った反復処理で配列```['f','o','o']```を出力しなさい。
 
- ```js
- //ES6,Babel
+```js
+ //ECMAScript2015,Babel
 var chars = [];
-for (let n of "foo"){
+for (let n of 'foo'){
  chars.push(n);
 }
-console.log(chars);//["f","o","o"]
+console.log(chars);//['f','o','o']
 ```
 
 **問68**
 IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力しなさい
 
 ```js
-var arr = ["ooo", "eee"];
+var arr = ['ooo', 'eee'];
 
 var Iterator = arr[Symbol.iterator]();
-console.log(Iterator.next()); // { done: false, value: "ooo"}
-console.log(Iterator.next()); // { done: false, value: "eee" }
+console.log(Iterator.next()); // { done: false, value: 'ooo'}
+console.log(Iterator.next()); // { done: false, value: 'eee' }
 console.log(Iterator.next()); //{ done: true, value: undefined }
 ```
 
 **問69**
-文字列"foo"を```["f","o","o"]```と出力してください
+文字列'foo'を```['f','o','o']```と出力してください
 
 ```js
 //スプレッドオペレータ
-var arr = [..."foo"];
+var arr = [...'foo'];
 console.log(arr);
 ```
 
@@ -1237,11 +1232,11 @@ console.log(arr);
 
 ```js
 //分割代入
-var [index0, index1, ...rest] = "morita";
+var [index0, index1, ...rest] = 'morita';
 console.log(index0,index1, rest);
-//"m"
-//"o"
-//["r", "i", "t", "a"]
+//'m'
+//'o'
+//['r', 'i', 't', 'a']
 ```
 
 **問71**
@@ -1263,9 +1258,9 @@ add(2,3)//5
 ```js
 //レストパラメータ
 function foo(first, second, ...rest){
- console.log("first", first);
- console.log("second", second);
- console.log("rest", rest);
+ console.log('first', first);
+ console.log('second', second);
+ console.log('rest', rest);
 }
 
 foo(1,2,3,4,5,6);
@@ -1286,7 +1281,7 @@ console.log(arr);//[1, 2, 3, 4, 5, 6]
 下記のようなあるファイル(module.js)で記述した
 
 ```js
-var foo = "foo";
+var foo = 'foo';
 function bar(){};
 class Baz{
   baz(){}
@@ -1297,7 +1292,7 @@ class Baz{
 
 ```js
 //読み込まれる側
-var foo = "foo";
+var foo = 'foo';
 function bar(){};
 class Baz{
   baz(){}
@@ -1306,17 +1301,17 @@ export {foo, bar, Baz};
 
 //読み込む側
 //メンバ毎にインポート
-import {foo, bar, Baz} from "./module";
+import {foo, bar, Baz} from './module';
 //console.log(foo);
 //bar();
 //new Baz();
 
 //インポートする変数名の指定
-import {foo as poo} from "./module";
+import {foo as poo} from './module';
 console.log(poo)
 
 //モジュールまとめてインポート
-import * as from "./module";
+import * as from './module';
 //console.log(module.foo)
 
 ```
@@ -1324,7 +1319,9 @@ import * as from "./module";
 **問74**
 
 ```var obj = {foo: foo, bar: bar}```
-オブジェクトのkeyとvalueが等しい場合の記述せよ
+オブジェクトのkeyとvalueが等しい場合の記述
+をせよ
+
 
 ```js
 var obj = {foo: foo, bar: bar};
@@ -1338,17 +1335,17 @@ var obj = {foo, bar};
 **問75**
 
 ```js
-var key = "foo";
+var key = 'foo';
 
 //es5
 var obj = {};
 obj[key] = 0;
-obj[key + "_bar"] = 1;
+obj[key + '_bar'] = 1;
 
 //es6
 var obj = {
   [key] : 0,
-  [key + "_bar"] : 1
+  [key + '_bar'] : 1
 }
 
 //common
@@ -1362,7 +1359,7 @@ console.log(obj.foo, obj.foo_bar);
 
 ```js
 function ff(){
-  return "kenji";
+  return 'kenji';
 }
 ```
 のような関数をconsole.log内からテンプレートリテラルを使って出力してください
@@ -1379,7 +1376,7 @@ my name is kenji
 
 ```js
 function ff(){
-  return "kenji";
+  return 'kenji';
 }
 console.log(`my name is ${ff()}`);
 //my name is kenji
@@ -1413,7 +1410,7 @@ var long = '30px';
 var weight = '40px';
 
 function tag(strings, ...values){
-  //console.log(strings);["身長","で、体重は","です"]
+  //console.log(strings);['身長','で、体重は','です']
   return `m:${values[0]}、p:${values[1]}`; };
 
 var str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
@@ -1433,9 +1430,9 @@ fun({a: 1, b: 4});//5
 
 **問81**
 
-```var aa = [["morita", "kenji", "keiko"],["morita", "kenji", "keiko"]```
+```var aa = [['morita', 'kenji', 'keiko'],['morita', 'kenji', 'keiko']```
 
-全てのaaにある多次元配列の全ての要素に文字列"san"を付け加えて一つの配列として出力してください
+全てのaaにある多次元配列の全ての要素に文字列'san'を付け加えて一つの配列として出力してください
 
 ```js
 
@@ -1447,7 +1444,7 @@ mapとforEachの違いは何か答えてください
 答え
 
 ```
-The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing "with" is what the post you cite meant by "side-effects", I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
+The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing 'with' is what the post you cite meant by 'side-effects', I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
 
 //ref
 http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-method-have-that-map-cant-do
@@ -1524,16 +1521,16 @@ aa// undefined
 
 **問83**
 
-```[{name: "kenji"},{name: "morita"}]```の要素のvalueを次のように書き出しなさい(文字列"san"を付けています)e.g``` ["kenjisan", "moritasan"]```
+```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出しなさい(文字列'san'を付けています)e.g``` ['kenjisan', 'moritasan']```
 
 答え
 
 ```js
-var aa = [{name: "kenji"},{name: "morita"}];
+var aa = [{name: 'kenji'},{name: 'morita'}];
 var result = aa.map(function(ele, i){
-   return ele.name + "san";
+   return ele.name + 'san';
 });
-result//["kenjisan", "moritasan"]
+result//['kenjisan', 'moritasan']
 
 ```
 
@@ -1541,14 +1538,14 @@ result//["kenjisan", "moritasan"]
 同じ事をforEachでしてください
 
 ```js
-var aa = [{name: "kenji"},{name: "morita"}];
+var aa = [{name: 'kenji'},{name: 'morita'}];
 var arry = [];
 aa.forEach(function(ele, i){
       for (var key in ele){
-           arry.push(ele[key] + "san")
+           arry.push(ele[key] + 'san')
       }
 });
-arry//["kenjisan", "moritasan"]
+arry//['kenjisan', 'moritasan']
 ```
 
 ## Objects
@@ -1606,13 +1603,14 @@ const obj = {
 
 **問87**
 下記のようなURLのファイルパスごとに配列に格納してください
-```https://github.com/kenmori/Angular2_TypeScript/tree/master/angular2-quickstart```
 
 ```js
 var filepath = location.pathname.substring(1).split('/');
 filepath;
 
-//["kenmori", "Angular2_TypeScript", "tree", "master", "angular2-quickstart"]
+//['kenmori', 'Angular2_TypeScript', 'tree', 'master', 'angular2-quickstart']
+//https://github.com/kenmori/Angular2_TypeScript/tree/master/angular2-quickstart```
+
 ```
 
 **問88**
@@ -1691,10 +1689,10 @@ function add ({name, id}){
 ```
 
 **問91**
-```var aaa = [["oo","oo1"], ["ll","ll2"]];```このような多次元配列のインデックス0番目だけを出力しなさい
+```var aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力しなさい
 
 ```js
-var aaa = [["oo","oo1"], ["ll","ll2"]];
+var aaa = [['oo','oo1'], ['ll','ll2']];
 aaa.forEach(function(ee){
   ee.filter(function(eee, i){
   if(i == 0){
@@ -1709,74 +1707,74 @@ aaa.forEach(function(ee){
 Array destructuringとして簡潔に記述しなさい
 
 シャローコピーとディープコピーの違いを教えてください。また
-```var aa = ["oo", "ll"];```
+```var aa = ['oo', 'll'];```
 aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
 
 答え
 
 ```js
 //concat
-var aa = ["oo", "ll"];
+var aa = ['oo', 'll'];
 var arry = [];
 var bb = arry.concat(aa);//shallow copy
-bb[0] = "kk";
-aa//["oo", "ll"]
-bb//["kk", "ll"]
+bb[0] = 'kk';
+aa//['oo', 'll']
+bb//['kk', 'll']
 
 //slice
-var aa = ["oo", "ll"];
+var aa = ['oo', 'll'];
 var bb = aa.slice(0, aa.length);
-bb[0] = "kk";
-aa//["oo", "ll"]
-bb//["kk", "ll"]
+bb[0] = 'kk';
+aa//['oo', 'll']
+bb//['kk', 'll']
 
 //bad
 //spliceは破壊的メソッド(元参照を変える)
-var aa = ["oo", "ll"];
+var aa = ['oo', 'll'];
 var bb = aa.splice(0, aa.length);
-bb//["oo", "ll"]
+bb//['oo', 'll']
 aa//[]
 ```
 
 **問93**
 
-```var aa = ["oo", "ll"];```をbbにコピーしてaaは["kk", "jj"];が挿入されるようにしなさい。期待する結果
+```var aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしなさい。期待する結果
 
-bb//["oo", "ll"];
-aa//["kk", "jj"];
+bb//['oo', 'll'];
+aa//['kk', 'jj'];
 
 ```js
-var aa = ["oo", "ll"];
-var bb = aa.splice(0, aa.length, ["kk","jj"])
-bb//["oo", "ll"];
-aa//["kk", "jj"];
+var aa = ['oo', 'll'];
+var bb = aa.splice(0, aa.length, ['kk','jj'])
+bb//['oo', 'll'];
+aa//['kk', 'jj'];
 ```
 
 **問94**
 このような配列
-```var aa = ["ii", "jj", "kk"];```がある。"jj"要素を削除するために
+```var aa = ['ii', 'jj', 'kk'];```がある。'jj'要素を削除するために
 deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
 
 ```js
 deleteは削除されたインデックスを残す。spliseは間を詰める。
-var aa = ["ii", "jj", "kk"];
+var aa = ['ii', 'jj', 'kk'];
 delete aa[1];
-aa//["ii", undefined, "kk"]
-var aa = ["ii", "jj", "kk"];
+aa//['ii', undefined, 'kk']
+var aa = ['ii', 'jj', 'kk'];
 aa.splice(1,1);
-aa//["ii", "kk"]
+aa//['ii', 'kk']
 ```
 
 **問95**
-```var text = "key and value";```このような文字列を単語毎に配列の要素として格納してください
+```var text = 'key and value';```このような文字列を単語毎に配列の要素として格納してください
 //期待する結果
-//["key","and","value"]
+//['key','and','value']
 
 ```js
-var text = "key and value";
+var text = 'key and value';
 var arraytext = ii.match(/\w+/g);
 arraytext
-["text", "and", "value"]
+['text', 'and', 'value']
 ```
 
 **問96**
@@ -1784,30 +1782,35 @@ arraytext
 ```var text = 'abc def ghi jkl';```の空白の直前の文字をグループ化してカンマ文字の後ろに移動させなさい。
 
 期待する文字列
-"ab,cde,fgh,ijkl"
+'ab,cde,fgh,ijkl'
 
 ```js
 var text = 'abc def ghi jkl';
 text.replace(/(.)\s/g,',$1');
-"ab,cde,fgh,ijkl"
+'ab,cde,fgh,ijkl'
 
 //or
 
 var text = 'abc def ghi jkl';
 text.replace(/(.)\s/g,function(m0, m1){
-   return "," + m1
+   return ',' + m1
 });
-"ab,cde,fgh,ijkl"
+'ab,cde,fgh,ijkl'
 ```
 
 
 **問97**
-``` var array = ["aa","bb","cc","dd","ff"]; ``` このような配列の要素"bb"の前に"ff"を移動させて ``` ["aa","ff","bb","cc","dd"] ``` このような配列を完成させてください
+
+``` var array = ['aa','bb','cc','dd','ff'];```
+このような配列の要素'bb'の前に'ff'を移動させて
+```
+['aa','ff','bb','cc','dd']
+``` このような配列を完成させてください
 
 ```js
 array.splice(1,0,array.splice(4,1)[0])
 //array
-//["aa","ff","bb","cc","dd"]
+//['aa','ff','bb','cc','dd']
 
 ```
 
@@ -1827,7 +1830,7 @@ null > 0
 null == 0
 null === 0
 
-//Anserw
+//Anser
 null < 1 //ture
 null > 1 //false
 null < -1 //false
@@ -1862,10 +1865,7 @@ if(obj.a)が存在しても未定義だと実行されない
 
 **問100**
 
-``` var arr = [ 10, 20 ]; ```
-においてarr[2]が存在しないことを確認してください
-
-答え
+``` var arr = [ 10, 20 ]; ```においてarr[2]が存在しないことを確認してください
 
 ```js
 2 in arry;
@@ -1874,52 +1874,54 @@ if(obj.a)が存在しても未定義だと実行されない
 ### 文字列
 
 **問101**
-```var string = "-9";```を数値に変換してください
+```var string = '-9';```を数値に変換してください
 
 ```js
 string - 0
+//-9
+
+//別解
+//+string
 //-9
 ```
 **問102**
 sliceとsubstringの違いを教えてください
 
-答え
-
 ```js
 //引数に-を与えた際に違いが出ます
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.length
 str.slice(0,-2)
-//"あいう"
+//'あいう'
 //0からインデックス最後の文字を-1とし後ろから数える
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.substring(0, -2);
-//""
+//'
 //負の数字は0とみなす。
 //0から0を取得するので空文字を返す
 
 //sliceは開始位置が終了位置以上だと空文字を返す
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.slice(1,1)
-//""
+//'
 
 //「い」を取得したい場合
-var str = "あいうえお";
+var str = 'あいうえお';
 str.slice(1,2)
-"い"
+'い'
 
 //substringの場合
 //開始位置が終了位置より大きいと交換されて解釈される
 
-var str = "あいうえお";
+var str = 'あいうえお';
 str.substring(1,-3);
 //substring(-3,1)と解釈され負の数は0と見なされ
 //substring(0,1)と同等の処理をする
 
-//"あ"
+//'あ'
 ```
 
 **問103**
@@ -1927,30 +1929,30 @@ str.substring(1,-3);
 次のような文字列```abcdefg```のcとeそれぞれを大文字にしてください
 
 ```js
-var str = "abcdefg";
+var str = 'abcdefg';
 var replaced = str.replace(/[ce]/g,function(str){
  return str.toUpperCase();
 });
-//replaced "abCdEfg"
+//replaced 'abCdEfg'
 ```
 
 **問104**
-次のような文字列をvar str = "こんにちは";
-var name = "もりたさん";
-連結し"いい天気ですね"を付け足した新しい文字列を生成してください
+次のような文字列をvar str = 'こんにちは';
+var name = 'もりたさん';
+連結し'いい天気ですね'を付け足した新しい文字列を生成してください
 
-期待する結果```"こんにちはもりたさんいい天気ですね"```
+期待する結果```'こんにちはもりたさんいい天気ですね'```
 
 連結してもstrは元の文字列のママなことを確認
 str
 //こんにちは
 
 ```js
-var str = "こんにちは";
-var name = "もりたさん";
-var newstr = str.concat(name, "いい天気ですね");
+var str = 'こんにちは';
+var name = 'もりたさん';
+var newstr = str.concat(name, 'いい天気ですね');
 newstr
-"こんにちはもりたさんいい天気ですね"
+'こんにちはもりたさんいい天気ですね'
 
 str //こんにちは
 
@@ -1959,7 +1961,7 @@ str //こんにちは
 ```
 
 **問105**
-引数targetがnullかundefinedのときのみの判定をしてください
+引数targetがnullかundefinedのときのみの判定がtrueになる条件式を書いてください
 
 ```js
 target == null
@@ -1993,9 +1995,11 @@ array.length !== 0
 ```
 
 **問108**
-下のような
+この
+```
 var obj = {};
 obj ? true : false;
+```
 の場合falseが返るようにしてください
 
 ```js
@@ -2027,24 +2031,24 @@ passed = [12, 5, 8, 1, 4].some(isBigEnough);
 この``` const arry = ['a','b','c']; ``` の列挙可能なプロパティと不可能なプロパティを出力してください
 
 期待する結果
-``` ["0","1","2","length"] ```
+``` ['0','1','2','length'] ```
 
 答え
 
 ```js
 const arr = ['a','b','c'];
 console.log(Object.getOwnPropertyNames(arr));
-//["0","1","2","length"]
+//['0','1','2','length']
 ```
 
 **問111**
 
-オブジェクトoに対してaという値が"morita"、列挙可能、削除可能、書き換え可能なプロパティを作成してください
+オブジェクトoに対してaという値が'morita'、列挙可能、削除可能、書き換え可能なプロパティを作成してください
 
 
 ```js
 let o = {};
-Object.definedProperty(o,"a",{
+Object.definedProperty(o,'a',{
   value: 'morita',
   writable: true,
   configurable: true,
@@ -2090,39 +2094,36 @@ sum(1, 3)
 
 **問113**
 
-```["morita","kenji","fafafa"]```の要素 ```"fafafa"```
-のインデックスを返してください
-
+```['morita','kenji','fafafa']```の要素 ```'fafafa'```のインデックスを返してください。
 期待する値 2
 
-
 ```js
-["morita","kenji","fafafa"].findIndex(x => x == "fafafa")
+['morita','kenji','fafafa'].findIndex(x => x == 'fafafa')
 //2
 ```
 
 **問114**
-配列```["A","B","C"]```を配列の0番目のインデックス値になるようにしてください
-expect [["A"],["B"],["C"]]
+配列```['A','B','C']```を配列の0番目のインデックス値になるようにしてください
+expect [['A'],['B'],['C']]
 
 
 ```js
 //better
-["A","B","C"].map(x => Array.of(x));
+['A','B','C'].map(x => Array.of(x));
 
 //best
-["A","B","C"].map(x => [x])
+['A','B','C'].map(x => [x])
 
 //http://www.2ality.com/2014/05/es6-array-methods.html
 ```
 
 **問115**
-配列```['a', 'b', 'c']```のインデックス1番だけを文字列"kenji"に変えてください
+配列```['a', 'b', 'c']```のインデックス1番だけを文字列'kenji'に変えてください
 
 
 ```js
 ['a', 'b', 'c'].fill('kenji', 1, 2);
-//["a","kenji","c"]
+//['a','kenji','c']
 
 //http://www.2ality.com/2014/05/es6-array-methods.html
 ```
@@ -2154,10 +2155,12 @@ console.log(gen.next().value); // 2
 ```
 
 **問118**
-ラッパーオブジェクトについて教えてください。
+ラッパーオブジェクトとは何ですか？教えてください。
 //解答は理解していてある程度どういうものか答えられればいいものとします
 
 ```js
+//回答例
+
 //trueなどのプリミティブ値のプロパティにアクセスするとjavascirptはプリミティブ値に対応するコンストラクタからラッパーオブジェクトを作り、そのラッパーオブジェクトのプロパティやメソッドにアクセスできるようになる。(「オブジェクトのように」あつかうことができる。)作られたラッパーオブジェクトはオブジェクトへのアクセスが終わると破棄されて元のプリミティブ値に戻します。
 例えば下記は文字列オブジェクトから文字列を生成しています。
 var string = new String('foo');
@@ -2229,7 +2232,7 @@ document.getElementById('parent').appendChild(fragment);
 
 **問123**
 XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか教えてください。またもしそれを書かない場合の実体参照、
-``` > ``` と ``` < ``` をどのように書くか教えてください。また&と"、'はそれぞれエスケープ文字でどのように書きますか？
+``` > ``` と ``` < ``` をどのように書くか教えてください。また&と'、'はそれぞれエスケープ文字でどのように書きますか？
 
 ```js
 <script><![CDATA[
@@ -2242,7 +2245,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 &lt;h2&gt;
 
 
-//" quote
+//' quote
 &quot;
 
 //&
@@ -2251,148 +2254,147 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 //'
 &#039
 ```
-
 **問124**
 実体参照に直すscriptを書いてください
 
 ```js
 //参照
-
-http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
+//http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
 ```
+
+## 正規表現
 
 
 **問125**
-次の文章中の
-``` My name is Taro Suzuki and I am a researcher at ABC. ``` 小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象です(黒柳さ〜ん)
+次の文章中の``` My name is Taro Suzuki and I am a researcher at ABC.```
+小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象で
 
 
 ```js
-const str7 = "My name is Taro Suzuki and I am a researcher at ABC.";
+const str7 = 'My name is Taro Suzuki and I am a researcher at ABC.';
 
  //str.match(/\ba.*\b/); これだと大文字と次の単語にmatchしてしまう
 console.log(str7.match(/\ba\w*\b/g));
-//["and","am","a","at"]
+//['and','am','a','at']
 
 //\sa\w*\sだと\sは文字の先頭や末尾にはマッチしないので、文章の先頭や末尾にある英単語が対象から外れてしまうことに注意してください。
 ```
-<p>
-や<img \src=\'fafafa\'>
-など
-タグにマッチする
-正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
+
+
+### **ここから下鋭意作成中================================================**
+
+**問000**
+```<p>```や```<img src="fafafa">```などタグにマッチする正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
 
 期待する値
-"<img class='fafafa'>"
-["<p>"]
+```"<img class='fafafa'>"```
 ※</ではじまる閉じタグは除外
 
 タグ名のみ
-``` p ``` や ``` img ``` ※いろいろあると思うので答えは一例とさせていただきます
+``` p ``` や ``` img``` ※いろいろあると思うので答えは一例とさせていただきます
 
- ```js
-  //ごめん適当 const str3 = "<img src='fafa.com'>"
-const str4 = "<p>"
+```js
+const str3 = '<img src="fafa.com">'
+const str4 = '<p>'
 const reg2 = /<(\S+)(\s+.+)?>/;//キャプチャあり
 const reg3 = /<(?:\S+)(?:\s+.+)?>/;//キャプチャさせない
 const re2 = str3.match(reg2);
 const re3 = str3.match(reg3);
 const re4 = str4.match(reg2);
 console.log(re2);
-//["<img src='fafa.com'>","img"," src='fafa.com'"]
+//['<img src="fafa.com">','img','src="fafa.com"']
 console.log(re2[0]);
-//<img src='fafa.com'>
+//<img src="fafa.com">
 console.log(re3);
-//["<img src='fafa.com'>"]
+//['<img src="fafa.com">']
 
 console.log(re3[0]);
-//<img src='fafa.com'>
+//<img src="fafa.com">
 console.log(re4);
-//["<p>","p",null]
+//['<p>','p',null]
 console.log(re4[0]);
 //<p>
 ```
 
+**問000**
+
 下のこちらを使い
 
-``` var myRe=/ken*/g; var str2 = "fafakenfafkenji"; ```
+``` var myRe=/ken*/g; var str2 = 'fafakenfafkenji'; ```
 
 文字列の中のkenだけをexecメソッドを使いマッチした文字を全て出力、マッチした文字列の後のインデックスを同時に出力してください
 
 ```js
 const myRe=/ken*/g;
-const str2 = "fafakenfafkenji";
+const str2 = 'fafakenfafkenji';
 let array;
 while ((array = myRe.exec(str2)) !== null) {
- let msg = array[0] + " を見つけました。";
-  msg += "次のマッチは " + myRe.lastIndex + " からです。";
+ let msg = array[0] + ' を見つけました。';
+  msg += '次のマッチは ' + myRe.lastIndex + ' からです。';
   console.log(msg);
 }
 //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 ```
 
-先読み
+**問000**
 
-次の
-``` const string3 = "washable reasonable accessible assemble answerable"; ```
+次の``` const string3 = 'washable reasonable accessible assemble answerable'; ```
 
 こちらの文字列,
 「able」で終わる英単語の前の部分([able]を除いた部分)にマッチする正規表現を書きなさい。期待する結果
 
-``` ["wash","reason","answer"] ```
+```['wash','reason','answer']```
 
 ```js
-const string3 = "washable reasonable accessible assemble answerable";
+const string3 = 'washable reasonable accessible assemble answerable';
 const reg5 = /\b\w+(?=able\b)/g;
 console.log(string3.match(reg5));
-//["wash","reason","answer"]
+//['wash','reason','answer']
 ```
 
-否定先読み
+**問000**
 
 こちらの文字列
 ```
-const nen1 = "ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である"
+const nen1 = 'ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である'
 ```
 を使い、後ろに「年」および数字以外の文字が続く1桁以上の数字にマッチする正規表現を書いてください
 
 期待する結果
 ```
-["35","64"]
+['35','64']
 ```
 
 ```js
-const nen1 = "ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である"
+const nen1 = 'ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である'
 const reg6 = /\d+(?![年\d])/g;
 console.log(nen1.match(reg6));
-//["35","64"]
+//['35','64']
 //see:正規表現書き方ドリル(技術評論社)
 
 //※ 一番最初に見つけたマッチだけが欲しい場合、execの方がいいかもしれません
 //see: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
 ```
 
-最短マッチ
+**問000**
 
-
-下のような文字列
-```
-const str222 = "わたしの名前は「もりた」です。あだなは「もりけん」です";
-```
+下のような文字列```const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';```
 のカギ括弧内とその文字列にマッチするような正規表現を書いてください
 
-期待する結果
-["「もりた」","「もりけん」"]
+
+['「もりた」','「もりけん」']
 
 ```js
-const str = "わたしの名前は「もりた」です。あだなは「もりけん」です";
+const str = 'わたしの名前は「もりた」です。あだなは「もりけん」です';
 
 const re = /「(.+?)」/ig;
 const result = str.match(re);
 console.log(result);
-//["「もりた」","「もりけん」"]
+//['「もりた」','「もりけん」']
 
 ```
+
+**問000**
 
 上記の文字列を使ってexecメソッドを使い文字列とし2つとも出力してください
 
@@ -2401,34 +2403,28 @@ console.log(result);
 
 
 ```js
-
-const str222 = "わたしの名前は「もりた」です。あだなは「もりけん」です";
-
+const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';
 const re222 = /「(.+?)」/ig;
-
 let result;
 while ((result = re222.exec(str222)) !== null){
-  console.log(result[0],"ここ")
+  console.log(result[0],'ここ')
 }
 
 ```
 
-キャプチャ
-したの文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
+**問000**
 
+下記の文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
+```
 ○あの客はよく柿食う客だ
-
 ×あの客はよく柿食う人だ
-
 ○あの友達はよく柿食う友達だ
-
 ×あの親友はよく柿食う友達だ
-
+```
 
 ```js
 //解答例
-
-const str5 = "あの客はよく柿食う客だ";
+const str5 = 'あの客はよく柿食う客だ';
 const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
 console.log(res5[0]);
 //あの客はよく柿食う客だ
@@ -2437,16 +2433,18 @@ console.log(res5[0]);
 ```
 
 ```js
-const str5 = "あの客はよく柿食う客だ";
+const str5 = 'あの客はよく柿食う客だ';
 const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
 console.log(res5[0]);
-
 ```
+**問000**
 
 次のタグ
 
 ```js
-const tag = "<div><h1>kenjimorita.jp</h1></div>";
+const tag = '<div>
+    <h1>kenjimorita.jp</h1>
+</div>';
 //<1><2>kenjimorita.jp</3></4>
 ```
 
@@ -2455,20 +2453,18 @@ const tag = "<div><h1>kenjimorita.jp</h1></div>";
 
 ```js
 
-const tag = "<div><h1>kenjimorita.jp</h1></div>";
+const tag = '<div><h1>kenjimorita.jp</h1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag))
 //true
 
-const tag2 = "<div><h1>kenjimorita.jp</a1></div>";
+const tag2 = '<div><h1>kenjimorita.jp</a1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 //false
 ```
 
 
 
-```js
-
-```
+**問000**
 
 ```
 [2, 3,-1, -6, 0, -108, 42, 10].sort();
@@ -2487,7 +2483,7 @@ return 0;
 ```
 
 
-**問題**
+**問000**
 
 ```js
 var i = document.getElementById();
@@ -2496,25 +2492,21 @@ i.parentNode.tagName
 nodeType[1] = ElementNode;
 nodeType[2] = AttributeNode;
 nodeType[3] = TextNode;
-
 i.childNodes; //子要素を返す
-
 i.firstChild //最初の子要素
 ```
 
-問題
+**問000**
 
 ```
-<div id="top" align="center">
-  <div id="nested">
+<div id='top' align='center'>
+  <div id='nested'>
     <div><p><a></a></p></div>
   </div>
 </div>
 ```
 上のようなnodeがある。```#nested```
-要素を削除してください。
-
-答え
+要素を削除してください
 
 ```js
 var i = document.getElementById('top');
@@ -2522,31 +2514,31 @@ var f = document.getElementById('nested');
 i.removeChild(f);
 ```
 
+**問000**
+
 nestedの親要素が不明の場合の時nestedを削除してください
 
 https://developer.mozilla.org/ja/docs/Web/API/Node/removeChild
 
- ```js
-var node = document.getElementById("nested");
+```js
+var node = document.getElementById('nested');
 
 if (node.parentNode) {
   node.parentNode.removeChild(node);
 }
- ```
+```
 
- topの子要素全て削除してください
+**問000**
 
- ```js
- var element = document.getElementById("top");
+topの子要素全て削除してください
+
+```js
+ var element = document.getElementById('top');
 
  while (element.firstChild) {
    element.removeChild(element.firstChild);
  }
- ```
-
-
-
-ブログ未投稿================================================
+```
 
 
 ```js
@@ -2559,10 +2551,10 @@ function Megurokumin(number, name){
  Human.call(this, name);
 }
 Megurokumin.prototype = new Human();
-var ii = new Megurokumin("090", "morita");
+var ii = new Megurokumin('090', 'morita');
 ii.name;
 ii.ID
-fafa = new Megurokumin("778", "oosato");
+fafa = new Megurokumin('778', 'oosato');
 fafa.name
 
 ii instanceof Megurokumin
@@ -2570,12 +2562,11 @@ ii instanceof Megurokumin
 ```
 
 
-問
+**問000**
 
 下のfooオブジェクトが自身のプロパティとしてbarを持っていないことを示してください
 
 ```js
-
 // Object.prototype汚染
 Object.prototype.bar = 1;
 var foo = {goo: undefined};
@@ -2586,13 +2577,11 @@ foo.bar; // 1
 
 答え
 ```
-
 foo.hasOwnProperty('bar'); // false
 foo.hasOwnProperty('goo'); // true
-
 ```
 
-問
+**問000**
 
 こちらのfor inループでも汚染された継承されたプロパティも
 列挙される
@@ -2613,4 +2602,473 @@ for(var i in foo) {
         console.log(i);
     }
 }
+```
+
+**問000**
+
+new Mapとnew WeakMapの違いを教えていください
+
+```js
+//http://uhyohyo.net/javascript/16_1.html
+weakMapは参照元を内部で保持していても他のところに全く関係ない、上書きされるとガーベージコレクションの対象になる
+Mapは内部で参照元を保持し自分自身で「含まれるオブジェクト一覧」を扱うメソッドがある為にガーベージコレクションの対象にならない
+//weakMapのいいところkeyに対してのobjを汚さないで済む
+```
+
+**問000**
+
+[0,0,0]の配列をインデックス1と2を7にした配列にしてください
+expect : [0, 7, 7]
+
+```js
+var ary = [0,0,0];
+ary.fill(7,1)
+//[0, 7, 7]
+```
+
+**問000**
+
+このような
+```css
+<style>
+h3:after {
+  content:'';
+}
+</style>
+```
+スタイル定義されている
+h3:after(擬似要素)のcontentプロパティにアクセスしてください
+
+```js
+var h3 = document.querySelector('h3');
+var result = getComputedStyle(h3, ':after').content;
+```
+
+**問000**
+
+少なくとも400pxあるビューポートに対してスタイルを制御したい際のif文を書いてください
+
+```js
+if(window.matchMedia('(min-width:400)').matches){
+/* 少なくとも400ピクセル幅のあるビューポート */
+}else {
+/* 400ピクセル幅に満たないビューポート       */
+}
+```
+
+**問000**
+
+こちらの```var numObj = 12345.6789;```
+を小数点以下を丸めてください
+
+期待する結果
+//12346
+
+```js
+var numObj = 12345.6789;
+numObj.toFixed();
+//12346
+```
+
+**問000**
+
+こちらの
+```
+var thing = 'global';
+function foo(){
+  console.log(thing);
+  if(true){
+    var thing = 'local';
+    console.log(thing);
+  }
+}
+foo();
+```
+のconsole.logはそれぞれ何を出力するか答えなさい。またそうなる理由を説明してください
+
+```js
+var thing = 'global';
+function foo(){
+  console.log(thing);
+  if(true){
+    var thing = 'local';
+    console.log(thing);
+  }
+}
+foo();
+//undefined
+//local
+
+//この記述をすると関数内宣言内での変数宣言は巻き上げられてjavascriptは下のように解釈をするから
+var thing = 'global';
+function foo(){
+  var thing;//巻き上げ
+  console.log(thing);
+  if(true){
+    thing = 'local';
+    console.log(thing);
+  }
+}
+foo();
+```
+
+**問000**
+
+先程のfoo()を実行した際に期待する値が出力されるようにしてください
+
+```js
+const thing = 'global';
+function foo(){
+  console.log(thing);
+  if(true){
+    const thing = 'local';
+    console.log(thing);
+  }
+}
+foo();
+//block scope。変数スコープがブレース{}の中に閉じる
+```
+
+**問000**
+
+div要素をnodeListとして取得し、Arrayのメソッドで「配列の様なオブジェクト」から配列に変換してください
+
+```js
+var likeArray = document.querySelector('div');
+var turnArrayFun = function(obj){
+    return [].map.call(obj, function(obj){
+          return obj;
+    })
+}
+turnArrayFun(likeArray);
+```
+
+**問000**
+
+下記のようなDOMがある
+```
+<div id="target">
+  (1)
+  <span>既存の内容</span>
+</div>
+```
+この「既存の内容」より前(1)に```<p>子要素</p>```を挿入してください。但しdocument.writeやinnerHTMLは使わないものとする。
+
+```js
+var target = document.querySelector('div#target');
+var html = '<p>子要素</p>';
+target.insertAdjacentHTML('afterbegin',html);
+
+//https://developer.mozilla.org/ja/docs/Web/API/Element/insertAdjacentHTML
+
+```
+
+**問000**
+こちら
+
+```
+(1)
+<div id="target">
+  <span>既存の内容</span>
+  (2)
+</div>
+(3)
+```
+上記問題と同じDOM構造でそれぞれtargetより前に挿入(1)、「既存の内容より弟」位置に挿入(2)、targetより後に挿入(3)する記述をしてください
+
+```js
+var target = document.querySelector('div#target');
+var html = '<p>子要素</p>';
+var position =
+beforebegin//(1)
+beforeend//(2)
+afterend //(3)
+target.insertAdjacentHTML(position,html);
+```
+
+**問000**
+
+下記
+
+```
+const key = 'greeting';
+var objA = {};
+objA[key] = 'おはよう';
+objA.greeting
+//'おはよう'
+```
+
+をECMAScript2015を意識した省略記述してください
+
+```js
+const key = 'greeting';
+var objA = {
+  [key] : 'おはよう'
+};
+objA.greeting
+```
+
+**問000**
+
+こちらの記述
+```
+var objA = {
+ add: function(a,b){
+  return a + b;
+ }
+}
+objA.add(2,5);
+//7
+```
+
+を省略記述してください
+
+```js
+var objA = {
+ add(a,b){
+  return a + b;
+ }
+}
+objA.add(2,5);
+//7
+
+```
+
+**問000**
+
+上記の問題のadd関数をobjA内でアロー関数で記述してください
+
+```js
+var objA = {
+ add: (a,b)=>{
+  return a + b;
+ }
+}
+objA.add(2,5);
+//7
+```
+
+**問000**
+
+このような
+
+```
+var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+```
+
+配列がある。
+変数aに'shinjuku'、bに'ikebukuro'が代入されるように簡潔に記述してください
+
+
+```js
+var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+var [,a,,,,, b] = array;
+a
+//"shinjuku"
+b
+//"ikebukuro"
+```
+
+**問000**
+
+このような
+
+```
+var obj = {
+ name : 'kenji',
+ twon: 'shibuya'
+}
+```
+objを変数name、twonに代入して出力してください
+
+```js
+var obj = {
+ name : 'kenji',
+ twon: 'shibuya'
+}
+var {name, twon} = obj;
+obj.name
+"kenji"
+obj.twon
+"shibuya"
+```
+
+**問000**
+
+var name = 'KenjiMorita';
+のKとMだけをそれぞれ変数a,ｂに入れてください
+
+```js
+var name = 'KenjiMorita';
+var [a,,,,,b] = name;
+
+```
+
+**問000**
+
+変数
+```
+var a = 1;
+var b = 'goodby';
+```
+のaを'goodby'、bを
+1として出力されるようにしてください(変数のSwap)
+
+```js
+var a = 1
+var b = 'goodby'
+b = [a, a = b][0];
+a
+//'goodby'
+b
+//1
+
+```
+
+**問000**
+
+上記と同じ事をECMAScript2015ライクに簡潔に記述してください
+
+```js
+var a = 1;
+var b = 'goodby';
+[a,b] = [b, a]
+["goodby", 1]
+
+//http://qiita.com/gaogao_9/items/18b20ad9b76c9c81b5fa#_reference-4b73dec38a62a3fb0ab7
+```
+
+**問000**
+
+こちら```const input = [0,[1,2,3],4,5,[6]];```を```[0,1,2,3,4,5,6]```となるようにしてください
+
+```js
+ //展開演算子(スプレッド演算子)
+const input = [0,[1,2,3],4,5,[6]];
+const inputB = [input[0],...input[1],input[2],input[3],...input[4]];
+inputB
+//[0,1,2,3,4,5,6]
+```
+
+**問000**
+
+下記のような
+
+```html
+<div id='outer'>
+  outer
+  <div id='inner'>inner</div>
+</div>
+```
+
+に対してload時に#innerのtextを任意の文字列に変えるようにしください。なおwindow.onloadは使わないようにする。
+
+```js
+document.addEventListener('DOMContentload',function(){
+ var target = document.getElementById('inner');
+ target.textContent('fafa');
+},false)
+
+//’load'はHTMLの全てのloadが終わったタイミングで発火。
+//'DOMContentload'はDOM解析が終わってDOMに触れるようになったら発火。
+//この場合'DOMContentload'を使用。画像が読み込まれる前に実行されて高速。だが画像幅に対してのレイアウト変更をするようであれば'load'
+//[参照](http://qiita.com/gaogao_9/items/ec2b867d6941173fd0b1#_reference-1aa15cfa5c1cf1f77a86)
+```
+
+**問000**
+このような
+
+```
+addeventListener('DOMcontentLoad',function(){something},[true,false])
+```
+イベントリスナーの第三引数のフラグは何か説明してください
+
+```js
+useCapture設定。
+例えばclickイベントを親と子、両方に設定している場合、親にtrue設定すると子供(内側)をclickすると親が先に発火(キャプチャフェーズ)、続いて子供となる。useCaptureによって発生するイベントの順番が変わる。
+defalutはfalse
+
+**イベントフェーズ**
+
+[キャプチャフェーズ](ルート要素から発生要素を探しに行く)
+[ターゲットフェーズ](発生用をを検出する)
+バグリングフェーズ(ルート要素を辿っていく)
+see //http://qiita.com/hosomichi/items/49500fea5fdf43f59c58
+
+```
+
+**問000**
+このような
+
+```
+<div class="classA">
+    <div>some1</div>
+    <p><div>some2</div></p>
+    <div>some3</div>
+</div>
+```
+DOMがある。classAより子供のdiv要素のみ取得してください
+
+```js
+var classA = document.getElementsByClassName('classA');
+var result = Array.prototype.filter.call(classA,function(classA){
+ return classA.nodeName === 'DIV'
+});
+result instanceof Array
+```
+
+
+```js
+```
+
+
+
+```js
+```
+
+
+
+```js
+```
+
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
+```
+
+
+```js
 ```
