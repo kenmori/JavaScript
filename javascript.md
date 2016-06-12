@@ -3069,12 +3069,42 @@ var result = document.evaluate(
 console.log(result.snapshotLength); //1
 var elem = result.snapshotItem(0);
 console.log(elem.innerHTML);
+
+//evalute([path:string],[Node],[null],[XPathResultObject:Type],[null])
+//第3(名前空間URLを返す関数)、5引数(既存のXPathResultオブジェクト)はnullで問題ない。
+
+//evaluteメソッド第４引数の値と返値の関係
+ANY_TYPE :0 
+NUMBER_TYPE :1
+STRING_TYPE :2
+BOOLEAN_TYPE :3
+UNORDERED_NODE_ITERATOR_TYPE :4
+ORDERED_NODE_ITEERATOR_TYPE :5
+UNORDERED_NODE_SNAPTHOT_TYPE :6
+ORDERED_NODE_SNAPSHOT_TYPE :7
+ANY_UNORDERED_NODE_TYPE :8
+FIRST_ORDERED_NODE_TYPe :9
+
+参照//パーフェクトJavaScript
 ```
 
 
 **問000**
 
+こちら
+```
+<div id="target" class="foo-after" onClick="toggleStyle()">
+  click here!
+</div>
+```
+clickをしたらclass名がfoo-beforeに変わるtoggleStyleを実装をしてください
+
 ```js
+var target = document.getElementById('target');
+target.onclick = function toggleStyle() {
+  this.classList.toggle('foo-after');
+  this.classList.toggle('foo-before');
+}
 ```
 
 
