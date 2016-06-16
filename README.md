@@ -2876,20 +2876,20 @@ b
 ```
 var obj = {
  name : 'kenji',
- twon: 'shibuya'
+ town: 'shibuya'
 }
 ```
-objを変数name、twonに代入して出力してください
+objを変数name、townに代入して出力してください
 
 ```js
 var obj = {
  name : 'kenji',
- twon: 'shibuya'
+ town: 'shibuya'
 }
-var {name, twon} = obj;
+var {name, town} = obj;
 obj.name
 "kenji"
-obj.twon
+obj.town
 "shibuya"
 ```
 
