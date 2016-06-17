@@ -6,6 +6,7 @@ json_au/
 **/*.swp
 **/.module-cache/
 sprite.scssc
+*/.idea/workspace.xml
 .textClipping
 # コメントになる
 */.DS_Store

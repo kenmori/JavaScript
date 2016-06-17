@@ -1802,10 +1802,7 @@ text.replace(/(.)\s/g,function(m0, m1){
 **問97**
 
 ``` var array = ['aa','bb','cc','dd','ff'];```
-このような配列の要素'bb'の前に'ff'を移動させて
-```
-['aa','ff','bb','cc','dd']
-``` このような配列を完成させてください
+このような配列の要素'bb'の前に'ff'を移動させて ``` ['aa','ff','bb','cc','dd'] ```このような配列を完成させてください
 
 ```js
 array.splice(1,0,array.splice(4,1)[0])
