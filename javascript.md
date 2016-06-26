@@ -914,17 +914,18 @@ map.get('two');
 ```
 
 **問50**
-先程の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加しなさい
+問49の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加しなさい
 
 ```js
 var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
+var map = new Map(fafa);
 map.set('four', 'fafa@eee');
 
 ```
 
 **問51**
-先程の問50の変数fafaに内にある要素を全て取得しなさい
+問50の変数fafaに内にある要素を全て取得しなさい
 
 ```js
 var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
@@ -943,7 +944,7 @@ for (var entry of entries){
 /\w+\s\w+/.exec('morita kenji')
 ```
 
-**問5３**
+**問53**
 このようなstrとstr2がある ```var str = 'It is an important problem';``` ```var str2 = 'The import duty is not cheap';``` str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
 
 参照(正規表現書き方ドリル/技術評論社)
@@ -1015,7 +1016,6 @@ var str = 'How';
 
 
 **問58**
-
 こちらが
 
 ```js
@@ -1091,18 +1091,18 @@ if (undefined == null){
 ```
 
 **問61**
-なんでもいいのでクロージャーを作りなさい(疲れた)
+関数iiを実行したら関数を受け取り、受け取った関数に引数'home'を渡し実行すると'my home'と返ってくるクロージャーを作ってください
 
 ```js
 var ii = function(){
-  var pp = 'oo';
+  var pp = 'my ';
   return function(value){
     console.log(pp + value);
   }
 }
 var kk = ii();
-kk('jj');
-//oojj
+kk('home');
+//my home
 
 ```
 
@@ -1161,8 +1161,6 @@ g({name: 5});
 ```
 こちらが5を出力するトランスパイルされたjsを記述してください
 
-答え
-
 ```js
 
 function g(_ref) {
@@ -1184,6 +1182,7 @@ console.log('fafaeeekenjifa'.includes('kenji'));
 ```
 
 **問66**
+
 文字列'repeat'を2回繰り返した結果を出力しなさい
 
 expect //'repeatrepeat'
@@ -1197,6 +1196,7 @@ console.log('repeat'.repeat(2));
 ## ECMAScript2015
 
 **問67**
+
 文字列```foo```をイテレーターを使った反復処理で配列```['f','o','o']```を出力しなさい。
 
 ```js
@@ -1209,6 +1209,7 @@ console.log(chars);//['f','o','o']
 ```
 
 **問68**
+
 IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力しなさい
 
 ```js
@@ -1221,6 +1222,7 @@ console.log(Iterator.next()); //{ done: true, value: undefined }
 ```
 
 **問69**
+
 文字列'foo'を```['f','o','o']```と出力してください
 
 ```js
@@ -1230,6 +1232,7 @@ console.log(arr);
 ```
 
 **問70**
+
 文字列```morita```の1文字目```m```を変数```index0```に代入、2文字目```o```を```index1```に代入、残りを配列```rest```の各要素として出力してください
 
 ```js
@@ -1242,19 +1245,7 @@ console.log(index0,index1, rest);
 ```
 
 **問71**
-```add()```を実行した際```3```、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
 
-```js
-//デフォルトパラメータ
-function add(a = 1, b = 2){
- return a + b;
-}
-add();// 3
-add(2);//4
-add(2,3)//5
-```
-
-**問71**
 ```foo(1, 2, 3, 4, 5, 6)```を実行したら1がfirst、2がsecond、残りが配列の要素になるような ```foo```を定義しなさい
 
 ```js
@@ -1269,6 +1260,7 @@ foo(1,2,3,4,5,6);
 ```
 
 **問72**
+
 配列```arr = [1, 2, 3]```にArray#concatを使わずに```arr2 = [4, 5, 6]```を結合させ```[1, 2, 3, 4, 5, 6]```となるようにしてください
 
 ```js
@@ -1280,6 +1272,7 @@ console.log(arr);//[1, 2, 3, 4, 5, 6]
 ```
 
 **問73**
+
 下記のようなあるファイル(module.js)で記述した
 
 ```js
@@ -1332,19 +1325,22 @@ var obj = {foo, bar};
 
 
 
-### コンピューテッドプロパティ
+### Computed property
 
 **問75**
 
-```js
+下のように
+```
 var key = 'foo';
-
-//es5
 var obj = {};
 obj[key] = 0;
 obj[key + '_bar'] = 1;
+```
+書いていた記述をECMAScript2015の記述で書いてください
 
-//es6
+```js
+var key = 'foo';
+//ECMAScript2015
 var obj = {
   [key] : 0,
   [key + '_bar'] : 1
@@ -1357,8 +1353,8 @@ console.log(obj.foo, obj.foo_bar);
 ```
 
 **問76**
-下記
 
+下記
 ```js
 function ff(){
   return 'kenji';
@@ -1366,15 +1362,8 @@ function ff(){
 ```
 のような関数をconsole.log内からテンプレートリテラルを使って出力してください
 
-期待する出力
-
-```js
-my name is kenji
-```
-
+期待する出力 my name is kenji
 [参照](https://gist.github.com/kuu/b7eb679a3ad48d980ed3)
-
-答え
 
 ```js
 function ff(){
@@ -1387,6 +1376,7 @@ console.log(`my name is ${ff()}`);
 ### Destructuring assignment
 
 **問77**
+
 変数a,bにそれぞれ1,2を代入してください
 
 ```
@@ -1441,9 +1431,8 @@ fun({a: 1, b: 4});//5
 ```
 
 **問82**
-mapとforEachの違いは何か答えてください
 
-答え
+mapとforEachの違いは何か答えてください
 
 ```
 The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing 'with' is what the post you cite meant by 'side-effects', I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
@@ -1525,7 +1514,6 @@ aa// undefined
 
 ```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出しなさい(文字列'san'を付けています)e.g``` ['kenjisan', 'moritasan']```
 
-答え
 
 ```js
 var aa = [{name: 'kenji'},{name: 'morita'}];
@@ -1537,7 +1525,8 @@ result//['kenjisan', 'moritasan']
 ```
 
 **問84**
-同じ事をforEachでしてください
+
+問83と同じ事をforEachでしてください
 
 ```js
 var aa = [{name: 'kenji'},{name: 'morita'}];
@@ -1564,8 +1553,6 @@ const atom = {
 ```
 
 上記object-shorthandを使って書き換えてください
-
-答え
 
 ```js
 //ok
@@ -1604,6 +1591,7 @@ const obj = {
 ```
 
 **問87**
+
 下記のようなURLのファイルパスごとに配列に格納してください
 
 ```js
@@ -1616,6 +1604,7 @@ filepath;
 ```
 
 **問88**
+
 下記のようなobj内のkeyと値が一緒の際できるshorthandで記述してください
 
 ```js
@@ -1637,6 +1626,7 @@ const obj = {
 ## spread Array
 
 **問89**
+
 下記のようなある配列itemsの要素をコピーしている記述をspreadArrayを使って簡潔に記述してください
 
 ```js
@@ -1651,6 +1641,7 @@ const itemCopy = [...items];
 ```
 
 **問90**
+
 windowオブジェクトを7つ答えてください
 
 ```
@@ -1666,6 +1657,7 @@ parent, top, self
 ### Destructuring
 
 **問90**
+
 下のようにuserというnameとidをプロパティで持ったオブジェクトを再割り当てやマルチプルなobjectを扱う際に簡潔な書き方にしてください
 
 ```js
@@ -1691,6 +1683,7 @@ function add ({name, id}){
 ```
 
 **問91**
+
 ```var aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力しなさい
 
 ```js
@@ -1706,13 +1699,12 @@ aaa.forEach(function(ee){
 ```
 
 **問92**
-Array destructuringとして簡潔に記述しなさい
 
+Array destructuringとして簡潔に記述しなさい。
 シャローコピーとディープコピーの違いを教えてください。また
 ```var aa = ['oo', 'll'];```
 aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
 
-答え
 
 ```js
 //concat
@@ -1753,6 +1745,7 @@ aa//['kk', 'jj'];
 ```
 
 **問94**
+
 このような配列
 ```var aa = ['ii', 'jj', 'kk'];```がある。'jj'要素を削除するために
 deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
@@ -1768,6 +1761,7 @@ aa//['ii', 'kk']
 ```
 
 **問95**
+
 ```var text = 'key and value';```このような文字列を単語毎に配列の要素として格納してください
 //期待する結果
 //['key','and','value']
@@ -1814,6 +1808,7 @@ array.splice(1,0,array.splice(4,1)[0])
 ```
 
 **問98**
+
 nullの比較についてそれぞれtureかfalseか答えてください
 
 ```js
@@ -1846,6 +1841,7 @@ null === 0 //false
 ```
 
 **問99**
+
 こちらの2つのif分の条件式の違いを教えてください
 
 ```js
@@ -1873,6 +1869,7 @@ if(obj.a)が存在しても未定義だと実行されない
 ### 文字列
 
 **問101**
+
 ```var string = '-9';```を数値に変換してください
 
 ```js
@@ -1884,6 +1881,7 @@ string - 0
 //-9
 ```
 **問102**
+
 sliceとsubstringの違いを教えてください
 
 ```js
@@ -1936,6 +1934,7 @@ var replaced = str.replace(/[ce]/g,function(str){
 ```
 
 **問104**
+
 次のような文字列をvar str = 'こんにちは';
 var name = 'もりたさん';
 連結し'いい天気ですね'を付け足した新しい文字列を生成してください
@@ -1960,6 +1959,7 @@ str //こんにちは
 ```
 
 **問105**
+
 引数targetがnullかundefinedのときのみの判定がtrueになる条件式を書いてください
 
 ```js
@@ -1967,6 +1967,7 @@ target == null
 ```
 
 **問106**
+
 こちら
 
 ```
@@ -1985,6 +1986,7 @@ value
 ```
 
 **問107**
+
 配列arrayが空ならfalseが返るようにしてください
 
 ```js
@@ -1994,6 +1996,7 @@ array.length !== 0
 ```
 
 **問108**
+
 この
 ```
 var obj = {};
@@ -2008,6 +2011,7 @@ Object.keys(obj).length != 0 ? true : false;
 ```
 
 **問109**
+
 forでループさせるのとforEachで処理する際の違いを教えてください
 
 ```js
@@ -2027,6 +2031,7 @@ passed = [12, 5, 8, 1, 4].some(isBigEnough);
 ```
 
 **問110**
+
 この``` const arry = ['a','b','c']; ``` の列挙可能なプロパティと不可能なプロパティを出力してください
 
 期待する結果
@@ -2056,6 +2061,7 @@ Object.definedProperty(o,'a',{
 ```
 
 **問112**
+
 下のlib/math.jsに入っている1と2を別のファイルで使えるようにして
 受け取る方app.jsも記述しなさい
 
@@ -2102,6 +2108,7 @@ sum(1, 3)
 ```
 
 **問114**
+
 配列```['A','B','C']```を配列の0番目のインデックス値になるようにしてください
 expect [['A'],['B'],['C']]
 
@@ -2117,6 +2124,7 @@ expect [['A'],['B'],['C']]
 ```
 
 **問115**
+
 配列```['a', 'b', 'c']```のインデックス1番だけを文字列'kenji'に変えてください
 
 
@@ -2128,6 +2136,7 @@ expect [['A'],['B'],['C']]
 ```
 
 **問116**
+
 配列``` [6, -5, 8]```を0未満の要素だけ出力しなさい
 
 ```js
@@ -2154,6 +2163,7 @@ console.log(gen.next().value); // 2
 ```
 
 **問118**
+
 ラッパーオブジェクトとは何ですか？教えてください。
 //解答は理解していてある程度どういうものか答えられればいいものとします
 
@@ -2174,6 +2184,7 @@ string.length //3 文字列プリミティブをオブジェクトとしてア�
 ```
 
 **問119**
+
 nullとundefinedの違いを教えてください
 
 ```js
@@ -2183,6 +2194,7 @@ nullとundefinedの違いを教えてください
 ```
 
 **問120**
+
 値がnullかどうかを確認してください
 
 ```js
@@ -2198,7 +2210,6 @@ console.log(fafa === null);//true //同値演算子を使う
 
 プリミティブ型と参照型の同値比較の違いを教えてください。
 
-
 ```js
 //プリミティブ型の同値比較は文字通り同じ値かどうかが評価される。
 
@@ -2209,6 +2220,7 @@ console.log(fafa === null);//true //同値演算子を使う
 ## DOM操作
 
 **問122**
+
 div要素を10個作ってidがparentの子要素として追加してください
 
 ```js
@@ -2230,6 +2242,7 @@ document.getElementById('parent').appendChild(fragment);
 ```
 
 **問123**
+
 XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか教えてください。またもしそれを書かない場合の実体参照、
 ``` > ``` と ``` < ``` をどのように書くか教えてください。また、&と'、'はそれぞれエスケープ文字でどのように書きますか？
 
@@ -2252,6 +2265,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 ```
 
 **問124 WIP**
+
 実体参照に直すscriptを書いてください
 
 ```js
@@ -2263,6 +2277,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 
 
 **問125**
+
 次の文章中の
 ```
  My name is Taro Suzuki and I am a researcher at ABC.
@@ -2281,6 +2296,7 @@ console.log(str7.match(/\ba\w*\b/g));
 ```
 
 **問126**
+
 ```<p>```や```<img src="fafafa">```などタグにマッチする正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
 
 期待する値
@@ -3179,6 +3195,20 @@ map
 ```
 
 **鋭意制作中====================================================**
+
+
+**問71**
+```add()```を実行した際```3```、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
+
+```js
+//デフォルトパラメータ
+function add(a = 1, b = 2){
+ return a + b;
+}
+add();// 3
+add(2);//4
+add(2,3)//5
+```
 
 **問000**
 ```js
