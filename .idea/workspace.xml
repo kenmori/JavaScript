@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a907d7bf-8dcd-4d03-a71b-f601f4778e7c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript.md" afterPath="$PROJECT_DIR$/javascript.md" />
     </list>
     <ignored path="javascript.iws" />
@@ -39,8 +38,8 @@
         <entry file="file://$PROJECT_DIR$/javascript.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="268">
-                <caret line="2810" column="3" selection-start-line="2810" selection-start-column="3" selection-end-line="2810" selection-end-column="3" />
+              <first_editor relative-caret-position="373">
+                <caret line="3255" column="2" selection-start-line="3255" selection-start-column="2" selection-end-line="3255" selection-end-column="2" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -106,8 +105,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="455" />
-    <option name="y" value="24" />
+    <option name="x" value="228" />
+    <option name="y" value="35" />
     <option name="width" value="1276" />
     <option name="height" value="777" />
   </component>
@@ -289,15 +288,15 @@
       <workItem from="1466162047821" duration="2098000" />
       <workItem from="1466915831130" duration="151000" />
       <workItem from="1466916041016" duration="2352000" />
-      <workItem from="1466922543775" duration="1152000" />
+      <workItem from="1466922543775" duration="2965000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14927000" />
+    <option name="totallyTimeSpent" value="16740000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="455" y="24" width="1276" height="777" extended-state="0" />
+    <frame x="228" y="35" width="1276" height="777" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="GfmBrowser" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -581,8 +580,8 @@
     <entry file="file://$PROJECT_DIR$/javascript.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="268">
-            <caret line="2810" column="3" selection-start-line="2810" selection-start-column="3" selection-end-line="2810" selection-end-column="3" />
+          <first_editor relative-caret-position="373">
+            <caret line="3255" column="2" selection-start-line="3255" selection-start-column="2" selection-end-line="3255" selection-end-column="2" />
             <folding />
           </first_editor>
           <second_editor />
