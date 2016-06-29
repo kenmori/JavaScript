@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a907d7bf-8dcd-4d03-a71b-f601f4778e7c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript.md" afterPath="$PROJECT_DIR$/javascript.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="javascript.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,12 +34,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="javascript.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="javascript.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/javascript.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="373">
-                <caret line="3255" column="2" selection-start-line="3255" selection-start-column="2" selection-end-line="3255" selection-end-column="2" />
+              <first_editor relative-caret-position="238">
+                <caret line="3246" column="4" selection-start-line="3246" selection-start-column="4" selection-end-line="3246" selection-end-column="4" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+          <provider editor-type-id="Gfm">
+            <state />
+          </provider>
+          <provider editor-type-id="MarkdownFxPreviewEditor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+            <state split_layout="FIRST">
+              <first_editor relative-caret-position="100">
+                <caret line="3100" column="0" selection-start-line="3100" selection-start-column="0" selection-end-line="3100" selection-end-column="0" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -88,6 +107,7 @@
       <list>
         <option value="$PROJECT_DIR$/1108.html" />
         <option value="$PROJECT_DIR$/javascript.md" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -105,8 +125,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="228" />
-    <option name="y" value="35" />
+    <option name="x" value="185" />
+    <option name="y" value="93" />
     <option name="width" value="1276" />
     <option name="height" value="777" />
   </component>
@@ -135,8 +155,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -157,7 +178,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -289,14 +309,15 @@
       <workItem from="1466915831130" duration="151000" />
       <workItem from="1466916041016" duration="2352000" />
       <workItem from="1466922543775" duration="2965000" />
+      <workItem from="1467173607298" duration="35000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16740000" />
+    <option name="totallyTimeSpent" value="16775000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="228" y="35" width="1276" height="777" extended-state="0" />
+    <frame x="185" y="93" width="1276" height="777" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="GfmBrowser" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -364,6 +385,47 @@
           <second_editor />
         </state>
       </provider>
+      <provider editor-type-id="Gfm">
+        <state />
+      </provider>
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/1108.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
       <provider editor-type-id="MarkdownFxPreviewEditor">
         <state />
       </provider>
@@ -580,8 +642,8 @@
     <entry file="file://$PROJECT_DIR$/javascript.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="373">
-            <caret line="3255" column="2" selection-start-line="3255" selection-start-column="2" selection-end-line="3255" selection-end-column="2" />
+          <first_editor relative-caret-position="238">
+            <caret line="3246" column="4" selection-start-line="3246" selection-start-column="4" selection-end-line="3246" selection-end-column="4" />
             <folding />
           </first_editor>
           <second_editor />
@@ -598,6 +660,23 @@
           <caret line="2471" column="0" selection-start-line="2471" selection-start-column="0" selection-end-line="2471" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="100">
+            <caret line="3100" column="0" selection-start-line="3100" selection-start-column="0" selection-end-line="3100" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="Gfm">
+        <state />
+      </provider>
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
       </provider>
     </entry>
   </component>
