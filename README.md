@@ -79,7 +79,10 @@ aa
 
 **問7**
 
-```ee(2,4,5)```を実行したら引数が全て配列で返る関数eeを定義しなさい
+```
+ee(2,4,5)
+```
+を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -778,7 +781,11 @@ o = Object.create({}, {p: {value : 42}});
 ```
 
 **問44**
-```1234```という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
+
+```
+1234
+```
+という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
 
 ```js
 var count = 1234;
@@ -1434,8 +1441,8 @@ fun({a: 1, b: 4});//5
 
 mapとforEachの違いは何か答えてください
 
-```
-The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing 'with' is what the post you cite meant by 'side-effects', I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
+```js
+//The main difference between the two methods is conceptual and stylistic: You use forEach when you want to do something to or with each element of an array (doing 'with' is what the post you cite meant by 'side-effects', I think), whereas you use map when you want to copy and transform each element of an array (without changing the original).
 
 //ref
 http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-method-have-that-map-cant-do
@@ -2356,7 +2363,9 @@ while ((array = myRe.exec(str2)) !== null) {
 こちらの文字列,
 「able」で終わる英単語の前の部分([able]を除いた部分)にマッチする正規表現を書きなさい。期待する結果
 
-```['wash','reason','answer']```
+```
+['wash','reason','answer']
+```
 
 ```js
 const string3 = 'washable reasonable accessible assemble answerable';
