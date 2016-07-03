@@ -3266,7 +3266,22 @@ promise1.then(function(val){
 ```
 
 **問173**
+
+右の様な{name: 'hogehoge',age: 80}を別の変数「obj2」に代入したい。
+Objectを参照渡しすると代入先の値が変わるとオリジンの値も変わります。originに影響のない新しいオブジェクトとしてオリジンと同じ値をもつインスタンスを生成してください。
+またorigin.name='oo'としても「obj2.nameが'hogehoge'」で変わらないことを確認してください
+
+
 ```js
+//一例
+var origin = {name: 'hogehoge',age: 80};
+var obj2 = JSON.parse(JSON.stringify(origin));
+obj2
+//Object {name: "hogehoge", age: 80}
+origin.name = "oo"
+//"oo"
+obj2.name
+//"hogehoge"
 ```
 
 **問174**
