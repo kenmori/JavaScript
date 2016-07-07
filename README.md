@@ -17,7 +17,7 @@ m //{a: "a", b: "b"}
 
 **問2**
 
-```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```の要素jj,hh,kkを要素、型を配列で返す記述をしてください
+```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```の要素をjj,hh,kkのみ配列でしてください
 
 ```js
 var yy = uu.slice(-4,-1);
@@ -26,7 +26,7 @@ var yy = uu.slice(3,-1);
 ```
 
 **問3**
-```var arry = ['eee','ccc’]```の要素を抜き取ってください e.g ```'eee'``` と ```'ccc'```
+```var arry = ['eee','ccc’]```の要素を出力してください e.g ```'eee'``` と ```'ccc'```
 
 ```js
 var arry = ['aa','ccc'];
@@ -38,6 +38,7 @@ arry.map(function(key,i){
 ```
 
 **問4**
+
 ```var arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
 
 ```js
@@ -50,7 +51,8 @@ arry.forEach(function(key,i){
 ```
 
 **問5**
-var ee = [1,2]は配列かどうか検査したbloolean値(true)ください
+
+var ee = [1,2]は配列かどうかを評価してください
 e.g true
 
 ```js
@@ -63,6 +65,7 @@ Array.isArray(ee) //true
 ```
 
 **問6**
+
 ```var aa = 'fafa'```を出力した後完全に削除し、削除されたことを出力してくださいe.g
 'aa is not defined'
 
@@ -79,10 +82,7 @@ aa
 
 **問7**
 
-```
-ee(2,4,5)
-```
-を実行したら引数が全て配列で返る関数eeを定義しなさい
+```ee(2,4,5)``` を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -116,6 +116,7 @@ for( key in obj2){
 ```
 
 **問9**
+
 ```var array3 = ['fafa','eee','ccc']```配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
 
 ```js
@@ -127,9 +128,14 @@ for(var i= 0; i < count; i++){
 }
 ee
 //'fafaeeeccc'
+
+//別解答
+array3.join("");
+//'fafaeeeccc'
 ```
 
 **問10**
+
 Array.isArrayが実行できない環境を想定して```var ee = [1,2]```が配列であることを検査できる拡張された関数を定義してください
 ヒント
 if分岐、Object.prototype、返り値 [object Array]
@@ -181,11 +187,13 @@ arry4.sort(function(a,b){
 **問12**
 
 ```fetchSomething1```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
+    
 ```
 WIP
 ```
 
 **問13**
+
 next()を実行しただけ返り値が1増える関数を定義してね
 P70
 
@@ -209,6 +217,7 @@ next();//3
 WIP
 
 **問15**
+
 配列```myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
 
 ```js
@@ -220,6 +229,7 @@ myArray.splice(0,2,'green','red','yellow');//インデックス0から2つの要
 ```
 
 **問16**
+
 ```myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];```
 の2つ目〜4つ目の要素を取り出し配列とし出力しなさい。実行された後のMyarrayの要素を教えてください
 
@@ -231,6 +241,7 @@ console.log(fafa);//['kkk2', 'kkk3','kkk4']
 ```
 
 **問17**
+
 ```var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];```の全ての要素を```/```で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
 
 ```js
@@ -240,6 +251,7 @@ myArray.join('/').split('/');
 ```
 
 **問18**
+
 配列```var gArray =  ['おはよう','こんにちは','おやすみなさい'];```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
 
 ```js
@@ -249,6 +261,7 @@ g//おはよう or こんにちは or おやすみなさい
 ```
 
 **問19**
+
 Objectオブジェクトで空のオブジェクトを作成し、値が42のプロパティpを持ちなさい
 
 ```js
@@ -258,6 +271,7 @@ o.p //42
 
 
 **問20**
+
 オブジェクトWhoを作成し、初期化時に'morita'(String)を渡しnameプロパティに代入、インスタンス「o」のメソッドを使いWho.prototype.name値が返ってくるいわゆる「classのようなもの」を作成してください
 ※インスタンスメソッドはprototype継承で代入してください
 
@@ -273,6 +287,7 @@ o.getName()
 ```
 
 **問21**
+
 浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください。
 
 ```js
@@ -291,6 +306,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 ```
 
 **問21**
+
 下記
 
 ```
@@ -308,6 +324,7 @@ array.sort();
 ```
 
 **問22**
+
 期待する大文字小文字区別なく順番通りにするようにしてください。
 e.g.```[a','B','c', 'e', 'k']```
 
@@ -322,6 +339,7 @@ array.sort(function(a,b){
 ```
 
 **問23**
+
 このような```[20,100,3,35,0]```
 比較する配列の要素が数値の場合、「降順」にsortしてください
 期待する結果
@@ -340,6 +358,7 @@ return a - b
 
 
 **問24**
+
 文字列```'10'```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
@@ -353,6 +372,7 @@ a.toString();
 ```
 
 **問25**
+
 カーリー化されたadd(1)(2)もしくはadd(1,2)
 を実行した際両方とも返り値3になる関数を定義しなさい。p85
 
@@ -371,6 +391,7 @@ add(1,2) //3
 ```
 
 **問26**
+
 クロージャーを使ったファクトリー関数。
 
 ```js
