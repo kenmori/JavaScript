@@ -3257,7 +3257,24 @@ promise1.then(function(val){
 ```
 
 **問173**
+
+同値評価がtrueを返すシングルトンを作ってください。すでに存在する場合はそれを返し、インスタンスは自身をキャッシュするものとします
+
 ```js
+function Mother(){
+ if(typeof Mother.instance === "object"){
+   return Mother.instance;
+ }
+ this.name = "Mother";
+ this.age = 66;
+ Mother.instance = this;
+ return this;
+}
+var mother1 = new Mother();
+var mother2 = new Mother();
+
+mother1 === mother2
+
 ```
 
 **問174**
