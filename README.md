@@ -20,9 +20,9 @@ m //{a: "a", b: "b"}
 ```const uu = ['oo','pp','ll','jj','hh','kk','mm'];```のjj,hh,kk要素を新たな配列として返してください
 
 ```js
-var yy = uu.slice(-4,-1);
+const yy = uu.slice(-4,-1);
 //or
-var yy = uu.slice(3,-1);
+const yy = uu.slice(3,-1);
 ```
 
 **問3**
@@ -39,7 +39,7 @@ arry.forEach(function(key,i){
 
 **問4**
 
-```var arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
+```const arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
 
 ```js
 const arry = ['aa','ccc'];
@@ -96,7 +96,7 @@ ee(2,4,5)//[2.4,5]
 下記
 
 ```js
-var obj2 = {
+const obj2 = {
 　key: 'eee',
 　key2:'ccc'
 };
@@ -104,7 +104,7 @@ var obj2 = {
 の中のkeyとvalueを全て出力しなさい
 
 ```js
-var obj2 = {
+const obj2 = {
   key: 'eee',
   key2:'ccc'
 };
