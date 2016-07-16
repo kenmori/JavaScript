@@ -1,23 +1,23 @@
-## JavaScript練習問題集(現在172問)
+## JavaScript練習問題集(現在183問)
 
-**2016/07/14更新**
+**2016/07/17更新**
 
 
 **問1**
 
-```var afa = {a: 'a'}```と```var ee = {b: 'b'}```をmergeした```m```を出力してください
+```const afa = {a: 'a'}```と```const ee = {b: 'b'}```をmergeした```m```を出力してください
 e.g```{a:'a',b:'b'}```
 
 ```js
-var afa = {a: 'a'};
-var ee = {b:'b'};
-var m = Object.assign(afa, ee);
+const afa = {a: 'a'};
+const ee = {b:'b'};
+const m = Object.assign(afa, ee);
 m //{a: "a", b: "b"}
 ```
 
 **問2**
 
-```var uu = ['oo','pp','ll','jj','hh','kk','mm'];```の要素をjj,hh,kkのみ配列でしてください
+```const uu = ['oo','pp','ll','jj','hh','kk','mm'];```のjj,hh,kk要素を新たな配列として返してください
 
 ```js
 var yy = uu.slice(-4,-1);
@@ -26,11 +26,11 @@ var yy = uu.slice(3,-1);
 ```
 
 **問3**
-```var arry = ['eee','ccc’]```の要素を出力してください e.g ```'eee'``` と ```'ccc'```
+```const arry = ['eee','ccc’]```の要素をconsole出力してください e.g ```'eee'``` と ```'ccc'```
 
 ```js
-var arry = ['aa','ccc'];
-arry.map(function(key,i){
+const arry = ['aa','ccc'];
+arry.forEach(function(key,i){
  console.log(key)
 })
 //'aa'
@@ -42,7 +42,7 @@ arry.map(function(key,i){
 ```var arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
 
 ```js
-var arry = ['aa','ccc'];
+const arry = ['aa','ccc'];
 arry.forEach(function(key,i){
  console.log(key + i)
 })
@@ -52,7 +52,7 @@ arry.forEach(function(key,i){
 
 **問5**
 
-var ee = [1,2]は配列かどうかを評価してください
+```const ee = [1,2]```と定義して配列かどうかを評価してください
 e.g true
 
 ```js
@@ -61,7 +61,6 @@ Array.isArray(ee) //true
 //ee instanceof Array //true
 //instanceof比較は継承しているオブジェクトのインスタンス比較なので
 // ee instanceof Objectでもtrueが返ってく る
-
 ```
 
 **問6**
@@ -96,7 +95,7 @@ ee(2,4,5)//[2.4,5]
 
 下記
 
-```
+```js
 var obj2 = {
 　key: 'eee',
 　key2:'ccc'
@@ -148,7 +147,6 @@ if(typeof Array.isArray === 'undefined'){
   return Object.prototype.toString.call(arg) === '[object Array]';
  };
 }
-
 ```
 
 **問11**
@@ -156,7 +154,6 @@ if(typeof Array.isArray === 'undefined'){
 をid番号が若い順にソートしたオブジェクトを含む配列を出力してね
 
 ```js
-
 var arry4 = [
   {id:34343,name:'morita'},
   {id:89,name:'kenji'},
@@ -186,8 +183,10 @@ arry4.sort(function(a,b){
 
 **問12**
 
-```fetchSomething1```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
-    
+```
+fetchSomething1
+```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
+
 ```
 WIP
 ```
@@ -221,7 +220,7 @@ WIP
 配列```myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
 
 ```js
-var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+const myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
 myArray.splice(0,2,'green','red','yellow');//インデックス0から2つの要素を削除。
 //返り値:['kkk1', 'kkk2']
 //myArray:['green', 'red', 'yellow', 'kkk3', 'kkk4', 'kkk5']
@@ -320,7 +319,6 @@ array.sort();
 
 //note 順番は文字エンコーディングによって決まる
 //要素に数値が会った場合文字列に置き換えられる
-
 ```
 
 **問22**
@@ -335,7 +333,6 @@ array.sort(function(a,b){
 });
 
 //['a', 'B', 'c', 'e', 'k']
-
 ```
 
 **問23**
@@ -362,13 +359,11 @@ return a - b
 文字列```'10'```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
-
 var a = parseInt('10');
 typeof a
 isNaN(e);
 a.toString();
 //'10'
-
 ```
 
 **問25**
@@ -474,7 +469,6 @@ var obj = Object.create(Object.prototype, {
    x : {value: 2, writable: true, enumerable: true, configurable: true},
    y : {value: 3, writable: true, enumerable: true, configurable: true}
 })
-
 ```
 
 
@@ -524,7 +518,6 @@ function f(){
 f(2)
 //1
 //2
-
 ```
 
 **問33**
@@ -773,7 +766,6 @@ eArr.next().value //f
 eArr.next().value //o
 eArr.next().value //x
 eArr.next().value //k
-
 ```
 
 **問41**
@@ -913,7 +905,6 @@ console.log(array2);
 配列```var passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返しなさい。また10以上のものが一つでもあった場合trueを返しなさい。
 
 ```js
-
 function isBigEnough(ele, ind, arry){
  return (ele >= 10);
 };
@@ -932,7 +923,6 @@ passed //false
 の'two'の値を取得してください
 
 ```js
-
 var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
 var map = new Map(fafa);
@@ -949,7 +939,6 @@ var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
 var map = new Map(fafa);
 map.set('four', 'fafa@eee');
-
 ```
 
 **問51**
@@ -982,7 +971,6 @@ var str = 'It is an important problem';
 var str2 = 'The import duty is not cheap';
 var ii = /.*\bimport\b.*/.test(str);//false
 var ii = /.*\bimport\b.*/.test(str2);//true
-
 ```
 
 **問54**
@@ -1010,7 +998,6 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 var str = '「ヤッホー！ヤッホー！」'; /「(ヤッホー！)+」/.exec(str); //['「ヤッホー！ヤッホー！」', 'ヤッホー！']
 
 //メタ文字
-
 var str = '「ヤッホー?ヤッホー@」';
 /「(ヤッホー\W)+」/.exec(str);
 ['「ヤッホー?ヤッホー@」', 'ヤッホー@']
@@ -1148,7 +1135,7 @@ nowtime
 **問63**
 Object matching shorthandを使い、こちら
 
-```
+```js
 function getSomething(){
   return {
     first: 1,
@@ -1175,7 +1162,6 @@ second
 //2
 third
 //3
-
 ```
 
 **問64**
@@ -3081,7 +3067,7 @@ console.log(array instanceof Array );
 **問164**
 
 このようなODMがある
-```
+```html
 <div id="main">
   <p class="content">
     <a class="link" href="http://kenjimorita.jp">
@@ -3136,7 +3122,7 @@ FIRST_ORDERED_NODE_TYPe :9
 **問165**
 
 こちら
-```
+```html
 <div id="target" class="foo-after" onClick="toggleStyle()">
   click here!
 </div>
@@ -3226,7 +3212,14 @@ map
 
 
 **問170**
-```add()```を実行した際```3```、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
+
+```
+add()
+```を実行した際
+```
+3
+```
+、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
 
 ```js
 //デフォルトパラメータ
@@ -3286,10 +3279,9 @@ promise1.then(function(val){
 
 **問173**
 
-右の様な{name: 'hogehoge',age: 80}を別の変数「obj2」に代入したい。
+右の様な```{name: 'hogehoge',age: 80}```を別の変数「obj2」に代入したい。
 Objectを参照渡しすると代入先の値が変わるとオリジンの値も変わります。originに影響のない新しいオブジェクトとしてオリジンと同じ値をもつインスタンスを生成してください。
 またorigin.name='oo'としても「obj2.nameが'hogehoge'」で変わらないことを確認してください
-
 
 ```js
 //一例
@@ -3305,15 +3297,17 @@ obj2.name
 
 **問174**
 
-オブジェクトobjのプロパティkeyからgetKey関数に'enabled'を渡してcall。obj.a keynamed enabledがtrueになるようなobjのつくりにしてくだささい
-期待する結果: {id: 5, name: "San Francisco", a key named enabled: true}
-
+こちらを使って、
 
 ```js
 function getKey(k) {
   return `a key named ${k}`;
 }
+```
+オブジェクトobjのプロパティkeyから上記getKey関数に'enabled'文字列を渡してcallし、objのキーがa keynamed enabled、値がtrueになるようなobjの作りにしてくだささい
+期待する結果:``` {id: 5, name: "San Francisco", a key named enabled: true}```
 
+```js
 // bad
 const obj = {
   id: 5,
@@ -3333,6 +3327,8 @@ const obj = {
 **問175**
 
 以下の様な
+
+```js
 const name = 'kenji morita';
 const address = 'shibuya';
 
@@ -3343,7 +3339,7 @@ const obj = {
  mayTheForth: 4,
  address: address,
 }
-
+```
 objの宣言をショートハンドを使ってなおしてください
 
 ```js
@@ -3359,25 +3355,20 @@ obj// {name: "kenji morita", episodeTheree: 3, mayTheForth: 4, address: "shibuya
 
 **問176**
 
-document上に何個かあるclass="foo"を配列の様なオブジェクトからnodeオブジェクトに
+document上に何個かある```class='foo'```を配列の様なオブジェクトからnodeオブジェクトに
 
 ```js
 const foo = document.querySelector('.foo');
 const nodes = Array.from(foo);
-
 ```
-
-
 
 **問177**
 
 ```
 [[0, 1], [2, 3], [4,5]]
 ```
-
 をフラットにしてください
 期待する値:[0, 1, 2, 3, 4, 5]
-
 
 ```js
 let flat = {};
@@ -3390,33 +3381,34 @@ let flat = {};
 ```
 
 **問178**
-
+下記の関数式としての宣言は
 
 ```js
 // bad
 const foo = function () {
 };
+```
+なぜ好ましくないとされているか答えてください
 
+```js
+//コールスタックに識別しやすくされている
+//アロー関数が使える
 // good
 function foo() {
 }
 ```
 
-```
-・コールスタックに識別しやすくされている
-・アロー関数が使える
-```
-
-
 **問179**
 
-こちらの何が悪いか答えてください。また修正してください
+こちらの
+```js
 if (currentUser) {
   function test() {
     console.log('Nope.');
   }
 }
-
+```
+は何が悪いか答えてください。また修正してください
 
 ```js
  //A function declaration is not a statement
@@ -3433,27 +3425,31 @@ see http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#pa
 
 **問180**
 
-渡ってきたすべての引数を結合して文字列として返す下記を端的に書き換えてください
+こちらの
+```js
 function concatenateAll() {
   const args = Array.prototype.slice.call(arguments);
   return args.join('');
 }
+```
+渡ってきたすべての引数を結合して文字列として返す上記を端的に書き換えてください
 
 ```js
 function concatenateAll(...args) {
   return args.join('');
 }
-
 ```
 
 
 **問181**
 
-こちらはアンチパターンです。なぜだかお答えください
+こちらはアンチパターンです。
+```js
 function f1(obj) {
   obj.key = 1;
 };
-
+```
+なぜだかお答えください
 
 ```js
 //Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.
@@ -3462,39 +3458,38 @@ function f1(obj) {
 function f2(obj) {
   const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1;
 };
-
 ```
-
-
 https://github.com/airbnb/javascript
 
 **問182**
 
-下記のような不必要な3項演算子を避けて同じ意味を簡潔に書いてください
+下記のような
+```js
 const foo = a ? a : b;
 const bar = c ? true : false;
 const baz = c ? false : true;
+```
+不必要な3項演算子を避けて同じ意味を簡潔に書いてください
 
 ```js
 const foo = a || b;
 const bar = !!c;
 const baz = !c;
-
 ```
 
 
 **問183**
 
 こちらの記述
+```js
 const foo = {clark: 'kent'};
+```
 
 spaceをeslintのobject-curly-spacing や
 jscsのrequireSpacesInsideObjectBracketsで良いとされている書き方に変更してください
 
-
 ```js
 const foo = { clark: 'kent' };
-
 ```
 
 **ここから下は鋭意制作中====================================================**
