@@ -3224,8 +3224,6 @@ map
 //{0: "apple", 1: "banana", 2: "orenge"}
 ```
 
-**ここから下は鋭意制作中====================================================**
-
 
 **問170**
 ```add()```を実行した際```3```、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
@@ -3306,6 +3304,266 @@ obj2.name
 ```
 
 **問174**
+
+オブジェクトobjのプロパティkeyからgetKey関数に'enabled'を渡してcall。obj.a keynamed enabledがtrueになるようなobjのつくりにしてくだささい
+期待する結果: {id: 5, name: "San Francisco", a key named enabled: true}
+
+
+```js
+function getKey(k) {
+  return `a key named ${k}`;
+}
+
+// bad
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+};
+obj[getKey('enabled')] = true;
+
+// good
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+  [getKey('enabled')]: true,
+};
+```
+
+
+**問175**
+
+以下の様な
+const name = 'kenji morita';
+const address = 'shibuya';
+
+const obj = {
+ name : name,
+ morita: morita,
+ episodeTheree: 3,
+ mayTheForth: 4,
+ address: address,
+}
+
+objの宣言をショートハンドを使ってなおしてください
+
+```js
+const obj = {
+ name,
+ episodeTheree: 3,
+ mayTheForth: 4,
+ address,
+}
+obj// {name: "kenji morita", episodeTheree: 3, mayTheForth: 4, address: "shibuya"}
+
+```
+
+**問176**
+
+document上に何個かあるclass="foo"を配列の様なオブジェクトからnodeオブジェクトに
+
+```js
+const foo = document.querySelector('.foo');
+const nodes = Array.from(foo);
+
+```
+
+
+
+**問177**
+
+```
+[[0, 1], [2, 3], [4,5]]
+```
+
+をフラットにしてください
+期待する値:[0, 1, 2, 3, 4, 5]
+
+
+```js
+let flat = {};
+[[0, 1], [2, 3], [4,5]].reduce((memo, item, index) => {
+ let flatten = memo.concat(item);
+ flat[index] = flatten;
+ return flatten
+})
+//[0, 1, 2, 3, 4, 5]
+```
+
+**問178**
+
+
+```js
+// bad
+const foo = function () {
+};
+
+// good
+function foo() {
+}
+```
+
+```
+・コールスタックに識別しやすくされている
+・アロー関数が使える
+```
+
+
+**問179**
+
+こちらの何が悪いか答えてください。また修正してください
+if (currentUser) {
+  function test() {
+    console.log('Nope.');
+  }
+}
+
+
+```js
+ //A function declaration is not a statement
+ //関数宣言はステートメントではありません
+ 
+let test;
+if (currentUser) {
+  test = () => {
+    console.log('Yup.');
+  };
+}
+see http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97
+```
+
+**問180**
+
+渡ってきたすべての引数を結合して文字列として返す下記を端的に書き換えてください
+function concatenateAll() {
+  const args = Array.prototype.slice.call(arguments);
+  return args.join('');
+}
+
+```js
+function concatenateAll(...args) {
+  return args.join('');
+}
+
+```
+
+
+**問181**
+
+こちらはアンチパターンです。なぜだかお答えください
+function f1(obj) {
+  obj.key = 1;
+};
+
+
+```js
+//Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.
+パラメータとして渡されたオブジェクトを操作すると、元の呼び出し側で不要な変数副作用を引き起こす可能性があります。
+
+function f2(obj) {
+  const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1;
+};
+
+```
+
+
+https://github.com/airbnb/javascript
+
+**問182**
+
+下記のような不必要な3項演算子を避けて同じ意味を簡潔に書いてください
+const foo = a ? a : b;
+const bar = c ? true : false;
+const baz = c ? false : true;
+
+```js
+const foo = a || b;
+const bar = !!c;
+const baz = !c;
+
+```
+
+
+**問183**
+
+こちらの記述
+const foo = {clark: 'kent'};
+
+spaceをeslintのobject-curly-spacing や
+jscsのrequireSpacesInsideObjectBracketsで良いとされている書き方に変更してください
+
+
+```js
+const foo = { clark: 'kent' };
+
+```
+
+**ここから下は鋭意制作中====================================================**
+
+**問000**
+```js
+```
+
+
+**問000**
+```js
+```
+
+**問000**
+```js
+```
+
+
+**問000**
+```js
+```
+
+**問000**
+```js
+```
+
+
+
+**問000**
+```js
+```
+
+**問000**
+```js
+```
+
+
+**問000**
+```js
+```
+
+**問000**
+```js
+```
+
+
+**問000**
+```js
+```
+
+**問000**
+```js
+```
+
+
+**問000**
+```js
+```
+
+**問000**
+```js
+```
+
+
+**問000**
+```js
+```
+
+**問000**
 ```js
 ```
 
@@ -3363,7 +3621,6 @@ obj2.name
 ```js
 ```
 
-
 **問000**
 ```js
 ```
@@ -3417,111 +3674,4 @@ obj2.name
 **問000**
 ```js
 ```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
+# webGL
