@@ -1983,8 +1983,7 @@ target == null
 **問106**
 
 こちら
-
-```
+```js
 var value = 0;
 var target  = value || 10
 target
@@ -2012,7 +2011,7 @@ array.length !== 0
 **問108**
 
 この
-```
+```js
 var obj = {};
 obj ? true : false;
 ```
@@ -2526,7 +2525,7 @@ i.firstChild //最初の子要素
 
 **問136**
 
-```
+```html
 <div id='top' align='center'>
   <div id='nested'>
     <div><p><a></a></p></div>
@@ -2604,7 +2603,7 @@ foo.bar; // 1
 ```
 
 答え
-```
+```js
 foo.hasOwnProperty('bar'); // false
 foo.hasOwnProperty('goo'); // true
 ```
@@ -2701,7 +2700,7 @@ numObj.toFixed();
 **問146**
 
 こちらの
-```
+```js
 var thing = 'global';
 function foo(){
   console.log(thing);
@@ -2774,7 +2773,7 @@ turnArrayFun(likeArray);
 **問149**
 
 下記のようなDOMがある
-```
+```html
 <div id="target">
   (1)
   <span>既存の内容</span>
@@ -2794,7 +2793,7 @@ target.insertAdjacentHTML('afterbegin',html);
 **問150**
 こちら
 
-```
+```html
 (1)
 <div id="target">
   <span>既存の内容</span>
@@ -2818,7 +2817,7 @@ target.insertAdjacentHTML(position,html);
 
 下記
 
-```
+```js
 const key = 'greeting';
 var objA = {};
 objA[key] = 'おはよう';
@@ -2839,7 +2838,7 @@ objA.greeting
 **問152**
 
 こちらの記述
-```
+```js
 var objA = {
  add: function(a,b){
   return a + b;
@@ -2880,7 +2879,7 @@ objA.add(2,5);
 
 このような
 
-```
+```js
 var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
 ```
 
@@ -2901,7 +2900,7 @@ b
 
 このような
 
-```
+```js
 var obj = {
  name : 'kenji',
  twon: 'shibuya'
@@ -2935,7 +2934,7 @@ var [a,,,,,b] = name;
 **問157**
 
 変数
-```
+```js
 var a = 1;
 var b = 'goodby';
 ```
@@ -3006,14 +3005,14 @@ document.addEventListener('DOMContentload',function(){
 **問161**
 このような
 
-```
+```js
 addeventListener('DOMcontentLoad',function(){something},[true,false])
 ```
 イベントリスナーの第三引数のフラグは何か説明してください
 
-```js
+```html
 useCapture設定。
-例えばclickイベントを親と子、両方に設定している場合、親にtrue設定すると子供(内側)をclickすると親が先に発火(キャプチャフェーズ)、続いて子供となる。useCaptureによって発生するイベントの順番が変わる。
+例えばclickイベントを親と子、両方に設定している場合、親にtrue設定すると子供(内側)をclickすると親が先に発火(キャプチャフェーズ)、続い///て子供となる。useCaptureによって発生するイベントの順番が変わる。
 defalutはfalse
 
 **イベントフェーズ**
@@ -3022,13 +3021,12 @@ defalutはfalse
 [ターゲットフェーズ](発生用をを検出する)
 バグリングフェーズ(ルート要素を辿っていく)
 see //http://qiita.com/hosomichi/items/49500fea5fdf43f59c58
-
 ```
 
 **問162**
 このような
 
-```
+```html
 <div class="classA">
     <div>some1</div>
     <p><div>some2</div></p>
@@ -3048,7 +3046,7 @@ result instanceof Array
 **問163**
 このような
 
-```
+```html
 <div class="fafa"><span></span></div>
 <div class="fafa"><span></span></div>
 <div class="fafa"><span></span></div>
@@ -3213,7 +3211,7 @@ map
 
 **問170**
 
-```
+```js
 add()
 ```を実行した際
 ```
