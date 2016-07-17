@@ -183,18 +183,12 @@ arry4.sort(function(a,b){
 
 **問12**
 
-```
-fetchSomething1
-```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
-
-```
 WIP
-```
+
 
 **問13**
 
 next()を実行しただけ返り値が1増える関数を定義してね
-P70
 
 ```js
 var setUp = function(){
@@ -3493,7 +3487,14 @@ const foo = { clark: 'kent' };
 **ここから下は鋭意制作中====================================================**
 
 **問000**
+defaultPrameter
+
 ```js
+function createAddress(address, tyoume = address +  "-1", banch = tyoume + "-10"){
+ return [address, tyoume , banch];
+}
+createAddress("meguro")
+//["meguro", "meguro-1", "meguro-1-10"]
 ```
 
 
