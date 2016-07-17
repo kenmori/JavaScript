@@ -10,3 +10,4 @@ sprite.scssc
 .textClipping
 # コメントになる
 */.DS_Store
+.idea/
