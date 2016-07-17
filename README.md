@@ -5,7 +5,18 @@
 
 **問1**
 
-```const afa = {a: 'a'}```と```const ee = {b: 'b'}```をmergeした```m```を出力してください
+```js
+const afa = {a: 'a'}
+```
+と
+```js
+const ee = {b: 'b'}
+```
+をmergeした
+```js
+m
+```
+を出力してください
 e.g```{a:'a',b:'b'}```
 
 ```js
@@ -17,7 +28,10 @@ m //{a: "a", b: "b"}
 
 **問2**
 
-```const uu = ['oo','pp','ll','jj','hh','kk','mm'];```のjj,hh,kk要素を新たな配列として返してください
+```js
+const uu = ['oo','pp','ll','jj','hh','kk','mm'];
+```
+のjj,hh,kk要素を新たな配列として返してください
 
 ```js
 const yy = uu.slice(-4,-1);
@@ -26,7 +40,10 @@ const yy = uu.slice(3,-1);
 ```
 
 **問3**
-```const arry = ['eee','ccc’]```の要素をconsole出力してください e.g ```'eee'``` と ```'ccc'```
+```
+const arry = ['eee','ccc’]
+```
+の要素をconsole出力してください e.g ```'eee'``` と ```'ccc'```
 
 ```js
 const arry = ['aa','ccc'];
@@ -39,7 +56,17 @@ arry.forEach(function(key,i){
 
 **問4**
 
-```const arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
+```js
+const arry = [‘eee’, ‘ccc’]
+```
+を要素にindexを足された文字列を出力してください
+```
+e.g 'eee0'
+```
+と
+```js
+'ccc1'
+```
 
 ```js
 const arry = ['aa','ccc'];
@@ -52,7 +79,10 @@ arry.forEach(function(key,i){
 
 **問5**
 
-```const ee = [1,2]```と定義して配列かどうかを評価してください
+```
+const ee = [1,2]
+```
+と定義して配列かどうかを評価してください
 e.g true
 
 ```js
@@ -65,11 +95,13 @@ Array.isArray(ee) //true
 
 **問6**
 
-```var aa = 'fafa'```を出力した後完全に削除し、削除されたことを出力してくださいe.g
-'aa is not defined'
+```js
+var aa = 'fafa'
+```
+を出力した後完全に削除し、削除されたことを出力してくださいe.g
+"aa is not defined"
 
 ```js
-
 var aa = 'fee';
 aa
 //'fee'
@@ -81,7 +113,10 @@ aa
 
 **問7**
 
-```ee(2,4,5)``` を実行したら引数が全て配列で返る関数eeを定義しなさい
+```js
+ee(2,4,5)
+```
+を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -116,7 +151,10 @@ for( key in obj2){
 
 **問9**
 
-```var array3 = ['fafa','eee','ccc']```配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
+```js
+var array3 = ['fafa','eee','ccc']
+```
+配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
 
 ```js
 var array3 = ['fafa','eee','ccc'];
@@ -150,7 +188,9 @@ if(typeof Array.isArray === 'undefined'){
 ```
 
 **問11**
-```var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]```
+```js
+var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]
+```
 をid番号が若い順にソートしたオブジェクトを含む配列を出力してね
 
 ```js
@@ -183,12 +223,22 @@ arry4.sort(function(a,b){
 
 **問12**
 
-WIP
+```
+var a, b;
+```
+の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
+
+```js
+var [a=1, b=7] = [1];
+console.log(a, b);
+//1 7
+```
 
 
 **問13**
 
-next()を実行しただけ返り値が1増える関数を定義してね
+next()を実行しただけ返り値が1増える関数を定義してください
+
 
 ```js
 var setUp = function(){
@@ -205,25 +255,38 @@ next();//3
 
 **問14**
 
-```class Fafaf {}```を作成した際の内部の動きを教えてください。
+```js
+class Fafaf {}
+```
+を作成した際の内部の動きを教えてください。
 
 WIP
 
 **問15**
 
-配列```myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
+配列
+```
+myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']
+```
+の1〜3番目の要素をそれぞれ
+
+```
+red,green,yellow
+```
+に置き換えてください。また実行した際の返り値を教えてください
 
 ```js
 const myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
 myArray.splice(0,2,'green','red','yellow');//インデックス0から2つの要素を削除。
 //返り値:['kkk1', 'kkk2']
 //myArray:['green', 'red', 'yellow', 'kkk3', 'kkk4', 'kkk5']
-
 ```
 
 **問16**
 
-```myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];```
+```
+myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+```
 の2つ目〜4つ目の要素を取り出し配列とし出力しなさい。実行された後のMyarrayの要素を教えてください
 
 ```js
@@ -235,7 +298,14 @@ console.log(fafa);//['kkk2', 'kkk3','kkk4']
 
 **問17**
 
-```var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];```の全ての要素を```/```で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
+```js
+var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+```
+の全ての要素を
+```
+/
+```
+で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
 
 ```js
 var myArray =  ['kkk1','kkk2','kkk3','kkk4','kkk5'];
@@ -245,7 +315,11 @@ myArray.join('/').split('/');
 
 **問18**
 
-配列```var gArray =  ['おはよう','こんにちは','おやすみなさい'];```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+配列
+```js
+var gArray =  ['おはよう','こんにちは','おやすみなさい'];
+```
+の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
 
 ```js
 var gArray =  ['おはよう','こんにちは','おやすみなさい'];
@@ -281,7 +355,7 @@ o.getName()
 
 **問21**
 
-浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください。
+浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください
 
 ```js
 //**shallow copy**
@@ -302,7 +376,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 
 下記
 
-```
+```js
 var array = ['e','a','k','B','c'];
 array.sort();
 ```
@@ -318,7 +392,11 @@ array.sort();
 **問22**
 
 期待する大文字小文字区別なく順番通りにするようにしてください。
-e.g.```[a','B','c', 'e', 'k']```
+e.g.
+
+```
+[a','B','c', 'e', 'k']
+```
 
 ```js
 var array = ['e','a','k','B','c'];
@@ -331,10 +409,16 @@ array.sort(function(a,b){
 
 **問23**
 
-このような```[20,100,3,35,0]```
+このような
+```js
+[20,100,3,35,0]
+```
+
 比較する配列の要素が数値の場合、「降順」にsortしてください
 期待する結果
-```[100, 35, 20, 3, 0]```
+```js
+[100, 35, 20, 3, 0]
+```
 
 ```js
 var numArray = [20,100,3,35,0];
@@ -350,7 +434,11 @@ return a - b
 
 **問24**
 
-文字列```'10'```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
+文字列
+```js
+'10'
+```
+をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
 var a = parseInt('10');
@@ -437,7 +525,10 @@ greeting.sayHi.apply(greeting);//渡さない
 ECMAScript5
 
 **問28**
-```var obj = {x : 2, y: 3};```このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
+```js
+var obj = {x : 2, y: 3};
+```
+このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
 
 ```js
 var obj = {x : 2, y: 3};
@@ -448,7 +539,10 @@ Object.key(obj);
 ```
 
 **問29**
-```var obj = {}```と等価をObjctメソッドで生成してください
+```js
+var obj = {}
+```
+と等価をObjctメソッドで生成してください
 
 ```js
 var obj = Object.create(Object.prototype);
@@ -456,7 +550,10 @@ var obj = Object.create(Object.prototype);
 ```
 
 **問30**
-```var obj = {x : 2, y: 3}```と等価をObjectメソッドで生成してください
+```js
+var obj = {x : 2, y: 3}
+```
+と等価をObjectメソッドで生成してください
 
 ```js
 var obj = Object.create(Object.prototype, {
@@ -467,7 +564,10 @@ var obj = Object.create(Object.prototype, {
 
 
 **問31**
-```var obj = { x : 2}```の属性を出力してください
+```js
+var obj = { x : 2}
+```
+の属性を出力してください
 
 ```js
 Object.getOwnPropertyDescriptor(obj, 'x');
@@ -481,7 +581,9 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 
 
 **問31**
-```var obj2 = {x : 2};```
+```js
+var obj2 = {x : 2};
+```
 にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
 
 ```js
@@ -515,7 +617,11 @@ f(2)
 ```
 
 **問33**
-```var arr = ['2','23','0','16'];```を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
+
+```js
+var arr = ['2','23','0','16'];
+```
+を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
 
 ```js
 var arr = ['2','23','0','16'];
@@ -528,8 +634,23 @@ arr.sort();
 ```
 
 **問34**
-```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。
-その後```arr2[0] = 123```を代入すると```arr```は何を出力するか答えなさい
+
+```
+var arr = [3,4,5];
+```
+をconcat以外で新たな配列として```
+arr2
+```
+にコピーしてください。
+その後
+```
+arr2[0] = 123
+```
+を代入すると
+```
+arr
+```
+は何を出力するか答えなさい
 
 ```js
 
@@ -1000,7 +1121,14 @@ var str = '「ヤッホー?ヤッホー@」';
 
 
 **問56**
-``` (ありがとう|こんにちは｜さようなら) ```と```ありがとう|こんにちは｜さようなら```の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
+```js
+(ありがとう|こんにちは｜さようなら)
+```
+と
+```js
+ありがとう|こんにちは｜さようなら
+```
+の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
 
 ```js
 //文中に使えるかどうか
@@ -1084,13 +1212,15 @@ g = new Boolean(myFalse);
 myFalse = new Boolean(false);
 g = new Boolean(myFalse);
 g//true
-
 //Boolean オブジェクトの初期値としてオブジェクトを指定した場合、それが値が false の Boolean オブジェクトであっても、新しい Boolean オブジェクトは true の値を持ちます
 ```
 
 **問60**
 
-``` undefined == null ``` の真偽値は何か
+```
+undefined == null
+```
+の真偽値は何か
 
 ```js
 if (undefined == null){
@@ -1112,7 +1242,6 @@ var ii = function(){
 var kk = ii();
 kk('home');
 //my home
-
 ```
 
 **問62**
@@ -1205,7 +1334,15 @@ console.log('repeat'.repeat(2));
 
 **問67**
 
-文字列```foo```をイテレーターを使った反復処理で配列```['f','o','o']```を出力しなさい。
+文字列
+```
+foo
+```
+をイテレーターを使った反復処理で配列
+```
+['f','o','o']
+```
+を出力しなさい。
 
 ```js
  //ECMAScript2015,Babel
@@ -3096,7 +3233,7 @@ console.log(elem.innerHTML);
 //第3(名前空間URLを返す関数)、5引数(既存のXPathResultオブジェクト)はnullで問題ない。
 
 //evaluteメソッド第４引数の値と返値の関係
-ANY_TYPE :0 
+ANY_TYPE :0
 NUMBER_TYPE :1
 STRING_TYPE :2
 BOOLEAN_TYPE :3
@@ -3132,7 +3269,7 @@ target.onclick = function toggleStyle() {
 
 **問166**
  " fafa fafa eee "のような最初と最後に空白があるような文字列に対して、それらを含めない配列を返してください
- 
+
 ```js
  " fafa fafa eee ".trim().split(" ");
  //["fafa", "fafa", "eee"]
@@ -3405,7 +3542,7 @@ if (currentUser) {
 ```js
  //A function declaration is not a statement
  //関数宣言はステートメントではありません
- 
+
 let test;
 if (currentUser) {
   test = () => {
@@ -3499,22 +3636,137 @@ createAddress("meguro")
 
 
 **問000**
+
+f()を実行すると6が返ってくる関数を実装してください。但しfは引数にx,y,zを持ち、xはデフォルトで1、yは2で、zはObjectDestructuringとしてkeyとvalueにzにを持ちデフォルトでzの値は3とする
+
 ```js
+function f([x, y] = [1,2], {z: z} = {z: 3}){
+ return x + y + z;
+}
+f()
+//6
 ```
 
 **問000**
+
+こちらを使って
 ```js
+var people = [
+{ name: "ken",
+  family: {
+   mother: "jone Smith"
+  },
+ age: 24
+},
+{ name: "jun",
+  family: {
+   mother: "jone jun"
+  },
+ age: 27
+}];
+```
+下記のような出力になるように実装してください
+。```js
+//Name ken, Mother: jone Smith
+//Name jun, Mother: jone jun
 ```
 
+```js
+var people = [
+{ name: "ken",
+  family: {
+   mother: "jone Smith"
+  },
+ age: 24
+},
+{ name: "jun",
+  family: {
+   mother: "jone jun"
+  },
+ age: 27
+}];
+for (var {name: n, family: {mother : f}} of people){
+ console.log("Name " + n + ", Mother: " + f);
+}
+//Name ken, Mother: jone Smith
+//Name jun, Mother: jone jun
+
+```
 
 **問000**
+
+こちら
 ```js
+var metadata = {
+ title: "Scratchpad",
+ translations: [
+  {
+    locale: "de",
+    localization_tags: [],
+    last_edit: "2016-07-18",
+    url: "kenjimorita.jp",
+    title: "JavaScript"
+   }
+ ],
+  url: "kenjimorita.jp/JavaScript"
+};
+```
+のtitleをenglishTitleとして、translationsの中のtitleをlocalTitleとしてそれぞれ変数に代入してconsole.log出力してください
+
+```js
+var metadata = {
+ title: "Scratchpad",
+ translations: [
+  {
+    locale: "de",
+    localization_tags: [],
+    last_edit: "2016-07-18",
+    url: "kenjimorita.jp",
+    title: "JavaScript"
+   }
+ ],
+  url: "kenjimorita.jp/JavaScript"
+};
+var {title: englishTitle, translations: [{title: localeTitle}]} = metadata;
+console.log(englishTitle, localeTitle);
+//"Scratchpad"
+//"JavaScript"
+
 ```
 
 **問000**
-```js
-```
 
+こちらの渡ってきたoptionの値をデフォルト設定している書き方
+
+```js
+function drawES5Chart(options) {
+  options = options === undefined ? {} : options;
+  var size = options.size === undefined ? 'big' : options.size;
+  var cords = options.cords === undefined ? { x: 0, y: 0 } : options.cords;
+  var radius = options.radius === undefined ? 25 : options.radius;
+  console.log(size, cords, radius);
+}
+drawES5Chart({
+  cords: { x: 18, y: 30 },
+  radius: 30
+});
+```
+をECMAScript2015の書き方に修正してください
+
+```js
+function drawES6Chart({size = 'big', cords = { x: 0, y: 0 }, radius = 25} = {}) {
+  console.log(size, cords, radius);
+}
+drawES6Chart({
+  cords: { x: 18, y: 30 },
+  radius: 30
+});
+
+// In Firefox, default values for destructuring assignments are not yet implemented (as described below).
+// The workaround is to write the parameters in the following way:
+// ({size: size = 'big', cords: cords = { x: 0, y: 0 }, radius: radius = 25} = {})
+
+```
 
 
 **問000**
