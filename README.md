@@ -1,6 +1,6 @@
-## JavaScript練習問題集(現在183問)
+## JavaScript練習問題集
 
-**2016/07/17更新**
+**2016/07/19更新**
 
 
 **問1**
@@ -4147,33 +4147,202 @@ the function expression’s name baz takes precedence over other names (e.g. the
 
 **問000**
 ```js
+var arr = ['a','b'];
+for(let [index, elem] of arr.entries()){
+ console.log(`${index}:${elem}`)
+}
+//0:a
+//1:b
 ```
 
 
 **問000**
 ```js
+let arryLike = {length:2,0:'a', 1: 'b'};
+for(let x of Array.from(arryLike)){
+ console.log(x)
+}
 ```
 
 **問000**
+
+これは期待する値が出力されない。
+
 ```js
+const arr = [];
+for (var i=0; i < 3; i++) {
+    arr.push(() => i);
+}
+arr.map(x => x()); // [3,3,3]
+```
+```js
+Every i in the bodies of the three arrow functions refers to the same binding, 
+which is why they all return the same value.
+If you let-declare a variable, a new binding is created for each loop iteration:
+
+const arr = [];
+for (let i=0; i < 3; i++) {
+    arr.push(() => i);
+}
+arr.map(x => x()); // [0,1,2]
+```
+
+
+
+**問000**
+
+```html
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        const entries = [
+            ['yes', 'ja'],
+            ['no', 'nein'],
+            ['perhaps', 'vielleicht'],
+        ];
+        const content = document.getElementById('content');
+        for (let [source, target] of entries) { // (A)
+            content.insertAdjacentHTML('beforeend',
+                `<div><a id="${source}" href="">${source}</a></div>`);
+            document.getElementById(source).addEventListener(
+                'click', (event) => {
+                    event.preventDefault();
+                    alert(target); // (B)
+                });
+        }
+    </script>
+</body>
+</html>
+
+```
+
+**問000**
+
+下記consoleは
+
+```js
+const foo = 'outer';
+function bar(func = x => foo) {
+    const foo = 'inner';
+    console.log(func());
+}
+bar();
+```
+何を出力するか。またその理由を答えてください。
+
+
+```js
+//outer
+
+The scope of parameter default values is separate from the scope of the body (the former surrounds the latter).
+That means that methods or functions defined “inside” parameter default values don’t see the local variables of the body:
+```
+
+
+**問000**
+Destructuring helps with processing return values:
+
+```js
+const obj = { foo: 123 };
+
+const {writable, configurable} =
+    Object.getOwnPropertyDescriptor(obj, 'foo');
+
+console.log(writable, configurable); // true true
+```
+
+
+
+**問000**
+```js
+Destructuring helps with processing return values:
+
+const [all, year, month, day] =　/^(\d\d\d\d)-(\d\d)-(\d\d)$/
+.exec('2999-12-31');
+
 ```
 
 
 **問000**
 ```js
+const arr2 = [
+    {name: 'Jane', age: 41},
+    {name: 'John', age: 40},
+];
+for (const {name, age} of arr2) {
+    console.log(name, age);
+}
+// Output:
+// Jane 41
+// John 40
 ```
+
 
 **問000**
 ```js
+
 ```
 
 
 **問000**
 ```js
+
 ```
+
 
 **問000**
 ```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+
+
+**問000**
+```js
+
+```
+
+
+
+**問000**
+```js
+
+```
+
+
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
 ```
 
 参照
