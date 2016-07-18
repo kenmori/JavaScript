@@ -5,7 +5,10 @@
 
 **問1**
 
-```const afa = {a: 'a'}```と```const ee = {b: 'b'}```をmergeした```m```を出力してください
+```const afa = {a: 'a'}```と```const ee = {b: 'b'}
+```
+をmergeした```m```
+を出力してください
 e.g```{a:'a',b:'b'}```
 
 ```js
@@ -17,7 +20,10 @@ m //{a: "a", b: "b"}
 
 **問2**
 
-```const uu = ['oo','pp','ll','jj','hh','kk','mm'];```のjj,hh,kk要素を新たな配列として返してください
+```js
+const uu = ['oo','pp','ll','jj','hh','kk','mm'];
+```
+のjj,hh,kk要素を新たな配列として返してください
 
 ```js
 const yy = uu.slice(-4,-1);
@@ -26,7 +32,10 @@ const yy = uu.slice(3,-1);
 ```
 
 **問3**
-```const arry = ['eee','ccc’]```の要素をconsole出力してください e.g ```'eee'``` と ```'ccc'```
+```
+const arry = ['eee','ccc’]
+```
+の要素をconsole出力してください e.g ```'eee'```と```'ccc'```
 
 ```js
 const arry = ['aa','ccc'];
@@ -39,7 +48,10 @@ arry.forEach(function(key,i){
 
 **問4**
 
-```const arry = [‘eee’, ‘ccc’]```を要素にindexを足された文字列を出力してください``` e.g 'eee0'```と```'ccc1'```
+```js
+const arry = [‘eee’, ‘ccc’]
+```
+を要素にindexを足された文字列を出力してください```e.g 'eee0'```と```'ccc1'```
 
 ```js
 const arry = ['aa','ccc'];
@@ -52,7 +64,10 @@ arry.forEach(function(key,i){
 
 **問5**
 
-```const ee = [1,2]```と定義して配列かどうかを評価してください
+```
+const ee = [1,2]
+```
+と定義して配列かどうかを評価してください
 e.g true
 
 ```js
@@ -63,25 +78,31 @@ Array.isArray(ee) //true
 // ee instanceof Objectでもtrueが返ってく る
 ```
 
-**問6**
-
-```var aa = 'fafa'```を出力した後完全に削除し、削除されたことを出力してくださいe.g
-'aa is not defined'
+**問6WIP**
 
 ```js
 
-var aa = 'fee';
-aa
-//'fee'
-delete aa
-//true
-aa
-//'aa is not defined'
+// var aa = 'fafa'
+// ```
+// を出力した後完全に削除し、削除されたことを出力してくださいe.g
+// "aa is not defined"
+
+```js
+// var aa = 'fee';
+// aa
+// //'fee'
+// delete aa
+// //true
+// aa
+// //'aa is not defined'
 ```
 
 **問7**
 
-```ee(2,4,5)``` を実行したら引数が全て配列で返る関数eeを定義しなさい
+```js
+ee(2,4,5)
+```
+を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -96,7 +117,7 @@ ee(2,4,5)//[2.4,5]
 下記
 
 ```js
-const obj2 = {
+const obj = {
 　key: 'eee',
 　key2:'ccc'
 };
@@ -104,19 +125,21 @@ const obj2 = {
 の中のkeyとvalueを全て出力しなさい
 
 ```js
-const obj2 = {
+const obj = {
   key: 'eee',
   key2:'ccc'
 };
-for( key in obj2){
- console.log(key);
- console.log(obj2[key])
+for( key in obj){
+  console.log( key + ':' + obj[key])
 }
 ```
 
 **問9**
 
-```var array3 = ['fafa','eee','ccc']```配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
+```js
+var array3 = ['fafa','eee','ccc']
+```
+配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
 
 ```js
 var array3 = ['fafa','eee','ccc'];
@@ -150,7 +173,9 @@ if(typeof Array.isArray === 'undefined'){
 ```
 
 **問11**
-```var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]```
+```js
+var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]
+```
 をid番号が若い順にソートしたオブジェクトを含む配列を出力してね
 
 ```js
@@ -184,17 +209,21 @@ arry4.sort(function(a,b){
 **問12**
 
 ```
-fetchSomething1
-```に代入されたpromise型を返す無名関数のresolve時とfall時の実装をthenメソッドでしてください。promiseのコールバック関数の中でdoAjaxStuffを実施。[参照](https://html5experts.jp/takazudo/17107/)
+var a, b;
+```
+の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
 
+```js
+var [a=1, b=7] = [1];
+console.log(a, b);
+//1 7
 ```
-WIP
-```
+
 
 **問13**
 
-next()を実行しただけ返り値が1増える関数を定義してね
-P70
+next()を実行しただけ返り値が1増える関数を定義してください
+
 
 ```js
 var setUp = function(){
@@ -211,25 +240,38 @@ next();//3
 
 **問14**
 
-```class Fafaf {}```を作成した際の内部の動きを教えてください。
+```js
+class Fafaf {}
+```
+を作成した際の内部の動きを教えてください。
 
 WIP
 
 **問15**
 
-配列```myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']```の1〜3番目の要素をそれぞれ```red,green,yellow```に置き換えてください。また実行した際の返り値を教えてください
+配列
+```
+myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']
+```
+の0〜2番目の要素をそれぞれ
+
+```
+red,green,yellow
+```
+に置き換えてください。また実行した際の返り値を教えてください
 
 ```js
 const myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
 myArray.splice(0,2,'green','red','yellow');//インデックス0から2つの要素を削除。
 //返り値:['kkk1', 'kkk2']
 //myArray:['green', 'red', 'yellow', 'kkk3', 'kkk4', 'kkk5']
-
 ```
 
 **問16**
 
-```myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];```
+```
+myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+```
 の2つ目〜4つ目の要素を取り出し配列とし出力しなさい。実行された後のMyarrayの要素を教えてください
 
 ```js
@@ -241,17 +283,23 @@ console.log(fafa);//['kkk2', 'kkk3','kkk4']
 
 **問17**
 
-```var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];```の全ての要素を```/```で結合した文字列の返り値を出力し、元の配列と同じ配列を表示してください
+```js
+var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+```
+の全ての要素を"/"で結合した文字列を出力し、さらにその文字列を"/"区切りで配列に直してください
 
 ```js
 var myArray =  ['kkk1','kkk2','kkk3','kkk4','kkk5'];
 myArray.join('/').split('/');
-
 ```
 
 **問18**
 
-配列```var gArray =  ['おはよう','こんにちは','おやすみなさい'];```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+配列
+```js
+var gArray =  ['おはよう','こんにちは','おやすみなさい'];
+```
+の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
 
 ```js
 var gArray =  ['おはよう','こんにちは','おやすみなさい'];
@@ -287,7 +335,7 @@ o.getName()
 
 **問21**
 
-浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください。
+浅いコピー(shallow copy)と深いコピー(deep copy)の違いを説明してください
 
 ```js
 //**shallow copy**
@@ -308,7 +356,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 
 下記
 
-```
+```js
 var array = ['e','a','k','B','c'];
 array.sort();
 ```
@@ -318,13 +366,12 @@ array.sort();
 ['B', 'a', 'c', 'e', 'k']
 
 //note 順番は文字エンコーディングによって決まる
-//要素に数値が会った場合文字列に置き換えられる
+//要素に数値があった場合文字列に置き換えられる
 ```
 
 **問22**
 
-期待する大文字小文字区別なく順番通りにするようにしてください。
-e.g.```[a','B','c', 'e', 'k']```
+上記の配列を大文字小文字区別なく順番通りにしてください。期待する値```[a','B','c', 'e','k']```
 
 ```js
 var array = ['e','a','k','B','c'];
@@ -338,9 +385,9 @@ array.sort(function(a,b){
 **問23**
 
 このような```[20,100,3,35,0]```
+
 比較する配列の要素が数値の場合、「降順」にsortしてください
-期待する結果
-```[100, 35, 20, 3, 0]```
+期待する結果```[100, 35, 20, 3, 0]```
 
 ```js
 var numArray = [20,100,3,35,0];
@@ -440,10 +487,11 @@ greeting.sayHi.apply(greeting);//渡さない
 //メソッド呼び出しの場合thisはオブジェクトを指しオブジェクトの参照を渡す
 ```
 
-ECMAScript5
-
 **問28**
-```var obj = {x : 2, y: 3};```このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
+```js
+var obj = {x : 2, y: 3};
+```
+このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
 
 ```js
 var obj = {x : 2, y: 3};
@@ -454,7 +502,11 @@ Object.key(obj);
 ```
 
 **問29**
-```var obj = {}```と等価をObjctメソッドで生成してください
+
+```
+var obj = {}
+  ```
+  と等価をObjctメソッドで生成してください
 
 ```js
 var obj = Object.create(Object.prototype);
@@ -462,7 +514,10 @@ var obj = Object.create(Object.prototype);
 ```
 
 **問30**
-```var obj = {x : 2, y: 3}```と等価をObjectメソッドで生成してください
+```js
+var obj = {x : 2, y: 3}
+```
+と等価をObjectメソッドで生成してください
 
 ```js
 var obj = Object.create(Object.prototype, {
@@ -473,7 +528,10 @@ var obj = Object.create(Object.prototype, {
 
 
 **問31**
-```var obj = { x : 2}```の属性を出力してください
+```js
+var obj = { x : 2}
+```
+の属性を出力してください
 
 ```js
 Object.getOwnPropertyDescriptor(obj, 'x');
@@ -487,7 +545,9 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 
 
 **問31**
-```var obj2 = {x : 2};```
+```js
+var obj2 = {x : 2};
+```
 にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
 
 ```js
@@ -521,7 +581,11 @@ f(2)
 ```
 
 **問33**
-```var arr = ['2','23','0','16'];```を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
+
+```js
+var arr = ['2','23','0','16'];
+```
+を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
 
 ```js
 var arr = ['2','23','0','16'];
@@ -534,11 +598,10 @@ arr.sort();
 ```
 
 **問34**
-```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。
-その後```arr2[0] = 123```を代入すると```arr```は何を出力するか答えなさい
+
+```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。その後```arr2[0]= 123```を代入するとarrは何を出力するか答えなさい
 
 ```js
-
 var arr = [3,4,5];
 var arr2 = arr.slice(0, arr.length);
 arr2
@@ -1006,7 +1069,14 @@ var str = '「ヤッホー?ヤッホー@」';
 
 
 **問56**
-``` (ありがとう|こんにちは｜さようなら) ```と```ありがとう|こんにちは｜さようなら```の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
+```js
+(ありがとう|こんにちは｜さようなら)
+```
+と
+```js
+ありがとう|こんにちは｜さようなら
+```
+の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
 
 ```js
 //文中に使えるかどうか
@@ -1090,13 +1160,15 @@ g = new Boolean(myFalse);
 myFalse = new Boolean(false);
 g = new Boolean(myFalse);
 g//true
-
 //Boolean オブジェクトの初期値としてオブジェクトを指定した場合、それが値が false の Boolean オブジェクトであっても、新しい Boolean オブジェクトは true の値を持ちます
 ```
 
 **問60**
 
-``` undefined == null ``` の真偽値は何か
+```
+undefined == null
+```
+の真偽値は何か
 
 ```js
 if (undefined == null){
@@ -1118,7 +1190,6 @@ var ii = function(){
 var kk = ii();
 kk('home');
 //my home
-
 ```
 
 **問62**
@@ -1211,7 +1282,15 @@ console.log('repeat'.repeat(2));
 
 **問67**
 
-文字列```foo```をイテレーターを使った反復処理で配列```['f','o','o']```を出力しなさい。
+文字列
+```
+foo
+```
+をイテレーターを使った反復処理で配列
+```
+['f','o','o']
+```
+を出力しなさい。
 
 ```js
  //ECMAScript2015,Babel
@@ -2208,7 +2287,7 @@ nullとundefinedの違いを教えてください
 
 **問120**
 
-値がnullかどうかを確認してください
+変数fafaの値がnullかどうかを確認してください
 
 ```js
 var fafa = null;
@@ -2248,7 +2327,7 @@ for(var i = 0; i < 10; i++){
 var fragment = document.createDocumentFragment();
 for(var i = 0; i < 10; i++){
   var child = document.createElement('div');
-  fragment.appendChild('child');
+  fragment.appendChild(child);
 }
 
 document.getElementById('parent').appendChild(fragment);
@@ -2566,28 +2645,6 @@ topの子要素全て削除してください
    element.removeChild(element.firstChild);
  }
 ```
-
-
-```js
-
-function Human (name){
- this.name = name;
-}
-function Megurokumin(number, name){
- this.ID = number;
- Human.call(this, name);
-}
-Megurokumin.prototype = new Human();
-var ii = new Megurokumin('090', 'morita');
-ii.name;
-ii.ID
-fafa = new Megurokumin('778', 'oosato');
-fafa.name
-
-ii instanceof Megurokumin
-//true
-```
-
 
 **問139**
 
@@ -3102,7 +3159,7 @@ console.log(elem.innerHTML);
 //第3(名前空間URLを返す関数)、5引数(既存のXPathResultオブジェクト)はnullで問題ない。
 
 //evaluteメソッド第４引数の値と返値の関係
-ANY_TYPE :0 
+ANY_TYPE :0
 NUMBER_TYPE :1
 STRING_TYPE :2
 BOOLEAN_TYPE :3
@@ -3138,7 +3195,7 @@ target.onclick = function toggleStyle() {
 
 **問166**
  " fafa fafa eee "のような最初と最後に空白があるような文字列に対して、それらを含めない配列を返してください
- 
+
 ```js
  " fafa fafa eee ".trim().split(" ");
  //["fafa", "fafa", "eee"]
@@ -3411,7 +3468,7 @@ if (currentUser) {
 ```js
  //A function declaration is not a statement
  //関数宣言はステートメントではありません
- 
+
 let test;
 if (currentUser) {
   test = () => {
@@ -3493,6 +3550,602 @@ const foo = { clark: 'kent' };
 **ここから下は鋭意制作中====================================================**
 
 **問000**
+defaultPrameter
+
+```js
+function createAddress(address, tyoume = address +  "-1", banch = tyoume + "-10"){
+ return [address, tyoume , banch];
+}
+createAddress("meguro")
+//["meguro", "meguro-1", "meguro-1-10"]
+```
+
+
+**問000**
+
+f()を実行すると6が返ってくる関数を実装してください。但しfは引数にx,y,zを持ち、xはデフォルトで1、yは2で、zはObjectDestructuringとしてkeyとvalueにzにを持ちデフォルトでzの値は3とする
+
+```js
+function f([x, y] = [1,2], {z: z} = {z: 3}){
+ return x + y + z;
+}
+f()
+//6
+```
+
+**問000**
+
+こちらを使って
+```js
+var people = [
+{ name: "ken",
+  family: {
+   mother: "jone Smith"
+  },
+ age: 24
+},
+{ name: "jun",
+  family: {
+   mother: "jone jun"
+  },
+ age: 27
+}];
+```
+下記のような出力になるように実装してください
+。```js
+//Name ken, Mother: jone Smith
+//Name jun, Mother: jone jun
+```
+
+```js
+var people = [
+{ name: "ken",
+  family: {
+   mother: "jone Smith"
+  },
+ age: 24
+},
+{ name: "jun",
+  family: {
+   mother: "jone jun"
+  },
+ age: 27
+}];
+for (var {name: n, family: {mother : f}} of people){
+ console.log("Name " + n + ", Mother: " + f);
+}
+//Name ken, Mother: jone Smith
+//Name jun, Mother: jone jun
+
+```
+
+**問000**
+
+こちら
+```js
+var metadata = {
+ title: "Scratchpad",
+ translations: [
+  {
+    locale: "de",
+    localization_tags: [],
+    last_edit: "2016-07-18",
+    url: "kenjimorita.jp",
+    title: "JavaScript"
+   }
+ ],
+  url: "kenjimorita.jp/JavaScript"
+};
+```
+のtitleをenglishTitleとして、translationsの中のtitleをlocalTitleとしてそれぞれ変数に代入してconsole.log出力してください
+
+```js
+var metadata = {
+ title: "Scratchpad",
+ translations: [
+  {
+    locale: "de",
+    localization_tags: [],
+    last_edit: "2016-07-18",
+    url: "kenjimorita.jp",
+    title: "JavaScript"
+   }
+ ],
+  url: "kenjimorita.jp/JavaScript"
+};
+var {title: englishTitle, translations: [{title: localeTitle}]} = metadata;
+console.log(englishTitle, localeTitle);
+//"Scratchpad"
+//"JavaScript"
+
+```
+
+**問000**
+
+こちらの渡ってきたoptionの値をデフォルト設定している書き方
+
+```js
+function drawES5Chart(options) {
+  options = options === undefined ? {} : options;
+  var size = options.size === undefined ? 'big' : options.size;
+  var cords = options.cords === undefined ? { x: 0, y: 0 } : options.cords;
+  var radius = options.radius === undefined ? 25 : options.radius;
+  console.log(size, cords, radius);
+}
+drawES5Chart({
+  cords: { x: 18, y: 30 },
+  radius: 30
+});
+```
+をECMAScript2015の書き方に修正してください
+
+```js
+function drawES6Chart({size = 'big', cords = { x: 0, y: 0 }, radius = 25} = {}) {
+  console.log(size, cords, radius);
+}
+drawES6Chart({
+  cords: { x: 18, y: 30 },
+  radius: 30
+});
+
+// In Firefox, default values for destructuring assignments are not yet implemented (as described below).
+// The workaround is to write the parameters in the following way:
+// ({size: size = 'big', cords: cords = { x: 0, y: 0 }, radius: radius = 25} = {})
+
+```
+
+
+**問000**
+
+```js
+
+function Human (name){
+ this.name = name;
+}
+function Megurokumin(number, name){
+ this.ID = number;
+ Human.call(this, name);
+}
+Megurokumin.prototype = new Human();
+var ii = new Megurokumin('090', 'morita');
+ii.name;
+ii.ID
+fafa = new Megurokumin('778', 'oosato');
+fafa.name
+
+ii instanceof Megurokumin
+//true
+```
+
+**問000**
+```js
+var emitter = {
+    callbacks : [],
+    register: fnction(fn){
+     this.callbacks.push(fn);
+    },
+    onOpen: funciton(){
+      callbacks.forEach(function(fn){
+        fn();
+      )
+    }
+ }
+```
+
+
+**問000**
+```js
+
+function add (){console.log(this.x) };
+var obj = {x: 5};
+add.apply(obj)
+//5
+```
+
+**問000**
+```js
+//apply
+function add (y, z){console.log(this.x, y + z ) };
+add.apply({x: 3}, [5, 6])
+
+//call
+function add (y, z){console.log(this.x, y + z ) };
+add.call({x: 3}, 5, 6)
+```
+
+
+**問000**
+```js
+var int = 8;
+var module = {
+ int: 4,
+ fn : function(){return this.int;}
+}
+module.fn()
+//4
+var fnn = module.fn
+fnn()
+//8
+
+
+var fnn = module.fn.bind(module)
+fnn()
+//生成する関数にもともとのthis参照しているオブジェクトを束縛させる必要がある
+```
+
+**問000**
+
+```js
+function list (){
+ return Array.prototype.slice.call(arguments);
+}
+list(2,3,4);
+```
+```
+function list (){
+ return Array.prototype.slice.call(arguments);
+}
+var bindedList = list.bind(null, 1);
+bindedList(3,4,5)
+//[1, 3, 4, 5]
+```
+
+**問000**
+```js
+function fa () {
+ return this
+}
+var ii = fa.bind("morita");
+```
+
+**問000**
+```js
+var list = document.getElementById('list');
+var fragment = document.createDocumentFragment();
+var array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];
+var newnode = array.forEach(function(elem){
+    var li = document.createElement("li");
+    li.textContent = elem;
+    fragment.appendChild(li);
+})
+list.appendChild(fragment);
+//全てのブラウザで利用可能
+//返り値はDocumentFragmentへの参照。メモリ上に存在
+//DOMツリーに追加するのではないのでリフローが行われない
+```
+
+
+**問000**
+```js
+var {c:foo, d} = {
+  c:"foo",
+  d:"bar"
+};
+```
+
+**問000**
+```js
+{g,h}={g:3, h:4};
+({g,h}={g:3, h:4});
+
+```
+
+**問000**
+ローカルストレージとセッションストレージの違いを教えてください.
+
+
+```js
+データの保存のされ方が違う
+ローカルストレージ
+同じオリジン間で共有されるストレージ。
+ブラウザに保存される
+localstrageは他のタブ間でもデータが共有される
+あるタブで保存されたデータは即座に違うタブで参照できる
+ページを更新して残っている
+
+セッションストレージ
+ブラウジングコンテキスト(タブ)に保存される
+異なるタブなら異なるsessionストレージ
+同一タブ内なら保存は維持される
+
+
+ストレージ内のデータは文字列
+ストレージにオブジェクトは渡せない(JSONを使ってください)
+
+```
+
+**問000**
+```js
+localStrage.foo = "fafa";
+localStrage.setItem("foo","fafa");
+localStrage.getItem("foo");
+localStorage.removeItem("foo")
+localStorage.clear();
+var key = localStorage.key(0)
+console.log(key + "のストレージは" + localStorage[key]);
+```
+
+
+
+**問000**
+Storage
+
+```js
+//storageの値が変わったら全てのタブで発火する
+window.addEventListener("storage",function(e){
+},false);
+//storage値が変わったタブでは発火されない
+
+//StorageEvent
+//key
+//oldVAlue
+//newValue
+//url(ストレージが変わったページのurl)
+//storageArea(変更が起こったエリアlocalStorageがSesstionStorage)
+```
+
+**問000**
+Web Messaging
+```js
+win=window.open("/");
+win.document.body.textContent="書き換えました";
+
+外から送るのは指示だけで実際の実装は内部でやる方がいい
+(実際の開かれたページで開かれた分だけ読み込む必要があるから)
+
+指示を与える方法がWeb Messaging
+postMessage("メッセージ","/"); //他のオリジンでもメッセージを送ることができる
+
+ある別ブラウジングコンテキストからメッセージが送られてきた場合発火
+window.addEventListener("message",function(e){
+    console.log("送られてきたメッセージは",e.data);
+    e.source.postMessage("返信",e.origin);//返信できる
+});
+
+```
+
+
+**問000**
+```js
+ボイラープレートコード（似ているのに省略できないお決まりのコード断片）
+```
+
+**問000**
+```js
+function CreateId(id){
+ this.id = id;
+}
+CreateId.prototype.get = function(){
+ console.log(this.id);
+}
+var create = new CreateId(10);
+create.get()//10
+
+//setTimeoutはthisがwindow設定なのでうまくいかない
+//オブジェクトのメソッドはオブジェクトに束縛されているものではなく、その時々の実行コンテキスト(呼び出し部分)において実行される
+setTimeout(create.get, 1000);
+//こうする
+setTimeout(create.get.bind(create), 1000);
+```
+
+
+**問000**
+```js
+{
+const B = 5;
+    B = 10; // TypeError: Assignment to constant variable
+
+    const ARR = [5, 6];
+    ARR.push(7);
+    console.log(ARR); // [5,6,7]
+    ARR = 10; // TypeError: Assignment to constant variable
+    ARR[0] = 3; // value is mutable
+    console.log(ARR); // [3,6,7]
+}
+```
+
+**問000**
+```js
+function Person() {
+    var self = this;
+    self.age = 0;
+
+    setInterval(function growUp() {
+        // The callback refers to the `self` variable of which
+        // the value is the expected object.
+        self.age++;
+    }, 1000);
+}
+
+```
+
+```js
+function Person() {
+    this.age = 0;
+
+    setInterval(() => {
+        this.age++; // `this` properly refers to the person object
+    }, 1000);
+}
+
+var p = new Person();
+```
+
+
+**問000**
+RestOperator
+```js
+function foo(...args) {
+    console.log(args);
+}
+foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
+```
+
+**問000**
+
+```js
+function getGame(make, model, value) {
+ return {
+  make,
+  model,
+  value,
+  ['make' + make] : true,
+  depreciate() {
+   this.value -= 2000;
+  }
+ }
+}
+let game = getGame('nintendo', 'pokemonGo', 3000);
+```
+
+
+**問000**
+
+```js
+var parent = {
+ foo() {
+  console.log("hello from the parent");
+ }
+}
+var child = {
+ foo() {
+  super.foo();
+  console.log("hello from the child");
+ }
+}
+Object.setPrototypeOf(child, parent);
+child.foo()
+VM9460:3 hello from the parent
+VM9460:9 hello from the child
+```
+
+**問000**
+http://exploringjs.com/es6/ch_oop-besides-classes.html#Object_assign
+
+```js
+const DEFAULTS = {
+    logLevel: 0,
+    outputFormat: 'html'
+};
+function processContent(options) {
+    options = Object.assign({}, DEFAULTS, options); // (A)
+    ···
+}
+
+```
+
+**問000**
+```js
+SomeClass.prototype.someMethod = function (arg1, arg2) {
+    ···
+};
+SomeClass.prototype.anotherMethod = function () {
+    ···
+};
+```
+とはちがう別の方法でメソッドを定義してください
+
+```js
+Object.assign(SomeClass.prototype, {
+    someMethod(arg1, arg2) {
+        ···
+    },
+    anotherMethod() {
+        ···
+    }
+});
+```
+**問000**
+
+こちらは値を割り当てられません。
+```js
+const proto = Object.defineProperty({}, 'prop', {
+    writable: false,
+    configurable: true,
+    value: 123,
+});
+const obj = Object.create(proto);
+obj.prop = 456;
+    // TypeError: Cannot assign to read-only property
+```
+
+valueを書き換えてください
+
+```js
+const proto = Object.defineProperty({}, 'prop', {
+    writable: false,
+    configurable: true,
+    value: 123,
+});
+const obj = Object.create(proto);
+Object.defineProperty(obj, 'prop', {value: 456});
+console.log(obj.prop); // 456
+```
+
+**問000**
+```js
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    toString() {
+        return `(${this.x}, ${this.y})`;
+    }
+}
+
+class ColorPoint extends Point {
+    constructor(x, y, color) {
+        super(x, y);
+        this.color = color;
+    }
+    toString() {
+        return super.toString() + ' in ' + this.color;
+    }
+}
+> const cp = new ColorPoint(25, 8, 'green');
+
+> cp.toString();
+//'(25, 8) in green'
+
+> cp instanceof ColorPoint
+//true
+> cp instanceof Point
+//true
+
+> typeof Point
+//'function'
+//In fact, the result of a class definition is a function:
+
+
+```
+
+**問000**
+```js
+var domLinks = document.querySelectorAll('a[href]');
+var links = Array.prototype.slice.call(domLinks);
+links.forEach(function (link) {
+    console.log(link);
+});
+
+const domLinks = document.querySelectorAll('a[href]');
+const links = Array.from(domLinks);
+links.forEach(function (link) {
+    console.log(link);
+});
+```
+
+
+**問000**
+```js
+const bar = function baz() {};
+console.log(bar.name); // baz
+
+Because it comes first, 
+the function expression’s name baz takes precedence over other names (e.g. the name bar provided via the variable declaration):
+```
+
+**問000**
 ```js
 ```
 
@@ -3515,7 +4168,6 @@ const foo = { clark: 'kent' };
 ```
 
 
-
 **問000**
 ```js
 ```
@@ -3524,147 +4176,15 @@ const foo = { clark: 'kent' };
 ```js
 ```
 
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-
-
-**問000**
-```js
-```
-
-**問000**
-```js
-```
-# webGL
+参照
+http://exploringjs.com/es6/
+https://leanpub.com/understandinges6/read
+https://github.com/airbnb/javascript
+http://uhyohyo.net/javascript/
+https://developer.mozilla.org/ja/docs/Web/API/document
+http://foreignkey.toyao.net/archives/763
+https://github.com/metagrover/ES6-for-humans
+https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88JavaScript-%E4%BA%95%E4%B8%8A%E8%AA%A0%E4%B8%80%E9%83%8E-ebook/dp/B00P2EG5LC
+https://www.oreilly.co.jp/books/9784873115733/
+https://www.oreilly.co.jp/books/9784873116211/
+http://gihyo.jp/magazine/wdpress/archive/2015/vol87
