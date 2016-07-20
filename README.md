@@ -5,8 +5,7 @@
 
 **問1**
 
-```const afa = {a: 'a'}```と```const ee = {b: 'b'}
-```
+```const afa = {a: 'a'}```と```const ee = {b: 'b'}```
 をmergeした```m```
 を出力してください
 e.g```{a:'a',b:'b'}```
@@ -4346,6 +4345,7 @@ for (const {name, age} of arr2) {
 ```
 
 参照
+
 http://exploringjs.com/es6/
 https://leanpub.com/understandinges6/read
 https://github.com/airbnb/javascript
