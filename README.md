@@ -80,7 +80,9 @@ Array.isArray(ee) //true
 **問6**
 
 ```js
-var aa = 'fafa'```を出力した後完全に削除し、削除されたことを出力してくださいe.g"aa is not defined"
+var aa = 'fafa'
+```
+を出力した後完全に削除し、削除されたことを出力してくださいe.g"aa is not defined"
 
 ```js
 var aa = 'fee';
