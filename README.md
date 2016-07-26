@@ -77,29 +77,25 @@ Array.isArray(ee) //true
 // ee instanceof Objectでもtrueが返ってく る
 ```
 
-**問6WIP**
+**問6**
 
 ```js
-
-// var aa = 'fafa'
-// ```
-// を出力した後完全に削除し、削除されたことを出力してくださいe.g
-// "aa is not defined"
+var aa = 'fafa'```を出力した後完全に削除し、削除されたことを出力してくださいe.g"aa is not defined"
 
 ```js
-// var aa = 'fee';
+var aa = 'fee';
 // aa
-// //'fee'
-// delete aa
-// //true
-// aa
-// //'aa is not defined'
+//'fee'
+delete aa;
+//true
+aa
+//'aa is not defined'
 ```
 
 **問7**
 
 ```js
-ee(2,4,5)
+ee(2,4,5);
 ```
 を実行したら引数が全て配列で返る関数eeを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
@@ -213,7 +209,7 @@ var a, b;
 の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
 
 ```js
-var [a=1, b=7] = [1];
+var [a=5, b=7] = [1];
 console.log(a, b);
 //1 7
 ```
@@ -3591,7 +3587,8 @@ var people = [
 }];
 ```
 下記のような出力になるように実装してください
-。```js
+。
+```js
 //Name ken, Mother: jone Smith
 //Name jun, Mother: jone jun
 ```
@@ -3790,6 +3787,7 @@ bindedList(3,4,5)
 ```
 
 **問000**
+
 ```js
 function fa () {
  return this
@@ -3798,6 +3796,7 @@ var ii = fa.bind("morita");
 ```
 
 **問000**
+
 ```js
 var list = document.getElementById('list');
 var fragment = document.createDocumentFragment();
