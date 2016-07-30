@@ -4284,26 +4284,99 @@ for (const {name, age} of arr2) {
 
 
 **問000**
+スーパークラスのメソッドspeakをサブクラスgetSpeakからcallしてください
 ```js
+class Faa {
+ constructor(name){
+  this.name = name;
+ }
+ speak(){
+   console.log(this.name);
+ }
+}
+
+class Faaaa extends Faa {
+  constructor(name){
+    super();
+    this.name = name;
+  }
+ getName(){
+   super.speak();
+ }
+}
+
+var eee = new Faa("kenji");
+eee.speak();
+var iii = new Faaaa("morita");
+iii.getName();
+eee.speak();
+```
+
+
+**問000**
+
+こ方法はorigのプロパティ属性を守らない
+```
+function clone(orig) {
+    return Object.assign({}, orig);
+}
+```
+
+propety descriptorsを使ってorig属性をもつ「クローンを作る関数」にしてください
+
+```js
+//Cloning objects
+
+function clone(orig) {
+    const origProto = Object.getPrototypeOf(orig);
+    return Object.assign(Object.create(origProto), orig);
+}
 
 ```
 
 
 **問000**
+
 ```js
+class MyClass {
+    get prop() {
+        return 'getter';
+    }
+    set prop(value) {
+        console.log('setter: '+value);
+    }
+}
 
 ```
 
 
 **問000**
+
+Generator methodsをつくってください(仮)
+
 ```js
 
-```
+//If you prefix a method definition with an asterisk (*), it becomes a generator method. Among other things, a generator is useful for defining the method whose key is Symbol.iterator. The following code demonstrates how that works.
 
 
-**問000**
-```js
+class IterableArguments {
+    constructor(...args) {
+        this.args = args;
+    }
+    * [Symbol.iterator]() {
+        for (const arg of this.args) {
+            yield arg;
+        }
+    }
+}
 
+for (const x of new IterableArguments('hello', 'world')) {
+    console.log(x);
+}
+
+// Output:
+// hello
+// world
 ```
 
 
