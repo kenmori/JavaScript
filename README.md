@@ -4382,10 +4382,126 @@ for (const x of new IterableArguments('hello', 'world')) {
 
 
 **問000**
+
+```js
+Math.abs(-10)
+//10
+```
+
+
+
+**問000**
+
+定義と同時に実行する関数を作ってください
+
+```js
+var dimension = function(radius, height){
+ var dimension = radius * radius * Math.PI;
+ return dimension * height / 3;
+}(10,20);
+console.log(dimension);
+
+//(10,20)を取り除くと関数リテラルになることに注意
+```
+
+
+**問000**
+参照渡し
+```js
+var obj = {a: "初期値", p: 10};
+var num = 1;
+function fun(num2, obj){
+ obj.a = "変更後";
+ num = num2;
+}
+fun(2,obj);
+num
+//2
+obj.a
+//"変更後"
+
+```
+
+
+```js
+var obj = {a: "初期値", p: 10};
+var num = 1;
+function fun(num2, obj){
+ obj2 = {a : "変更後"};
+ num = num2;
+}
+fun(2,obj);
+//num
+2
+obj.a
+//"初期値"
+obj2.a
+//"変更後"
+```
+**問000**
+オブジェクトのプロパティが存在するかどうか
+```js
+var obj = {
+ width: 20
+}
+if(!!obj.height){
+ console.log(obj.height)
+} else {
+ console.log("heightが定義されていません")
+}
+console.log(!!obj.height)
+//false
+//"heightが定義されていません"
+```
+
+
+**問000**
+``
+﻿
+function add(x, y){
+ return x + y;
+}
+function multiply(x, y){
+ return x * y;
+}
+function withLogging(wrappedFunction){
+ return function(x, y){
+  var result = wrappedFunction(x, y);
+    console.log('result', result);
+    return result;
+  };
+ }
+ 
+var addAndLog = withLogging(add);
+addAndLog(1, 2)
+//result 3
+//3
+
+var multiplyAndLog = withLogging(multiply)
+multiplyAndLog(40,4)
+//result 160
+
+```
+
+
+**問000**
+先頭からN個を削除
+```js
+
+var hoge = document.querySelectorAll("h1");
+var newHoge = Array.prototype.slice.call(hoge, 1);
+
+```
+
+**問000**
 ```js
 
 ```
 
+**問000**
+```js
+
+```
 
 
 **問000**
@@ -4394,6 +4510,31 @@ for (const x of new IterableArguments('hello', 'world')) {
 ```
 
 
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
 
 **問000**
 ```js
@@ -4412,11 +4553,130 @@ for (const x of new IterableArguments('hello', 'world')) {
 
 ```
 
+**問000**
+```js
+
+```
 
 **問000**
 ```js
 
 ```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
 
 参照
 
