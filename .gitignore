@@ -11,3 +11,4 @@ sprite.scssc
 # コメントになる
 */.DS_Store
 .idea/
+.idea/workspace.xml
