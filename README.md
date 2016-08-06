@@ -4494,34 +4494,25 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 ```
 
 **問000**
-```js
+```var a = 'aabbccdde1e23ffgg'; ```と```var a = 'aabbccdde1e23ffgg';```のどちらがさきに数値が現れるか比較してください
 
+```js
+var a = 'aabbccdde1e23ffgg';
+var b = 'aabbccddee123ffgg';
+
+a.search(/\d/) > b.search(/\d/);
+//false
 ```
 
 **問000**
+```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
+
 ```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
+var div = "<div>about me</div>";
+var divarray=[];
+divarray.push(/\<div\>(.+)\<\/div\>/.exec(div)[1])
+divarray
+//["about me"]
 
 ```
 
@@ -4529,59 +4520,235 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 **問000**
 ```js
 
-```
+var i = 0;
+var array = [];
+do {
+array.push(Math.pow(2,i));
+i += 1;
 
-**問000**
-```js
-
-```
-
-**問000**
-```js
+} while(i < 10);
 
 ```
 
 
 **問000**
+1980年8月1日を表すDateオブジェクトを生成してください
+
+```js
+var d = new Date('1980/8/1 5:55');
+//Fri Aug 01 1980 05:55:00 GMT+0900 (JST)
+
+```
+
+
+
+**問000**
+
+上で作成した日時を現地フォーマットで出力してください
+
+```js
+var d = new Date('1980/8/1 5:55');
+d.toLocaleString();
+//"2008/7/1 5:55:00"
+
+
+//標準フォーマット
+d.toStoring();
+//"Tue Jul 01 2008 05:55:00 GMT+0900 (JST)"
+```
+
+**問000**
+
+上で作成した時間を現地フォーマットで出力してください
+
+```js
+var d = new Date('1980/8/1 5:55');
+d.toLocaleTimeString();
+//"5:55:00"
+
+//標準フォーマット
+//"05:55:00 GMT+0900 (JST)"
+
+```
+
+
+**問000**
+var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
+```js
+var ary = ['aaa', 'bbb', 'ccc'];
+ary.unshift('eee');
+//4
+ary
+//["eee", "aaa", "bbb", "ccc"]
+
+```
+
+**問000**
+こちらの変数を使って
+var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
+2でも3でも割り切れない数を抽出した配列を生成してください
+
+```js
+var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
+var newAry = ary.filter(function(elem){
+    if (elem % 3 !== 0 && elem % 2 !== 0){
+         return elem
+     }
+});
+newAry
+//[1, 5, 7]
+```
+
+**問000**
+ビルドインプロパティを3つ答えなさい
+
+```js
+
+Infinity
+NaN
+undefined
+
+//グローバルオブジェクトに定義されているプロパティ
+//ビルドインオブジェクトとは異なり、参照する際にオブジェクトを指定せずにプロパティ名を記述するだけ
+```
+
+
+
+**問000**
+ビルドイン関数を9つ挙げてください
+
+```js
+decodeURL(str)
+decodeURIComponent(str)
+encodeURI(str)
+encodeURIComponent(str)
+eval(codeStr)
+isFinite(num)
+isNaN(value)
+parseFloat(str)
+parseInt(str,[radix])
+
+
+```
+
+
+**問000**
+こちら
+encodeURIComponenとencodeURIの違いを教えてください
+
+```js
+
+const url = "https://tools.ietf.org/html/rfc2822#page-14";
+encodeURIComponent(url)
+//"https%3A%2F%2Ftools.ietf.org%2Fhtml%2Frfc2822%23page-14"
+
+(;、 :、 /、 @、？、 &、 %、 $、 #、 =、 + 、 ,)はエンコードしない
+encodeURI(url)
+//"https://tools.ietf.org/html/rfc2822#page-14"
+
+```
+
+
+**問000**
+
+fromChraCode()
+charCodeAt
+charAt
+localCompare(target)
+toLowerCase
+toLocalLowerCase
+
 ```js
 
 ```
 
 
 **問000**
+
+```var s = 'aaa,bbb,ccc,ddd';```
+を使って、,を/に置換した文字列```aaa/bbb/ccc/ddd```を出力してください。ただしreplaceメソッドは使用しないこととする
+
 ```js
+while (s.indexOf(",") >= 0){
+  s = s.replace(',','/');
+}
+s
+//"aaa/bbb/ccc/ddd"
+
+※splitとjoinを使って生成する方法もあります
 
 ```
 
 **問000**
+下の変数sにある
+```var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
+divの中にあるtextを全て出力してください
+
+
 ```js
+var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';
+var divStringAry = [];
+var regexp = /<div>.*?<\/div>/g;
+var result = regexp.exec(s);
+while(result != null){
+ var divStr = result[0]
+ divStr = divStr.substring('<div>'.length,
+          divStr.length - '</div>'.length);
+divStringAry.push(divStr);
+result = regexp.exec(s);
+}
+
+divStringAry
+//["bbb", "ddd"]
+divStringAry.join('\n')
+//"bbb
+//ddd"
 
 ```
 
 **問000**
+2の0乗〜10乗までを格納した配列を作成してください。インデックスはそれぞれ指数(0〜10)となるようにしてください
+
 ```js
 
+var ary = [];
+var i = 0;
+do {
+   ary[i] = Math.pow(2, i);
+   i += 1;
+} while(i <= 10);
+ary
+//[1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+
+//別解
+var ary = [];
+for(var n = 0; n <= 10; n++){
+ ary[n] = Math.pow(2, n);
+}
 ```
 
 
 **問000**
+
+今年の各月の最終日を配列に格納してくださいｌ。インデックスは各月と一致する数値とする。
+
 ```js
+var ary = [];
+var temp = new Date();
+for (var i = 1; i <= 12; i++){
+ var d = 28;
+ temp.setMonth(i - 1, d);
+ while(temp.getMonth() == i - 1){//次の月になるまでroop
+   d++;
+   temp.setDate(d);
+ }
+ ary[i] = d -1; //次の付きになる直前の日付を配列に設定
+}
+ary
+//[undefined × 1, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
+//DateオブジェクトのsetDate()に日付を設定したさい、実際の日付より大きい数値を設定した場合は自動的に繰り上げられる
+例えば1月のDateオブジェクトに対してsetDate(32)とすると自動的に2月1になる。その性質を利用する
 
 ```
 
@@ -4691,3 +4858,4 @@ https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88J
 https://www.oreilly.co.jp/books/9784873115733/
 https://www.oreilly.co.jp/books/9784873116211/
 http://gihyo.jp/magazine/wdpress/archive/2015/vol87
+https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842
