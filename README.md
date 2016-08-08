@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/07/19更新**
+**2016/08/08更新**
 
 
 **問1**
@@ -74,7 +74,7 @@ Array.isArray(ee) //true
 
 //ee instanceof Array //true
 //instanceof比較は継承しているオブジェクトのインスタンス比較なので
-// ee instanceof Objectでもtrueが返ってく る
+// ee instanceof Objectでもtrueが返ってくる
 ```
 
 **問6**
