@@ -4839,8 +4839,26 @@ ary
 
 ```
 
+### Node.JS
+
 **問000**
+node server.jsとコマンドを打つと
+http://127.0.0.1:8124で
+画面に'Hello word'が出力、
+consoleに
+`Server running at http://127.0.0.1:8124/`
+と出力されるserver.jsを作成してください。
+Cntent-typeはtext/plainとする
+
 ```js
+var http = require('http');
+
+http.createServer(function (request, response) {
+  response.writeHead(200, {'Content-Type': 'text/plain'});
+  response.end('Hello World\n');
+}).listen(8124);
+
+console.log('Server running at http://127.0.0.1:8124/');
 
 ```
 
@@ -4859,3 +4877,4 @@ https://www.oreilly.co.jp/books/9784873115733/
 https://www.oreilly.co.jp/books/9784873116211/
 http://gihyo.jp/magazine/wdpress/archive/2015/vol87
 https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842
+http://nodejs.jp/nodejs.org_ja/
