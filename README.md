@@ -3544,10 +3544,12 @@ jscsのrequireSpacesInsideObjectBracketsで良いとされている書き方に�
 const foo = { clark: 'kent' };
 ```
 
-**ここから下は鋭意制作中====================================================**
 
-**問000**
-defaultPrameter
+
+**問184**
+
+第一引数にaddress,第二引数にtyoume、第三引数にbanchをとりそれらの渡ってきた値をそれぞれ要素とする1つの配列として返すだけの関数createAddressに
+defaultPrameterとして第二引数に「address + -1」、第三引数に「tyoume + "-10"」として設定してください。
 
 ```js
 function createAddress(address, tyoume = address +  "-1", banch = tyoume + "-10"){
@@ -3558,9 +3560,10 @@ createAddress("meguro")
 ```
 
 
-**問000**
+**問185**
 
-f()を実行すると6が返ってくる関数を実装してください。但しfは引数にx,y,zを持ち、xはデフォルトで1、yは2で、zはObjectDestructuringとしてkeyとvalueにzにを持ちデフォルトでzの値は3とする
+f()を実行すると6が返ってくる関数を実装してください。
+但しfは引数にx,y,zを持ち、xはデフォルトで1、yは2で、zはObjectDestructuringとしてkeyとvalueにzにを持ちデフォルトでzの値は3とする
 
 ```js
 function f([x, y] = [1,2], {z: z} = {z: 3}){
@@ -3570,7 +3573,7 @@ f()
 //6
 ```
 
-**問000**
+**問186**
 
 こちらを使って
 ```js
@@ -3588,12 +3591,13 @@ var people = [
  age: 27
 }];
 ```
-下記のような出力になるように実装してください
+下記のような
 。
 ```js
 //Name ken, Mother: jone Smith
 //Name jun, Mother: jone jun
 ```
+出力になるように実装してください。
 
 ```js
 var people = [
@@ -3617,7 +3621,7 @@ for (var {name: n, family: {mother : f}} of people){
 
 ```
 
-**問000**
+**問187**
 
 こちら
 ```js
@@ -3658,7 +3662,7 @@ console.log(englishTitle, localeTitle);
 
 ```
 
-**問000**
+**問188**
 
 こちらの渡ってきたoptionの値をデフォルト設定している書き方
 
@@ -3693,7 +3697,7 @@ drawES6Chart({
 ```
 
 
-**問000**
+**問189**
 
 ```js
 
@@ -3715,23 +3719,10 @@ ii instanceof Megurokumin
 //true
 ```
 
-**問000**
-```js
-var emitter = {
-    callbacks : [],
-    register: fnction(fn){
-     this.callbacks.push(fn);
-    },
-    onOpen: funciton(){
-      callbacks.forEach(function(fn){
-        fn();
-      )
-    }
- }
-```
 
 
-**問000**
+**問190**
+このような```function add (){console.log(this.x) };```関数ある。新たに変数名objのプロパティとしてx、値5で定義した後、addが参照するthisがobjにbindするように呼び出してください。
 ```js
 
 function add (){console.log(this.x) };
@@ -3740,7 +3731,9 @@ add.apply(obj)
 //5
 ```
 
-**問000**
+**問191**
+このような```function add (y, z){console.log(this.x, y + z ) };```関数がある。この関数に{x:3}にbindさせて、yは5,zは6となるように実行してください。
+
 ```js
 //apply
 function add (y, z){console.log(this.x, y + z ) };
@@ -3752,7 +3745,18 @@ add.call({x: 3}, 5, 6)
 ```
 
 
-**問000**
+**問192**
+
+下のような記述がある。
+```js
+var int = 8;
+var module = {
+ int: 4,
+ fn : function(){return this.int;}
+}
+```
+module.fnを別の変数にbindして呼び出し、4を出力してください。
+
 ```js
 var int = 8;
 var module = {
@@ -3765,20 +3769,22 @@ var fnn = module.fn
 fnn()
 //8
 
-
+//bindして呼び出し
 var fnn = module.fn.bind(module)
 fnn()
 //生成する関数にもともとのthis参照しているオブジェクトを束縛させる必要がある
 ```
 
-**問000**
-
+**問193**
+したのような記述がある
 ```js
 function list (){
  return Array.prototype.slice.call(arguments);
 }
 list(2,3,4);
 ```
+このままだと返り値が[2,3,4]になるが、インデックス0番目はかならず数値1がsetされ、その後は呼び出し元の値が続く配列を返す関数にしてください。
+
 ```
 function list (){
  return Array.prototype.slice.call(arguments);
@@ -3788,16 +3794,10 @@ bindedList(3,4,5)
 //[1, 3, 4, 5]
 ```
 
-**問000**
-
-```js
-function fa () {
- return this
-}
-var ii = fa.bind("morita");
-```
-
-**問000**
+**問194**
+```<ul id="list"></ul>```がある。
+document.createFragmentをつかって```var array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];```
+がliのtextContentとなるようなDOMを作成してください。
 
 ```js
 var list = document.getElementById('list');
@@ -3815,7 +3815,7 @@ list.appendChild(fragment);
 ```
 
 
-**問000**
+**問WIP-195**
 ```js
 var {c:foo, d} = {
   c:"foo",
@@ -3823,14 +3823,14 @@ var {c:foo, d} = {
 };
 ```
 
-**問000**
+**WIP**
 ```js
-{g,h}={g:3, h:4};
-({g,h}={g:3, h:4});
-
+const {g,h} = {g:3, h:4};
+console.log(g,h)
+//3, 4
 ```
 
-**問000**
+**問197**
 ローカルストレージとセッションストレージの違いを教えてください.
 
 
@@ -3854,7 +3854,9 @@ localstrageは他のタブ間でもデータが共有される
 
 ```
 
-**問000**
+**問198**
+ローカルストレージのkeyとしてfooを値を"fafa"と設定、取得、削除、全てをクリアーにしてください
+
 ```js
 localStrage.foo = "fafa";
 localStrage.setItem("foo","fafa");
@@ -3867,8 +3869,7 @@ console.log(key + "のストレージは" + localStorage[key]);
 
 
 
-**問000**
-Storage
+**WIP**
 
 ```js
 //storageの値が変わったら全てのタブで発火する
@@ -3884,7 +3885,7 @@ window.addEventListener("storage",function(e){
 //storageArea(変更が起こったエリアlocalStorageがSesstionStorage)
 ```
 
-**問000**
+**WIP**
 Web Messaging
 ```js
 win=window.open("/");
@@ -3905,12 +3906,12 @@ window.addEventListener("message",function(e){
 ```
 
 
-**問000**
+**WIP**
 ```js
 ボイラープレートコード（似ているのに省略できないお決まりのコード断片）
 ```
 
-**問000**
+**WIP**
 ```js
 function CreateId(id){
  this.id = id;
@@ -3929,7 +3930,7 @@ setTimeout(create.get.bind(create), 1000);
 ```
 
 
-**問000**
+**WIP**
 ```js
 {
 const B = 5;
@@ -3944,7 +3945,7 @@ const B = 5;
 }
 ```
 
-**問000**
+**WIP**
 ```js
 function Person() {
     var self = this;
@@ -3972,8 +3973,8 @@ var p = new Person();
 ```
 
 
-**問000**
-RestOperator
+**問205**
+RestOperatorを使って渡した実引数を要素にする1つの配列で出力してください。
 ```js
 function foo(...args) {
     console.log(args);
@@ -3981,7 +3982,7 @@ function foo(...args) {
 foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ```
 
-**問000**
+**WIP**
 
 ```js
 function getGame(make, model, value) {
@@ -3999,7 +4000,7 @@ let game = getGame('nintendo', 'pokemonGo', 3000);
 ```
 
 
-**問000**
+**WIP**
 
 ```js
 var parent = {
@@ -4019,7 +4020,7 @@ VM9460:3 hello from the parent
 VM9460:9 hello from the child
 ```
 
-**問000**
+**WIP**
 http://exploringjs.com/es6/ch_oop-besides-classes.html#Object_assign
 
 ```js
@@ -4034,7 +4035,7 @@ function processContent(options) {
 
 ```
 
-**問000**
+**WIP**
 ```js
 SomeClass.prototype.someMethod = function (arg1, arg2) {
     ···
@@ -4754,6 +4755,296 @@ ary
 
 
 **問000**
+
+同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答えてください。オリジンを調べるためのlocationプロパティを答えてください
+```js
+see : https://tools.ietf.org/html/rfc6454
+
+・XMLHttpRwquest
+・Canvas
+・WebStorage
+・X-Frame-Options
+
+location.origin
+document.origin
+
+//制限を受けないものには
+//Cookie
+//HTTP認証
+//document.domainを書き換えてのinnerHTMLの読み書き
+
+//以下はlocationプロパティ
+//例: http://www.google.com:80/search?q=devmo#test
+host - www.google.com:80
+hostname - www.google.com
+href - http://www.google.com:80/search?q=devmo#test
+pathname - /search (ホストからの相対)
+protocol - http:
+search = ?q=devmo
+hash - #test
+
+//用語
+スキーム : http,https
+同一オリジン : スキーム,ホスト,ポートが同じこと
+クロスオリジン : 上記がいずれか一つでも違うこと
+セッションハイジャック :
+ 
+
+```
+
+**問000**
+location.assignとlocation.replaceの違いを教えてください
+```js
+//replaceは画面遷移をWebブラウザの履歴に残さ図遷移する
+
+```
+
+**問000**
+
+Object.creteを使ってPersonのにthis.nameとthis.jobを参照して「"my name is" + this.name + "。" + "職業は" + this.job + "です"」を出力するインスタンスメソッド「say」のみを持ち、それを継承してnameを自身のプロパティとして持つkenjiと、
+kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成して
+```my name is けんじ。職業は芸人です``を出力してください、
+
+```js
+
+var Person = {
+ say: function(){
+   console.log("my name is" + this.name + "。" + "職業は" + this.job + "です");
+ }
+}
+
+var kenji = Object.create(Person, {name :{value: "けんじ" }});
+var compKenji  = Object.create(kenji, {job: {value: "芸人"}});
+compKenji.say()
+"my name is けんじ。職業は芸人です"
+
+//Object.crete()
+第一引数・・・プロトタイプとなるべきobject
+第二引数・・・省略可能。列挙可能なown property(プロパティ記述子を指定。あらたなobjectのプロパティに追加される。Object.definePropertyesの第二引数に対応するところ)
+
+第一引数で渡されるObjetcが、内部で生成されるF.prototypeに割り当てられてnew F()とされた新たなinstanceが返される
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+```
+
+
+**問000**
+以下と同じ記述をしてください。
+```
+function Constructor(){}
+o = new Constructor();
+```
+
+```js
+o = Object.create(Constructor.prototype);
+```
+
+**問000**
+```var o = Object.create({},{p: {value: 32}});```
+を書き換えtrue、列挙true、変更trueとして新たにオブジェクトを生成してください。
+
+```js
+o2 = Object.create({},{p: {value: 32, writable: true, enumerable: true, configurable: true}});
+
+書き換え
+o2.p = 54;
+//54
+
+列挙
+for (var prop in o2){
+ console.log(prop)
+}
+//p
+
+変更
+delete o2.p
+//true
+
+```
+
+**問000**
+
+Object.createとObject.definePropertyesとObject.definePropertyの違いを教えてください。
+
+```js
+//Object.create
+//第一引数に任意のオブジェクトのprototypeを渡し、第二引数に自身がもつプロパティディスクリプタを定義し、それを継承したインスタンスを返す.
+
+//Object.defineProperty
+Object.defineProperty(プロパティをsetする対象オブジェクト, プロパティ/関数名, {パラメータ, ...});
+「一度作ったオブジェクト」に特別な内部属性をもったプロパティを1つ定義する//返り値は第一引数で渡ってきて再定義されたオブ稀有と
+第二引数はpropety名、第三引数は定義したいディスクリプタをハッシュオブジェクトとして渡す
+既存のプロパティは上書き
+各種設定のdefaultはfalse
+
+
+//Object.definePropertes
+Object.defineProperty(プロパティをsetする対象オブジェクト,{プロパティ/関数名{パラメータ, ...}});
+「一度作ったオブジェクト」に新たなプロパティを複数の定義できる
+第二引数はpropertyeのキーとしてディスクリプタを持つオブジェクト
+既存のプロパティは上書き
+
+※プロパティの内容＝デスクリプタ
+
+
+```
+
+
+**問000**
+let n = "124";を数値に変換してください。 
+```js
+let n = "124";
++n
+//124
+
+let n = "";
+n
+//0
+//parseInt(n, 10)はから文字だとNaNが返るがこちらの方法は必ず数値が返る
+
+```
+
+
+**問000**
+```js
+
+var n = {value: 0};
+if(n.value != null){
+ console.log("property exists");
+} else {
+ console.log("null or undefined ??");
+}   
+```
+
+**問000**
+こちらの評価は
+```var n = {value: 0};
+if(n.value){//something}
+```
+value値が0にもかかわらずfalseが返ります。(valueが""空文字でもfalse)
+nullやundefinedの場合のみfalseが返るような条件式にしてください
+
+```js
+if(n.value != null){//something}
+
+```
+
+**問000**
+オブジェクトの存在チェックをしてあったら実行している。
+```js
+var o = {f: function(){console.log("JS")}};
+if(o){
+ if(o.f){
+   o.f();
+ }
+}
+```
+より端的な記述をしてください。
+
+```js
+var o = {f: function(){console.log("JS")}};
+o && o.f && o.f();
+
+//同じ様なイデオムで代入の際に括弧でくくらないとエラーが起きることに注意してください
+//o && o.options && o.options.players > 50 && (flag = true);
+```
+
+
+**問000**
+```var v```の値を確実に数値にしたい。
+"a"が入ってきた場合NaNではなく0を代入するようにしてください。
+ 
+```js
+var n = +v || 0;
+```
+
+**問000**
+```var v ```を整数化してください
+
+```js
+var i = v | 0;
+
+```
+
+**問000**
+下の様な場合、
+```js
+var insEmp1 = new Emp();
+var insEmp2= new Emp();
+insEmp2.name = "kenji";
+insEmp2.name;
+//"kenji"
+
+
+insEmp1.name;
+//undefined;
+//更新されない
+```
+
+Empがnameを持っていない場合Emp1は即座に更新されない。
+プロトタイプからプロパティを継承する全オブジェクトにそのプロパティ(name)を値("kenji")を追加してください。
+
+```js
+function Emp(){};
+var insEmp1 = new Emp();
+var insEmp2 = new Emp();
+Emp.prototype.name = "kenji";
+
+insEmp1.name
+//"kenji";
+insEmp2.name
+//"kenji"
+```
+
+
+**問000**
+ObjectとMapの違いを教えてください
+
+```js
+・Objectのkeyはstring型、Mapは任意の型を指定できる
+・Objectのsizeは手動で調べる必要がある、MapはMap.size()
+・Objectの反復は順番を保証しない,Mapの反復は要素の挿入順
+・Objectはデフォルトでプロパティを持つ(var map = Object.create(null)で回避できる)
+
+
+//ObjectかMapか、使うべきところ
+//Mapを使う
+・実行時までキーが不明な時、全てのkeyが同じ型の時、全ての値が同じ型の時、
+
+//Objectを使う
+・個々の要素に操作できるロジックがある時、
+
+参照
+http://programmers.stackexchange.com/questions/285881/any-point-in-using-es6-map-when-keys-are-all-strings
+http://stackoverflow.com/questions/18541940/map-vs-object-in-javascript
+
+    Object:
+        var o = {};
+        var o = Object.create(null);
+        o.key = 1;
+        o.key += 10;
+        for(let k in o) o[k]++;
+        var sum = 0;
+        if('key' in o);
+        if(o.hasOwnProperty('key'));
+        delete(o.key);
+        Object.keys(o).length
+    Map:
+        var m = new Map();
+        m.set('key', 1);
+        m.set('key', m.get('key') + 10);
+        m.foreach((k, v) => m.set(k, m.get(k) + 1));
+        for(let k of m.keys()) m.set(k, m.get(k) + 1);
+        var sum = 0;
+        for(let v of m.values()) sum += v;
+        if(m.has('key'));
+        m.delete('key');
+        m.size();
+```
+
+
+**問000**
+
+破壊的な
 ```js
 
 ```
@@ -4768,7 +5059,6 @@ ary
 
 ```
 
-
 **問000**
 ```js
 
@@ -4778,34 +5068,6 @@ ary
 ```js
 
 ```
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
 
 **問000**
 ```js
@@ -4834,10 +5096,43 @@ ary
 
 ```
 
+
 **問000**
 ```js
 
 ```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+**問000**
+```js
+
+```
+
+
+
+
+
+
 
 ### Node.JS
 
@@ -4878,3 +5173,5 @@ https://www.oreilly.co.jp/books/9784873116211/
 http://gihyo.jp/magazine/wdpress/archive/2015/vol87
 https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842
 http://nodejs.jp/nodejs.org_ja/
+http://d.hatena.ne.jp/hasegawayosuke/20130330/p1
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
