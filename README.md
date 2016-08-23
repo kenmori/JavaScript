@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/07/19更新**
+**2016/08/23更新**
 
 
 **問1**
@@ -4239,7 +4239,6 @@ bar();
 
 ```js
 //outer
-
 The scope of parameter default values is separate from the scope of the body (the former surrounds the latter).
 That means that methods or functions defined “inside” parameter default values don’t see the local variables of the body:
 ```
@@ -4457,9 +4456,9 @@ console.log(!!obj.height)
 
 
 **問000**
-``
-﻿
-function add(x, y){
+
+```js
+﻿function add(x, y){
  return x + y;
 }
 function multiply(x, y){
@@ -4486,9 +4485,10 @@ multiplyAndLog(40,4)
 
 
 **問000**
-先頭からN個を削除
-```js
 
+先頭からN個を削 
+
+```js
 var hoge = document.querySelectorAll("h1");
 var newHoge = Array.prototype.slice.call(hoge, 1);
 
@@ -4519,8 +4519,8 @@ divarray
 
 
 **問000**
-```js
 
+```js
 var i = 0;
 var array = [];
 do {
@@ -5043,10 +5043,139 @@ http://stackoverflow.com/questions/18541940/map-vs-object-in-javascript
 
 
 **問000**
+破壊的なメソッドをあげてください
+```js
+pop、push、reverse、shift、sort、splice、unshilft
+```
 
-破壊的な
+**問000**
+
+```var arr = ['one', 'two', 'three']```においてarrを非破壊メソッドに変更してください。
+
+```js
+var arr = ['one', 'two', 'three']
+Object.freeze(arr);
+arr.sort();
+//TypeError: arr.sort() is read-only
+```
+
+**問000**
 ```js
 
+```
+
+**問000**
+this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
+```js
+・コンストラクタ呼び出し・・・コンストラクタが生成したオブジェクト
+・メソッド呼び出し・・・レシーバオブジェクト(ドット演算子、ブラケット演算子でオブジェクトのメソッドを読んだとき、演算子の左辺に指定したオブジェクト)
+e.g  const obj = {add : function(){some}};
+メソッドの呼び出し対象のオブジェクトがレシーバオブジェクト、この場合obj、addがメソッド
+・apply,call呼び出し・・・apply、callの引数で指定したオブジェクト
+・それ以外の呼び出し ・・・グローバルオブジェクト
+
+//this参照はコードのコンテキストに応じて自動的に参照先オブジェクトが変わる特別なもの
+
+
+```
+
+**問000**
+var obj = { foo: "bar", baz: 42 }; をMapオブジェクトに変換してください
+
+```js
+var obj = { foo: "bar", baz: 42 }; 
+var map = new Map(Object.entries(obj));
+console.log(map); // Map { foo: "bar", baz: 42 }
+
+```
+
+**問000**
+```js
+var Emiiter = {
+ callbacks : [],
+ register : function(fn){
+   this.callbacks.push(fn);
+ },
+ onOpen : function(){
+    this.callbacks.forEach(function(fn){
+          fn();
+      })
+ },
+}
+Emiiter.register(function(){console.log("1")});
+Emiiter.register(function(){console.log("2")});
+
+```
+
+**問000**
+Promiseオブジェクトを使ってこちら
+```js
+function say(callback, msg) {
+  setTimeout(callback, msg);
+}
+say(function(){
+  console.log('ken!!')
+}, 1000);
+```
+と同じことをしてください
+
+```js
+function say(msg){
+ return new Promise(function(resolve, reject){
+   setTimeout(resolve, msg);
+  });
+}
+
+say(1000).then(function(){
+ console.log('ken!');
+})
+```
+
+
+**問000**
+
+```js
+function getURL(URL){
+ return new Promise(function(resolve, reject){
+   var req = new XMLHttpRequest();
+   req.open('GET', URL, true);
+   req.onload = function(){
+    if(req.status === 200) {
+      resolve(req.responseText);
+    } else {
+      reject(new Error(req.statusText));
+    }
+   };
+   req.onerror = function(){
+      reject(new Error(req.statusText));
+   };
+   req.send();
+ });
+}
+var URL = "http://httpbin.org/get";
+getURL(URL).then(function onFullfilled(value){
+ console.log(value);
+}).catch(function onRejected(error){
+ console.error(error);
+});
+
+```
+
+**問000**
+```js
+var locationsearch = '?id=12345&category=script&isname=true';
+var result = {};
+locationsearch.substring(1).split("&").forEach(function(ele, i){
+  var key =  ele.split("=");
+   result[key[0]] = decodeURIComponent(key[1]);
+})
+```
+
+
+
+**問000**
+
+```js
 ```
 
 **問000**

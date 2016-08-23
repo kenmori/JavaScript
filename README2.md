@@ -939,9 +939,10 @@ multiplyAndLog(40,4)
 
 
 **問000**
-先頭からN個を削除
-```js
 
+先頭からN個を削除
+
+```js
 var hoge = document.querySelectorAll("h1");
 var newHoge = Array.prototype.slice.call(hoge, 1);
 
@@ -1615,7 +1616,12 @@ getURL(URL).then(function onFullfilled(value){
 
 **問000**
 ```js
-
+var locationsearch = '?id=12345&category=script&isname=true';
+var result = {};
+locationsearch.substring(1).split("&").forEach(function(ele, i){
+  var key =  ele.split("=");
+   result[key[0]] = decodeURIComponent(key[1]);
+})
 ```
 
 
