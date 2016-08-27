@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/08/23更新**
+**2016/08/28更新**
 
 
 **問1**
@@ -1034,6 +1034,7 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 ```
 
 **問54**
+
 ひらがな全てにマッチ、半角カタカナ全てにマッチ、カタカナ全てにマッチする正規表現を記述しなさい
 
 ```js
@@ -2569,10 +2570,11 @@ console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 
 **問134**
 
+こちらの
 ```
 [2, 3,-1, -6, 0, -108, 42, 10].sort();
 ```
-こちらのsortは正しくsortされない。コンパレータ関数を渡して正しい順序として出力してください。
+sortは正しくsortされない。コンパレータ関数を渡して正しい順序として出力してください。
 
 ```js
 
@@ -2601,6 +2603,7 @@ i.firstChild //最初の子要素
 
 **問136**
 
+下のような
 ```html
 <div id='top' align='center'>
   <div id='nested'>
@@ -2608,7 +2611,7 @@ i.firstChild //最初の子要素
   </div>
 </div>
 ```
-上のようなnodeがある。```#nested```
+DOMがある。```#nested```
 要素を削除してください
 
 ```js
@@ -3701,22 +3704,6 @@ drawES6Chart({
 
 ```js
 
-function Human (name){
- this.name = name;
-}
-function Megurokumin(number, name){
- this.ID = number;
- Human.call(this, name);
-}
-Megurokumin.prototype = new Human();
-var ii = new Megurokumin('090', 'morita');
-ii.name;
-ii.ID
-fafa = new Megurokumin('778', 'oosato');
-fafa.name
-
-ii instanceof Megurokumin
-//true
 ```
 
 
@@ -3816,6 +3803,7 @@ list.appendChild(fragment);
 
 
 **問WIP-195**
+
 ```js
 var {c:foo, d} = {
   c:"foo",
@@ -3823,7 +3811,9 @@ var {c:foo, d} = {
 };
 ```
 
-**WIP**
+**問196**
+こちらを{g:3, h:4}それぞれg,hにわりあててください
+
 ```js
 const {g,h} = {g:3, h:4};
 console.log(g,h)
@@ -3869,45 +3859,17 @@ console.log(key + "のストレージは" + localStorage[key]);
 
 
 
-**WIP**
+**問199**
 
-```js
-//storageの値が変わったら全てのタブで発火する
-window.addEventListener("storage",function(e){
-},false);
-//storage値が変わったタブでは発火されない
 
-//StorageEvent
-//key
-//oldVAlue
-//newValue
-//url(ストレージが変わったページのurl)
-//storageArea(変更が起こったエリアlocalStorageがSesstionStorage)
+
+**問200**
+
 ```
-
-**WIP**
-Web Messaging
-
-```js
-win=window.open("/");
-win.document.body.textContent="書き換えました";
-
-外から送るのは指示だけで実際の実装は内部でやる方がいい
-(実際の開かれたページで開かれた分だけ読み込む必要があるから)
-
-指示を与える方法がWeb Messaging
-postMessage("メッセージ","/"); //他のオリジンでもメッセージを送ることができる
-
-ある別ブラウジングコンテキストからメッセージが送られてきた場合発火
-window.addEventListener("message",function(e){
-    console.log("送られてきたメッセージは",e.data);
-    e.source.postMessage("返信",e.origin);//返信できる
-});
-
 ```
 
 
-**WIP**
+**問201**
 ローカルストレージの値を存在するだけ列挙してください
 ```js
 for (var i = 0; i < localStorage.length; i++){
@@ -3915,7 +3877,7 @@ for (var i = 0; i < localStorage.length; i++){
 }
 ```
 
-**WIP**
+**問202**
 ローカルストレージに次のようなオブジェクト
 ```js
 const dataList = {
@@ -3945,7 +3907,10 @@ const getData = JSON.parse(localStorage.getItem('dataList'));
 
 ```
 
-**WIP**
+**問203**
+
+こちらのsetTimeoutは実行されない。
+
 ```js
 function CreateId(id){
  this.id = id;
@@ -3955,37 +3920,25 @@ CreateId.prototype.get = function(){
 }
 var create = new CreateId(10);
 create.get()//10
+setTimeout(create.get, 1000);
+```
+修正してください
 
+```js
 //setTimeoutはthisがwindow設定なのでうまくいかない
 //オブジェクトのメソッドはオブジェクトに束縛されているものではなく、その時々の実行コンテキスト(呼び出し部分)において実行される
-setTimeout(create.get, 1000);
-//こうする
+//Fix
 setTimeout(create.get.bind(create), 1000);
 ```
 
-
-**WIP**
-```js
-{
-const B = 5;
-    B = 10; // TypeError: Assignment to constant variable
-
-    const ARR = [5, 6];
-    ARR.push(7);
-    console.log(ARR); // [5,6,7]
-    ARR = 10; // TypeError: Assignment to constant variable
-    ARR[0] = 3; // value is mutable
-    console.log(ARR); // [3,6,7]
-}
-```
-
-**WIP**
+**問204**
+こちらの
 ```js
 function Person() {
     var self = this;
     self.age = 0;
 
-    setInterval(function growUp() {
+    setInterval(function() {
         // The callback refers to the `self` variable of which
         // the value is the expected object.
         self.age++;
@@ -3993,6 +3946,7 @@ function Person() {
 }
 
 ```
+setInterval内のコールバックをアロー関数で記述してください
 
 ```js
 function Person() {
@@ -4016,60 +3970,11 @@ function foo(...args) {
 foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ```
 
-**WIP**
-
-```js
-function getGame(make, model, value) {
- return {
-  make,
-  model,
-  value,
-  ['make' + make] : true,
-  depreciate() {
-   this.value -= 2000;
-  }
- }
-}
-let game = getGame('nintendo', 'pokemonGo', 3000);
-```
 
 
-**WIP**
+**問206**
 
-```js
-var parent = {
- foo() {
-  console.log("hello from the parent");
- }
-}
-var child = {
- foo() {
-  super.foo();
-  console.log("hello from the child");
- }
-}
-Object.setPrototypeOf(child, parent);
-child.foo()
-//hello from the parent
-//hello from the child
-```
-
-**WIP**
-http://exploringjs.com/es6/ch_oop-besides-classes.html#Object_assign
-
-```js
-const DEFAULTS = {
-    logLevel: 0,
-    outputFormat: 'html'
-};
-function processContent(options) {
-    options = Object.assign({}, DEFAULTS, options); // (A)
-    ···
-}
-
-```
-
-**WIP**
+こちら
 ```js
 SomeClass.prototype.someMethod = function (arg1, arg2) {
     ···
@@ -4090,7 +3995,8 @@ Object.assign(SomeClass.prototype, {
     }
 });
 ```
-**問000**
+
+**問207**
 
 こちらは値を割り当てられません。
 ```js
@@ -4117,89 +4023,71 @@ Object.defineProperty(obj, 'prop', {value: 456});
 console.log(obj.prop); // 456
 ```
 
-**問000**
+**問208**
+
+下のようなlocation.searchの返り値を想定した文字列がある。
+'?id=12345&category=script&isname=tru’
+こちらのkeyとvalueをオブジェクトにそれぞれ割り当ててください。
+
+期待する結果
+ {id: "12345", category: "script", isname: "true"}
+
 ```js
-class Point {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-    toString() {
-        return `(${this.x}, ${this.y})`;
-    }
-}
-
-class ColorPoint extends Point {
-    constructor(x, y, color) {
-        super(x, y);
-        this.color = color;
-    }
-    toString() {
-        return super.toString() + ' in ' + this.color;
-    }
-}
-> const cp = new ColorPoint(25, 8, 'green');
-
-> cp.toString();
-//'(25, 8) in green'
-
-> cp instanceof ColorPoint
-//true
-> cp instanceof Point
-//true
-
-> typeof Point
-//'function'
-//In fact, the result of a class definition is a function:
-
-
-```
-
-**問000**
-```js
-var domLinks = document.querySelectorAll('a[href]');
-var links = Array.prototype.slice.call(domLinks);
-links.forEach(function (link) {
-    console.log(link);
-});
-
-const domLinks = document.querySelectorAll('a[href]');
-const links = Array.from(domLinks);
-links.forEach(function (link) {
-    console.log(link);
-});
+var locationsearch = '?id=12345&category=script&isname=true';
+var result = {};
+locationsearch.substring(1).split("&").forEach(function(ele, i){
+  var key =  ele.split("=");
+   result[key[0]] = decodeURIComponent(key[1]);
+})
 ```
 
 
-**問000**
-```js
-const bar = function baz() {};
-console.log(bar.name); // baz
 
-Because it comes first, 
-the function expression’s name baz takes precedence over other names (e.g. the name bar provided via the variable declaration):
+**問209**
+
+このような[1,1,'a','a']配列がある。
+重複している要素をぬいた配列にしてください。
+期待する結果
+//[1,'a']
+
+
+```js
+var deduped = [1,1,'a','a'].filter(function(x, i, arr){
+  return arr.indexOf(x) === i;
+})
+deduped
+//[1,'a']
+
 ```
 
-**問000**
+**問210**
+このような<div id='box'></div>
+DOMの中に2016年8月27日00時00分00秒から9月11日00時00分00秒まで<span>セール中</span>が表示されるようにしてください。
+
 ```js
-var arr = ['a','b'];
-for(let [index, elem] of arr.entries()){
- console.log(`${index}:${elem}`)
-}
-//0:a
-//1:b
+const start = new Date(2016,7,27,0,0,0);//設定月 -1
+const myS   = start.getTime();
+const end   = new Date(2016,8,11,0,0,0);//設定月 -1
+const myE   = end.getTime();
+
+const campaignDOM = document.querySelector('#box');
+myS <= myD && myE >= myD && campaignDOM.innerHTML += '<span>セール中</span>';
+
 ```
 
+**問211**
+こちら```[[1,2],[],[3]]```をフラットにしてください
+期待する結果
+//[1, 2, 3]
 
-**問000**
 ```js
-let arryLike = {length:2,0:'a', 1: 'b'};
-for(let x of Array.from(arryLike)){
- console.log(x)
-}
+const myArray = [[1,2],[],[3]];
+const flatArray = Array.prototype.concat.apply([],myArray);
+flatArray
+//[1, 2, 3]
 ```
 
-**問000**
+**問212**
 
 これは期待する値が出力されない。
 
@@ -4210,6 +4098,10 @@ for (var i=0; i < 3; i++) {
 }
 arr.map(x => x()); // [3,3,3]
 ```
+
+期待する結果[0, 1, 2]にしてください
+
+
 ```js
 Every i in the bodies of the three arrow functions refers to the same binding, 
 which is why they all return the same value.
@@ -4224,7 +4116,18 @@ arr.map(x => x()); // [0,1,2]
 
 
 
-**問000**
+**問213**
+
+下のような
+```js
+ const entries = [
+            ['yes', 'ja'],
+            ['no', 'nein'],
+            ['perhaps', 'vielleicht'],
+        ];
+```
+entriesを<div id="content"></div>このなかでaタグを作りentriesインデックス0をidとtextContntになるように、
+さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesのインデックス1が出力されるようにしてください
 
 ```html
 <!doctype html>
@@ -4256,7 +4159,7 @@ arr.map(x => x()); // [0,1,2]
 
 ```
 
-**問000**
+**問214**
 
 下記consoleは
 
@@ -4277,47 +4180,7 @@ The scope of parameter default values is separate from the scope of the body (th
 That means that methods or functions defined “inside” parameter default values don’t see the local variables of the body:
 ```
 
-
-**問000**
-Destructuring helps with processing return values:
-
-```js
-const obj = { foo: 123 };
-
-const {writable, configurable} =
-    Object.getOwnPropertyDescriptor(obj, 'foo');
-
-console.log(writable, configurable); // true true
-```
-
-
-
-**問000**
-```js
-Destructuring helps with processing return values:
-
-const [all, year, month, day] =　/^(\d\d\d\d)-(\d\d)-(\d\d)$/
-.exec('2999-12-31');
-
-```
-
-
-**問000**
-```js
-const arr2 = [
-    {name: 'Jane', age: 41},
-    {name: 'John', age: 40},
-];
-for (const {name, age} of arr2) {
-    console.log(name, age);
-}
-// Output:
-// Jane 41
-// John 40
-```
-
-
-**問000**
+**問215**
 スーパークラスのメソッドspeakをサブクラスgetSpeakからcallしてください
 ```js
 class Faa {
@@ -4347,7 +4210,7 @@ eee.speak();
 ```
 
 
-**問000**
+**問216**
 
 こ方法はorigのプロパティ属性を守らない
 ```
@@ -4369,22 +4232,7 @@ function clone(orig) {
 ```
 
 
-**問000**
-
-```js
-class MyClass {
-    get prop() {
-        return 'getter';
-    }
-    set prop(value) {
-        console.log('setter: '+value);
-    }
-}
-
-```
-
-
-**問000**
+**問217**
 
 Generator methodsをつくってください(仮)
 
@@ -4413,18 +4261,7 @@ for (const x of new IterableArguments('hello', 'world')) {
 // world
 ```
 
-
-
-**問000**
-
-```js
-Math.abs(-10)
-//10
-```
-
-
-
-**問000**
+**問218**
 
 定義と同時に実行する関数を作ってください
 
@@ -4438,42 +4275,9 @@ console.log(dimension);
 //(10,20)を取り除くと関数リテラルになることに注意
 ```
 
-
-**問000**
-参照渡し
-```js
-var obj = {a: "初期値", p: 10};
-var num = 1;
-function fun(num2, obj){
- obj.a = "変更後";
- num = num2;
-}
-fun(2,obj);
-num
-//2
-obj.a
-//"変更後"
-
-```
-
-
-```js
-var obj = {a: "初期値", p: 10};
-var num = 1;
-function fun(num2, obj){
- obj2 = {a : "変更後"};
- num = num2;
-}
-fun(2,obj);
-//num
-2
-obj.a
-//"初期値"
-obj2.a
-//"変更後"
-```
-**問000**
+**問219**
 オブジェクトのプロパティが存在するかどうか
+
 ```js
 var obj = {
  width: 20
@@ -4489,7 +4293,7 @@ console.log(!!obj.height)
 ```
 
 
-**問000**
+**問220**
 
 ```js
 ﻿function add(x, y){
@@ -4518,9 +4322,9 @@ multiplyAndLog(40,4)
 ```
 
 
-**問000**
+**問221**
 
-先頭からN個を削 
+document内にいくつあるかわからないh1の先頭から1個を削ったDOMをかえしてください
 
 ```js
 var hoge = document.querySelectorAll("h1");
@@ -4528,7 +4332,7 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 
 ```
 
-**問000**
+**問222**
 ```var a = 'aabbccdde1e23ffgg'; ```と```var a = 'aabbccdde1e23ffgg';```のどちらがさきに数値が現れるか比較してください
 
 ```js
@@ -4539,7 +4343,7 @@ a.search(/\d/) > b.search(/\d/);
 //false
 ```
 
-**問000**
+**問223**
 ```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
 
 ```js
@@ -4552,7 +4356,7 @@ divarray
 ```
 
 
-**問000**
+**問224**
 
 ```js
 var i = 0;
@@ -4566,7 +4370,7 @@ i += 1;
 ```
 
 
-**問000**
+**問225**
 1980年8月1日を表すDateオブジェクトを生成してください
 
 ```js
@@ -4577,7 +4381,7 @@ var d = new Date('1980/8/1 5:55');
 
 
 
-**問000**
+**問226**
 
 上で作成した日時を現地フォーマットで出力してください
 
@@ -4592,7 +4396,7 @@ d.toStoring();
 //"Tue Jul 01 2008 05:55:00 GMT+0900 (JST)"
 ```
 
-**問000**
+**問227**
 
 上で作成した時間を現地フォーマットで出力してください
 
@@ -4607,7 +4411,7 @@ d.toLocaleTimeString();
 ```
 
 
-**問000**
+**問228**
 var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
 ```js
 var ary = ['aaa', 'bbb', 'ccc'];
@@ -4618,7 +4422,7 @@ ary
 
 ```
 
-**問000**
+**問229**
 こちらの変数を使って
 var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
 2でも3でも割り切れない数を抽出した配列を生成してください
@@ -4634,7 +4438,7 @@ newAry
 //[1, 5, 7]
 ```
 
-**問000**
+**問230**
 ビルドインプロパティを3つ答えなさい
 
 ```js
@@ -4649,7 +4453,7 @@ undefined
 
 
 
-**問000**
+**問231**
 ビルドイン関数を9つ挙げてください
 
 ```js
@@ -4667,7 +4471,7 @@ parseInt(str,[radix])
 ```
 
 
-**問000**
+**問232**
 こちら
 encodeURIComponenとencodeURIの違いを教えてください
 
@@ -4683,22 +4487,7 @@ encodeURI(url)
 
 ```
 
-
-**問000**
-
-fromChraCode()
-charCodeAt
-charAt
-localCompare(target)
-toLowerCase
-toLocalLowerCase
-
-```js
-
-```
-
-
-**問000**
+**問233**
 
 ```var s = 'aaa,bbb,ccc,ddd';```
 を使って、,を/に置換した文字列```aaa/bbb/ccc/ddd```を出力してください。ただしreplaceメソッドは使用しないこととする
@@ -4714,7 +4503,7 @@ s
 
 ```
 
-**問000**
+**問234**
 下の変数sにある
 ```var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
 divの中にあるtextを全て出力してください
@@ -4741,7 +4530,7 @@ divStringAry.join('\n')
 
 ```
 
-**問000**
+**問235**
 2の0乗〜10乗までを格納した配列を作成してください。インデックスはそれぞれ指数(0〜10)となるようにしてください
 
 ```js
@@ -4763,7 +4552,7 @@ for(var n = 0; n <= 10; n++){
 ```
 
 
-**問000**
+**問236**
 
 今年の各月の最終日を配列に格納してくださいｌ。インデックスは各月と一致する数値とする。
 
@@ -4788,7 +4577,7 @@ ary
 ```
 
 
-**問000**
+**問237**
 
 同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答えてください。オリジンを調べるためのlocationプロパティを答えてください
 ```js
@@ -4826,14 +4615,14 @@ hash - #test
 
 ```
 
-**問000**
+**問238**
 location.assignとlocation.replaceの違いを教えてください
 ```js
 //replaceは画面遷移をWebブラウザの履歴に残さ図遷移する
 
 ```
 
-**問000**
+**問239**
 
 Object.creteを使ってPersonのにthis.nameとthis.jobを参照して「"my name is" + this.name + "。" + "職業は" + this.job + "です"」を出力するインスタンスメソッド「say」のみを持ち、それを継承してnameを自身のプロパティとして持つkenjiと、
 kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成して
@@ -4861,7 +4650,7 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Ob
 ```
 
 
-**問000**
+**問240**
 以下と同じ記述をしてください。
 ```
 function Constructor(){}
@@ -4872,7 +4661,7 @@ o = new Constructor();
 o = Object.create(Constructor.prototype);
 ```
 
-**問000**
+**問241**
 
 ```var o = Object.create({},{p: {value: 32}});```
 を書き換えtrue、列挙true、変更trueとして新たにオブジェクトを生成してください。
@@ -4896,7 +4685,7 @@ delete o2.p
 
 ```
 
-**問000**
+**問242**
 
 Object.createとObject.definePropertyesとObject.definePropertyの引数、返り値を教えてください。
 
@@ -4924,7 +4713,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 ```
 
 
-**問000**
+**問243**
 let n = '124';を数値に変換してください。 
 
 ```js
@@ -4939,12 +4728,7 @@ n
 
 ```
 
-
-**問000**
-```js
-```
-
-**問000**
+**問244**
 こちらの評価は
 
 ```
@@ -4953,7 +4737,7 @@ if(n.value){
     //something
 }
 ```
-’’
+
 value値が0にもかかわらずfalseが返ります。(valueが空文字でもfalse)
 nullやundefinedの場合のみfalseが返るような条件式にしてください
 
@@ -4962,7 +4746,7 @@ if(n.value != null){//something}
 
 ```
 
-**問000**
+**問245**
 オブジェクトの存在チェックをしてあったら実行している。
 ```js
 var o = {f: function(){console.log("JS")}};
@@ -4983,7 +4767,7 @@ o && o.f && o.f();
 ```
 
 
-**問000**
+**問246**
 ```var v```の値を確実に数値にしたい。
 "a"が入ってきた場合NaNではなく0を代入するようにしてください。
  
@@ -4991,7 +4775,7 @@ o && o.f && o.f();
 var n = +v || 0;
 ```
 
-**問000**
+**問247**
 ```var v ```を整数化してください
 
 ```js
@@ -4999,7 +4783,7 @@ var i = v | 0;
 
 ```
 
-**問000**
+**問248**
 下の様な場合、
 ```js
 var insEmp1 = new Emp();
@@ -5030,7 +4814,7 @@ insEmp2.name
 ```
 
 
-**問000**
+**問249**
 ObjectとMapの違いを教えてください
 
 ```js
@@ -5076,13 +4860,13 @@ http://stackoverflow.com/questions/18541940/map-vs-object-in-javascript
 ```
 
 
-**問000**
+**問250**
 破壊的なメソッドをあげてください
 ```js
 pop、push、reverse、shift、sort、splice、unshilft
 ```
 
-**問000**
+**問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを非破壊メソッドに変更してください。
 
@@ -5093,12 +4877,12 @@ arr.sort();
 //TypeError: arr.sort() is read-only
 ```
 
-**問000**
+**問252**
 ```js
-
+WIP
 ```
 
-**問000**
+**問253**
 this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
 ```js
 ・コンストラクタ呼び出し・・・コンストラクタが生成したオブジェクト
@@ -5113,7 +4897,7 @@ e.g  const obj = {add : function(){some}};
 
 ```
 
-**問000**
+**問254**
 var obj = { foo: "bar", baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
@@ -5123,7 +4907,7 @@ console.log(map); // Map { foo: "bar", baz: 42 }
 
 ```
 
-**問000**
+**問255**
 ```js
 var Emiiter = {
  callbacks : [],
@@ -5141,7 +4925,7 @@ Emiiter.register(function(){console.log("2")});
 
 ```
 
-**問000**
+**問256**
 Promiseオブジェクトを使ってこちら
 ```js
 function say(callback, msg) {
@@ -5163,423 +4947,6 @@ function say(msg){
 say(1000).then(function(){
  console.log('ken!');
 })
-```
-
-
-**問000**
-
-```js
-function getURL(URL){
- return new Promise(function(resolve, reject){
-   var req = new XMLHttpRequest();
-   req.open('GET', URL, true);
-   req.onload = function(){
-    if(req.status === 200) {
-      resolve(req.responseText);
-    } else {
-      reject(new Error(req.statusText));
-    }
-   };
-   req.onerror = function(){
-      reject(new Error(req.statusText));
-   };
-   req.send();
- });
-}
-var URL = "http://httpbin.org/get";
-getURL(URL).then(function onFullfilled(value){
- console.log(value);
-}).catch(function onRejected(error){
- console.error(error);
-});
-
-```
-
-**問000**
-
-下のようなlocation.searchの返り値を想定した文字列がある。
-'?id=12345&category=script&isname=tru’
-こちらのkeyとvalueをオブジェクトにそれぞれ割り当ててください。
-
-期待する結果
- {id: "12345", category: "script", isname: "true"}
-
-```js
-var locationsearch = '?id=12345&category=script&isname=true';
-var result = {};
-locationsearch.substring(1).split("&").forEach(function(ele, i){
-  var key =  ele.split("=");
-   result[key[0]] = decodeURIComponent(key[1]);
-})
-```
-
-
-
-**問000**
-
-このような[1,1,'a','a']配列がある。
-重複している要素をぬいた配列にしてください。
-期待する結果
-//[1,'a']
-
-
-```js
-var deduped = [1,1,'a','a'].filter(function(x, i, arr){
-  return arr.indexOf(x) === i;
-})
-deduped
-//[1,'a']
-
-```
-
-**問000**
-このような<div id='box'></div>
-DOMの中に2016年8月27日00時00分00秒から9月11日00時00分00秒まで<span>セール中</span>が表示されるようにしてください。
-
-```js
-const start = new Date(2016,7,27,0,0,0);//設定月 -1
-const myS   = start.getTime();
-const end   = new Date(2016,8,11,0,0,0);//設定月 -1
-const myE   = end.getTime();
-
-const campaignDOM = document.querySelector('#box');
-myS <= myD && myE >= myD && campaignDOM.innerHTML += '<span>セール中</span>';
-
-```
-
-**問000* 
-こちら```[[1,2],[],[3]]```をフラットにしてください
-期待する結果
-//[1, 2, 3]
-
-```js
-const myArray = [[1,2],[],[3]];
-const flatArray = Array.prototype.concat.apply([],myArray);
-flatArray
-//[1, 2, 3]
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-**問000**
-```js
-
-```
-
-
-
-
-
-
-
-### Node.JS
-
-**問000**
-node server.jsとコマンドを打つと
-http://127.0.0.1:8124で
-画面に'Hello word'が出力、
-consoleに
-`Server running at http://127.0.0.1:8124/`
-と出力されるserver.jsを作成してください。
-Cntent-typeはtext/plainとする
-
-```js
-var http = require('http');
-
-http.createServer(function (request, response) {
-  response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end('Hello World\n');
-}).listen(8124);
-
-console.log('Server running at http://127.0.0.1:8124/');
-
 ```
 
 
