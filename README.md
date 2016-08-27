@@ -5247,9 +5247,16 @@ myS <= myD && myE >= myD && campaignDOM.innerHTML += '<span>セール中</span>'
 
 ```
 
-**問000**
-```js
+**問000* 
+こちら```[[1,2],[],[3]]```をフラットにしてください
+期待する結果
+//[1, 2, 3]
 
+```js
+const myArray = [[1,2],[],[3]];
+const flatArray = Array.prototype.concat.apply([],myArray);
+flatArray
+//[1, 2, 3]
 ```
 
 **問000**
@@ -5593,3 +5600,4 @@ https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB
 http://nodejs.jp/nodejs.org_ja/
 http://d.hatena.ne.jp/hasegawayosuke/20130330/p1
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+https://twitter.com/javascript_tips
