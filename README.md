@@ -5162,6 +5162,14 @@ getURL(URL).then(function onFullfilled(value){
 ```
 
 **問000**
+
+下のようなlocation.searchの返り値を想定した文字列がある。
+'?id=12345&category=script&isname=tru’
+こちらのkeyとvalueをオブジェクトにそれぞれ割り当ててください。
+
+期待する結果
+ {id: "12345", category: "script", isname: "true"}
+
 ```js
 var locationsearch = '?id=12345&category=script&isname=true';
 var result = {};
@@ -5175,7 +5183,19 @@ locationsearch.substring(1).split("&").forEach(function(ele, i){
 
 **問000**
 
+このような[1,1,'a','a']配列がある。
+重複している要素をぬいた配列にしてください。
+期待する結果
+//[1,'a']
+
+
 ```js
+var deduped = [1,1,'a','a'].filter(function(x, i, arr){
+  return arr.indexOf(x) === i;
+})
+deduped
+//[1,'a']
+
 ```
 
 **問000**
