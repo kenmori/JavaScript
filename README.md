@@ -3887,6 +3887,7 @@ window.addEventListener("storage",function(e){
 
 **WIP**
 Web Messaging
+
 ```js
 win=window.open("/");
 win.document.body.textContent="書き換えました";
@@ -3907,8 +3908,41 @@ window.addEventListener("message",function(e){
 
 
 **WIP**
+ローカルストレージの値を存在するだけ列挙してください
 ```js
-ボイラープレートコード（似ているのに省略できないお決まりのコード断片）
+for (var i = 0; i < localStorage.length; i++){
+  console.log(localStorage.key(i))
+}
+```
+
+**WIP**
+ローカルストレージに次のようなオブジェクト
+```js
+const dataList = {
+ 'id': 0010,
+ 'isFavorite': true
+}
+```
+を保存して、取り出してください。
+
+```js
+
+//set
+const dataList = {
+    'id' : 0010,
+    'isFavorite' : true
+}
+if (!window.localStorage) {return false};
+//safariのプライベートモードでWebStorageが使えない対応
+try {
+    localStorage.setItem('dataList', JSON.stringify(dataList));
+} catch(e){
+    console.log(e)
+}
+
+//get
+const getData = JSON.parse(localStorage.getItem('dataList'));
+
 ```
 
 **WIP**
@@ -4016,8 +4050,8 @@ var child = {
 }
 Object.setPrototypeOf(child, parent);
 child.foo()
-VM9460:3 hello from the parent
-VM9460:9 hello from the child
+//hello from the parent
+//hello from the child
 ```
 
 **WIP**
@@ -4839,6 +4873,7 @@ o = Object.create(Constructor.prototype);
 ```
 
 **問000**
+
 ```var o = Object.create({},{p: {value: 32}});```
 を書き換えtrue、列挙true、変更trueとして新たにオブジェクトを生成してください。
 
@@ -4863,7 +4898,7 @@ delete o2.p
 
 **問000**
 
-Object.createとObject.definePropertyesとObject.definePropertyの違いを教えてください。
+Object.createとObject.definePropertyesとObject.definePropertyの引数、返り値を教えてください。
 
 ```js
 //Object.create
@@ -4890,7 +4925,8 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 
 **問000**
-let n = "124";を数値に変換してください。 
+let n = '124';を数値に変換してください。 
+
 ```js
 let n = "124";
 +n
@@ -4906,21 +4942,19 @@ n
 
 **問000**
 ```js
-
-var n = {value: 0};
-if(n.value != null){
- console.log("property exists");
-} else {
- console.log("null or undefined ??");
-}   
 ```
 
 **問000**
 こちらの評価は
-```var n = {value: 0};
-if(n.value){//something}
+
 ```
-value値が0にもかかわらずfalseが返ります。(valueが""空文字でもfalse)
+var n = {value: 0};
+if(n.value){
+    //something
+}
+```
+’’
+value値が0にもかかわらずfalseが返ります。(valueが空文字でもfalse)
 nullやundefinedの場合のみfalseが返るような条件式にしてください
 
 ```js
