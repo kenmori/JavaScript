@@ -5,108 +5,93 @@
 
 **問1**
 
-```const afa = {a: 'a'}```と```const ee = {b: 'b'}```
-をmergeした```m```
+```const a = {a: 'a'}```と```const b = {b: 'b'}```
+をmergeした```c```
 を出力してください
 e.g```{a:'a',b:'b'}```
 
 ```js
-const afa = {a: 'a'};
-const ee = {b:'b'};
-const m = Object.assign(afa, ee);
-m //{a: "a", b: "b"}
+const a = {a: 'a'};
+const b = {b:'b'};
+const c = Object.assign(a, b);
+c //{a: "a", b: "b"}
 ```
 
 **問2**
 
 ```js
-const uu = ['oo','pp','ll','jj','hh','kk','mm'];
+const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 ```
-のjj,hh,kk要素を新たな配列として返してください
+のdd,ee,ffを新たな配列として返してください
 
 ```js
-const yy = uu.slice(-4,-1);
+const newArry = arry.slice(-4,-1);
 //or
-const yy = uu.slice(3,-1);
+const newArry = arry.slice(3,-1);
 ```
 
 **問3**
 ```
-const arry = ['eee','ccc’]
+const arry = ['a','b’]
 ```
-の要素をconsole出力してください e.g ```'eee'```と```'ccc'```
+の要素をconsole出力してください e.g ```'a'```と```'b'```
 
 ```js
-const arry = ['aa','ccc'];
-arry.forEach(function(key,i){
- console.log(key)
+const arry = ['a','b'];
+arry.forEach(function(elem,i){
+ console.log(elem)
 })
-//'aa'
-//'ccc'
+//'a'
+//'b'
 ```
 
 **問4**
 
-```js
-const arry = [‘eee’, ‘ccc’]
-```
-を要素にindexを足された文字列を出力してください```e.g 'eee0'```と```'ccc1'```
+```const arry = [‘a’, ‘b’]```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
 
 ```js
-const arry = ['aa','ccc'];
+const arry = ['a','b'];
 arry.forEach(function(key,i){
  console.log(key + i)
 })
-//'aa0'
-//'ccc1'
+//'a0'
+//'b1'
 ```
 
 **問5**
 
-```
-const ee = [1,2]
-```
-と定義して配列かどうかを評価してください
+```const arry = [1,2]```と定義して配列かどうかを評価してください
 e.g true
 
 ```js
-Array.isArray(ee) //true
-
-//ee instanceof Array //true
+Array.isArray(arry) //true
+//arry instanceof Array //true
 //instanceof比較は継承しているオブジェクトのインスタンス比較なので
-// ee instanceof Objectでもtrueが返ってく る
+// aryy instanceof Objectでもtrueが返ってくる
 ```
 
 **問6**
 
-```js
-var aa = 'fafa'
 ```
-を出力した後完全に削除し、削除されたことを出力してくださいe.g"aa is not defined"
-
-```js
-var aa = 'fee';
-// aa
-//'fee'
-delete aa;
-//true
-aa
-//'aa is not defined'
 ```
 
 **問7**
 
-```js
-ee(2,4,5);
-```
-を実行したら引数が全て配列で返る関数eeを定義しなさい
+```fun(1,2,3);```を実行したら引数が全て配列で返る関数funを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
-function ee(){
+function fun(){
  return Array.from(arguments)
 }
-ee(2,4,5)//[2.4,5]
+fun(1,2,3)//[1.2,3]
+
+//other
+function fun (...arg){
+  return arg;
+}
+fun(1,2,3)
+//[1,2,3]
 ```
 
 **問8**
@@ -115,112 +100,111 @@ ee(2,4,5)//[2.4,5]
 
 ```js
 const obj = {
-　key: 'eee',
-　key2:'ccc'
-};
+ key: 'aa',
+ key2: 'bb'
+}
 ```
-の中のkeyとvalueを全て出力しなさい
+の中のkeyとvalueを自身のプロパティのみ全て出力しなさい
 
 ```js
 const obj = {
-  key: 'eee',
-  key2:'ccc'
-};
-for( key in obj){
-  console.log( key + ':' + obj[key])
+ key: 'aa',
+ key2: 'bb'
 }
+for (key in obj){
+ if(obj.hasOwnProperty(key)){
+   console.log(key, obj[key])
+  }
+}
+//key aa
+//key2 bb
 ```
 
 **問9**
 
 ```js
-var array3 = ['fafa','eee','ccc']
+var arry = ['a', 'b', 'c'];
 ```
-配列の中の全ての要素を結合し、1つの文字列として出力してください。但し、array3.lengthはif文の外でcountとして定義すること
+配列の中の全ての要素を結合し、1つの文字列として出力してください。
 
 ```js
-var array3 = ['fafa','eee','ccc'];
-var ee = '';
-var count = array3.length;
-for(var i= 0; i < count; i++){
-  ee += array3[i];
-}
-ee
-//'fafaeeeccc'
+var arry = ['a', 'b', 'c'];
+array.join("");
+//'abc'
 
-//別解答
-array3.join("");
-//'fafaeeeccc'
+//other
+var arry = ['a', 'b', 'c'];
+var str = '';
+var count = array.length;
+for(var i= 0; i < count; i++){
+  str += arry[i];
+}
+str
+//'abc'
 ```
 
 **問10**
 
-Array.isArrayが実行できない環境を想定して```var ee = [1,2]```が配列であることを検査できる拡張された関数を定義してください
-ヒント
-if分岐、Object.prototype、返り値 [object Array]
-
-//51P
-
-```js
-if(typeof Array.isArray === 'undefined'){
- Array.isArray = function(arg){
-  return Object.prototype.toString.call(arg) === '[object Array]';
- };
-}
+```
 ```
 
 **問11**
 ```js
-var arry4 =[{id:34343,name:'morita'},{id:89,name:'kenji'},{id:7827,name:'uro'},{id:2739,name:'kenji'}]
+var arry =[
+  {id:1,name:'morita'},
+  {id:2,name:'kenji'},
+  {id:4,name:'uro'},
+  {id:3,name:'ken'}
+  ];
 ```
-をid番号が若い順にソートしたオブジェクトを含む配列を出力してね
+をid番号が若い順にソートしたオブジェクトを含む配列を出力してください
 
 ```js
-var arry4 = [
-  {id:34343,name:'morita'},
-  {id:89,name:'kenji'},
-  {id:7827,name:'uro'},
-  {id:2739,name:'kenji'}
-]
-arry4.sort(function(a,b){
+var arry =[
+  {id:1,name:'morita'},
+  {id:2,name:'kenji'},
+  {id:4,name:'uro'},
+  {id:3,name:'ken'}
+];
+arry.sort(function(a,b){
+ return a.id > b.id
+})
+
+//先に位置させたい時はaが'正'をになるように返します
+
+//other
+arry.sort(function(a,b){
  if(a.id > b.id) return 1;
  if(a.id < b.id) return -1;
 });
+
 /*
-[[object Object] {
-  id: 89,
-  name: 'kenji'
-}, [object Object] {
-  id: 2739,
-  name: 'kenji'
-}, [object Object] {
-  id: 7827,
-  name: 'uro'
-}, [object Object] {
-  id: 34343,
-  name: 'morita'
-}]
+[
+  {id:1, name:'morita'},
+  {id:2, name:'kenji'},
+  {id:3, name:'ken'},
+  {id:4, name:'uro'}
+]
 */
 ```
 
 **問12**
 
-```
-var a, b;
-```
-の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
+```var a, b;```の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
 
 ```js
 var [a=5, b=7] = [1];
 console.log(a, b);
 //1 7
+
+//other
+var {a = 5, b = 7} = {a: 1}
 ```
 
 
 **問13**
 
 next()を実行しただけ返り値が1増える関数を定義してください
-
 
 ```js
 var setUp = function(){
@@ -237,87 +221,86 @@ next();//3
 
 **問14**
 
-```js
-class Fafaf {}
-```
-を作成した際の内部の動きを教えてください。
-
-WIP
 
 **問15**
 
 配列
 ```
-myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5']
+const array = ['a1','a2','a3','a4','a5']
 ```
 の0〜2番目の要素をそれぞれ
 
 ```
-red,green,yellow
+red, green, yellow
 ```
-に置き換えてください。また実行した際の返り値を教えてください
+に置き換えて配列にしてください。また実行した際の返り値を教えてください
 
 ```js
-const myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
-myArray.splice(0,2,'green','red','yellow');//インデックス0から2つの要素を削除。
-//返り値:['kkk1', 'kkk2']
-//myArray:['green', 'red', 'yellow', 'kkk3', 'kkk4', 'kkk5']
+const array = ['a1','a2','a3','a4','a5']
+//インデックス0から2つの要素を削除
+array.splice(0,2, 'red', 'green','yellow');
+//["a1", "a2"]
+
+//返り値:['a1', 'a2']
+array
+//['green', 'red', 'yellow', 'a3', 'a4', 'a5']
 ```
 
 **問16**
 
 ```
-myArray= ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+const array = ['a1','a2','a3','a4','a5']
 ```
-の2つ目〜4つ目の要素を取り出し配列とし出力しなさい。実行された後のMyarrayの要素を教えてください
+のインデックス2〜4の要素を取り出し、
+配列として出力しなさい。
+実行された後のarrayの要素を教えてください
 
 ```js
-var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
-var fafa = myArray.slice(1,4);
-console.log(fafa);//['kkk2', 'kkk3','kkk4']
-//Myarrayは['kkk1','kkk2','kkk3','kkk4','kkk5']で変わらず
+const array = ['a1','a2','a3','a4','a5']
+const newArray = array.slice(1,4);
+newArray
+//['a2', 'a3', 'a4']
+array
+//['a1','a2','a3','a4','a5']
 ```
 
 **問17**
 
 ```js
-var myArray = ['kkk1','kkk2','kkk3','kkk4','kkk5'];
+const array = ['a1','a2','a3','a4','a5']
 ```
 の全ての要素を"/"で結合した文字列を出力し、さらにその文字列を"/"区切りで配列に直してください
 
 ```js
-var myArray =  ['kkk1','kkk2','kkk3','kkk4','kkk5'];
-myArray.join('/').split('/');
+const array = ['a1','a2','a3','a4','a5']
+array.join('/').split('/');
 ```
 
 **問18**
 
-配列
-```js
-var gArray =  ['おはよう','こんにちは','おやすみなさい'];
-```
-の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
+配列```['おはよう','こんにちは','おやすみなさい']```の要素がランダムに出力される関数を書いてください。(配列に要素が追加される事を仮定してたものにしてください)
 
 ```js
-var gArray =  ['おはよう','こんにちは','おやすみなさい'];
-var g = gArray[Math.floor(Math.random() * 3)];
-g//おはよう or こんにちは or おやすみなさい
+const array = ['おはよう','こんにちは','おやすみなさい'];
+const greeting = array[Math.floor(Math.random() * array.length)]
+greeting
+//おはよう or こんにちは or おやすみなさい
 ```
 
 **問19**
 
-Objectオブジェクトで空のオブジェクトを作成し、値が42のプロパティpを持ちなさい
+Object.createで空のオブジェクトを作成し、値が1のプロパティpを持ちなさい
 
 ```js
-var o = Object.create({}, { p: { value : 42 }})
-o.p //42
+const obj = Object.create({}, {p: {value: 1}});
+o.p //1
 ```
-
 
 **問20**
 
-オブジェクトWhoを作成し、初期化時に'morita'(String)を渡しnameプロパティに代入、インスタンス「o」のメソッドを使いWho.prototype.name値が返ってくるいわゆる「classのようなもの」を作成してください
-※インスタンスメソッドはprototype継承で代入してください
+コンストラクタWhoの初期化時に'morita'(String)を渡しインスタンスプロパティnameに代入、
+インスタンスメソッドgetNameの返り値がWho.prototype.name値になるいわゆる「classのようなもの」を作成してください
+※インスタンスメソッドはprototypeに代入してください
 
 ```js
 function Who(name){
@@ -397,17 +380,21 @@ numArray.sort(function(a,b){
 return a - b
 ```
 
-
 **問24**
 
 文字列```'10'```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
-var a = parseInt('10');
+var a = +'10';
 typeof a
-isNaN(e);
+//number
+isNaN(a);
+//false
 a.toString();
 //'10'
+
+//other
+var a = parseInt('10', 10);
 ```
 
 **問25**
@@ -4626,7 +4613,7 @@ location.assignとlocation.replaceの違いを教えてください
 
 Object.creteを使ってPersonのにthis.nameとthis.jobを参照して「"my name is" + this.name + "。" + "職業は" + this.job + "です"」を出力するインスタンスメソッド「say」のみを持ち、それを継承してnameを自身のプロパティとして持つkenjiと、
 kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成して
-```my name is けんじ。職業は芸人です``を出力してください、
+```my name is morita。JavascriptEngneer``を出力してください、
 
 ```js
 
@@ -4636,10 +4623,10 @@ var Person = {
  }
 }
 
-var kenji = Object.create(Person, {name :{value: "けんじ" }});
-var compKenji  = Object.create(kenji, {job: {value: "芸人"}});
+var kenji = Object.create(Person, {name :{value: "kenji" }});
+var compKenji  = Object.create(morita, {job: {value: "JavascriptEngneer"}});
 compKenji.say()
-"my name is けんじ。職業は芸人です"
+"my name is morita。JavascriptEngneer"
 
 //Object.crete()
 第一引数・・・プロトタイプとなるべきobject
