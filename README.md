@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/08/28更新**
+**2016/08/29更新**
 
 
 **問1**
@@ -71,27 +71,66 @@ Array.isArray(arry) //true
 ```
 
 **問6**
+こちら
+```js
+//1
+if (typeof x === 'undefined') {
+ ???
+}
+
+//2
+if(x === undefined){
+ ???
+}
+```
+変数xが定義されていない場合上の1、2は実行されますか?
 
 ```
+//1は実行される
+//2は実行されない(ReferenceError)
+
+//typeofは変数が存在しない場合エラーは投げない。
+//ただこのような値の存在チェックは避けるべき
+//グローバル上の値のチェックはfor in
 ```
 
 **問7**
 
-```fun(1,2,3);```を実行したら引数が全て配列で返る関数funを定義しなさい
-[参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
+こちら
 
 ```js
-function fun(){
- return Array.from(arguments)
+//1
+var x;
+if (x === void 0) {
 }
-fun(1,2,3)//[1.2,3]
 
-//other
-function fun (...arg){
-  return arg;
+//2
+// 直前まで y は宣言されていない
+if (y === void 0) {
 }
-fun(1,2,3)
-//[1,2,3]
+```
+1,2はそれぞれ実行されますか
+
+```
+//1は宣言はされているが値が割り当てられていない場合です。
+//実行される
+
+
+//2は宣言されていない場合です。
+//実行されない
+
+//void 0 は確実にundefindeを返すことが保証されています
+//undefinedはただのglobal変数なので
+undefined = "foo";
+undefined;
+//'foo'
+で代入でき、保証はされていない
+
+e.g:
+undefined = 1;
+console.log(!!undefined); //true
+console.log(!!void(0)); //false
+
 ```
 
 **問8**
@@ -145,7 +184,72 @@ str
 
 **問10**
 
+こちら
+
+```js
+x = 43
+var y = 3
 ```
+の2つの変数。deleteできるのはどちらですか？
+
+```js
+deleteは暗黙に定義された場合は変数は削除できるが、
+var や function文中の変数はnon-configurableであり削除できない
+
+//globaleオブジェクト
+x = 43;
+delete x 
+//true //暗黙に定義されたglobale変数なので
+
+//var宣言
+delete y
+false //削除できない
+
+//関数宣言文の中でのdelete
+function f(){
+ var z = 44;
+ delete z;
+ console.log(z)
+}
+f()
+//44 //削除されていない
+
+【配列の要素の削除】
+1
+var color = ['red', 'blue', 'green'];
+//要素として存在する状態にするが値は未定義
+color[1]= undefined;
+color
+//["red", undefined, "green"]
+if(1 in color){console.log('実行されてます')}
+//実行されてます
+
+2
+var color = ['red', 'blue', 'green'];
+delete color[1]
+//true
+color.length//削除しても配列の長さには影響しない
+//3
+//配列の一部ではなくなります
+if(1 in color){console.log('実行されてます')}
+//出力されない(1との違いに注意してください)
+
+//
+function Foo(){}
+Foo.prototype.bar = 42;
+var foo = new Foo();
+delete foo.bar;
+//true
+
+//trueを返すがプロトタイプから継承してオブジェクトに存在するプロパティは削除できない
+foo.bar
+//42
+
+//プロトタイプ上でプロパティを削除
+delete foo.prototype.bar;
+foo.bar 
+//undefined
+
 ```
 
 **問11**
@@ -220,6 +324,23 @@ next();//3
 ```
 
 **問14**
+
+```fun(1,2,3);```を実行したら引数が全て配列で返る関数funを定義しなさい
+[参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
+
+```js
+function fun(){
+ return Array.from(arguments)
+}
+fun(1,2,3)//[1.2,3]
+
+//other
+function fun (...arg){
+  return arg;
+}
+fun(1,2,3)
+//[1,2,3]
+```
 
 
 **問15**
@@ -487,10 +608,7 @@ Object.key(obj);
 
 **問29**
 
-```
-var obj = {}
-  ```
-  と等価をObjctメソッドで生成してください
+こちら```var obj = {}``` と等価をObjctメソッドで生成してください
 
 ```js
 var obj = Object.create(Object.prototype);
@@ -498,6 +616,8 @@ var obj = Object.create(Object.prototype);
 ```
 
 **問30**
+
+こちら
 ```js
 var obj = {x : 2, y: 3}
 ```
@@ -512,6 +632,8 @@ var obj = Object.create(Object.prototype, {
 
 
 **問31**
+
+こちら
 ```js
 var obj = { x : 2}
 ```
@@ -529,10 +651,9 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 
 
 **問31**
-```js
-var obj2 = {x : 2};
-```
-にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
+
+こちら
+```var obj2 = {x : 2};```にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
 
 ```js
 var obj2 = {x : 2};
@@ -552,6 +673,7 @@ Object.getOwnPropertyDescriptor(obj2, 'y')
 ```
 
 **問32**
+
 実引数の数を出力、第一引数を出力する関数fを実行してください
 
 ```js
@@ -1262,9 +1384,6 @@ console.log('repeat'.repeat(2));
 //'repeatrepeat'
 ```
 
-
-## ECMAScript2015
-
 **問67**
 
 文字列
@@ -1402,9 +1521,6 @@ var obj = {foo, bar};
 ```
 
 
-
-### Computed property
-
 **問75**
 
 下のように
@@ -1451,8 +1567,6 @@ console.log(`my name is ${ff()}`);
 //my name is kenji
 ```
 
-### Destructuring assignment
-
 **問77**
 
 変数a,bにそれぞれ1,2を代入してください
@@ -1470,8 +1584,6 @@ console.log(`line1
 line2
 `);
 ```
-
-### Tagged template strings
 
 **問79**
 
@@ -1586,8 +1698,6 @@ aa// undefined
 元の配列を変更せず変換やcopyをしたいとき
 ```
 
-## 配列
-
 **問83**
 
 ```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出しなさい(文字列'san'を付けています)e.g``` ['kenjisan', 'moritasan']```
@@ -1701,8 +1811,6 @@ const obj = {
 ```
 
 
-## spread Array
-
 **問89**
 
 下記のようなある配列itemsの要素をコピーしている記述をspreadArrayを使って簡潔に記述してください
@@ -1731,8 +1839,6 @@ frames
 document
 parent, top, self
 ```
-
-### Destructuring
 
 **問90**
 
@@ -1943,8 +2049,6 @@ if(obj.a)が存在しても未定義だと実行されない
 ```js
 2 in arry;
 ```
-
-### 文字列
 
 **問101**
 
@@ -2171,9 +2275,6 @@ math.sum(x, y){
 sum(1, 3)
 ```
 
-
-## 配列
-
 **問113**
 
 ```['morita','kenji','fafafa']```の要素 ```'fafafa'```のインデックスを返してください。
@@ -2294,8 +2395,6 @@ console.log(fafa === null);//true //同値演算子を使う
 
 ```
 
-## DOM操作
-
 **問122**
 
 div要素を10個作ってidがparentの子要素として追加してください
@@ -2349,9 +2448,6 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 //参照
 //http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
 ```
-
-## 正規表現
-
 
 **問125**
 
@@ -4955,3 +5051,4 @@ http://nodejs.jp/nodejs.org_ja/
 http://d.hatena.ne.jp/hasegawayosuke/20130330/p1
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 https://twitter.com/javascript_tips
+http://blog.tojiru.net/article/205007468.html
