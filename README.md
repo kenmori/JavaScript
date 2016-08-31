@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/08/29更新**
+**2016/09/01更新**
 
 
 **問1**
@@ -325,8 +325,8 @@ next();//3
 
 **問14**
 
-```fun(1,2,3);```を実行したら引数が全て配列で返る関数funを定義しなさい
-[参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
+```fun(1,2,3);
+```を実行したら引数が全て配列で返る関数funを定義しなさい
 
 ```js
 function fun(){
