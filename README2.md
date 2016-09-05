@@ -1626,14 +1626,64 @@ locationsearch.substring(1).split("&").forEach(function(ele, i){
 
 
 **問000**
+こちらのオブジェクト
+var locationInfo = {
+ LocalityName : 'santa Monica',
+ SubAdministrativeAreaName : 'Los Angeles',
+ AdministrativeAreaName: 'California',
+ CountryName: 'USA'
+};
+からLocationInfoとCuntryNameの値を配列にして出力してください
+//["santa Monica", "USA"]
 ```js
 
+
+var locationInfo = {
+ LocalityName : 'santa Monica',
+ SubAdministrativeAreaName : 'Los Angeles',
+ AdministrativeAreaName: 'California',
+ CountryName: 'USA'
+};
+
+const [place, city] = [locationInfo['LocalityName'],locationInfo['CountryName']]
+Array.prototype.concat(place, city);
+//["santa Monica", "USA"]
+
+//別解
+var result = [];
+var arr = Object.keys(locationInfo).forEach(function(elem, i){
+   if(elem === 'LocalityName' || elem === 'CountryName'){
+    result.push(locationInfo[elem])
+   }
+});
+result
+//["santa Monica", "USA"]
 ```
 
 
 **問000**
-```js
+上のlocationInfoに関して、
+SubAdministrativeAreaNameとCountryNameはundefinedになる可能性がある。
+その際を考慮してそれぞれに文字列'Middle-of-Nowhere','planet Earth'を返す関数を作ってください
 
+```js
+var locationInfo = {
+ LocalityName : 'santa Monica',
+ SubAdministrativeAreaName : undefined,
+ AdministrativeAreaName: 'California',
+ CountryName: undefined
+};
+
+function place({LocalityName, SubAdministrativeAreaName ='Middle-of-Nowhere', AdministrativeAreaName, CountryName ='planet Earth'}){
+   return {
+     LocalityName,
+     SubAdministrativeAreaName,
+     AdministrativeAreaName,
+     CountryName
+   }
+}
+place(locationInfo);
+//{LocalityName: "santa Monica", SubAdministrativeAreaName: "Middle-of-Nowhere", AdministrativeAreaName: "California", CountryName: "planet Earth"}
 ```
 
 **問000**
