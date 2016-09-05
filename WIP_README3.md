@@ -1,5 +1,11 @@
 
 **問000**
+<a href="javascript:void(document.body.style.backgroundColor='green');">
+クリックで背景色を緑色に
+</a>
+
+
+**問000**
 Destructuring helps with processing return values:
 
 ```js
