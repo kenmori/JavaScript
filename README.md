@@ -1,12 +1,12 @@
 ## JavaScript練習問題集
 
-**2016/08/29更新**
+**2016/09/10更新**
 
 
 **問1**
 
 ```const a = {a: 'a'}```と```const b = {b: 'b'}```
-をmergeした```c```
+をマージした```c```
 を出力してください
 e.g```{a:'a',b:'b'}```
 
@@ -727,23 +727,9 @@ arr2
 ```
 
 **問35**
-JSON文字列```{'x' : 1, 'y': 2}```をオブジェクトに変換してJSON文字列に変換してください。またなぜ下記の2つはエラーになるか答えてください。
 
-```js
-var s = JSON.parse(''foo'');
-var arr = JSON.parse('{x : 1}');
 ```
-
-```js
-var s = '{'x' : 1, 'y': 2}';
-var obj = JSON.parse(s);
-JSON.stringify(obj);
-//'{\'x\':1,\'y\':2}'
-//**下記はなぜエラーになるか**
-var s = JSON.parse(''foo'');
-//シングルクォーテーションの文字列はエラー-
-var arr = JSON.parse('{x : 1}');
-//プロパティ名が文字列でないとエラー
+WIP
 ```
 
 **問36**
@@ -899,15 +885,13 @@ for in文に関する注意点を3つ挙げてください
 ```
 
 **問38**
-これは2秒後に```'hello!kenji!'```とconsole.logに出力されることを期待していますが動きません。正しく修正してください。なぜそうなるか理由もください。
 
 ```js
-
 WIP
 ```
 
 **問39**
-配列```var arr = ['f','o','x','k'];```を要素順に出力させなさい
+配列```var arr = ['f','o','x','k'];```をインデックス順に出力させなさい
 
 ```js
 var arr = ['f','o','x','k'];
@@ -926,7 +910,7 @@ arr.forEach(function(ele){
 ```
 
 **問40**
-またイテレーターを使い順番にす出力しなさい
+またイテレーターを使い順番に出力してください
 
 ```js
 var arr = ['f', 'o', 'x', 'k'];
@@ -938,17 +922,20 @@ eArr.next().value //k
 ```
 
 **問41**
-配列```['angel', 'clown', 'drum', 'mandarin', 'surgeon']```
-のインデックス2に'morita'という要素を加えなさい。```['angel', 'clown', 'morita', 'drum', 'mandarin', 'surgeon']```
+
+配列```['a', 'b', 'c', 'd', 'e']```
+のインデックス2番目に'morita'という要素を加えなさい。期待する結果```['a', 'b','morita', 'c', 'd', 'e']```
+
 
 ```js
-var myFish = ['angel', 'clown', 'drum', 'mandarin', 'surgeon'];
-myFish.splice(2, 0 , 'morita');
-myFish//['angel', 'clown', 'morita', 'drum', 'mandarin', 'surgeon']
+var arry = ['a', 'b', 'c', 'd', 'e'];
+arry.splice(2, 0 , 'morita');
+arry
+//['a', 'b','morita', 'c', 'd', 'e']
 ```
 
 **問42**
-これ```var o = {};```と同じ意味を持つコードをObjectを使って生成しなさい
+これ```var o = {};```と同じ意味を持つコードをObjectのAPIを使って生成してください
 
 
 ```js
@@ -956,7 +943,7 @@ var o = Object.create(Object.prototype);
 ```
 
 **問43**
-{p: 42}となるようなオブジェクトをObjectメンバを使って生成しなさい
+{p: 42}となるようなオブジェクトをObjectメンバを使って生成してください
 
 ```js
 o = Object.create({}, {p: {value : 42}});
@@ -964,10 +951,7 @@ o = Object.create({}, {p: {value : 42}});
 
 **問44**
 
-```
-1234
-```
-という数字を文字列に変更後、1文字ずつ配列の要素として取り出しなさい
+```1234```という数字を文字列に変更後、配列の要素としてインデックス順に格納してください
 
 ```js
 var count = 1234;
@@ -980,10 +964,10 @@ console.log(arr)//['1','2','3','4'];
 ```
 
 **問45**
-[こちら](http://jsbin.com/wacumupuqo/1/edit?js,console,output)を実行するとundefinedが返ってきます。nameが返るように修正してください。またそうなる理由を述べてください
 
-理由thisの実行コンテキストがPersonを差していないから。
-[答え1](http://jsbin.com/gikakeyepu/1/edit?js,console,output)
+```
+WIP
+```
 
 **問46**
 
@@ -1034,15 +1018,8 @@ person.sayName();
 ```
 
 **問47**
-こちらの関数のaを2としてbindした後に
 
-```
-var mul = function(a,  b) {
-     alert(a * b);
-};
-```
-
-下記のような配列内にある連想配列のkey、mail値を配列に格納して返せ
+下記のような
 
 ```
 array = [
@@ -1051,7 +1028,7 @@ array = [
 ]
 ```
 
-答え
+配列内にある連想配列のkey、mail値を配列に格納して出力してください
 
 ```js
 array = [
@@ -1071,7 +1048,7 @@ console.log(array2);
 ```
 
 **問48**
-配列```var passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返しなさい。また10以上のものが一つでもあった場合trueを返しなさい。
+配列```var passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返してください。また10以上のものが一つでもあった場合trueを返してください。
 
 ```js
 function isBigEnough(ele, ind, arry){
@@ -1101,7 +1078,7 @@ map.get('two');
 ```
 
 **問50**
-問49の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加しなさい
+問49の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加してください
 
 ```js
 var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
@@ -1111,7 +1088,7 @@ map.set('four', 'fafa@eee');
 ```
 
 **問51**
-問50の変数fafaに内にある要素を全て取得しなさい
+問50の変数fafaに内にある要素を全て取得してください
 
 ```js
 var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
@@ -1144,7 +1121,7 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 
 **問54**
 
-ひらがな全てにマッチ、半角カタカナ全てにマッチ、カタカナ全てにマッチする正規表現を記述しなさい
+ひらがな全てにマッチ、半角カタカナ全てにマッチ、カタカナ全てにマッチする正規表現を記述してください
 
 ```js
 //ひらがな
@@ -1300,7 +1277,7 @@ kk('home');
 ```
 
 **問62**
-今の時間、何時何分何秒を表しなさい
+今の時間、何時何分何秒を表してください
 
 ```js
 var now = new Date();
@@ -1365,7 +1342,7 @@ g({ name: 5 });
 
 **問65**
 
-文字列```'fafafakenjifafafa'```に```'kenji'```が含まれているかどうかの真偽値を出力しなさい
+文字列```'fafafakenjifafafa'```に```'kenji'```が含まれているかどうかの真偽値を出力してください
 expect //true
 
 ```js
@@ -1375,7 +1352,7 @@ console.log('fafaeeekenjifa'.includes('kenji'));
 
 **問66**
 
-文字列'repeat'を2回繰り返した結果を出力しなさい
+文字列'repeat'を2回繰り返した結果を出力してください
 
 expect //'repeatrepeat'
 
@@ -1394,7 +1371,7 @@ foo
 ```
 ['f','o','o']
 ```
-を出力しなさい。
+を出力してください。
 
 ```js
  //ECMAScript2015,Babel
@@ -1407,7 +1384,7 @@ console.log(chars);//['f','o','o']
 
 **問68**
 
-IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力しなさい
+IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力してください
 
 ```js
 var arr = ['ooo', 'eee'];
@@ -1443,7 +1420,7 @@ console.log(index0,index1, rest);
 
 **問71**
 
-```foo(1, 2, 3, 4, 5, 6)```を実行したら1がfirst、2がsecond、残りが配列の要素になるような ```foo```を定義しなさい
+```foo(1, 2, 3, 4, 5, 6)```を実行したら1がfirst、2がsecond、残りが配列の要素になるような ```foo```を定義してください
 
 ```js
 //レストパラメータ
@@ -1479,7 +1456,7 @@ class Baz{
   baz(){}
 }
 ```
-を別のファイル(import.js)にexport、個別のメンバとして読み込む記述を示しなさい。また「module」という別名で全てのメンバを取得する記述も示しなさい
+を別のファイル(import.js)にexport、個別のメンバとして読み込む記述を示してください。また「module」という別名で全てのメンバを取得する記述も示してください
 ※module.jsとimport.jsは同階層にあるものとする
 
 ```js
@@ -1577,7 +1554,7 @@ let [a, b] = [1, 2];
 
 **問78**
 
-文字列 ```line1```と```line2```を改行てconsole.log出力しなさい
+文字列 ```line1```と```line2```を改行てconsole.log出力してください
 
 ```js
 console.log(`line1
@@ -1700,7 +1677,7 @@ aa// undefined
 
 **問83**
 
-```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出しなさい(文字列'san'を付けています)e.g``` ['kenjisan', 'moritasan']```
+```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出してください(文字列'san'を付けています)e.g``` ['kenjisan', 'moritasan']```
 
 
 ```js
@@ -1868,7 +1845,7 @@ function add ({name, id}){
 
 **問91**
 
-```var aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力しなさい
+```var aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力してください
 
 ```js
 var aaa = [['oo','oo1'], ['ll','ll2']];
@@ -1884,7 +1861,7 @@ aaa.forEach(function(ee){
 
 **問92**
 
-Array destructuringとして簡潔に記述しなさい。
+Array destructuringとして簡潔に記述してください。
 シャローコピーとディープコピーの違いを教えてください。また
 ```var aa = ['oo', 'll'];```
 aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
@@ -1916,7 +1893,7 @@ aa//[]
 
 **問93**
 
-```var aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしなさい。期待する結果
+```var aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしてください。期待する結果
 
 bb//['oo', 'll'];
 aa//['kk', 'jj'];
@@ -2244,7 +2221,7 @@ Object.definedProperty(o,'a',{
 **問112**
 
 下のlib/math.jsに入っている1と2を別のファイルで使えるようにして
-受け取る方app.jsも記述しなさい
+受け取る方app.jsも記述してください
 
 ```js
 //lib/math.js
@@ -2315,7 +2292,7 @@ expect [['A'],['B'],['C']]
 
 **問116**
 
-配列``` [6, -5, 8]```を0未満の要素だけ出力しなさい
+配列``` [6, -5, 8]```を0未満の要素だけ出力してください
 
 ```js
 const i = [3, 0, 6, -1].find(x=> x < 0);
@@ -2324,7 +2301,7 @@ console.log(i)
 ```
 **問117**
 
-gen.next().valueを実行すると値が1づつ返ってくるようなGenerator関数を作り、1,2,3と出力しなさい
+gen.next().valueを実行すると値が1づつ返ってくるようなGenerator関数を作り、1,2,3と出力してください
 
 ```js
 function* idMaker(){
@@ -5030,6 +5007,176 @@ function say(msg){
 say(1000).then(function(){
  console.log('ken!');
 })
+```
+
+**問257**
+こちら['a','b','c’]をこちら{0: 'a’, 1: 'b’, 2: 'c'}のようにしてください
+
+```js
+
+function toObject(arry){
+ var obj = {};
+ for(var i = 0; i < arry.length; i++){
+   obj[i] = arry[i];
+ }
+ return obj
+}
+toObject(arry);
+//{0: "a", 1: "b", 2: "c"}
+
+```
+
+**問258**
+
+こちら
+```js
+let html = '';
+const count = 10;
+for(var i = 0;i < count; i++){
+ html += 'hai!!';
+}
+document.querySelector('#mngb').innerHtml = html;
+"hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!"
+```
+をより高速な書き方をしてください
+
+```js
+var html = [];
+var count = 10;
+for(var i = 0; i < count; i++){
+ html.push("hei!!");
+}
+document.querySelector('#mngb').innerHtml = html.join("");
+
+"hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!"
+//+=より、配列に追加してjoinを使った方が高速
+```
+
+**問259**
+
+このような関数があります
+```js
+function iterateTimerOver(){
+ const length = 100;
+ for (let i = 0; i < length; i++){
+   Timer();
+ }
+}
+```
+Timerはグローバル関数です。より高速にしてください。
+
+```js
+//Timerの参照をローカル変数にポイントさせて、スコープがループの数だけグローバルまで辿らないようにしています。
+function iterateTimerOver(){
+  const funcTimer = Timer;//参照を代入
+  const length = 100;
+ for (let i = 0; i < length; i++){
+   funcTimer();
+ }
+}
+
+//他にも
+//forループの改善
+for (i = 0; i < elements.length; i++) {
+}
+↓
+//const length = elements.length;
+for (i = 0; i < length; i++) {
+}
+
+//以後、何度も参照するObjectへポイント変数
+this.propsはこのようなオブジェクトだとします
+{name: 'ken', sex: 'man', 'age': 19, 'live': 'shibuya'}
+const {name, sex, age, live} = this.props;
+name
+//ken
+
+```
+
+
+**問260**
+
+こちら
+```js
+const myObject  = {1: ['e', 'ee', 'eee'], 2: ['f', 'ff','fff']};
+```
+を
+多次元配列にしてください
+期待する結果:[[‘e’,’ee’,’eee’],[‘f’,’ff’, ‘fff’]];
+
+```js
+const myObject  = {1: ['e', 'ee', 'eee'], 2: ['f', 'ff','fff']};
+const newArr = Object.keys(myObject).map(function(elem){
+   return myObject[elem]
+})
+//[[‘e’,’ee’,’eee’],[‘f’,’ff’, ‘fff’]]
+
+//other
+const myObject  = {1: ['ee', 'eee', 'efe'], 2: ['faf', 'fafa','fa']};
+const arr = Object.values(myObject);
+//※Object.values(ECMAScript2017)を使える環境で(Polyfill: es-shims/Object.values,tc39/proposal-object-values-entries)で
+```
+
+**問260**
+
+こちら
+```js
+['a','b','c’] →　{0: 'a’, 1: 'b’, 2: 'c'}
+```
+のように、インデックスをキーにして、配列要素をそれぞれの値となるようにしてください
+
+```js
+//1
+const arry = ['a', 'b', 'c'];
+function toObject(arry){
+ const obj = {};
+ const len =  arry.length;
+ for(let i=0; i < len; i++){
+  obj[i] = arry[i]
+ }
+ return obj
+}
+toObject(arry)
+//{0: "a", 1: "b", 2: "c"}
+
+//2
+const arry = ['a', 'b', 'c'];
+const obj = arry.reduce(function(o, v, i){
+ o[i] = v;
+ return o;
+},{})
+obj
+//{0: "a", 1: "b", 2: "c"}
+
+//3
+[{a: 1},{b: 3}].reduce(function(result, item){
+ var key = Object.keys(item)[0]
+ result[key] = item[key];
+ return result;
+},{})
+//{a: 1, b: 3}
+```
+
+**261**
+
+こちら
+```js
+const arr = [
+    { key: 'foo', val: 'bar' },
+    { key: 'hello', val: 'world' }
+];
+```
+をMapオブジェクトにしてください
+期待する結果:{"foo" => "bar", "hello" => "world"}
+
+```js
+const arr = [
+    { key: 'foo', val: 'bar' },
+    { key: 'hello', val: 'world' }
+];
+const result = new Map(arr.map((i) => [i.key, i.val]));
+console.log(result);
+// Map {"foo" => "bar", "hello" => "world"}
 ```
 
 
