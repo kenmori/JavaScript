@@ -325,7 +325,7 @@ next();//3
 
 **問14**
 
-```fun(1,2,3);```を実行したら引数が全て配列で返る関数funを定義しなさい
+fun(1,2,3)を実行したら引数が全て配列で返る関数funを定義しなさい
 [参照](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
 ```js
@@ -503,7 +503,8 @@ return a - b
 
 **問24**
 
-文字列```'10'```をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
+文字列
+'10'をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
 var a = +'10';
@@ -951,7 +952,7 @@ o = Object.create({}, {p: {value : 42}});
 
 **問44**
 
-```1234```という数字を文字列に変更後、配列の要素としてインデックス順に格納してください
+1234という数字を文字列に変更後、配列の要素としてインデックス順に格納してください
 
 ```js
 var count = 1234;
@@ -1014,21 +1015,18 @@ Person.prototype.sayName = function(){
 var person = new Person('moriken');
 
 person.sayName();
-
 ```
 
 **問47**
 
 下記のような
-
-```
+```js
 array = [
 {name: 'kenji', mail:'fafa@eee.com'},
 {name: 'morita', mail: 'kkk@faf.com'}
 ]
 ```
-
-配列内にある連想配列のkey、mail値を配列に格納して出力してください
+配列内にある連想配列のkeyとmail値を配列に格納して出力してください
 
 ```js
 array = [
@@ -1088,6 +1086,7 @@ map.set('four', 'fafa@eee');
 ```
 
 **問51**
+
 問50の変数fafaに内にある要素を全て取得してください
 
 ```js
@@ -1153,11 +1152,11 @@ var str = '「ヤッホー?ヤッホー@」';
 
 
 **問56**
-```js
+```
 (ありがとう|こんにちは｜さようなら)
 ```
 と
-```js
+```
 ありがとう|こんにちは｜さようなら
 ```
 の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
