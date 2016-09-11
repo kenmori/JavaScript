@@ -20,7 +20,7 @@ window.onload = function(){
 	if(fff === 7){
 		console.log(fff);
 	} else {
-		typeof x;
+		typeof x; //"undefined"
 		console.log("no 7")
 	}
 	//三角形を形成する頂点のデータを受け取る
