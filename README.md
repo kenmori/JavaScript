@@ -5178,6 +5178,28 @@ console.log(result);
 // Map {"foo" => "bar", "hello" => "world"}
 ```
 
+**262**
+
+こちら
+
+```js
+const characters = ["b", "d", "a", "c"];
+const sortedCharacters = characters.sort()
+sortedCharacters
+//["a", "b", "c", "d"]
+sortedCharacters === characters
+//true
+```
+
+配列をsortした返り値は同じオブジェクトを参照します。
+sortをした上で新しい配列を返すようにしてください。
+
+```js
+const characters = ["b", "d", "a", "c"];
+const sortedCharacters = characters.slice().sort();
+sortedCharacters === characters
+//false
+```
 
 参照
 
