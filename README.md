@@ -3326,14 +3326,7 @@ map
 
 
 **問170**
-
-```js
-add()
-```を実行した際
-```
-3
-```
-、add(2)としたら```4```add(2,3)を実行したら5が帰ってくる関数addを定義してください
+add()を実行した際 3 、add(2)としたら 4 add(2,3)を実行したら 5 が返ってくる関数addを定義してください
 
 ```js
 //デフォルトパラメータ
@@ -3347,6 +3340,7 @@ add(2,3)//5
 
 
 **問171**
+
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
 ```js
 function get(url) {
@@ -3355,9 +3349,9 @@ function get(url) {
     req.open('GET', url);
     req.onload = function() {
       if (req.status == 200) {
-        resolve(req.response);
+	resolve(req.response);
       } else {
-				reject(Error(req.statusText));
+　　　　　reject(Error(req.statusText));
       }
     };
     req.onerror = function() {
