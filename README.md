@@ -31,10 +31,8 @@ const newArry = arry.slice(3,-1);
 ```
 
 **問3**
-```
-const arry = ['a','b’]
-```
-の要素をconsole出力してください e.g ```'a'```と```'b'```
+
+const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
 
 ```js
 const arry = ['a','b'];
@@ -47,7 +45,7 @@ arry.forEach(function(elem,i){
 
 **問4**
 
-```const arry = [‘a’, ‘b’]```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
+```const arry = ['a', 'b']```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
 
 ```js
 const arry = ['a','b'];
