@@ -1,7 +1,10 @@
 ## JavaScript練習問題集
 
-**2016/09/10更新**
+**2016/10/2更新**
 
+※こちらの問題集は[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
+
+※表記揺れは鋭意解消中
 
 **問1**
 
@@ -159,20 +162,17 @@ for (key in obj){
 
 **問9**
 
-```js
-var arry = ['a', 'b', 'c'];
-```
-配列の中の全ての要素を結合し、1つの文字列として出力してください。
+こちらの ['a', 'b', 'c'] 配列の中の全ての要素を結合し、1つの文字列として出力してください。
 
 ```js
-var arry = ['a', 'b', 'c'];
+const arry = ['a', 'b', 'c'];
 array.join("");
 //'abc'
 
 //other
-var arry = ['a', 'b', 'c'];
-var str = '';
-var count = array.length;
+const arry = ['a', 'b', 'c'];
+let str = '';
+const count = array.length;
 for(var i= 0; i < count; i++){
   str += arry[i];
 }
@@ -186,13 +186,13 @@ str
 
 ```js
 x = 43
-var y = 3
+let y = 3
 ```
 の2つの変数。deleteできるのはどちらですか？
 
 ```js
 deleteは暗黙に定義された場合は変数は削除できるが、
-var や function文中の変数はnon-configurableであり削除できない
+var(let) や function文中の変数はnon-configurableであり削除できない
 
 //globaleオブジェクト
 x = 43;
@@ -214,7 +214,7 @@ f()
 
 【配列の要素の削除】
 1
-var color = ['red', 'blue', 'green'];
+let color = ['red', 'blue', 'green'];
 //要素として存在する状態にするが値は未定義
 color[1]= undefined;
 color
@@ -223,7 +223,7 @@ if(1 in color){console.log('実行されてます')}
 //実行されてます
 
 2
-var color = ['red', 'blue', 'green'];
+let color = ['red', 'blue', 'green'];
 delete color[1]
 //true
 color.length//削除しても配列の長さには影響しない
@@ -235,7 +235,7 @@ if(1 in color){console.log('実行されてます')}
 //
 function Foo(){}
 Foo.prototype.bar = 42;
-var foo = new Foo();
+let foo = new Foo();
 delete foo.bar;
 //true
 
@@ -262,7 +262,7 @@ var arry =[
 をid番号が若い順にソートしたオブジェクトを含む配列を出力してください
 
 ```js
-var arry =[
+let arry =[
   {id:1,name:'morita'},
   {id:2,name:'kenji'},
   {id:4,name:'uro'},
@@ -5168,7 +5168,7 @@ obj
 //{a: 1, b: 3}
 ```
 
-**261**
+**問261**
 
 こちら
 ```js
@@ -5190,7 +5190,7 @@ console.log(result);
 // Map {'foo' => 'bar', 'hello' => 'world'}
 ```
 
-**262**
+**問262**
 
 こちら
 
@@ -5267,7 +5267,7 @@ for(index of iterator){
 ```
 
 **問266**
-3つのgenerator関数、foo,bar,bazはそれぞれ関数名の文字列をyield operatorに持ち、fooは次の処理をbarに移譲し、barは次の処理をbazに移譲してそれぞれyield値で実行するように定義して、for-of文で'foo','bar','baz'と連続で出力してください。
+3つのgenerator関数、foo,bar,bazはそれぞれ関数名の文字列をyield operatorに持ち、fooは次の処理をbarに代理させて、barは次の処理をbaz、それぞれyield値で実行するように定義してください。さらにfor-of文で'foo','bar','baz'と連続で出力してください。
 
 ```js
 let index;
@@ -5389,7 +5389,40 @@ controller(function* () {
 
 **問269**
 
+ジェネレーター関数barを実行して、返り値のiteratorが持つnext()すると、
+1,2回目はvalue値がそれぞれ1,2。
+3,4回目はfooが実行してそれぞれ3,4とするようにして、
+4回目はさらに'z: Z, w: W'をコンソール出力。
+5回目はbarが5。
+6回目はvalueはundefined。文字列で'x: X, y: Y, v: V'を出力してください。
+
+
 ```js
+function *foo() {
+    var z = yield 3;
+    var w = yield 4;
+    console.log( 'z: ' + z + ', w: ' + w );
+}
+
+function *bar() {
+    var x = yield 1;
+    var y = yield 2;
+    yield *foo(); // `yield*` delegates iteration control to `foo()`
+    var v = yield 5;
+    console.log( 'x: ' + x + ', y: ' + y + ', v: ' + v );
+}
+
+var it = bar();
+
+it.next();      // { value:1, done:false }
+it.next( 'X' ); // { value:2, done:false }
+it.next( 'Y' ); // { value:3, done:false }
+it.next( 'Z' ); // { value:4, done:false }
+it.next( 'W' ); // { value:5, done:false }
+// z: Z, w: W
+
+it.next( 'V' ); // { value:undefined, done:true }
+// x: X, y: Y, v: V
 
 ```
 
