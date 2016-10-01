@@ -14,7 +14,7 @@ e.g```{a:'a',b:'b'}```
 const a = {a: 'a'};
 const b = {b:'b'};
 const c = Object.assign(a, b);
-c //{a: "a", b: "b"}
+c //{a: 'a', b: 'b'}
 ```
 
 **問2**
@@ -388,7 +388,7 @@ array
 ```js
 const array = ['a1','a2','a3','a4','a5']
 ```
-の全ての要素を"/"で結合した文字列を出力し、さらにその文字列を"/"区切りで配列に直してください
+の全ての要素を"/"で結合した文字列を出力し、さらにその文字列を'/'区切りで配列に直してください
 
 ```js
 const array = ['a1','a2','a3','a4','a5']
@@ -408,11 +408,11 @@ greeting
 
 **問19**
 
-Object.createで空のオブジェクトを作成し、値が1のプロパティpを持ちなさい
+Object.createで空のオブジェクトを作成し、値が1のプロパティpを出力してください
 
 ```js
 const obj = Object.create({}, {p: {value: 1}});
-o.p //1
+obj.p //1
 ```
 
 **問20**
@@ -2446,8 +2446,7 @@ console.log(str7.match(/\ba\w*\b/g));
 
 ```<p>```や```<img src="fafafa">```などタグにマッチする正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
 
-期待する値
-```"<img class='fafafa'>"```
+期待する値"<img class='fafafa'>"
 ※</ではじまる閉じタグは除外
 
 タグ名のみ
@@ -2619,7 +2618,7 @@ const tag = '<div><h1>kenjimorita.jp</h1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag))
 //true
 
-const tag2 = '<div><h1>kenjimorita.jp</a1></div>';
+const tag2 = '<div><h1>kenjimorita.jp</h1></div>';
 console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 //false
 ```
@@ -3141,7 +3140,7 @@ see //http://qiita.com/hosomichi/items/49500fea5fdf43f59c58
 このような
 
 ```html
-<div class="classA">
+<div class='classA'>
     <div>some1</div>
     <p><div>some2</div></p>
     <div>some3</div>
@@ -3609,14 +3608,14 @@ const foo = { clark: 'kent' };
 **問184**
 
 第一引数にaddress,第二引数にtyoume、第三引数にbanchをとりそれらの渡ってきた値をそれぞれ要素とする1つの配列として返すだけの関数createAddressに
-defaultPrameterとして第二引数に「address + -1」、第三引数に「tyoume + "-10"」として設定してください。
+defaultPrameterとして第二引数に「address + -1」、第三引数に「tyoume + '-10'」として設定してください。
 
 ```js
-function createAddress(address, tyoume = address +  "-1", banch = tyoume + "-10"){
+function createAddress(address, tyoume = address +  '-1', banch = tyoume + '-10'){
  return [address, tyoume , banch];
 }
-createAddress("meguro")
-//["meguro", "meguro-1", "meguro-1-10"]
+createAddress('meguro')
+//['meguro', 'meguro-1', 'meguro-1-10']
 ```
 
 
@@ -3686,39 +3685,39 @@ for (var {name: n, family: {mother : f}} of people){
 こちら
 ```js
 var metadata = {
- title: "Scratchpad",
+ title: 'Scratchpad',
  translations: [
   {
-    locale: "de",
+    locale: 'de',
     localization_tags: [],
-    last_edit: "2016-07-18",
-    url: "kenjimorita.jp",
-    title: "JavaScript"
+    last_edit: '2016-07-18',
+    url: 'kenjimorita.jp',
+    title: 'JavaScript'
    }
  ],
-  url: "kenjimorita.jp/JavaScript"
+  url: 'kenjimorita.jp/JavaScript'
 };
 ```
 のtitleをenglishTitleとして、translationsの中のtitleをlocalTitleとしてそれぞれ変数に代入してconsole.log出力してください
 
 ```js
 var metadata = {
- title: "Scratchpad",
+ title: 'Scratchpad',
  translations: [
   {
-    locale: "de",
+    locale: 'de',
     localization_tags: [],
-    last_edit: "2016-07-18",
-    url: "kenjimorita.jp",
-    title: "JavaScript"
+    last_edit: '2016-07-18',
+    url: 'kenjimorita.jp',
+    title: 'JavaScript'
    }
  ],
-  url: "kenjimorita.jp/JavaScript"
+  url: 'kenjimorita.jp/JavaScript'
 };
 var {title: englishTitle, translations: [{title: localeTitle}]} = metadata;
 console.log(englishTitle, localeTitle);
-//"Scratchpad"
-//"JavaScript"
+//'Scratchpad'
+//'JavaScript'
 
 ```
 
@@ -3758,11 +3757,26 @@ drawES6Chart({
 
 
 **問189**
+querySelectorAll('.child')やdocument.getElementsByTagName('div')で取得したNodeListからArrayにする場合の方法を4つ答えてください。
 
 ```js
+//common
+const nodeList = document.querySelectorAll('.child');
 
+//1
+Array.from(nodeList);
+
+//2
+Array.prototype.slice.call(nodeList);
+
+//3
+[...nodeList];
+
+//4
+Object.keys(nodeList).forEach(function(key){
+  console.log(nodeList[key])//出力
+})
 ```
-
 
 
 **問190**
@@ -3905,20 +3919,21 @@ localstrageは他のタブ間でもデータが共有される
 ローカルストレージのkeyとしてfooを値を"fafa"と設定、取得、削除、全てをクリアーにしてください
 
 ```js
-localStrage.foo = "fafa";
-localStrage.setItem("foo","fafa");
-localStrage.getItem("foo");
-localStorage.removeItem("foo")
+localStrage.foo = 'fafa';
+localStrage.setItem('foo','fafa');
+localStrage.getItem('foo');
+localStorage.removeItem('foo')
 localStorage.clear();
 var key = localStorage.key(0)
-console.log(key + "のストレージは" + localStorage[key]);
+console.log(key + 'のストレージは' + localStorage[key]);
 ```
 
 
 
 **問199**
 
-
+```
+```
 
 **問200**
 
@@ -4183,17 +4198,17 @@ arr.map(x => x()); // [0,1,2]
             ['perhaps', 'vielleicht'],
         ];
 ```
-entriesを<div id="content"></div>このなかでaタグを作りentriesインデックス0をidとtextContntになるように、
+entriesを<div id='content'></div>このなかでaタグを作りentriesインデックス0をidとtextContntになるように、
 さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesのインデックス1が出力されるようにしてください
 
 ```html
 <!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
 </head>
 <body>
-    <div id="content"></div>
+    <div id='content'></div>
     <script>
         const entries = [
             ['yes', 'ja'],
@@ -4203,7 +4218,7 @@ entriesを<div id="content"></div>このなかでaタグを作りentriesイン�
         const content = document.getElementById('content');
         for (let [source, target] of entries) { // (A)
             content.insertAdjacentHTML('beforeend',
-                `<div><a id="${source}" href="">${source}</a></div>`);
+                `<div><a id='${source}' href=''>${source}</a></div>`);
             document.getElementById(source).addEventListener(
                 'click', (event) => {
                     event.preventDefault();
@@ -4259,9 +4274,9 @@ class Faaaa extends Faa {
  }
 }
 
-var eee = new Faa("kenji");
+var eee = new Faa('kenji');
 eee.speak();
-var iii = new Faaaa("morita");
+var iii = new Faaaa('morita');
 iii.getName();
 eee.speak();
 ```
@@ -4384,7 +4399,7 @@ multiplyAndLog(40,4)
 document内にいくつあるかわからないh1の先頭から1個を削ったDOMをかえしてください
 
 ```js
-var hoge = document.querySelectorAll("h1");
+var hoge = document.querySelectorAll('h1');
 var newHoge = Array.prototype.slice.call(hoge, 1);
 
 ```
@@ -4404,11 +4419,11 @@ a.search(/\d/) > b.search(/\d/);
 ```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
 
 ```js
-var div = "<div>about me</div>";
+var div = '<div>about me</div>';
 var divarray=[];
 divarray.push(/\<div\>(.+)\<\/div\>/.exec(div)[1])
 divarray
-//["about me"]
+//['about me']
 
 ```
 
@@ -4445,12 +4460,12 @@ var d = new Date('1980/8/1 5:55');
 ```js
 var d = new Date('1980/8/1 5:55');
 d.toLocaleString();
-//"2008/7/1 5:55:00"
+//'2008/7/1 5:55:00'
 
 
 //標準フォーマット
 d.toStoring();
-//"Tue Jul 01 2008 05:55:00 GMT+0900 (JST)"
+//'Tue Jul 01 2008 05:55:00 GMT+0900 (JST)'
 ```
 
 **問227**
@@ -4460,10 +4475,10 @@ d.toStoring();
 ```js
 var d = new Date('1980/8/1 5:55');
 d.toLocaleTimeString();
-//"5:55:00"
+//'5:55:00'
 
 //標準フォーマット
-//"05:55:00 GMT+0900 (JST)"
+//'05:55:00 GMT+0900 (JST)'
 
 ```
 
@@ -4475,7 +4490,7 @@ var ary = ['aaa', 'bbb', 'ccc'];
 ary.unshift('eee');
 //4
 ary
-//["eee", "aaa", "bbb", "ccc"]
+//['eee', 'aaa', 'bbb', 'ccc']
 
 ```
 
@@ -4534,13 +4549,13 @@ encodeURIComponenとencodeURIの違いを教えてください
 
 ```js
 
-const url = "https://tools.ietf.org/html/rfc2822#page-14";
+const url = 'https://tools.ietf.org/html/rfc2822#page-14';
 encodeURIComponent(url)
-//"https%3A%2F%2Ftools.ietf.org%2Fhtml%2Frfc2822%23page-14"
+//'https%3A%2F%2Ftools.ietf.org%2Fhtml%2Frfc2822%23page-14'
 
 (;、 :、 /、 @、？、 &、 %、 $、 #、 =、 + 、 ,)はエンコードしない
 encodeURI(url)
-//"https://tools.ietf.org/html/rfc2822#page-14"
+//'https://tools.ietf.org/html/rfc2822#page-14'
 
 ```
 
@@ -4550,11 +4565,11 @@ encodeURI(url)
 を使って、,を/に置換した文字列```aaa/bbb/ccc/ddd```を出力してください。ただしreplaceメソッドは使用しないこととする
 
 ```js
-while (s.indexOf(",") >= 0){
+while (s.indexOf(',') >= 0){
   s = s.replace(',','/');
 }
 s
-//"aaa/bbb/ccc/ddd"
+//'aaa/bbb/ccc/ddd'
 
 ※splitとjoinを使って生成する方法もあります
 
@@ -4580,10 +4595,10 @@ result = regexp.exec(s);
 }
 
 divStringAry
-//["bbb", "ddd"]
+//['bbb', 'ddd']
 divStringAry.join('\n')
-//"bbb
-//ddd"
+//'bbb
+//ddd'
 
 ```
 
@@ -4681,7 +4696,7 @@ location.assignとlocation.replaceの違いを教えてください
 
 **問239**
 
-Object.creteを使ってPersonのにthis.nameとthis.jobを参照して「"my name is" + this.name + "。" + "職業は" + this.job + "です"」を出力するインスタンスメソッド「say」のみを持ち、それを継承してnameを自身のプロパティとして持つkenjiと、
+Object.creteを使ってPersonのにthis.nameとthis.jobを参照して「'my name is' + this.name + '。' + '職業は' + this.job + 'です'」を出力するインスタンスメソッド「say」のみを持ち、それを継承してnameを自身のプロパティとして持つkenjiと、
 kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成して
 ```my name is morita。JavascriptEngneer``を出力してください、
 
@@ -4689,14 +4704,14 @@ kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成
 
 var Person = {
  say: function(){
-   console.log("my name is" + this.name + "。" + "職業は" + this.job + "です");
+   console.log('my name is' + this.name + '。' + '職業は' + this.job + 'です');
  }
 }
 
-var kenji = Object.create(Person, {name :{value: "kenji" }});
-var compKenji  = Object.create(morita, {job: {value: "JavascriptEngneer"}});
+var kenji = Object.create(Person, {name :{value: 'kenji' }});
+var compKenji  = Object.create(morita, {job: {value: 'JavascriptEngneer'}});
 compKenji.say()
-"my name is morita。JavascriptEngneer"
+'my name is morita。JavascriptEngneer'
 
 //Object.crete()
 第一引数・・・プロトタイプとなるべきobject
@@ -4774,11 +4789,11 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 let n = '124';を数値に変換してください。 
 
 ```js
-let n = "124";
+let n = '124';
 +n
 //124
 
-let n = "";
+let n = '';
 n
 //0
 //parseInt(n, 10)はから文字だとNaNが返るがこちらの方法は必ず数値が返る
@@ -4806,7 +4821,7 @@ if(n.value != null){//something}
 **問245**
 オブジェクトの存在チェックをしてあったら実行している。
 ```js
-var o = {f: function(){console.log("JS")}};
+var o = {f: function(){console.log('JS')}};
 if(o){
  if(o.f){
    o.f();
@@ -4816,7 +4831,7 @@ if(o){
 より端的な記述をしてください。
 
 ```js
-var o = {f: function(){console.log("JS")}};
+var o = {f: function(){console.log('JS')}};
 o && o.f && o.f();
 
 //同じ様なイデオムで代入の際に括弧でくくらないとエラーが起きることに注意してください
@@ -4826,7 +4841,7 @@ o && o.f && o.f();
 
 **問246**
 ```var v```の値を確実に数値にしたい。
-"a"が入ってきた場合NaNではなく0を代入するようにしてください。
+'a'が入ってきた場合NaNではなく0を代入するようにしてください。
  
 ```js
 var n = +v || 0;
@@ -4955,12 +4970,12 @@ e.g  const obj = {add : function(){some}};
 ```
 
 **問254**
-var obj = { foo: "bar", baz: 42 }; をMapオブジェクトに変換してください
+var obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
-var obj = { foo: "bar", baz: 42 }; 
+var obj = { foo: 'bar', baz: 42 }; 
 var map = new Map(Object.entries(obj));
-console.log(map); // Map { foo: "bar", baz: 42 }
+console.log(map); // Map { foo: 'bar', baz: 42 }
 
 ```
 
@@ -4977,8 +4992,8 @@ var Emiiter = {
       })
  },
 }
-Emiiter.register(function(){console.log("1")});
-Emiiter.register(function(){console.log("2")});
+Emiiter.register(function(){console.log('1')});
+Emiiter.register(function(){console.log('2')});
 
 ```
 
@@ -5019,7 +5034,7 @@ function toObject(arry){
  return obj
 }
 toObject(arry);
-//{0: "a", 1: "b", 2: "c"}
+//{0: 'a', 1: 'b', 2: 'c'}
 
 ```
 
@@ -5033,7 +5048,7 @@ for(var i = 0;i < count; i++){
  html += 'hai!!';
 }
 document.querySelector('#mngb').innerHtml = html;
-"hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!"
+'hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!'
 ```
 をより高速な書き方をしてください
 
@@ -5041,11 +5056,11 @@ document.querySelector('#mngb').innerHtml = html;
 var html = [];
 var count = 10;
 for(var i = 0; i < count; i++){
- html.push("hei!!");
+ html.push('hei!!');
 }
-document.querySelector('#mngb').innerHtml = html.join("");
+document.querySelector('#mngb').innerHtml = html.join('');
 
-"hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!"
+'hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!hei!!'
 //+=より、配列に追加してjoinを使った方が高速
 ```
 
@@ -5117,9 +5132,8 @@ const arr = Object.values(myObject);
 **問260**
 
 こちら
-```js
-['a','b','c’] →　{0: 'a’, 1: 'b’, 2: 'c'}
-```
+
+```['a','b','c’] →　{0: 'a’, 1: 'b', 2: 'c'}```
 のように、インデックスをキーにして、配列要素をそれぞれの値となるようにしてください
 
 ```js
@@ -5134,7 +5148,7 @@ function toObject(arry){
  return obj
 }
 toObject(arry)
-//{0: "a", 1: "b", 2: "c"}
+//{0: 'a', 1: 'b', 2: 'c'}
 
 //2
 const arry = ['a', 'b', 'c'];
@@ -5143,7 +5157,7 @@ const obj = arry.reduce(function(o, v, i){
  return o;
 },{})
 obj
-//{0: "a", 1: "b", 2: "c"}
+//{0: 'a', 1: 'b', 2: 'c'}
 
 //3
 [{a: 1},{b: 3}].reduce(function(result, item){
@@ -5164,7 +5178,7 @@ const arr = [
 ];
 ```
 をMapオブジェクトにしてください
-期待する結果:{"foo" => "bar", "hello" => "world"}
+期待する結果:{'foo' => 'bar', 'hello' => 'world'}
 
 ```js
 const arr = [
@@ -5173,7 +5187,7 @@ const arr = [
 ];
 const result = new Map(arr.map((i) => [i.key, i.val]));
 console.log(result);
-// Map {"foo" => "bar", "hello" => "world"}
+// Map {'foo' => 'bar', 'hello' => 'world'}
 ```
 
 **262**
@@ -5181,10 +5195,10 @@ console.log(result);
 こちら
 
 ```js
-const characters = ["b", "d", "a", "c"];
+const characters = ['b', 'd', 'a', 'c'];
 const sortedCharacters = characters.sort()
 sortedCharacters
-//["a", "b", "c", "d"]
+//['a', 'b', 'c', 'd']
 sortedCharacters === characters
 //true
 ```
@@ -5193,11 +5207,330 @@ sortedCharacters === characters
 sortをした上で新しい配列を返すようにしてください。
 
 ```js
-const characters = ["b", "d", "a", "c"];
+const characters = ['b', 'd', 'a', 'c'];
 const sortedCharacters = characters.slice().sort();
 sortedCharacters === characters
 //false
 ```
+
+
+**問263**
+ジェネレーター関数を使って１ずつ値を出力してください。
+
+```js
+var generatorFunction = function* (){
+ var i = 0;
+ while (true) {
+  yield i ++;
+ }
+}
+var iterator = generatorFunction();
+iterator.next().value;
+//0
+iterator.next().value;
+//1
+```
+
+**問264**
+generator関数がyieldの完了まで前進したら'finish'という文字列を返してください
+
+```js
+var gen = function* (){
+ yield 'foo';
+ return 'finish';
+}
+var iterator = gen();
+iterator.next();
+//'foo'
+iterator.next();
+//'finish'
+```
+
+**問265**
+数値1から3までの値を返すgenarator関数で生成されたiteratableをfor-of文に使い値を出力してください。(その際for-of文での戻り値を捨てていることを確認してください。)
+
+```js
+var fun = function * (){
+ yield 1;
+ yield 2;
+ yield 3;
+ return 4;//for-of文では捨てられる
+}
+
+var iterator = fun();
+for(index of iterator){
+  console.log(index)
+ }
+//1
+//2
+//3
+```
+
+**問266**
+3つのgenerator関数、foo,bar,bazはそれぞれ関数名の文字列をyield operatorに持ち、fooは次の処理をbarに移譲し、barは次の処理をbazに移譲してそれぞれyield値で実行するように定義して、for-of文で'foo','bar','baz'と連続で出力してください。
+
+```js
+let index;
+const foo = function * (){
+ yield 'foo';
+ //Delegating yield
+ yield * bar();
+}
+const bar = function * (){
+ yield 'bar';
+ yield * baz();
+}
+const baz = function * (){
+ yield 'baz';
+}
+
+for (index of foo()){
+ console.log(index);
+};
+//'foo'
+//'bar'
+//'baz'
+```
+
+**問267**
+
+値が'a'ならgenerator関数内のtry-catch内で値をバックアップ、'b'なら呼び出し元で例外を発生させるgenerator関数を定義してください。
+
+```js
+var generatorFunction = function * (){
+ while (true){
+  try {
+    yield;
+  } catch (e){
+    if(e != 'a') {
+      throw e;
+    }
+    console.log('generator caught', e);
+  }
+ }
+};
+var iterator = generatorFunction();
+iterator.next();
+try {
+ iterator.throw('a');
+ iterator.throw('b');
+} catch (e) {
+ console.log('Uncaught', e);
+}
+
+//generator caught a
+//Uncaught b
+```
+
+**問268-WIP**
+
+こちらの
+```js
+const foo = (name, callback) => {
+    setTimeout(() => {
+        callback(name);
+    }, 100);
+};
+
+foo('a', (a) => {
+    foo('b', (b) => {
+        foo('c', (c) => {
+            console.log(a, b, c);
+        });
+    });
+});
+// a
+// b
+// c
+```
+ネストされた読みにくい処理記述をgenerator関数を使って記述し直してください。
+
+```js
+const foo = (name, callback) => {
+    setTimeout(() => {
+        callback(name);
+    }, 100);
+};
+ 
+const curry = (method, ...args) => {
+    return (callback) => {
+        args.push(callback);
+        return method.apply({}, args);
+    };
+};
+ 
+const controller = (generator) => {
+    const iterator = generator();
+ 
+    const advancer = (response) => {
+        var state;
+ 
+        state = iterator.next(response);
+ 
+        if (!state.done) {
+            state.value(advancer);
+        }
+    }
+ 
+    advancer();
+};
+ 
+controller(function* () {
+    const a = yield curry(foo, 'a');
+    const b = yield curry(foo, 'b');
+    const c = yield curry(foo, 'c');
+    console.log(a, b, c);
+});
+ 
+// a
+// b
+// c
+```
+
+**問269**
+
+```js
+
+```
+
+**問270**
+
+generatorを作成してimgタグのsrc属性が1~7.pngを参照するようにしてそれぞれ格納した配列を作ってください。
+
+```js
+function * ge (from, to){
+ while(from <= to) yield from++
+}
+const create = function(i){
+   return `<img src='${i}.png'>`;
+}
+const arry = [];
+for(var i of ge(1,7)){
+ arry.push(create(i))
+}
+```
+
+**問271**
+
+for-ofに渡すと1~10までの数値を返すitarableなオブジェクトを自作してください。
+
+```js
+var obj = {}; // イテラブルなオブジェクト
+obj[Symbol.iterator] = function(){//イテレータを返す関数を代入
+    var iterator = {}; // イテレータ
+    var num = 1;
+    iterator.next = function(){//next実行してリザルトを返す関数を代入
+        var iteratorResult = (num <= 10)
+            ? { value: num++,   done: false }
+            : { value: undefined, done: true };
+        return iteratorResult; // イテレータリザルトを返す
+    };
+    return iterator;//イテレータを返す
+};
+```
+
+**問272**
+
+こちらの
+```js
+function* g(){
+	const num =  yield 30
+        const num2 = yield 1 + num
+                   yield 2 + num2
+                   yield num + num2
+}
+```
+iteratorのnextメソッドに1を渡してdoneがtrueになるまで```iterator.next(1).value```のように実行していくとそれぞれ何を返すか答えてください。
+
+```js
+function* g(){
+        const num =  yield 30//numは2回目next()実行時の仮引数になる
+        const num2 = yield 1 + num//num2は3回目next()実行時の仮引数になる
+                   yield 2 + num2
+                   yield num + num2
+}
+const iterator = g();
+iterator.next(1).value
+//30
+iterator.next(1).value
+//2
+iterator.next(1).value
+//3
+iterator.next(1).value
+//2
+iterator.next(1).value
+//undefined
+```
+
+**問273**
+
+こちらのfooを
+```js
+function* foo(x) {
+    var y = 2 * (yield (x + 1));
+    var z = yield (y / 3);
+    return (x + y + z);
+}
+var it = foo(5);
+it.next();//1
+it.next(12);//2
+it.next(13);//3
+```
+上の1,2,3の箇所のように実行したら出力される値をそれぞれ教えてください
+
+```js
+function* foo(x) {
+    var y = 2 * (yield (x + 1));
+    var z = yield (y / 3);//2回目で返すのはyield式の結果までで結果はzに代入されない//3回目のnext引数がzに入る
+    return (x + y + z);
+}
+var it = foo(5);
+
+it.next();
+//{value: 6, done: false}
+it.next(12);
+//{value: 8, done: false}
+it.next(13);
+//{value: 42, done: true}
+```
+
+
+**問274**
+
+1秒毎に1加算した値をコンソール出力してください。
+
+```js
+//increment, delegate
+function * countUp(start = 0){
+ while(true){
+  start++;
+  yield* display(start)//Delegating Generators
+ }
+}
+
+//描画
+function * display(start){
+ console.log(+start);
+ yield;
+}
+
+//controller
+function run(generatorObject){
+ if(!generatorObject.next().done){
+  setTimeout(()=>{
+    run(generatorObject)
+  }, 1000)}
+}
+
+run(countUp());
+
+```
+
+
+
+
+
+
 
 参照
 
@@ -5218,3 +5551,5 @@ http://d.hatena.ne.jp/hasegawayosuke/20130330/p1
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 https://twitter.com/javascript_tips
 http://blog.tojiru.net/article/205007468.html
+http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
+https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
