@@ -6,22 +6,15 @@
 
 ※表記揺れは鋭意解消中
 
-**問1**
+###String
 
-```const a = {a: 'a'}```と```const b = {b: 'b'}```
-をマージした```c```
-を出力してください
-e.g```{a:'a',b:'b'}```
 
-```js
-const a = {a: 'a'};
-const b = {b:'b'};
-const c = Object.assign(a, b);
-c //{a: 'a', b: 'b'}
-```
+###Number
+###Math
+###Date
+###Array
 
 **問2**
-
 ```js
 const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 ```
@@ -32,7 +25,6 @@ const newArry = arry.slice(-4,-1);
 //or
 const newArry = arry.slice(3,-1);
 ```
-
 **問3**
 
 const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
@@ -45,6 +37,9 @@ arry.forEach(function(elem,i){
 //'a'
 //'b'
 ```
+
+
+
 
 **問4**
 
@@ -71,6 +66,26 @@ Array.isArray(arry) //true
 // aryy instanceof Objectでもtrueが返ってくる
 ```
 
+###Object
+
+**問1**
+
+```const a = {a: 'a'}```と```const b = {b: 'b'}```
+をマージした```c```
+を出力してください
+e.g```{a:'a',b:'b'}```
+
+```js
+const a = {a: 'a'};
+const b = {b:'b'};
+const c = Object.assign(a, b);
+c //{a: 'a', b: 'b'}
+```
+
+###Function
+
+###Error
+###Undefined
 **問6**
 こちら
 ```js
@@ -94,6 +109,28 @@ if(x === undefined){
 //ただこのような値の存在チェックは避けるべき
 //グローバル上の値のチェックはfor in
 ```
+###Null
+###RegExp
+###class
+###DOM操作
+###Map
+###Set
+###WeekMap
+###WeekSet
+###Promise
+###Reflect
+###Proxy
+###Symble
+###Generator
+
+
+
+
+
+
+
+
+
 
 **問7**
 
@@ -5550,6 +5587,24 @@ function run(generatorObject){
 }
 
 run(countUp());
+
+```
+
+**問275**
+
+{foo: 'abc'}のfooプロパティにアクセスした際にgetメソッドが実行し、アクセスしようとしているプロパティ名と数値123を返すハンドラーを作り出力してください。
+
+```js
+const target = {foo: 'abc'};
+const handler = {
+ get(target, propKey, receiver){
+   console.log('get ' + propKey);
+   return 123;
+ }
+}
+const proxy = new Proxy(target, handler);
+proxy.foo
+//123
 
 ```
 
