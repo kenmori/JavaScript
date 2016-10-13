@@ -1,8 +1,8 @@
 ## JavaScript練習問題集
 
-**2016/10/2更新**
+**2016/10/15更新**
 
-※こちらの問題集は[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
+※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
 
@@ -890,7 +890,7 @@ WIP
 ```
 
 **問39**
-配列```var arr = ['f','o','x','k'];```をインデックス順に出力させなさい
+配列```var arr = ['f','o','x','k'];```をインデックス順に出力させてください
 
 ```js
 var arr = ['f','o','x','k'];
@@ -1259,7 +1259,7 @@ if (undefined == null){
 ```
 
 **問61**
-関数iiを実行したら関数を受け取り、受け取った関数に引数'home'を渡し実行すると'my home'と返ってくるクロージャーを作ってください
+関数iiを実行すると返り値で関数を受け取り、その関数に引数'home'を渡し実行すると'my home'と返ってくるクロージャーを作ってください
 
 ```js
 var ii = function(){
@@ -1285,7 +1285,7 @@ nowtime
 
 
 **問63**
-Object matching shorthandを使い、こちら
+こちら
 
 ```js
 function getSomething(){
@@ -1296,8 +1296,8 @@ function getSomething(){
   }
 }
 ```
-の関数を
-first,second,thirdにそれぞれ代入してください
+の関数で返しているオブジェクトのfirst,second,thirdのvalue値をそれぞれ
+first,second,thirdに代入してください
 
 ```js
 function getSomething(){
@@ -1317,25 +1317,7 @@ third
 ```
 
 **問64**
-Parameter destructuringとして
 
-```js
-function g({name: x}) {
-  console.log(x);
-}
-g({name: 5});
-```
-こちらが5を出力するトランスパイルされたjsを記述してください
-
-```js
-
-function g(_ref) {
-  var x = _ref.name;
-  console.log(x);
-}
-g({ name: 5 });
-
-```
 
 **問65**
 
@@ -1360,18 +1342,9 @@ console.log('repeat'.repeat(2));
 
 **問67**
 
-文字列
-```
-foo
-```
-をイテレーターを使った反復処理で配列
-```
-['f','o','o']
-```
-を出力してください。
+文字列```foo```をイテレーターを使い```['f','o','o']```となるようにしてください。
 
 ```js
- //ECMAScript2015,Babel
 var chars = [];
 for (let n of 'foo'){
  chars.push(n);
@@ -1508,7 +1481,6 @@ obj[key + '_bar'] = 1;
 
 ```js
 var key = 'foo';
-//ECMAScript2015
 var obj = {
   [key] : 0,
   [key + '_bar'] : 1
@@ -5521,7 +5493,6 @@ it.next(13);
 //{value: 42, done: true}
 ```
 
-
 **問274**
 
 1秒毎に1加算した値をコンソール出力してください。
@@ -5553,7 +5524,126 @@ run(countUp());
 
 ```
 
+**問275**
 
+location.href'で返す文字列先頭が'http'から始まる場合trueを返す関数を定義してください。
+
+```js
+location.href.startsWith('http');
+```
+
+**問276**
+location.href'で返す文字の最後が'/'かどうかを判定する関数を定義してください。
+
+```js
+location.href.endsWith('/');
+```
+
+**問277**
+
+Symbolをプロパティキーとして認識する操作と無視する操作を教えて下さい。
+
+```
+//認識
+Reflect.ownKeys()
+Property access via []
+Object.assign()
+
+//無視
+Object.keys()
+Object.getOwnPropertyNames()
+for-in loop
+```
+
+**問278**
+こちらを実行すると
+```js
+const sym = Symbol('desc');
+const str1 = '' + sym;
+str1
+//???
+```
+どうなりますか？
+
+```
+const sym = Symbol('desc');
+const str1 = '' + sym; //TypeError
+const str2 = `${sym}`; //TypeError
+//Symbolに対して強制的な型変換をするとTypeErrorがスローされます。
+```
+
+**問279**
+
+シンボルのユースケースをざっくり2つほど教えて下さい。
+
+```
+//1
+//unique property keys (ユニークなプロパティkey)
+//for-ofを通して使えるobject iterableを作ることができる
+const iterableObject = {
+    [Symbol.iterator]() { // メソッドのキーとしてSymbolを使う
+        const data = ['hello', 'world'];
+        let index = 0;
+        return {
+            next() {
+                if (index < data.length) {
+                    return { value: data[index++] };
+                } else {
+                    return { done: true };
+                }
+            }
+        };
+    }
+}
+for (const x of iterableObject) {
+    console.log(x);
+}
+//hello
+//world
+
+上記の"unique maker"はオブジェクトリテラブルを作り、for-ofループで使うことができる
+
+
+//2
+//constants representing concepts (概念を表す定数)
+//ES5では定数を文字列として表現していたが
+//シンボルを使うことでそれらは常にユニークになる。
+
+const COLOR_RED    = Symbol('Red');
+const COLOR_ORANGE = Symbol('Orange');
+const COLOR_YELLOW = Symbol('Yellow');
+const COLOR_GREEN  = Symbol('Green');
+const COLOR_BLUE   = Symbol('Blue');
+const COLOR_VIOLET = Symbol('Violet');
+
+function getComplement(color) {
+    switch (color) {
+        case COLOR_RED:
+            return COLOR_GREEN;
+        case COLOR_ORANGE:
+            return COLOR_BLUE;
+        case COLOR_YELLOW:
+            return COLOR_VIOLET;
+        case COLOR_GREEN:
+            return COLOR_RED;
+        case COLOR_BLUE:
+            return COLOR_ORANGE;
+        case COLOR_VIOLET:
+            return COLOR_YELLOW;
+        default:
+            throw new Exception('Unknown color: '+color);
+    }
+}
+
+```
+**問280**
+
+```
+```
+**問281**
+
+```
+```
 
 
 
@@ -5580,3 +5670,4 @@ https://twitter.com/javascript_tips
 http://blog.tojiru.net/article/205007468.html
 http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
 https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
+http://exploringjs.com/es6/ch_overviews.html
