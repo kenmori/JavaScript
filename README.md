@@ -5,6 +5,7 @@
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
+<details><summary>問1〜問50</summary>
 
 **問1**
 
@@ -1083,6 +1084,8 @@ var map = new Map(fafa);
 map.set('four', 'fafa@eee');
 ```
 
+</details>
+<details><summary>問51〜問100</summary>
 **問51**
 
 問50の変数fafaに内にある要素を全て取得してください
@@ -1995,6 +1998,9 @@ if(obj.a)が存在しても未定義だと実行されない
 ```js
 2 in arry;
 ```
+</details>
+<details><summary>問101〜問150</summary>
+
 
 **問101**
 
@@ -2897,6 +2903,9 @@ beforeend//(2)
 afterend //(3)
 target.insertAdjacentHTML(position,html);
 ```
+
+</details>
+<details><summary>問151〜問200</summary>
 
 **問151**
 
@@ -3905,7 +3914,8 @@ console.log(key + 'のストレージは' + localStorage[key]);
 
 ```
 ```
-
+</details>
+<details><summary>問201〜問250</summary>
 
 **問201**
 ローカルストレージの値を存在するだけ列挙してください
@@ -4904,6 +4914,8 @@ http://stackoverflow.com/questions/18541940/map-vs-object-in-javascript
 pop、push、reverse、shift、sort、splice、unshilft
 ```
 
+</details>
+<details><summary>問251〜問300</summary>
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを非破壊メソッドに変更してください。
@@ -5646,7 +5658,8 @@ function getComplement(color) {
 ```
 
 
-
+</details>
+<details><summary>参照記事</summary>
 
 
 参照
@@ -5671,3 +5684,4 @@ http://blog.tojiru.net/article/205007468.html
 http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
 https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
 http://exploringjs.com/es6/ch_overviews.html
+</details>
