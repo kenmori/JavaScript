@@ -1,11 +1,139 @@
 ## JavaScript練習問題集
+**ただいまカテゴリごとに見やすくするため工事中2016/10/23まで**
 
-**2016/10/15更新**
 
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
-<details><summary>問1〜問50</summary>
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference
+
+
+基本オブジェクト
+<details>
+<summary>Object</summary>
+
+
+</details>
+<details>
+<summary>Function</summary>
+
+</details>
+<details>
+<summary>Boolean</summary>
+
+</details>
+<details>
+<summary>Symbol</summary>
+</details>
+<details><summary>Error</summary></details>
+
+###数と日にち
+<details><summary>Number</summary></details>
+<details><summary>Math</summary></details>
+<details><summary>Date</summary></details>
+
+###テキスト処理
+<details><summary>String</summary></details>
+<details><summary>RegExp</summary></details>
+
+###インデックス付きコレクション
+<details><summary>Array</summary></details>
+
+###キー付きコレクション
+<details><summary>Map</summary></details>
+<details><summary>Set</summary></details>
+<details><summary>WeakMap</summary></details>
+<details><summary>WeakSet</summary></details>
+
+###構造化データ
+<details><summary>ArrayBuffer</summary></details>
+<details><summary>DataView</summary></details>
+<details><summary>JSON</summary></details>
+
+###制御抽象化オブジェクト
+<details><summary>Promise</summary></details>
+<details><summary>Generator</summary></details>
+<details><summary>GeneratorFunction</summary></details>
+<details><summary>リフレクション</summary></details>
+<details><summary>Reflect</summary></details>
+<details><summary>Proxy</summary></details>
+
+###DOM
+<details><summary>DOM</summary></details>
+
+
+
+<details><summary>その他</summary>
+
+
+arguments
+###文
+ ブロック
+ break
+ continue
+ 空文
+ if...else
+ switch
+ throw
+ try...catch
+
+###宣言
+var
+let
+const
+
+###関数とクラス
+function
+return
+function*
+class
+
+###反復処理
+do...while
+for
+for each...in
+for...in
+for...of
+while
+
+###その他
+debugger
+export
+import
+label
+
+###式と演算子
+this
+function
+class
+function*
+yield
+yield*
+[]
+{}
+
+###単項演算子
+delete
+void
+typeof
++ - ~ |
+
+###関係演算子
+in
+instanceof
+< > <= >=
+###等値演算子
+==
+|=
+===
+!==
+
+###ビットシフト演算子
+<<
+
+
+</details>
+
 
 **問1**
 
