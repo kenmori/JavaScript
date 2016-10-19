@@ -12,7 +12,167 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference
 <details>
 <summary>Object</summary>
 
+**問19**
 
+Object.createで空のオブジェクトを作成し、値が1のプロパティpを出力してください
+
+```js
+const obj = Object.create({}, {p: {value: 1}});
+obj.p //1
+```
+
+**問29**
+
+こちら```var obj = {}``` と等価をObjctメソッドで生成してください
+
+```js
+var obj = Object.create(Object.prototype);
+
+```
+
+
+**問30**
+
+こちら
+```js
+var obj = {x : 2, y: 3}
+```
+と等価をObjectメソッドで生成してください
+
+```js
+var obj = Object.create(Object.prototype, {
+   x : {value: 2, writable: true, enumerable: true, configurable: true},
+   y : {value: 3, writable: true, enumerable: true, configurable: true}
+})
+```
+
+**問28**
+```js
+var obj = {x : 2, y: 3};
+```
+このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
+
+```js
+var obj = {x : 2, y: 3};
+Object.preventExtensions(obj);
+Objcet.isExtensible(obj);//true
+Object.key(obj);
+//['x', 'y']
+```
+
+**問31**
+
+こちら
+```js
+var obj = { x : 2}
+```
+の属性を出力してください
+
+```js
+Object.getOwnPropertyDescriptor(obj, 'x');
+// {
+//  configurable: false,
+//  enumerable: false,
+//  value: 2,
+//  writable: false
+//.fseventsd/}
+```
+
+
+**問31**
+
+こちら
+```var obj2 = {x : 2};```にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
+
+```js
+var obj2 = {x : 2};
+Object.defineProperty(obj2, 'y', {value: 3, enumerable: true});
+//[object Object] {
+//  x: 2,
+//  y: 3
+//}
+
+Object.getOwnPropertyDescriptor(obj2, 'y')
+// {
+//  configurable: false,
+//  enumerable: true,
+//  value: 3,
+//  writable: false
+//}
+```
+
+
+
+**問86**
+
+こちらのobjをkey内でメソッド呼び出しされているのをコンピューティッドプロパティを使って書き換えてください
+
+```js
+function getKey(k) {
+  return `a key named ${k}`;
+}
+
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+};
+obj[getKey('enabled')] = true;
+
+//ok
+function getKey(k) {
+  return `a key named ${k}`;
+}
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+  [getKey('enabled')]: true,
+};
+```
+
+
+
+**問85**
+
+```js
+const atom = {
+  value: 1,
+  addValue: function (value) {
+    return atom.value + value;
+  },
+};
+```
+
+上記object-shorthandを使って書き換えてください
+
+```js
+//ok
+const atom = {
+  value: 1,
+  addValue(value) {
+    return atom.value + value;
+  },
+};
+```
+
+
+**問88**
+
+下記のようなobj内のkeyと値が一緒の際できるshorthandで記述してください
+
+```js
+const lukeSkywalker = 'Luke Skywalker';
+
+// bad
+const obj = {
+  lukeSkywalker: lukeSkywalker,
+};
+
+//ok
+const obj = {
+  lukeSkywalker,
+};
+
+```
 </details>
 <details>
 <summary>Function</summary>
@@ -30,7 +190,20 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference
 ###数と日にち
 <details><summary>Number</summary></details>
 <details><summary>Math</summary></details>
-<details><summary>Date</summary></details>
+<details><summary>Date</summary>
+
+
+**問62**
+今の時間、何時何分何秒を表してください
+
+```js
+var now = new Date();
+var nowtime = '今' + now.getHours() + '時' +  now.getMinutes() + '分' + now.getSeconds() + '秒';
+nowtime
+//'今23時49分56秒'
+```
+
+</details>
 
 ###テキスト処理
 <details><summary>String</summary></details>
@@ -38,13 +211,13 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference
 
 ###インデックス付きコレクション
 <details><summary>Array</summary>
-
+**問1**
 ```const a = {a: 'a'}```と```const b = {b: 'b'}```
 をマージした```c```
 を出力してください
 e.g```{a:'a',b:'b'}```
 
-<details>
+<details><summary>答え</summary>
 ```js
 const a = {a: 'a'};
 const b = {b:'b'};
@@ -53,13 +226,13 @@ c //{a: 'a', b: 'b'}
 ```
 </details>
 
-
+**問2**
 ```js
 const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 ```
 のdd,ee,ffを新たな配列として返してください
 
-<details>
+<details><summary>答え</summary>
 ```js
 const newArry = arry.slice(-4,-1);
 //or
@@ -67,10 +240,10 @@ const newArry = arry.slice(3,-1);
 ```
 </details>
 
-
+**問3**
 const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
 
-<details>
+<details><summary>答え</summary>
 ```js
 const arry = ['a','b'];
 arry.forEach(function(elem,i){
@@ -128,7 +301,357 @@ str
 ```
 </details>
 
+```js
+var arry =[
+  {id:1,name:'morita'},
+  {id:2,name:'kenji'},
+  {id:4,name:'uro'},
+  {id:3,name:'ken'}
+  ];
+```
+をid番号が若い順にソートしたオブジェクトを含む配列を出力してください
 
+```js
+let arry =[
+  {id:1,name:'morita'},
+  {id:2,name:'kenji'},
+  {id:4,name:'uro'},
+  {id:3,name:'ken'}
+];
+arry.sort(function(a,b){
+ return a.id > b.id
+})
+
+//先に位置させたい時はaが'正'をになるように返します
+
+//other
+arry.sort(function(a,b){
+ if(a.id > b.id) return 1;
+ if(a.id < b.id) return -1;
+});
+
+/*
+[
+  {id:1, name:'morita'},
+  {id:2, name:'kenji'},
+  {id:3, name:'ken'},
+  {id:4, name:'uro'}
+]
+*/
+```
+
+**問33**
+
+```js
+var arr = ['2','23','0','16'];
+```
+を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
+
+```js
+var arr = ['2','23','0','16'];
+arr.sort(function(a,b){ return a - b ;});
+//['0', '2', '16', '23']
+Object.freeze(arr);
+//['0', '2', '16', '23']
+arr.sort();
+//.fseventsd/'Cannot assign to read only property '1' of [object Array]'
+```
+
+
+**問34**
+
+```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。その後```arr2[0]= 123```を代入するとarrは何を出力するか答えなさい
+
+```js
+var arr = [3,4,5];
+var arr2 = arr.slice(0, arr.length);
+arr2
+//[3, 4, 5]
+arr2[0] = 123;
+arr
+//[3, 4, 5]//変数arrから変更は見えない(要素をコピーしているから)
+arr2
+//[123, 4, 5]
+
+
+//別解
+
+var arr2 = arr.map(ele => ele);
+arr2
+//[3, 4, 5]
+```
+
+
+**問40**
+またイテレーターを使い順番に出力してください
+
+```js
+var arr = ['f', 'o', 'x', 'k'];
+var eArr = arr[Symbol.iterator]();
+eArr.next().value //f
+eArr.next().value //o
+eArr.next().value //x
+eArr.next().value //k
+```
+
+
+
+**問41**
+
+配列```['a', 'b', 'c', 'd', 'e']```
+のインデックス2番目に'morita'という要素を加えなさい。期待する結果```['a', 'b','morita', 'c', 'd', 'e']```
+
+
+```js
+var arry = ['a', 'b', 'c', 'd', 'e'];
+arry.splice(2, 0 , 'morita');
+arry
+//['a', 'b','morita', 'c', 'd', 'e']
+```
+
+**fa**
+配列
+```
+const array = ['a1','a2','a3','a4','a5']
+```
+の0〜2番目の要素をそれぞれ
+
+```
+red, green, yellow
+```
+に置き換えて配列にしてください。また実行した際の返り値を教えてください
+
+```js
+const array = ['a1','a2','a3','a4','a5']
+//インデックス0から2つの要素を削除
+array.splice(0,2, 'red', 'green','yellow');
+//["a1", "a2"]
+
+//返り値:['a1', 'a2']
+array
+//['green', 'red', 'yellow', 'a3', 'a4', 'a5']
+```
+
+**問16**
+
+```
+const array = ['a1','a2','a3','a4','a5']
+```
+のインデックス2〜4の要素を取り出し、
+配列として出力しなさい。
+実行された後のarrayの要素を教えてください
+
+```js
+const array = ['a1','a2','a3','a4','a5']
+const newArray = array.slice(1,4);
+newArray
+//['a2', 'a3', 'a4']
+array
+//['a1','a2','a3','a4','a5']
+```
+
+**問17**
+
+```js
+const array = ['a1','a2','a3','a4','a5']
+```
+の全ての要素を"/"で結合した文字列を出力し、さらにその文字列を'/'区切りで配列に直してください
+
+```js
+const array = ['a1','a2','a3','a4','a5']
+array.join('/').split('/');
+```
+
+
+**問94**
+
+このような配列
+```var aa = ['ii', 'jj', 'kk'];```がある。'jj'要素を削除するために
+deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
+
+```js
+deleteは削除されたインデックスを残す。spliseは間を詰める。
+var aa = ['ii', 'jj', 'kk'];
+delete aa[1];
+aa//['ii', undefined, 'kk']
+var aa = ['ii', 'jj', 'kk'];
+aa.splice(1,1);
+aa//['ii', 'kk']
+```
+
+
+**問93**
+
+```var aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしてください。期待する結果
+
+bb//['oo', 'll'];
+aa//['kk', 'jj'];
+
+```js
+var aa = ['oo', 'll'];
+var bb = aa.splice(0, aa.length, ['kk','jj'])
+bb//['oo', 'll'];
+aa//['kk', 'jj'];
+```
+
+
+**問92**
+
+Array destructuringとして簡潔に記述してください。
+シャローコピーとディープコピーの違いを教えてください。また
+```var aa = ['oo', 'll'];```
+aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
+
+
+```js
+//concat
+var aa = ['oo', 'll'];
+var arry = [];
+var bb = arry.concat(aa);//shallow copy
+bb[0] = 'kk';
+aa//['oo', 'll']
+bb//['kk', 'll']
+
+//slice
+var aa = ['oo', 'll'];
+var bb = aa.slice(0, aa.length);
+bb[0] = 'kk';
+aa//['oo', 'll']
+bb//['kk', 'll']
+
+//bad
+//spliceは破壊的メソッド(元参照を変える)
+var aa = ['oo', 'll'];
+var bb = aa.splice(0, aa.length);
+bb//['oo', 'll']
+aa//[]
+```
+
+
+
+**問91**
+
+```var aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力してください
+
+```js
+var aaa = [['oo','oo1'], ['ll','ll2']];
+aaa.forEach(function(ee){
+  ee.filter(function(eee, i){
+  if(i == 0){
+      console.log(eee);
+    }
+  });
+});
+//oo ll
+```
+
+
+
+**問97**
+
+``` var array = ['aa','bb','cc','dd','ff'];```
+このような配列の要素'bb'の前に'ff'を移動させて ``` ['aa','ff','bb','cc','dd'] ```このような配列を完成させてください
+
+```js
+array.splice(1,0,array.splice(4,1)[0])
+//array
+//['aa','ff','bb','cc','dd']
+
+```
+
+
+**問113**
+
+```['morita','kenji','fafafa']```の要素 ```'fafafa'```のインデックスを返してください。
+期待する値 2
+
+```js
+['morita','kenji','fafafa'].findIndex(x => x == 'fafafa')
+//2
+```
+
+**問114**
+
+配列```['A','B','C']```を配列の0番目のインデックス値になるようにしてください
+expect [['A'],['B'],['C']]
+
+
+```js
+//better
+['A','B','C'].map(x => Array.of(x));
+
+//best
+['A','B','C'].map(x => [x])
+
+//http://www.2ality.com/2014/05/es6-array-methods.html
+```
+
+**問115**
+
+配列```['a', 'b', 'c']```のインデックス1番だけを文字列'kenji'に変えてください
+
+
+```js
+['a', 'b', 'c'].fill('kenji', 1, 2);
+//['a','kenji','c']
+
+//http://www.2ality.com/2014/05/es6-array-methods.html
+```
+
+
+**問116**
+
+配列``` [6, -5, 8]```を0未満の要素だけ出力してください
+
+```js
+const i = [3, 0, 6, -1].find(x=> x < 0);
+console.log(i)
+//-1
+```
+
+**問134**
+
+こちらの
+```
+[2, 3,-1, -6, 0, -108, 42, 10].sort();
+```
+sortは正しくsortされない。コンパレータ関数を渡して正しい順序として出力してください。
+
+```js
+
+[2, 3,-1, -6, 0, -108, 42, 10].sort(function(x, y){
+if(x < y) return -1;
+if(y < x) return 1;
+return 0;
+});
+//[-108, -6, -1, 0, 2, 3, 10, 42]
+
+```
+
+
+**問142**
+
+[0,0,0]の配列をインデックス1と2を7にした配列にしてください
+expect : [0, 7, 7]
+
+```js
+var ary = [0,0,0];
+ary.fill(7,1)
+//[0, 7, 7]
+```
+
+**問168**
+"abcdefg"のような文1文字づつの要素となる配列に変更してください
+期待する結果
+["a", "b", "c", "d", "e", "f", "g"]
+
+```js
+const str2 = "abcdefg";
+const arry = Array.prototype.slice.call(str2);
+arry
+
+//["a", "b", "c", "d", "e", "f", "g"]
+```
 
 
 </details>
