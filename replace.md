@@ -37,101 +37,7 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference
 <details><summary>RegExp</summary></details>
 
 ###インデックス付きコレクション
-<details><summary>Array</summary>
-
-```const a = {a: 'a'}```と```const b = {b: 'b'}```
-をマージした```c```
-を出力してください
-e.g```{a:'a',b:'b'}```
-
-<details>
-```js
-const a = {a: 'a'};
-const b = {b:'b'};
-const c = Object.assign(a, b);
-c //{a: 'a', b: 'b'}
-```
-</details>
-
-
-```js
-const arry = ['aa','bb','cc','dd','ee','ff','gg'];
-```
-のdd,ee,ffを新たな配列として返してください
-
-<details>
-```js
-const newArry = arry.slice(-4,-1);
-//or
-const newArry = arry.slice(3,-1);
-```
-</details>
-
-
-const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
-
-<details>
-```js
-const arry = ['a','b'];
-arry.forEach(function(elem,i){
- console.log(elem)
-})
-//'a'
-//'b'
-```
-</details>
-
-```const arry = ['a', 'b']```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
-
-<details>
-```js
-const arry = ['a','b'];
-arry.forEach(function(key,i){
- console.log(key + i)
-})
-//'a0'
-//'b1'
-```
-</details>
-
-
-```const arry = [1,2]```と定義して配列かどうかを評価してください
-e.g true
-
-<details>
-```js
-Array.isArray(arry) //true
-//arry instanceof Array //true
-//instanceof比較は継承しているオブジェクトのインスタンス比較なので
-// aryy instanceof Objectでもtrueが返ってくる
-```
-</details>
-
-
-こちらの ['a', 'b', 'c'] 配列の中の全ての要素を結合し、1つの文字列として出力してください。
-
-<details>
-```js
-const arry = ['a', 'b', 'c'];
-array.join("");
-//'abc'
-
-//other
-const arry = ['a', 'b', 'c'];
-let str = '';
-const count = array.length;
-for(var i= 0; i < count; i++){
-  str += arry[i];
-}
-str
-//'abc'
-```
-</details>
-
-
-
-
-</details>
+<details><summary>Array</summary></details>
 
 ###キー付きコレクション
 <details><summary>Map</summary></details>
@@ -231,68 +137,19 @@ instanceof
 
 **問1**
 
-```const a = {a: 'a'}```と```const b = {b: 'b'}```
-をマージした```c```
-を出力してください
-e.g```{a:'a',b:'b'}```
-
-```js
-const a = {a: 'a'};
-const b = {b:'b'};
-const c = Object.assign(a, b);
-c //{a: 'a', b: 'b'}
-```
 
 **問2**
 
-```js
-const arry = ['aa','bb','cc','dd','ee','ff','gg'];
-```
-のdd,ee,ffを新たな配列として返してください
-
-```js
-const newArry = arry.slice(-4,-1);
-//or
-const newArry = arry.slice(3,-1);
-```
 
 **問3**
 
-const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
-
-```js
-const arry = ['a','b'];
-arry.forEach(function(elem,i){
- console.log(elem)
-})
-//'a'
-//'b'
-```
 
 **問4**
 
-```const arry = ['a', 'b']```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
 
-```js
-const arry = ['a','b'];
-arry.forEach(function(key,i){
- console.log(key + i)
-})
-//'a0'
-//'b1'
-```
 
 **問5**
 
-```const arry = [1,2]```と定義して配列かどうかを評価してください
-e.g true
-
-```js
-Array.isArray(arry) //true
-//arry instanceof Array //true
-//instanceof比較は継承しているオブジェクトのインスタンス比較なので
-// aryy instanceof Objectでもtrueが返ってくる
-```
 
 **問6**
 こちら
@@ -385,24 +242,6 @@ for (key in obj){
 
 **問9**
 
-こちらの ['a', 'b', 'c'] 配列の中の全ての要素を結合し、1つの文字列として出力してください。
-
-```js
-const arry = ['a', 'b', 'c'];
-array.join("");
-//'abc'
-
-//other
-const arry = ['a', 'b', 'c'];
-let str = '';
-const count = array.length;
-for(var i= 0; i < count; i++){
-  str += arry[i];
-}
-str
-//'abc'
-```
-
 **問10**
 
 こちら
@@ -419,7 +258,7 @@ var(let) や function文中の変数はnon-configurableであり削除できな�
 
 //globaleオブジェクト
 x = 43;
-delete x 
+delete x
 //true //暗黙に定義されたglobale変数なので
 
 //var宣言
@@ -468,7 +307,7 @@ foo.bar
 
 //プロトタイプ上でプロパティを削除
 delete foo.prototype.bar;
-foo.bar 
+foo.bar
 //undefined
 
 ```
@@ -4373,7 +4212,7 @@ arr.map(x => x()); // [3,3,3]
 
 
 ```js
-Every i in the bodies of the three arrow functions refers to the same binding, 
+Every i in the bodies of the three arrow functions refers to the same binding,
 which is why they all return the same value.
 If you let-declare a variable, a new binding is created for each loop iteration:
 
@@ -4579,7 +4418,7 @@ function withLogging(wrappedFunction){
     return result;
   };
  }
- 
+
 var addAndLog = withLogging(add);
 addAndLog(1, 2)
 //result 3
@@ -4881,7 +4720,7 @@ hash - #test
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
 セッションハイジャック :
- 
+
 
 ```
 
@@ -4984,7 +4823,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 
 **問243**
-let n = '124';を数値に変換してください。 
+let n = '124';を数値に変換してください。
 
 ```js
 let n = '124';
@@ -5040,7 +4879,7 @@ o && o.f && o.f();
 **問246**
 ```var v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
- 
+
 ```js
 var n = +v || 0;
 ```
@@ -5173,7 +5012,7 @@ e.g  const obj = {add : function(){some}};
 var obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
-var obj = { foo: 'bar', baz: 42 }; 
+var obj = { foo: 'bar', baz: 42 };
 var map = new Map(Object.entries(obj));
 console.log(map); // Map { foo: 'bar', baz: 42 }
 
@@ -5551,37 +5390,37 @@ const foo = (name, callback) => {
         callback(name);
     }, 100);
 };
- 
+
 const curry = (method, ...args) => {
     return (callback) => {
         args.push(callback);
         return method.apply({}, args);
     };
 };
- 
+
 const controller = (generator) => {
     const iterator = generator();
- 
+
     const advancer = (response) => {
         var state;
- 
+
         state = iterator.next(response);
- 
+
         if (!state.done) {
             state.value(advancer);
         }
     }
- 
+
     advancer();
 };
- 
+
 controller(function* () {
     const a = yield curry(foo, 'a');
     const b = yield curry(foo, 'b');
     const c = yield curry(foo, 'c');
     console.log(a, b, c);
 });
- 
+
 // a
 // b
 // c
