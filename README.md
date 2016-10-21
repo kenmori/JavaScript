@@ -174,6 +174,222 @@ const obj = {
 
 ```
 </details>
+
+
+
+
+**問175**
+
+以下の様な
+
+```js
+const name = 'kenji morita';
+const address = 'shibuya';
+
+const obj = {
+ name : name,
+ morita: morita,
+ episodeTheree: 3,
+ mayTheForth: 4,
+ address: address,
+}
+```
+objの宣言をショートハンドを使ってなおしてください
+
+```js
+const obj = {
+ name,
+ episodeTheree: 3,
+ mayTheForth: 4,
+ address,
+}
+obj// {name: "kenji morita", episodeTheree: 3, mayTheForth: 4, address: "shibuya"}
+
+```
+
+
+**問188**
+
+こちらの渡ってきたoptionの値をデフォルト設定している書き方
+
+```js
+function drawES5Chart(options) {
+  options = options === undefined ? {} : options;
+  var size = options.size === undefined ? 'big' : options.size;
+  var cords = options.cords === undefined ? { x: 0, y: 0 } : options.cords;
+  var radius = options.radius === undefined ? 25 : options.radius;
+  console.log(size, cords, radius);
+}
+drawES5Chart({
+  cords: { x: 18, y: 30 },
+  radius: 30
+});
+```
+をECMAScript2015の書き方に修正してください
+
+```js
+function drawES6Chart({size = 'big', cords = { x: 0, y: 0 }, radius = 25} = {}) {
+  console.log(size, cords, radius);
+}
+drawES6Chart({
+  cords: { x: 18, y: 30 },
+  radius: 30
+});
+
+// In Firefox, default values for destructuring assignments are not yet implemented (as described below).
+// The workaround is to write the parameters in the following way:
+// ({size: size = 'big', cords: cords = { x: 0, y: 0 }, radius: radius = 25} = {})
+
+```
+
+
+**問196**
+こちらを{g:3, h:4}それぞれg,hにわりあててください
+
+```js
+const {g,h} = {g:3, h:4};
+console.log(g,h)
+//3, 4
+```
+
+**問207**
+
+こちらは値を割り当てられません。
+```js
+const proto = Object.defineProperty({}, 'prop', {
+    writable: false,
+    configurable: true,
+    value: 123,
+});
+const obj = Object.create(proto);
+obj.prop = 456;
+    // TypeError: Cannot assign to read-only property
+```
+
+valueを書き換えてください
+
+```js
+const proto = Object.defineProperty({}, 'prop', {
+    writable: false,
+    configurable: true,
+    value: 123,
+});
+const obj = Object.create(proto);
+Object.defineProperty(obj, 'prop', {value: 456});
+console.log(obj.prop); // 456
+```
+
+**問216**
+
+こ方法はorigのプロパティ属性を守らない
+```
+function clone(orig) {
+    return Object.assign({}, orig);
+}
+```
+
+propety descriptorsを使ってorig属性をもつ「クローンを作る関数」にしてください
+
+```js
+//Cloning objects
+
+function clone(orig) {
+    const origProto = Object.getPrototypeOf(orig);
+    return Object.assign(Object.create(origProto), orig);
+}
+
+```
+
+**問219**
+オブジェクトのプロパティが存在するかどうか
+
+```js
+var obj = {
+ width: 20
+}
+if(!!obj.height){
+ console.log(obj.height)
+} else {
+ console.log("heightが定義されていません")
+}
+console.log(!!obj.height)
+//false
+//"heightが定義されていません"
+```
+
+
+**問241**
+
+```var o = Object.create({},{p: {value: 32}});```
+を書き換えtrue、列挙true、変更trueとして新たにオブジェクトを生成してください。
+
+```js
+o2 = Object.create({},{p: {value: 32, writable: true, enumerable: true, configurable: true}});
+
+書き換え
+o2.p = 54;
+//54
+
+列挙
+for (var prop in o2){
+ console.log(prop)
+}
+//p
+
+変更
+delete o2.p
+//true
+
+```
+
+
+**問242**
+
+Object.createとObject.definePropertyesとObject.definePropertyの引数、返り値を教えてください。
+
+```js
+//Object.create
+//第一引数に任意のオブジェクトのprototypeを渡し、第二引数に自身がもつプロパティディスクリプタを定義し、それを継承したインスタンスを返す.
+
+//Object.defineProperty
+Object.defineProperty(プロパティをsetする対象オブジェクト, プロパティ/関数名, {パラメータ, ...});
+「一度作ったオブジェクト」に特別な内部属性をもったプロパティを1つ定義する//返り値は第一引数で渡ってきて再定義されたオブ稀有と
+第二引数はpropety名、第三引数は定義したいディスクリプタをハッシュオブジェクトとして渡す
+既存のプロパティは上書き
+各種設定のdefaultはfalse
+
+
+//Object.definePropertes
+Object.defineProperty(プロパティをsetする対象オブジェクト,{プロパティ/関数名{パラメータ, ...}});
+「一度作ったオブジェクト」に新たなプロパティを複数の定義できる
+第二引数はpropertyeのキーとしてディスクリプタを持つオブジェクト
+既存のプロパティは上書き
+
+※プロパティの内容＝デスクリプタ
+
+
+```
+
+
+**問245**
+オブジェクトの存在チェックをしてあったら実行している。
+```js
+var o = {f: function(){console.log('JS')}};
+if(o){
+ if(o.f){
+   o.f();
+ }
+}
+```
+より端的な記述をしてください。
+
+```js
+var o = {f: function(){console.log('JS')}};
+o && o.f && o.f();
+
+//同じ様なイデオムで代入の際に括弧でくくらないとエラーが起きることに注意してください
+//o && o.options && o.options.players > 50 && (flag = true);
+```
 <details>
 <summary>Function</summary>
 
