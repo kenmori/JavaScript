@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/README.md" line="318" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="a907d7bf-8dcd-4d03-a71b-f601f4778e7c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/replace.md" afterPath="$PROJECT_DIR$/replace.md" />
     </list>
     <ignored path="javascript.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,8 +60,8 @@
           <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/README.md">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="175">
-                  <caret line="315" column="7" selection-start-line="315" selection-start-column="7" selection-end-line="315" selection-end-column="7" />
+                <state relative-caret-position="45">
+                  <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -138,7 +134,7 @@
           <file leaf-file-name="replace.md" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/replace.md">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-2445">
+                <state relative-caret-position="15">
                   <caret line="4237" column="8" selection-start-line="4237" selection-start-column="8" selection-end-line="4237" selection-end-column="8" />
                   <folding />
                 </state>
@@ -192,7 +188,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="282" />
+    <option name="x" value="40" />
     <option name="y" value="49" />
     <option name="width" value="1236" />
     <option name="height" value="737" />
@@ -243,8 +239,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -702,14 +698,15 @@
       <workItem from="1476344968721" duration="3481000" />
       <workItem from="1476356404284" duration="16000" />
       <workItem from="1476836876018" duration="1613000" />
+      <workItem from="1477356648195" duration="77000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35237000" />
+    <option name="totallyTimeSpent" value="35314000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="282" y="49" width="1236" height="737" extended-state="0" />
+    <frame x="40" y="49" width="1236" height="737" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1068,8 +1065,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="315" column="7" selection-start-line="315" selection-start-column="7" selection-end-line="315" selection-end-column="7" />
+        <state relative-caret-position="45">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>
