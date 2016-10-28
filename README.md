@@ -5649,12 +5649,34 @@ function getComplement(color) {
 
 ```
 **問280**
+こちらはtargetが再定義できる場合name値を変更して「何か」をしようとしている。
+Reflectを用いて同じ実装になるように修正してください
 
+```js
+let target = {name: 'ken'}
+try {
+ Object.defineProperty(target, 'name', {value: 'fe'})
+ //do something
+} catch(e){}
 ```
+
+
+```js
+let target = {name: 'ken'}
+const isAble = Reflect.defineProperty(target, 'name', {value: 'fe'})
+if(isAble){
+ //do something
+} else {}
+
 ```
 **問281**
 
+こちらの
+delete target['key']
+と同じことをReflectのAPIを使って行ってください。
+
 ```
+Reflect.deletePropery(target, 'key')
 ```
 
 
