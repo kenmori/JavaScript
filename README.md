@@ -1088,7 +1088,11 @@ map.set('four', 'fafa@eee');
 <details><summary>問51〜問100</summary>
 **問51**
 
-問50の変数fafaに内にある要素を全て取得してください
+問50の変数fafa内にある要素を出力してください
+//期待する出力
+//['one','info@fa']
+//['two', 'send@fafa']
+//['three', 'hoso@fafa']
 
 ```js
 var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
@@ -1100,7 +1104,8 @@ for (var entry of entries){
 ```
 
 **問52**
-```'morita kenji'```をRegExpオブジェクトを使って配列['morita kenji']が返るようにしてください。(空白スペースにマッチする正規表現を使うこととする)
+
+```'morita kenji'```のような1つ以上の小英字、半角スペース、1つ以上の小英字にマッチした場合、配列['morita kenji']が返るようにしてください。
 
 ```js
 //正解例
@@ -1108,15 +1113,20 @@ for (var entry of entries){
 ```
 
 **問53**
-このようなstrとstr2がある ```var str = 'It is an important problem';``` ```var str2 = 'The import duty is not cheap';``` str,str2の正規表現を使い、```import```英単単語にマッチした際にそれぞれfalse,trueを返す記述をしくださいてださい
 
-参照(正規表現書き方ドリル/技術評論社)
+このような
+```'It is an important problem'```と```'The import duty is not cheap'```の文字列内```import```にマッチするとbooleanを返す記述をしてください
 
 ```js
-var str = 'It is an important problem';
-var str2 = 'The import duty is not cheap';
-var ii = /.*\bimport\b.*/.test(str);//false
-var ii = /.*\bimport\b.*/.test(str2);//true
+const str = 'It is an important problem';
+const str2 = 'The import duty is not cheap';
+let isImport = /.*\bimport\b.*/.test(str);
+isImport//false
+let isImport = /.*\bimport\b.*/.test(str2);
+isImport
+//true
+
+//単語の境界線には\b
 ```
 
 **問54**
@@ -1139,6 +1149,7 @@ var ii = /.*\bimport\b.*/.test(str2);//true
 ```
 
 **問55**
+
 「」の中に「ヤッホー!」の文字列が1回以上続く場合にのみマッチする正規表現を書いてください。(！が英単語を構成する文字以外の場合はどうか、また「ヤッホー！」が2回以上3回以下にマッチにはどう書きますか)
 
 ```js
@@ -1153,14 +1164,8 @@ var str = '「ヤッホー?ヤッホー@」';
 
 
 **問56**
-```
-(ありがとう|こんにちは｜さようなら)
-```
-と
-```
-ありがとう|こんにちは｜さようなら
-```
-の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
+
+```正規表現の/(ありがとう|こんにちは｜さようなら)/```と```/ありがとう|こんにちは｜さようなら/```の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
 
 ```js
 //文中に使えるかどうか
