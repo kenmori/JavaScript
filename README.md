@@ -5654,8 +5654,7 @@ function getComplement(color) {
 
 ```
 **問280**
-こちらはtargetが再定義できる場合name値を変更して「何か」をしようとしている。
-Reflectを用いて同じ実装になるように修正してください
+こちらは
 
 ```js
 let target = {name: 'ken'}
@@ -5664,6 +5663,9 @@ try {
  //do something
 } catch(e){}
 ```
+
+targetが再定義できる場合name値を変更して「何か」をしようとしている。
+Reflectを用いて同じ実装になるように修正してください
 
 
 ```js
