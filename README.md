@@ -4945,6 +4945,8 @@ this呼び出しを4つとそれぞれのthis参照の参照先オブジェク�
 e.g  const obj = {add : function(){some}};
 メソッドの呼び出し対象のオブジェクトがレシーバオブジェクト、この場合obj、addがメソッド
 ・apply,call呼び出し・・・apply、callの引数で指定したオブジェクト
+    ※呼び出されたメソッドがnon strict modeの場合fn.apply(obj,[1,3])のobjがnullもしくはundefinedの場合グローバルオブジェクトに置き換えられプリミティブ型の変数はボックス化されます。
+
 ・それ以外の呼び出し ・・・グローバルオブジェクト
 
 //this参照はコードのコンテキストに応じて自動的に参照先オブジェクトが変わる特別なもの
@@ -5684,6 +5686,155 @@ delete target['key']
 
 ```
 Reflect.deletePropery(target, 'key')
+```
+
+**問282**
+
+こちらはReflect.getを使って
+```js
+var obj = {a : 1}
+Reflct.get(obj, "a")
+//1
+```
+値を取得している。
+```
+obj["a"]
+//1
+```
+との違いを教えてください
+```
+//objが非オブジェクトの際、ReflectはTypeErrorをthrowしますが、obj["a"]は
+//undefinedになります。実行時objの型が適切か気づくことができます。
+
+e.g
+var obj = 1;//オブジェクトが入ってくる想定のobjにプリミティブ型を代入
+Reflect.get(obj, 1)
+//Uncaught TypeError: Reflect.get called on non-object
+
+obj[1]
+//undefined
+```
+
+**問283**
+
+Reflect.applyとはどのようなものですか。
+
+```js
+//このようにthis.を参照するfun関数を引数を伴って使う必要がある場合、
+var ctx  = {
+ num : 5
+}
+function fun (a, b, c){
+  return a + b + c + this.num
+}
+fun.apply(ctx, [1,2,3])
+//11
+
+//これだとfunがapplyを独自のプロパティとして持っているかわからない場合怖い。
+//より安全に呼ぶ
+
+Function.prototype.apply.call(fun, ctx, [1, 2, 3])
+//11
+
+//冗長な書き方になる。
+//もしthisコンテキストを通して定義する必要があり、書き方をスッキリしたいなら
+
+Reflect.apply(fun, ctx, [1,2,3])
+//11
+```
+
+**問284**
+
+p.aにアクセスしたら1を返し、値が設定されていないプロパティにアクセスしたら37を
+返すオブジェクトを作成してください
+期待する結果
+p.a
+//1
+p.c(cは設定されていない任意のプロパティ)
+//37
+
+```js
+var handler = {
+ get: function(target, name){
+   return name in target ? target[name] : 37
+ }
+}
+
+var p = new Proxy({}, handler);
+p.a = 1
+p.a
+//1
+
+p.c
+//37
+```
+
+**問285**
+```js
+```
+
+**問286**
+```js
+```
+
+
+**問287**
+```js
+```
+
+**問288**
+```js
+```
+
+
+**問289**
+```js
+```
+
+
+**問290**
+```js
+```
+
+**問291**
+```js
+```
+
+**問292**
+```js
+```
+
+**問293**
+```js
+```
+
+**問294**
+```js
+```
+
+**問295**
+```js
+```
+
+**問296**
+```js
+```
+
+**問297**
+```js
+```
+
+**問298**
+```js
+```
+
+**問299**
+```js
+```
+
+
+**問300**
+```js
 ```
 
 
