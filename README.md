@@ -5595,7 +5595,8 @@ const str2 = `${sym}`; //TypeError
 
 シンボルのユースケースをざっくり2つほど教えて下さい。
 
-```
+```js
+
 //1
 //unique property keys (ユニークなプロパティkey)
 //for-ofを通して使えるobject iterableを作ることができる
@@ -5656,6 +5657,7 @@ function getComplement(color) {
 
 ```
 **問280**
+
 こちらは
 
 ```js
@@ -5667,7 +5669,10 @@ try {
 ```
 
 targetが再定義できる場合name値を変更して「何か」をしようとしている。
-Reflectを用いて同じ実装になるように修正してください
+これはObject.definePropertyが成功した際はObjectを返し、失敗したときは
+TypeErrorをthrowするので、try/catchしているのだが、
+
+if...elseブロックを使える、Reflectを用いて同じ実装になるように修正してください
 
 
 ```js
@@ -5730,13 +5735,24 @@ function fun (a, b, c){
 fun.apply(ctx, [1,2,3])
 //11
 
-//これだとfunがapplyを独自のプロパティとして持っているかわからない場合怖い。
-//より安全に呼ぶ
+//これだとfunがapplyをプロパティとして持っているかわからない場合怖い。
 
-Function.prototype.apply.call(fun, ctx, [1, 2, 3])
+//例
+function fn (a, b, c) {
+  return a + b + c + this.num
+}
+fn.__proto__ = null;//意図しない代入でapplyまで辿れなくなった
+fn.apply(ctx, [1,2,3])
+//Uncaught TypeError: fn.apply is not a function(…)
+
+//より安全に呼ぶ
+//関数が Function.prototype を継承していなくとも TypeError を発生させない
+
+Function.prototype.apply.call(fun, ctx, [1,2,3])
 //11
 
-//冗長な書き方になる。
+
+//ただ上記は安全だが冗長な書き方になる。
 //もしthisコンテキストを通して定義する必要があり、書き方をスッキリしたいなら
 
 Reflect.apply(fun, ctx, [1,2,3])
@@ -5745,7 +5761,26 @@ Reflect.apply(fun, ctx, [1,2,3])
 
 **問284**
 
-p.aにアクセスしたら1を返し、値が設定されていないプロパティにアクセスしたら37を
+こちら
+```js
+String.fromCharCode(104,101,108,108,111)
+"hello"
+```
+
+String型の静的メソッドであるfromCharCodeは常にStringを伴って呼ぶ必要がある。
+また返り値はString型ではなく文字列です。
+Number型を渡さなくてはいけない引数に配列を渡し、
+同じ出力になるようにしてください
+
+
+```js
+Reflect.apply(String.fromCharCode, undefined, [104, 101, 108, 108, 111])
+//"hello"
+```
+
+**問284**
+
+p.aにアクセスしたら1を返し、存在しないプロパティにアクセスしたら37を
 返すオブジェクトを作成してください
 期待する結果
 p.a
@@ -5770,19 +5805,48 @@ p.c
 ```
 
 **問285**
+
+{a: 1}がprototype上に'toString'持っているかBoolean値を出力してください
+
 ```js
+Reflect.has({a: 1}, 'toString');
+//true
 ```
 
 **問286**
-```js
+
+Errorオブジェクトのインスタンスにmessageとして"エラーが発生しました"を代入エラーをthrowしてください
+
+```
+var err = new Error();
+err.message = "エラーが発生しました"
+throw err
+
+//other
+throw new Error("エラーが発生しました。");
 ```
 
-
 **問287**
+
+obj.aに数値以外のものが代入されるとsetterでErrorを投げ、number型ならaに代入。getterはaを返すobjを作ってください。
+
 ```js
+var obj = {
+  _a : 0,
+  get a(){return this._a; },
+  set a(n){
+    if(typeof n === "number"){
+      this._a = n;
+    } else {
+      throw new Error("代入できません")
+    }
+  }
+};
 ```
 
 **問288**
+
+
 ```js
 ```
 
