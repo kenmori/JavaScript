@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/11/5更新**
+**2016/11/13更新**
 
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
