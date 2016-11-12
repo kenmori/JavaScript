@@ -2099,7 +2099,7 @@ str //こんにちは
 
 **問105**
 
-引数targetがnullかundefinedのときのみの判定がtrueになる条件式を書いてください
+targetがnullかundefinedのときのみの判定がtrueになる条件式を書いてください
 
 ```js
 target == null
@@ -2110,7 +2110,7 @@ target == null
 こちら
 ```js
 var value = 0;
-var target  = value || 10
+var target = value || 10
 target
 //10
 ```
@@ -2134,13 +2134,12 @@ array.length !== 0
 ```
 
 **問108**
-
-この
+こちらは自身のプロパティが定義されていない場合falseが返ることを期待しているがtrueが返る
 ```js
 var obj = {};
 obj ? true : false;
 ```
-の場合falseが返るようにしてください
+自身のプロパティを持っていない場合falseが返るようにしてください
 
 ```js
 var obj = {};
@@ -3463,15 +3462,17 @@ const nodes = Array.from(foo);
 
 ```js
 let flat = {};
-[[0, 1], [2, 3], [4,5]].reduce((memo, item, index) => {
- let flatten = memo.concat(item);
+[[0, 1], [2, 3], [4,5]].reduce((pre, current, index, arry) => {
+ let flatten = pre.concat(current);
  flat[index] = flatten;
  return flatten
 })
+flat
 //[0, 1, 2, 3, 4, 5]
 ```
 
 **問178**
+
 下記の関数式としての宣言は
 
 ```js
@@ -3933,7 +3934,7 @@ for (var i = 0; i < localStorage.length; i++){
 **問202**
 ローカルストレージに次のようなオブジェクト
 ```js
-const dataList = {
+const dataObj = {
  'id': 0010,
  'isFavorite': true
 }
@@ -3943,20 +3944,20 @@ const dataList = {
 ```js
 
 //set
-const dataList = {
+const dataObj = {
     'id' : 0010,
     'isFavorite' : true
 }
 if (!window.localStorage) {return false};
 //safariのプライベートモードでWebStorageが使えない対応
 try {
-    localStorage.setItem('dataList', JSON.stringify(dataList));
+    localStorage.setItem('dataObj', JSON.stringify(dataObj));
 } catch(e){
     console.log(e)
 }
 
 //get
-const getData = JSON.parse(localStorage.getItem('dataList'));
+const getData = JSON.parse(localStorage.getItem('dataObj'));
 
 ```
 
@@ -3981,7 +3982,12 @@ setTimeout(create.get, 1000);
 //setTimeoutはthisがwindow設定なのでうまくいかない
 //オブジェクトのメソッドはオブジェクトに束縛されているものではなく、その時々の実行コンテキスト(呼び出し部分)において実行される
 //Fix
+
+//1 bind
 setTimeout(create.get.bind(create), 1000);
+
+//2 Arrow Function
+setTimeout(()=> {create.get}, 1000);
 ```
 
 **問204**
@@ -3997,7 +4003,9 @@ function Person() {
         self.age++;
     }, 1000);
 }
-
+var p = new Person();
+p
+//{age: 1} //1秒ごとに1足される
 ```
 setInterval内のコールバックをアロー関数で記述してください
 
@@ -4015,7 +4023,17 @@ var p = new Person();
 
 
 **問205**
-RestOperatorを使って渡した実引数を要素にする1つの配列で出力してください。
+
+こちら
+```js
+function foo(a, b, c, d){
+ console.log([a, b, c, d])
+ //or console.log(arguments);
+}
+foo(1,2,3,4,5)
+//[1, 2, 3, 4]
+```
+のような記述ではなく、RestOperatorを使って渡した実引数を要素にする1つの配列で出力してください。
 ```js
 function foo(...args) {
     console.log(args);
@@ -4023,11 +4041,9 @@ function foo(...args) {
 foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ```
 
-
-
 **問206**
 
-こちら
+こちらはSomeClassコンストラクタにインスタンスメソッドをもたせています。
 ```js
 SomeClass.prototype.someMethod = function (arg1, arg2) {
     ···
@@ -4079,7 +4095,7 @@ console.log(obj.prop); // 456
 **問208**
 
 下のようなlocation.searchの返り値を想定した文字列がある。
-'?id=12345&category=script&isname=tru’
+'?id=12345&category=script&isname=true’
 こちらのkeyとvalueをオブジェクトにそれぞれ割り当ててください。
 
 期待する結果
@@ -4923,13 +4939,35 @@ pop、push、reverse、shift、sort、splice、unshilft
 <details><summary>問251〜問300</summary>
 **問251**
 
-```var arr = ['one', 'two', 'three']```においてarrを非破壊メソッドに変更してください。
+```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
 
 ```js
 var arr = ['one', 'two', 'three']
 Object.freeze(arr);
 arr.sort();
-//TypeError: arr.sort() is read-only
+//Uncaught TypeError: Cannot assign to read only property '1' of object '[object Array]'
+
+//ex
+const obj = Object.freeze({a: 1});
+obj.x = 4;
+//strict-modeだとエラーになるが、そうではない場合、代入はなかったものとされる
+console.log(obj)
+//{a: 1}
+
+//ex2
+//「子供」までは面倒みない
+var obj2 = Object.freeze({a: 1, b : {a: 2}})
+obj2.b.a = 4
+console.log(obj2.b.a);
+//4
+
+//ex3
+//子供も凍結させる
+var obj3 = Object.freeze({a: 1, b: Object.freeze({a: 2})})
+obj3.b.a = 4
+console.log(obj3.b.a)
+//2
+
 ```
 
 **問252**
@@ -5846,18 +5884,66 @@ var obj = {
 
 **問288**
 
+このようながDOMがあります。
+ ```
+ <span id='foo' class='bar baz'>foo</span>
+ ```
+ 付与されたclass名が存在するだけ出力してください。
+ 期待する出力
+
+ //'bar'
+ //'baz'
 
 ```js
+var foo = document.getElementById('foo');
+for(var i = 0; i < foo.classList.length; i++) {
+ console.log(foo.classList[i]);
+}
+
+//'bar'
+//'baz'
+
+
+//classListはDOMTokenListのオブジェクト
+//http://www.javascripture.com/DOMTokenList
+
+//対応ブラウザバージョン
+//http://caniuse.com/#feat=classlist
 ```
 
 
 **問289**
+
+こちら
+```
+<span id='foo' class='bar baz'>foo</span>
+```
+の中にbazがあることを真偽値で出力してください
+
 ```js
+var foo = document.getElementById('foo');
+foo.classList.contains('foo');
+
+//対応ブラウザバージョン
+//http://caniuse.com/#feat=classlist
 ```
 
 
 **問290**
+
+こちら
+```
+<span id='foo' class='bar baz'>foo</span>
+```
+にfafaというclass名を追加してbarを削除してください
+
 ```js
+var foo = document.getElementById('foo');
+foo.classList.add('fafa');
+foo.classList.remove('bar');
+
+//対応ブラウザバージョン
+//http://caniuse.com/#feat=classlist
 ```
 
 **問291**
@@ -5928,4 +6014,5 @@ http://blog.tojiru.net/article/205007468.html
 http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
 https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
 http://exploringjs.com/es6/ch_overviews.html
+http://www.javascripture.com/DOMTokenList
 </details>
