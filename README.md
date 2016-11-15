@@ -5895,6 +5895,7 @@ var obj = {
  //'baz'
 
 ```js
+
 var foo = document.getElementById('foo');
 for(var i = 0; i < foo.classList.length; i++) {
  console.log(foo.classList[i]);
@@ -5903,12 +5904,17 @@ for(var i = 0; i < foo.classList.length; i++) {
 //'bar'
 //'baz'
 
-
 //classListはDOMTokenListのオブジェクト
 //http://www.javascripture.com/DOMTokenList
 
 //対応ブラウザバージョン
 //http://caniuse.com/#feat=classlist
+
+//ex 使えるか判定をして加える
+if (el.classList)
+  el.classList.add(className);
+else
+  el.className += ' ' + className;
 ```
 
 
@@ -5947,45 +5953,302 @@ foo.classList.remove('bar');
 ```
 
 **問291**
+
+こちら
+```
+$.getJSON('/my/url', function(data) {
+});
+```
+Jqueryでgetしているが、ライブラリを使用しないのでJS記述してください。
+
 ```js
+//一例
+var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onload = function() {
+  if (request.status >= 200 && request.status < 400) {
+    // Success!
+    var data = JSON.parse(request.responseText);
+  } else {
+    // We reached our target server, but it returned an error
+  }
+};
+request.onerror = function() {
+  // There was a connection error of some sort
+};
+
+request.send();
 ```
 
 **問292**
+var data = { foo: 'abc', bar: 100 }
+このようなdataをPOSTで送れるようにしてください
+
+期待する結果
+'foo=abc&bar=100'
+
+
 ```js
+var arr = [];
+Object.keys(data).forEach(function(el, ind){
+    arr.push(encodeURIComponent(el) + "=" + encodeURIComponent(data[el]))
+})
+var str = arr.join("&")
+str
+//'foo=abc&bar=100'
 ```
 
 **問293**
+こちら
 ```js
+$(selector).each(function(i, el){
+ something...
+});
+```
+と同じ処理をJSで記述してください
+
+```js
+var elements = document.querySelectorAll(selector);
+Array.prototype.forEach.call(elements, function(el, i){
+    something...
+});
 ```
 
 **問294**
+
+こちら
 ```js
+$(el).after(htmlString);//1
+
+$(el).before(htmlString);//2
+
+$(el).children(); //3
+
+$(el).next();//4
+
+$(el).parent();//5
+```
+と同じ動きをJSで記述してください
+
+```js
+//1
+parent.appendChild(el);
+
+//2
+el.insertAdjacentHTML('beforebegin', htmlString);
+
+//3
+el.children
+
+//4
+el.nextElementSibling
+
+//5
+el.parentNode
 ```
 
 **問295**
+
+こちら
 ```js
+$(el).hasClass(className);
+```
+と同じ処理をJSで記述してください
+
+```js
+var el = document.getElementById('container')
+if (el.classList){
+  el.classList.contains(className);
+} else {
+  new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+}
 ```
 
 **問296**
+
+こちらの2つの処理
 ```js
+$(el).next();
+$(el).parent();
+```
+と同じことをJSで記述してください
+
+```js
+var el = document.getElementById('container')
+el.nextElementSibling
+el.parentNode
 ```
 
 **問297**
+こちら
 ```js
+$(el).offset();
+//{top: 11, left:11}
+```
+と同じ値を含むオブジェクトを取得できるようにJSで記述してください。
+
+```js
+var rect = el.getBoundingClientRect();
+rect
+//{top:11, height:11, left:11, right:11, bottom:11, width:11}
+
 ```
 
 **問298**
+こちら
+
 ```js
+$(el).remove();
+```
+と同じ処理をするようにJSで記述してください。
+
+```js
+el.parentNode.removeChild(el);
 ```
 
 **問299**
+こちら
 ```js
+$(el).removeClass(className);
 ```
+と同じ処理をするようにJSで記述してください。
 
+```js
+if (el.classList) {
+  el.classList.remove(className);
+} else {
+  el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+}
+```
 
 **問300**
+
+こちら
+```js
+$(el).attr('tabindex', 3);
+```
+と同じ処理をするようにJSで記述してください。
+
+```js
+el.setAttribute('tabindex', 3);
+```
+
+<details><summary>問301〜問350</summary>
+**問301**
+
+こちら
+```js
+$(el).toggleClass(className);
+```
+と同じ処理をするようにJSで記述してください。
+
+```js
+if (el.classList) {
+  el.classList.toggle(className);
+} else {
+  var classes = el.className.split(' ');
+  var existingIndex = classes.indexOf(className);
+
+  if (existingIndex >= 0)
+    classes.splice(existingIndex, 1);
+  else
+    classes.push(className);
+
+  el.className = classes.join(' ');
+}
+```
+
+**問302***
+
+こちら
+```js
+$.parseHTML(htmlString);
+```
+と同じ処理をするようにJSで記述してください。
+
+
+```js
+var parseHTML = function(str) {
+  var tmp = document.implementation.createHTMLDocument();
+  tmp.body.innerHTML = str;
+  return tmp.body.children;
+};
+
+parseHTML(htmlString);
+```
+
+**問303***
+
+こちら
+```js
+$(el).on(eventName, eventHandler);
+と同じ処理をするようにJSで記述してください。
+
+
+```js
+el.addEventListener(eventName, eventHandler);
+```
+
+**問304***
+
 ```js
 ```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+**問***
+
+```js
+```
+
+</details>
+
+
+
 
 
 </details>
@@ -6015,4 +6278,5 @@ http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
 https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
 http://exploringjs.com/es6/ch_overviews.html
 http://www.javascripture.com/DOMTokenList
+http://youmightnotneedjquery.com/
 </details>
