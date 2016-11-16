@@ -3322,49 +3322,14 @@ add(2,3)//5
 
 
 **問171**
-
-Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
-```js
-function get(url) {
-  return new Promise(function(resolve, reject) {
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-    req.onload = function() {
-      if (req.status == 200) {
-	resolve(req.response);
-      } else {
-　　　　　reject(Error(req.statusText));
-      }
-    };
-    req.onerror = function() {
-    	 reject(Error("Network Error"));
-    };
-    req.send();
-  });
-};
-
-get('list.json').then(function(res){
-	console.log("Success!", res);
-}, function(error){
-  console.log("Failed", error);
-})
+```
+WIP
 ```
 
 **問172**
 
-Promseオブジェクト作成時にresolve関数に数値1を渡して、実行、成功したら渡した値をconsole出力、
-doneしたら次のthenメソッドの成功時に2を足した値を出力してください。
-
-```js
-var promise1 = new Promise(function(resolve, reject){
-  resolve(1);
-})
-promise1.then(function(val){
-  console.log(val);
-  return val + 2;
-}).then(function(val){
-  console.log(val);
-});
+```
+WIP
 ```
 
 **問173**
@@ -5021,27 +4986,8 @@ Emiiter.register(function(){console.log('2')});
 ```
 
 **問256**
-Promiseオブジェクトを使ってこちら
 ```js
-function say(callback, msg) {
-  setTimeout(callback, msg);
-}
-say(function(){
-  console.log('ken!!')
-}, 1000);
-```
-と同じことをしてください
-
-```js
-function say(msg){
- return new Promise(function(resolve, reject){
-   setTimeout(resolve, msg);
-  });
-}
-
-say(1000).then(function(){
- console.log('ken!');
-})
+//WIP
 ```
 
 **問257**
@@ -5934,7 +5880,6 @@ foo.classList.contains('foo');
 //http://caniuse.com/#feat=classlist
 ```
 
-
 **問290**
 
 こちら
@@ -6192,22 +6137,182 @@ el.addEventListener(eventName, eventHandler);
 
 **問304***
 
+こちらはDOMの解析とロードの条件で渡されたコールバック、fncが同期的に呼ばれるか非同期に呼ばれるか変わるコードです。
 ```js
+function onReady(fnc) {
+    var readyState = document.readyState;
+    if (readyState === 'interactive' || readyState === 'complete') {
+        fnc();
+    } else {
+        window.addEventListener('DOMContentLoaded', fnc);
+    }
+}
+onReady(function () {
+    console.log('DOMは解析とロード済み');
+});
+console.log('Start');
 ```
+大雑把にいうと、body終了直前に書かれていた場合条件式trueの文が実行され同期的に、
+head内で書かれていた場合elseブロックが実行され非同期的に呼ばれます。
+なので'Start'が出力される順番が変わるのですが、
+こちらを常に'Start'が先に出力されるようにしてください。
+
+```js
+//onReadyが実行される際に渡しているコールバックはもしtrueなら同期的にfnc()が実行される。
+//なので
+
+//DOMは解析とロード済み
+//Start
+//と出力される。
+
+//これを常に
+//Start
+//DOMは解析とロード済み
+
+//とするにはfncを非同期で実行するようにするようにする
+
+
+//ex1 setTimeout
+function onReady(fnc) {
+    var readyState = document.readyState;
+    if (readyState === 'interactive' || readyState === 'complete') {
+        setTimeout(fnc, 0);
+    } else {
+        window.addEventListener('DOMContentLoaded', fnc);
+    }
+}
+onReady(function () {
+    console.log('DOMは解析とロード済み');
+});
+
+console.log('Start');
+//Start
+//DOMは解析とロード済み
+
+//ex2 Promise
+function onReady() {
+    return new Promise(function(resolve, reject){
+        var readyState = document.readyState;
+        if (readyState === 'interactive' || readyState === 'complete') {
+            resolve();
+        } else {
+            window.addEventListener('DOMContentLoaded', resolve);
+        }
+})}
+onReady().then(function(){
+   console.log('DOMは解析とロード済み')
+})
+console.log('Start');
+//Start
+//DOMは解析とロード済み
+
+//Promiseは常に非同期で実行されることを保障されている
+```
+
+**問**
+非同期コールバックを同期的に呼んではいけない理由を教えて下さい。
+
+```
+・非同期コールバックを同期的に呼び出すと、処理の期待されたシーケンスが乱され、コードの実行順序に予期しない変動が生じるかもしれない。
+・非同期コールバックを同期的に呼び出すと、スタックオーバーフローや例外処理の間違いが発生するかもしれない。
+
+//非同期コールバックを次回に実行されるようスケジューリングするには、setTimeout のような非同期APIを使う。
+```
+
+**問**
+最初のPromiseオブジェクトがresolveされたら'私は'という文字列を返し、次のPromiseオブジェクトで文字列'今日、'を返し、次のPromiseオブジェクトで'運がいいです'を返し、
+最後のPromiseオブジェクトでそれらが連結された文字列を出力してください。
+
+```js
+var initPromise = new Promise(function(resolve){
+   resolve('私は')
+ })
+var lastName = function(sentence, lastname){
+   return sentence + '今日、'
+}
+var firstName = function(lastName){
+  return lastName + '運がいいです'
+}
+var comp = function(compName){
+   console.log(compName)
+}
+initPromise.then(lastName).then(firstName).then(comp);
+//私は今日、運がいいです
+```
+**問***
+
+Promseオブジェクト作成時にresolveに数値1を渡すコールバックを呼び出し、console出力され、
+続くthenメソッドで2を足した値を出力してください。
+
+```js
+var promise1 = new Promise(function(resolve, reject){
+  resolve(1);
+})
+promise1.then(function(val){
+  console.log(val);
+  return val + 2;
+}).then(function(val){
+  console.log(val);
+});
+```
+
+
+
 
 **問***
 
+
+Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
 ```js
+function get(url) {
+  return new Promise(function(resolve, reject) {
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+    req.onload = function() {
+      if (req.status == 200) {
+	    resolve(req.response);
+      } else {
+        reject(Error(req.statusText));
+      }
+    };
+    req.onerror = function() {
+    	 reject(Error("Network Error"));
+    };
+    req.send();
+  });
+};
+
+get('list.json').then(function(res){
+	console.log("Success!", res);
+}, function(error){
+  console.log("Failed", error);
+})
 ```
+
 
 **問***
 
+Promiseオブジェクトを使ってこちら
 ```js
+function say(callback, msg) {
+  setTimeout(callback, msg);
+}
+say(function(){
+  console.log('ken!!')
+}, 1000);
 ```
-
-**問***
+と同じことをしてください
 
 ```js
+function say(msg){
+ return new Promise(function(resolve, reject){
+   setTimeout(resolve, msg);
+  });
+}
+
+say(1000).then(function(){
+ console.log('ken!');
+})
 ```
 
 **問***
@@ -6279,4 +6384,5 @@ https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter
 http://exploringjs.com/es6/ch_overviews.html
 http://www.javascripture.com/DOMTokenList
 http://youmightnotneedjquery.com/
+http://azu.github.io/promises-book/
 </details>
