@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/11/13更新**
+**2016/11/17更新**
 
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
@@ -6079,6 +6079,8 @@ $(el).attr('tabindex', 3);
 el.setAttribute('tabindex', 3);
 ```
 
+</details>
+
 <details><summary>問301〜問350</summary>
 **問301**
 
@@ -6209,7 +6211,7 @@ console.log('Start');
 //Promiseは常に非同期で実行されることを保障されている
 ```
 
-**問**
+**問305**
 非同期コールバックを同期的に呼んではいけない理由を教えて下さい。
 
 ```
@@ -6219,7 +6221,7 @@ console.log('Start');
 //非同期コールバックを次回に実行されるようスケジューリングするには、setTimeout のような非同期APIを使う。
 ```
 
-**問**
+**問306**
 最初のPromiseオブジェクトがresolveされたら'私は'という文字列を返し、次のPromiseオブジェクトで文字列'今日、'を返し、次のPromiseオブジェクトで'運がいいです'を返し、
 最後のPromiseオブジェクトでそれらが連結された文字列を出力してください。
 
@@ -6239,7 +6241,7 @@ var comp = function(compName){
 initPromise.then(lastName).then(firstName).then(comp);
 //私は今日、運がいいです
 ```
-**問***
+**問307***
 
 Promseオブジェクト作成時にresolveに数値1を渡すコールバックを呼び出し、console出力され、
 続くthenメソッドで2を足した値を出力してください。
@@ -6259,7 +6261,7 @@ promise1.then(function(val){
 
 
 
-**問***
+**問308***
 
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
@@ -6290,7 +6292,7 @@ get('list.json').then(function(res){
 ```
 
 
-**問***
+**問309***
 
 Promiseオブジェクトを使ってこちら
 ```js
@@ -6315,7 +6317,7 @@ say(1000).then(function(){
 })
 ```
 
-**問***
+**問310***
 
 ```js
 ```
@@ -6353,10 +6355,6 @@ say(1000).then(function(){
 </details>
 
 
-
-
-
-</details>
 <details><summary>参照記事</summary>
 
 
