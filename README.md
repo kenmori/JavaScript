@@ -6128,8 +6128,8 @@ parseHTML(htmlString);
 こちら
 ```js
 $(el).on(eventName, eventHandler);
+```
 と同じ処理をするようにJSで記述してください。
-
 
 ```js
 el.addEventListener(eventName, eventHandler);
