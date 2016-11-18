@@ -5945,6 +5945,7 @@ str
 ```
 
 **問293**
+
 こちら
 ```js
 $(selector).each(function(i, el){
@@ -6026,6 +6027,7 @@ el.parentNode
 ```
 
 **問297**
+
 こちら
 ```js
 $(el).offset();
@@ -6041,6 +6043,7 @@ rect
 ```
 
 **問298**
+
 こちら
 
 ```js
@@ -6053,6 +6056,7 @@ el.parentNode.removeChild(el);
 ```
 
 **問299**
+
 こちら
 ```js
 $(el).removeClass(className);
@@ -6123,7 +6127,7 @@ var parseHTML = function(str) {
 parseHTML(htmlString);
 ```
 
-**問303***
+**問303**
 
 こちら
 ```js
@@ -6135,7 +6139,7 @@ $(el).on(eventName, eventHandler);
 el.addEventListener(eventName, eventHandler);
 ```
 
-**問304***
+**問304**
 
 こちらはDOMの解析とロードの条件で渡されたコールバック、fncが同期的に呼ばれるか非同期に呼ばれるか変わるコードです。
 ```js
@@ -6210,6 +6214,7 @@ console.log('Start');
 ```
 
 **問305**
+
 非同期コールバックを同期的に呼んではいけない理由を教えて下さい。
 
 ```
@@ -6220,6 +6225,7 @@ console.log('Start');
 ```
 
 **問306**
+
 最初のPromiseオブジェクトがresolveされたら'私は'という文字列を返し、次のPromiseオブジェクトで文字列'今日、'を返し、次のPromiseオブジェクトで'運がいいです'を返し、
 最後のPromiseオブジェクトでそれらが連結された文字列を出力してください。
 
@@ -6260,7 +6266,6 @@ promise1.then(function(val){
 
 
 **問308***
-
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
 ```js
