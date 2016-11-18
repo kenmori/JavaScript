@@ -6078,9 +6078,7 @@ $(el).attr('tabindex', 3);
 ```js
 el.setAttribute('tabindex', 3);
 ```
-
 </details>
-
 <details><summary>問301〜問350</summary>
 **問301**
 
