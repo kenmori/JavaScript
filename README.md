@@ -6322,12 +6322,56 @@ say(1000).then(function(){
 
 **問310***
 
+Promiseを使って0.5秒後毎に文字列の出力がされる非同期処理を実装をしてください
+
 ```js
+function f (name, time){
+ var done =  new Promise(function(resolve){
+   setTimeout(function(){
+     console.log(name)
+   resolve();
+   }, time)
+  });
+  return done
+};
+f('kenji', 1000)
+.then(()=> f('morita', 500))
+.then(()=> f('kkk', 500))
+.then(()=> f('jji', 500))
+
+
+//lesson
+function f (time){
+ return new Promise(function(resolve){
+    setTimeout(()=>{
+        //共通でやりたい処理
+        //終わったらresolve()を実行
+        //resolve(some)//渡したりする
+    }, time)
+ })
+}
+f().then(()=> f(500))//「fした後に~する」の中身を実装。この場合、し終わったらさらにfを実行
+.then(()=> f(500)) //それが終わったらさらにf
 ```
 
 **問***
 
+複数の非同期処理の完了を待って'done'を出力する実装をしてください
+
 ```js
+function f (name, time){
+ var done =  new Promise(function(resolve){
+
+   setTimeout(function(){
+     console.log(name)
+   resolve();
+   }, time)
+  });
+  return done
+};
+var i = Promise.all([f('morita', 500),f('kkk', 500),f('jji', 500)])
+i.then(()=> console.log("done"))
+
 ```
 
 **問***
