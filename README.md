@@ -5,6 +5,8 @@
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
+If you like English [here](https://github.com/kenmori/javascript/blob/master/README2.md)
+
 <details><summary>問1〜問50</summary>
 
 **問1**
@@ -6245,7 +6247,7 @@ var comp = function(compName){
 initPromise.then(lastName).then(firstName).then(comp);
 //私は今日、運がいいです
 ```
-**問307***
+**問307**
 
 Promseオブジェクト作成時にresolveに数値1を渡すコールバックを呼び出し、console出力され、
 続くthenメソッドで2を足した値を出力してください。
@@ -6265,7 +6267,7 @@ promise1.then(function(val){
 
 
 
-**問308***
+**問308**
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
 ```js
@@ -6295,7 +6297,7 @@ get('list.json').then(function(res){
 ```
 
 
-**問309***
+**問309**
 
 Promiseオブジェクトを使ってこちら
 ```js
@@ -6320,7 +6322,7 @@ say(1000).then(function(){
 })
 ```
 
-**問310***
+**問310**
 
 Promiseを使って0.5秒後毎に文字列の出力がされる非同期処理を実装をしてください
 
@@ -6354,7 +6356,7 @@ f().then(()=> f(500))//「fした後に~する」の中身を実装。この場�
 .then(()=> f(500)) //それが終わったらさらにf
 ```
 
-**問311***
+**問311**
 
 複数の非同期処理の完了を待って'done'を出力する実装をしてください
 
@@ -6374,7 +6376,7 @@ i.then(()=> console.log("done"))
 
 ```
 
-**問312***
+**問312**
 
 'http://localhost:3000/comments',
 'http://localhost:3000/posts',
@@ -6455,7 +6457,7 @@ async function asyncFunction (){
 
 ```
 
-**問314***
+**問314**
 
 [co](https://github.com/tj/co)を使って、
 
@@ -6497,7 +6499,7 @@ const promiseFun = co.wrap( function* (url){
 
 ```
 
-**問315***
+**問315**
 
 coを使ってgeneratorをラップしたfnを実行して、Promiseがresolveするまで処理を止める記述をしてください。※Promise.resolveで任意の値をすぐ返してok
 
@@ -6508,12 +6510,12 @@ coを使ってgeneratorをラップしたfnを実行して、Promiseがresolve�
   fn(true).then(function(val){console.log(val)})
 ```
 
-**問***
+**問**
 
 ```js
 ```
 
-**問***
+**問**
 
 ```js
 ```
