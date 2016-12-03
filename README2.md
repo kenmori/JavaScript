@@ -10,7 +10,7 @@ We gradually change the question sentence here from Japanese to English
 Please wait
 
 This book is available at the console of Chrome latest version console, [Google Chrome Canary] (https://www.google.com/chrome/browser/canary.html), [JS Bin] (https: // Jsbin.com/yenaderite/edit?js, console) and other babel / ECMAScript2015, 2016, 2017, environment can be used.
-If you notice something please post ISSUE
+If you notice something please post [issues](https://github.com/kenmori/javascript/issues)
 
 <details><summary>Q1〜Q50</summary>
 
@@ -1092,7 +1092,7 @@ map.set('four', 'fafa@eee');
 ```
 
 </details>
-<details><summary>問51〜問100</summary>
+<details><summary>Q51〜Q100</summary>
 **問51**
 
 問50の変数fafa内にある要素を出力してください
@@ -2011,7 +2011,7 @@ if(obj.a)が存在しても未定義だと実行されない
 2 in arry;
 ```
 </details>
-<details><summary>問101〜問150</summary>
+<details><summary>Q101〜Q150</summary>
 
 
 **問101**
@@ -2916,7 +2916,7 @@ target.insertAdjacentHTML(position,html);
 ```
 
 </details>
-<details><summary>問151〜問200</summary>
+<details><summary>Q151〜Q200</summary>
 
 **問151**
 
@@ -3893,7 +3893,7 @@ console.log(key + 'のストレージは' + localStorage[key]);
 ```
 ```
 </details>
-<details><summary>問201〜問250</summary>
+<details><summary>Q201〜Q250</summary>
 
 **問201**
 ローカルストレージの値を存在するだけ列挙してください
@@ -4908,7 +4908,7 @@ pop、push、reverse、shift、sort、splice、unshilft
 ```
 
 </details>
-<details><summary>問251〜問300</summary>
+<details><summary>Q251〜Q300</summary>
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
@@ -6090,7 +6090,7 @@ $(el).attr('tabindex', 3);
 el.setAttribute('tabindex', 3);
 ```
 </details>
-<details><summary>問301〜問350</summary>
+<details><summary>Q301〜Q350</summary>
 **問301**
 
 こちら
@@ -6528,7 +6528,7 @@ coを使ってgeneratorをラップしたfnを実行して、Promiseがresolve�
 </details>
 
 
-<details><summary>参照記事</summary>
+<details><summary>reference post</summary>
 
 
 参照

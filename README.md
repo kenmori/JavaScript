@@ -5,7 +5,8 @@
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
-If you like English [here](https://github.com/kenmori/javascript/blob/master/README2.md)
+
+※If you like English [here](https://github.com/kenmori/javascript/blob/master/README2.md)
 
 <details><summary>問1〜問50</summary>
 
