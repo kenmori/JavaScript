@@ -6,7 +6,7 @@
 
 ※表記揺れは鋭意解消中
 
-※If you like English [here](https://github.com/kenmori/javascript/blob/master/README2.md)
+※If you like English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
 
 <details><summary>問1〜問50</summary>
 
