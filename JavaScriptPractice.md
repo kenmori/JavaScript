@@ -1,6 +1,6 @@
-##Let's JavaScript Exercise
+##Let's JavaScript practice
 
-I update JavaScript exercise collection on README for my own confirmation test. Other folders are not working
+I update JavaScript practice collection on README for my own confirmation test. Other folders are not working
 
 **Recent updates 4/12/2016**
 
