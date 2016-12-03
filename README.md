@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2016/11/17更新**
+**2016/12/4更新**
 
 ※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
 
@@ -6354,7 +6354,7 @@ f().then(()=> f(500))//「fした後に~する」の中身を実装。この場�
 .then(()=> f(500)) //それが終わったらさらにf
 ```
 
-**問***
+**問311***
 
 複数の非同期処理の完了を待って'done'を出力する実装をしてください
 
@@ -6374,19 +6374,138 @@ i.then(()=> console.log("done"))
 
 ```
 
-**問***
+**問312***
+
+'http://localhost:3000/comments',
+'http://localhost:3000/posts',
+'http://localhost:3000/profile',
+'http://localhost:3000/state',
+の順にGETリクエスト、それぞれresponseが返って来るまで、処理を止めて、返ってきたら次のリクエストをする実装をしてください。
 
 ```js
+   function hidouki(url, num){
+    return new Promise(function(resolve, reject){
+     var req = new XMLHttpRequest();
+    req.open('GET', url);
+    req.onload = function () {
+     console.log(num)
+      if(req.status == 200){
+       resolve(req.response);
+      } else {
+       reject(Error(req.statusText));
+      }
+     }
+     req.onerror = function(){
+       reject(Error("Network Error"))
+     }
+     req.send();
+   })
+  }
+  async function asyncFunction (url, num){
+   var result = await hidouki(url , num);
+   console.log(result);
+   return result;
+  }
+  asyncFunction('http://localhost:3000/comments', 1)
+      .then((res)=> asyncFunction('http://localhost:3000/posts', 2))
+      .then((res)=> asyncFunction('http://localhost:3000/profile', 3))
+      .then((res)=> asyncFunction('http://localhost:3000/state', 4))
+      .then(() => console.log('done!'))
 ```
 
-**問***
+**問313**
+
+上記の記述はthenの第一引数にresolve処理を渡しています。
+逐次処理のような記述に修正してください。
+
+
 
 ```js
+function hidouki(url, num){
+    return new Promise(function(resolve, reject){
+     var req = new XMLHttpRequest();
+    req.open('GET', url);
+    req.onload = function () {
+     console.log(num)
+      if(req.status == 200){
+       resolve(req.response);
+      } else {
+       reject(Error(req.statusText));
+      }
+     }
+     req.onerror = function(){
+       reject(Error("Network Error"))
+     }
+     req.send();
+   })
+  }
+
+async function asyncFunction (){
+   const result = await hidouki('http://localhost:3000/posts', 1);
+   console.log(result);
+   const result2 = await hidouki('http://localhost:3000/comments', 2);
+   console.log(result2);
+   const result3 = await hidouki('http://localhost:3000/profile', 3);
+   console.log(result3);
+   const result4 = await hidouki('http://localhost:3000/state', 4);
+   console.log(result4);
+   console.log('done!');
+  }
+  asyncFunction();
+
 ```
 
-**問***
+**問314***
+
+[co](https://github.com/tj/co)を使って、
+
+'http://localhost:3000/comments',
+'http://localhost:3000/posts',
+'http://localhost:3000/profile',
+'http://localhost:3000/state',
+を並列でリクエストしてください。
 
 ```js
+const promiseFun = co.wrap( function* (url){
+   return new Promise(function(resolve, reject){
+    var req = new XMLHttpRequest();
+    req.open('GET', url, true);
+    req.onload = function(){
+     if(req.status == 200){
+      setTimeout(()=>{
+       //note:5秒後にdoneするようにしています
+       resolve(req.response);
+     }, 5000)
+     } else {
+      reject(Error("error"));
+     }
+    }
+    req.onerror = function(){
+      console.log("error");
+    }
+    req.send(null);
+   });
+  })
+  co(function* (){
+   var res = yield [
+    promiseFun('http://localhost:3000/posts'),
+    promiseFun('http://localhost:3000/profile'),
+    promiseFun('http://localhost:3000/state'),
+   ];
+   console.log(res[0], res[1], res[2]);
+  }).catch(onerror);
+
+```
+
+**問315***
+
+coを使ってgeneratorをラップしたfnを実行して、Promiseがresolveするまで処理を止める記述をしてください。※Promise.resolveで任意の値をすぐ返してok
+
+```js
+  var fn = co.wrap(function* (fa){
+    return yield Promise.resolve(fa);
+  });
+  fn(true).then(function(val){console.log(val)})
 ```
 
 **問***
