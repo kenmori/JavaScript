@@ -6511,14 +6511,122 @@ coを使ってgeneratorをラップしたfnを実行して、Promiseがresolve�
   fn(true).then(function(val){console.log(val)})
 ```
 
-**問**
-
+**問316**
+coを使って、1から始まり1秒ごとにインクルメントされた値からパラメーターに渡した数値まで出力される関数を実装、呼び出し元にresolveのpromiseオブジェクトが返ってきたら'done'を出力してください。
 ```js
+  function sleep(i){
+   return new Promise(function(resolve){
+    setTimeout(resolve,1000);
+   })
+  };
+
+  var num = co.wrap(function* (num){
+    for(var i = 1; i <= num; i++) {
+     yield sleep(i);
+     console.log(i)
+    }
+     yield sleep(1)
+   })
+
+  num(5).then(function(num){
+   console.log('done')
+  });
 ```
 
-**問**
+**問317**
+こちら
+```js
+function asyncFunc() {
+    return otherAsyncFunc()
+    .then(result => {
+        console.log(result);
+    });
+}
+```
+は非同期の結果をハンドリングしています。この処理と同等になるようにasync/awaitで記述してください
 
 ```js
+async function asyncFunc() {
+    const result = await otherAsyncFunc();
+    console.log(result);
+}
+```
+
+
+
+**問318**
+こちら
+```js
+function asyncFunc() {
+    return otherAsyncFunc1()
+    .then(result1 => {
+        console.log(result1);
+        return otherAsyncFunc2();
+    })
+    .then(result2 => {
+        console.log(result2);
+    });
+}
+```
+は非同期の結果が返ってきたら次の非同期処理をしています(逐次処理)。
+この処理と同等になるようにasync/awaitで記述してください
+
+```js
+async function asyncFunc() {
+    const result1 = await otherAsyncFunc1();
+    console.log(result1);
+    const result2 = await otherAsyncFunc2();
+    console.log(result2);
+}
+```
+**問319**
+
+こちら
+```js
+function asyncFunc() {
+    return Promise.all([
+        otherAsyncFunc1(),
+        otherAsyncFunc2(),
+    ])
+    .then([result1, result2] => {
+        console.log(result1, result2);
+    });
+}
+```
+は非同期処理を並列でしています。この処理と同等になるようにasync/awaitで記述してください
+
+```js
+async function asyncFunc() {
+    const [result1, result2] = await Promise.all([
+        otherAsyncFunc1(),
+        otherAsyncFunc2(),
+    ]);
+    console.log(result1, result2);
+}
+```
+
+**問320**
+
+こちらは
+```js
+function asyncFunc() {
+    return otherAsyncFunc()
+    .catch(err => {
+        console.error(err);
+    });
+}
+```
+非同期処理を移譲した先で起きたエラーをハンドリングしています
+この処理と同等になるようにasync/awaitで記述してください
+
+```js
+async function asyncFunc() {
+    try {
+        const result = await otherAsyncFunc();
+    } catch (err) {
+        console.error(err);
+    }
+}
 ```
 
 </details>
@@ -6552,4 +6660,5 @@ http://exploringjs.com/es6/ch_overviews.html
 http://www.javascripture.com/DOMTokenList
 http://youmightnotneedjquery.com/
 http://azu.github.io/promises-book/
+http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
 </details>
