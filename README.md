@@ -3325,8 +3325,18 @@ add(2,3)//5
 
 
 **問171**
+
+こちらのような
 ```
-WIP
+if(condition){
+    dosomething();
+}
+```
+conditionがtrueの時に実行したい関数があった場合、端的に記述してください
+
+
+```js
+condition && dosomething();
 ```
 
 **問172**
@@ -6661,4 +6671,5 @@ http://www.javascripture.com/DOMTokenList
 http://youmightnotneedjquery.com/
 http://azu.github.io/promises-book/
 http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
+https://github.com/loverajoel/jstips
 </details>
