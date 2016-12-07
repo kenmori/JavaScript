@@ -60,8 +60,8 @@
           <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/README.md">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="291">
-                  <caret line="3337" column="0" selection-start-line="3337" selection-start-column="0" selection-end-line="3337" selection-end-column="0" />
+                <state relative-caret-position="302">
+                  <caret line="3402" column="0" selection-start-line="3402" selection-start-column="0" selection-end-line="3402" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -178,8 +178,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1634" />
-    <option name="y" value="-127" />
+    <option name="x" value="-1552" />
+    <option name="y" value="-154" />
     <option name="width" value="1386" />
     <option name="height" value="1008" />
   </component>
@@ -208,8 +208,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -230,6 +228,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -699,14 +699,15 @@
       <workItem from="1478045937708" duration="3276000" />
       <workItem from="1479342149350" duration="279000" />
       <workItem from="1480984944524" duration="559000" />
+      <workItem from="1481071474931" duration="681000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47950000" />
+    <option name="totallyTimeSpent" value="48631000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1634" y="-127" width="1386" height="1008" extended-state="0" />
+    <frame x="-1552" y="-154" width="1386" height="1008" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1059,8 +1060,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="3337" column="0" selection-start-line="3337" selection-start-column="0" selection-end-line="3337" selection-end-column="0" />
+        <state relative-caret-position="302">
+          <caret line="3402" column="0" selection-start-line="3402" selection-start-column="0" selection-end-line="3402" selection-end-column="0" />
           <folding />
         </state>
       </provider>
