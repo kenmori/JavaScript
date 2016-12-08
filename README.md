@@ -5062,9 +5062,99 @@ Emiiter.register(function(){console.log('2')});
 ```
 
 **問256**
+
+こちらはcolorの条件でそれぞれの関数を実行する記述です。
+
 ```js
-//WIP
+var color = "black";
+function printBlack(){
+ console.log('black')
+}
+function printRec(){
+ console.log('red')
+}
+function printBlue(){
+ console.log('blue')
+}
+function printYellow(){
+ console.log('yellow')
+}
+
+if(color){
+ if (color === 'black') {
+  printBlack();
+ } else if (color === 'red'){
+  printRed();
+ } else if (color === 'blue'){
+  printBlue();
+ } else if (color === 'yellow'){
+   printYellow()
+ }
+}
 ```
+これをswitch文に変えたのがこちらですが、
+
+```js
+switch (color){
+ case 'black':
+     printBlack();
+     break;
+ case 'red':
+     printRed();
+     break;
+ case 'blue':
+     printBlue();
+     break;
+ case: 'yellow'
+    printYello();
+}
+```
+
+デバッグしづらいのといくつかの評価をしなくてはならなくなった際につらくなります。
+see: https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/
+
+```js
+switch(true) {
+ case (typeof color === 'string' && color === 'black'):
+    printBlack();
+    break
+    ・
+    ・
+    ・
+}
+```
+
+可能な限りswitch文を使用しないようにするためオブジェクトを介して上記のようにcolorに合った関数を実行してください
+
+```js
+var color = "black";
+
+function printBlack(){
+ console.log('black')
+}
+function printRed(){
+ console.log('red')
+}
+function printBlue(){
+ console.log('blue')
+}
+function printYellow(){
+ console.log('yellow')
+}
+var colorObj = {
+  'black': printBlack,
+  'red': printRed,
+  'blue': printBlue,
+  'yellow': printYellow
+};
+if (color in colorObj) {
+  colorObj[color]();
+}
+//black
+```
+
+
+
 
 **問257**
 こちら['a','b','c’]をこちら{0: 'a’, 1: 'b’, 2: 'c'}のようにしてください
