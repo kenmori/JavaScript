@@ -1,12 +1,12 @@
 ## JavaScript練習問題集
 
-**2016/12/4更新**
+**2016/12/13更新**
 
-※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などのbabel/ES6が使える環境で試されることを想定しています。
+※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
 
-※If you like English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
+※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
 
 <details><summary>問1〜問50</summary>
 
@@ -731,8 +731,28 @@ arr2
 
 **問35**
 
+
+こちらは2つのパラメーターを足して返すgetSum関数です。
+
+```js
+const getSum = (a, b) => a + b
 ```
-WIP
+このパラメーターに何もわたってこなかった場合Errorをスローすようにしてください
+期待する結果
+getSum(10) //throws b is not defined
+getSum(undefined, 10) //throws a is not defined
+
+
+```js
+const _err = function(message) {
+    throw new Error(message);
+}
+const getSum = (a = _err('a is not defined'), b = _err('b is not defined'))=> a + b
+getSum(10) //throws b is not defined
+getSum(undefined, 10) //throws a is not defined
+
+getSum(10, 20);
+//30
 ```
 
 **問36**
@@ -889,8 +909,10 @@ for in文に関する注意点を3つ挙げてください
 
 **問38**
 
+DOM上にあるdivをnodeListに変換して配列に格納してください
+
 ```js
-WIP
+const nodelist = [...document.querySelectorAll('div')];
 ```
 
 **問39**
@@ -968,8 +990,41 @@ console.log(arr)//['1','2','3','4'];
 
 **問45**
 
+こちらは要素が2だったらループを抜けたいのだが期待どうり動かない
+期待する出力
+//0, 1
+
 ```
-WIP
+[0, 1, 2, 3, 4].forEach(function(val, i) {
+  if (val === 2) {
+    // how do we stop?
+    return true;
+  }
+  console.log(val);
+});
+// 0, 1, 3, 4
+```
+期待通りになるようにしてください
+
+```js
+//use some
+[0, 1, 2, 3, 4].some(function(val, i) {
+  if (val === 2) {
+    return true;
+  }
+  console.log(val); // your code
+});
+//0, 1
+
+//use for
+const a = [0, 1, 2, 3, 4];
+for (var i = 0; i < a.length; i++) {
+  if (a[i] === 2) {
+    break; // stop the loop
+  }
+  console.log(a[i]);
+}
+//0, 1
 ```
 
 **問46**
@@ -2399,7 +2454,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 &amp;
 ```
 
-**問124 WIP**
+**問124**
 
 実体参照に直すscriptを書いてください
 
@@ -5012,9 +5067,61 @@ console.log(obj3.b.a)
 ```
 
 **問252**
+
+このようなobjがあります。
 ```js
-WIP
+var obj = {
+ 'prop1': 'value1',
+ 'prop2': 'value2',
+ 'prop3': 'value3'
+}
 ```
+JSON.stringifyを使って
+
+```
+"{
+	"prop1": "value1",
+	"prop2": "value2"
+}"
+```
+ように出力されるようにしてください(prop3が出力されていない。1タブ分インデントされていることに注意)
+
+```js
+var obj = {
+ 'prop1': 'value1',
+ 'prop2': 'value2',
+ 'prop3': 'value3'
+}
+var str = JSON.stringify(obj, ['prop1', 'prop2'], '\t');
+str
+//
+"{
+	"prop1": "value1",
+	"prop2": "value2"
+}"
+
+
+//ex
+関数で出力を
+function selectedProperties(key, val) {
+    // the first val will be the entire object, key is empty string
+    if (!key) {
+        return val;
+    }
+    if (key === 'prop1' || key === 'prop2') {
+        return val;
+    }
+    return;
+}
+var str = JSON.stringify(obj, selectedProperties, '\t');
+str
+//
+{
+    "prop1": "value1",
+    "prop2": "value2"
+}
+```
+
 
 **問253**
 this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
@@ -5457,7 +5564,7 @@ try {
 //Uncaught b
 ```
 
-**問268-WIP**
+**問268**
 
 こちらの
 ```js
