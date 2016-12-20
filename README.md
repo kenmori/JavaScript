@@ -4148,7 +4148,7 @@ SomeClass.prototype.anotherMethod = function () {
     ···
 };
 ```
-とはちがう別の方法でメソッドを定義してください
+こちらとは違う方法(Object.assignを使った方法)でインスタンスメソッドを定義してください
 
 ```js
 Object.assign(SomeClass.prototype, {
@@ -4172,7 +4172,9 @@ const proto = Object.defineProperty({}, 'prop', {
 });
 const obj = Object.create(proto);
 obj.prop = 456;
-    // TypeError: Cannot assign to read-only property
+// TypeError: Cannot assign to read-only property
+obj.prop
+//123
 ```
 
 valueを書き換えてください
@@ -4230,6 +4232,8 @@ deduped
 DOMの中に2016年8月27日00時00分00秒から9月11日00時00分00秒まで<span>セール中</span>が表示されるようにしてください。
 
 ```js
+const today = new Date();
+const myD   = today.getTime();
 const start = new Date(2016,7,27,0,0,0);//設定月 -1
 const myS   = start.getTime();
 const end   = new Date(2016,8,11,0,0,0);//設定月 -1
@@ -4241,6 +4245,7 @@ myS <= myD && myE >= myD && campaignDOM.innerHTML += '<span>セール中</span>'
 ```
 
 **問211**
+
 こちら```[[1,2],[],[3]]```をフラットにしてください
 期待する結果
 //[1, 2, 3]
@@ -4250,6 +4255,10 @@ const myArray = [[1,2],[],[3]];
 const flatArray = Array.prototype.concat.apply([],myArray);
 flatArray
 //[1, 2, 3]
+
+//ex
+[...myArray[0],...myArray[1],...myArray[2]]
+
 ```
 
 **問212**
@@ -4268,9 +4277,9 @@ arr.map(x => x()); // [3,3,3]
 
 
 ```js
-Every i in the bodies of the three arrow functions refers to the same binding, 
-which is why they all return the same value.
-If you let-declare a variable, a new binding is created for each loop iteration:
+//Every i in the bodies of the three arrow functions refers to the same binding,
+//which is why they all return the same value.
+//If you let-declare a variable, a new binding is created for each loop iteration:
 
 const arr = [];
 for (let i=0; i < 3; i++) {
@@ -4291,8 +4300,8 @@ arr.map(x => x()); // [0,1,2]
             ['perhaps', 'vielleicht'],
         ];
 ```
-entriesを<div id='content'></div>このなかでaタグを作りentriesインデックス0をidとtextContntになるように、
-さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesのインデックス1が出力されるようにしてください
+entriesを'''<div id="content"></div>'''この中でaタグを作りentries[0]をidとtextContent、
+さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesの[1]が出力されるようにしてください
 
 ```html
 <!doctype html>
@@ -4308,7 +4317,7 @@ entriesを<div id='content'></div>このなかでaタグを作りentriesイン�
             ['no', 'nein'],
             ['perhaps', 'vielleicht'],
         ];
-        const content = document.getElementById('content');
+        const content = document.querySelector('#content');
         for (let [source, target] of entries) { // (A)
             content.insertAdjacentHTML('beforeend',
                 `<div><a id='${source}' href=''>${source}</a></div>`);
@@ -4323,6 +4332,7 @@ entriesを<div id='content'></div>このなかでaタグを作りentriesイン�
 </html>
 
 ```
+[実際のコード](https://jsfiddle.net/zep3dLyy/4/)
 
 **問214**
 
@@ -4362,7 +4372,7 @@ class Faaaa extends Faa {
     super();
     this.name = name;
   }
- getName(){
+ getSpeak(){
    super.speak();
  }
 }
@@ -4370,7 +4380,7 @@ class Faaaa extends Faa {
 var eee = new Faa('kenji');
 eee.speak();
 var iii = new Faaaa('morita');
-iii.getName();
+iii.getSpeak();
 eee.speak();
 ```
 
@@ -4460,6 +4470,8 @@ console.log(!!obj.height)
 
 **問220**
 
+WIP
+
 ```js
 ﻿function add(x, y){
  return x + y;
@@ -4489,7 +4501,7 @@ multiplyAndLog(40,4)
 
 **問221**
 
-document内にいくつあるかわからないh1の先頭から1個を削ったDOMをかえしてください
+document内のh1を全て取得し、インデックス1番目のh1を削った残りを返してください
 
 ```js
 var hoge = document.querySelectorAll('h1');
@@ -4498,17 +4510,20 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 ```
 
 **問222**
-```var a = 'aabbccdde1e23ffgg'; ```と```var a = 'aabbccdde1e23ffgg';```のどちらがさきに数値が現れるか比較してください
+
+```var a = 'aabbccdde1e23ffgg'; ```と```var b = 'aabbccdde1e23ffgg';```がある。
+aとbを比較してaの方が先に数値が現れる場合trueを返してください
 
 ```js
 var a = 'aabbccdde1e23ffgg';
 var b = 'aabbccddee123ffgg';
 
-a.search(/\d/) > b.search(/\d/);
-//false
+a.search(/\d/) < b.search(/\d/);
+//true
 ```
 
 **問223**
+
 ```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
 
 ```js
@@ -4523,6 +4538,7 @@ divarray
 
 **問224**
 
+WIP
 ```js
 var i = 0;
 var array = [];
@@ -4536,7 +4552,8 @@ i += 1;
 
 
 **問225**
-1980年8月1日を表すDateオブジェクトを生成してください
+
+1980年8月1日5時55分を表すDateオブジェクトを生成してください
 
 ```js
 var d = new Date('1980/8/1 5:55');
@@ -4563,6 +4580,8 @@ d.toStoring();
 
 **問227**
 
+WIP
+
 上で作成した時間を現地フォーマットで出力してください
 
 ```js
@@ -4577,6 +4596,7 @@ d.toLocaleTimeString();
 
 
 **問228**
+
 var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
 ```js
 var ary = ['aaa', 'bbb', 'ccc'];
@@ -4588,6 +4608,7 @@ ary
 ```
 
 **問229**
+
 こちらの変数を使って
 var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
 2でも3でも割り切れない数を抽出した配列を生成してください
@@ -4604,6 +4625,7 @@ newAry
 ```
 
 **問230**
+
 ビルドインプロパティを3つ答えなさい
 
 ```js
@@ -4619,6 +4641,7 @@ undefined
 
 
 **問231**
+
 ビルドイン関数を9つ挙げてください
 
 ```js
@@ -4637,6 +4660,7 @@ parseInt(str,[radix])
 
 
 **問232**
+
 こちら
 encodeURIComponenとencodeURIの違いを教えてください
 
@@ -4669,6 +4693,7 @@ s
 ```
 
 **問234**
+
 下の変数sにある
 ```var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
 divの中にあるtextを全て出力してください
@@ -4696,6 +4721,7 @@ divStringAry.join('\n')
 ```
 
 **問235**
+
 2の0乗〜10乗までを格納した配列を作成してください。インデックスはそれぞれ指数(0〜10)となるようにしてください
 
 ```js
@@ -4744,7 +4770,7 @@ ary
 
 **問237**
 
-同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答えてください。オリジンを調べるためのlocationプロパティを答えてください
+同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答え、またオリジンを参照してください
 ```js
 see : https://tools.ietf.org/html/rfc6454
 
@@ -4775,15 +4801,16 @@ hash - #test
 スキーム : http,https
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
-セッションハイジャック :
+セッションハイジャック : サーバーから渡されるセッションIDを盗み正規ユーザーになりすますこと
  
 
 ```
 
 **問238**
+
 location.assignとlocation.replaceの違いを教えてください
 ```js
-//replaceは画面遷移をWebブラウザの履歴に残さ図遷移する
+//replaceは画面遷移をWebブラウザの履歴に残さず遷移する
 
 ```
 
@@ -4816,8 +4843,10 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Ob
 
 
 **問240**
-以下と同じ記述をしてください。
-```
+
+
+Object.createメソッドで以下と同じ記述をしてください。
+```js
 function Constructor(){}
 o = new Constructor();
 ```
