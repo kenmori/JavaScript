@@ -5883,7 +5883,7 @@ const str2 = `${sym}`; //TypeError
 
 **問279**
 
-シンボルのユースケースをざっくり2つほど教えて下さい。
+Symbolのユースケースをざっくり2つほど教えて下さい。
 
 ```js
 
@@ -6853,6 +6853,13 @@ async function asyncFunc() {
     const result = await otherAsyncFunc();
     console.log(result);
 }
+
+オブジェクト型のobjectにSymbolプロパティとして自分の名前を定義、値を'valueOfsymbol'にして、for in やドット演算子での参照、Object.keysでも列挙されないことを確認して、
+オブジェクトが確かにSymbolプロパティをもち、シャローコピーできることを確認してください。
+
+```js
+
+
 ```
 
 
