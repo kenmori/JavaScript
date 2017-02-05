@@ -6939,11 +6939,236 @@ async function asyncFunc() {
 }
 ```
 
+
+**問321**
+
+イベントデリゲーションに関して。
+こちらのDOMの
+
+```html
+<ul id="todo-app">
+  <li class="item">Walk the dog</li>
+  <li class="item">Pay bills</li>
+  <li class="item">Make dinner</li>
+  <li class="item">Code for one hour</li>
+</ul>
+```
+li要素のそれぞれにイベントリスナーをアタッチしたもが下記です。
+
+```js
+
+document.addEventListener('DOMContentLoaded', function() {
+  let app = document.getElementById('todo-app');
+  let items = app.getElementsByClassName('item');
+
+  // attach event listener to each item
+  for (let item of items) {
+    item.addEventListener('click', function() {
+      alert('you clicked on item: ' + item.innerHTML);
+    });
+  }
+});
+```
+この問題はもしli要素が1000個あった場合1000個のリスナーを作るところにあります。
+これは効率的ではありません。
+全体のコンテナーに対し1つのイベントリスナーをアタッチして上記と同じ動作をするようなイベントデリゲーションを実装してください
+
+```js
+document.addEventListener('DOMContentLoaded', function() {
+
+  let app = document.getElementById('todo-app');
+
+  // attach event listener to whole container
+  app.addEventListener('click', function(e) {
+    if (e.target && e.target.nodeName === 'LI') {
+      let item = e.target;
+      alert('you clicked on item: ' + item.innerHTML);
+    }
+  });
+});
+
+```
+
+**問322**
+
+こちらの実装は配列のインデックスを3000ms後に出力することを期待しています。
+```js
+const arr = [10, 12, 15, 21];
+for (var i = 0; i < arr.length; i++) {
+  setTimeout(function() {
+    console.log('The index of this number is: ' + i);
+  }, 3000);
+}
+//"The index of this number is: 4"
+//"The index of this number is: 4"
+//"The index of this number is: 4"
+//"The index of this number is: 4"
+```
+理由はsetTimeout関数はクロージャーを作り、それはスコープ外への参照を持ちます。
+3秒後には関数は実行されその時ループはすでに終わっていてその際参照するiは4となっているためです。
+
+これを期待する通り
+
+//"The index of this number is: 0"
+//"The index of this number is: 1"
+//"The index of this number is: 2"
+//"The index of this number is: 3"
+を出力するように実装をしてください。
+
+```js
+
+//変数iをそれぞれのfunctionに渡す
+const arr = [10, 12, 15, 21];
+for (var i = 0; i < arr.length; i++) {
+  // pass in the variable i so that each function
+  // has access to the correct index
+  setTimeout(function(i_local) {
+    return function() {
+      console.log('The index of this number is: ' + i_local);
+    }
+  }(i), 3000);
+}
+
+//let構文を使う。それぞれのfunctionが呼ばれるたびにletは新しいバインディングを作る
+const arr = [10, 12, 15, 21];
+for (let i = 0; i < arr.length; i++) {
+  setTimeout(function() {
+    console.log('The index of this number is: ' + i);
+  }, 3000);
+}
+// read more here: http://exploringjs.com/es6/ch_variables.html#sec_let-const-loop-heads
+```
+**問333**
+こちらのhtmlでcontainer内をscrollした際にイベントを発火させたい。
+
+```html
+<div id="container" style="overflow:scroll;height: 100px;width:200px;background:#e2e2e2">
+  <div style="height:1000px;width:100px;">
+  </div>
+</div>
+```
+
+ただ、window.scrollのイベント毎に発火するとパフォーマンスに深刻な問題を起こす。
+inputにkeypressする際にも起こるようなこのような問題はdebouncingとthrottlingを実装することで解決できる。
+//https://css-tricks.com/debouncing-throttling-explained-examples/
+
+scroll後、2秒後にイベントが発火するdebouncingを実装してください。
+
+```js
+// debounce function that will wrap our event
+function debounce(fn, delay) {
+  // maintain a timer
+  let timer = null;
+  // closure function that has access to timer
+  return function() {
+    // get the scope and parameters of the function
+    // via 'this' and 'arguments'
+    let context = this;
+    let args = arguments;
+    // if event is called, clear the timer and start over
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      fn.apply(context, args);
+    }, delay);
+  }
+}
+
+// function to be called when user scrolls
+function foo() {
+  alert('You are scrolling!');
+}
+
+// wrap our function in a debounce to fire once 2 seconds have gone by
+let elem = document.getElementById('container');
+elem.addEventListener('scroll', debounce(foo, 2000));
+
+
+//https://jsfiddle.net/kenjimorita/2pmpvnqw/1/
+```
+
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
+**問3**
+
+```js
+
+```
+
 </details>
 
 
 <details><summary>参照記事</summary>
-
 
 参照
 
@@ -6972,4 +7197,5 @@ http://youmightnotneedjquery.com/
 http://azu.github.io/promises-book/
 http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
 https://github.com/loverajoel/jstips
+https://medium.freecodecamp.com/3-questions-to-watch-out-for-in-a-javascript-interview-725012834ccb#.xw5afqxxz
 </details>
