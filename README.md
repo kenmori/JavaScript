@@ -6939,11 +6939,6 @@ async function asyncFunc() {
 }
 ```
 
-</details>
-
-
-<details><summary>参照記事</summary>
-
 
 **問321**
 
@@ -7169,6 +7164,11 @@ elem.addEventListener('scroll', debounce(foo, 2000));
 ```js
 
 ```
+
+</details>
+
+
+<details><summary>参照記事</summary>
 
 参照
 
