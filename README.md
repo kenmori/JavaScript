@@ -1,13 +1,23 @@
 ## JavaScript練習問題集
 
-**2016/12/25更新**
+**2017/2/19更新**
 
-※こちらの問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017が使える環境で試されることを想定しています。
+####こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/)が自身のテストとして作ったJavaScript練習問題集です。
+
+※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017が使える環境で試されることを想定しています。
 
 ※表記揺れは鋭意解消中
 
-※答えはあくまで１つの記述です
+※答えはあくまで１つの記述です。
 
+※ECMAScript2015の観点からは非奨励な書き方も載せています。
+現場でまだまだよく見る書き方(varやfor-inなど)、環境に因って使用せざるを得ないなどがその理由です。
+置き換えていただけたらと思います。
+
+*★を押していただけたら今後もやる気出ます。よろしくお願いします。
+※[blog/JavaScript](http://kenjimorita.jp/category/javascript/)
+※[Twitter](https://twitter.com/bukostunikki)
+※[GitHub](https://github.com/kenmori)
 
 
 ※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
@@ -204,7 +214,7 @@ var(let) や function文中の変数はnon-configurableであり削除できな�
 
 //globaleオブジェクト
 x = 43;
-delete x 
+delete x
 //true //暗黙に定義されたglobale変数なので
 
 //var宣言
@@ -253,7 +263,7 @@ foo.bar
 
 //プロトタイプ上でプロパティを削除
 delete foo.prototype.bar;
-foo.bar 
+foo.bar
 //undefined
 
 ```
@@ -4490,7 +4500,7 @@ function withLogging(wrappedFunction){
     return result;
   };
  }
- 
+
 var addAndLog = withLogging(add);
 addAndLog(1, 2)
 //result 3
@@ -4753,7 +4763,6 @@ for(var n = 0; n <= 10; n++){
 
 ```js
 var ary = [];
-var temp = new Date();
 for (var i = 1; i <= 12; i++){
  var d = 28;
  temp.setMonth(i - 1, d);
@@ -4806,7 +4815,7 @@ hash - #test
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
 セッションハイジャック : サーバーから渡されるセッションIDを盗み正規ユーザーになりすますこと
- 
+
 
 ```
 
@@ -4912,7 +4921,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 
 **問243**
-let n = '124';を数値に変換してください。 
+let n = '124';を数値に変換してください。
 
 ```js
 let n = '124';
@@ -4968,7 +4977,7 @@ o && o.f && o.f();
 **問246**
 ```var v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
- 
+
 ```js
 var n = +v || 0;
 ```
@@ -5177,7 +5186,7 @@ e.g  const obj = {add : function(){some}};
 var obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
-var obj = { foo: 'bar', baz: 42 }; 
+var obj = { foo: 'bar', baz: 42 };
 var map = new Map(Object.entries(obj));
 console.log(map); // Map { foo: 'bar', baz: 42 }
 
@@ -5626,37 +5635,37 @@ const foo = (name, callback) => {
         callback(name);
     }, 100);
 };
- 
+
 const curry = (method, ...args) => {
     return (callback) => {
         args.push(callback);
         return method.apply({}, args);
     };
 };
- 
+
 const controller = (generator) => {
     const iterator = generator();
- 
+
     const advancer = (response) => {
         var state;
- 
+
         state = iterator.next(response);
- 
+
         if (!state.done) {
             state.value(advancer);
         }
     }
- 
+
     advancer();
 };
- 
+
 controller(function* () {
     const a = yield curry(foo, 'a');
     const b = yield curry(foo, 'b');
     const c = yield curry(foo, 'c');
     console.log(a, b, c);
 });
- 
+
 // a
 // b
 // c
@@ -5883,7 +5892,7 @@ const str2 = `${sym}`; //TypeError
 
 **問279**
 
-Symbolのユースケースをざっくり2つほど教えて下さい。
+シンボルのユースケースをざっくり2つほど教えて下さい。
 
 ```js
 
@@ -6853,13 +6862,6 @@ async function asyncFunc() {
     const result = await otherAsyncFunc();
     console.log(result);
 }
-
-オブジェクト型のobjectにSymbolプロパティとして自分の名前を定義、値を'valueOfsymbol'にして、for in やドット演算子での参照、Object.keysでも列挙されないことを確認して、
-オブジェクトが確かにSymbolプロパティをもち、シャローコピーできることを確認してください。
-
-```js
-
-
 ```
 
 
@@ -6939,7 +6941,6 @@ async function asyncFunc() {
 }
 ```
 
-
 **問321**
 
 イベントデリゲーションに関して。
@@ -7009,10 +7010,12 @@ for (var i = 0; i < arr.length; i++) {
 
 これを期待する通り
 
+```js
 //"The index of this number is: 0"
 //"The index of this number is: 1"
 //"The index of this number is: 2"
 //"The index of this number is: 3"
+````
 を出力するように実装をしてください。
 
 ```js
@@ -7038,7 +7041,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 // read more here: http://exploringjs.com/es6/ch_variables.html#sec_let-const-loop-heads
 ```
-**問333**
+**問323**
 こちらのhtmlでcontainer内をscrollした際にイベントを発火させたい。
 
 ```html
@@ -7086,89 +7089,161 @@ elem.addEventListener('scroll', debounce(foo, 2000));
 //https://jsfiddle.net/kenjimorita/2pmpvnqw/1/
 ```
 
-
-**問3**
+**問323**
+変数aに2代入してをaを4乗してください。
+さらにaが16になることを確認してください
 
 ```js
+let a = 2;
+a **=4;
+a === Math.pow(2, 4);
+//true
 
 ```
 
-**問3**
+**問324**
 
 ```js
+let obj = {a: 1, b:2, c:3}
+Object.values(obj).forEach(value=> console.log(value))
+//1
+//2
+//3
+```
+
+こちらをfor-ofで同じ実装にしてください
+
+```js
+let obj = {a:1, b:2, c:3}
+for(let value of Object.values(obj)){
+ console.log(value)
+}
+//1
+//2
+//3
 
 ```
 
-**問3**
+**問325**
+
+こちらはentriesで返されるkeyとvalueのペアー配列を要素とした配列をdestructuringしてそれぞれのkeyとvalueを出力しています。
+```js
+let obj = {a:1,b:2,c:3};
+Object.entries(obj).forEach( ([key, value]) => {
+ console.log(`${key} is ${value}`)
+})
+```
+この実装をfor-ofで記述してください
 
 ```js
-
+let obj = {a: 1, b: 2, c: 3}
+for (let [key, value] of Object.entries(obj)) {
+  console.log(`${key} is ${value}`)
+}
+// a is 1, b is 2, c is 3
 ```
 
-**問3**
+**問326**
+
+こちらは副作用がない関数です
 
 ```js
+function add(x, y){
+ return x + y;
+}
+```
+こちらの関数の中身を編集せずにx + yの結果、例えばadd(2, 3)を実行したら値をreturnする前にconsoleで'Result:5'を出力する記述をしてください。
 
+```js
+function add (x, y){
+ return x + y;
+}
+function addAndLog(x, y){
+ var result = add(x, y);
+ console.log(`Result:${result}`);
+ return result;
+}
+addAndLog(2, 3)
+//Result:5
 ```
 
-**問3**
+**問327**
+
+下記のような減算する関数subtractと加算する関数addがあります。
 
 ```js
+function add (x, y){
+ return x + y;
+}
 
+function subtract(x, y){
+ return x - y;
+}
+```
+subtractかaddを渡すと実行結果をreturnする前にそれぞれの関数結果をconsole出力する汎用的な関数logAndReturnを実装してください
+
+```js
+function add (x, y){
+ return x + y;
+}
+function subtract(x, y){
+ return x - y;
+}
+//HigherOrderFunction
+function logAndReturn(func) {
+ return function(){
+   var args = Array.prototype.slice.call(arguments);//返した関数の引数を配列にする
+   var result = func.apply(null, args);//渡された関数に引数を渡し実行する
+   console.log(`Result:${result}`);
+   return result;
+ }
+}
+
+var addAndLog = logAndReturn(add);
+addAndLog(4, 4);
+//'Result:8'
+var subtractAndLog = logAndReturn(subtract);
+subtractAndLog(4, 3);
+//'Result:1'
 ```
 
-**問3**
+**WIP**
+
+//問題文をわかりやすくする
+fun()を実行し、もしキャッシュがあればその値を返し、もしキャッシュがなければその引数をキャッシュのkeyとして値を返す関数を実装してください。
 
 ```js
-
-```
-
-**問3**
-
-```js
-
-```
-
-**問3**
-
-```js
-
-```
-
-**問3**
-
-```js
-
-```
-
-**問3**
-
-```js
-
-```
-
-**問3**
-
-```js
-
-```
-
-**問3**
-
-```js
-
-```
-
-**問3**
-
-```js
-
+function fn() {
+  console.log('Generate cache');
+  const cache = {};
+  return function(a) {
+    let res = cache[a];
+    if (res) {
+      console.log('From cache');
+      return res;
+    } else {
+      console.log('Calculate and save to cache');
+      res = 'value' + a;
+      cache[a] = res;
+      return res;
+    }
+  };
+}
+var fun = fn()
+//Generate cache
+fun(1)
+//Calculate and save to cache
+//1
+fun(1)
+//From cache
+//1
 ```
 
 </details>
 
 
 <details><summary>参照記事</summary>
+
 
 参照
 
@@ -7197,5 +7272,6 @@ http://youmightnotneedjquery.com/
 http://azu.github.io/promises-book/
 http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
 https://github.com/loverajoel/jstips
-https://medium.freecodecamp.com/3-questions-to-watch-out-for-in-a-javascript-interview-725012834ccb#.xw5afqxxz
+https://www.sitepoint.com/react-higher-order-components/
 </details>
+var temp = new Date();
