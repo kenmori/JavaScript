@@ -2,7 +2,7 @@
 
 I update JavaScript practice collection on README for my own confirmation test. Other folders are not working
 
-**Recent updates 4/12/2016**
+**Recent updates 19/02/2017**
 
 
 We gradually change the question sentence here from Japanese to English
@@ -10,11 +10,19 @@ We gradually change the question sentence here from Japanese to English
 Please wait
 
 This book is available at the console of Chrome latest version console, [Google Chrome Canary] (https://www.google.com/chrome/browser/canary.html), [JS Bin] (https: // Jsbin.com/yenaderite/edit?js, console) and other babel / ECMAScript2015, 2016, 2017, environment can be used.
+
+※The answer is one of several descriptions.
+※[日本語ページ](https://gist.github.com/kenmori/1961ce0140dc3307a0e641c8dde6701d)
 If you notice something please post [issues](https://github.com/kenmori/javascript/issues)
 
-<details><summary>Q1〜Q50</summary>
+※[blog](http://kenjimorita.jp/category/javascript/)
+※[Twitter](https://twitter.com/bukostunikki)
+※[GitHub](https://github.com/kenmori)
 
-**Q1**
+
+<details><summary>問1〜問50</summary>
+
+**問1**
 
 ```const a = {a: 'a'}```と```const b = {b: 'b'}```
 をマージした```c```
@@ -735,8 +743,28 @@ arr2
 
 **問35**
 
+
+こちらは2つのパラメーターを足して返すgetSum関数です。
+
+```js
+const getSum = (a, b) => a + b
 ```
-WIP
+このパラメーターに何もわたってこなかった場合Errorをスローすようにしてください
+期待する結果
+getSum(10) //throws b is not defined
+getSum(undefined, 10) //throws a is not defined
+
+
+```js
+const _err = function(message) {
+    throw new Error(message);
+}
+const getSum = (a = _err('a is not defined'), b = _err('b is not defined'))=> a + b
+getSum(10) //throws b is not defined
+getSum(undefined, 10) //throws a is not defined
+
+getSum(10, 20);
+//30
 ```
 
 **問36**
@@ -893,8 +921,10 @@ for in文に関する注意点を3つ挙げてください
 
 **問38**
 
+DOM上にあるdivをnodeListに変換して配列に格納してください
+
 ```js
-WIP
+const nodelist = [...document.querySelectorAll('div')];
 ```
 
 **問39**
@@ -972,8 +1002,41 @@ console.log(arr)//['1','2','3','4'];
 
 **問45**
 
+こちらは要素が2だったらループを抜けたいのだが期待どうり動かない
+期待する出力
+//0, 1
+
 ```
-WIP
+[0, 1, 2, 3, 4].forEach(function(val, i) {
+  if (val === 2) {
+    // how do we stop?
+    return true;
+  }
+  console.log(val);
+});
+// 0, 1, 3, 4
+```
+期待通りになるようにしてください
+
+```js
+//use some
+[0, 1, 2, 3, 4].some(function(val, i) {
+  if (val === 2) {
+    return true;
+  }
+  console.log(val); // your code
+});
+//0, 1
+
+//use for
+const a = [0, 1, 2, 3, 4];
+for (var i = 0; i < a.length; i++) {
+  if (a[i] === 2) {
+    break; // stop the loop
+  }
+  console.log(a[i]);
+}
+//0, 1
 ```
 
 **問46**
@@ -1092,7 +1155,7 @@ map.set('four', 'fafa@eee');
 ```
 
 </details>
-<details><summary>Q51〜Q100</summary>
+<details><summary>問51〜問100</summary>
 **問51**
 
 問50の変数fafa内にある要素を出力してください
@@ -2011,7 +2074,7 @@ if(obj.a)が存在しても未定義だと実行されない
 2 in arry;
 ```
 </details>
-<details><summary>Q101〜Q150</summary>
+<details><summary>問101〜問150</summary>
 
 
 **問101**
@@ -2403,7 +2466,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 &amp;
 ```
 
-**問124 WIP**
+**問124**
 
 実体参照に直すscriptを書いてください
 
@@ -2916,7 +2979,7 @@ target.insertAdjacentHTML(position,html);
 ```
 
 </details>
-<details><summary>Q151〜Q200</summary>
+<details><summary>問151〜問200</summary>
 
 **問151**
 
@@ -3329,14 +3392,87 @@ add(2,3)//5
 
 
 **問171**
+
+こちらのような
 ```
-WIP
+if(condition){
+    dosomething();
+}
+```
+conditionがtrueの時に実行したい関数があった場合、端的に記述してください
+
+
+```js
+condition && dosomething();
 ```
 
 **問172**
 
+こちらは
+
 ```
-WIP
+for (var i=0; i<5; i++) {
+    setTimeout(function(){
+        console.log(i);
+    }, 1000 * (i+1));
+}
+```
+1秒ごとに1からインクリメントされた値が出力されることを期待していますが、実際は5が5回出力されます。
+理由を教えて下さい。
+
+```js
+各タイムアウトはコピーではなく元のiを参照します。
+したがって、forループはiが5になるまで増分し、
+その後タイムアウトが実行され、
+iの現在の値（5）が使用されます。
+
+for (var i=0; i<5; i++) {
+    var temp = i;
+    setTimeout(function(){
+        console.log(temp);
+    }, 1000 * (i+1));
+}
+
+
+ブロックはスコープを作成せず、
+変数の初期化はスコープの先頭に吊り下げられるため、
+これも機能しません。
+実際、前のブロックは次のものと同じです
+var temp;
+for (var i=0; i<5; i++) {
+    temp = i;
+    setTimeout(function(){
+        console.log(temp);
+    }, 1000 * (i+1));
+}
+
+iをコピーする方法はいくつかあります。
+最も一般的な方法は、
+関数を宣言し、iを引数として渡すことによってクロージャを作成することです。
+ここでは、これを自己呼び出し関数として実行します。
+
+for (var i=0; i<5; i++) {
+    (function(num){
+        setTimeout(function(){
+            console.log(num);
+        }, 1000 * (i+1));
+    })(i);
+}
+JavaScriptでは、
+引数は値によって関数に渡されます。
+数値、日付、文字列などのプリミティブ型は基本的にコピーされます。
+関数内でそれらを変更しても、外部スコープには影響しません。
+オブジェクトは特別です。
+内部関数がプロパティを変更した場合、
+その変更はすべてのスコープに反映されます。
+
+これに対するもう1つのアプローチはletを使うことです。
+
+for (let i=0; i<5; i++) {
+    setTimeout(function(){
+        console.log(i);
+    }, 1000 * (i+1));
+}
 ```
 
 **問173**
@@ -3893,7 +4029,7 @@ console.log(key + 'のストレージは' + localStorage[key]);
 ```
 ```
 </details>
-<details><summary>Q201〜Q250</summary>
+<details><summary>問201〜問250</summary>
 
 **問201**
 ローカルストレージの値を存在するだけ列挙してください
@@ -4024,7 +4160,7 @@ SomeClass.prototype.anotherMethod = function () {
     ···
 };
 ```
-とはちがう別の方法でメソッドを定義してください
+こちらとは違う方法(Object.assignを使った方法)でインスタンスメソッドを定義してください
 
 ```js
 Object.assign(SomeClass.prototype, {
@@ -4048,7 +4184,9 @@ const proto = Object.defineProperty({}, 'prop', {
 });
 const obj = Object.create(proto);
 obj.prop = 456;
-    // TypeError: Cannot assign to read-only property
+// TypeError: Cannot assign to read-only property
+obj.prop
+//123
 ```
 
 valueを書き換えてください
@@ -4106,6 +4244,8 @@ deduped
 DOMの中に2016年8月27日00時00分00秒から9月11日00時00分00秒まで<span>セール中</span>が表示されるようにしてください。
 
 ```js
+const today = new Date();
+const myD   = today.getTime();
 const start = new Date(2016,7,27,0,0,0);//設定月 -1
 const myS   = start.getTime();
 const end   = new Date(2016,8,11,0,0,0);//設定月 -1
@@ -4117,6 +4257,7 @@ myS <= myD && myE >= myD && campaignDOM.innerHTML += '<span>セール中</span>'
 ```
 
 **問211**
+
 こちら```[[1,2],[],[3]]```をフラットにしてください
 期待する結果
 //[1, 2, 3]
@@ -4126,6 +4267,10 @@ const myArray = [[1,2],[],[3]];
 const flatArray = Array.prototype.concat.apply([],myArray);
 flatArray
 //[1, 2, 3]
+
+//ex
+[...myArray[0],...myArray[1],...myArray[2]]
+
 ```
 
 **問212**
@@ -4144,9 +4289,9 @@ arr.map(x => x()); // [3,3,3]
 
 
 ```js
-Every i in the bodies of the three arrow functions refers to the same binding,
-which is why they all return the same value.
-If you let-declare a variable, a new binding is created for each loop iteration:
+//Every i in the bodies of the three arrow functions refers to the same binding,
+//which is why they all return the same value.
+//If you let-declare a variable, a new binding is created for each loop iteration:
 
 const arr = [];
 for (let i=0; i < 3; i++) {
@@ -4167,8 +4312,8 @@ arr.map(x => x()); // [0,1,2]
             ['perhaps', 'vielleicht'],
         ];
 ```
-entriesを<div id='content'></div>このなかでaタグを作りentriesインデックス0をidとtextContntになるように、
-さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesのインデックス1が出力されるようにしてください
+entriesを'''<div id="content"></div>'''この中でaタグを作りentries[0]をidとtextContent、
+さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesの[1]が出力されるようにしてください
 
 ```html
 <!doctype html>
@@ -4184,7 +4329,7 @@ entriesを<div id='content'></div>このなかでaタグを作りentriesイン�
             ['no', 'nein'],
             ['perhaps', 'vielleicht'],
         ];
-        const content = document.getElementById('content');
+        const content = document.querySelector('#content');
         for (let [source, target] of entries) { // (A)
             content.insertAdjacentHTML('beforeend',
                 `<div><a id='${source}' href=''>${source}</a></div>`);
@@ -4199,6 +4344,7 @@ entriesを<div id='content'></div>このなかでaタグを作りentriesイン�
 </html>
 
 ```
+[実際のコード](https://jsfiddle.net/zep3dLyy/4/)
 
 **問214**
 
@@ -4238,7 +4384,7 @@ class Faaaa extends Faa {
     super();
     this.name = name;
   }
- getName(){
+ getSpeak(){
    super.speak();
  }
 }
@@ -4246,7 +4392,7 @@ class Faaaa extends Faa {
 var eee = new Faa('kenji');
 eee.speak();
 var iii = new Faaaa('morita');
-iii.getName();
+iii.getSpeak();
 eee.speak();
 ```
 
@@ -4336,6 +4482,8 @@ console.log(!!obj.height)
 
 **問220**
 
+WIP
+
 ```js
 ﻿function add(x, y){
  return x + y;
@@ -4365,7 +4513,7 @@ multiplyAndLog(40,4)
 
 **問221**
 
-document内にいくつあるかわからないh1の先頭から1個を削ったDOMをかえしてください
+document内のh1を全て取得し、インデックス1番目のh1を削った残りを返してください
 
 ```js
 var hoge = document.querySelectorAll('h1');
@@ -4374,17 +4522,20 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 ```
 
 **問222**
-```var a = 'aabbccdde1e23ffgg'; ```と```var a = 'aabbccdde1e23ffgg';```のどちらがさきに数値が現れるか比較してください
+
+```var a = 'aabbccdde1e23ffgg'; ```と```var b = 'aabbccdde1e23ffgg';```がある。
+aとbを比較してaの方が先に数値が現れる場合trueを返してください
 
 ```js
 var a = 'aabbccdde1e23ffgg';
 var b = 'aabbccddee123ffgg';
 
-a.search(/\d/) > b.search(/\d/);
-//false
+a.search(/\d/) < b.search(/\d/);
+//true
 ```
 
 **問223**
+
 ```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
 
 ```js
@@ -4399,6 +4550,7 @@ divarray
 
 **問224**
 
+WIP
 ```js
 var i = 0;
 var array = [];
@@ -4412,7 +4564,8 @@ i += 1;
 
 
 **問225**
-1980年8月1日を表すDateオブジェクトを生成してください
+
+1980年8月1日5時55分を表すDateオブジェクトを生成してください
 
 ```js
 var d = new Date('1980/8/1 5:55');
@@ -4439,6 +4592,8 @@ d.toStoring();
 
 **問227**
 
+WIP
+
 上で作成した時間を現地フォーマットで出力してください
 
 ```js
@@ -4453,6 +4608,7 @@ d.toLocaleTimeString();
 
 
 **問228**
+
 var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
 ```js
 var ary = ['aaa', 'bbb', 'ccc'];
@@ -4464,6 +4620,7 @@ ary
 ```
 
 **問229**
+
 こちらの変数を使って
 var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
 2でも3でも割り切れない数を抽出した配列を生成してください
@@ -4480,6 +4637,7 @@ newAry
 ```
 
 **問230**
+
 ビルドインプロパティを3つ答えなさい
 
 ```js
@@ -4495,6 +4653,7 @@ undefined
 
 
 **問231**
+
 ビルドイン関数を9つ挙げてください
 
 ```js
@@ -4513,6 +4672,7 @@ parseInt(str,[radix])
 
 
 **問232**
+
 こちら
 encodeURIComponenとencodeURIの違いを教えてください
 
@@ -4545,6 +4705,7 @@ s
 ```
 
 **問234**
+
 下の変数sにある
 ```var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
 divの中にあるtextを全て出力してください
@@ -4572,6 +4733,7 @@ divStringAry.join('\n')
 ```
 
 **問235**
+
 2の0乗〜10乗までを格納した配列を作成してください。インデックスはそれぞれ指数(0〜10)となるようにしてください
 
 ```js
@@ -4599,7 +4761,6 @@ for(var n = 0; n <= 10; n++){
 
 ```js
 var ary = [];
-var temp = new Date();
 for (var i = 1; i <= 12; i++){
  var d = 28;
  temp.setMonth(i - 1, d);
@@ -4620,7 +4781,7 @@ ary
 
 **問237**
 
-同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答えてください。オリジンを調べるためのlocationプロパティを答えてください
+同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答え、またオリジンを参照してください
 ```js
 see : https://tools.ietf.org/html/rfc6454
 
@@ -4651,15 +4812,16 @@ hash - #test
 スキーム : http,https
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
-セッションハイジャック :
+セッションハイジャック : サーバーから渡されるセッションIDを盗み正規ユーザーになりすますこと
 
 
 ```
 
 **問238**
+
 location.assignとlocation.replaceの違いを教えてください
 ```js
-//replaceは画面遷移をWebブラウザの履歴に残さ図遷移する
+//replaceは画面遷移をWebブラウザの履歴に残さず遷移する
 
 ```
 
@@ -4692,8 +4854,10 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Ob
 
 
 **問240**
-以下と同じ記述をしてください。
-```
+
+
+Object.createメソッドで以下と同じ記述をしてください。
+```js
 function Constructor(){}
 o = new Constructor();
 ```
@@ -4908,7 +5072,7 @@ pop、push、reverse、shift、sort、splice、unshilft
 ```
 
 </details>
-<details><summary>Q251〜Q300</summary>
+<details><summary>問251〜問300</summary>
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
@@ -4943,9 +5107,61 @@ console.log(obj3.b.a)
 ```
 
 **問252**
+
+このようなobjがあります。
 ```js
-WIP
+var obj = {
+ 'prop1': 'value1',
+ 'prop2': 'value2',
+ 'prop3': 'value3'
+}
 ```
+JSON.stringifyを使って
+
+```
+"{
+	"prop1": "value1",
+	"prop2": "value2"
+}"
+```
+ように出力されるようにしてください(prop3が出力されていない。1タブ分インデントされていることに注意)
+
+```js
+var obj = {
+ 'prop1': 'value1',
+ 'prop2': 'value2',
+ 'prop3': 'value3'
+}
+var str = JSON.stringify(obj, ['prop1', 'prop2'], '\t');
+str
+//
+"{
+	"prop1": "value1",
+	"prop2": "value2"
+}"
+
+
+//ex
+関数で出力を
+function selectedProperties(key, val) {
+    // the first val will be the entire object, key is empty string
+    if (!key) {
+        return val;
+    }
+    if (key === 'prop1' || key === 'prop2') {
+        return val;
+    }
+    return;
+}
+var str = JSON.stringify(obj, selectedProperties, '\t');
+str
+//
+{
+    "prop1": "value1",
+    "prop2": "value2"
+}
+```
+
 
 **問253**
 this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
@@ -4993,9 +5209,99 @@ Emiiter.register(function(){console.log('2')});
 ```
 
 **問256**
+
+こちらはcolorの条件でそれぞれの関数を実行する記述です。
+
 ```js
-//WIP
+var color = "black";
+function printBlack(){
+ console.log('black')
+}
+function printRec(){
+ console.log('red')
+}
+function printBlue(){
+ console.log('blue')
+}
+function printYellow(){
+ console.log('yellow')
+}
+
+if(color){
+ if (color === 'black') {
+  printBlack();
+ } else if (color === 'red'){
+  printRed();
+ } else if (color === 'blue'){
+  printBlue();
+ } else if (color === 'yellow'){
+   printYellow()
+ }
+}
 ```
+これをswitch文に変えたのがこちらですが、
+
+```js
+switch (color){
+ case 'black':
+     printBlack();
+     break;
+ case 'red':
+     printRed();
+     break;
+ case 'blue':
+     printBlue();
+     break;
+ case: 'yellow'
+    printYello();
+}
+```
+
+デバッグしづらいのといくつかの評価をしなくてはならなくなった際につらくなります。
+see: https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/
+
+```js
+switch(true) {
+ case (typeof color === 'string' && color === 'black'):
+    printBlack();
+    break
+    ・
+    ・
+    ・
+}
+```
+
+可能な限りswitch文を使用しないようにするためオブジェクトを介して上記のようにcolorに合った関数を実行してください
+
+```js
+var color = "black";
+
+function printBlack(){
+ console.log('black')
+}
+function printRed(){
+ console.log('red')
+}
+function printBlue(){
+ console.log('blue')
+}
+function printYellow(){
+ console.log('yellow')
+}
+var colorObj = {
+  'black': printBlack,
+  'red': printRed,
+  'blue': printBlue,
+  'yellow': printYellow
+};
+if (color in colorObj) {
+  colorObj[color]();
+}
+//black
+```
+
+
+
 
 **問257**
 こちら['a','b','c’]をこちら{0: 'a’, 1: 'b’, 2: 'c'}のようにしてください
@@ -5298,7 +5604,7 @@ try {
 //Uncaught b
 ```
 
-**問268-WIP**
+**問268**
 
 こちらの
 ```js
@@ -6090,7 +6396,7 @@ $(el).attr('tabindex', 3);
 el.setAttribute('tabindex', 3);
 ```
 </details>
-<details><summary>Q301〜Q350</summary>
+<details><summary>問301〜問350</summary>
 **問301**
 
 こちら
@@ -6252,7 +6558,7 @@ var comp = function(compName){
 initPromise.then(lastName).then(firstName).then(comp);
 //私は今日、運がいいです
 ```
-**問307***
+**問307**
 
 Promseオブジェクト作成時にresolveに数値1を渡すコールバックを呼び出し、console出力され、
 続くthenメソッドで2を足した値を出力してください。
@@ -6272,7 +6578,7 @@ promise1.then(function(val){
 
 
 
-**問308***
+**問308**
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
 ```js
@@ -6302,7 +6608,7 @@ get('list.json').then(function(res){
 ```
 
 
-**問309***
+**問309**
 
 Promiseオブジェクトを使ってこちら
 ```js
@@ -6327,7 +6633,7 @@ say(1000).then(function(){
 })
 ```
 
-**問310***
+**問310**
 
 Promiseを使って0.5秒後毎に文字列の出力がされる非同期処理を実装をしてください
 
@@ -6361,7 +6667,7 @@ f().then(()=> f(500))//「fした後に~する」の中身を実装。この場�
 .then(()=> f(500)) //それが終わったらさらにf
 ```
 
-**問311***
+**問311**
 
 複数の非同期処理の完了を待って'done'を出力する実装をしてください
 
@@ -6381,7 +6687,7 @@ i.then(()=> console.log("done"))
 
 ```
 
-**問312***
+**問312**
 
 'http://localhost:3000/comments',
 'http://localhost:3000/posts',
@@ -6462,7 +6768,7 @@ async function asyncFunction (){
 
 ```
 
-**問314***
+**問314**
 
 [co](https://github.com/tj/co)を使って、
 
@@ -6504,7 +6810,7 @@ const promiseFun = co.wrap( function* (url){
 
 ```
 
-**問315***
+**問315**
 
 coを使ってgeneratorをラップしたfnを実行して、Promiseがresolveするまで処理を止める記述をしてください。※Promise.resolveで任意の値をすぐ返してok
 
@@ -6515,23 +6821,429 @@ coを使ってgeneratorをラップしたfnを実行して、Promiseがresolve�
   fn(true).then(function(val){console.log(val)})
 ```
 
-**Q***
-
+**問316**
+coを使って、1から始まり1秒ごとにインクルメントされた値からパラメーターに渡した数値まで出力される関数を実装、呼び出し元にresolveのpromiseオブジェクトが返ってきたら'done'を出力してください。
 ```js
+  function sleep(i){
+   return new Promise(function(resolve){
+    setTimeout(resolve,1000);
+   })
+  };
+
+  var num = co.wrap(function* (num){
+    for(var i = 1; i <= num; i++) {
+     yield sleep(i);
+     console.log(i)
+    }
+     yield sleep(1)
+   })
+
+  num(5).then(function(num){
+   console.log('done')
+  });
 ```
 
-**Q***
+**問317**
+こちら
+```js
+function asyncFunc() {
+    return otherAsyncFunc()
+    .then(result => {
+        console.log(result);
+    });
+}
+```
+は非同期の結果をハンドリングしています。この処理と同等になるようにasync/awaitで記述してください
 
 ```js
+async function asyncFunc() {
+    const result = await otherAsyncFunc();
+    console.log(result);
+}
+```
+
+
+
+**問318**
+こちら
+```js
+function asyncFunc() {
+    return otherAsyncFunc1()
+    .then(result1 => {
+        console.log(result1);
+        return otherAsyncFunc2();
+    })
+    .then(result2 => {
+        console.log(result2);
+    });
+}
+```
+は非同期の結果が返ってきたら次の非同期処理をしています(逐次処理)。
+この処理と同等になるようにasync/awaitで記述してください
+
+```js
+async function asyncFunc() {
+    const result1 = await otherAsyncFunc1();
+    console.log(result1);
+    const result2 = await otherAsyncFunc2();
+    console.log(result2);
+}
+```
+**問319**
+
+こちら
+```js
+function asyncFunc() {
+    return Promise.all([
+        otherAsyncFunc1(),
+        otherAsyncFunc2(),
+    ])
+    .then([result1, result2] => {
+        console.log(result1, result2);
+    });
+}
+```
+は非同期処理を並列でしています。この処理と同等になるようにasync/awaitで記述してください
+
+```js
+async function asyncFunc() {
+    const [result1, result2] = await Promise.all([
+        otherAsyncFunc1(),
+        otherAsyncFunc2(),
+    ]);
+    console.log(result1, result2);
+}
+```
+
+**問320**
+
+こちらは
+```js
+function asyncFunc() {
+    return otherAsyncFunc()
+    .catch(err => {
+        console.error(err);
+    });
+}
+```
+非同期処理を移譲した先で起きたエラーをハンドリングしています
+この処理と同等になるようにasync/awaitで記述してください
+
+```js
+async function asyncFunc() {
+    try {
+        const result = await otherAsyncFunc();
+    } catch (err) {
+        console.error(err);
+    }
+}
+```
+
+**問321**
+
+イベントデリゲーションに関して。
+こちらのDOMの
+
+```html
+<ul id="todo-app">
+  <li class="item">Walk the dog</li>
+  <li class="item">Pay bills</li>
+  <li class="item">Make dinner</li>
+  <li class="item">Code for one hour</li>
+</ul>
+```
+li要素のそれぞれにイベントリスナーをアタッチしたもが下記です。
+
+```js
+
+document.addEventListener('DOMContentLoaded', function() {
+  let app = document.getElementById('todo-app');
+  let items = app.getElementsByClassName('item');
+
+  // attach event listener to each item
+  for (let item of items) {
+    item.addEventListener('click', function() {
+      alert('you clicked on item: ' + item.innerHTML);
+    });
+  }
+});
+```
+この問題はもしli要素が1000個あった場合1000個のリスナーを作るところにあります。
+これは効率的ではありません。
+全体のコンテナーに対し1つのイベントリスナーをアタッチして上記と同じ動作をするようなイベントデリゲーションを実装してください
+
+```js
+document.addEventListener('DOMContentLoaded', function() {
+
+  let app = document.getElementById('todo-app');
+
+  // attach event listener to whole container
+  app.addEventListener('click', function(e) {
+    if (e.target && e.target.nodeName === 'LI') {
+      let item = e.target;
+      alert('you clicked on item: ' + item.innerHTML);
+    }
+  });
+});
+
+```
+
+**問322**
+
+こちらの実装は配列のインデックスを3000ms後に出力することを期待しています。
+```js
+const arr = [10, 12, 15, 21];
+for (var i = 0; i < arr.length; i++) {
+  setTimeout(function() {
+    console.log('The index of this number is: ' + i);
+  }, 3000);
+}
+//"The index of this number is: 4"
+//"The index of this number is: 4"
+//"The index of this number is: 4"
+//"The index of this number is: 4"
+```
+理由はsetTimeout関数はクロージャーを作り、それはスコープ外への参照を持ちます。
+3秒後には関数は実行されその時ループはすでに終わっていてその際参照するiは4となっているためです。
+
+これを期待する通り
+
+```js
+//"The index of this number is: 0"
+//"The index of this number is: 1"
+//"The index of this number is: 2"
+//"The index of this number is: 3"
+````
+を出力するように実装をしてください。
+
+```js
+
+//変数iをそれぞれのfunctionに渡す
+const arr = [10, 12, 15, 21];
+for (var i = 0; i < arr.length; i++) {
+  // pass in the variable i so that each function
+  // has access to the correct index
+  setTimeout(function(i_local) {
+    return function() {
+      console.log('The index of this number is: ' + i_local);
+    }
+  }(i), 3000);
+}
+
+//let構文を使う。それぞれのfunctionが呼ばれるたびにletは新しいバインディングを作る
+const arr = [10, 12, 15, 21];
+for (let i = 0; i < arr.length; i++) {
+  setTimeout(function() {
+    console.log('The index of this number is: ' + i);
+  }, 3000);
+}
+// read more here: http://exploringjs.com/es6/ch_variables.html#sec_let-const-loop-heads
+```
+**問323**
+こちらのhtmlでcontainer内をscrollした際にイベントを発火させたい。
+
+```html
+<div id="container" style="overflow:scroll;height: 100px;width:200px;background:#e2e2e2">
+  <div style="height:1000px;width:100px;">
+  </div>
+</div>
+```
+
+ただ、window.scrollのイベント毎に発火するとパフォーマンスに深刻な問題を起こす。
+inputにkeypressする際にも起こるようなこのような問題はdebouncingとthrottlingを実装することで解決できる。
+//https://css-tricks.com/debouncing-throttling-explained-examples/
+
+scroll後、2秒後にイベントが発火するdebouncingを実装してください。
+
+```js
+// debounce function that will wrap our event
+function debounce(fn, delay) {
+  // maintain a timer
+  let timer = null;
+  // closure function that has access to timer
+  return function() {
+    // get the scope and parameters of the function
+    // via 'this' and 'arguments'
+    let context = this;
+    let args = arguments;
+    // if event is called, clear the timer and start over
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      fn.apply(context, args);
+    }, delay);
+  }
+}
+
+// function to be called when user scrolls
+function foo() {
+  alert('You are scrolling!');
+}
+
+// wrap our function in a debounce to fire once 2 seconds have gone by
+let elem = document.getElementById('container');
+elem.addEventListener('scroll', debounce(foo, 2000));
+
+
+//https://jsfiddle.net/kenjimorita/2pmpvnqw/1/
+```
+
+**問323**
+変数aに2代入してをaを4乗してください。
+さらにaが16になることを確認してください
+
+```js
+let a = 2;
+a **=4;
+a === Math.pow(2, 4);
+//true
+
+```
+
+**問324**
+
+```js
+let obj = {a: 1, b:2, c:3}
+Object.values(obj).forEach(value=> console.log(value))
+//1
+//2
+//3
+```
+
+こちらをfor-ofで同じ実装にしてください
+
+```js
+let obj = {a:1, b:2, c:3}
+for(let value of Object.values(obj)){
+ console.log(value)
+}
+//1
+//2
+//3
+
+```
+
+**問325**
+
+こちらはentriesで返されるkeyとvalueのペアー配列を要素とした配列をdestructuringしてそれぞれのkeyとvalueを出力しています。
+```js
+let obj = {a:1,b:2,c:3};
+Object.entries(obj).forEach( ([key, value]) => {
+ console.log(`${key} is ${value}`)
+})
+```
+この実装をfor-ofで記述してください
+
+```js
+let obj = {a: 1, b: 2, c: 3}
+for (let [key, value] of Object.entries(obj)) {
+  console.log(`${key} is ${value}`)
+}
+// a is 1, b is 2, c is 3
+```
+
+**問326**
+
+こちらは副作用がない関数です
+
+```js
+function add(x, y){
+ return x + y;
+}
+```
+こちらの関数の中身を編集せずにx + yの結果、例えばadd(2, 3)を実行したら値をreturnする前にconsoleで'Result:5'を出力する記述をしてください。
+
+```js
+function add (x, y){
+ return x + y;
+}
+function addAndLog(x, y){
+ var result = add(x, y);
+ console.log(`Result:${result}`);
+ return result;
+}
+addAndLog(2, 3)
+//Result:5
+```
+
+**問327**
+
+下記のような減算する関数subtractと加算する関数addがあります。
+
+```js
+function add (x, y){
+ return x + y;
+}
+
+function subtract(x, y){
+ return x - y;
+}
+```
+subtractかaddを渡すと実行結果をreturnする前にそれぞれの関数結果をconsole出力する汎用的な関数logAndReturnを実装してください
+
+```js
+function add (x, y){
+ return x + y;
+}
+function subtract(x, y){
+ return x - y;
+}
+//HigherOrderFunction
+function logAndReturn(func) {
+ return function(){
+   var args = Array.prototype.slice.call(arguments);//返した関数の引数を配列にする
+   var result = func.apply(null, args);//渡された関数に引数を渡し実行する
+   console.log(`Result:${result}`);
+   return result;
+ }
+}
+
+var addAndLog = logAndReturn(add);
+addAndLog(4, 4);
+//'Result:8'
+var subtractAndLog = logAndReturn(subtract);
+subtractAndLog(4, 3);
+//'Result:1'
+```
+
+**WIP**
+
+//問題文をわかりやすくする
+fun()を実行し、もしキャッシュがあればその値を返し、もしキャッシュがなければその引数をキャッシュのkeyとして値を返す関数を実装してください。
+
+```js
+function fn() {
+  console.log('Generate cache');
+  const cache = {};
+  return function(a) {
+    let res = cache[a];
+    if (res) {
+      console.log('From cache');
+      return res;
+    } else {
+      console.log('Calculate and save to cache');
+      res = 'value' + a;
+      cache[a] = res;
+      return res;
+    }
+  };
+}
+var fun = fn()
+//Generate cache
+fun(1)
+//Calculate and save to cache
+//1
+fun(1)
+//From cache
+//1
 ```
 
 </details>
 
 
-<details><summary>reference post</summary>
+<details><summary>reference</summary>
 
 
-参照
+reference
 
 http://exploringjs.com/es6/
 https://leanpub.com/understandinges6/read
@@ -6556,4 +7268,7 @@ http://exploringjs.com/es6/ch_overviews.html
 http://www.javascripture.com/DOMTokenList
 http://youmightnotneedjquery.com/
 http://azu.github.io/promises-book/
+http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
+https://github.com/loverajoel/jstips
+https://www.sitepoint.com/react-higher-order-components/
 </details>
