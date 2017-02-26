@@ -7206,7 +7206,199 @@ var subtractAndLog = logAndReturn(subtract);
 subtractAndLog(4, 3);
 //'Result:1'
 ```
+**問328**
+こちらの配列、[1, 2, 3, 3]で、
+要素が重複しない形で返す記述をしてください
+期待する値 [1, 2, 3]
 
+```js
+const arr = [1, 2, 3, 3];
+
+const a = [...new Set([1, 2, 3, 3])];
+console.log(a)
+//[1, 2, 3]
+
+
+//spread operatorが使えない環境下で
+var unique = Array.from(new Set([1,2,2,3,3,3,4,5])); // [1,2,3,4,5]
+
+```
+
+**問329**
+
+applyのユースケースについて。このような関数があります
+
+```js
+//1
+function log(){
+    console.log.apply(console, arguments)
+}
+log('foo');
+```
+と
+```js
+//2
+function log(){
+    console.log(arguments);
+}
+log('foo');
+```
+の違いを教えてください
+
+```js
+//applyを使うと適応された関数に引数として配列を渡すことができます。
+
+//1の場合
+console.log.apply(console, ['foo'])と評価され
+下記が実行されます
+console.log('foo')
+//'foo'
+
+//2の場合
+Arguments objectをそのまま出力することになります
+console.log(['foo'])を実行し、
+//['foo']
+
+//more
+
+//e.g
+
+Math.max(12, 45, 78) //returns 78
+
+//組み込み関数と一緒に使用する
+var max = Math.max.apply(null, [12, 45, 92, 78, 4]);//returns 92
+
+//e.g
+var array = [10, 20, 30];
+function average(){
+    console.log.apply(console, arguments)
+}
+average(array[0], array[1], array[2]);
+//↓
+average.apply(null, array);//簡潔に
+//or
+Function.prototype.apply.call(average, null, array);//上記より安全に
+//or
+Reflect.apply(average, null, array);//上記より簡潔に
+//or
+average(...array);//違う方法で
+
+```
+
+**問330**
+
+こちらの関数
+
+```js
+function foo(x) {
+    if (x > 10) return x + 1;
+
+    var y = x / 2;
+
+    if (y > 3) {
+        if (x % 2 == 0) return x;
+    }
+
+    if (y > 1) return y;
+
+    return x;
+}
+
+foo(2);
+foo(4);
+foo(8);
+foo(12);
+
+```
+を実行したらそれぞれ何が返るかお答えください
+
+
+```js
+//2
+//2
+//8
+//13
+```
+
+**問331**
+
+以下の関数を実行すると
+
+```js
+function foo(a, b) {
+    arguments[1] = 2;
+    console.log(b);
+}
+foo(1);
+```
+bとして出力するのは何ですか?
+``
+
+```js
+undefined
+```
+
+
+**問332**
+
+以下
+
+```js
+NaN === NaN
+```
+出力するのは何ですか?
+```
+false
+```
+
+**問**
+```js
+var arr = ["a", , "c"];
+var sparseKeys = Object.keys(arr);
+var denseKeys = [...arr.keys()];
+console.log(sparseKeys); // ['0', '2']
+console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
+
+**問**
+```js
+```
 **WIP**
 
 //問題文をわかりやすくする
@@ -7274,4 +7466,3 @@ http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchrono
 https://github.com/loverajoel/jstips
 https://www.sitepoint.com/react-higher-order-components/
 </details>
-var temp = new Date();
