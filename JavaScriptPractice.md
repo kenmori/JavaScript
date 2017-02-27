@@ -2,7 +2,7 @@
 
 I update JavaScript practice collection on README for my own confirmation test. Other folders are not working
 
-**Recent updates 19/02/2017**
+**Recent updates 27/02/2017**
 
 
 We gradually change the question sentence here from Japanese to English
@@ -20,13 +20,11 @@ If you notice something please post [issues](https://github.com/kenmori/javascri
 ※[GitHub](https://github.com/kenmori)
 
 
-<details><summary>問1〜問50</summary>
+<details><summary>Q1〜Q50</summary>
 
-**問1**
+**Q1**
 
-```const a = {a: 'a'}```と```const b = {b: 'b'}```
-をマージした```c```
-を出力してください
+output ```c``` merged ```const a = {a: 'a'}```and```const b = {b: 'b'}```
 e.g```{a:'a',b:'b'}```
 
 ```js
@@ -36,12 +34,13 @@ const c = Object.assign(a, b);
 c //{a: 'a', b: 'b'}
 ```
 
-**問2**
+**Q2**
 
+Using the code below,
 ```js
 const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 ```
-のdd,ee,ffを新たな配列として返してください
+return a newly generated array including 'dd','ee','ff' elements
 
 ```js
 const newArry = arry.slice(-4,-1);
@@ -49,9 +48,11 @@ const newArry = arry.slice(-4,-1);
 const newArry = arry.slice(3,-1);
 ```
 
-**問3**
+**Q3**
 
-const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
+Using the code below,
+```const arry = ['a','b’] ```
+output elements of array one by one
 
 ```js
 const arry = ['a','b'];
