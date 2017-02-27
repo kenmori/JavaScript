@@ -37,6 +37,7 @@ c //{a: 'a', b: 'b'}
 **Q2**
 
 Using the code below,
+
 ```js
 const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 ```
@@ -51,6 +52,7 @@ const newArry = arry.slice(3,-1);
 **Q3**
 
 Using the code below,
+
 ```const arry = ['a','b’] ```
 output elements of array one by one
 
@@ -63,9 +65,14 @@ arry.forEach(function(elem,i){
 //'b'
 ```
 
-**問4**
+**Q4**
 
-```const arry = ['a', 'b']```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
+```const arry = ['a', 'b']```
+
+output a character string by adding the index value to each element
+
+
+```e.g 'a0'```and```'b1'```
 
 ```js
 const arry = ['a','b'];
