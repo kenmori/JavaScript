@@ -196,7 +196,7 @@ str
 //'abc'
 ```
 
-**問10**
+**Q10**
 
 こちら
 
@@ -266,7 +266,7 @@ foo.bar
 
 ```
 
-**問11**
+**Q11**
 ```js
 var arry =[
   {id:1,name:'morita'},
@@ -2074,7 +2074,7 @@ if(obj.a)が存在しても未定義だと実行されない
 2 in arry;
 ```
 </details>
-<details><summary>問101〜問150</summary>
+<details><summary>Q101〜Q150</summary>
 
 
 **問101**
@@ -2979,7 +2979,7 @@ target.insertAdjacentHTML(position,html);
 ```
 
 </details>
-<details><summary>問151〜問200</summary>
+<details><summary>Q151〜Q200</summary>
 
 **問151**
 
@@ -4029,7 +4029,7 @@ console.log(key + 'のストレージは' + localStorage[key]);
 ```
 ```
 </details>
-<details><summary>問201〜問250</summary>
+<details><summary>Q201〜Q250</summary>
 
 **問201**
 ローカルストレージの値を存在するだけ列挙してください
@@ -5072,7 +5072,7 @@ pop、push、reverse、shift、sort、splice、unshilft
 ```
 
 </details>
-<details><summary>問251〜問300</summary>
+<details><summary>Q251〜Q300</summary>
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
@@ -6396,7 +6396,7 @@ $(el).attr('tabindex', 3);
 el.setAttribute('tabindex', 3);
 ```
 </details>
-<details><summary>問301〜問350</summary>
+<details><summary>Q301〜Q350</summary>
 **問301**
 
 こちら
