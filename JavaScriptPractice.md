@@ -1155,8 +1155,8 @@ map.set('four', 'fafa@eee');
 ```
 
 </details>
-<details><summary>問51〜問100</summary>
-**問51**
+<details><summary>Q51〜Q100</summary>
+**Q51**
 
 問50の変数fafa内にある要素を出力してください
 //期待する出力
