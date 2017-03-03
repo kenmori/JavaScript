@@ -83,20 +83,19 @@ arry.forEach(function(key,i){
 //'b1'
 ```
 
-**問5**
+**Q5**
 
-```const arry = [1,2]```と定義して配列かどうかを評価してください
+```const arry = [1,2]```
+evaluate whether this array
 e.g true
 
 ```js
 Array.isArray(arry) //true
 //arry instanceof Array //true
-//instanceof比較は継承しているオブジェクトのインスタンス比較なので
-// aryy instanceof Objectでもtrueが返ってくる
 ```
 
-**問6**
-こちら
+**Q6**
+
 ```js
 //1
 if (typeof x === 'undefined') {
@@ -108,20 +107,15 @@ if(x === undefined){
  ???
 }
 ```
-変数xが定義されていない場合上の1、2は実行されますか?
+If the variable x is not defined, will it execute 1 and 2?
 
 ```
-//1は実行される
-//2は実行されない(ReferenceError)
+//1 is executed
+//2 is not excuted (ReferenceError)
 
-//typeofは変数が存在しない場合エラーは投げない。
-//ただこのような値の存在チェックは避けるべき
-//グローバル上の値のチェックはfor in
 ```
 
-**問7**
-
-こちら
+**Q7**
 
 ```js
 //1
@@ -130,16 +124,16 @@ if (x === void 0) {
 }
 
 //2
-// 直前まで y は宣言されていない
+// Y not declared until just before
 if (y === void 0) {
 }
 ```
-1,2はそれぞれ実行されますか
+Will it execute 1 and 2 ??
 
 ```
+
 //1は宣言はされているが値が割り当てられていない場合です。
 //実行される
-
 
 //2は宣言されていない場合です。
 //実行されない
@@ -158,9 +152,7 @@ console.log(!!void(0)); //false
 
 ```
 
-**問8**
-
-下記
+**Q8**
 
 ```js
 const obj = {
