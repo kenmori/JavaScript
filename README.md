@@ -1,8 +1,8 @@
 ## JavaScript練習問題集
 
-**2017/3/15更新**
+**2017/5/4更新**
 
-最新の変更箇所 : 不要な記述修正
+最新の変更箇所 : 問333を追加
 
 こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/)が自身のテストとして作ったJavaScript練習問題集です。
 
@@ -7362,6 +7362,72 @@ console.log(sparseKeys); // ['0', '2']
 console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない
 ```
 
+
+**問333**
+
+こちらを順にお答えください。
+
+```js
+| y                 | x                 | == | === | Object.is() |
+|-------------------|-------------------|----|-----|-------------|
+| undefined         | undefined         |    |     |             |
+| null              | null              |    |     |             |
+| true              | true              |    |     |             |
+| false             | false             |    |     |             |
+| 'foo'             | 'foo'             |    |     |             |
+| 0                 | 0                 |    |     |             |
+| +0                | -0                |    |     |             |
+| 0                 | false             |    |     |             |
+| ""                | false             |    |     |             |
+| ""                | 0                 |    |     |             |
+| '0'               | 0                 |    |     |             |
+| '17'              | 17                |    |     |             |
+| [1, 2]            | '1,2'             |    |     |             |
+| new String('foo') | 'foo'             |    |     |             |
+| null              | undefined         |    |     |             |
+| null              | false             |    |     |             |
+| undefined         | false             |    |     |             |
+| {foo: 'bar'}      | {foo: 'bar'}      |    |     |             |
+| new String('foo') | new String('foo') |    |     |             |
+| 0                 | null              |    |     |             |
+| 0                 | NaN               |    |     |             |
+| 'foo'             | NaN               |    |     |             |
+| NaN               | NaN               |    |     |             |
+
+```
+
+答え
+
+```js
+| y                 | x                 | ==    | ===   | Object.is() |
+|-------------------|-------------------|-------|-------|-------------|
+| undefined         | undefined         | true  | true  | true        |
+| null              | null              | true  | true  | true        |
+| true              | true              | true  | true  | true        |
+| false             | false             | true  | true  | true        |
+| 'foo'             | 'foo'             | true  | true  | true        |
+| 0                 | 0                 | true  | true  | true        |
+| +0                | -0                | true  | true  | false       |
+| 0                 | false             | true  | false | false       |
+| ""                | false             | true  | false | false       |
+| ""                | 0                 | true  | false | false       |
+| '0'               | 0                 | true  | false | false       |
+| '17'              | 17                | true  | false | false       |
+| [1, 2]            | '1,2'             | true  | false | false       |
+| new String('foo') | 'foo'             | true  | false | false       |
+| null              | undefined         | true  | false | false       |
+| null              | false             | false | false | false       |
+| undefined         | false             | false | false | false       |
+| {foo: 'bar'}      | {foo: 'bar'}      | false | false | false       |
+| new String('foo') | new String('foo') | false | false | false       |
+| 0                 | null              | false | false | false       |
+| 0                 | NaN               | false | false | false       |
+| 'foo'             | NaN               | false | false | false       |
+| NaN               | NaN               | false | false | true        |
+
+
+```
+
 **問**
 ```js
 ```
@@ -7467,4 +7533,5 @@ http://azu.github.io/promises-book/
 http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
 https://github.com/loverajoel/jstips
 https://www.sitepoint.com/react-higher-order-components/
+http://www.jstips.co/en/javascript/
 </details>
