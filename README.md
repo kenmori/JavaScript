@@ -1,10 +1,9 @@
 ## JavaScript練習問題集
 
 **2017/5/4更新**
+更新情報: 問333を追加
 
-最新の変更箇所 : 問333を追加
-
-こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/)が自身のテストとして作ったJavaScript練習問題集です。
+## こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/)が自身のテストとして作ったJavaScript練習問題集です。
 
 ※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017が使える環境で試されることを想定しています。
 
@@ -17,10 +16,13 @@
 置き換えていただけたらと思います。
 
 *★を押していただけたら今後もやる気出ます。よろしくお願いします。
-※[blog/JavaScript](http://kenjimorita.jp/category/javascript/)
-※[Twitter](https://twitter.com/bukostunikki)
-※[GitHub](https://github.com/kenmori)
 
+
+※[blog/JavaScript](http://kenjimorita.jp/category/javascript/)
+
+※[Twitter](https://twitter.com/bukostunikki)
+
+※[GitHub](https://github.com/kenmori)
 
 ※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
 
@@ -216,7 +218,7 @@ var(let) や function文中の変数はnon-configurableであり削除できな�
 
 //globaleオブジェクト
 x = 43;
-delete x
+delete x 
 //true //暗黙に定義されたglobale変数なので
 
 //var宣言
@@ -265,7 +267,7 @@ foo.bar
 
 //プロトタイプ上でプロパティを削除
 delete foo.prototype.bar;
-foo.bar
+foo.bar 
 //undefined
 
 ```
@@ -490,7 +492,7 @@ array.sort();
 
 **問22**
 
-上記の配列を大文字小文字区別なく順番通りにしてください。期待する値```[a','B','c', 'e','k']```
+上記の配列を大文字小文字区別なく順番通りにしてください。期待する値```['a','B','c', 'e','k']```
 
 ```js
 var array = ['e','a','k','B','c'];
@@ -4502,7 +4504,7 @@ function withLogging(wrappedFunction){
     return result;
   };
  }
-
+ 
 var addAndLog = withLogging(add);
 addAndLog(1, 2)
 //result 3
@@ -4765,6 +4767,7 @@ for(var n = 0; n <= 10; n++){
 
 ```js
 var ary = [];
+var temp = new Date();
 for (var i = 1; i <= 12; i++){
  var d = 28;
  temp.setMonth(i - 1, d);
@@ -4817,7 +4820,7 @@ hash - #test
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
 セッションハイジャック : サーバーから渡されるセッションIDを盗み正規ユーザーになりすますこと
-
+ 
 
 ```
 
@@ -4923,7 +4926,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 
 **問243**
-let n = '124';を数値に変換してください。
+let n = '124';を数値に変換してください。 
 
 ```js
 let n = '124';
@@ -4979,7 +4982,7 @@ o && o.f && o.f();
 **問246**
 ```var v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
-
+ 
 ```js
 var n = +v || 0;
 ```
@@ -5188,7 +5191,7 @@ e.g  const obj = {add : function(){some}};
 var obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
-var obj = { foo: 'bar', baz: 42 };
+var obj = { foo: 'bar', baz: 42 }; 
 var map = new Map(Object.entries(obj));
 console.log(map); // Map { foo: 'bar', baz: 42 }
 
@@ -5637,37 +5640,37 @@ const foo = (name, callback) => {
         callback(name);
     }, 100);
 };
-
+ 
 const curry = (method, ...args) => {
     return (callback) => {
         args.push(callback);
         return method.apply({}, args);
     };
 };
-
+ 
 const controller = (generator) => {
     const iterator = generator();
-
+ 
     const advancer = (response) => {
         var state;
-
+ 
         state = iterator.next(response);
-
+ 
         if (!state.done) {
             state.value(advancer);
         }
     }
-
+ 
     advancer();
 };
-
+ 
 controller(function* () {
     const a = yield curry(foo, 'a');
     const b = yield curry(foo, 'b');
     const c = yield curry(foo, 'c');
     console.log(a, b, c);
 });
-
+ 
 // a
 // b
 // c
@@ -7208,6 +7211,7 @@ var subtractAndLog = logAndReturn(subtract);
 subtractAndLog(4, 3);
 //'Result:1'
 ```
+
 **問328**
 こちらの配列、[1, 2, 3, 3]で、
 要素が重複しない形で返す記述をしてください
@@ -7353,16 +7357,6 @@ NaN === NaN
 false
 ```
 
-**問**
-```js
-var arr = ["a", , "c"];
-var sparseKeys = Object.keys(arr);
-var denseKeys = [...arr.keys()];
-console.log(sparseKeys); // ['0', '2']
-console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない
-```
-
-
 **問333**
 
 こちらを順にお答えください。
@@ -7428,45 +7422,7 @@ console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない
 
 ```
 
-**問**
-```js
-```
 
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
-
-**問**
-```js
-```
 **WIP**
 
 //問題文をわかりやすくする
