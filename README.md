@@ -7363,19 +7363,134 @@ console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない
 ```
 
 **問**
+
+bは何を出力しますか？
 ```js
+(function() {
+   var a = b = 5;
+})();
+
+console.log(b);
+
+```
+
+```js
+(function() {
+   var a = b = 5;
+})();
+
+console.log(b);
+//5
+//strict modeではないIIFE内のaはvarキーワードで宣言しているためfunction内のlocal変数。
+//bはglobal変数になります。
+
+//strict modeでは「Uncaught ReferenceError」になるので明示的にしなくてはいけません。
+
+(function() {
+   'use strict';
+   var a = window.b = 5;
+})();
+
+console.log(b);
+
+```
+
+
+**問**
+
+下のように
+
+```js
+console.log('hello'.repeatify(3));
+//hellohellohello.
+
+```
+Stringオブジェクト上に整数値を受け取ってその数だけrepeatするrepeatify関数を定義してください。
+
+```js
+String.prototype.repeatify = String.prototype.repeatify || function(times) {
+   var str = '';
+
+   for (var i = 0; i < times; i++) {
+      str += this;
+   }
+
+   return str;
+};
 ```
 
 **問**
+
+下のコードは
 ```js
+function test() {
+   console.log(a);
+   console.log(foo());
+
+   var a = 1;
+   function foo() {
+      return 2;
+   }
+}
+
+test();
+```
+何を出力しますか。またどうしてですか？
+
+```js
+//undefined
+//2
+
+
+//変数と関数は巻き上げられます(関数の上部に移動します。hoisted)
+//ただ変数はどんな割り当ても保持しません。
+//function内には存在するが状態はundefinedです。
+
+//問題のコードは下記と同じです
+function test() {
+   var a;
+   function foo() {
+      return 2;
+   }
+
+   console.log(a);//undefined
+   console.log(foo());//2
+
+   a = 1;
+}
+test();
 ```
 
 **問**
-```js
-```
 
-**問**
+下記コードは
 ```js
+var fullname = 'John Doe';
+var obj = {
+   fullname: 'Colin Ihrig',
+   prop: {
+      fullname: 'Aurelio De Rosa',
+      getFullname: function() {
+         return this.fullname;
+      }
+   }
+};
+
+console.log(obj.prop.getFullname());
+
+var test = obj.prop.getFullname;
+
+console.log(test());
+
+```
+何を出力しますか
+
+```js
+//Aurelio De Rosa
+//John Doe
+
+
+
 ```
 
 **問**
@@ -7467,4 +7582,5 @@ http://azu.github.io/promises-book/
 http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
 https://github.com/loverajoel/jstips
 https://www.sitepoint.com/react-higher-order-components/
+https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
 </details>
