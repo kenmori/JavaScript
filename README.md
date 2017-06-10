@@ -7353,18 +7353,118 @@ NaN === NaN
 false
 ```
 
-**問**
+**問333**
+
+こちらを順にお答えください。
+
 ```js
-var arr = ["a", , "c"];
-var sparseKeys = Object.keys(arr);
-var denseKeys = [...arr.keys()];
-console.log(sparseKeys); // ['0', '2']
-console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない
+| y                 | x                 | == | === | Object.is() |
+|-------------------|-------------------|----|-----|-------------|
+| undefined         | undefined         |    |     |             |
+| null              | null              |    |     |             |
+| true              | true              |    |     |             |
+| false             | false             |    |     |             |
+| 'foo'             | 'foo'             |    |     |             |
+| 0                 | 0                 |    |     |             |
+| +0                | -0                |    |     |             |
+| 0                 | false             |    |     |             |
+| ""                | false             |    |     |             |
+| ""                | 0                 |    |     |             |
+| '0'               | 0                 |    |     |             |
+| '17'              | 17                |    |     |             |
+| [1, 2]            | '1,2'             |    |     |             |
+| new String('foo') | 'foo'             |    |     |             |
+| null              | undefined         |    |     |             |
+| null              | false             |    |     |             |
+| undefined         | false             |    |     |             |
+| {foo: 'bar'}      | {foo: 'bar'}      |    |     |             |
+| new String('foo') | new String('foo') |    |     |             |
+| 0                 | null              |    |     |             |
+| 0                 | NaN               |    |     |             |
+| 'foo'             | NaN               |    |     |             |
+| NaN               | NaN               |    |     |             |
+
 ```
 
-**問**
+答え
 
-bは何を出力しますか？
+```js
+| y                 | x                 | ==    | ===   | Object.is() |
+|-------------------|-------------------|-------|-------|-------------|
+| undefined         | undefined         | true  | true  | true        |
+| null              | null              | true  | true  | true        |
+| true              | true              | true  | true  | true        |
+| false             | false             | true  | true  | true        |
+| 'foo'             | 'foo'             | true  | true  | true        |
+| 0                 | 0                 | true  | true  | true        |
+| +0                | -0                | true  | true  | false       |
+| 0                 | false             | true  | false | false       |
+| ""                | false             | true  | false | false       |
+| ""                | 0                 | true  | false | false       |
+| '0'               | 0                 | true  | false | false       |
+| '17'              | 17                | true  | false | false       |
+| [1, 2]            | '1,2'             | true  | false | false       |
+| new String('foo') | 'foo'             | true  | false | false       |
+| null              | undefined         | true  | false | false       |
+| null              | false             | false | false | false       |
+| undefined         | false             | false | false | false       |
+| {foo: 'bar'}      | {foo: 'bar'}      | false | false | false       |
+| new String('foo') | new String('foo') | false | false | false       |
+| 0                 | null              | false | false | false       |
+| 0                 | NaN               | false | false | false       |
+| 'foo'             | NaN               | false | false | false       |
+| NaN               | NaN               | false | false | true        |
+
+
+```
+
+
+**問334**
+
+こちら
+
+```js
+(function(){
+  return typeof arguments;
+})();
+```
+
+を実行した際の返値を教えてください
+
+```js
+(function(){
+  return typeof arguments;
+})();
+
+//"object"
+
+//argumentsはarray likeです。[]やインデックスにはアクセスできますが、pushなどのメソッドは存在しません。
+//typeof でarrayはobjectを返します。なぜならarrayも参照型のobjectだからです。
+
+```
+
+**問335**
+こちら
+
+```js
+const arr = ["a", , "c"];
+const sparseKeys = Object.keys(arr);
+const denseKeys = [...arr.keys()];
+
+```
+のsparseKeysとdenseKeysを出力した際の違いを教えてください
+
+```
+const arr = ["a", , "c"];
+const sparseKeys = Object.keys(arr);
+const denseKeys = [...arr.keys()];
+console.log(sparseKeys); // ['0', '2'] //要素はstring
+console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない //要素は数値
+```
+
+**問336**
+
+こちら
 ```js
 (function() {
    var a = b = 5;
@@ -7373,6 +7473,7 @@ bは何を出力しますか？
 console.log(b);
 
 ```
+bは何を出力しますか？
 
 ```js
 (function() {
@@ -7381,21 +7482,47 @@ console.log(b);
 
 console.log(b);
 //5
+
 //strict modeではないIIFE内のaはvarキーワードで宣言しているためfunction内のlocal変数。
 //bはglobal変数になります。
 
-//strict modeでは「Uncaught ReferenceError」になるので明示的にしなくてはいけません。
+//strict modeでは「Uncaught ReferenceError」になります。
+(function() {
+   'use strict';
+   let a = b = 5;
+})();
+console.log(b);//Uncaught ReferenceError: b is not defined
 
+その場合明示的にしなくてはいけません。
 (function() {
    'use strict';
    var a = window.b = 5;
 })();
 
 console.log(b);
+//5
 
 ```
 
+**問337**
 
+こちら
+
+```js
+var f = function g(){ return 23; };
+typeof g();
+```
+は何を返しますか？？
+
+```js
+var f = function g(){ return 23; };
+typeof g();
+//Uncaught ReferenceError: g is not defined
+
+//エラーが起こります。function g(){ return 23; }は関数式で関数宣言ではありません。
+この関数は実際にはfにバインドされていてgではありません。
+//関数式に識別子を指定するとそれ自体使うことをスルーされます
+```
 **問**
 
 下のように
