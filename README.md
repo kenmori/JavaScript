@@ -1,7 +1,7 @@
 ## JavaScript練習問題集
 
-**2017/5/4更新**
-問333を追加
+**2017/6/11更新**
+問334~337を追加
 
 ## こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/)が自身のテストとして作ったJavaScript練習問題集です。
 
@@ -7423,6 +7423,207 @@ false
 ```
 
 
+**問334**
+
+こちら
+
+```js
+(function(){
+  return typeof arguments;
+})();
+```
+
+を実行した際の返値を教えてください
+
+```js
+(function(){
+  return typeof arguments;
+})();
+
+//"object"
+
+//argumentsはarray likeです。[]やインデックスにはアクセスできますが、pushなどのメソッドは存在しません。
+//typeof でarrayはobjectを返します。なぜならarrayも参照型のobjectだからです。
+
+```
+
+**問335**
+こちら
+
+```js
+const arr = ["a", , "c"];
+const sparseKeys = Object.keys(arr);
+const denseKeys = [...arr.keys()];
+
+```
+のsparseKeysとdenseKeysを出力した際の違いを教えてください
+
+```
+const arr = ["a", , "c"];
+const sparseKeys = Object.keys(arr);
+const denseKeys = [...arr.keys()];
+console.log(sparseKeys); // ['0', '2'] //要素はstring
+console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない //要素は数値
+```
+
+**問336**
+
+こちら
+```js
+(function() {
+   var a = b = 5;
+})();
+
+console.log(b);
+
+```
+bは何を出力しますか？
+
+```js
+(function() {
+   var a = b = 5;
+})();
+
+console.log(b);
+//5
+
+//strict modeではないIIFE内のaはvarキーワードで宣言しているためfunction内のlocal変数。
+//bはglobal変数になります。
+
+//strict modeでは「Uncaught ReferenceError」になります。
+(function() {
+   'use strict';
+   let a = b = 5;
+})();
+console.log(b);//Uncaught ReferenceError: b is not defined
+
+その場合明示的にしなくてはいけません。
+(function() {
+   'use strict';
+   var a = window.b = 5;
+})();
+
+console.log(b);
+//5
+
+```
+
+**問337**
+
+こちら
+
+```js
+var f = function g(){ return 23; };
+typeof g();
+```
+は何を返しますか？？
+
+```js
+var f = function g(){ return 23; };
+typeof g();
+//Uncaught ReferenceError: g is not defined
+
+//エラーが起こります。function g(){ return 23; }は関数式で関数宣言ではありません。
+この関数は実際にはfにバインドされていてgではありません。
+//関数式に識別子を指定するとそれ自体使うことをスルーされます
+```
+
+**問**
+
+下のように
+
+```js
+console.log('hello'.repeatify(3));
+//hellohellohello.
+
+```
+Stringオブジェクト上に整数値を受け取ってその数だけrepeatするrepeatify関数を定義してください。
+
+```js
+String.prototype.repeatify = String.prototype.repeatify || function(times) {
+   var str = '';
+
+   for (var i = 0; i < times; i++) {
+      str += this;
+   }
+
+   return str;
+};
+```
+
+**問**
+
+下のコードは
+```js
+function test() {
+   console.log(a);
+   console.log(foo());
+
+   var a = 1;
+   function foo() {
+      return 2;
+   }
+}
+
+test();
+```
+何を出力しますか。またどうしてですか？
+
+```js
+//undefined
+//2
+
+
+//変数と関数は巻き上げられます(関数の上部に移動します。hoisted)
+//ただ変数はどんな割り当ても保持しません。
+//function内には存在するが状態はundefinedです。
+
+//問題のコードは下記と同じです
+function test() {
+   var a;
+   function foo() {
+      return 2;
+   }
+
+   console.log(a);//undefined
+   console.log(foo());//2
+
+   a = 1;
+}
+test();
+```
+
+**問**
+
+下記コードは
+```js
+var fullname = 'John Doe';
+var obj = {
+   fullname: 'Colin Ihrig',
+   prop: {
+      fullname: 'Aurelio De Rosa',
+      getFullname: function() {
+         return this.fullname;
+      }
+   }
+};
+
+console.log(obj.prop.getFullname());
+
+var test = obj.prop.getFullname;
+
+console.log(test());
+
+```
+何を出力しますか
+
+```js
+//Aurelio De Rosa
+//John Doe
+
+```
+
+
 **WIP**
 
 //問題文をわかりやすくする
@@ -7489,5 +7690,6 @@ http://azu.github.io/promises-book/
 http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
 https://github.com/loverajoel/jstips
 https://www.sitepoint.com/react-higher-order-components/
+https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
 http://www.jstips.co/en/javascript/
 </details>

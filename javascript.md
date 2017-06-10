@@ -3278,7 +3278,23 @@ mother1 === mother2
 ```
 
 **問174**
+
 ```js
+(function(){
+  return typeof arguments;
+})();
+```
+
+こちらを実行した際の返値を教えてください
+
+```js
+(function(){
+  return typeof arguments;
+})();
+
+//"object"
+
+
 ```
 
 **問000**
