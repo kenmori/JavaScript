@@ -3088,10 +3088,10 @@ var obj = {
  twon: 'shibuya'
 }
 var {name, twon} = obj;
-obj.name
-"kenji"
-obj.twon
-"shibuya"
+name
+//"kenji"
+twon
+//"shibuya"
 ```
 
 **問156**
@@ -3128,7 +3128,7 @@ b
 
 **問158**
 
-上記と同じ事をECMAScript2015ライクに簡潔に記述してください
+上記(問157)と同じ事をECMAScript2015ライクに簡潔に記述してください
 
 ```js
 var a = 1;
@@ -3233,7 +3233,8 @@ DOMのspanタグの分だけ取得してNodeListをArrayに変えてください
 ```js
 var tag = document.getElementsByTagName('span');
 var array = Array.prototype.slice.call(tag);
-console.log(array instanceof Array );
+Array.isArray(array);
+//true
 ```
 
 **問164**
@@ -3295,7 +3296,7 @@ FIRST_ORDERED_NODE_TYPe :9
 
 こちら
 ```html
-<div id="target" class="foo-after" onClick="toggleStyle()">
+<div id="target" class="foo-after">
   click here!
 </div>
 ```
@@ -3303,10 +3304,12 @@ clickをしたらclass名がfoo-beforeに変わるtoggleStyleを実装をして�
 
 ```js
 var target = document.getElementById('target');
-target.onclick = function toggleStyle() {
+target.onclick = function() {
   this.classList.toggle('foo-after');
   this.classList.toggle('foo-before');
+  console.log(this.classList);
 }
+//https://jsbin.com/qimipoyijo/edit?html,js,console,output
 ```
 
 
@@ -3583,25 +3586,18 @@ let flat = {};
 })
 flat
 //[0, 1, 2, 3, 4, 5]
+
+//other
+[...[0, 1], ...[2, 3], ...[4,5]]
+//[0, 1, 2, 3, 4, 5]
 ```
 
 **問178**
 
-下記の関数式としての宣言は
+
 
 ```js
-// bad
-const foo = function () {
-};
-```
-なぜ好ましくないとされているか答えてください
-
-```js
-//コールスタックに識別しやすくされている
-//アロー関数が使える
-// good
-function foo() {
-}
+WIP
 ```
 
 **問179**
