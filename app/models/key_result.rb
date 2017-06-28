@@ -1,0 +1,2 @@
+class KeyResult < ApplicationRecord
+end

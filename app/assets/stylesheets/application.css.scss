@@ -1,0 +1,73 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+@import url('//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css');
+@import url(http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css);
+
+body {
+  margin: 0;
+  font-family: 'M+ Type-1 (general-j) Regular', sans-serif;
+}
+
+main {
+  margin: 8px;
+}
+
+.wrapper {
+}
+
+.content {
+  display: flex;
+}
+
+a.active {
+  font-weight: bold;
+}
+
+.okr-setting-page {
+  text-align: center;
+}
+
+.okr-tabs {
+  margin: 20px 0;
+}
+
+.okr-tabs > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.okr-tabs .tab {
+  border: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.center {
+  text-align: center;
+}
+
+.continue-check-box {
+  margin-bottom: 15px;
+}
+
+.okr-tabs {
+  .tab {
+    display: flex !important;
+  }
+}
