@@ -1,5 +1,8 @@
 ## JavaScript練習問題集
 
+**2017/7/1更新**
+問337~346を追加
+
 **2017/6/11更新**
 問334~337を追加
 
@@ -7524,7 +7527,7 @@ typeof g();
 //関数式に識別子を指定するとそれ自体使うことをスルーされます
 ```
 
-**問**
+**問338**
 
 下のように
 
@@ -7547,7 +7550,7 @@ String.prototype.repeatify = String.prototype.repeatify || function(times) {
 };
 ```
 
-**問**
+**問339**
 
 下のコードは
 ```js
@@ -7589,7 +7592,7 @@ function test() {
 test();
 ```
 
-**問**
+**問340**
 
 下記コードは
 ```js
@@ -7619,6 +7622,162 @@ console.log(test());
 
 ```
 
+
+**問341**
+
+
+第一引数で受け取った数値に3を足して返す関数add3を第一引数に渡すとfを2回繰り返す関数twice。
+```js
+twice(add3, 7);
+```
+初期値として7をtwiceの第二引数に渡し、13を出力してください。
+
+
+```js
+function add3(v){
+ return v + 3
+}
+
+function twice(f, v){
+ return f(f(v))
+}
+
+twice(add3, 7);
+//13
+```
+
+**問342**
+
+こちらの
+```js
+logStuff({name: 'morita', job: engineer}, log);
+```
+を実行したら
+
+```
+//name morita
+//job engineer
+```
+と出力する関数logStuffを実装してください。また、第二引数として渡すlogはlogStuffの第一引数のkey,valueを出力するコールバック関数です。
+objはlogStuffの中でString型かObject型かチェックしてください。
+
+```js
+var arr = [];
+function log(obj){
+  if (typeof obj === 'string'){
+    console.log(obj);
+  } else if (typeof obj === 'object'){
+    Object.keys(obj).map(function(el, i){
+      console.log(`${el} ${obj[el]}`)
+    })
+  }
+}
+function logStuff(obj, callback){
+  arr.push(obj);
+  callback(obj);
+}
+logStuff({name: 'morita', job: 'engineer'}, log);
+```
+
+**問343**
+
+問342のlogStuffについて、第二引数で渡したcallbackの型をチェックしてFunctionだったら実行するようにしてください
+
+
+**問344**
+
+こちらの
+
+```js
+var clientData = {
+    id: 094545,
+    fullName: "Not Set",
+    setUserName: function (firstName, lastName)  {
+      this.fullName = firstName + " " + lastName;
+    }
+}
+function getUserInput(firstName, lastName, callback)  {
+    callback (firstName, lastName);
+}
+getUserInput('kenji', 'morita', clientData.setUserName);
+console.log(clientData.fullName)
+//"Not Set"
+
+```
+
+渡した値がfullNameにセットされて出力するようにしてください。
+
+```js
+var clientData = {
+    id: 094545,
+    fullName: "Not Set",
+    setUserName: function (firstName, lastName)  {
+      this.fullName = firstName + " " + lastName;
+    }
+}
+function getUserInput(firstName, lastName, callback, callbackObj)  {
+    callback.apply(callbackObj, [firstName, lastName]);
+}
+getUserInput('kenji', 'morita', clientData.setUserName, clientData);
+clientData.fullName
+//kenji morita
+```
+
+**問345**
+
+こちら
+```js
+var greet = function(greeting, name){
+ console.log(greeting, name);
+}
+greet('Hello', 'kenji')
+Hello kenji
+```
+
+greetをCurry化してgreetHello('kenji')を実行すると
+同じ出力になるようにしてください
+
+
+```js
+var greetCurried = function(greeting){
+ return function(name){
+   console.log(`${greeting} ${name}`)
+ }
+}
+var greetHello = greetCurried('Hello')
+greetHello('kenji')
+//Hello kenji
+
+```
+
+**問346**
+こちら
+
+```js
+var greetAwkwardly = greetDeeplyCurried("Hello")("...")("?");
+greetAwkwardly("kenji");
+```
+を実行した際に
+
+```
+//Hello...kenji?
+```
+が出力されるようにgreetDeeplyCurriedを実装してください
+
+```
+var greetDeeplyCurried = function(greeting){
+ return function(spread){
+    return function(empasis){
+     return function(name){
+     	 console.log(`${greeting}${spread}${name}${empasis}`);
+ 	 }
+    }
+ }
+}
+var greetAwkwardly = greetDeeplyCurried('Hello')('...')('?');
+greetAwkwardly('kenji')
+//Hello...kenji?
+```
 
 **WIP**
 
@@ -7688,4 +7847,6 @@ https://github.com/loverajoel/jstips
 https://www.sitepoint.com/react-higher-order-components/
 https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
 http://www.jstips.co/en/javascript/
+http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037
+https://www.sitepoint.com/currying-in-functional-javascript/
 </details>
