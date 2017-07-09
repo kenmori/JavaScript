@@ -4100,7 +4100,7 @@ setTimeout(create.get, 1000);
 setTimeout(create.get.bind(create), 1000);
 
 //2 Arrow Function
-setTimeout(()=> {create.get}, 1000);
+setTimeout(()=> {create.get()}, 1000);
 ```
 
 **問204**
@@ -4176,6 +4176,9 @@ Object.assign(SomeClass.prototype, {
         ···
     }
 });
+
+//Object.assing(Someclass.prorotype, {a: fun, b: fun})//コンストラクタをkeyにもつprototypeオブジェクトを返す
+//Object.assing({}, Someclass.prorotype, {a: fun, b: fun})//新たなObjectとして返す
 ```
 
 **問207**
