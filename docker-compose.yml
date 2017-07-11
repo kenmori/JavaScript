@@ -17,6 +17,7 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - webpack
     environment:
       MYSQL_ROOT_PASSWORD: "password"
   webpack:

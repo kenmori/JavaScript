@@ -12,6 +12,5 @@ WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
-COPY package.json yarn.lock ./
-RUN yarn install
 COPY . /myapp
+RUN yarn install
