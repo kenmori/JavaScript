@@ -4,8 +4,9 @@ import { Button, Checkbox, CustomCalendar, Form, Icon, Input, Modal } from 'sema
 
 class ObjectiveFormModal extends Component {
   add() {
-    this.props.addObjective(this.objectiveNameInput.inputRef.value, this.continueCheckBox.state.checked);
-    this.objectiveNameInput.inputRef.value = '';
+    this.props.addObjective(this.nameInput.inputRef.value, this.descriptionInput.inputRef.value, this.continueCheckBox.state.checked);
+    this.nameInput.inputRef.value = '';
+    this.descriptionInput.inputRef.value = '';
   }
   
   render() {
@@ -20,7 +21,15 @@ class ObjectiveFormModal extends Component {
               <Form.Field>
                 <label>Objective(目標)名</label>
                 <Input placeholder='Objective名を入力してください' ref={(node) => {
-                  this.objectiveNameInput = node;
+                  this.nameInput = node;
+                }}/>
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths='equal'>
+              <Form.Field>
+                <label>Objective の説明</label>
+                <Input placeholder='Objectiveの説明を入力してください' ref={(node) => {
+                  this.descriptionInput = node;
                 }}/>
               </Form.Field>
             </Form.Group>

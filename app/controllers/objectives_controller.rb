@@ -4,7 +4,7 @@ class ObjectivesController < ApplicationController
   end
 
   def create
-    @objective = Objective.new(params.require(:objective).permit(:name))
+    @objective = Objective.new(params.require(:objective).permit(:name, :description))
     if @objective.save
       render json: { objective: @objective }, status: :created
     else

@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addObjective: (name, isOpenKeyResultFormModal = false) => {
-      dispatch(objectiveActions.addObjective(name, isOpenKeyResultFormModal));
+    addObjective: (name, description, isOpenKeyResultFormModal = false) => {
+      dispatch(objectiveActions.addObjective(name, description, isOpenKeyResultFormModal));
     },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveFormModal());
