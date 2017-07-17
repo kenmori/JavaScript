@@ -1,0 +1,90 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import ObjectiveCard from './ObjectiveCard';
+import { Tab, Card } from 'semantic-ui-react';
+
+class ObjectiveMap extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      positions: null,
+      width: 0,
+      height: 0,
+    };
+  }
+
+  componentDidMount() {
+    const positions = this.props.objective.get('childObjectives').reduce((result, objective) => {
+      const element = ReactDOM.findDOMNode(this.refs[this.createKey(objective)]);
+      result[this.createKey(objective)] = { x: element.offsetLeft + (element.offsetWidth / 2), y: element.offsetTop };
+      return result;
+    }, {});
+
+    this.setState({
+      positions,
+      width: ReactDOM.findDOMNode(this.refs.map).offsetWidth,
+      height: ReactDOM.findDOMNode(this.refs.map).offsetHeight,
+    });
+
+    //  var markerNode = React.findDOMNode(this.refs.marker)
+    //  var markerEndNode = React.findDOMNode(this.refs.markerEndNode)
+
+    //markerNode.setAttribute('markerWidth', 13)
+    //markerNode.setAttribute('markerHeight', 13)
+    //markerNode.setAttribute('refx', 2)
+    //markerNode.setAttribute('refy', 6)
+  }
+
+  path() {
+    const center = this.state.width / 2;
+    if(!this.state.positions) { return null; }
+    return this.props.objective.get('childObjectives').map((objective) => {
+      const position = this.state.positions[this.createKey(objective)];
+
+      const points = `${center},${this.state.height / 2} ${center},${(this.state.height / 2) + 20} ${position.x},${(this.state.height / 2) +
+      20} ${position.x},${position.y}`;
+      return (
+        <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
+          <polyline
+            points={points}
+            strokeWidth='2'
+            stroke='rgba(34,36,38,.15)'
+            fill='none'
+          />
+        </svg>
+
+      );
+    });
+  }
+
+  createKey(objective) {
+    return `objective_${objective.get('id')}`;
+  }
+
+  render() {
+    const objective = this.props.objective;
+    return (
+      <div key={objective.get('id')} className='objective-map' ref='map'>
+        <div className='map-layer'>
+          <Card.Group className='flex-center'>
+            <ObjectiveCard objective={objective}/>
+          </Card.Group>
+        </div>
+        <div className='map-layer'>
+          <Card.Group className='flex-center'>
+            {
+              objective.get('childObjectives').map((objective) => {
+                return (<ObjectiveCard key={this.createKey(objective)} objective={objective} ref={this.createKey(objective)}/>);
+              })
+            }
+          </Card.Group>
+        </div>
+        {this.path()}
+      </div>
+    );
+  }
+}
+
+ObjectiveMap.propTypes = {};
+
+export default ObjectiveMap;

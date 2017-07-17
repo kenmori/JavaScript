@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Icon, Tab } from 'semantic-ui-react';
-import ObjectiveCard from './ObjectiveCard';
 import ObjectiveFormModal from '../containers/ObjectiveFormModal';
 import KeyResultFormModal from '../containers/KeyResultFormModal';
+import ObjectiveMapTab from './ObjectiveMapTab'
 
 class OKRSettingPage extends Component {
   componentDidMount() {
@@ -13,17 +13,7 @@ class OKRSettingPage extends Component {
     return ([
       {
         menuItem: '上長から割り当てられた検討前のOKR',
-        render: () => {
-          return (
-            <Tab.Pane attached={false}>
-              {
-                this.props.objectives.map(objective => {
-                  return (<ObjectiveCard key={objective.get('id')} objective={objective}/>);
-                })
-              }
-            </Tab.Pane>
-          );
-        }
+        render: () => (<ObjectiveMapTab objectives={this.props.objectives}/>)
       },
       { menuItem: '承認待ちのOKR', render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane> },
       { menuItem: '部下が提案したOKR', render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> }

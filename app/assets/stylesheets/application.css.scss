@@ -54,8 +54,18 @@ a.active {
   border: none;
 }
 
+.okr-map-tab {
+  font-size: 0.7rem !important;;
+  align-items: flex-start !important;;
+}
+
 .flex {
   display: flex;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
 }
 
 .center {
@@ -71,3 +81,14 @@ a.active {
     display: flex !important;
   }
 }
+
+.objective-map {
+  margin: 15px;
+  position: relative;
+
+  .map-layer {
+    margin-top: 30px;
+  }
+}
+
+

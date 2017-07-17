@@ -1,6 +1,6 @@
 class ObjectivesController < ApplicationController
   def index
-    render json: Objective.all
+    @objectives = Objective.tops
   end
 
   def create
