@@ -1,5 +1,5 @@
-import { createActions } from "redux-actions";
-import actionTypes from "../constants/actionTypes";
+import { createActions } from 'redux-actions';
+import actionTypes from '../constants/actionTypes';
 
 const actions = createActions({
   [actionTypes.OPEN_KEY_RESULT_FORM_MODAL]: (objective) => ({ objective }),

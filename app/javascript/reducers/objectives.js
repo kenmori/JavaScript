@@ -16,7 +16,7 @@ export default handleActions({
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.filter((objective) => {
-        return objective.get("id") !== payload.id;
+        return objective.get('id') !== payload.id;
       });
     },
   },

@@ -1,17 +1,17 @@
-import { all, call, put, takeLatest } from "redux-saga/effects";
-import API from "../utils/api";
-import objectiveActions from "../actions/objectives";
-import dialogActions from "../actions/dialogs";
-import actions from "../actions/objectives";
-import actionTypes from "../constants/actionTypes";
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import API from '../utils/api';
+import objectiveActions from '../actions/objectives';
+import dialogActions from '../actions/dialogs';
+import actions from '../actions/objectives';
+import actionTypes from '../constants/actionTypes';
 
 function* fetchObjectives() {
-  const result = yield call(API.get, "/objectives");
-  yield put(objectiveActions.fetchedObjectives(result));
+  const result = yield call(API.get, '/objectives');
+  yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
 }
 
 function* addObjective({ payload }) {
-  const result = yield call(API.post, "/objectives", { objective: payload.objective });
+  const result = yield call(API.post, '/objectives', { objective: payload.objective });
   yield put(objectiveActions.addedObjective(result.get('objective')));
   yield put(dialogActions.closeObjectiveFormModal());
   if (payload.isOpenKeyResultModal) {

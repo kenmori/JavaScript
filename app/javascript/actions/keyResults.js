@@ -1,5 +1,5 @@
-import { createActions } from "redux-actions";
-import actionTypes from "../constants/actionTypes";
+import { createActions } from 'redux-actions';
+import actionTypes from '../constants/actionTypes';
 
 const actions = createActions({
   [actionTypes.ADD_KEY_RESULT]:  (objectiveId, name, isContinue) => ({ keyResult: { objectiveId, name }, isContinue }),

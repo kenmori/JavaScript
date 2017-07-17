@@ -6,21 +6,21 @@ const MenuBar = () => {
   return (
     <Menu>
       <Menu.Item header>
-        <Header as="h1">Resily</Header>
+        <Header as='h1'>Resily</Header>
       </Menu.Item>
-      <Dropdown item text="OKR">
+      <Dropdown item text='OKR'>
         <Dropdown.Menu>
           <Dropdown.Item>
-            <Icon name="align left"/>
-            <NavLink to="/progress">進捗</NavLink>
+            <Icon name='align left'/>
+            <NavLink to='/progress'>進捗</NavLink>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-      <Dropdown item text="アラインメント">
+      <Dropdown item text='アラインメント'>
         <Dropdown.Menu>
           <Dropdown.Item>
-            <Icon name="edit"/>
-            <NavLink to="/okr/setting">OKR 設定</NavLink>
+            <Icon name='edit'/>
+            <NavLink to='/okr/setting'>OKR 設定</NavLink>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

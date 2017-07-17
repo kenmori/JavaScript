@@ -1,6 +1,6 @@
-import fetch from "isomorphic-fetch";
-import { camelizeKeys, decamelizeKeys } from "humps";
-import { fromJS } from "immutable";
+import fetch from 'isomorphic-fetch';
+import { camelizeKeys, decamelizeKeys } from 'humps';
+import { fromJS } from 'immutable';
 
 const format = (body) => {
   if (/\S/.test(body)) {
@@ -12,18 +12,18 @@ const format = (body) => {
 
 const defaultHeaders = {
   headers: {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
   }
 };
 
-const csrfToken = document.getElementsByName("csrf-token").item(0).content;
+const csrfToken = document.getElementsByName('csrf-token').item(0).content;
 const csrfHeaders = {
-  credentials: "same-origin",
+  credentials: 'same-origin',
   headers: {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
-    "X-CSRF-Token": csrfToken
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': csrfToken
   }
 };
 
@@ -41,19 +41,19 @@ const handlerResponse = response => {
 
 const API = {
   get: (url, query = {}) => {
-    return fetch(url, { ...defaultHeaders, ...decamelizeKeys(query), ...{ method: "GET" } })
+    return fetch(url, { ...defaultHeaders, ...decamelizeKeys(query), ...{ method: 'GET' } })
       .then(handlerResponse);
   },
   post: (url, data) => {
-    return fetch(url, { ...csrfHeaders, ...{ body: JSON.stringify(decamelizeKeys(data)) }, ...{ method: "POST" } })
+    return fetch(url, { ...csrfHeaders, ...{ body: JSON.stringify(decamelizeKeys(data)) }, ...{ method: 'POST' } })
       .then(handlerResponse);
   },
   put: (url, data) => {
-    return fetch(url, { ...csrfHeaders, ...{ body: JSON.stringify(decamelizeKeys(data)) }, ...{ method: "PUT" } })
+    return fetch(url, { ...csrfHeaders, ...{ body: JSON.stringify(decamelizeKeys(data)) }, ...{ method: 'PUT' } })
       .then(handlerResponse);
   },
   delete: (url) => {
-    return fetch(url, { ...csrfHeaders, ...{ method: "DELETE" } })
+    return fetch(url, { ...csrfHeaders, ...{ method: 'DELETE' } })
       .then(handlerResponse);
   },
 };

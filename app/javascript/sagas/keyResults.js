@@ -1,16 +1,16 @@
-import { all, call, put, takeLatest } from "redux-saga/effects";
-import API from "../utils/api";
-import keyResultActions from "../actions/keyResults";
-import dialogActions from "../actions/dialogs";
-import actionTypes from "../constants/actionTypes";
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import API from '../utils/api';
+import keyResultActions from '../actions/keyResults';
+import dialogActions from '../actions/dialogs';
+import actionTypes from '../constants/actionTypes';
 
 function* fetchKeyResults() {
-  const result = yield call(API.get, "/key_results");
+  const result = yield call(API.get, '/key_results');
   yield put(keyResultActions.fetchedKeyResults(result));
 }
 
 function* addKeyResult({ payload }) {
-  const result = yield call(API.post, "/key_results", { keyResult: payload.keyResult });
+  const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
   yield put(keyResultActions.addedKeyResult(result));
   if(!payload.isContinue) {
     yield put(dialogActions.closeKeyResultFormModal());
