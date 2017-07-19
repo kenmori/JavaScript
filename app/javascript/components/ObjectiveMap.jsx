@@ -23,16 +23,8 @@ class ObjectiveMap extends Component {
     this.setState({
       positions,
       width: ReactDOM.findDOMNode(this.refs.map).offsetWidth,
-      height: ReactDOM.findDOMNode(this.refs.map).offsetHeight,
+      height: ReactDOM.findDOMNode(this.refs.map).offsetHeight + 30,
     });
-
-    //  var markerNode = React.findDOMNode(this.refs.marker)
-    //  var markerEndNode = React.findDOMNode(this.refs.markerEndNode)
-
-    //markerNode.setAttribute('markerWidth', 13)
-    //markerNode.setAttribute('markerHeight', 13)
-    //markerNode.setAttribute('refx', 2)
-    //markerNode.setAttribute('refy', 6)
   }
 
   path() {
@@ -41,14 +33,13 @@ class ObjectiveMap extends Component {
     return this.props.objective.get('childObjectives').map((objective) => {
       const position = this.state.positions[this.createKey(objective)];
 
-      const points = `${center},${this.state.height / 2} ${center},${(this.state.height / 2) + 20} ${position.x},${(this.state.height / 2) +
-      20} ${position.x},${position.y}`;
+      const points = `${center},${position.y - 30} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`;
       return (
-        <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
+        <svg key={`svg-${objective.get('id')}`} width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
           <polyline
             points={points}
             strokeWidth='2'
-            stroke='rgba(34,36,38,.15)'
+            stroke='rgb(230, 230, 230)'
             fill='none'
           />
         </svg>
