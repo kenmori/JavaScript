@@ -3,8 +3,8 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
-    [ActionTypes.OPEN_OBJECTIVE_FORM_MODAL]: (state) => (
-      state.setIn(['objectiveForm', 'isOpen'], true)
+    [ActionTypes.OPEN_OBJECTIVE_FORM_MODAL]: (state, { payload }) => (
+      state.set('objectiveForm', fromJS({isOpen: true, objective: payload.objective}))
     ),
     [ActionTypes.CLOSE_OBJECTIVE_FORM_MODAL]: (state) => (
       state.setIn(['objectiveForm', 'isOpen'], false)

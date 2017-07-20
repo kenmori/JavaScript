@@ -5,15 +5,20 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen'])
+    isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
+    objective: state.dialogs.getIn(['objectiveForm', 'objective'])
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addObjective: (name, description, isOpenKeyResultFormModal = false) => {
-      dispatch(objectiveActions.addObjective(name, description, isOpenKeyResultFormModal));
+    addObjective: (objective, isOpenKeyResultFormModal = false) => {
+      dispatch(objectiveActions.addObjective(objective, isOpenKeyResultFormModal));
     },
+    updateObjective: (objective) => {
+      dispatch(objectiveActions.updateObjective(objective));
+    },
+
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveFormModal());
     }

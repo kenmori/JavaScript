@@ -21,7 +21,8 @@ function* addObjective({ payload }) {
 
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
-  yield put(objectiveActions.updatedObjective(result));
+  yield put(objectiveActions.updatedObjective(result.get('objective')));
+  yield put(dialogActions.closeObjectiveFormModal());
 }
 
 function* removeObjective({payload}) {

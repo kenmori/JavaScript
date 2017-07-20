@@ -17,6 +17,10 @@ export default handleActions({
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.filter((objective) => {
         return objective.get('id') !== payload.id;
+      }).map((objective) => {
+        return objective.set('childObjectives', objective.get('childObjectives').filter((childObjective) => {
+          return childObjective.get('id') !== payload.id;
+        }))
       });
     },
   },

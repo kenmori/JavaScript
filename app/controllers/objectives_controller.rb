@@ -6,7 +6,7 @@ class ObjectivesController < ApplicationController
   def create
     @objective = Objective.new(params.require(:objective).permit(:name, :description))
     if @objective.save
-      render json: { objective: @objective }, status: :created
+      render status: :created
     else
       render json: @objective.errors, status: :unprocessable_entity
     end
@@ -14,8 +14,8 @@ class ObjectivesController < ApplicationController
 
   def update
     @objective = Objective.find(params[:id])
-    if @objective.update(params.require(objective).permit(:name))
-      render json: @objective, status: :ok
+    if @objective.update(params.require(:objective).permit(:name, :description))
+      render action: :create, status: :ok
     else
       render json: @objective.errors, status: :unprocessable_entity
     end
