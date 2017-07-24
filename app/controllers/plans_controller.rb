@@ -6,7 +6,7 @@ class PlansController < ApplicationController
   end
 
   def create
-    render json: @key_result.plans.create!(params)
+    render json: @key_result.plans.create!(params), status: :created
   rescue
     head :bad_request
   end
