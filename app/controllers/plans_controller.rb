@@ -12,7 +12,7 @@ class PlansController < ApplicationController
   end
 
   def update
-    @key_result.plans.find(params[:id]).update(params)
+    @key_result.plans.find(params[:id]).update!(params)
     head :ok
   rescue
     head :bad_request
