@@ -11,6 +11,7 @@ const format = (body) => {
 };
 
 const defaultHeaders = {
+  credentials: 'same-origin',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

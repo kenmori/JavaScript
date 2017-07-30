@@ -1,10 +1,12 @@
 import { fork } from 'redux-saga/effects';
 import { objectiveSagas } from './objectives';
 import { keyResultSagas } from './keyResults';
+import { sessionSagas } from './sessions';
 
 const sagas = [
   objectiveSagas,
-  keyResultSagas
+  keyResultSagas,
+  sessionSagas
 ];
 
 export default function* rootSaga() {

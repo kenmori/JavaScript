@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import OKRSettingPage from '../containers/OKRSettingPage';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import MenuBar from './MenuBar';
+import { Route, Switch } from 'react-router-dom';
+import MenuBar from '../containers/MenuBar';
 
 class Home extends Component {
   render() {
     return (
-      <Router>
-        <div className='wrapper'>
-          <MenuBar />
-          <main>
-            <Route exact path='/' component={OKRSettingPage}/>
+      <div className='home'>
+        <MenuBar />
+        <main>
+          <Switch>
             <Route exact path='/okr/setting' component={OKRSettingPage}/>
-          </main>
-        </div>
-      </Router>
-    )
+            <Route exact path='/' component={OKRSettingPage}/>
+          </Switch>
+        </main>
+      </div>
+    );
   }
 }
 
-export default Home
+export default Home;
