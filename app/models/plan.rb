@@ -10,6 +10,6 @@ class Plan < ApplicationRecord
   validates :status, presence: true, inclusion: {in: self.statuses.keys}
   # TODO:
   # 一旦プランで入力可能な文字数を500に設定する。
-  validates :description, presence: true, length: {maximun: 500}
+  validates :description, presence: true, length: {maximum: 500}
 
 end
