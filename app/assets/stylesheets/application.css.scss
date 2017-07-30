@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
 @import url('//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css');
 @import url(http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css);
 
@@ -25,7 +26,7 @@ main {
   margin: 8px;
 }
 
-.wrapper {
+.home {
 }
 
 .content {

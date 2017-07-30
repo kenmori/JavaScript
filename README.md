@@ -13,7 +13,14 @@ docker-compose build web
 docker-compose run --rm web bin/rails db:create
 docker-compose run --rm web bin/rails db:migrate
 ```
-3.コンテナーの立ち上げ
+
+3.初期データ投入
+```
+docker-compose run --rm web bin/rails db:seed
+```
+
+4.コンテナーの立ち上げ
 ```
 docker-compose up -d
 ```
+

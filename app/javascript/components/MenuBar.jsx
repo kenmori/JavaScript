@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown, Header, Icon, Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-const MenuBar = () => {
+const MenuBar = ({signOut}) => {
   return (
     <Menu>
       <Menu.Item header>
@@ -24,6 +24,9 @@ const MenuBar = () => {
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
+      <Menu.Menu position='right'>
+        <Menu.Item name='logout' onClick={signOut} />
+      </Menu.Menu>
     </Menu>
   );
 };
