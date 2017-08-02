@@ -1,5 +1,6 @@
 class Plan < ApplicationRecord
   belongs_to :key_result
+  belongs_to :concerned_person
 
   enum status: {
     not_yet: 1,
