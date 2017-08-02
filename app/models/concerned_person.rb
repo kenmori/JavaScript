@@ -1,0 +1,2 @@
+class ConcernedPerson < ApplicationRecord
+end
