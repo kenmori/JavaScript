@@ -7845,8 +7845,9 @@ prototype と \_\_proto\_\_ の違いを説明してください
 
 ```js
 
-・prototype Functionオブジェクトだけがもつプロパティ。参照先はオブジェクト。
-・__proto__ 全てのオブジェクトが持つ内部プロパティ。プロトタイプチェーン。暗黙の参照(自身のプロパティになければこの__proto__先を辿ること)を実現する内部で実装されているプロパティ。
+・prototype・・・Functionオブジェクトだけがもつプロパティ。参照先はオブジェクト。
+
+・__proto__・・・全てのオブジェクトが持つ内部プロパティ。プロトタイプチェーン。暗黙の参照(自身のプロパティになければこの__proto__先を辿ること)を実現する内部で実装されているプロパティ。
 
 newして生成されたインスタンスの__proto__にコンストラクタのprototypeオブジェクトが代入される
 
@@ -7884,7 +7885,7 @@ f.hasOwnProperty('name') //自身にnameをもつ //2
 //true
 
 
-//Arrayで試してみる
+//Array
 var arry = [];
 arry.__proto__ === Array.prototype
 //true
@@ -7895,34 +7896,35 @@ arry.hasOwnProperty('pop') //参照リンク先のオブジェクトprototypeが
 
 
 //more
-//こちらのコンストラクタが定義されたさいに何が起きているか
-function a (name){
+//こちらのコンストラクタが実行された際に何が起きているか
+function A (name){
  this.name = name;
 }
 
-//aのプロパティにprototypeが追加される
+//Aのプロパティにprototypeが追加される
 //prototypeプロパティはオブジェクトで、以下の2つのプロパティをもつ
 
 //constructor
 //__proto__
 
 
-a.prototype
+A.prototype
 //constructor:function a(name)
 //__proto__:Object
 
 constructorは何もないがそれ自体内部に__proto__を持ち、その参照先はJavaScriptのルートオブジェクトであるObject。
 
-//aをnewした時に何が起きるか
+//Aをnewした時に何が起きるか
 
-let b = new a('JavaScript');
+let b = new A('JavaScript');
 //4つのことが起こる
 //1.新しい空のオブジェクト{}が生成される
-//2.b上に__proto__が作られ、それはa.prototypeを参照するようになる。なのでb.__proto__ === a.prototype
-//3.上記1で生成されたオブジェクトをthisにするもつa.prototype.constructorを実行します。したがってnameプロパティは新しく作成されたオブジェクトに追加されます。
+//2.b上に__proto__が作られ、それはA.prototypeを参照するようになる。なのでb.__proto__ === A.prototype
+//3.上記1で生成されたオブジェクトをthisコンテキストとして、A.prototype.constructorを実行します。したがってnameプロパティは新しく作成されたオブジェクトに追加されます。
 //4.作成されたオブジェクトを返します。let bは新しいオブジェクトが割り当てられます。
-//もしa.prototype.car = 'BMW'として、b.carとすると" BMW"をアウトプットします
-//JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(a.prototype)を参照し、a.prototypeにあるcarプロパティ値を返すためです。
+
+//もしA.prototype.car = 'BMW'として、b.carとすると" BMW"をアウトプットします
+//JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(A.prototype)を参照し、A.prototypeにあるcarプロパティ値を返すためです。
 
 ```
 
