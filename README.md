@@ -7782,6 +7782,250 @@ greetAwkwardly('kenji')
 //Hello...kenji?
 ```
 
+**問347**
+
+文字列が'He'から始まる場合trueになる評価をしてください
+ex 'Hello World' //true 'Goodby World' //false
+
+
+```js
+'Hello World'.startsWith('He');
+
+
+//other
+/^He/.test('Hello world')
+//true
+
+//'Hello World'.lastIndexOf("He",0) === 0
+//true
+
+```
+
+**問348**
+
+mystring#という文字列があります。最後の文字が#の場合trueになる評価をしてください
+
+
+```js
+let str = "mystring#";
+str.endsWith("#")
+//true
+
+let str = "mystring#";
+//str.endsWith(".")
+false
+
+//other
+let str = "mystring#";
+/#$/.test(str)
+//true
+
+//str.substr(-1) === "#"
+//true
+
+```
+
+**問349**
+
+引数に文字列を渡すとその最初の文字を大文字にして返す関数を実装してください
+
+```js
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+capitalizeFirstLetter("morita")
+//"Morita"
+```
+
+
+**問350**
+
+prototype と __proto__ の違いを説明してください
+
+```js
+
+・prototype Functionオブジェクトだけがもつプロパティ。参照先はオブジェクト。
+・__proto__ 全てのオブジェクトが持つ内部プロパティ。プロトタイプチェーン。暗黙の参照(自身のプロパティになければこの__proto__先を辿ること)を実現する内部で実装されているプロパティ。
+
+newして生成されたインスタンスの__proto__にコンストラクタのprototypeオブジェクトが代入される
+
+
+function F(){
+  this.name = '';//1
+}
+F.prototype.y = function(){} //2
+
+let f = new F(); //f.__proto__ = F.prototype //
+
+f.__proto__ === F.prototype
+
+//true
+
+
+F自体の__proto__には空の関数が入っている
+F.__proto__
+//function () { [native code] }
+
+
+//yが自身のpropertyかどうかチェック
+F.hasOwnProperty('y')
+//false
+F.prototype.hasOwnProperty('y') //2でprototypeに代入しているため
+//true
+
+//newした結果、インスタンスfは自身の参照リンクを辿った先のprototypeオブジェクトが持つyを見ることができる
+f.y === f.__proto__.y
+//true
+
+f.hasOwnProperty('y') //f自身はyを持たない
+//false
+f.hasOwnProperty('name') //自身にnameをもつ //2
+//true
+
+
+//Arrayで試してみる
+var arry = [];
+arry.__proto__ === Array.prototype
+//true
+arry.__proto__ === [].__proto__
+//true
+arry.hasOwnProperty('pop') //参照リンク先のオブジェクトprototypeが持つメソッド
+//false
+
+
+//more
+//こちらのコンストラクタが定義されたさいに何が起きているか
+function a (name){
+ this.name = name;
+}
+
+//aのプロパティにprototypeが追加される
+//prototypeプロパティはオブジェクトで、以下の2つのプロパティをもつ
+
+//constructor
+//__proto__
+
+
+a.prototype
+//constructor:function a(name)
+//__proto__:Object
+
+constructorは何もないがそれ自体内部に__proto__を持ち、その参照先はJavaScriptのルートオブジェクトであるObject。
+
+//aをnewした時に何が起きるか
+
+let b = new a('JavaScript');
+//4つのことが起こる
+//1.新しい空のオブジェクト{}が生成される
+//2.b上に__proto__が作られ、それはa.prototypeを参照するようになる。なのでb.__proto__ === a.prototype
+//3.上記1で生成されたオブジェクトをthisにするもつa.prototype.constructorを実行します。したがってnameプロパティは新しく作成されたオブジェクトに追加されます。
+//4.作成されたオブジェクトを返します。let bは新しいオブジェクトが割り当てられます。
+//もしa.prototype.car = 'BMW'として、b.carとすると" BMW"をアウトプットします
+//JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(a.prototype)を参照し、a.prototypeにあるcarプロパティ値を返すためです。
+
+```
+
+**問351**
+
+問352を参照にして、自身にyプロパティをもつFクラスのインスタンスfがFのprototypeオブジェクトを参照していることを証明してください。尚、Fはclass構文とする
+
+```js
+class F {
+ constructor(){
+  this.y = 'y'
+ }
+}
+let f = new F()
+f.__proto__ === F.prototype
+//true
+
+//Examination
+f.hasOwnProperty('y')
+//true
+```
+
+**問352**
+
+こちら
+```
+function a (name) {
+  this.name = name;
+ }
+ let b = new a('JavaScript');
+ a.prototype.car = 'BMW'
+ b.car
+```
+が実行された際のJavaScriptの内部の動きをざっくり教えてください(問350で説明しているところです。復習)
+
+```js
+function a (name) {
+  this.name = name;
+ }
+let b = new a('JavaScript');
+a.prototype.car = 'BMW'
+b.car
+//'BMW'
+
+
+//4つのことが起こる
+//1.新しい空のオブジェクト{}が生成される
+//2.b上に__proto__が作られ、それはa.prototypeを参照するようになる。なのでb.__proto__ === a.prototype
+//3.上記1で生成されたオブジェクトをthisにするもつa.prototype.constructorを実行します。したがってnameプロパティは新しく作成されたオブジェクトに追加されます。
+//4.作成されたオブジェクトを返します。let bは新しいオブジェクトが割り当てられます。
+//もしa.prototype.car = 'BMW'として、b.carとすると" BMW"をアウトプットします
+//JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(a.prototype)を参照し、a.prototypeにあるcarプロパティ値を返すためです。
+```
+
+**問353**
+
+```js
+
+```
+
+**問354**
+
+```js
+
+```
+
+**問355**
+
+```js
+
+```
+
+**問356**
+
+```js
+
+```
+
+**問357**
+
+```js
+
+```
+
+**問358**
+
+```js
+
+```
+
+**問359**
+
+```js
+
+```
+
+**問360**
+
+```js
+
+```
+
+
 **WIP**
 
 //問題文をわかりやすくする
@@ -7852,4 +8096,5 @@ https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=
 http://www.jstips.co/en/javascript/
 http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037
 https://www.sitepoint.com/currying-in-functional-javascript/
+https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
 </details>
