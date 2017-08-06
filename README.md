@@ -1,10 +1,8 @@
 ## JavaScript練習問題集
 
-**2017/7/1更新**
-問337~346を追加
-
-**2017/6/11更新**
-問334~337を追加
+**2017/8/6更新**
+問347~問352を追加
+prototypeと\_\_proto\_\_の違い等
 
 ## こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/)が自身のテストとして作ったJavaScript練習問題集です。
 
@@ -7841,7 +7839,7 @@ capitalizeFirstLetter("morita")
 
 **問350**
 
-prototype と __proto__ の違いを説明してください
+prototype と \_\_proto\_\_ の違いを説明してください
 
 ```js
 
