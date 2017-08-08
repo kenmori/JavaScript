@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802134252) do
+ActiveRecord::Schema.define(version: 20170807143123) do
 
   create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -20,12 +20,21 @@ ActiveRecord::Schema.define(version: 20170802134252) do
     t.integer "role", null: false
   end
 
+  create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "group_id", null: false
+    t.integer "user_id", null: false
+    t.index ["group_id", "user_id"], name: "index_group_members_on_group_id_and_user_id", unique: true
+  end
+
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
     t.string "name", null: false
     t.integer "owner_id", null: false
+    t.integer "kind", null: false
   end
 
   create_table "key_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -36,21 +45,33 @@ ActiveRecord::Schema.define(version: 20170802134252) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "group_id", null: false
-    t.integer "user_id", null: false
-    t.index ["group_id", "user_id"], name: "index_members_on_group_id_and_user_id", unique: true
-  end
-
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
     t.string "description"
     t.integer "parent_objective_id"
     t.integer "owner_id", null: false
+    t.integer "okr_period_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "organization_id", null: false
+    t.integer "year", null: false
+    t.integer "period_number", null: false
+    t.integer "status", default: 0, null: false
+    t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
+  end
+
+  create_table "organization_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "organization_id", null: false
+    t.integer "user_id", null: false
+    t.index ["organization_id", "user_id"], name: "index_organization_members_on_organization_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_organization_members_on_user_id"
   end
 
   create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -81,7 +102,7 @@ ActiveRecord::Schema.define(version: 20170802134252) do
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "member_id", null: false
+    t.integer "organization_member_id", null: false
     t.integer "kind", null: false
   end
 
@@ -104,7 +125,7 @@ ActiveRecord::Schema.define(version: 20170802134252) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.integer "owner_id"
+    t.integer "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
