@@ -1,3 +1,3 @@
 class Role < ApplicationRecord
-  belongs_to :member
+  belongs_to :organization_member
 end

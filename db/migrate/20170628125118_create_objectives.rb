@@ -5,6 +5,7 @@ class CreateObjectives < ActiveRecord::Migration[5.1]
       t.string  :description
       t.integer :parent_objective_id
       t.integer :owner_id, null: false # 所有者ID
+      t.integer :okr_period_id, null: false
 
       t.timestamps
     end
