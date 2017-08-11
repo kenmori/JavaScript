@@ -7930,6 +7930,7 @@ let b = new A('JavaScript');
 //JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(A.prototype)を参照し、A.prototypeにあるcarプロパティ値を返すためです。
 
 ```
+</details>
 <details><summary>問351〜問400</summary>
 	
 **問351**
