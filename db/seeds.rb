@@ -29,19 +29,22 @@ ApplicationRecord.transaction do
   active_objective1 = login_user.owner.objectives.create!(
     name: '新ビジネスのマネタイズを進化させる',
     description: 'description',
-    okr_period_id: active_okr_period.id
+    okr_period_id: active_okr_period.id,
+    progress_rate: 28
   )
   active_objective1.child_objectives.create!(
     name: '×××をリリース',
     description: '',
     okr_period_id: active_okr_period.id,
-    owner_id: login_user.owner_id
+    owner_id: login_user.owner_id,
+    progress_rate: 26
   )
   active_objective1.child_objectives.create!(
     name: '◯◯◯リリース',
     description: '',
     okr_period_id: active_okr_period.id,
-    owner_id: login_user.owner_id
+    owner_id: login_user.owner_id,
+    progress_rate: 34
   )
 
 # ログインユーザーの前期のOKRを作成
@@ -50,7 +53,8 @@ ApplicationRecord.transaction do
   inactive_objective1 = login_user.owner.objectives.create!(
     name: '改善系タスクにより主要KPIをX%向上させる',
     description: '主要KPIに注力する',
-    okr_period_id: inactive_okr_period.id
+    okr_period_id: inactive_okr_period.id,
+    progress_rate: 55
   )
   inactive_objective1.child_objectives.create!(
     name: '全体検索の速度改善でDAUあたりの利用回数15%改善',
@@ -65,17 +69,20 @@ ApplicationRecord.transaction do
   active_another_objective = another.owner.objectives.create!(
     name: 'ROBOTの仕組み化',
     description: 'description',
-    okr_period_id: active_okr_period.id
+    okr_period_id: active_okr_period.id,
+    progress_rate: 83
   )
   active_another_objective.child_objectives.create!(
     name: 'SMBで×件受注',
     okr_period_id: active_okr_period.id,
-    owner_id: another.owner_id
+    owner_id: another.owner_id,
+    progress_rate: 91
   )
   active_another_objective.child_objectives.create!(
     name: '既存顧客で×件受注',
     okr_period_id: active_okr_period.id,
-    owner_id: another.owner_id
+    owner_id: another.owner_id,
+    progress_rate: 70
   )
   active_another_objective.child_objectives.create!(
     name: '大手顧客で×件受注',

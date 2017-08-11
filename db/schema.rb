@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170807143123) do
     t.string "name", null: false
     t.integer "objective_id", null: false
     t.integer "owner_id", null: false
+    t.integer "progress_rate", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 20170807143123) do
     t.integer "parent_objective_id"
     t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
+    t.integer "progress_rate", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
