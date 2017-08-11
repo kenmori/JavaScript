@@ -1165,6 +1165,7 @@ map.set('four', 'fafa@eee');
 
 </details>
 <details><summary>問51〜問100</summary>
+	
 **問51**
 
 問50の変数fafa内にある要素を出力してください
@@ -5082,6 +5083,7 @@ pop、push、reverse、shift、sort、splice、unshilft
 
 </details>
 <details><summary>問251〜問300</summary>
+	
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
@@ -6406,6 +6408,7 @@ el.setAttribute('tabindex', 3);
 ```
 </details>
 <details><summary>問301〜問350</summary>
+	
 **問301**
 
 こちら
@@ -7927,7 +7930,8 @@ let b = new A('JavaScript');
 //JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(A.prototype)を参照し、A.prototypeにあるcarプロパティ値を返すためです。
 
 ```
-
+<details><summary>問351〜問400</summary>
+	
 **問351**
 
 問352を参照にして、自身にyプロパティをもつFクラスのインスタンスfがFのprototypeオブジェクトを参照していることを証明してください。尚、Fはclass構文とする
@@ -8064,9 +8068,6 @@ fun(1)
 
 
 <details><summary>参照記事</summary>
-
-
-参照
 
 http://exploringjs.com/es6/
 https://leanpub.com/understandinges6/read
