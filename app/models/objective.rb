@@ -4,4 +4,6 @@ class Objective < ApplicationRecord
   belongs_to :owner
 
   scope :tops, -> { where(parent_objective_id: nil) }
+
+  validates :progress_rate, numericality: { less_than_or_equal_to: 100, only_integer: true }
 end
