@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Button, Icon, Tab } from 'semantic-ui-react';
 import ObjectiveFormModal from '../containers/ObjectiveFormModal';
 import KeyResultFormModal from '../containers/KeyResultFormModal';
-import ObjectiveMapTab from './ObjectiveMapTab'
+import ObjectiveMapTab from './ObjectiveMapTab';
+import ObjectiveSelector from './ObjectiveSelector'; // TODO: action追加後contanerからimportする。
 
 class OKRSettingPage extends Component {
   componentDidMount() {
@@ -21,11 +22,13 @@ class OKRSettingPage extends Component {
   }
   
   render() {
+    console.log('hogehoge');
     return (
       <div className='okr-setting-page'>
         <h2>OKR設定</h2>
         <br/>
         <Button negative onClick={this.props.openObjectiveFormModal}><Icon name='plus'/>新規作成</Button>
+        <ObjectiveSelector/>
         <Tab menu={{ secondary: true, pointing: true }} panes={this.panes} className='okr-tabs'/>
         <ObjectiveFormModal/>
         <KeyResultFormModal/>
