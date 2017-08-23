@@ -1,6 +1,5 @@
-json.id(objective.id)
-json.name(objective.name)
-json.description(objective.description)
+json.extract! objective, :id, :name, :description, :progress_rate
+
 json.key_results do
   json.array!(objective.key_results) do |key_result|
     json.partial!(key_result)

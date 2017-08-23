@@ -9,6 +9,11 @@ export default handleActions({
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => (
       state.push(payload.keyResult)
     ),
+    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
+      return state.set(state.findIndex((keyResult) => {
+        return keyResult.get('id') === payload.keyResult.get('id');
+      }), payload.keyResult);
+    },
   },
   fromJS([])
 )
