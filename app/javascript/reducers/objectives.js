@@ -20,9 +20,12 @@ export default handleActions({
       }).map((objective) => {
         return objective.set('childObjectives', objective.get('childObjectives').filter((childObjective) => {
           return childObjective.get('id') !== payload.id;
-        }))
+        }));
       });
     },
+    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
+      return state; // TODO: keyResultをstateへ反映させる処理の実装
+    },
   },
-  fromJS([])
+  fromJS([]),
 );

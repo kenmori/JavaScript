@@ -10,12 +10,15 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
  *= require_self
  */
+@import 'variable';
 
 @import url('//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css');
 @import url(http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css);
+
+@import 'pages/*';
+@import 'components/**/*';
 
 body {
   margin: 0;
@@ -65,7 +68,14 @@ a.active {
 }
 
 .flex-center {
+  display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 

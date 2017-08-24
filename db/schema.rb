@@ -42,6 +42,11 @@ ActiveRecord::Schema.define(version: 20170807143123) do
     t.integer "objective_id", null: false
     t.integer "owner_id", null: false
     t.integer "progress_rate", default: 0, null: false
+    t.integer "target_value"
+    t.integer "actual_value"
+    t.string "value_unit"
+    t.text "memo"
+    t.date "expired_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -109,7 +114,8 @@ ActiveRecord::Schema.define(version: 20170807143123) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "name", null: false
+    t.string "last_name", null: false
+    t.string "first_name", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

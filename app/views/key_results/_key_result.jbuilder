@@ -1,2 +1,1 @@
-json.id(key_result.id)
-json.name(key_result.name)
+json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :memo, :progress_rate

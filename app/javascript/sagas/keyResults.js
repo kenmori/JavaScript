@@ -17,9 +17,16 @@ function* addKeyResult({ payload }) {
   }
 }
 
+function* updateKeyResult({payload}) {
+  const result = yield call(API.put, '/key_results/' + payload.keyResult.id, payload);
+  console.log('updateKeyResult')
+  yield put(keyResultActions.updatedKeyResult(result.get('keyResult')));
+}
+
 export function *keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
     takeLatest(actionTypes.ADD_KEY_RESULT, addKeyResult),
+    takeLatest(actionTypes.UPDATE_KEY_RESULT, updateKeyResult),
   ]);
 }
