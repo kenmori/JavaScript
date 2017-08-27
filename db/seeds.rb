@@ -10,14 +10,14 @@ ApplicationRecord.transaction do
   organization = Organization.create!(name: '佐藤株式会社', postal_code: '000-0000', address: '東京都', phone_number: '00-0000-0000')
   organization_group = organization.organization_group
 # ログインユーザーを作成
-  login_user = User.new(name: '山田太郎', email: 'test@example.com', password: 'testtest')
+  login_user = User.new(last_name: '山田', first_name: '太郎', email: 'test@example.com', password: 'testtest')
   login_user.skip_confirmation!
   login_user.save!
   organization.members.create!(user_id: login_user.id)
   organization_group.members.create!(user_id: login_user.id)
 
 # 他のユーザーを作成
-  another = User.new(name: '鈴木太郎', email: 'test2@example.com', password: 'testtest')
+  another = User.new(last_name: '鈴木', first_name: '太郎', email: 'test2@example.com', password: 'testtest')
   another.skip_confirmation!
   another.save!
   organization.members.create!(user_id: another.id)
@@ -62,8 +62,23 @@ ApplicationRecord.transaction do
     okr_period_id: inactive_okr_period.id,
     owner_id: login_user.owner_id
   )
-  inactive_objective1.key_results.create!(name: 'KeyResult1', owner_id: login_user.owner_id)
-  inactive_objective1.key_results.create!(name: 'KeyResult2', owner_id: login_user.owner_id)
+  inactive_objective1.key_results.create!(
+    name: 'クエリチューニングの実施',
+    owner_id: login_user.owner_id,
+    target_value: '10',
+    actual_value: '6',
+    value_unit: '%改善',
+    progress_rate: 35,
+    memo: 'postgresのver upも含めて検討を進めること'
+
+  )
+  inactive_objective1.key_results.create!(
+    name: 'サーバーの増強',
+    owner_id: login_user.owner_id,
+    progress_rate: 20,
+    expired_date: '2017-10-13',
+    memo: '必要なメモリ、CPUを選定した上で増強にかかるコストを算出し承認を得ること。インフラチーム主導で進める。'
+  )
 
 # 他のユーザーのOKRを作成
   active_another_objective = another.owner.objectives.create!(

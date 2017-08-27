@@ -15,8 +15,8 @@ const mapDispatchToProps = dispatch => {
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));
     },
-    openObjectiveFormModal: (objective) => {
-      dispatch(dialogActions.openObjectiveFormModal(objective));
+    openObjectiveDetailModal: (objectiveId) => {
+      dispatch(dialogActions.openObjectiveDetailModal(objectiveId));
     },
     openKeyResultFormModal: (objective) => {
       dispatch(dialogActions.openKeyResultFormModal(objective));

@@ -14,7 +14,7 @@ export default class ObjectiveCard extends Component {
         <Card.Content extra>
           <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)}/>
           <Icon link name='trash' onClick={() => this.props.removeObjective(objective.get('id'))}/>
-          <Icon link name='write' onClick={() => this.props.openObjectiveFormModal(objective)}/>
+          <Icon link name='write' onClick={() => this.props.openObjectiveDetailModal(objective.get('id'))}/>
         </Card.Content>
       </Card>
     );

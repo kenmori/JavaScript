@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Button, Icon, Tab } from 'semantic-ui-react';
 import ObjectiveFormModal from '../containers/ObjectiveFormModal';
 import KeyResultFormModal from '../containers/KeyResultFormModal';
-import ObjectiveMapTab from './ObjectiveMapTab';
-import ObjectiveSelector from './ObjectiveSelector'; // TODO: action追加後contanerからimportする。
+import ObjectiveDetailModal from '../containers/ObjectiveDetailModal';
+import ObjectiveMapTab from './ObjectiveMapTab'
 
 class OKRSettingPage extends Component {
   componentDidMount() {
@@ -32,6 +32,7 @@ class OKRSettingPage extends Component {
         <Tab menu={{ secondary: true, pointing: true }} panes={this.panes} className='okr-tabs'/>
         <ObjectiveFormModal/>
         <KeyResultFormModal/>
+        <ObjectiveDetailModal/>
       </div>
     );
   }
