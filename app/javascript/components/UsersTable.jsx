@@ -9,6 +9,33 @@ const rollOptions = [
 
 class UsersTable extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      column: 'id',
+      data: props.data,
+      direction: null,
+    };
+  }
+
+  sort = clickedColumn => () => {
+    const { column, data, direction } = this.state;
+
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        data: _.sortBy(data, [clickedColumn]),
+        direction: 'ascending',
+      });
+      return;
+    }
+
+    this.setState({
+      data: data.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    });
+  };
+
   addUser = () => () => {
     this.props.onAdd({
       name: this.nameInput.inputRef.value,
@@ -28,25 +55,27 @@ class UsersTable extends Component {
   };
 
   render() {
+    const { column, data, direction } = this.state;
+
     return (
       <div className="users-table">
-        <Table singleLine>
+        <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell/>
-              <Table.HeaderCell>
+              <Table.HeaderCell disabled/>
+              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort('id')}>
                 ID
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={this.sort('name')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort('roll')}>
                 役割
               </Table.HeaderCell>
-              <Table.HeaderCell/>
+              <Table.HeaderCell disabled/>
             </Table.Row>
           </Table.Header>
 
