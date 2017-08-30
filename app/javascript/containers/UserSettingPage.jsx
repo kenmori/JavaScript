@@ -12,6 +12,15 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchUsers: () => {
       dispatch(userActions.fetchUsers());
+    },
+    addUser: user => {
+      dispatch(userActions.addUser(user));
+    },
+    updateUser: user => {
+      dispatch(userActions.updateUser(user));
+    },
+    removeUser: id => {
+      dispatch(userActions.removeUser(id));
     }
   };
 };
