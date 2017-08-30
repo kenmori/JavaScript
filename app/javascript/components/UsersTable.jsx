@@ -36,6 +36,15 @@ class UsersTable extends Component {
     });
   };
 
+  filter = () => () => {
+    const keyword = this.searchInput.inputRef.value;
+    this.setState({
+      data: _.filter(this.props.data, user => {
+        return user.get('name').includes(keyword) || user.get('email').includes(keyword);
+      })
+    })
+  };
+
   addUser = () => () => {
     this.props.onAdd({
       name: this.nameInput.inputRef.value,
@@ -59,6 +68,9 @@ class UsersTable extends Component {
 
     return (
       <div className="users-table">
+        <Input icon="search" placeholder="ユーザーを検索&#8230;" className="search" onChange={this.filter()}
+               ref={node => { this.searchInput = node; }}/>
+
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
