@@ -36,7 +36,7 @@ class UsersTable extends Component {
     });
   };
 
-  filter = () => () => {
+  filter = () => {
     const keyword = this.searchInput.inputRef.value;
     this.setState({
       users: _.filter(this.props.users, user => {
@@ -68,7 +68,7 @@ class UsersTable extends Component {
 
     return (
       <div className="users-table">
-        <Input icon="search" placeholder="ユーザーを検索&#8230;" className="search" onChange={this.filter()}
+        <Input icon="search" placeholder="ユーザーを検索&#8230;" className="search" onChange={this.filter}
                ref={node => { this.searchInput = node; }}/>
 
         <Table singleLine sortable>
