@@ -13,25 +13,25 @@ class UsersTable extends Component {
     super(props);
     this.state = {
       column: 'id',
-      data: props.data,
+      users: props.users,
       direction: null,
     };
   }
 
   sort = clickedColumn => () => {
-    const { column, data, direction } = this.state;
+    const { column, users, direction } = this.state;
 
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
-        data: _.sortBy(data, [clickedColumn]),
+        users: _.sortBy(users, [clickedColumn]),
         direction: 'ascending',
       });
       return;
     }
 
     this.setState({
-      data: data.reverse(),
+      users: users.reverse(),
       direction: direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
@@ -39,7 +39,7 @@ class UsersTable extends Component {
   filter = () => () => {
     const keyword = this.searchInput.inputRef.value;
     this.setState({
-      data: _.filter(this.props.data, user => {
+      users: _.filter(this.props.users, user => {
         return user.get('name').includes(keyword) || user.get('email').includes(keyword);
       })
     })
@@ -64,7 +64,7 @@ class UsersTable extends Component {
   };
 
   render() {
-    const { column, data, direction } = this.state;
+    const { column, users, direction } = this.state;
 
     return (
       <div className="users-table">
@@ -93,7 +93,7 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              _.map(data, user => (
+              _.map(users, user => (
                 <Table.Row key={user.get('id')}>
                   <Table.Cell><Image src="" avatar/></Table.Cell>
                   <Table.Cell><a href={'/users/' + user.get('id')}>{user.get('id')}</a></Table.Cell>
@@ -130,7 +130,7 @@ class UsersTable extends Component {
 }
 
 UsersTable.propTypes = {
-  data: React.PropTypes.array.isRequired,
+  users: React.PropTypes.array.isRequired,
   onAdd: React.PropTypes.func.isRequired,
   onUpdate: React.PropTypes.func.isRequired,
   onRemove: React.PropTypes.func.isRequired,

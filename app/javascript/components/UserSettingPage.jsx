@@ -31,7 +31,7 @@ class UserSettingPage extends Component {
         <MenuBar/>
         <main>
           <h2>ユーザー設定</h2>
-          <UsersTable data={users} onAdd={user => this.addUser(user)} onUpdate={user => this.updateUser(user)}
+          <UsersTable users={users} onAdd={user => this.addUser(user)} onUpdate={user => this.updateUser(user)}
                       onRemove={id => this.removeUser(id)}/>
         </main>
       </div>
