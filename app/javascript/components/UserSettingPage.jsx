@@ -24,7 +24,7 @@ class UserSettingPage extends Component {
   render() {
     const users = Array.from(this.props.users);
     if (users.length === 0) {
-      return <div/>;
+      return null;
     }
     return (
       <div className="user-setting-page">
