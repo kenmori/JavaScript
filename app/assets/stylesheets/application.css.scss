@@ -111,11 +111,13 @@ a.active {
     text-align: center;
   }
   .search {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
     margin: 1em 0;
 
     input {
       width: 300px;
+      flex-grow: 0;
     }
   }
 }
