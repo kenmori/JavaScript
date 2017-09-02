@@ -40,18 +40,20 @@ class UsersTable extends Component {
     const keyword = this.searchInput.inputRef.value;
     this.setState({
       users: _.filter(this.props.users, user => {
-        return user.get('name').includes(keyword) || user.get('email').includes(keyword);
+        return user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword);
       })
     })
   };
 
   addUser = () => () => {
     this.props.onAdd({
-      name: this.nameInput.inputRef.value,
+      first_name: this.firstNameInput.inputRef.value,
+      last_name: this.lastNameInput.inputRef.value,
       email: this.emailInput.inputRef.value,
       password: "testtest",
     });
-    this.nameInput.inputRef.value = '';
+    this.lastNameInput.inputRef.value = '';
+    this.firstNameInput.inputRef.value = '';
     this.emailInput.inputRef.value = '';
   };
 
@@ -78,8 +80,11 @@ class UsersTable extends Component {
               <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort('id')}>
                 ID
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={this.sort('name')}>
-                名前
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort('lastName')}>
+                姓
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort('firstName')}>
+                名
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
                 メールアドレス
@@ -97,7 +102,8 @@ class UsersTable extends Component {
                 <Table.Row key={user.get('id')}>
                   <Table.Cell><Image src="" avatar/></Table.Cell>
                   <Table.Cell><a href={'/users/' + user.get('id')}>{user.get('id')}</a></Table.Cell>
-                  <Table.Cell>{user.get('name')}</Table.Cell>
+                  <Table.Cell>{user.get('lastName')}</Table.Cell>
+                  <Table.Cell>{user.get('firstName')}</Table.Cell>
                   <Table.Cell>{user.get('email')}</Table.Cell>
                   <Table.Cell>ユーザー</Table.Cell>
                   <Table.Cell>
@@ -114,7 +120,10 @@ class UsersTable extends Component {
               <Table.HeaderCell/>
               <Table.HeaderCell/>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.nameInput = node; }}/>
+                <Input type="text" maxLength="255" required ref={node => { this.lastNameInput = node; }}/>
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                <Input type="text" maxLength="255" required ref={node => { this.firstNameInput = node; }}/>
               </Table.HeaderCell>
               <Table.HeaderCell>
                 <Input type="email" maxLength="255" required ref={node => { this.emailInput = node; }}/>
