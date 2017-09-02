@@ -7,6 +7,7 @@ import configureStore from '../stores/index';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import history from '../utils/history';
 import SignInPage from '../containers/SignInPage';
+import UserSettingPage from '../containers/UserSettingPage';
 
 const store = configureStore();
 
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div>
           <Switch>
             <Route exact path='/users/sign_in' component={SignInPage}/>
+            <Route exact path='/settings/users' component={UserSettingPage}/>
             <Route path='/' component={Home}/>
           </Switch>
         </div>
