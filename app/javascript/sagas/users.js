@@ -9,13 +9,13 @@ function* fetchUsers() {
 }
 
 function* addUser({ payload }) {
-  const result = yield call(API.post, '/users', payload.user);
-  yield put(userActions.addedUser(result));
+  const result = yield call(API.post, '/users', { user: payload.user });
+  yield put(userActions.addedUser(result.get('user')));
 }
 
 function* updateUser({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, payload.user);
-  yield put(userActions.updatedUser(result));
+  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
+  yield put(userActions.updatedUser(result.get('user')));
 }
 
 function* removeUser({ payload }) {
