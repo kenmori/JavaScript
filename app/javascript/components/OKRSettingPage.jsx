@@ -22,7 +22,6 @@ class OKRSettingPage extends Component {
   }
   
   render() {
-    console.log('hogehoge');
     return (
       <div className='okr-setting-page'>
         <h2>OKR設定</h2>
