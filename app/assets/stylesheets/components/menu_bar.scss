@@ -1,0 +1,31 @@
+.menu-bar {
+  .users {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 245px;
+    margin-right: 55px;
+  }
+
+  .periods {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .right-menu {
+    padding-right: 18px;
+    justify-content: center;
+    align-items: center;
+
+    .settings {
+      margin-right: 15px;
+    }
+  }
+}
