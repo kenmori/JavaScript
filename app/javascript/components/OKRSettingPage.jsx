@@ -28,7 +28,6 @@ class OKRSettingPage extends Component {
         <h2>OKR設定</h2>
         <br/>
         <Button negative onClick={this.props.openObjectiveFormModal}><Icon name='plus'/>新規作成</Button>
-        <ObjectiveSelector/>
         <Tab menu={{ secondary: true, pointing: true }} panes={this.panes} className='okr-tabs'/>
         <ObjectiveFormModal/>
         <KeyResultFormModal/>
