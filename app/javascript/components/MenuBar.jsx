@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, Dropdown, Header, Icon, Menu} from 'semantic-ui-react';
+import {Input, Dropdown, Header, Icon, Menu, Image} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
 
 export default class MenuBar extends Component {
@@ -52,7 +52,7 @@ export default class MenuBar extends Component {
       <div className='menu-bar'>
         <Menu secondary>
           <Menu.Item header>
-            <Header as='h1'>Resily</Header>
+            <Header as='h1'><Image src='/assets/logo.png' href='/'/></Header>
           </Menu.Item>
           <div className='users'>
             <Dropdown placeholder='ユーザを選択してください。' search selection options={this.usersOption} className='full-width'/>
