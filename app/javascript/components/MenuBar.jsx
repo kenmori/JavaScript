@@ -75,6 +75,9 @@ export default class MenuBar extends Component {
             </Dropdown>
             <Dropdown trigger={this.userTrigger}>
               <Dropdown.Menu>
+                <Dropdown.Item>
+                  <NavLink to='/settings/users'>ユーザー設定</NavLink>
+                </Dropdown.Item>
                 <Dropdown.Item onClick={this.props.signOut.bind(this)}>
                   logout
                 </Dropdown.Item>
