@@ -7976,7 +7976,7 @@ b.car
 
 
 //4つのことが起こる
-//1.新しい空のオブジェクト{}が生成される
+//1.新しい空のオブジェクト{}が生成される//WIP 仕様確認
 //2.b上に__proto__が作られ、それはa.prototypeを参照するようになる。なのでb.__proto__ === a.prototype
 //3.上記1で生成されたオブジェクトをthisにするもつa.prototype.constructorを実行します。したがってnameプロパティは新しく作成されたオブジェクトに追加されます。
 //4.作成されたオブジェクトを返します。let bは新しいオブジェクトが割り当てられます。
@@ -7984,8 +7984,14 @@ b.car
 //JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(a.prototype)を参照し、a.prototypeにあるcarプロパティ値を返すためです。
 ```
 
+
+ネタ
+http://exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters
+
+
 **問353**
 
+function-bind
 ```js
 
 ```
