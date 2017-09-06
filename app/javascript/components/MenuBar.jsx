@@ -78,6 +78,9 @@ export default class MenuBar extends Component {
                 <Dropdown.Item>
                   <NavLink to='/settings/users'>ユーザー設定</NavLink>
                 </Dropdown.Item>
+                <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank'>
+                  ヘルプ
+                </Dropdown.Item>
                 <Dropdown.Item onClick={this.props.signOut.bind(this)}>
                   logout
                 </Dropdown.Item>
