@@ -106,10 +106,26 @@ a.active {
   z-index: 1;
 }
 
-.user-setting-page {
+.settings-page {
   h2 {
     text-align: center;
   }
+}
+
+.setting-tabs {
+  .tab {
+    text-align: center;
+    border: none;
+  }
+}
+
+.setting-tabs > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-setting-tab {
   .search {
     display: flex;
     justify-content: flex-end;

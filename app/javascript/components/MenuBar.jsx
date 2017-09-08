@@ -76,7 +76,7 @@ export default class MenuBar extends Component {
             <Dropdown trigger={this.userTrigger}>
               <Dropdown.Menu>
                 <Dropdown.Item>
-                  <NavLink to='/settings/users'>ユーザー設定</NavLink>
+                  <NavLink to='/settings'>設定</NavLink>
                 </Dropdown.Item>
                 <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank'>
                   ヘルプ
