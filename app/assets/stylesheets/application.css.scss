@@ -114,7 +114,6 @@ a.active {
 
 .setting-tabs {
   .tab {
-    text-align: center;
     border: none;
   }
 }
@@ -135,5 +134,15 @@ a.active {
       width: 300px;
       flex-grow: 0;
     }
+  }
+}
+
+.account-setting-tab {
+  dt {
+    font-weight: bold;
+  }
+  dd {
+    margin-top: 1em;
+    margin-bottom: 2em;
   }
 }
