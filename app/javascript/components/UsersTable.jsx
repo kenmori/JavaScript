@@ -18,6 +18,12 @@ class UsersTable extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      users: nextProps.users,
+    });
+  }
+
   sort = clickedColumn => () => {
     const { column, users, direction } = this.state;
 
