@@ -4,6 +4,11 @@ import { Tab, Button, Image, Input } from 'semantic-ui-react';
 
 class AccountSettingTab extends Component {
 
+  componentDidMount() {
+    // TODO ログインユーザーの ID を指定する
+    this.props.fetchUser('1');
+  }
+
   changePassword = () => {
     this.oldPasswordInput.inputRef.value = '';
     this.newPasswordInput.inputRef.value = '';
@@ -11,14 +16,18 @@ class AccountSettingTab extends Component {
   };
 
   render() {
+    const user = this.props.user;
+    if (!user) {
+      return null;
+    }
     return (
       <Tab.Pane attached={false} className="account-setting-tab">
         <dl>
           <dt>名前</dt>
-          <dd>John Doe</dd>
+          <dd>{user.get('lastName')} {user.get('firstName')}</dd>
 
           <dt>メールアドレス</dt>
-          <dd>john@example.com</dd>
+          <dd>{user.get('email')}</dd>
 
           <dt>画像</dt>
           <dd><Image src="" avatar/></dd>
@@ -41,6 +50,8 @@ class AccountSettingTab extends Component {
   }
 }
 
-AccountSettingTab.propTypes = {};
+AccountSettingTab.propTypes = {
+  fetchUser: PropTypes.func.isRequired,
+};
 
 export default AccountSettingTab;
