@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MenuBar from '../containers/MenuBar';
+import { Tab } from 'semantic-ui-react';
 import UsersTable from './UsersTable';
 
-class UserSettingPage extends Component {
+class UserSettingTab extends Component {
 
   componentDidMount() {
     this.props.fetchUsers();
@@ -27,23 +27,19 @@ class UserSettingPage extends Component {
       return null;
     }
     return (
-      <div className="user-setting-page">
-        <MenuBar/>
-        <main>
-          <h2>ユーザー設定</h2>
-          <UsersTable users={users} onAdd={user => this.addUser(user)} onUpdate={user => this.updateUser(user)}
-                      onRemove={id => this.removeUser(id)}/>
-        </main>
-      </div>
+      <Tab.Pane attached={false} className="user-setting-tab">
+        <UsersTable users={users} onAdd={user => this.addUser(user)} onUpdate={user => this.updateUser(user)}
+                    onRemove={id => this.removeUser(id)}/>
+      </Tab.Pane>
     );
   }
 }
 
-UserSettingPage.propTypes = {
+UserSettingTab.propTypes = {
   fetchUsers: PropTypes.func.isRequired,
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,
 };
 
-export default UserSettingPage;
+export default UserSettingTab;

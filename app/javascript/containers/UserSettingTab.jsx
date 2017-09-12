@@ -1,4 +1,4 @@
-import UserSettingPage from '../components/UserSettingPage';
+import UserSettingTab from '../components/UserSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
 
@@ -28,4 +28,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserSettingPage);
+)(UserSettingTab);
