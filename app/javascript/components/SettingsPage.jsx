@@ -3,13 +3,14 @@ import { Tab } from 'semantic-ui-react';
 import MenuBar from '../containers/MenuBar';
 import AccountSettingTab from '../containers/AccountSettingTab'
 import UserSettingTab from '../containers/UserSettingTab'
+import OKRSettingTab from '../components/OKRSettingTab'
 
 class SettingsPage extends Component {
   get panes() {
     return ([
       { menuItem: 'アカウント', render: () => <AccountSettingTab/> },
       { menuItem: 'ユーザー', render: () => <UserSettingTab/> },
-      { menuItem: 'OKR', render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> },
+      { menuItem: 'OKR', render: () => <OKRSettingTab/> },
     ]);
   }
 
