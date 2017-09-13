@@ -3,6 +3,11 @@ import API from '../utils/api';
 import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
 
+function* fetchUser({ payload }) {
+  const result = yield call(API.get, '/users/' + payload.id);
+  yield put(userActions.fetchedUser(result));
+}
+
 function* fetchUsers() {
   const result = yield call(API.get, '/users');
   yield put(userActions.fetchedUsers(result));
@@ -25,6 +30,7 @@ function* removeUser({ payload }) {
 
 export function* userSagas() {
   yield all([
+    takeLatest(actionTypes.FETCH_USER, fetchUser),
     takeLatest(actionTypes.FETCH_USERS, fetchUsers),
     takeLatest(actionTypes.ADD_USER, addUser),
     takeLatest(actionTypes.UPDATE_USER, updateUser),
