@@ -126,6 +126,22 @@ func.length//3 関数が期待する引数が返る
 
 関数の結果をキャッシュすることをメモ化という
 
+c
+var func = (param) => {//paramはキャッシュを取得するためのkey
+    if(!func.cache[param]){
+        //重い処理
+        var result = {};
+        func.cache[param] = result;
+    }
+    return obj.chache[param];
+}
+
+func.cache = {}; //キャッシュの記憶領域
+
+
+### 設定オブジェクト
+
+
 
 
 ```
