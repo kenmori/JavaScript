@@ -115,12 +115,6 @@ if(typeof window.addEventListener === 'function'){
 ```
 
 
-//知らなかった
-```js
-function func(a, b, c){}
-func.length//3 関数が期待する引数が返る
-
-```
 
 ### メモ化
 
@@ -141,7 +135,98 @@ func.cache = {}; //キャッシュの記憶領域
 
 ### 設定オブジェクト
 
+```js
+//当初引数はこれだけだった
+function addPerson(first, last){...}
 
+//拡張すると
+function addPerson(first, last, dob, gender, address){...}
+//・必須なのかオプションにぱっと見わかりにくい
+//・パラメータを渡さなくては行けないし、順番も注意を払う必要がある。
+
+
+//パラメータを一つにまとめてオブジェクトとして渡す
+var conf = {
+    username: '0801kenmori',
+    first: "kenji",
+    last: 'morita'
+}
+
+addPersion(conf);
+
+//こうすることの欠点
+・プロパティ名はミニファイされない
+・パラメータの名前を覚える必要がある
+```
+
+
+### プライバシーの侵犯
+
+#### コンストラクタによるプライバシーの実現
+
+```js
+function Gadget(){
+    var specs = {
+        width: 320,
+        height: 480,
+        color: "white"
+    };
+    this.getSpecs = function(){
+        return specs;//参照を渡しているので書き換えられてしまう。書き換えたいプロパティだけを渡す関数を実装する
+    }
+    this.getDimenstions(){
+        return {width: specs.width, height: specs.height};
+    }
+}
+```
+
+
+#### オブジェクトリテラルによるプライバシーの実現
+
+```js
+var myobj;//これがオブジェクトになる
+var module = (function(){
+    //プライベートメンバ
+    var name = "kenji";
+    myobj =  {//パブリックな部分の実装 //varがない所に注意
+        getName: function(){//特権メソッド
+            return name;
+        }
+    }
+    return myobj;
+}())
+
+```
+
+
+
+
+
+
+
+### 知らなかった
+```js
+function func(a, b, c){}
+func.length//3 関数が期待する引数が返る
+
+
+//apply
+function fafa(who){return who};
+fafa.apply(null, ["hello"])
+//第一引数にthisやnullを渡すとwindowオブジェクトをthisとする
+//関数(上記の場合fafa)がオブジェクトのメソッドの場合nullを渡してはいけません。そのオブジェクトがthis(applyの最初の引数)です
+//パラメータを1つしか取らない場合callにすると配列の必要がなくなる
+
+//いつカリー化を使うか
+・同じ関数をほとんど同じパラメータ(必須など？)で呼び出している箇所があったらその関数はカリー化を検討できる
+
+//特権メソッド
+・プライベート変数にアクセスできるパブリックメソッド
+
+
+
+
+```
 
 
 ```
