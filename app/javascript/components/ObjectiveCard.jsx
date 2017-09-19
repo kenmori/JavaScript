@@ -1,4 +1,4 @@
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import { Card, Icon } from 'semantic-ui-react';
 
 export default class ObjectiveCard extends Component {
