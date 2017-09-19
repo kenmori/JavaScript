@@ -34,5 +34,8 @@ test:
 
   public_output_path: packs-test
 
+staging:
+  <<: *default
+
 production:
   <<: *default
