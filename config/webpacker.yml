@@ -4,6 +4,7 @@ default: &default
   source_path: app/javascript
   source_entry_path: packs
   public_output_path: packs
+  cache_path: tmp/cache/webpacker
 
   extensions:
     - .coffee
@@ -33,6 +34,9 @@ test:
   <<: *default
 
   public_output_path: packs-test
+
+staging:
+  <<: *default
 
 production:
   <<: *default
