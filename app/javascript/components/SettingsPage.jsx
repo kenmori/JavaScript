@@ -3,7 +3,7 @@ import { Tab } from 'semantic-ui-react';
 import MenuBar from '../containers/MenuBar';
 import AccountSettingTab from '../containers/AccountSettingTab'
 import UserSettingTab from '../containers/UserSettingTab'
-import OKRSettingTab from '../components/OKRSettingTab'
+import OKRSettingTab from '../containers/OKRSettingTab'
 
 class SettingsPage extends Component {
   get panes() {
