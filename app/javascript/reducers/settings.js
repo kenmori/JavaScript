@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
@@ -8,6 +8,6 @@ export default handleActions({
     ),
   },
   {
-    okr: undefined,
+    okr: Map(),
   },
 );

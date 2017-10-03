@@ -36,7 +36,7 @@ class OKRSettingTab extends Component {
 
   render() {
     const okrSetting = this.props.okrSetting;
-    if (!okrSetting) {
+    if (okrSetting.isEmpty()) {
       return null;
     }
     return (
@@ -44,36 +44,36 @@ class OKRSettingTab extends Component {
         <dl>
           <dt>年度末</dt>
           <dd>
-            <Select options={OKRSettingTab.YEAR_END_OPTIONS} defaultValue={okrSetting.yearEnd}/>
+            <Select options={OKRSettingTab.YEAR_END_OPTIONS} defaultValue={okrSetting.get('yearEnd')}/>
           </dd>
 
           <dt>OKR 期間</dt>
           <dd>
-            <Select options={OKRSettingTab.OKR_SPAN_OPTIONS} defaultValue={okrSetting.okrSpan}/>
+            <Select options={OKRSettingTab.OKR_SPAN_OPTIONS} defaultValue={okrSetting.get('okrSpan')}/>
           </dd>
 
           <dt>OKR 準備期間</dt>
           <dd>
             期初
-            <Input label="日前" labelPosition="right" defaultValue={okrSetting.okrReady.from}/>
+            <Input label="日前" labelPosition="right" defaultValue={okrSetting.get('okrReadyFrom')}/>
             〜
-            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSetting.okrReady.to}/>
+            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSetting.get('okrReadyTo')}/>
           </dd>
 
           <dt>振り返り期間 (期中)</dt>
           <dd>
             期初
-            <Input label="日後" labelPosition="right" defaultValue={okrSetting.okrReview.during.from}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSetting.get('okrReviewDuringFrom')}/>
             〜
-            <Input label="日後" labelPosition="right" defaultValue={okrSetting.okrReview.during.to}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSetting.get('okrReviewDuringTo')}/>
           </dd>
 
           <dt>振り返り期間 (期末)</dt>
           <dd>
             期末
-            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSetting.okrReview.end.from}/>
+            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSetting.get('okrReviewEndFrom')}/>
             〜
-            <Input label="日後" labelPosition="right" defaultValue={okrSetting.okrReview.end.to}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSetting.get('okrReviewEndTo')}/>
           </dd>
         </dl>
 

@@ -140,4 +140,17 @@ ApplicationRecord.transaction do
     okr_period_id: active_okr_period.id,
     owner_id: marketing_group.id
   )
+
+# 初期設定値を作成
+  Setting.create!(
+      organization_id: organization.id,
+      year_end: 3,
+      okr_span: 3,
+      okr_ready_from: 20,
+      okr_ready_to: 1,
+      okr_review_during_from: 45,
+      okr_review_during_to: 50,
+      okr_review_end_from:1,
+      okr_review_end_to: 7
+  )
 end

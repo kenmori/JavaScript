@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807143123) do
+ActiveRecord::Schema.define(version: 20171003044646) do
 
   create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -113,6 +113,21 @@ ActiveRecord::Schema.define(version: 20170807143123) do
     t.integer "kind", null: false
   end
 
+  create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "organization_id"
+    t.integer "year_end"
+    t.integer "okr_span"
+    t.integer "okr_ready_from"
+    t.integer "okr_ready_to"
+    t.integer "okr_review_during_from"
+    t.integer "okr_review_during_to"
+    t.integer "okr_review_end_from"
+    t.integer "okr_review_end_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_settings_on_organization_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "last_name", null: false
     t.string "first_name", null: false
@@ -142,4 +157,5 @@ ActiveRecord::Schema.define(version: 20170807143123) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "settings", "organizations"
 end
