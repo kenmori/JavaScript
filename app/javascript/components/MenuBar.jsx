@@ -31,14 +31,6 @@ export default class MenuBar extends Component {
     )
   }
 
-  get settingsTrigger() {
-    return (
-      <span>
-        <Icon name='setting'/>
-      </span>
-    )
-  }
-
   get userTrigger() {
     let loginUser = '堀江'; //TODO: 仮データ
     return (
@@ -62,29 +54,15 @@ export default class MenuBar extends Component {
             <Dropdown scrolling options={this.periodsOption} defaultValue={this.periodsOption[0].value} className='full-width'/>
           </div>
           <Menu.Menu position='right' className='right-menu'>
-            <Dropdown trigger={this.settingsTrigger} className='settings'>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Icon name='align left'/>
-                  <NavLink to='/progress'>進捗</NavLink>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Icon name='edit'/>
-                  <NavLink to='/okr/setting'>OKR 設定</NavLink>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
             <Dropdown trigger={this.userTrigger}>
               <Dropdown.Menu>
                 <Dropdown.Item>
-                  <NavLink to='/settings'>設定</NavLink>
+                  <NavLink to='/settings'>
+                    <Icon name='setting'/> 設定
+                  </NavLink>
                 </Dropdown.Item>
-                <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank'>
-                  ヘルプ
-                </Dropdown.Item>
-                <Dropdown.Item onClick={this.props.signOut.bind(this)}>
-                  logout
-                </Dropdown.Item>
+                <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
+                <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Menu>
