@@ -142,15 +142,15 @@ ApplicationRecord.transaction do
   )
 
 # 初期設定値を作成
-  Setting.create!(
+  OkrSetting.create!(
       organization_id: organization.id,
       year_end: 3,
-      okr_span: 3,
-      okr_ready_from: 20,
-      okr_ready_to: 1,
-      okr_review_during_from: 45,
-      okr_review_during_to: 50,
-      okr_review_end_from:1,
-      okr_review_end_to: 7
+      span: 3,
+      ready_from: 20,
+      ready_to: 1,
+      review_during_from: 45,
+      review_during_to: 50,
+      review_end_from:1,
+      review_end_to: 7
   )
 end

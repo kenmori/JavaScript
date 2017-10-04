@@ -2,14 +2,14 @@ import { fork } from 'redux-saga/effects';
 import { objectiveSagas } from './objectives';
 import { keyResultSagas } from './keyResults';
 import { userSagas } from './users';
-import { settingSagas } from './settings';
+import { okrSettingSagas } from './okrSettings';
 import { sessionSagas } from './sessions';
 
 const sagas = [
   objectiveSagas,
   keyResultSagas,
   userSagas,
-  settingSagas,
+  okrSettingSagas,
   sessionSagas
 ];
 

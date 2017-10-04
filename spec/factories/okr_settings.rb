@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :setting do
+  factory :okr_setting do
 
   end
 end

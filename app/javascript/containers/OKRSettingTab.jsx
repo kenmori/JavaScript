@@ -1,17 +1,17 @@
 import OKRSettingTab from '../components/OKRSettingTab';
 import { connect } from 'react-redux';
-import settingActions from '../actions/settings';
+import settingActions from '../actions/okrSettings';
 
 const mapStateToProps = (state) => {
   return {
-    okrSetting: state.settings.okr
+    okrSettings: state.okrSettings
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOkrSetting: organizationId => {
-      dispatch(settingActions.fetchOkrSetting(organizationId));
+    fetchOkrSettings: organizationId => {
+      dispatch(settingActions.fetchOkrSettings(organizationId));
     }
   };
 };

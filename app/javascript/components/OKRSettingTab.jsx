@@ -31,12 +31,12 @@ class OKRSettingTab extends Component {
 
   componentDidMount() {
     // TODO organization_id を指定する
-    this.props.fetchOkrSetting('1');
+    this.props.fetchOkrSettings('1');
   }
 
   render() {
-    const okrSetting = this.props.okrSetting;
-    if (okrSetting.isEmpty()) {
+    const okrSettings = this.props.okrSettings;
+    if (okrSettings.isEmpty()) {
       return null;
     }
     return (
@@ -44,36 +44,36 @@ class OKRSettingTab extends Component {
         <dl>
           <dt>年度末</dt>
           <dd>
-            <Select options={OKRSettingTab.YEAR_END_OPTIONS} defaultValue={okrSetting.get('yearEnd')}/>
+            <Select options={OKRSettingTab.YEAR_END_OPTIONS} defaultValue={okrSettings.get('yearEnd')}/>
           </dd>
 
           <dt>OKR 期間</dt>
           <dd>
-            <Select options={OKRSettingTab.OKR_SPAN_OPTIONS} defaultValue={okrSetting.get('okrSpan')}/>
+            <Select options={OKRSettingTab.OKR_SPAN_OPTIONS} defaultValue={okrSettings.get('span')}/>
           </dd>
 
           <dt>OKR 準備期間</dt>
           <dd>
             期初
-            <Input label="日前" labelPosition="right" defaultValue={okrSetting.get('okrReadyFrom')}/>
+            <Input label="日前" labelPosition="right" defaultValue={okrSettings.get('readyFrom')}/>
             〜
-            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSetting.get('okrReadyTo')}/>
+            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('readyTo')}/>
           </dd>
 
           <dt>振り返り期間 (期中)</dt>
           <dd>
             期初
-            <Input label="日後" labelPosition="right" defaultValue={okrSetting.get('okrReviewDuringFrom')}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewDuringFrom')}/>
             〜
-            <Input label="日後" labelPosition="right" defaultValue={okrSetting.get('okrReviewDuringTo')}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewDuringTo')}/>
           </dd>
 
           <dt>振り返り期間 (期末)</dt>
           <dd>
             期末
-            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSetting.get('okrReviewEndFrom')}/>
+            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('reviewEndFrom')}/>
             〜
-            <Input label="日後" labelPosition="right" defaultValue={okrSetting.get('okrReviewEndTo')}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewEndTo')}/>
           </dd>
         </dl>
 
@@ -85,7 +85,7 @@ class OKRSettingTab extends Component {
 }
 
 OKRSettingTab.propTypes = {
-  fetchOkrSetting: PropTypes.func.isRequired,
+  fetchOkrSettings: PropTypes.func.isRequired,
 };
 
 export default OKRSettingTab;
