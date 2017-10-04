@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807143123) do
+ActiveRecord::Schema.define(version: 20171004030507) do
 
   create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -70,6 +70,21 @@ ActiveRecord::Schema.define(version: 20170807143123) do
     t.integer "period_number", null: false
     t.integer "status", default: 0, null: false
     t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
+  end
+
+  create_table "okr_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "year_end"
+    t.integer "span"
+    t.integer "ready_from"
+    t.integer "ready_to"
+    t.integer "review_during_from"
+    t.integer "review_during_to"
+    t.integer "review_end_from"
+    t.integer "review_end_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "organization_id", null: false
+    t.index ["organization_id"], name: "index_okr_settings_on_organization_id"
   end
 
   create_table "organization_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

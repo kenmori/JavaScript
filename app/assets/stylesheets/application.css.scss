@@ -137,12 +137,22 @@ a.active {
   }
 }
 
-.account-setting-tab {
+.account-setting-tab, .okr-setting-tab {
   dt {
     font-weight: bold;
   }
   dd {
     margin-top: 1em;
     margin-bottom: 2em;
+  }
+}
+
+.okr-setting-tab {
+  .ui.input {
+    margin: 0 1em;
+
+    input {
+      max-width: 4em;
+    }
   }
 }
