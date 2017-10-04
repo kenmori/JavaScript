@@ -32,7 +32,8 @@ export default class MenuBar extends Component {
   }
 
   get userTrigger() {
-    let loginUser = '堀江'; //TODO: 仮データ
+    const loginUser = gon.current_user.last_name;
+    // TODO avatar 画像の表示
     return (
       <span>
         <Icon name='user'/> {loginUser}
