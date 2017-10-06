@@ -1,19 +1,14 @@
 import AccountSettingTab from '../components/AccountSettingTab';
 import { connect } from 'react-redux';
-import userActions from '../actions/users';
 
 const mapStateToProps = (state) => {
   return {
-    user: state.users.get(0)
+    user: gon.current_user
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchUser: id => {
-      dispatch(userActions.fetchUser(id));
-    }
-  };
+  return {};
 };
 
 export default connect(
