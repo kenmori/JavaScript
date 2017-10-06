@@ -6,6 +6,9 @@ export default handleActions({
     [ActionTypes.FETCHED_OKR_SETTINGS]: (state, { payload }) => (
       state.merge(payload.okrSettings)
     ),
+    [ActionTypes.UPDATED_OKR_SETTINGS]: (state, { payload }) => (
+      state.merge(payload.okrSettings)
+    ),
   },
   fromJS({}),
 );

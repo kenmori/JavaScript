@@ -7,6 +7,6 @@ Rails.application.routes.draw do
     resources :plans, only: %i[index create update destroy]
   end
   resources :users, only: %i[index show create update destroy]
-  resources :okr_settings, only: %i[show]
+  resources :okr_settings, only: %i[show update]
   get '*path', to: 'home#index'
 end

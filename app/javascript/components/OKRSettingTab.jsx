@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Button, Input, Select } from 'semantic-ui-react';
+import { Tab, Button, Input, Dropdown } from 'semantic-ui-react';
 
 class OKRSettingTab extends Component {
 
@@ -33,6 +33,20 @@ class OKRSettingTab extends Component {
     this.props.fetchOkrSettings(gon.organization.id);
   }
 
+  updateOkrSettings = () => {
+    const okrSettings = {
+      yearEnd: this.yearEndSelect.getSelectedItem().value,
+      span: this.spanSelect.getSelectedItem().value,
+      readyFrom: this.readyFromInput.inputRef.value,
+      readyTo: this.readyToInput.inputRef.value,
+      reviewDuringFrom: this.reviewDuringFromInput.inputRef.value,
+      reviewDuringTo: this.reviewDuringToInput.inputRef.value,
+      reviewEndFrom: this.reviewEndFromInput.inputRef.value,
+      reviewEndTo: this.reviewEndToInput.inputRef.value,
+    };
+    this.props.updateOkrSettings(gon.organization.id, okrSettings);
+  };
+
   render() {
     const okrSettings = this.props.okrSettings;
     if (okrSettings.isEmpty()) {
@@ -43,41 +57,49 @@ class OKRSettingTab extends Component {
         <dl>
           <dt>年度末</dt>
           <dd>
-            <Select options={OKRSettingTab.YEAR_END_OPTIONS} defaultValue={okrSettings.get('yearEnd')}/>
+            <Dropdown selection options={OKRSettingTab.YEAR_END_OPTIONS} defaultValue={okrSettings.get('yearEnd')}
+                      ref={node => { this.yearEndSelect = node; }}/>
           </dd>
 
           <dt>OKR 期間</dt>
           <dd>
-            <Select options={OKRSettingTab.OKR_SPAN_OPTIONS} defaultValue={okrSettings.get('span')}/>
+            <Dropdown selection options={OKRSettingTab.OKR_SPAN_OPTIONS} defaultValue={okrSettings.get('span')}
+                      ref={node => { this.spanSelect = node; }}/>
           </dd>
 
           <dt>OKR 準備期間</dt>
           <dd>
             期初
-            <Input label="日前" labelPosition="right" defaultValue={okrSettings.get('readyFrom')}/>
+            <Input label="日前" labelPosition="right" defaultValue={okrSettings.get('readyFrom')}
+                   ref={node => { this.readyFromInput = node; }}/>
             〜
-            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('readyTo')} className="readonly"/>
+            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('readyTo')}
+                   ref={node => { this.readyToInput = node; }} className="readonly"/>
           </dd>
 
           <dt>振り返り期間 (期中)</dt>
           <dd>
             期初
-            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewDuringFrom')}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewDuringFrom')}
+                   ref={node => { this.reviewDuringFromInput = node; }}/>
             〜
-            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewDuringTo')}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewDuringTo')}
+                   ref={node => { this.reviewDuringToInput = node; }}/>
           </dd>
 
           <dt>振り返り期間 (期末)</dt>
           <dd>
             期末
-            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('reviewEndFrom')} className="readonly"/>
+            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('reviewEndFrom')}
+                   ref={node => { this.reviewEndFromInput = node; }} className="readonly"/>
             〜
-            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewEndTo')}/>
+            <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewEndTo')}
+                   ref={node => { this.reviewEndToInput = node; }}/>
           </dd>
         </dl>
 
         <Button content="リセット"/>
-        <Button content="保存" positive={true}/>
+        <Button content="保存" positive={true} onClick={this.updateOkrSettings}/>
       </Tab.Pane>
     );
   }
@@ -85,6 +107,7 @@ class OKRSettingTab extends Component {
 
 OKRSettingTab.propTypes = {
   fetchOkrSettings: PropTypes.func.isRequired,
+  updateOkrSettings: PropTypes.func.isRequired,
 };
 
 export default OKRSettingTab;
