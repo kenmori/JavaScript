@@ -56,7 +56,7 @@ class OKRSettingTab extends Component {
             期初
             <Input label="日前" labelPosition="right" defaultValue={okrSettings.get('readyFrom')}/>
             〜
-            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('readyTo')}/>
+            <Input label="日前" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('readyTo')} className="readonly"/>
           </dd>
 
           <dt>振り返り期間 (期中)</dt>
@@ -70,7 +70,7 @@ class OKRSettingTab extends Component {
           <dt>振り返り期間 (期末)</dt>
           <dd>
             期末
-            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('reviewEndFrom')}/>
+            <Input label="日後" labelPosition="right" readOnly="true" defaultValue={okrSettings.get('reviewEndFrom')} className="readonly"/>
             〜
             <Input label="日後" labelPosition="right" defaultValue={okrSettings.get('reviewEndTo')}/>
           </dd>
