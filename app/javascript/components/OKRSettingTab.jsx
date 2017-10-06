@@ -30,8 +30,7 @@ class OKRSettingTab extends Component {
   }
 
   componentDidMount() {
-    // TODO organization_id を指定する
-    this.props.fetchOkrSettings('1');
+    this.props.fetchOkrSettings(gon.organization.id);
   }
 
   render() {
