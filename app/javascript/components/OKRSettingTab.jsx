@@ -47,6 +47,10 @@ class OKRSettingTab extends Component {
     this.props.updateOkrSettings(gon.organization.id, okrSettings);
   };
 
+  resetOkrSettings = () => {
+    this.props.resetOkrSettings(gon.organization.id);
+  };
+
   render() {
     const okrSettings = this.props.okrSettings;
     if (okrSettings.isEmpty()) {
@@ -98,7 +102,7 @@ class OKRSettingTab extends Component {
           </dd>
         </dl>
 
-        <Button content="リセット"/>
+        <Button content="リセット" onClick={this.resetOkrSettings}/>
         <Button content="保存" positive={true} onClick={this.updateOkrSettings}/>
       </Tab.Pane>
     );
@@ -108,6 +112,7 @@ class OKRSettingTab extends Component {
 OKRSettingTab.propTypes = {
   fetchOkrSettings: PropTypes.func.isRequired,
   updateOkrSettings: PropTypes.func.isRequired,
+  resetOkrSettings: PropTypes.func.isRequired,
 };
 
 export default OKRSettingTab;

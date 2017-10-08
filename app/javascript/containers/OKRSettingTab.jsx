@@ -15,7 +15,10 @@ const mapDispatchToProps = dispatch => {
     },
     updateOkrSettings: (organizationId, okrSettings) => {
       dispatch(settingActions.updateOkrSettings(organizationId, okrSettings));
-    }
+    },
+    resetOkrSettings: organizationId => {
+      dispatch(settingActions.resetOkrSettings(organizationId));
+    },
   };
 };
 
