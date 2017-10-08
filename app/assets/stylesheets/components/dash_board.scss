@@ -1,0 +1,37 @@
+.dash-board {
+  margin: 10px 0 0 30px;
+
+  .login-user {
+    font-weight: bold;
+    .avatar {
+      border: 3px rgba(34, 36, 38, 0.15) solid;
+      border-radius: 50%;
+      width: 48px;
+      height: 45px;
+    }
+
+    .info {
+      margin-left: 10px;
+      font-size: 0.95rem;
+    }
+  }
+
+  .okr {
+    margin-top: 10px;
+    font-weight: bold;
+    .okr-list {
+      margin-top: 10px;
+      .okr-box {
+        display: table-cell;
+        width: 210px;
+        height: 195px;
+        border: 2px $ASSIST_COLOR dashed;
+        border-radius: 4px;
+        background: rgba(239, 8, 3, 0.11);
+        vertical-align: middle;
+        text-align: center;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
