@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
 import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 const rollOptions = [
   { key: 'user', value: 'user', text: 'ユーザー' },
@@ -145,10 +146,10 @@ class UsersTable extends Component {
 }
 
 UsersTable.propTypes = {
-  users: React.PropTypes.array.isRequired,
-  onAdd: React.PropTypes.func.isRequired,
-  onUpdate: React.PropTypes.func.isRequired,
-  onRemove: React.PropTypes.func.isRequired,
+  users: PropTypes.array.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default UsersTable;
