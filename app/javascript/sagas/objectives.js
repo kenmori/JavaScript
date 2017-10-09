@@ -5,8 +5,8 @@ import dialogActions from '../actions/dialogs';
 import actions from '../actions/objectives';
 import actionTypes from '../constants/actionTypes';
 
-function* fetchObjectives() {
-  const result = yield call(API.get, '/objectives');
+function* fetchObjectives({payload}) {
+  const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId });
   yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
 }
 
