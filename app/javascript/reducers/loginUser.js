@@ -3,9 +3,9 @@ import { handleActions } from 'redux-actions';
 import gon from '../utils/gon';
 
 const initialState = fromJS({
-  lastName: gon.getIn(['currentUser', 'lastName']),
-  firstName: gon.getIn(['currentUser', 'firstName']),
-  email: gon.getIn(['currentUser', 'email']),
+  lastName: gon.getIn(['loginUser', 'lastName']),
+  firstName: gon.getIn(['loginUser', 'firstName']),
+  email: gon.getIn(['loginUser', 'email']),
 });
 
 export default handleActions({}, initialState);
