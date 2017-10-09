@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import OKRSettingPage from '../containers/OKRSettingPage';
+import OKRCreationFlow from '../containers/OKRCreationFlow';
 import { Route, Switch } from 'react-router-dom';
 import MenuBar from '../containers/MenuBar';
+import DashBoard from '../containers/DashBoard';
 
 class Home extends Component {
   render() {
     return (
       <div className='home'>
         <MenuBar />
+        <DashBoard />
         <main>
           <Switch>
-            <Route exact path='/okr/setting' component={OKRSettingPage}/>
-            <Route exact path='/' component={OKRSettingPage}/>
+            <Route exact path='/' component={OKRCreationFlow}/>
           </Switch>
         </main>
       </div>
