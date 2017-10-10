@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Button, Input, Dropdown } from 'semantic-ui-react';
+import { Tab, Button, Input, Select } from 'semantic-ui-react';
 
 class OKRSettingTab extends Component {
 
@@ -80,14 +80,14 @@ class OKRSettingTab extends Component {
         <dl>
           <dt>年度末</dt>
           <dd>
-            <Dropdown selection options={OKRSettingTab.YEAR_END_OPTIONS} value={okrSettings.get('yearEnd')}
-                      onChange={this.handleChange} name="yearEnd"/>
+            <Select options={OKRSettingTab.YEAR_END_OPTIONS} value={okrSettings.get('yearEnd')}
+                    onChange={this.handleChange} name="yearEnd"/>
           </dd>
 
           <dt>OKR 期間</dt>
           <dd>
-            <Dropdown selection options={OKRSettingTab.OKR_SPAN_OPTIONS} value={okrSettings.get('span')}
-                      onChange={this.handleChange} name="span"/>
+            <Select options={OKRSettingTab.OKR_SPAN_OPTIONS} value={okrSettings.get('span')}
+                    onChange={this.handleChange} name="span"/>
           </dd>
 
           <dt>OKR 準備期間</dt>
