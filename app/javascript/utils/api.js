@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { camelizeKeys, decamelizeKeys } from 'humps';
+import queryString from 'querystring'
 import { fromJS } from 'immutable';
 
 const format = (body) => {
@@ -42,7 +43,8 @@ const handlerResponse = response => {
 
 const API = {
   get: (url, query = {}) => {
-    return fetch(url, { ...defaultHeaders, ...decamelizeKeys(query), ...{ method: 'GET' } })
+    if(Object.keys(query).length != 0) url += '?' +  queryString.stringify(decamelizeKeys(query));
+    return fetch(url, { ...defaultHeaders, ...{ method: 'GET' } })
       .then(handlerResponse);
   },
   post: (url, data) => {

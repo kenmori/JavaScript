@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
   return {
-    user: gon.current_user
+    user: gon.login_user
   };
 };
 

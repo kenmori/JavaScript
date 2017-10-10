@@ -22,16 +22,25 @@
     .okr-list {
       margin-top: 10px;
       .okr-box {
-        display: table-cell;
+        display: inline-flex;
+        margin-right: 30px;
         width: 210px;
         height: 195px;
-        border: 2px $ASSIST_COLOR dashed;
+        justify-content: center;
+        align-items: center;
+        border: 2px rgba(34, 36, 38, 0.15) dashed;
         border-radius: 4px;
-        background: rgba(239, 8, 3, 0.11);
         vertical-align: middle;
         text-align: center;
         font-size: 0.8rem;
+        color: #000000;
+
+        &:focus {
+          border: 2px $ASSIST_COLOR dashed;
+          background: rgba(239, 8, 3, 0.11);
+        }
       }
+
     }
   }
 }
