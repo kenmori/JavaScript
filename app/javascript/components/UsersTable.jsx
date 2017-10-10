@@ -109,10 +109,18 @@ class UsersTable extends Component {
                 <Table.Row key={user.get('id')}>
                   <Table.Cell><Image src="" avatar/></Table.Cell>
                   <Table.Cell><a href={'/users/' + user.get('id')}>{user.get('id')}</a></Table.Cell>
-                  <Table.Cell>{user.get('lastName')}</Table.Cell>
-                  <Table.Cell>{user.get('firstName')}</Table.Cell>
-                  <Table.Cell>{user.get('email')}</Table.Cell>
-                  <Table.Cell>ユーザー</Table.Cell>
+                  <Table.Cell>
+                    <Input type="text" defaultValue={user.get('lastName')} readOnly={true} className="readonly"/>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Input type="text" defaultValue={user.get('firstName')} readOnly={true} className="readonly"/>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Input type="email" defaultValue={user.get('email')} readOnly={true} className="readonly"/>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Select options={rollOptions} defaultValue={'user'} open={false} className="readonly"/>
+                  </Table.Cell>
                   <Table.Cell>
                     <Button icon="edit" onClick={this.editUser(user.get('id'))}/>
                     <Button icon="remove" onClick={this.removeUser(user.get('id'))}/>

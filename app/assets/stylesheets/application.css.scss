@@ -119,6 +119,28 @@ a.active {
       flex-grow: 0;
     }
   }
+
+  .ui.readonly {
+    @mixin transparent() {
+      border-color: transparent !important;
+      background-color: transparent !important;
+      padding-left: 0 !important;
+      box-shadow: none !important;
+      cursor: default !important;
+    }
+
+    &.input input {
+      @include transparent();
+    }
+
+    &.selection.dropdown {
+      @include transparent();
+
+      .dropdown.icon {
+        display: none;
+      }
+    }
+  }
 }
 
 .account-setting-tab, .okr-setting-tab {
