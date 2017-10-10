@@ -135,13 +135,16 @@ class UsersTable extends Component {
               <Table.HeaderCell/>
               <Table.HeaderCell/>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.lastNameInput = node; }}/>
+                <Input type="text" maxLength="255" required ref={node => { this.lastNameInput = node; }}
+                       placeholder="姓"/>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.firstNameInput = node; }}/>
+                <Input type="text" maxLength="255" required ref={node => { this.firstNameInput = node; }}
+                       placeholder="名"/>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <Input type="email" maxLength="255" required ref={node => { this.emailInput = node; }}/>
+                <Input type="email" maxLength="255" required ref={node => { this.emailInput = node; }}
+                       placeholder="メールアドレス"/>
               </Table.HeaderCell>
               <Table.HeaderCell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.HeaderCell>
               <Table.HeaderCell><Button icon="plus" content="追加" onClick={this.addUser()}/></Table.HeaderCell>
