@@ -1,6 +1,12 @@
 class OkrSettingsController < ApplicationController
   def show
-    render json: OkrSetting.find(params[:id])
+    @okr_settings = OkrSetting.find_by_id(params[:id])
+    if @okr_settings
+      render json: @okr_settings
+    else
+      OkrSetting.create(organization_id: params[:id])
+      create
+    end
   end
 
   def create
