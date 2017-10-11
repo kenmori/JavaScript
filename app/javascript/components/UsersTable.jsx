@@ -16,6 +16,7 @@ class UsersTable extends Component {
       column: 'id',
       users: props.users,
       direction: null,
+      editableId: null,
     };
   }
 
@@ -65,7 +66,21 @@ class UsersTable extends Component {
   };
 
   editUser = id => () => {
-    alert("Sorry, this is not implemented yet.");
+    this.setState({
+      editableId: id
+    });
+  };
+
+  editUserOk = () => {
+    this.setState({
+      editableId: null
+    });
+  };
+
+  editUserCancel = () => {
+    this.setState({
+      editableId: null
+    });
   };
 
   removeUser = id => () => {
@@ -105,28 +120,43 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              _.map(users, user => (
-                <Table.Row key={user.get('id')}>
-                  <Table.Cell><Image src="" avatar/></Table.Cell>
-                  <Table.Cell><a href={'/users/' + user.get('id')}>{user.get('id')}</a></Table.Cell>
-                  <Table.Cell>
-                    <Input type="text" defaultValue={user.get('lastName')} readOnly={true} className="readonly"/>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input type="text" defaultValue={user.get('firstName')} readOnly={true} className="readonly"/>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input type="email" defaultValue={user.get('email')} readOnly={true} className="readonly"/>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Select options={rollOptions} defaultValue={'user'} open={false} className="readonly"/>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button icon="edit" onClick={this.editUser(user.get('id'))}/>
-                    <Button icon="remove" onClick={this.removeUser(user.get('id'))}/>
-                  </Table.Cell>
-                </Table.Row>
-              ))
+              _.map(users, user => {
+                const id = user.get('id');
+                const readOnly = id !== this.state.editableId;
+                const className = readOnly ? 'readonly' : '';
+                const open = readOnly ? false : undefined;
+                return (
+                  <Table.Row key={id}>
+                    <Table.Cell><Image src="" avatar/></Table.Cell>
+                    <Table.Cell><a href={`/users/${id}`}>{id}</a></Table.Cell>
+                    <Table.Cell>
+                      <Input type="text" defaultValue={user.get('lastName')} readOnly={readOnly} className={className}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Input type="text" defaultValue={user.get('firstName')} readOnly={readOnly} className={className}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Input type="email" defaultValue={user.get('email')} readOnly={readOnly} className={className}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {readOnly ? (
+                        <div>
+                          <Button icon="pencil" onClick={this.editUser(id)} title="編集"/>
+                          <Button icon="user delete" onClick={this.removeUser(id)} title="削除" negative/>
+                        </div>
+                      ) : (
+                        <div>
+                          <Button icon="cancel" onClick={this.editUserCancel} title="キャンセル"/>
+                          <Button icon="check" onClick={this.editUserOk} title="OK" positive/>
+                        </div>
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
             }
           </Table.Body>
 
