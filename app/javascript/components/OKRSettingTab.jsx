@@ -37,9 +37,11 @@ class OKRSettingTab extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      okrSettings: nextProps.okrSettings
-    });
+    if (this.props.okrSettings !== nextProps.okrSettings) {
+      this.setState({
+        okrSettings: nextProps.okrSettings
+      });
+    }
   }
 
   componentDidMount() {
