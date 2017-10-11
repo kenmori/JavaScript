@@ -163,7 +163,7 @@ class UsersTable extends Component {
                     <Table.Cell>
                       <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell textAlign="center">
                       {readOnly ? (
                         <div>
                           <Button icon="pencil" onClick={this.editUser(id)} title="編集"/>
@@ -199,7 +199,9 @@ class UsersTable extends Component {
                        placeholder="メールアドレス"/>
               </Table.HeaderCell>
               <Table.HeaderCell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.HeaderCell>
-              <Table.HeaderCell><Button icon="plus" content="追加" onClick={this.addUser()}/></Table.HeaderCell>
+              <Table.HeaderCell textAlign="center">
+                <Button icon="plus" content="追加" onClick={this.addUser()}/>
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
