@@ -8,8 +8,20 @@ function* fetchOkrSettings({ payload }) {
   yield put(settingActions.fetchedOkrSettings(result));
 }
 
+function* updateOkrSettings({ payload }) {
+  const result = yield call(API.put, '/okr_settings/' + payload.organizationId, { okrSettings: payload.okrSettings });
+  yield put(settingActions.updatedOkrSettings(result));
+}
+
+function* resetOkrSettings({ payload }) {
+  const result = yield call(API.post, '/okr_settings/', { id: payload.organizationId });
+  yield put(settingActions.didResetOkrSettings(result));
+}
+
 export function* okrSettingSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKR_SETTINGS, fetchOkrSettings),
+    takeLatest(actionTypes.UPDATE_OKR_SETTINGS, updateOkrSettings),
+    takeLatest(actionTypes.RESET_OKR_SETTINGS, resetOkrSettings),
   ]);
 }

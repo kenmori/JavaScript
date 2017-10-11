@@ -139,4 +139,8 @@ a.active {
       max-width: 4em;
     }
   }
+
+  .ui.readonly.input {
+    opacity: .65;
+  }
 }
