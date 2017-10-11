@@ -83,8 +83,10 @@ class UsersTable extends Component {
     });
   };
 
-  removeUser = id => () => {
-    this.props.onRemove(id);
+  removeUser = (id, name) => () => {
+    if (confirm(`ユーザー ${name} を削除しますか？`)) {
+      this.props.onRemove(id);
+    }
   };
 
   render() {
@@ -125,15 +127,18 @@ class UsersTable extends Component {
                 const readOnly = id !== this.state.editableId;
                 const className = readOnly ? 'readonly' : '';
                 const open = readOnly ? false : undefined;
+                const lastName = user.get('lastName');
+                const firstName = user.get('firstName');
+                const name = `${lastName} ${firstName}`;
                 return (
                   <Table.Row key={id}>
                     <Table.Cell><Image src="" avatar/></Table.Cell>
                     <Table.Cell><a href={`/users/${id}`}>{id}</a></Table.Cell>
                     <Table.Cell>
-                      <Input type="text" defaultValue={user.get('lastName')} readOnly={readOnly} className={className}/>
+                      <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Input type="text" defaultValue={user.get('firstName')} readOnly={readOnly} className={className}/>
+                      <Input type="text" defaultValue={firstName} readOnly={readOnly} className={className}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Input type="email" defaultValue={user.get('email')} readOnly={readOnly} className={className}/>
@@ -145,7 +150,7 @@ class UsersTable extends Component {
                       {readOnly ? (
                         <div>
                           <Button icon="pencil" onClick={this.editUser(id)} title="編集"/>
-                          <Button icon="user delete" onClick={this.removeUser(id)} title="削除" negative/>
+                          <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>
                         </div>
                       ) : (
                         <div>
