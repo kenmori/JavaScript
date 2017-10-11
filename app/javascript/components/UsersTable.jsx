@@ -18,6 +18,9 @@ class UsersTable extends Component {
       direction: null,
       editableId: null,
     };
+    this.firstNameInputs = [];
+    this.lastNameInputs = [];
+    this.emailInputs = [];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,14 +58,14 @@ class UsersTable extends Component {
 
   addUser = () => () => {
     this.props.onAdd({
-      first_name: this.firstNameInput.inputRef.value,
-      last_name: this.lastNameInput.inputRef.value,
-      email: this.emailInput.inputRef.value,
+      first_name: this.firstNameInputs[0].inputRef.value,
+      last_name: this.lastNameInputs[0].inputRef.value,
+      email: this.emailInputs[0].inputRef.value,
       password: "testtest",
     });
-    this.lastNameInput.inputRef.value = '';
-    this.firstNameInput.inputRef.value = '';
-    this.emailInput.inputRef.value = '';
+    this.lastNameInputs[0].inputRef.value = '';
+    this.firstNameInputs[0].inputRef.value = '';
+    this.emailInputs[0].inputRef.value = '';
   };
 
   editUser = id => () => {
@@ -72,12 +75,23 @@ class UsersTable extends Component {
   };
 
   editUserOk = () => {
+    const id = this.state.editableId;
+    this.props.onUpdate({
+      id: id,
+      firstName: this.firstNameInputs[id].inputRef.value,
+      lastName: this.lastNameInputs[id].inputRef.value,
+      email: this.emailInputs[id].inputRef.value,
+    });
     this.setState({
       editableId: null
     });
   };
 
   editUserCancel = () => {
+    const id = this.state.editableId;
+    this.firstNameInputs[id].inputRef.value = this.firstNameInputs[id].inputRef.defaultValue;
+    this.lastNameInputs[id].inputRef.value = this.lastNameInputs[id].inputRef.defaultValue;
+    this.emailInputs[id].inputRef.value = this.emailInputs[id].inputRef.defaultValue;
     this.setState({
       editableId: null
     });
@@ -135,13 +149,16 @@ class UsersTable extends Component {
                     <Table.Cell><Image src="" avatar/></Table.Cell>
                     <Table.Cell><a href={`/users/${id}`}>{id}</a></Table.Cell>
                     <Table.Cell>
-                      <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}/>
+                      <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}
+                             ref={node => { this.lastNameInputs[id] = node; }}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Input type="text" defaultValue={firstName} readOnly={readOnly} className={className}/>
+                      <Input type="text" defaultValue={firstName} readOnly={readOnly} className={className}
+                             ref={node => { this.firstNameInputs[id] = node; }}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Input type="email" defaultValue={user.get('email')} readOnly={readOnly} className={className}/>
+                      <Input type="email" defaultValue={user.get('email')} readOnly={readOnly} className={className}
+                             ref={node => { this.emailInputs[id] = node; }}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
@@ -170,15 +187,15 @@ class UsersTable extends Component {
               <Table.HeaderCell/>
               <Table.HeaderCell/>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.lastNameInput = node; }}
+                <Input type="text" maxLength="255" required ref={node => { this.lastNameInputs[0] = node; }}
                        placeholder="姓"/>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.firstNameInput = node; }}
+                <Input type="text" maxLength="255" required ref={node => { this.firstNameInputs[0] = node; }}
                        placeholder="名"/>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <Input type="email" maxLength="255" required ref={node => { this.emailInput = node; }}
+                <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
                        placeholder="メールアドレス"/>
               </Table.HeaderCell>
               <Table.HeaderCell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.HeaderCell>
