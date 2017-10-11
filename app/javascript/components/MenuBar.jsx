@@ -32,7 +32,7 @@ class MenuBar extends Component {
   }
 
   get userTrigger() {
-    const loginUser = gon.current_user.last_name;
+    const loginUser = gon.login_user.last_name;
     // TODO avatar 画像の表示
     return (
       <span>
