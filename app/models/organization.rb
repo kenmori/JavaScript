@@ -6,7 +6,7 @@ class Organization < ApplicationRecord
 
   after_create do
     self.groups.create!(name: self.name, kind: :organization)
-    self.okr_setting = OkrSetting.create!(organization_id: self.id)
+    self.create_okr_setting!
   end
 
   def organization_group
