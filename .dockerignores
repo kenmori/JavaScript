@@ -1,5 +1,6 @@
 ## Rails
 #public/assets/*
+#public/packs/*
 
 ## Environment normalisation:
 .bundle

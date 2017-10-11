@@ -18,5 +18,5 @@ RUN yarn install
 ARG RAILS_ENV
 ARG NODE_ENV
 
-RUN if $RAILS_ENV -ne "development"; then RAILS_ENV=$RAILS_ENV NODE_ENV=$NODE_ENV bundle exec rails assets:precompile --trace; fi
+RUN if [ $RAILS_ENV != "development" ]; then RAILS_ENV=$RAILS_ENV NODE_ENV=$NODE_ENV bundle exec rails assets:precompile --trace; fi
 CMD bundle exec rails s puma -b 0.0.0.0 -p 3000 -e $RAILS_ENV
