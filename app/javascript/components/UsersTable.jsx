@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react';
 import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -13,10 +12,14 @@ class UsersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      column: 'id',
+      column: null,
       users: props.users,
       direction: null,
+      editableId: null,
     };
+    this.firstNameInputs = [];
+    this.lastNameInputs = [];
+    this.emailInputs = [];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,51 +28,87 @@ class UsersTable extends Component {
     });
   }
 
-  sort = clickedColumn => () => {
-    const { column, users, direction } = this.state;
+  sort = (event) => {
+    const column = event.target.getAttribute('name');
 
-    if (column !== clickedColumn) {
+    if (this.state.column !== column) {
+      const sortedUsers = this.state.users.sort((a, b) => {
+        if (typeof a.get(column) === 'string') {
+          return a.get(column).localeCompare(b.get(column));
+        } else {
+          if (a < b) { return -1; }
+          if (a > b) { return 1; }
+          if (a === b) { return 0; }
+        }
+      });
       this.setState({
-        column: clickedColumn,
-        users: _.sortBy(users, [clickedColumn]),
+        column: column,
+        users: sortedUsers,
         direction: 'ascending',
       });
       return;
     }
 
     this.setState({
-      users: users.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
+      users: this.state.users.reverse(),
+      direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
 
   filter = () => {
     const keyword = this.searchInput.inputRef.value;
     this.setState({
-      users: _.filter(this.props.users, user => {
-        return user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword);
-      })
+      users: this.props.users.filter(user => (
+        user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
+      ))
     })
   };
 
-  addUser = () => () => {
+  addUser = () => {
     this.props.onAdd({
-      first_name: this.firstNameInput.inputRef.value,
-      last_name: this.lastNameInput.inputRef.value,
-      email: this.emailInput.inputRef.value,
+      firstName: this.firstNameInputs[0].inputRef.value,
+      lastName: this.lastNameInputs[0].inputRef.value,
+      email: this.emailInputs[0].inputRef.value,
       password: "testtest",
     });
-    this.lastNameInput.inputRef.value = '';
-    this.firstNameInput.inputRef.value = '';
-    this.emailInput.inputRef.value = '';
+    this.lastNameInputs[0].inputRef.value = '';
+    this.firstNameInputs[0].inputRef.value = '';
+    this.emailInputs[0].inputRef.value = '';
   };
 
   editUser = id => () => {
-    alert("Sorry, this is not implemented yet.");
+    this.setState({
+      editableId: id,
+    });
   };
 
-  removeUser = id => () => {
-    this.props.onRemove(id);
+  editUserOk = () => {
+    const id = this.state.editableId;
+    this.props.onUpdate({
+      id: id,
+      firstName: this.firstNameInputs[id].inputRef.value,
+      lastName: this.lastNameInputs[id].inputRef.value,
+      email: this.emailInputs[id].inputRef.value,
+    });
+    this.setState({
+      editableId: null,
+    });
+  };
+
+  editUserCancel = () => {
+    const id = this.state.editableId;
+    this.firstNameInputs[id].inputRef.value = this.firstNameInputs[id].inputRef.defaultValue;
+    this.lastNameInputs[id].inputRef.value = this.lastNameInputs[id].inputRef.defaultValue;
+    this.emailInputs[id].inputRef.value = this.emailInputs[id].inputRef.defaultValue;
+    this.setState({
+      editableId: null,
+    });
+  };
+
+  removeUser = (id, name) => () => {
+    if (confirm(`ユーザー ${name} を削除しますか？`)) {
+      this.props.onRemove(id);
+    }
   };
 
   render() {
@@ -84,19 +123,19 @@ class UsersTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell disabled/>
-              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort('id')}>
+              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort} name="id">
                 ID
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort('lastName')}>
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort} name="lastName">
                 姓
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort('firstName')}>
+              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort} name="firstName">
                 名
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort} name="email">
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort('roll')}>
+              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort} name="roll">
                 役割
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
@@ -105,20 +144,49 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              _.map(users, user => (
-                <Table.Row key={user.get('id')}>
-                  <Table.Cell><Image src="" avatar/></Table.Cell>
-                  <Table.Cell><a href={'/users/' + user.get('id')}>{user.get('id')}</a></Table.Cell>
-                  <Table.Cell>{user.get('lastName')}</Table.Cell>
-                  <Table.Cell>{user.get('firstName')}</Table.Cell>
-                  <Table.Cell>{user.get('email')}</Table.Cell>
-                  <Table.Cell>ユーザー</Table.Cell>
-                  <Table.Cell>
-                    <Button icon="edit" onClick={this.editUser(user.get('id'))}/>
-                    <Button icon="remove" onClick={this.removeUser(user.get('id'))}/>
-                  </Table.Cell>
-                </Table.Row>
-              ))
+              users.map(user => {
+                const id = user.get('id');
+                const readOnly = id !== this.state.editableId;
+                const className = readOnly ? 'readonly' : '';
+                const open = readOnly ? false : undefined;
+                const lastName = user.get('lastName');
+                const firstName = user.get('firstName');
+                const name = `${lastName} ${firstName}`;
+                return (
+                  <Table.Row key={id}>
+                    <Table.Cell><Image src="" avatar/></Table.Cell>
+                    <Table.Cell><a href={`/users/${id}`}>{id}</a></Table.Cell>
+                    <Table.Cell>
+                      <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}
+                             ref={node => { this.lastNameInputs[id] = node; }}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Input type="text" defaultValue={firstName} readOnly={readOnly} className={className}
+                             ref={node => { this.firstNameInputs[id] = node; }}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Input type="email" defaultValue={user.get('email')} readOnly={readOnly} className={className}
+                             ref={node => { this.emailInputs[id] = node; }}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
+                    </Table.Cell>
+                    <Table.Cell textAlign="center">
+                      {readOnly ? (
+                        <div>
+                          <Button icon="pencil" onClick={this.editUser(id)} title="編集"/>
+                          <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>
+                        </div>
+                      ) : (
+                        <div>
+                          <Button icon="cancel" onClick={this.editUserCancel} title="キャンセル"/>
+                          <Button icon="check" onClick={this.editUserOk} title="OK" positive/>
+                        </div>
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
             }
           </Table.Body>
 
@@ -127,16 +195,21 @@ class UsersTable extends Component {
               <Table.HeaderCell/>
               <Table.HeaderCell/>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.lastNameInput = node; }}/>
+                <Input type="text" maxLength="255" required ref={node => { this.lastNameInputs[0] = node; }}
+                       placeholder="姓"/>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.firstNameInput = node; }}/>
+                <Input type="text" maxLength="255" required ref={node => { this.firstNameInputs[0] = node; }}
+                       placeholder="名"/>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <Input type="email" maxLength="255" required ref={node => { this.emailInput = node; }}/>
+                <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
+                       placeholder="メールアドレス"/>
               </Table.HeaderCell>
               <Table.HeaderCell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.HeaderCell>
-              <Table.HeaderCell><Button icon="plus" content="追加" onClick={this.addUser()}/></Table.HeaderCell>
+              <Table.HeaderCell textAlign="center">
+                <Button icon="plus" content="追加" onClick={this.addUser}/>
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
