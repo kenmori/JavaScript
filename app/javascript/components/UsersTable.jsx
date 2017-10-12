@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react';
 import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -59,9 +58,9 @@ class UsersTable extends Component {
   filter = () => {
     const keyword = this.searchInput.inputRef.value;
     this.setState({
-      users: _.filter(this.props.users, user => {
-        return user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword);
-      })
+      users: this.props.users.filter(user => (
+        user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
+      ))
     })
   };
 
@@ -145,7 +144,7 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              _.map(users, user => {
+              users.map(user => {
                 const id = user.get('id');
                 const readOnly = id !== this.state.editableId;
                 const className = readOnly ? 'readonly' : '';
