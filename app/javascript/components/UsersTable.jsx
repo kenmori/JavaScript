@@ -13,7 +13,7 @@ class UsersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      column: 'id',
+      column: null,
       users: props.users,
       direction: null,
       editableId: null,
@@ -33,9 +33,18 @@ class UsersTable extends Component {
     const { column, users, direction } = this.state;
 
     if (column !== clickedColumn) {
+      const sortedUsers = users.sort((a, b) => {
+        if (typeof a.get(clickedColumn) === 'string') {
+          return a.get(clickedColumn).localeCompare(b.get(clickedColumn));
+        } else {
+          if (a < b) { return -1; }
+          if (a > b) { return 1; }
+          if (a === b) { return 0; }
+        }
+      });
       this.setState({
         column: clickedColumn,
-        users: _.sortBy(users, [clickedColumn]),
+        users: sortedUsers,
         direction: 'ascending',
       });
       return;
