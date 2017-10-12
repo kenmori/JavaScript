@@ -64,10 +64,10 @@ class UsersTable extends Component {
     })
   };
 
-  addUser = () => () => {
+  addUser = () => {
     this.props.onAdd({
-      first_name: this.firstNameInputs[0].inputRef.value,
-      last_name: this.lastNameInputs[0].inputRef.value,
+      firstName: this.firstNameInputs[0].inputRef.value,
+      lastName: this.lastNameInputs[0].inputRef.value,
       email: this.emailInputs[0].inputRef.value,
       password: "testtest",
     });
@@ -78,7 +78,7 @@ class UsersTable extends Component {
 
   editUser = id => () => {
     this.setState({
-      editableId: id
+      editableId: id,
     });
   };
 
@@ -91,7 +91,7 @@ class UsersTable extends Component {
       email: this.emailInputs[id].inputRef.value,
     });
     this.setState({
-      editableId: null
+      editableId: null,
     });
   };
 
@@ -101,7 +101,7 @@ class UsersTable extends Component {
     this.lastNameInputs[id].inputRef.value = this.lastNameInputs[id].inputRef.defaultValue;
     this.emailInputs[id].inputRef.value = this.emailInputs[id].inputRef.defaultValue;
     this.setState({
-      editableId: null
+      editableId: null,
     });
   };
 
@@ -208,7 +208,7 @@ class UsersTable extends Component {
               </Table.HeaderCell>
               <Table.HeaderCell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.HeaderCell>
               <Table.HeaderCell textAlign="center">
-                <Button icon="plus" content="追加" onClick={this.addUser()}/>
+                <Button icon="plus" content="追加" onClick={this.addUser}/>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
