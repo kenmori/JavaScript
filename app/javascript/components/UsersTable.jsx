@@ -29,13 +29,13 @@ class UsersTable extends Component {
     });
   }
 
-  sort = clickedColumn => () => {
-    const { column, users, direction } = this.state;
+  sort = (event) => {
+    const column = event.target.getAttribute('name');
 
-    if (column !== clickedColumn) {
-      const sortedUsers = users.sort((a, b) => {
-        if (typeof a.get(clickedColumn) === 'string') {
-          return a.get(clickedColumn).localeCompare(b.get(clickedColumn));
+    if (this.state.column !== column) {
+      const sortedUsers = this.state.users.sort((a, b) => {
+        if (typeof a.get(column) === 'string') {
+          return a.get(column).localeCompare(b.get(column));
         } else {
           if (a < b) { return -1; }
           if (a > b) { return 1; }
@@ -43,7 +43,7 @@ class UsersTable extends Component {
         }
       });
       this.setState({
-        column: clickedColumn,
+        column: column,
         users: sortedUsers,
         direction: 'ascending',
       });
@@ -51,8 +51,8 @@ class UsersTable extends Component {
     }
 
     this.setState({
-      users: users.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
+      users: this.state.users.reverse(),
+      direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
 
@@ -124,19 +124,19 @@ class UsersTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell disabled/>
-              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort('id')}>
+              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort} name="id">
                 ID
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort('lastName')}>
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort} name="lastName">
                 姓
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort('firstName')}>
+              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort} name="firstName">
                 名
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort} name="email">
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort('roll')}>
+              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort} name="roll">
                 役割
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
