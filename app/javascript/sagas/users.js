@@ -29,7 +29,7 @@ function* removeUser({ payload }) {
 }
 
 function* updatePassword({ payload }) {
-  const result = yield call(API.put, `/users/${payload.user.id}/password`, { id: payload.user.id, user: payload.user });
+  const result = yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
   yield put(userActions.updatedUser(result));
 }
 

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     if @user.update_with_password(password_params)
       bypass_sign_in(@user)
       render json: @user, status: :ok
