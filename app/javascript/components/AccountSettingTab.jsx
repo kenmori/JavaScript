@@ -5,6 +5,13 @@ import { Tab, Button, Image, Input } from 'semantic-ui-react';
 class AccountSettingTab extends Component {
 
   changePassword = () => {
+    this.props.updatePassword({
+      id: this.props.user.id,
+      currentPassword: this.oldPasswordInput.inputRef.value,
+      password: this.newPasswordInput.inputRef.value,
+      passwordConfirmation: this.confirmPasswordInput.inputRef.value,
+    });
+
     this.oldPasswordInput.inputRef.value = '';
     this.newPasswordInput.inputRef.value = '';
     this.confirmPasswordInput.inputRef.value = '';
@@ -45,6 +52,8 @@ class AccountSettingTab extends Component {
   }
 }
 
-AccountSettingTab.propTypes = {};
+AccountSettingTab.propTypes = {
+  updatePassword: PropTypes.func.isRequired,
+};
 
 export default AccountSettingTab;

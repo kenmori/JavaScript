@@ -1,5 +1,6 @@
 import AccountSettingTab from '../components/AccountSettingTab';
 import { connect } from 'react-redux';
+import userActions from '../actions/users';
 
 const mapStateToProps = (state) => {
   return {
@@ -8,7 +9,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    updatePassword: user => {
+      dispatch(userActions.updatePassword(user));
+    },
+  };
 };
 
 export default connect(

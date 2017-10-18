@@ -12,6 +12,8 @@ const actions = createActions({
   [actionTypes.UPDATED_USER]: user => ({ user }),
   [actionTypes.REMOVE_USER]: id => ({ id }),
   [actionTypes.REMOVED_USER]: id => ({ id }),
+  [actionTypes.UPDATE_PASSWORD]: user => ({ user }),
+  [actionTypes.UPDATED_PASSWORD]: user => ({ user }),
 });
 
 export default actions;

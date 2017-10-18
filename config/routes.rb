@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resources :key_results, only: %i[index create update destroy] do
     resources :plans, only: %i[index create update destroy]
   end
-  resources :users, only: %i[index show create update destroy]
+  resources :users, only: %i[index show create update destroy] do
+    put 'password', to: 'users#update_password'
+  end
   resources :okr_settings, only: %i[show create update]
   get '*path', to: 'home#index'
 end
