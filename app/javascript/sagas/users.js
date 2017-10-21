@@ -28,6 +28,11 @@ function* removeUser({ payload }) {
   yield put(userActions.removedUser(payload.id));
 }
 
+function* updatePassword({ payload }) {
+  const result = yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
+  yield put(userActions.updatedUser(result));
+}
+
 export function* userSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_USER, fetchUser),
@@ -35,5 +40,6 @@ export function* userSagas() {
     takeLatest(actionTypes.ADD_USER, addUser),
     takeLatest(actionTypes.UPDATE_USER, updateUser),
     takeLatest(actionTypes.REMOVE_USER, removeUser),
+    takeLatest(actionTypes.UPDATE_PASSWORD, updatePassword),
   ]);
 }

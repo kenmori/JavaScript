@@ -5,9 +5,16 @@ import { Tab, Button, Image, Input } from 'semantic-ui-react';
 class AccountSettingTab extends Component {
 
   changePassword = () => {
-    this.oldPasswordInput.inputRef.value = '';
-    this.newPasswordInput.inputRef.value = '';
-    this.confirmPasswordInput.inputRef.value = '';
+    this.props.updatePassword({
+      id: this.props.user.id,
+      currentPassword: this.currentPasswordInput.inputRef.value,
+      password: this.passwordInput.inputRef.value,
+      passwordConfirmation: this.passwordConfirmationInput.inputRef.value,
+    });
+
+    this.currentPasswordInput.inputRef.value = '';
+    this.passwordInput.inputRef.value = '';
+    this.passwordConfirmationInput.inputRef.value = '';
   };
 
   render() {
@@ -31,11 +38,11 @@ class AccountSettingTab extends Component {
           <dd>
             <dl>
               <dt>現在のパスワード</dt>
-              <dd><Input type="password" ref={node => { this.oldPasswordInput = node; }}/></dd>
+              <dd><Input type="password" ref={node => { this.currentPasswordInput = node; }}/></dd>
               <dt>新しいパスワード</dt>
-              <dd><Input type="password" ref={node => { this.newPasswordInput = node; }}/></dd>
+              <dd><Input type="password" ref={node => { this.passwordInput = node; }}/></dd>
               <dt>新しいパスワード (確認用)</dt>
-              <dd><Input type="password" ref={node => { this.confirmPasswordInput = node; }}/></dd>
+              <dd><Input type="password" ref={node => { this.passwordConfirmationInput = node; }}/></dd>
               <dd><Button content="パスワードを変更する" onClick={this.changePassword}/></dd>
             </dl>
           </dd>
@@ -45,6 +52,8 @@ class AccountSettingTab extends Component {
   }
 }
 
-AccountSettingTab.propTypes = {};
+AccountSettingTab.propTypes = {
+  updatePassword: PropTypes.func.isRequired,
+};
 
 export default AccountSettingTab;
