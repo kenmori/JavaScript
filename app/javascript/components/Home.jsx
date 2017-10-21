@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import OKRCreationFlow from '../containers/OKRCreationFlow';
-import { Route, Switch } from 'react-router-dom';
 import MenuBar from '../containers/MenuBar';
 import DashBoard from '../containers/DashBoard';
+import KeyResultFormModal from '../containers/KeyResultFormModal';
+import ObjectiveDetailModal from '../containers/ObjectiveDetailModal';
 
 class Home extends Component {
   render() {
     return (
       <div className='home'>
         <MenuBar />
-        <DashBoard />
         <main>
-          <Switch>
-            <Route exact path='/' component={OKRCreationFlow}/>
-          </Switch>
+          <DashBoard />
+          <KeyResultFormModal/>
+          <ObjectiveDetailModal/>
         </main>
       </div>
     );
