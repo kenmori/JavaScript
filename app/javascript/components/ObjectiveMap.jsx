@@ -7,42 +7,44 @@ class ObjectiveMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      positions: null,
+      childObjectivePositions: null,
       width: 0,
       height: 0,
     };
   }
 
-  updatePosition(objective) {
-    const positions = objective.get('childObjectives').reduce((result, objective) => {
+  updatechildObjectivePositions(objective) {
+    if(!this.props.objective.get('childObjectives')) return null;
+    const childObjectivePositions = objective.get('childObjectives').reduce((result, objective) => {
       const element = ReactDOM.findDOMNode(this.refs[this.createKey(objective)]);
       result[this.createKey(objective)] = { x: element.offsetLeft + (element.offsetWidth / 2), y: element.offsetTop };
       return result;
     }, {});
 
     this.setState({
-      positions,
+      childObjectivePositions,
       width: ReactDOM.findDOMNode(this.refs.map).offsetWidth,
       height: ReactDOM.findDOMNode(this.refs.map).offsetHeight + 30,
     });
   }
 
   componentDidUpdate(prevProps, _prevState) {
+    // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
     if(prevProps !== this.props) {
-      this.updatePosition(prevProps.objective);
+      this.updatechildObjectivePositions(this.props.objective);
     }
   }
 
   componentDidMount() {
-    this.updatePosition(this.props.objective);
+    this.updatechildObjectivePositions(this.props.objective);
   }
 
   path() {
     const center = this.state.width / 2;
-    if(!this.state.positions) { return null; }
-    if(!this.props.objective.get('childObjectives')) { return null; }
+    if(!this.state.childObjectivePositions) return null;
+    if(!this.props.objective.get('childObjectives')) return null;
     return this.props.objective.get('childObjectives').map((objective) => {
-      const position = this.state.positions[this.createKey(objective)];
+      const position = this.state.childObjectivePositions[this.createKey(objective)];
       if(!position) {return null; }
       const points = `${center},${position.y - 30} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`;
       return (
@@ -87,7 +89,10 @@ class ObjectiveMap extends Component {
             );
           }
         })()}
-        {this.path()}
+        {
+          this.path()
+          // パスの描画
+        }
       </div>
     );
   }
