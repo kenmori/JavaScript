@@ -23,13 +23,9 @@
 body {
   margin: 0;
   font-family: 'M+ Type-1 (general-j) Regular', sans-serif;
-}
-
-main {
-  margin: 8px;
-}
-
-.home {
+  > div {
+    height: 100%;
+  }
 }
 
 .content {
