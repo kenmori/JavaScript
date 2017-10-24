@@ -1,10 +1,10 @@
 class OkrSettingsController < ApplicationController
   def show
-    render json: OkrSetting.find(params[:id])
+    render json: OkrSetting.find(params[:organization_id])
   end
 
   def create
-    @okr_settings = OkrSetting.find(params[:id])
+    @okr_settings = OkrSetting.find(params[:organization_id])
     if @okr_settings.reset
       render json: @okr_settings, status: :created
     else
@@ -13,7 +13,7 @@ class OkrSettingsController < ApplicationController
   end
 
   def update
-    @okr_settings = OkrSetting.find(params[:id])
+    @okr_settings = OkrSetting.find(params[:organization_id])
     if @okr_settings.update(okr_settings_params)
       render json: @okr_settings, status: :ok
     else

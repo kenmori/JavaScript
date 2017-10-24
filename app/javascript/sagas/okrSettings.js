@@ -4,17 +4,17 @@ import settingActions from '../actions/okrSettings';
 import actionTypes from '../constants/actionTypes';
 
 function* fetchOkrSettings({ payload }) {
-  const result = yield call(API.get, '/okr_settings/' + payload.organizationId);
+  const result = yield call(API.get, `/organizations/${payload.organizationId}/okr_settings`);
   yield put(settingActions.fetchedOkrSettings(result));
 }
 
 function* updateOkrSettings({ payload }) {
-  const result = yield call(API.put, '/okr_settings/' + payload.organizationId, { okrSettings: payload.okrSettings });
+  const result = yield call(API.put, `/organizations/${payload.organizationId}/okr_settings`, { okrSettings: payload.okrSettings });
   yield put(settingActions.updatedOkrSettings(result));
 }
 
 function* resetOkrSettings({ payload }) {
-  const result = yield call(API.post, '/okr_settings/', { id: payload.organizationId });
+  const result = yield call(API.post, `/organizations/${payload.organizationId}/okr_settings`);
   yield put(settingActions.didResetOkrSettings(result));
 }
 
