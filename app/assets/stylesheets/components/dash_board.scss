@@ -1,7 +1,13 @@
 .dash-board {
-  margin: 10px 0 0 30px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   .login-user {
+    display: flex;
+    margin: 20px 0 0 30px;
+    flex-direction: row;
+    align-items: center;
     font-weight: bold;
     .avatar {
       border: 3px rgba(34, 36, 38, 0.15) solid;
@@ -17,7 +23,7 @@
   }
 
   .okr {
-    margin-top: 10px;
+    margin: 30px 0 0 30px;
     font-weight: bold;
     .okr-list {
       margin-top: 10px;
@@ -35,12 +41,17 @@
         font-size: 0.8rem;
         color: #000000;
 
-        &:focus {
+        &.active {
           border: 2px $ASSIST_COLOR dashed;
           background: rgba(239, 8, 3, 0.11);
         }
       }
-
     }
+  }
+
+  .okr-action-section {
+    margin-top: 20px;
+    height: 100%;
+    background-color: rgba(185, 185, 185, 0.1);
   }
 }

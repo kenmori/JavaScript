@@ -26,7 +26,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "password"
   webpack:
-    build: .
+    build:
+      context: .
+      args:
+        RAILS_ENV: "development"
+        NODE_ENV: "development"
     volumes:
       - .:/myapp
       - bundle:/usr/local/bundle

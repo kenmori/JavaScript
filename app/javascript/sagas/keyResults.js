@@ -19,7 +19,6 @@ function* addKeyResult({ payload }) {
 
 function* updateKeyResult({payload}) {
   const result = yield call(API.put, '/key_results/' + payload.keyResult.id, payload);
-  console.log('updateKeyResult')
   yield put(keyResultActions.updatedKeyResult(result.get('keyResult')));
 }
 
