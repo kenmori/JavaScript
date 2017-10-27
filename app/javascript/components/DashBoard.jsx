@@ -45,7 +45,7 @@ export default class DashBoard extends Component {
               this.props.objectives.map((objective) => {
                 let isSelected = objective.get('id') === (this.state.selectedObjective && this.state.selectedObjective.get('id'));
                 return (
-                  <a className={`okr-box ${isSelected ? 'active' : null}`} key={objective.get('id')}
+                  <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                      href="javascript:void(0)" onClick={() => this.selectOKRBox(objective)}>
                     {objective.get('name')}
                   </a>
