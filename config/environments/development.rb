@@ -33,6 +33,18 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+      address: 'email-smtp.us-west-2.amazonaws.com',
+      port: 587,
+      domain: 'reesili.com',
+      user_name: '',
+      password: '',
+      authentication: :login,
+      enable_starttls_auto: true
+  }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
