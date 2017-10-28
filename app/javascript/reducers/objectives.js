@@ -7,7 +7,7 @@ export default handleActions({
       return state.merge(payload.objectives);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => (
-      state.push(payload.objective)
+      state.insert(0, payload.objective)
     ),
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       return state.set(state.findIndex((objective) => {

@@ -4,7 +4,12 @@ class ObjectivesController < ApplicationController
   end
 
   def create
-    @objective = Objective.new(params.require(:objective).permit(:name, :description))
+    @objective = Objective.new(
+      params.require(:objective).permit(:name, :description).merge(
+        owner_id: current_user.owner_id,
+        okr_period_id: current_user.organization.latest_okr_period_id
+      )
+    )
     if @objective.save
       render status: :created
     else
