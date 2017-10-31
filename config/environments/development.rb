@@ -26,6 +26,11 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # Attempt to read encrypted secrets from `config/secrets.yml.enc`.
+  # Requires an encryption key in `ENV["RAILS_MASTER_KEY"]` or
+  # `config/secrets.yml.key`.
+  config.read_encrypted_secrets = true
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -39,8 +44,8 @@ Rails.application.configure do
       address: 'email-smtp.us-west-2.amazonaws.com',
       port: 587,
       domain: 'reesili.com',
-      user_name: '',
-      password: '',
+      user_name: Rails.application.secrets.smtp_user_name,
+      password: Rails.application.secrets.smtp_password,
       authentication: :login,
       enable_starttls_auto: true
   }
