@@ -1,4 +1,4 @@
-.sign-in {
+.sign-up {
   margin: 100px;
 
   form {
@@ -13,7 +13,7 @@
     flex-direction: column;
 
     .ui.input {
-      input[type="email"], input[type="password"] {
+      input {
         width: 250px;
       }
     }
@@ -24,11 +24,6 @@
       align-items: center;
       margin: 5px 0;
     }
-  }
-
-  .user-create-link {
-    display: block;
-    margin-bottom: 20px;
   }
 }
 
