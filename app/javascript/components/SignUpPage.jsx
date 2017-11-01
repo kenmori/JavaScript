@@ -18,7 +18,7 @@ export default class SignUp extends Component {
           <Form className="user-form">
             <Form.Group className='text-input-group'>
               <Form.Field inline>
-                <div>性</div>
+                <div>姓</div>
                 <Input type='text' size='mini' ref={(node) => {this.lastNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
