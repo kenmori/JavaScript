@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: :registrations
+  devise_for :users, :controllers => {
+    :registrations => 'users/registrations'
+  }
+
+  devise_scope :user do
+    get 'users/sign_up' => 'users/registrations#sign_up'
+  end
 
   root to: 'home#index', as: :root
   resources :objectives, only: %i[index create update destroy]
