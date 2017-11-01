@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react';
 
-export default class SignIn extends Component {
+export default class SignUp extends Component {
+  addUser() {
+    this.props.addUser({
+      last_name: this.lastNameInput.inputRef.value,
+      first_name: this.firstNameInput.inputRef.value,
+      email: this.emailInput.inputRef.value,
+      password: this.passwordInput.inputRef.value,
+    })
+  }
   render() {
     return (
       <div className="sign-up">
@@ -11,15 +19,15 @@ export default class SignIn extends Component {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>性</div>
-                <Input type='text' size='mini' ref={(node) => {this.emailInput = node;}}/>
+                <Input type='text' size='mini' ref={(node) => {this.lastNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>名</div>
-                <Input type='text' size='mini' ref={(node) => {this.passwordInput = node;}}/>
+                <Input type='text' size='mini' ref={(node) => {this.firstNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.passwordInput = node;}}/>
+                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
@@ -27,7 +35,7 @@ export default class SignIn extends Component {
               </Form.Field>
             </Form.Group>
             <div className="center">
-              <Button negative>登録</Button>
+              <Button negative onClick={this.addUser.bind(this)}>登録</Button>
             </div>
           </Form>
         </main>
