@@ -7,7 +7,7 @@ const initialState = fromJS({
 });
 
 export default handleActions({
-  [ActionTypes.ADDED_USER]: (state, { payload }) => console.log(5, !!payload.user.size) || (
+  [ActionTypes.ADDED_USER]: (state, { payload }) => (
     state.set('isCompleted', !!payload.user.size)
   ),
 }, initialState);
