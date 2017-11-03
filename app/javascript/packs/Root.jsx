@@ -7,6 +7,7 @@ import configureStore from '../stores/index';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import history from '../utils/history';
 import SignUpPage from '../containers/SignUpPage';
+import SignUpCompletedPage from '../containers/SignUpCompletedPage';
 import SignInPage from '../containers/SignInPage';
 import SettingsPage from '../components/SettingsPage';
 
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <BrowserRouter history={history}>
         <Switch>
           <Route exact path='/users/sign_up' component={SignUpPage}/>
+          <Route exact path='/users/sign_up/completed' component={SignUpCompletedPage}/>
           <Route exact path='/users/sign_in' component={SignInPage}/>
           <Route exact path='/settings' component={SettingsPage}/>
           <Route path='/' component={Home}/>

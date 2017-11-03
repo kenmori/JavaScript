@@ -2,8 +2,10 @@ import { connect } from 'react-redux';
 import SignUpPage from '../components/SignUpPage';
 import usersActions from '../actions/users';
 
-const mapStateToProps = (_state) => {
+const mapStateToProps = (state) => {
   return {
+    signUpCompleted: '/users/sign_up/completed',
+    isCompleted: state.signUp.get('isCompleted'),
   };
 };
 

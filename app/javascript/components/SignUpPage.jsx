@@ -10,6 +10,11 @@ export default class SignUp extends Component {
       password: this.passwordInput.inputRef.value,
     })
   }
+  componentWillUpdate(props = this.props) {
+    if (props.isCompleted) {
+      props.history.push(props.signUpCompleted)
+    }
+  }
   render() {
     return (
       <div className="sign-up">
