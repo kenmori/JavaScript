@@ -12,4 +12,8 @@ class Organization < ApplicationRecord
   def organization_group
     self.groups.organization.first
   end
+
+  def latest_okr_period_id
+    self.okr_periods.active.pluck(:id).first
+  end
 end

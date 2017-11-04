@@ -9,6 +9,7 @@ class CreateObjectives < ActiveRecord::Migration[5.1]
       t.integer :progress_rate, null: false, default: 0 # 進捗率
 
       t.timestamps
+      t.index :created_at
     end
   end
 end

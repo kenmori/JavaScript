@@ -23,10 +23,13 @@
   }
 
   .okr {
-    margin: 30px 0 0 30px;
+    margin: 30px 30px 0 30px;
     font-weight: bold;
     .okr-list {
+      overflow-x: auto;
+      white-space: nowrap;
       margin-top: 10px;
+
       .okr-box {
         display: inline-flex;
         margin-right: 30px;
@@ -45,6 +48,10 @@
           border: 2px $ASSIST_COLOR dashed;
           background: rgba(239, 8, 3, 0.11);
         }
+
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
   }
@@ -53,5 +60,11 @@
     margin-top: 20px;
     height: 100%;
     background-color: rgba(185, 185, 185, 0.1);
+
+    .objective-form-block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

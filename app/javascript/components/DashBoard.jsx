@@ -1,10 +1,34 @@
 import React, { Component } from 'react';
+import ObjectiveForm from '../containers/ObjectiveForm';
 import ObjectiveMap from './ObjectiveMap';
 
 export default class DashBoard extends Component {
+  static ACTIONS = {
+    objective_creation: 'objective_creation',
+    objective_selection: 'objective_selection'
+  };
+
+  selectOKRBox = (objective) => {
+    return () => {
+      this.setState({
+        action: DashBoard.ACTIONS.objective_selection,
+        selectedObjective: objective
+      });
+    }
+  };
+  showObjectiveForm = () => {
+    this.setState({
+      action: DashBoard.ACTIONS.objective_creation,
+      selectedObjective: null
+    })
+  };
+
   constructor(props) {
     super(props);
-    this.state = {selectedObjective: null};
+    this.state = {
+      selectedObjective: null,
+      action: null,
+    };
   }
 
   componentDidMount() {
@@ -12,18 +36,24 @@ export default class DashBoard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.objectives.size == 0 && nextProps.objectives && this.props.objectives !== nextProps.objectives) {
-      //初回にObjective一覧を取得した際にはデフォルトで最初のObjectiveをセットする
+    if(nextProps.objectives && this.props.objectives !== nextProps.objectives) {
+      //Objective一覧を取得、Objective追加時には最新のObjectiveをセットする
       this.setState({
-        selectedObjective: nextProps.objectives.first(),
+        action: DashBoard.ACTIONS.objective_selection,
+        selectedObjective: nextProps.objectives.first()
       });
     }
   }
 
-  selectOKRBox(objective) {
-    this.setState({
-      selectedObjective: objective,
-    });
+  get actionSection() {
+    switch(this.state.action) {
+      case DashBoard.ACTIONS.objective_creation:
+        return <div className="objective-form-block">
+          <ObjectiveForm />
+        </div>;
+      case DashBoard.ACTIONS.objective_selection:
+        return <ObjectiveMap objective={this.state.selectedObjective}/>;
+    }
   }
 
   render() {
@@ -46,24 +76,18 @@ export default class DashBoard extends Component {
                 const isSelected = objective.get('id') === (this.state.selectedObjective && this.state.selectedObjective.get('id'));
                 return (
                   <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
-                     href="javascript:void(0)" onClick={() => this.selectOKRBox(objective)}>
+                     href="javascript:void(0)" onClick={this.selectOKRBox(objective)}>
                     {objective.get('name')}
                   </a>
                 );
               }) }
-            <a className="okr-box" href="javascript:void(0)">
+            <a className={`okr-box ${this.state.selectedObjective ? '' : 'active'}`} href="javascript:void(0)" onClick={this.showObjectiveForm}>
               OKR を作成する
             </a>
           </div>
         </section>
         <section className='okr-action-section'>
-          {
-            (() => {
-              if(this.state.selectedObjective) {
-                return <ObjectiveMap objective={this.state.selectedObjective}/>;
-              }
-            })()
-          }
+          {this.actionSection}
         </section>
       </div>
     );
