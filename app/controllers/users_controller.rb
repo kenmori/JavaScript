@@ -11,16 +11,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
     # TODO: organization_idの値を正しくする
     ActiveRecord::Base.transaction do
-      if @user.save! && OrganizationMember.new(organization_id: 1, user_id: @user.id).save!
-        puts @user.id
-        render status: :created
-      else
-        render json: @user.errors, status: :unprocessable_entity
-      end
+      @user.save!
+      OrganizationMember.new(organization_id: 1, user_id: @user.id).save!
     end
+    render status: :created
+  rescue => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def update
