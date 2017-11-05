@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: :registrations
+  devise_for :users, skip: :registrations, controllers: {
+    :passwords => 'users/passwords'
+  }
 
   root to: 'home#index', as: :root
   get 'users/sign_up(/*path)' => 'home#non_login'
