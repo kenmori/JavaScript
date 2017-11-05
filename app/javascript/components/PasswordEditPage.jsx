@@ -12,11 +12,12 @@ export default class PasswordEditPage extends Component {
       );
     } else {
       //TODO: エラーメッセージを出す
+      alert('パスワードが一致しません');
     }
   }
-  componentWillUpdate() {
+  componentWillUpdate(props = this.props) {
     if (props.isEdited) {
-      this.props.history.push(props.passwordEditedPath)
+      props.history.push(props.passwordEditedPath)
     }
   }
   render() {

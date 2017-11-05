@@ -5,7 +5,7 @@ import usersActions from '../actions/users';
 const mapStateToProps = (state) => {
   return {
     passwordEditedPath: '/users/password/edit/completed',
-    isRecoverd: state.password.get('isEdited'),
+    isEdited: state.password.get('isEdited'),
   };
 };
 
