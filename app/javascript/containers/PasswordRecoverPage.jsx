@@ -4,6 +4,8 @@ import usersActions from '../actions/users'
 
 const mapStateToProps = (state) => {
   return {
+    passwordRecoverdPath: '/users/password/recover/completed',
+    isRecoverd: state.password.get('isRecoverd'),
   };
 };
 

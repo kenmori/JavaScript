@@ -5,7 +5,11 @@ export default class SignIn extends Component {
   send() {
     this.props.send(this.emailInput.inputRef.value);
   }
-
+  componentWillUpdate(props = this.props) {
+    if (props.isRecoverd) {
+      props.history.push(props.passwordRecoverdPath)
+    }
+  }
   render() {
     return (
       <div className='password-recover'>
