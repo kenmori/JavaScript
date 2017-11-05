@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <Route exact path='/users/password/recover/completed' component={PasswordRecoverdPage}/>
           <Route exact path='/users/password/edit' component={PasswordEditPage}/>
           <Route exact path='/users/password/edit/completed' component={PasswordEditedPage}/>
-          <Route exact path='/users/sign_up/completed' component={SignUpCompletedPage}/>
           <Route exact path='/users/sign_in' component={SignInPage}/>
           <Route exact path='/settings' component={SettingsPage}/>
           <Route path='/' component={Home}/>
