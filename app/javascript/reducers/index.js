@@ -6,6 +6,7 @@ import okrSettings from './okrSettings';
 import dialogs from './dialogs';
 import loginUser from './loginUser';
 import okrPeriod from './okrPeriod';
+import signUp from './signUp';
 
 const reducers = combineReducers({
   keyResults,
@@ -14,7 +15,8 @@ const reducers = combineReducers({
   okrSettings,
   dialogs,
   loginUser,
-  okrPeriod
+  okrPeriod,
+  signUp
 });
 
 export default reducers;

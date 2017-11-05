@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:create]
+
   def index
     render json: User.all
   end
@@ -9,11 +11,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      render status: :created
-    else
-      render json: @user.errors, status: :unprocessable_entity
+    # TODO: organization_idの値を正しくする
+    ActiveRecord::Base.transaction do
+      @user.save!
+      OrganizationMember.new(organization_id: 1, user_id: @user.id).save!
     end
+    render status: :created
+  rescue => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def update

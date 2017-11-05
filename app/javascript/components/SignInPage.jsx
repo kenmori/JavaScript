@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react';
 
 export default class SignIn extends Component {
@@ -25,6 +26,7 @@ export default class SignIn extends Component {
             <Form.Field>
               <Checkbox label={<label>ログイン情報を保存する</label>} ref={(node) => {this.rememberMeCheckBox = node;}}/>
             </Form.Field>
+            <Link to="/users/sign_up" className="user-create-link">新規ユーザー登録はこちら</Link>
             <div className='center'>
               <Button negative onClick={this.signIn.bind(this)}>ログイン</Button>
             </div>
