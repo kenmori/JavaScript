@@ -13,7 +13,6 @@ function* fetchObjectives({payload}) {
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
   yield put(objectiveActions.addedObjective(result.get('objective')));
-  yield put(dialogActions.closeObjectiveFormModal());
   if (payload.isOpenKeyResultModal) {
     yield put(dialogActions.openKeyResultFormModal(result.get('objective')));
   }
@@ -22,7 +21,6 @@ function* addObjective({ payload }) {
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   yield put(objectiveActions.updatedObjective(result.get('objective')));
-  yield put(dialogActions.closeObjectiveFormModal());
 }
 
 function* removeObjective({payload}) {
