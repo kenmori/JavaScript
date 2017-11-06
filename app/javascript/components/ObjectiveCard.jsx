@@ -18,6 +18,12 @@ export default class ObjectiveCard extends Component {
     );
   };
 
+  removeObjective = objective => () => {
+    if (confirm(`Objective ${objective.get('name')} を削除しますか？`)) {
+      this.props.removeObjective(objective.get('id'));
+    }
+  };
+
   render() {
     const objective = this.props.objective;
     if (!objective) {
@@ -29,7 +35,7 @@ export default class ObjectiveCard extends Component {
         {this.generateKeyResultList(objective)}
         <Card.Content extra>
           <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)}/>
-          <Icon link name='trash' onClick={() => this.props.removeObjective(objective.get('id'))}/>
+          <Icon link name='trash' onClick={this.removeObjective(objective)}/>
           <Icon link name='write' onClick={() => this.props.openObjectiveDetailModal(objective.get('id'))}/>
         </Card.Content>
       </Card>
