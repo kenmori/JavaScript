@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, Select } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Dropdown } from 'semantic-ui-react';
 
 class KeyResultFormModal extends Component {
   add = () => {
-    this.props.addKeyResult(this.props.objective.get('id'), this.nameInput.inputRef.value);
+    const keyResult = {
+      name: this.nameInput.inputRef.value,
+      objectiveId: this.props.objective.get('id'),
+      ownerId: this.ownerSelect.getSelectedItem().value,
+      targetValue: this.targetInput.inputRef.value,
+      expiredDate: this.dateInput.inputRef.value,
+    };
+    this.props.addKeyResult(keyResult);
     this.nameInput.inputRef.value = '';
+    this.targetInput.inputRef.value = '';
+    this.dateInput.inputRef.value = '';
   };
 
   render() {
@@ -36,7 +45,8 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Form.Field control={Select} options={[{ key: '1', text: '富岡', value: '1' }]}/>
+                <Dropdown selection options={[{ key: '1', text: '富岡', value: '1' }]}
+                          ref={node => {this.ownerSelect = node;}}/>
               </Form.Field>
             </Form.Group>
           </Form>

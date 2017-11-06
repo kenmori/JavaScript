@@ -12,8 +12,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addKeyResult: (objectiveId, name) => {
-      dispatch(actions.addKeyResult(objectiveId, name));
+    addKeyResult: (keyResult) => {
+      dispatch(actions.addKeyResult(keyResult));
     },
     closeModal: () => {
       dispatch(dialogActions.closeKeyResultFormModal());
