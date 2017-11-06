@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Dropdown } from 'semantic-ui-react';
 
 class KeyResultFormModal extends Component {
+  componentDidMount() {
+    this.props.fetchUsers();
+  }
+
+  get usersOption() {
+    return this.props.users.map(item => ({
+      key: item.get('id'),
+      value: item.get('id'),
+      text: `${item.get('lastName')} ${item.get('firstName')}`,
+    })).toArray();
+  }
+
   add = () => {
     const keyResult = {
       name: this.nameInput.inputRef.value,
@@ -17,6 +29,9 @@ class KeyResultFormModal extends Component {
   };
 
   render() {
+    if (this.props.users.isEmpty()) {
+      return null;
+    }
     return (
       <Modal open={this.props.isOpen}>
         <Modal.Header>
@@ -45,8 +60,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection options={[{ key: '1', text: '富岡', value: '1' }]}
-                          ref={node => {this.ownerSelect = node;}}/>
+                <Dropdown selection options={this.usersOption} ref={node => {this.ownerSelect = node;}}/>
               </Form.Field>
             </Form.Group>
           </Form>
