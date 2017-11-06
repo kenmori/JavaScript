@@ -79,6 +79,31 @@ a.active {
 
   .map-layer {
     margin-top: 30px;
+
+    .ui.card .header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+
+      .avatar {
+        border: 3px rgba(34, 36, 38, 0.15) solid;
+        border-radius: 50%;
+        width: 48px;
+        height: 45px;
+        min-width: 48px;
+        font-size: smaller;
+      }
+
+      .name {
+        margin: 0 8px;
+      }
+
+      .progress {
+        color: indianred;
+        font-size: smaller;
+      }
+    }
   }
 }
 

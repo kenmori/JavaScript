@@ -31,7 +31,13 @@ export default class ObjectiveCard extends Component {
     }
     return (
       <Card key={objective.get('id')}>
-        <Card.Content header={objective.get('name')}/>
+        <Card.Content>
+          <Card.Header>
+            <div className="avatar flex-center">山田</div>
+            <div className="name">{objective.get('name')}</div>
+            <div className="progress">{objective.get('progressRate')}%</div>
+          </Card.Header>
+        </Card.Content>
         {this.generateKeyResultList(objective)}
         <Card.Content extra>
           <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)}/>
