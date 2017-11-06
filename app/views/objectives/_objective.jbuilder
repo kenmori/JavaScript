@@ -1,4 +1,4 @@
-json.extract! objective, :id, :name, :description, :progress_rate
+json.extract! objective, :id, :name, :description, :owner_id, :progress_rate
 
 json.key_results do
   json.array!(objective.key_results) do |key_result|

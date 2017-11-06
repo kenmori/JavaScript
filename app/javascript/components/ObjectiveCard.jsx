@@ -29,11 +29,15 @@ export default class ObjectiveCard extends Component {
     if (!objective) {
       return null;
     }
+    if (this.props.users.isEmpty()) {
+      return null;
+    }
+    const ownerName = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId')).get('lastName');
     return (
       <Card key={objective.get('id')}>
         <Card.Content>
           <Card.Header>
-            <div className="avatar flex-center">山田</div>
+            <div className="avatar flex-center">{ownerName}</div>
             <div className="name">{objective.get('name')}</div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>
