@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Dropdown } from 'semantic-ui-react';
 
 class KeyResultFormModal extends Component {
-  componentDidMount() {
-    this.props.fetchUsers();
-  }
-
   get usersOption() {
     return this.props.users.map(item => ({
       key: item.get('id'),

@@ -2,7 +2,6 @@ import KeyResultFormModal from '../components/KeyResultFormModal';
 import { connect } from 'react-redux';
 import actions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import userActions from '../actions/users';
 
 const mapStateToProps = (state) => {
   return {
@@ -19,10 +18,7 @@ const mapDispatchToProps = dispatch => {
     },
     closeModal: () => {
       dispatch(dialogActions.closeKeyResultFormModal());
-    },
-    fetchUsers: () => {
-      dispatch(userActions.fetchUsers());
-    },
+    }
   };
 };
 
