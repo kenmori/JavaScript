@@ -8,6 +8,8 @@ const actions = createActions({
   [actionTypes.CLOSE_OBJECTIVE_FORM_MODAL]: () => {},
   [actionTypes.OPEN_OBJECTIVE_DETAIL_MODAL]: (objectiveId) => ({objectiveId}),
   [actionTypes.CLOSE_OBJECTIVE_DETAIL_MODAL]: () => {},
+  [actionTypes.OPEN_AVATAR_IMAGE_MODAL]: (imageData) => ({imageData}),
+  [actionTypes.CLOSE_AVATAR_IMAGE_MODAL]: () => {},
 });
 
 export default actions;

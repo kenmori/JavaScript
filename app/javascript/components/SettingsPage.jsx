@@ -4,6 +4,7 @@ import MenuBar from '../containers/MenuBar';
 import AccountSettingTab from '../containers/AccountSettingTab'
 import UserSettingTab from '../containers/UserSettingTab'
 import OKRSettingTab from '../containers/OKRSettingTab'
+import AvatarImageModal from '../containers/AvatarImageModal'
 
 class SettingsPage extends Component {
   get panes() {
@@ -22,6 +23,7 @@ class SettingsPage extends Component {
           <h2>設定</h2>
           <Tab menu={{ secondary: true, pointing: true }} panes={this.panes} className='setting-tabs'/>
         </main>
+        <AvatarImageModal/>
       </div>
     );
   }

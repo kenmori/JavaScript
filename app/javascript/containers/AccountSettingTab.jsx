@@ -1,6 +1,7 @@
 import AccountSettingTab from '../components/AccountSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
+import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,6 +14,9 @@ const mapDispatchToProps = dispatch => {
     updatePassword: user => {
       dispatch(userActions.updatePassword(user));
     },
+    showAvatarModal: imageData => {
+      dispatch(dialogActions.openAvatarImageModal(imageData));
+    }
   };
 };
 
