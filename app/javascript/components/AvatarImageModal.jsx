@@ -3,21 +3,25 @@ import { Button, Checkbox, CustomCalendar, Form, Icon, Input, Modal, Select, Tex
 
 class AvatarImageModal extends Component {
   render() {
+    const {
+      imageData,
+      closeModal,
+      uploadAvatarImage,
+    } = this.props
     return (
       <Modal open={this.props.isOpen}>
         <Modal.Header>
-          タイトル
+          ユーザーアイコン画像確認
         </Modal.Header>
         <Modal.Content style={{ margin: '10px 0' }}>
-          コンテンツ
+          <div style={{textAlign: 'center'}}>
+            <img src={imageData} width="300" />
+          </div>
         </Modal.Content>
         <Modal.Actions>
-          <div className='center continue-check-box'>
-            <Checkbox label={<label>このまま KeyResult の作成を続ける</label>} />
-          </div>
           <div className='center'>
-            <Button color='grey'><Icon name='remove'/>キャンセル</Button>
-            <Button positive><Icon name='checkmark'/>保存</Button>
+            <Button color='grey' onClick={closeModal}><Icon name='remove'/>キャンセル</Button>
+            <Button positive onClick={() => {uploadAvatarImage(imageData)}}><Icon name='checkmark'/>更新</Button>
           </div>
         </ Modal.Actions >
       </ Modal >

@@ -24,7 +24,7 @@ class AccountSettingTab extends Component {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (data) => {
-      this.props.showAvatarModal(data.target.result);
+      this.props.openAvatarImageModal(data.target.result);
     }
     reader.readAsDataURL(file);
   }

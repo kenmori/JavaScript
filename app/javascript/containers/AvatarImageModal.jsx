@@ -11,6 +11,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    uploadAvatarImage: (imageData) => {
+      console.log(imageData)
+    },
+    closeModal: () => {
+      dispatch(dialogActions.closeAvatarImageModal());
+    }
   };
 };
 
