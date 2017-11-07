@@ -17,6 +17,10 @@ class AccountSettingTab extends Component {
     this.passwordConfirmationInput.inputRef.value = '';
   };
 
+  changeAvatarImage = () => {
+
+  }
+
   render() {
     const user = this.props.user;
     if (!user) {
@@ -33,6 +37,17 @@ class AccountSettingTab extends Component {
 
           <dt>画像</dt>
           <dd><Image src="" avatar/></dd>
+          <dd>
+            <div className="avatar-img-button">
+              <label className="file-button">
+                <input type="file" style={{display: "none"}} />
+              </label>
+              <Button size='mini' className="change-button" content="アイコンを変更する" onClick={this.changeAvatarImage} />
+            </div>
+          </dd>
+          <dd>
+
+          </dd>
 
           <dt>パスワード</dt>
           <dd>
