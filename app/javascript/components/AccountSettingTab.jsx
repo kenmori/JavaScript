@@ -4,6 +4,7 @@ import { Tab, Button, Image, Input } from 'semantic-ui-react';
 
 class AccountSettingTab extends Component {
 
+
   changePassword = () => {
     this.props.updatePassword({
       id: this.props.user.id,
@@ -17,8 +18,23 @@ class AccountSettingTab extends Component {
     this.passwordConfirmationInput.inputRef.value = '';
   };
 
-  changeAvatarImage = () => {
+  changeAvatarImage = (event) => {
+    if (!event.target.files.length) { return; }
 
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (data) => {
+      this.setState({
+        avatarImage: data.target.result
+      })
+    }
+    reader.readAsDataURL(file);
+  }
+
+  componentDidMount() {
+    this.state = {
+      avatarImage: '',
+    }
   }
 
   render() {
@@ -40,9 +56,9 @@ class AccountSettingTab extends Component {
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">
-                <input type="file" style={{display: "none"}} />
+                <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
               </label>
-              <Button size='mini' className="change-button" content="アイコンを変更する" onClick={this.changeAvatarImage} />
+              <Button size='mini' className="change-button" content="アイコンを変更する" />
             </div>
           </dd>
           <dd>
