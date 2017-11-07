@@ -20,13 +20,7 @@ class AccountSettingTab extends Component {
 
   changeAvatarImage = (event) => {
     if (!event.target.files.length) { return; }
-
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (data) => {
-      this.props.openAvatarImageModal(data.target.result);
-    }
-    reader.readAsDataURL(file);
+    this.props.openAvatarImageModal(event.target.files[0]);
   }
 
   render() {

@@ -2,6 +2,27 @@ import React, { Component } from 'react';
 import { Button, Checkbox, CustomCalendar, Form, Icon, Input, Modal, Select, TextArea } from 'semantic-ui-react';
 
 class AvatarImageModal extends Component {
+  constructor() {
+    super();
+    this.state = {
+      base64data: null
+    }
+  }
+  toBase64(file) {
+    const reader = new FileReader();
+    reader.onload = (data) => {
+      this.setState({
+        base64data: data.target.result
+      });
+    }
+    reader.readAsDataURL(file);
+  }
+  avatarImage() {
+    return this.state.base64data ? <img src={this.state.base64data} width="300" /> : null;
+  }
+  componentWillReceiveProps(nextProps) {
+    !this.state.base64data && this.toBase64(nextProps.imageData)
+  }
   render() {
     const {
       imageData,
@@ -15,7 +36,7 @@ class AvatarImageModal extends Component {
         </Modal.Header>
         <Modal.Content style={{ margin: '10px 0' }}>
           <div style={{textAlign: 'center'}}>
-            <img src={imageData} width="300" />
+            {this.avatarImage()}
           </div>
         </Modal.Content>
         <Modal.Actions>
