@@ -18,10 +18,16 @@ class AvatarImageModal extends Component {
     reader.readAsDataURL(file);
   }
   avatarImage() {
-    return this.state.base64data ? <img src={this.state.base64data} width="300" /> : null;
+    return this.state.base64data ?
+      <img src={this.state.base64data} width="300" /> :
+      <span>Loading...</span>
+  }
+  closeModal = () => {
+    this.state.base64data = null;
+    this.props.closeModal();
   }
   componentWillReceiveProps(nextProps) {
-    !this.state.base64data && this.toBase64(nextProps.imageData)
+    nextProps.imageData && this.toBase64(nextProps.imageData)
   }
   render() {
     const {
@@ -29,6 +35,7 @@ class AvatarImageModal extends Component {
       closeModal,
       uploadAvatarImage,
     } = this.props
+
     return (
       <Modal open={this.props.isOpen}>
         <Modal.Header>
@@ -41,7 +48,7 @@ class AvatarImageModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button color='grey' onClick={closeModal}><Icon name='remove'/>キャンセル</Button>
+            <Button color='grey' onClick={this.closeModal}><Icon name='remove'/>キャンセル</Button>
             <Button positive onClick={() => {uploadAvatarImage(imageData)}}><Icon name='checkmark'/>更新</Button>
           </div>
         </ Modal.Actions >

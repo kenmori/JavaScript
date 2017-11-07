@@ -21,6 +21,7 @@ class AccountSettingTab extends Component {
   changeAvatarImage = (event) => {
     if (!event.target.files.length) { return; }
     this.props.openAvatarImageModal(event.target.files[0]);
+    event.target.value = null;
   }
 
   render() {
