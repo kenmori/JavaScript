@@ -68,16 +68,13 @@ ApplicationRecord.transaction do
     target_value: '10',
     actual_value: '6',
     value_unit: '%改善',
-    progress_rate: 35,
-    memo: 'postgresのver upも含めて検討を進めること'
-
+    progress_rate: 35
   )
   inactive_objective1.key_results.create!(
     name: 'サーバーの増強',
     owner_id: login_user.owner_id,
     progress_rate: 20,
-    expired_date: '2017-10-13',
-    memo: '必要なメモリ、CPUを選定した上で増強にかかるコストを算出し承認を得ること。インフラチーム主導で進める。'
+    expired_date: '2017-10-13'
   )
 
 # 他のユーザーのOKRを作成
