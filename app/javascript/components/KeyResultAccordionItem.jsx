@@ -19,6 +19,27 @@ class KeyResultAccordionItem extends Component {
     this.props.updateProgress(this.props.index, Number(event.target.value));
   }
 
+  updateValues(targetValue, actualValue) {
+    if (targetValue && actualValue) {
+      const progressRate = Math.round(actualValue / targetValue * 100);
+
+      this.setState({ progressRate: progressRate });
+      this.props.onProgressChange(this.props.index, progressRate);
+      this.props.updateProgress(this.props.index, progressRate);
+
+      this.updateKeyResult({
+        targetValue: targetValue,
+        actualValue: actualValue,
+        progressRate: progressRate,
+      });
+    } else {
+      this.updateKeyResult({
+        targetValue: targetValue,
+        actualValue: actualValue,
+      });
+    }
+  }
+
   updateKeyResult(values) {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
@@ -42,13 +63,13 @@ class KeyResultAccordionItem extends Component {
               </Form.Field>
               <Form.Field className='values'>
                 <div>
-                  <label>目標値:</label>
-                  <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateKeyResult({ targetValue: value })}/>
+                  <label>目標値: </label>
+                  <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
                   <EditableText value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
                 </div>
                 <div>
-                  <label>実績値:</label>
-                  <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateKeyResult({ actualValue: value })}/>
+                  <label>実績値: </label>
+                  <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
                   {keyResult.get('valueUnit')}
                 </div>
               </Form.Field>
