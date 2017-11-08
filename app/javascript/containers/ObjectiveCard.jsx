@@ -6,7 +6,8 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     keyResults: state.keyResults,
-    objectives: state.objectives
+    objectives: state.objectives,
+    users: state.users,
   };
 };
 
