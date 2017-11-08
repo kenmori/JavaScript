@@ -40,6 +40,11 @@ gem 'devise'
 
 gem 'gon'
 
+gem 'carrierwave'
+gem 'fog'
+
+gem 'dotenv-rails', require: 'dotenv/rails-now'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -62,8 +67,6 @@ group :default do
   gem 'slim-rails'
   gem 'rails-assets-bootstrap-sass-official'
   gem 'rails-assets-fontawesome'
-  gem 'carrierwave'
-  gem 'fog'
   gem 'bootswatch-rails'
   gem 'unicorn'
 end
