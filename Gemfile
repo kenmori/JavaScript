@@ -62,6 +62,8 @@ group :default do
   gem 'slim-rails'
   gem 'rails-assets-bootstrap-sass-official'
   gem 'rails-assets-fontawesome'
+  gem 'carrierwave'
+  gem 'fog-aws'
   gem 'bootswatch-rails'
   gem 'unicorn'
 end
