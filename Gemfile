@@ -63,7 +63,7 @@ group :default do
   gem 'rails-assets-bootstrap-sass-official'
   gem 'rails-assets-fontawesome'
   gem 'carrierwave'
-  gem 'fog-aws'
+  gem 'fog'
   gem 'bootswatch-rails'
   gem 'unicorn'
 end
