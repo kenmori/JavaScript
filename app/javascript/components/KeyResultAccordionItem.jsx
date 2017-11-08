@@ -72,6 +72,10 @@ class KeyResultAccordionItem extends Component {
                   <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
                   {keyResult.get('valueUnit')}
                 </div>
+                <div>
+                  <label>期限: </label>
+                  <EditableText value={keyResult.get('expiredDate') || ''} saveValue={(value) => this.updateKeyResult({ expiredDate: value })}/>
+                </div>
               </Form.Field>
             </Form.Group>
           </Accordion.Content>
