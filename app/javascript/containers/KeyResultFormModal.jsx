@@ -6,14 +6,15 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['keyResultForm', 'isOpen']),
-    objective: state.dialogs.getIn(['keyResultForm', 'objective'])
+    objective: state.dialogs.getIn(['keyResultForm', 'objective']),
+    users: state.users,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addKeyResult: (objectiveId, name, isContinue) => {
-      dispatch(actions.addKeyResult(objectiveId, name, isContinue));
+    addKeyResult: (keyResult) => {
+      dispatch(actions.addKeyResult(keyResult));
     },
     closeModal: () => {
       dispatch(dialogActions.closeKeyResultFormModal());

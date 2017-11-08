@@ -12,9 +12,7 @@ function* fetchKeyResults() {
 function* addKeyResult({ payload }) {
   const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
   yield put(keyResultActions.addedKeyResult(result));
-  if(!payload.isContinue) {
-    yield put(dialogActions.closeKeyResultFormModal());
-  }
+  yield put(dialogActions.closeKeyResultFormModal());
 }
 
 function* updateKeyResult({payload}) {
