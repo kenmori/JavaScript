@@ -15,12 +15,28 @@ class KeyResultAccordion extends Component {
     this.setState({ activeIndex: newIndex })
   }
 
+  handleProgressChange(index, progressRate) {
+    const totalProgressRate = this.props.keyResults.map((keyResult, i) =>
+      i === index ? progressRate : keyResult.get('progressRate')
+    ).reduce((sum, x) => sum + x) / this.props.keyResults.size;
+    this.props.onProgressChange(Math.round(totalProgressRate));
+  }
+
+  updateProgress(index, progressRate) {
+    const totalProgressRate = this.props.keyResults.map((keyResult, i) =>
+      i === index ? progressRate : keyResult.get('progressRate')
+    ).reduce((sum, x) => sum + x) / this.props.keyResults.size;
+    this.props.updateProgress(Math.round(totalProgressRate));
+  }
+
   render() {
     return (
       <Accordion className='key-result-accordion'>
         {this.props.keyResults.map((keyResult, index) => {
           return <KeyResultAccordionItem key={index} keyResult={keyResult} updateKeyResult={this.props.updateKeyResult}
                                          index={index} active={this.state.activeIndex === index}
+                                         updateProgress={this.updateProgress.bind(this)}
+                                         onProgressChange={this.handleProgressChange.bind(this)}
                                          onClick={this.handleClick.bind(this)}/>;
         })}
       </Accordion>
