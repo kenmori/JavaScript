@@ -5,7 +5,8 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    user: gon.login_user
+    user: gon.login_user,
+    avatarPath: state.loginUser.get('avatarPath')
   };
 };
 
@@ -16,6 +17,9 @@ const mapDispatchToProps = dispatch => {
     },
     openAvatarImageModal: imageData => {
       dispatch(dialogActions.openAvatarImageModal(imageData));
+    },
+    closeAvatarImageModal: imageData => {
+      dispatch(dialogActions.closeAvatarImageModal());
     }
   };
 };

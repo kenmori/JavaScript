@@ -39,7 +39,7 @@ class AccountSettingTab extends Component {
           <dd>{user.email}</dd>
 
           <dt>画像</dt>
-          <dd><Image src="" avatar/></dd>
+          <dd><Image src={this.props.avatarPath} avatar/></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">
