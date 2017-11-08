@@ -15,7 +15,7 @@ class User < ApplicationRecord
     self.owner_id = owner.id
   end
 
-  mount_uploader :icon, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 
   def organization
     OrganizationMember.find_by(user_id: id).organization
