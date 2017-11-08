@@ -14,6 +14,10 @@ const actions = createActions({
   [actionTypes.REMOVED_USER]: id => ({ id }),
   [actionTypes.UPDATE_PASSWORD]: user => ({ user }),
   [actionTypes.UPDATED_PASSWORD]: user => ({ user }),
+  [actionTypes.RECOVER_PASSWORD]: user => ({ user }),
+  [actionTypes.RECOVERED_PASSWORD]: () => (true),
+  [actionTypes.EDIT_PASSWORD]: (user) => ({ user }),
+  [actionTypes.EDITED_PASSWORD]: () => (true),
 });
 
 export default actions;

@@ -26,7 +26,8 @@ export default class SignIn extends Component {
             <Form.Field>
               <Checkbox label={<label>ログイン情報を保存する</label>} ref={(node) => {this.rememberMeCheckBox = node;}}/>
             </Form.Field>
-            <Link to="/users/sign_up" className="user-create-link">新規ユーザー登録はこちら</Link>
+            <div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>
+            <div className="user-create-link">パスワードを忘れた方は<Link to="/users/password/recover">こちら</Link></div>
             <div className='center'>
               <Button negative onClick={this.signIn.bind(this)}>ログイン</Button>
             </div>

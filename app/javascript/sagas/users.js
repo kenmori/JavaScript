@@ -33,6 +33,16 @@ function* updatePassword({ payload }) {
   yield put(userActions.updatedUser(result));
 }
 
+function* recoverPassword({ payload }) {
+  const result = yield call(API.post, '/users/password', { user: payload.user });
+  yield put(userActions.recoveredPassword(result));
+}
+
+function* editPassword({ payload }) {
+  const result = yield call(API.put, '/users/password', { user: payload.user });
+  yield put(userActions.editedPassword(result));
+}
+
 export function* userSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_USER, fetchUser),
@@ -41,5 +51,7 @@ export function* userSagas() {
     takeLatest(actionTypes.UPDATE_USER, updateUser),
     takeLatest(actionTypes.REMOVE_USER, removeUser),
     takeLatest(actionTypes.UPDATE_PASSWORD, updatePassword),
+    takeLatest(actionTypes.RECOVER_PASSWORD, recoverPassword),
+    takeLatest(actionTypes.EDIT_PASSWORD, editPassword),
   ]);
 }
