@@ -10,8 +10,8 @@ class MenuBar extends Component {
     this.props.fetchUsers();
   }
 
-  get usersOption() {
-    return this.props.users.map(item => ({
+  usersOption(users) {
+    return users.map(item => ({
       key: item.get('id'),
       value: item.get('id'),
       text: `${item.get('lastName')} ${item.get('firstName')}`,
@@ -52,7 +52,7 @@ class MenuBar extends Component {
             <Header as='h1'><Image src={logo_image} href='/'/></Header>
           </Menu.Item>
           <div className='users'>
-            <Dropdown placeholder='ユーザーを選択してください' search selection options={this.usersOption} className='full-width'/>
+            <Dropdown placeholder='ユーザーを選択してください' search selection options={this.usersOption(this.props.users)} className='full-width'/>
           </div>
           <div className='periods'>
             <Dropdown scrolling options={this.periodsOption} defaultValue={this.periodsOption[0].value} className='full-width'/>
