@@ -21,7 +21,7 @@ export default class  EditableText extends Component {
       <div className='editable-text'>
         {
           this.state.isEditable
-            ? <Input style={{ width: this.props.value.length + 'rem' }} defaultValue={this.props.value} ref={(node) => {this.input = node;}}/>
+            ? <Input style={{ width: this.props.value.length + 'rem', minWidth: '1em' }} defaultValue={this.props.value} ref={(node) => {this.input = node;}}/>
             : <span>{this.props.value}</span>
         }
         {this.props.children}

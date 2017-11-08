@@ -42,12 +42,15 @@ class KeyResultAccordionItem extends Component {
               </Form.Field>
               <Form.Field className='values'>
                 <div>
-                  <label>目標数値: </label>
-                  <EditableText value={`${keyResult.get('targetValue')}`} saveValue={(value) => this.updateKeyResult({ targetValue: value })}>
-                    {keyResult.get('valueUnit')}
-                  </EditableText>
+                  <label>目標値:</label>
+                  <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateKeyResult({ targetValue: value })}/>
+                  <EditableText value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
                 </div>
-                <div>実績数値: <span>{keyResult.get('actualValue')}{keyResult.get('valueUnit')}</span></div>
+                <div>
+                  <label>実績値:</label>
+                  <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateKeyResult({ actualValue: value })}/>
+                  {keyResult.get('valueUnit')}
+                </div>
               </Form.Field>
             </Form.Group>
           </Accordion.Content>
