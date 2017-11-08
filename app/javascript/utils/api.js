@@ -1,7 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import { camelizeKeys, decamelizeKeys } from 'humps';
-import queryString from 'querystring'
+import queryString from 'querystring';
 import { fromJS } from 'immutable';
+import isObject from 'isobject';
 
 const format = (body) => {
   if (/\S/.test(body)) {
@@ -25,7 +26,7 @@ const csrfHeaders = {
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'X-CSRF-Token': csrfToken
+    'X-CSRF-Token': csrfToken,
   }
 };
 
@@ -41,6 +42,42 @@ const handlerResponse = response => {
   }
 };
 
+const isIncludedFormData = (data) => {
+  const values = Object.values(data);
+  for (var i = 0; i < values.length; i++) {
+    if (values[i] instanceof File) {
+      return true
+    }
+    if (isObject(values[i])) { return isIncludedFormData(values[i]) }
+  }
+
+  return false;
+}
+
+const correctHeaders = (data, headers) => {
+  const headerData = Object.assign({}, headers);
+  if (isIncludedFormData(data)) {
+    delete headerData.headers['Content-Type'];
+  }
+  return headerData;
+}
+
+const toFormData = (data) => {
+  const keys = Object.keys(data);
+  if (keys.length !== 1) { throw new Error('invalid form parameters.'); }
+  const formKey = keys[0];
+
+  return Object.entries(data[formKey]).reduce((previous, current) => {
+    const [key, value] = current;
+    previous.append(`${formKey}[${key}]`, value);
+    return previous;
+  }, new FormData());
+}
+
+const bodyData = (data) => {
+  return isIncludedFormData(data) ? toFormData(data) : JSON.stringify(decamelizeKeys(data));
+}
+
 const API = {
   get: (url, query = {}) => {
     if(Object.keys(query).length != 0) url += '?' +  queryString.stringify(decamelizeKeys(query));
@@ -48,11 +85,11 @@ const API = {
       .then(handlerResponse);
   },
   post: (url, data) => {
-    return fetch(url, { ...csrfHeaders, ...{ body: JSON.stringify(decamelizeKeys(data)) }, ...{ method: 'POST' } })
+    return fetch(url, { ...correctHeaders(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'POST' } })
       .then(handlerResponse);
   },
   put: (url, data) => {
-    return fetch(url, { ...csrfHeaders, ...{ body: JSON.stringify(decamelizeKeys(data)) }, ...{ method: 'PUT' } })
+    return fetch(url, { ...correctHeaders(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'PUT' } })
       .then(handlerResponse);
   },
   delete: (url) => {
