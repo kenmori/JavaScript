@@ -1,8 +1,8 @@
 .key-result-accordion {
-  .ui.segment {
+  &.ui.segment {
     padding: 0.5rem 1.3rem;
   }
-  .ui.accordion {
+  &.ui.accordion {
     width: 100%;
 
     .title {

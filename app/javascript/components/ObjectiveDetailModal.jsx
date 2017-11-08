@@ -57,12 +57,9 @@ class ObjectiveDetailModal extends Component {
                 <label>Key Results: {objective.get('keyResults') && objective.get('keyResults').size}</label>
                 {(() => {
                   if(objective.get('keyResults')) {
-                    return objective.get('keyResults').map((keyResult) => {
-                      return <KeyResultAccordion key={keyResult.get('id')} keyResult={keyResult} updateKeyResult={this.props.updateKeyResult}/>;
-                    });
+                      return <KeyResultAccordion keyResults={objective.get('keyResults')} updateKeyResult={this.props.updateKeyResult}/>;
                   }
                 })()}
-                <div></div>
               </Form.Field>
             </Form.Group>
           </Form>
