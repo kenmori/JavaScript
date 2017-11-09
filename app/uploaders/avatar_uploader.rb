@@ -15,7 +15,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # バケット以下アイコンの保存先を指定します。
   # ~/[バケット名]/[foldername]　配下に画像がアップロードされます。
   def store_dir
-    "/avatar"
+    "avatar"
   end
 
   # アップロード可能な形式をここで指定します。
