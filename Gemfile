@@ -41,6 +41,7 @@ gem 'devise'
 gem 'gon'
 
 gem 'carrierwave'
+gem 'rmagick'
 gem 'fog'
 
 gem 'dotenv-rails', require: 'dotenv/rails-now'
