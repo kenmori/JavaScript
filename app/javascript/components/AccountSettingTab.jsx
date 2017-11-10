@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Button, Image, Input } from 'semantic-ui-react';
+import { Tab, Button, Input } from 'semantic-ui-react';
+import Avatar from './Avatar';
 
 class AccountSettingTab extends Component {
 
@@ -39,7 +40,7 @@ class AccountSettingTab extends Component {
           <dd>{user.email}</dd>
 
           <dt>画像</dt>
-          <dd><Image src={this.props.avatarPath} avatar/></dd>
+          <dd><Avatar path={this.props.avatarPath} /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">
