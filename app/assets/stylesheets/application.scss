@@ -67,6 +67,24 @@ a.active {
   margin-bottom: 15px;
 }
 
+.avatarImg {
+  display: inline-block;
+  border: 3px rgba(34, 36, 38, 0.15) solid;
+  border-radius: 50%;
+  width: 48px;
+  height: 45px;
+  line-height: 39px;
+  text-align: center;
+  font-size: smaller;
+  vertical-align: middle;
+  &.is-small {
+    border: 1px rgba(34, 36, 38, 0.15) solid;
+    width: 20px;
+    height: 20px;
+    min-width: auto;
+  }
+}
+
 .okr-tabs {
   .tab {
     display: flex !important;
@@ -85,15 +103,6 @@ a.active {
       width: 100%;
       justify-content: space-between;
       align-items: center;
-
-      .avatar {
-        border: 3px rgba(34, 36, 38, 0.15) solid;
-        border-radius: 50%;
-        width: 48px;
-        height: 45px;
-        min-width: 48px;
-        font-size: smaller;
-      }
 
       .name {
         margin: 0 8px;

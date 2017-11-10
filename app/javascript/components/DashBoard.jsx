@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ObjectiveForm from '../containers/ObjectiveForm';
 import ObjectiveMap from './ObjectiveMap';
+import Avatar from './Avatar';
 
 export default class DashBoard extends Component {
   static ACTIONS = {
@@ -60,9 +61,7 @@ export default class DashBoard extends Component {
     return (
       <div className="dash-board">
         <section className="login-user">
-          <div className="avatar flex-center">
-            {this.props.loginUser.get('lastName')}
-          </div>
+          <Avatar path={this.props.loginUser.get('avatarPath')} name={this.props.loginUser.get('lastName')} />
           <div className="info flex-vertical-center">
             <div>{this.props.loginUser.get('lastName') + this.props.loginUser.get('firstName')}</div>
             <div>{this.props.loginUser.get('email')}</div>

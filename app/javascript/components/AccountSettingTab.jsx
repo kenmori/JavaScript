@@ -34,13 +34,13 @@ class AccountSettingTab extends Component {
       <Tab.Pane attached={false} className="account-setting-tab">
         <dl>
           <dt>名前</dt>
-          <dd>{user.last_name} {user.first_name}</dd>
+          <dd>{user.get('lastName')} {user.get('firstName')}</dd>
 
           <dt>メールアドレス</dt>
-          <dd>{user.email}</dd>
+          <dd>{user.get('email')}</dd>
 
           <dt>画像</dt>
-          <dd><Avatar path={this.props.avatarPath} /></dd>
+          <dd><Avatar path={user.get('avatarPath')} name={user.get('lastName')} /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">

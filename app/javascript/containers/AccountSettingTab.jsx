@@ -5,8 +5,7 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    user: gon.login_user,
-    avatarPath: state.loginUser.get('avatarPath')
+    user: state.loginUser,
   };
 };
 
