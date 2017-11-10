@@ -13,7 +13,7 @@ class Avatar extends Component {
 
     return path ?
             <Image src={path} className={cls} ui={false} /> :
-            <div className={cls}>{name || ''}</div>
+            <div className={cls}>{name}</div>
   }
   render() {
     return this.avatarTag(this.props.path, this.props.name, this.props.small)
@@ -21,12 +21,14 @@ class Avatar extends Component {
 }
 
 Avatar.propTypes = {
-  name: PropTypes.any,
-  path: PropTypes.any,
+  name: PropTypes.string,
+  path: PropTypes.string,
   small: PropTypes.bool,
 };
 Avatar.defaultProps = {
-  small: false
+  name: '',
+  path: '',
+  small: false,
 };
 
 export default Avatar;
