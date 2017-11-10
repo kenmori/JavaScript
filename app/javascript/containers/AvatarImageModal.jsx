@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     uploadAvatarImage: (id, avatar) => {
-      dispatch(usersActions.updateUser({id, avatar}));
+      dispatch(usersActions.updateAvatar({id, avatar}));
     },
     closeModal: () => {
       dispatch(dialogActions.closeAvatarImageModal());

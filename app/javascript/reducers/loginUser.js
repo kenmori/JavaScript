@@ -12,7 +12,7 @@ const initialState = fromJS({
 });
 
 export default handleActions({
-  [ActionTypes.UPDATED_USER]: (state, { payload }) => {
-    return payload.user.get('id') === state.get('id') ? payload.user : state;
-  },
+  [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
+    payload.user.get('id') === state.get('id') ? payload.user : state
+  ),
 }, initialState);

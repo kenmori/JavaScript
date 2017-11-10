@@ -27,6 +27,9 @@ export default handleActions({
     [ActionTypes.CLOSE_AVATAR_IMAGE_MODAL]: (state) => (
       state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
     ),
+    [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
+      state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
+    ),
   },
   fromJS({
     objectiveForm: {

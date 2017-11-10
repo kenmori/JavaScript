@@ -17,9 +17,6 @@ const mapDispatchToProps = dispatch => {
     },
     openAvatarImageModal: imageData => {
       dispatch(dialogActions.openAvatarImageModal(imageData));
-    },
-    closeAvatarImageModal: imageData => {
-      dispatch(dialogActions.closeAvatarImageModal());
     }
   };
 };
