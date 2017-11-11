@@ -4,7 +4,7 @@ class KeyResultsController < ApplicationController
   end
 
   def create
-    @key_result = KeyResult.new(params.require(:key_result).permit(:name, :objective_id, :owner_id, :target_value, :value_unit, :expired_data))
+    @key_result = KeyResult.new(params.require(:key_result).permit(:name, :objective_id, :owner_id, :target_value, :value_unit, :expired_date))
     if @key_result.save
       render status: :created
     else
