@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171004030507) do
+ActiveRecord::Schema.define(version: 20171107065133) do
 
   create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20171004030507) do
     t.integer "target_value"
     t.integer "actual_value"
     t.string "value_unit"
-    t.text "memo"
     t.date "expired_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -110,16 +109,6 @@ ActiveRecord::Schema.define(version: 20171004030507) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kind", null: false
-  end
-
-  create_table "plans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "key_result_id", null: false
-    t.string "description", null: false
-    t.integer "status", default: 1, null: false
-    t.integer "concerned_person_id", null: false
-    t.date "deadline"
   end
 
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

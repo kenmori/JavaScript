@@ -49,12 +49,6 @@ class KeyResultAccordion extends Component {
                 <div>実績数値: <span>{keyResult.get('actualValue')}{keyResult.get('valueUnit')}</span></div>
               </Form.Field>
             </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>Key Result作成時の申し送りメモ</label>
-                <Segment>{keyResult.get('memo')}</Segment>
-              </Form.Field>
-            </Form.Group>
           </Accordion.Content>
         </Accordion>
       </Segment>);
