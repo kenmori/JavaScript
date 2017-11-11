@@ -16,6 +16,7 @@ class KeyResultFormModal extends Component {
       objectiveId: this.props.objective.get('id'),
       ownerId: this.ownerSelect.getSelectedItem().value,
       targetValue: this.targetInput.inputRef.value,
+      valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.dateInput.inputRef.value,
     };
     this.props.addKeyResult(keyResult);
@@ -43,8 +44,16 @@ class KeyResultFormModal extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Field>
-                <label>目標値</label>
-                <Input ref={node => {this.targetInput = node;}}/>
+                <div className="flex-center">
+                  <div style={{marginRight: "10px"}}>
+                    <label>目標値</label>
+                    <Input type="number" ref={node => {this.targetInput = node;}}/>
+                  </div>
+                  <div>
+                    <label>単位</label>
+                    <Input type="text" ref={node => {this.unitInput = node;}}/>
+                  </div>
+                </div>
               </Form.Field>
             </Form.Group>
             <Form.Group>
