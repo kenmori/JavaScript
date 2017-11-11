@@ -1,0 +1,13 @@
+.key-result-form-modal {
+  .participants {
+    .participants__item {
+      position: relative;
+      margin-top: 10px;
+    }
+    .participants__close {
+      position: absolute;
+      top: 10px;
+      left: 100%;
+    }
+  }
+}
