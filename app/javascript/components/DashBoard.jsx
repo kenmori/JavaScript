@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ObjectiveForm from '../containers/ObjectiveForm';
 import ObjectiveMap from './ObjectiveMap';
+import ObjectivePieChart from './ObjectivePieChart';
 
 export default class DashBoard extends Component {
   static ACTIONS = {
@@ -69,7 +70,7 @@ export default class DashBoard extends Component {
           </div>
         </section>
         <section className="okr">
-          OKR一覧({this.props.objectives.size})
+          Objective 一覧 ({this.props.objectives.size})
           <div className="okr-list">
             {
               this.props.objectives.map((objective) => {
@@ -77,12 +78,13 @@ export default class DashBoard extends Component {
                 return (
                   <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                      href="javascript:void(0)" onClick={this.selectOKRBox(objective)}>
-                    {objective.get('name')}
+                    <div>{objective.get('name')}</div>
+                    <ObjectivePieChart objective={objective}/>
                   </a>
                 );
               }) }
             <a className={`okr-box ${this.state.selectedObjective ? '' : 'active'}`} href="javascript:void(0)" onClick={this.showObjectiveForm}>
-              OKR を作成する
+              Objective を作成する
             </a>
           </div>
         </section>
