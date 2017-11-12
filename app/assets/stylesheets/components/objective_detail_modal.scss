@@ -66,6 +66,10 @@
 
         &[readonly] {
           cursor: default;
+
+          &::-webkit-slider-thumb {
+            cursor: default;
+          }
         }
       }
     }
