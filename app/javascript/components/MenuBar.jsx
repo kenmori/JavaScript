@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Input, Dropdown, Header, Icon, Menu, Image} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
 import logo_image from '../images/logo.png'
+import Avatar from './Avatar';
 
 class MenuBar extends Component {
 
@@ -31,12 +32,10 @@ class MenuBar extends Component {
     )
   }
 
-  get userTrigger() {
-    const loginUser = gon.login_user.last_name;
-    // TODO avatar 画像の表示
+  userTrigger = (loginUser) => {
     return (
       <span>
-        <Icon name='user'/> {loginUser}
+        <Avatar path={loginUser.get('avatarPath')} name={loginUser.get('lastName')} small={true} /> {loginUser.get('lastName')}
       </span>
     )
   }
@@ -58,7 +57,7 @@ class MenuBar extends Component {
             <Dropdown scrolling options={this.periodsOption} defaultValue={this.periodsOption[0].value} className='full-width'/>
           </div>
           <Menu.Menu position='right' className='right-menu'>
-            <Dropdown trigger={this.userTrigger}>
+            <Dropdown trigger={this.userTrigger(this.props.loginUser)}>
               <Dropdown.Menu>
                 <Dropdown.Item>
                   <NavLink to='/settings'>

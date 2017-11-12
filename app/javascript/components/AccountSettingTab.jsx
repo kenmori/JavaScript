@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Button, Image, Input } from 'semantic-ui-react';
+import { Tab, Button, Input } from 'semantic-ui-react';
+import Avatar from './Avatar';
 
 class AccountSettingTab extends Component {
+
 
   changePassword = () => {
     this.props.updatePassword({
@@ -17,6 +19,12 @@ class AccountSettingTab extends Component {
     this.passwordConfirmationInput.inputRef.value = '';
   };
 
+  changeAvatarImage = (event) => {
+    if (!event.target.files.length) { return; }
+    this.props.openAvatarImageModal(event.target.files[0]);
+    event.target.value = null;
+  }
+
   render() {
     const user = this.props.user;
     if (!user) {
@@ -26,13 +34,24 @@ class AccountSettingTab extends Component {
       <Tab.Pane attached={false} className="account-setting-tab">
         <dl>
           <dt>名前</dt>
-          <dd>{user.last_name} {user.first_name}</dd>
+          <dd>{user.get('lastName')} {user.get('firstName')}</dd>
 
           <dt>メールアドレス</dt>
-          <dd>{user.email}</dd>
+          <dd>{user.get('email')}</dd>
 
           <dt>画像</dt>
-          <dd><Image src="" avatar/></dd>
+          <dd><Avatar path={user.get('avatarPath')} name={user.get('lastName')} /></dd>
+          <dd>
+            <div className="avatar-img-button">
+              <label className="file-button">
+                <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
+              </label>
+              <Button size='mini' className="change-button" content="アイコンを変更する" />
+            </div>
+          </dd>
+          <dd>
+
+          </dd>
 
           <dt>パスワード</dt>
           <dd>

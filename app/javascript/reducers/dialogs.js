@@ -21,6 +21,15 @@ export default handleActions({
     [ActionTypes.CLOSE_OBJECTIVE_DETAIL_MODAL]: (state) => (
       state.set('objectiveDetail', fromJS({ isOpen: false, objectiveId: null }))
     ),
+    [ActionTypes.OPEN_AVATAR_IMAGE_MODAL]: (state, { payload }) => (
+      state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData }))
+    ),
+    [ActionTypes.CLOSE_AVATAR_IMAGE_MODAL]: (state) => (
+      state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
+    ),
+    [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
+      state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
+    ),
   },
   fromJS({
     objectiveForm: {
@@ -34,6 +43,10 @@ export default handleActions({
     objectiveDetail: {
       isOpen: false,
       objectiveId: null,
+    },
+    avatarImage: {
+      isOpen: false,
+      imageData: '',
     },
   }),
 );
