@@ -1,17 +1,17 @@
 CarrierWave.configure do |config|
   config.fog_credentials = {
     provider: 'AWS',
-    aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-    aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-    region: ENV['AWS_REGION'],
+    aws_access_key_id: Rails.application.secrets.aws_access_key_id,
+    aws_secret_access_key: Rails.application.secrets.aws_secret_access_key,
+    region: Rails.application.secrets.aws_region,
     path_style: true
   }
   config.fog_public     = true # public-read
 
   config.remove_previously_stored_files_after_update = false
 
-  config.fog_directory = ENV['AWS_S3_BUCKET']
-  config.asset_host = ENV['AWS_S3_URL']
+  config.fog_directory = Rails.application.secrets.aws_s3_bucket
+  config.asset_host = Rails.application.secrets.aws_s3_url
 
 end
 CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
