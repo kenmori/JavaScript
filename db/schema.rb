@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20171108123540) do
     t.integer "target_value"
     t.integer "actual_value"
     t.string "value_unit"
-    t.text "memo"
     t.date "expired_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -60,6 +59,7 @@ ActiveRecord::Schema.define(version: 20171108123540) do
     t.integer "progress_rate", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_objectives_on_created_at"
   end
 
   create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -109,16 +109,6 @@ ActiveRecord::Schema.define(version: 20171108123540) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kind", null: false
-  end
-
-  create_table "plans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "key_result_id", null: false
-    t.string "description", null: false
-    t.integer "status", default: 1, null: false
-    t.integer "concerned_person_id", null: false
-    t.date "deadline"
   end
 
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
