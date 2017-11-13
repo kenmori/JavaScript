@@ -40,11 +40,11 @@ class KeyResultFormModal extends Component {
     })
   }
 
-  participantList(options, onChangeHandler, onCloseHandler) {
+  participantList(options, add, remove) {
     const list = this.state.participants.map((id, idx) => {
-      const icon = idx !== 0 && id !== null && <Icon name="close" className="participants__close" onClick={() => {onCloseHandler(id)}} />
+      const icon = idx !== 0 && id !== null && <Icon name="close" className="participants__close" onClick={() => {remove(id)}} />
       return <div key={idx} className="participants__item">
-              <Dropdown selection value={id} options={options} onChange={onChangeHandler}/>
+              <Dropdown selection value={id} options={options} onChange={add}/>
               {icon}
              </div>
     })
@@ -60,7 +60,7 @@ class KeyResultFormModal extends Component {
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
-      members: this.state.participants.filter(Boolean)
+      members: this.state.participants.filter(item => item !== null)
     };
     this.props.addKeyResult(keyResult);
     this.nameInput.inputRef.value = '';
