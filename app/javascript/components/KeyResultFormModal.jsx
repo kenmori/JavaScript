@@ -24,10 +24,15 @@ class KeyResultFormModal extends Component {
     this.setState({expiredDate: date})
   }
 
-  addConcernedPeople(evt, { value }) {
+  addConcernedPeople(value, boxIndex) {
     const concernedPeople = this.state.concernedPeople;
-    concernedPeople[concernedPeople.length - 1] = value;
-    concernedPeople.push(null);
+
+    if (boxIndex === concernedPeople.length - 1) {
+      concernedPeople[concernedPeople.length - 1] = value;
+      concernedPeople.push(null);
+    } else {
+      concernedPeople[boxIndex] = value;
+    }
 
     this.setState({
       concernedPeople: concernedPeople
@@ -44,7 +49,7 @@ class KeyResultFormModal extends Component {
     const list = this.state.concernedPeople.map((id, idx) => {
       const icon = idx !== 0 && id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
       return <div key={idx} className="concerned-people__item">
-              <Dropdown selection value={id} options={options} onChange={add}/>
+              <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
               {icon}
              </div>
     })
