@@ -1,4 +1,5 @@
 class KeyResult < ApplicationRecord
+  has_many :concerned_people
   belongs_to :objective
   belongs_to :owner
 

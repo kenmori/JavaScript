@@ -4,12 +4,15 @@ class KeyResultsController < ApplicationController
   end
 
   def create
-    @key_result = KeyResult.new(params.require(:key_result).permit(:name, :objective_id, :owner_id, :target_value, :value_unit, :expired_date))
-    if @key_result.save
-      render status: :created
-    else
-      render json: @key_result.errors, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      @key_result = KeyResult.create!(key_result_params)
+      params[:key_result][:concerned_people].each do |id|
+        @key_result.concerned_people << ConcernedPerson.new(member_id: id, role: 0)
+      end
     end
+    render status: :created
+  rescue
+    render json: @key_result.errors, status: :unprocessable_entity
   end
 
   def update
@@ -19,5 +22,12 @@ class KeyResultsController < ApplicationController
     else
       render json: @key_result.errors, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def key_result_params
+    params.require(:key_result)
+      .permit(:name, :objective_id, :owner_id, :target_value, :value_unit, :expired_date)
   end
 end
