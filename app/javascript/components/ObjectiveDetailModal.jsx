@@ -16,12 +16,12 @@ class ObjectiveDetailModal extends Component {
     this.setState({ progressRate: nextProps.objective.get('progressRate') });
   }
 
-  handleSliderChange(event) {
-    this.setState({ progressRate: event.target.value });
+  handleProgressChange(progressRate) {
+    this.setState({ progressRate: progressRate });
   }
 
-  handleSliderUnFocus(event) {
-    this.updateObjective({ progressRate: Number(event.target.value) });
+  updateProgress(progressRate) {
+    this.updateObjective({ progressRate: progressRate });
   }
 
   updateObjective(values) {
@@ -41,8 +41,8 @@ class ObjectiveDetailModal extends Component {
               <Form.Field>
                 <label>進捗: <span className='progress-rate'>{this.state.progressRate}%</span></label>
                 <div className='slider'>
-                  <input type='range' min='0' max='100' value={this.state.progressRate} onChange={this.handleSliderChange.bind(this)}
-                         step='1' data-unit='%' onBlur={this.handleSliderUnFocus.bind(this)}/>
+                  <input type='range' min='0' max='100' value={this.state.progressRate}
+                         step='1' data-unit='%' readOnly/>
                 </div>
               </Form.Field>
             </Form.Group>
@@ -57,12 +57,12 @@ class ObjectiveDetailModal extends Component {
                 <label>Key Results: {objective.get('keyResults') && objective.get('keyResults').size}</label>
                 {(() => {
                   if(objective.get('keyResults')) {
-                    return objective.get('keyResults').map((keyResult) => {
-                      return <KeyResultAccordion key={keyResult.get('id')} keyResult={keyResult} updateKeyResult={this.props.updateKeyResult}/>;
-                    });
+                    return <KeyResultAccordion keyResults={objective.get('keyResults')}
+                                               updateKeyResult={this.props.updateKeyResult}
+                                               updateProgress={this.updateProgress.bind(this)}
+                                               onProgressChange={this.handleProgressChange.bind(this)}/>
                   }
                 })()}
-                <div></div>
               </Form.Field>
             </Form.Group>
           </Form>

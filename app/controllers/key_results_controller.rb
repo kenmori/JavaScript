@@ -14,7 +14,7 @@ class KeyResultsController < ApplicationController
 
   def update
     @key_result = KeyResult.find(params[:id])
-    if @key_result.update(params.require(:key_result).permit(:name, :description, :progress_rate, :target_value, :value_unit, :actual_value))
+    if @key_result.update(params.require(:key_result).permit(:name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date))
       render action: :create, status: :ok
     else
       render json: @key_result.errors, status: :unprocessable_entity

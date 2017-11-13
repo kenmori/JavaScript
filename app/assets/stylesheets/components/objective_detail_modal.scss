@@ -63,6 +63,14 @@
           border-radius: 50%;
           -webkit-border-radius: 50%;
         }
+
+        &[readonly] {
+          cursor: default;
+
+          &::-webkit-slider-thumb {
+            cursor: default;
+          }
+        }
       }
     }
 
