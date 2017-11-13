@@ -45,7 +45,7 @@ class KeyResultFormModal extends Component {
 
   participantList(options, add, remove) {
     const list = this.state.concernedPeople.map((id, idx) => {
-      const icon = idx !== 0 && id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
+      const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
       return <div key={idx} className="concerned-people__item">
               <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
               {icon}
