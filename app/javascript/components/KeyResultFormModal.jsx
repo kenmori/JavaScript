@@ -27,11 +27,9 @@ class KeyResultFormModal extends Component {
   addConcernedPeople(value, boxIndex) {
     const concernedPeople = this.state.concernedPeople;
 
+    concernedPeople[boxIndex] = value;
     if (boxIndex === concernedPeople.length - 1) {
-      concernedPeople[concernedPeople.length - 1] = value;
       concernedPeople.push(null);
-    } else {
-      concernedPeople[boxIndex] = value;
     }
 
     this.setState({
