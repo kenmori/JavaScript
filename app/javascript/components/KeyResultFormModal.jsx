@@ -1,24 +1,61 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, Dropdown } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Dropdown, Icon } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 class KeyResultFormModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {expiredDate: moment()}
+    this.state = {
+      expiredDate: moment(),
+      concernedPeople: [null]
+    }
   }
 
-  usersOption(users) {
-    return users.map(item => ({
-      key: item.get('id'),
-      value: item.get('id'),
-      text: `${item.get('lastName')} ${item.get('firstName')}`,
-    })).toArray();
+  usersOption(users, isOwner) {
+    return users.map(item => {
+      const id = isOwner ? item.get('ownerId') : item.get('id');
+      return {
+        key: id,
+        value: id,
+        text: `${item.get('lastName')} ${item.get('firstName')}`,
+      }
+    }).toArray();
   }
 
   handleCalendar(date) {
     this.setState({expiredDate: date})
+  }
+
+  addConcernedPeople(value, boxIndex) {
+    const concernedPeople = this.state.concernedPeople;
+
+    concernedPeople[boxIndex] = value;
+    if (boxIndex === concernedPeople.length - 1) {
+      concernedPeople.push(null);
+    }
+
+    this.setState({
+      concernedPeople: concernedPeople
+    })
+  }
+
+  removeConcernedPeople(clickedId) {
+    this.setState({
+      concernedPeople: this.state.concernedPeople.filter( id => id !== clickedId)
+    })
+  }
+
+  participantList(options, add, remove) {
+    const list = this.state.concernedPeople.map((id, idx) => {
+      const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
+      return <div key={idx} className="concerned-people__item">
+              <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
+              {icon}
+             </div>
+    })
+
+    return <div className="concerned-people">{list}</div>;
   }
 
   add() {
@@ -29,6 +66,7 @@ class KeyResultFormModal extends Component {
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
+      concernedPeople: this.state.concernedPeople.filter(item => item !== null)
     };
     this.props.addKeyResult(keyResult);
     this.nameInput.inputRef.value = '';
@@ -38,7 +76,10 @@ class KeyResultFormModal extends Component {
   componentWillReceiveProps(nextProps, currentProps) {
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
-      this.setState({expiredDate: moment()});
+      this.setState({
+        expiredDate: moment(),
+        concernedPeople: [null]
+      });
     }
   }
 
@@ -47,7 +88,7 @@ class KeyResultFormModal extends Component {
       return null;
     }
     return (
-      <Modal open={this.props.isOpen}>
+      <Modal open={this.props.isOpen} className="key-result-form-modal">
         <Modal.Header>
           {this.props.objective && this.props.objective.get('name')} の KeyResult を作成する
         </Modal.Header>
@@ -82,7 +123,13 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection options={this.usersOption(this.props.users)} ref={node => {this.ownerSelect = node;}}/>
+                <Dropdown selection options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field>
+                <label>関係者</label>
+                {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
           </Form>
