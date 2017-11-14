@@ -12,12 +12,15 @@ class KeyResultFormModal extends Component {
     }
   }
 
-  usersOption(users) {
-    return users.map(item => ({
-      key: item.get('id'),
-      value: item.get('id'),
-      text: `${item.get('lastName')} ${item.get('firstName')}`,
-    })).toArray();
+  usersOption(users, isOwner) {
+    return users.map(item => {
+      const id = isOwner ? item.get('ownerId') : item.get('id');
+      return {
+        key: id,
+        value: id,
+        text: `${item.get('lastName')} ${item.get('firstName')}`,
+      }
+    }).toArray();
   }
 
   handleCalendar(date) {
@@ -120,7 +123,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection options={this.usersOption(this.props.users)} ref={node => {this.ownerSelect = node;}}/>
+                <Dropdown selection options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>
