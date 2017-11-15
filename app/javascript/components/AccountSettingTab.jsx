@@ -25,6 +25,12 @@ class AccountSettingTab extends Component {
     event.target.value = null;
   }
 
+  deleteAvatarImage = (event) => {
+    if (confirm('画像を削除します。')) {
+      this.props.deleteAvatarImage();
+    }
+  }
+
   render() {
     const user = this.props.user;
     if (!user) {
@@ -47,7 +53,7 @@ class AccountSettingTab extends Component {
                 <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
               </label>
               <Button className="change-button" content="アイコンを変更する" positive />
-              <Button className="change-button" content="アイコンを削除する" negative />
+              <Button className="change-button" content="アイコンを削除する" negative onClick={this.deleteAvatarImage} />
             </div>
           </dd>
           <dd>
