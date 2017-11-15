@@ -40,13 +40,14 @@ class AccountSettingTab extends Component {
           <dd>{user.get('email')}</dd>
 
           <dt>画像</dt>
-          <dd><Avatar path={user.get('avatarPath')} name={user.get('lastName')} /></dd>
+          <dd><Avatar path={user.get('avatarPath')} name={user.get('lastName')} size="large" /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">
                 <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
               </label>
-              <Button size='mini' className="change-button" content="アイコンを変更する" />
+              <Button className="change-button" content="アイコンを変更する" positive />
+              <Button className="change-button" content="アイコンを削除する" negative />
             </div>
           </dd>
           <dd>
@@ -62,7 +63,7 @@ class AccountSettingTab extends Component {
               <dd><Input type="password" ref={node => { this.passwordInput = node; }}/></dd>
               <dt>新しいパスワード (確認用)</dt>
               <dd><Input type="password" ref={node => { this.passwordConfirmationInput = node; }}/></dd>
-              <dd><Button content="パスワードを変更する" onClick={this.changePassword}/></dd>
+              <dd><Button content="パスワードを変更する" onClick={this.changePassword} positive /></dd>
             </dl>
           </dd>
         </dl>
