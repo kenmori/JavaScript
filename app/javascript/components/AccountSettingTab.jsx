@@ -27,7 +27,7 @@ class AccountSettingTab extends Component {
 
   deleteAvatar = (event) => {
     if (confirm('画像を削除します。')) {
-      this.props.deleteAvatar({id: this.props.user.get('id'), avatar: null});
+      this.props.deleteAvatar({id: this.props.user.get('id'), removeAvatar: true});
     }
   }
 
