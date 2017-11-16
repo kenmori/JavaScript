@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Image } from 'semantic-ui-react';
 
 class Avatar extends Component {
-  avatarTag = (path, name, small) => {
-    let cls = 'avatarImg is-normal';
+  avatarTag = (path, name, size) => {
+    let cls = `avatarImg is-${size}`;
 
-    if (small) {
-      cls = 'avatarImg is-small';
+    if (size === 'small') {
       path = path || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
     }
 
@@ -16,19 +15,19 @@ class Avatar extends Component {
             <div className={cls}>{name}</div>
   }
   render() {
-    return this.avatarTag(this.props.path, this.props.name, this.props.small)
+    return this.avatarTag(this.props.path, this.props.name, this.props.size)
   }
 }
 
 Avatar.propTypes = {
   name: PropTypes.string,
   path: PropTypes.string,
-  small: PropTypes.bool,
+  size: PropTypes.string,
 };
 Avatar.defaultProps = {
   name: '',
   path: '',
-  small: false,
+  size: 'normal',
 };
 
 export default Avatar;

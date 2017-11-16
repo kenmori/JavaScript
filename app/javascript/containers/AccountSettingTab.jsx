@@ -16,6 +16,9 @@ const mapDispatchToProps = dispatch => {
     },
     openAvatarImageModal: imageData => {
       dispatch(dialogActions.openAvatarImageModal(imageData));
+    },
+    deleteAvatar: user => {
+      dispatch(userActions.updateAvatar(user));
     }
   };
 };

@@ -25,7 +25,6 @@ const csrfHeaders = {
   credentials: 'same-origin',
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
     'X-CSRF-Token': csrfToken,
   }
 };
@@ -54,11 +53,14 @@ const isIncludedFormData = (data) => {
   return false;
 }
 
-const correctHeaders = (data, headers) => {
+const setContentType = (data, headers) => {
   const headerData = Object.assign({}, headers);
   if (isIncludedFormData(data)) {
     delete headerData.headers['Content-Type'];
+  } else {
+    headerData.headers['Content-Type'] = 'application/json';
   }
+
   return headerData;
 }
 
@@ -85,11 +87,11 @@ const API = {
       .then(handlerResponse);
   },
   post: (url, data) => {
-    return fetch(url, { ...correctHeaders(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'POST' } })
+    return fetch(url, { ...setContentType(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'POST' } })
       .then(handlerResponse);
   },
   put: (url, data) => {
-    return fetch(url, { ...correctHeaders(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'PUT' } })
+    return fetch(url, { ...setContentType(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'PUT' } })
       .then(handlerResponse);
   },
   delete: (url) => {
