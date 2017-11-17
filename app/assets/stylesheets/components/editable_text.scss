@@ -1,0 +1,26 @@
+.editable-text {
+  display: inline !important;
+
+  &.ui.input input {
+    vertical-align: baseline;
+  }
+
+  input {
+    &[readonly] {
+      cursor: pointer;
+      border-color: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
+
+      &:hover {
+        border-color: #DADADA !important;
+      }
+    }
+  }
+}
+
+h1, h2, h3, h4, h5 {
+  input {
+    font-weight: bold;
+  }
+}

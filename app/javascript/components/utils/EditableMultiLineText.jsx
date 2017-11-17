@@ -1,37 +1,33 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { Icon, TextArea, Segment } from 'semantic-ui-react';
+import { TextArea } from 'semantic-ui-react';
 
-export default class  EditableMultiLineText extends Component {
+export default class EditableMultiLineText extends Component {
   constructor(props) {
     super(props);
-    this.state = { isEditable: false };
+    this.state = { isReadOnly: true };
   }
 
-  onEditClick() {
-    this.setState({ isEditable: true });
+  onTextAreaFocus = () => {
+    this.setState({ isReadOnly: false });
   }
 
-  onSaveClick() {
+  onTextAreaBlur = () => {
+    this.setState({ isReadOnly: true });
     this.props.saveValue(findDOMNode(this.textArea).value);
-    this.setState({ isEditable: false });
   }
 
   render() {
     return (
-      <div className='editable-multi-line-text'>
-        {
-          this.state.isEditable
-            ? <TextArea defaultValue={this.props.value} ref={(node) => {this.textArea = node;}}/>
-            : <Segment>{this.props.value}</Segment>
-        }
-        {this.props.children}
-        {
-          this.state.isEditable
-            ? <Icon name='checkmark' onClick={this.onSaveClick.bind(this)}/>
-            : <Icon name='write' onClick={this.onEditClick.bind(this)}/>
-        }
-      </div>
+      <TextArea className='editable-multi-line-text'
+                defaultValue={this.props.value}
+                ref={node => {this.textArea = node;}}
+                placeholder={this.props.placeholder}
+                rows={3}
+                autoHeight
+                onFocus={this.onTextAreaFocus}
+                onBlur={this.onTextAreaBlur}
+                readOnly={this.state.isReadOnly}/>
     );
   }
 }
