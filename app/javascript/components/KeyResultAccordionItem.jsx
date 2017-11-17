@@ -9,6 +9,13 @@ class KeyResultAccordionItem extends Component {
     this.state = { progressRate: props.keyResult.get('progressRate') };
   }
 
+  handleClick(event, titleProps) {
+    if (event.target.tagName.toLowerCase() === 'input') {
+      return;
+    }
+    this.props.onClick(titleProps.index);
+  }
+
   handleSliderChange(event) {
     this.setState({ progressRate: event.target.value });
     this.props.onProgressChange(this.props.index, Number(event.target.value));
@@ -48,8 +55,9 @@ class KeyResultAccordionItem extends Component {
     const keyResult = this.props.keyResult;
     return (
       <Segment>
-          <Accordion.Title className='flex flex-between' active={this.props.active} index={this.props.index} onClick={this.props.onClick}>
-            <div><Icon name='dropdown'/>{keyResult.get('name')}</div>
+          <Accordion.Title className='flex flex-between' active={this.props.active} index={this.props.index} onClick={this.handleClick.bind(this)}>
+            <Icon name='dropdown'/>
+            <div className="name"><EditableText value={keyResult.get('name')} saveValue={(value) => this.updateKeyResult({name: value})}/></div>
             <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
             <div className='progress-rate'>{this.state.progressRate}%</div>

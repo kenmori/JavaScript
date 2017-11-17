@@ -9,8 +9,7 @@ class KeyResultAccordion extends Component {
     this.state = { activeIndex: -1 };
   }
 
-  handleClick(e, titleProps) {
-    const index = titleProps.index;
+  handleClick(index) {
     const newIndex = this.state.activeIndex === index ? -1 : index;
     this.setState({ activeIndex: newIndex })
   }

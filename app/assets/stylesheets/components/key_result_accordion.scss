@@ -6,7 +6,7 @@
     width: 100%;
 
     .title {
-      :first-child {
+      .name {
         flex-grow: 1;
       }
       .target-value, .expired-date {
