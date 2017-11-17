@@ -4,5 +4,9 @@
     border-color: transparent !important;
     background-color: transparent !important;
     box-shadow: none !important;
+
+    &:hover {
+      border-color: #DADADA !important;
+    }
   }
 }
