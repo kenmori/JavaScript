@@ -1,9 +1,11 @@
-.ui.input.editable-text {
+.editable-text {
   display: inline !important;
 
-  input {
+  &.ui.input input {
     vertical-align: baseline;
+  }
 
+  input {
     &[readonly] {
       cursor: pointer;
       border-color: transparent !important;
