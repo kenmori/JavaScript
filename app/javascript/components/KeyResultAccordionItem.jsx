@@ -49,7 +49,7 @@ class KeyResultAccordionItem extends Component {
     return (
       <Segment>
           <Accordion.Title className='flex flex-between' active={this.props.active} index={this.props.index} onClick={this.props.onClick}>
-            <div><Icon />{keyResult.get('name')}</div>
+            <div><Icon name='dropdown'/>{keyResult.get('name')}</div>
             <div className='progress-ratio'>{this.state.progressRate}%</div>
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>

@@ -6,12 +6,6 @@
     width: 100%;
 
     .title {
-      .icon:before {
-        content: '\f067';
-      }
-      &.active .icon:before {
-        content: '\f068';
-      }
     }
 
     .values {
