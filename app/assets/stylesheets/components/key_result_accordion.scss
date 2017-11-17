@@ -6,6 +6,13 @@
     width: 100%;
 
     .title {
+      :first-child {
+        flex-grow: 1;
+      }
+      .target-value, .expired-date {
+        font-size: small;
+        margin-right: 1rem;
+      }
     }
 
     .values {

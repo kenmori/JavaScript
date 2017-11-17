@@ -50,7 +50,9 @@ class KeyResultAccordionItem extends Component {
       <Segment>
           <Accordion.Title className='flex flex-between' active={this.props.active} index={this.props.index} onClick={this.props.onClick}>
             <div><Icon name='dropdown'/>{keyResult.get('name')}</div>
-            <div className='progress-ratio'>{this.state.progressRate}%</div>
+            <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
+            <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
+            <div className='progress-rate'>{this.state.progressRate}%</div>
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Group widths='equal'>
