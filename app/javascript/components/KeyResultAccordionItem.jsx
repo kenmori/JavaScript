@@ -80,7 +80,7 @@ class KeyResultAccordionItem extends Component {
                 <div>
                   <label>実績値: </label>
                   <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
-                  {keyResult.get('valueUnit')}
+                  {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
                 </div>
                 <div>
                   <label>期限: </label>
