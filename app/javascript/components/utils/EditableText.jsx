@@ -1,36 +1,37 @@
 import React, { Component } from 'react';
-import { Icon, Input } from 'semantic-ui-react';
+import AutosizeInput from 'react-input-autosize';
 
-export default class  EditableText extends Component {
+export default class EditableText extends Component {
   constructor(props) {
     super(props);
-    this.state = { isEditable: false };
+    this.state = {
+      value: this.props.value,
+      isReadOnly: true,
+    };
   }
 
-  onEditClick() {
-    this.setState({ isEditable: true });
+  onInputFocus = () => {
+    this.setState({ isReadOnly: false });
   }
 
-  onSaveClick() {
-    this.setState({ isEditable: false });
-    this.props.saveValue(this.input.inputRef.value);
+  onInputBlur = () => {
+    this.setState({ isReadOnly: true });
+    this.props.saveValue(this.state.value);
+  }
+
+  updateInputValue = event => {
+    this.setState({ value: event.target.value });
   }
 
   render() {
     return (
-      <div className='editable-text'>
-        {
-          this.state.isEditable
-            ? <Input style={{ width: this.props.value.length + 'rem', minWidth: '1em' }} defaultValue={this.props.value} ref={(node) => {this.input = node;}}/>
-            : <span>{this.props.value}</span>
-        }
-        {this.props.children}
-        {
-          this.state.isEditable
-            ? <Icon name='checkmark' onClick={this.onSaveClick.bind(this)}/>
-            : <Icon name='write' onClick={this.onEditClick.bind(this)}/>
-        }
-      </div>
+      <AutosizeInput className="ui input editable-text"
+                     value={this.state.value}
+                     placeholder={this.props.placeholder}
+                     onChange={this.updateInputValue}
+                     onFocus={this.onInputFocus}
+                     onBlur={this.onInputBlur}
+                     readOnly={this.state.isReadOnly}/>
     );
   }
 }

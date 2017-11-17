@@ -1,0 +1,14 @@
+.ui.input.editable-text {
+  display: inline !important;
+
+  input {
+    vertical-align: baseline;
+
+    &[readonly] {
+      cursor: pointer;
+      border-color: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+  }
+}
