@@ -54,7 +54,7 @@ class ObjectiveDetailModal extends Component {
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
-                <label>Key Results: {objective.get('keyResults') && objective.get('keyResults').size}</label>
+                <label>Key Result 一覧 ({objective.get('keyResults') && objective.get('keyResults').size})</label>
                 {(() => {
                   if(objective.get('keyResults')) {
                     return <KeyResultAccordion keyResults={objective.get('keyResults')}
