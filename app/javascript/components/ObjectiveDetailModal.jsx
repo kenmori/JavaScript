@@ -9,15 +9,15 @@ import EditableMultiLineText from './utils/EditableMultiLineText'
 class ObjectiveDetailModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { progressRate: 0 };
+    this.state = { sliderValue: 0 };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ progressRate: nextProps.objective.get('progressRate') });
+    this.setState({ sliderValue: nextProps.objective.get('progressRate') });
   }
 
   handleProgressChange(progressRate) {
-    this.setState({ progressRate: progressRate });
+    this.setState({ sliderValue: progressRate });
   }
 
   updateProgress(progressRate) {
@@ -39,9 +39,9 @@ class ObjectiveDetailModal extends Component {
           <Form>
             <Form.Group widths='equal'>
               <Form.Field>
-                <label>進捗: <span className='progress-rate'>{this.state.progressRate}%</span></label>
+                <label>進捗: <span className='progress-rate'>{this.state.sliderValue}%</span></label>
                 <div className='slider'>
-                  <input type='range' min='0' max='100' value={this.state.progressRate}
+                  <input type='range' min='0' max='100' value={this.state.sliderValue}
                          step='1' data-unit='%' readOnly/>
                 </div>
               </Form.Field>

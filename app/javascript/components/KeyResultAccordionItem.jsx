@@ -6,7 +6,7 @@ import EditableText from './utils/EditableText';
 class KeyResultAccordionItem extends Component {
   constructor(props) {
     super(props);
-    this.state = { progressRate: props.keyResult.get('progressRate') };
+    this.state = { sliderValue: props.keyResult.get('progressRate') };
   }
 
   handleClick(event, titleProps) {
@@ -17,7 +17,7 @@ class KeyResultAccordionItem extends Component {
   }
 
   handleSliderChange(event) {
-    this.setState({ progressRate: event.target.value });
+    this.setState({ sliderValue: event.target.value });
     this.props.onProgressChange(this.props.index, Number(event.target.value));
   }
 
@@ -30,7 +30,7 @@ class KeyResultAccordionItem extends Component {
     if (targetValue && actualValue) {
       const progressRate = Math.round(actualValue / targetValue * 100);
 
-      this.setState({ progressRate: progressRate });
+      this.setState({ sliderValue: progressRate });
       this.props.onProgressChange(this.props.index, progressRate);
       this.props.updateProgress(this.props.index, progressRate);
 
@@ -60,14 +60,14 @@ class KeyResultAccordionItem extends Component {
             <div className="name"><EditableText value={keyResult.get('name')} saveValue={(value) => this.updateKeyResult({name: value})}/></div>
             <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
-            <div className='progress-rate'>{this.state.progressRate}%</div>
+            <div className='progress-rate'>{this.state.sliderValue}%</div>
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Group widths='equal'>
               <Form.Field>
-                <label>進捗: <span className='progress-rate'>{this.state.progressRate}%</span></label>
+                <label>進捗: <span className='progress-rate'>{this.state.sliderValue}%</span></label>
                 <div className='slider'>
-                  <input type='range' min='0' max='100' value={this.state.progressRate} onChange={this.handleSliderChange.bind(this)} step='1'
+                  <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
                          data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
                 </div>
               </Form.Field>

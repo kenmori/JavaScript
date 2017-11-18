@@ -15,29 +15,35 @@ class KeyResultAccordion extends Component {
   }
 
   handleProgressChange(index, progressRate) {
-    const totalProgressRate = this.props.keyResults.map((keyResult, i) =>
-      i === index ? progressRate : keyResult.get('progressRate')
-    ).reduce((sum, x) => sum + x) / this.props.keyResults.size;
-    this.props.onProgressChange(Math.round(totalProgressRate));
+    const totalProgressRate = this.getTotalProgressRate(this.props.keyResults, index, progressRate);
+    this.props.onProgressChange(totalProgressRate);
   }
 
   updateProgress(index, progressRate) {
-    const totalProgressRate = this.props.keyResults.map((keyResult, i) =>
+    const totalProgressRate = this.getTotalProgressRate(this.props.keyResults, index, progressRate);
+    this.props.updateProgress(totalProgressRate);
+  }
+
+  getTotalProgressRate(keyResults, index, progressRate) {
+    const totalProgressRate = keyResults.map((keyResult, i) =>
       i === index ? progressRate : keyResult.get('progressRate')
-    ).reduce((sum, x) => sum + x) / this.props.keyResults.size;
-    this.props.updateProgress(Math.round(totalProgressRate));
+    ).reduce((sum, x) => sum + x) / keyResults.size;
+    return Math.round(totalProgressRate);
   }
 
   render() {
     return (
       <Accordion className='key-result-accordion'>
-        {this.props.keyResults.map((keyResult, index) => {
-          return <KeyResultAccordionItem key={index} keyResult={keyResult} updateKeyResult={this.props.updateKeyResult}
-                                         index={index} active={this.state.activeIndex === index}
-                                         updateProgress={this.updateProgress.bind(this)}
-                                         onProgressChange={this.handleProgressChange.bind(this)}
-                                         onClick={this.handleClick.bind(this)}/>;
-        })}
+        {this.props.keyResults.map((keyResult, index) => (
+          <KeyResultAccordionItem key={index}
+                                  keyResult={keyResult}
+                                  updateKeyResult={this.props.updateKeyResult}
+                                  index={index}
+                                  active={this.state.activeIndex === index}
+                                  updateProgress={this.updateProgress.bind(this)}
+                                  onProgressChange={this.handleProgressChange.bind(this)}
+                                  onClick={this.handleClick.bind(this)}/>
+        ))}
       </Accordion>
     );
   }
