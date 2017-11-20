@@ -10,9 +10,6 @@ class KeyResultAccordionItem extends Component {
   }
 
   handleClick(event, titleProps) {
-    if (event.target.tagName.toLowerCase() === 'input') {
-      return;
-    }
     this.props.onClick(titleProps.index);
   }
 
@@ -57,12 +54,16 @@ class KeyResultAccordionItem extends Component {
       <Segment>
           <Accordion.Title className='flex flex-between' active={this.props.active} index={this.props.index} onClick={this.handleClick.bind(this)}>
             <Icon name='dropdown'/>
-            <div className="name"><EditableText value={keyResult.get('name')} saveValue={(value) => this.updateKeyResult({name: value})}/></div>
+            <div className="name">{keyResult.get('name')}</div>
             <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
             <div className='progress-rate'>{this.state.sliderValue}%</div>
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
+            <Form.Field className='values'>
+              <label>Key Result 名</label>
+              <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
+            </Form.Field>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>進捗: <span className='progress-rate'>{this.state.sliderValue}%</span></label>
