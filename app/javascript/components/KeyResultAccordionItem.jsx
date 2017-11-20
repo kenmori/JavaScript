@@ -57,7 +57,7 @@ class KeyResultAccordionItem extends Component {
             <div className="name">{keyResult.get('name')}</div>
             <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
-            <div className='progress-rate'>{this.state.sliderValue}%</div>
+            <div className='progress-rate'>{keyResult.get('progressRate')}%</div>
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
