@@ -55,11 +55,24 @@
       }
     }
 
-    .ui.form .fields {
-      margin: 0 -.5em 2em;
-
+    .ui.form .field {
       > label {
         margin: 0 0 .5rem;
+      }
+
+      &.values {
+        label {
+          display: inline;
+          margin-right: .5rem;
+        }
+      }
+    }
+
+    .field {
+      > .progress-rate {
+        display: inline-block;
+        min-width: 4rem;
+        margin: 0 1rem .5rem 0;
       }
     }
   }

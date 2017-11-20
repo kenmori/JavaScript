@@ -61,34 +61,31 @@ class KeyResultAccordionItem extends Component {
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
+              <label>進捗</label>
+              <div className='progress-rate'>{this.state.sliderValue}%</div>
+              <div className='slider'>
+                <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
+                       data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
+              </div>
+            </Form.Field>
+            <Form.Field className='values'>
               <label>Key Result 名</label>
               <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
             </Form.Field>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>進捗: <span className='progress-rate'>{this.state.sliderValue}%</span></label>
-                <div className='slider'>
-                  <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                         data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
-                </div>
-              </Form.Field>
-              <Form.Field className='values'>
-                <div>
-                  <label>目標値: </label>
-                  <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
-                  <EditableText value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
-                </div>
-                <div>
-                  <label>実績値: </label>
-                  <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
-                  {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
-                </div>
-                <div>
-                  <label>期限: </label>
-                  <EditableText value={keyResult.get('expiredDate') || ''} saveValue={(value) => this.updateKeyResult({ expiredDate: value })}/>
-                </div>
-              </Form.Field>
-            </Form.Group>
+            <Form.Field className='values'>
+              <label>目標値</label>
+              <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
+              <EditableText value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
+            </Form.Field>
+            <Form.Field className='values'>
+              <label>実績値</label>
+              <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
+              {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
+            </Form.Field>
+            <Form.Field className='values'>
+              <label>期限</label>
+              <EditableText value={keyResult.get('expiredDate') || ''} saveValue={(value) => this.updateKeyResult({ expiredDate: value })}/>
+            </Form.Field>
           </Accordion.Content>
       </Segment>
     );
