@@ -1,5 +1,7 @@
 json.extract! objective, :id, :name, :description, :owner_id, :progress_rate
 
+json.avatar_url objective.owner.user.avatar_url
+
 json.key_results do
   json.array!(objective.key_results) do |key_result|
     json.partial!(key_result)
