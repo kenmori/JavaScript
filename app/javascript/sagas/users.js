@@ -1,7 +1,9 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import API from '../utils/api';
+import withLoading from '../utils/withLoading';
 import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
+
 
 function* fetchUser({ payload }) {
   const result = yield call(API.get, '/users/' + payload.id);
@@ -50,14 +52,14 @@ function* updateAvatar({ payload }) {
 
 export function* userSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_USER, fetchUser),
-    takeLatest(actionTypes.FETCH_USERS, fetchUsers),
-    takeLatest(actionTypes.ADD_USER, addUser),
-    takeLatest(actionTypes.UPDATE_USER, updateUser),
-    takeLatest(actionTypes.REMOVE_USER, removeUser),
-    takeLatest(actionTypes.UPDATE_PASSWORD, updatePassword),
-    takeLatest(actionTypes.RECOVER_PASSWORD, recoverPassword),
-    takeLatest(actionTypes.EDIT_PASSWORD, editPassword),
-    takeLatest(actionTypes.UPDATE_AVATAR, updateAvatar),
+    takeLatest(actionTypes.FETCH_USER, withLoading(fetchUser)),
+    takeLatest(actionTypes.FETCH_USERS, withLoading(fetchUsers)),
+    takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
+    takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
+    takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
+    takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
+    takeLatest(actionTypes.RECOVER_PASSWORD, withLoading(recoverPassword)),
+    takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),
+    takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
   ]);
 }

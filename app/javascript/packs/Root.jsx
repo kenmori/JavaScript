@@ -14,25 +14,29 @@ import PasswordEditPage from '../containers/PasswordEditPage';
 import PasswordEditedPage from '../containers/PasswordEditedPage';
 import SignInPage from '../containers/SignInPage';
 import SettingsPage from '../components/SettingsPage';
+import Loading from '../containers/Loading';
 
 const store = configureStore();
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
-      <BrowserRouter history={history}>
-        <Switch>
-          <Route exact path='/users/sign_up' component={SignUpPage}/>
-          <Route exact path='/users/sign_up/completed' component={SignUpCompletedPage}/>
-          <Route exact path='/users/password/recover' component={PasswordRecoverPage}/>
-          <Route exact path='/users/password/recover/completed' component={PasswordRecoverdPage}/>
-          <Route exact path='/users/password/edit' component={PasswordEditPage}/>
-          <Route exact path='/users/password/edit/completed' component={PasswordEditedPage}/>
-          <Route exact path='/users/sign_in' component={SignInPage}/>
-          <Route exact path='/settings' component={SettingsPage}/>
-          <Route path='/' component={Home}/>
-        </Switch>
-      </BrowserRouter>
+      <div>
+        <BrowserRouter history={history}>
+          <Switch>
+            <Route exact path='/users/sign_up' component={SignUpPage}/>
+            <Route exact path='/users/sign_up/completed' component={SignUpCompletedPage}/>
+            <Route exact path='/users/password/recover' component={PasswordRecoverPage}/>
+            <Route exact path='/users/password/recover/completed' component={PasswordRecoverdPage}/>
+            <Route exact path='/users/password/edit' component={PasswordEditPage}/>
+            <Route exact path='/users/password/edit/completed' component={PasswordEditedPage}/>
+            <Route exact path='/users/sign_in' component={SignInPage}/>
+            <Route exact path='/settings' component={SettingsPage}/>
+            <Route path='/' component={Home}/>
+          </Switch>
+        </BrowserRouter>
+        <Loading />
+      </div>
     </Provider>,
     document.body.appendChild(document.createElement('div')),
   );

@@ -4,6 +4,7 @@ import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import actions from '../actions/objectives';
 import actionTypes from '../constants/actionTypes';
+import withLoading from '../utils/withLoading';
 
 function* fetchObjectives({payload}) {
   const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId });
@@ -30,9 +31,9 @@ function* removeObjective({payload}) {
 
 export function *objectiveSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_OBJECTIVES, fetchObjectives),
-    takeLatest(actionTypes.ADD_OBJECTIVE, addObjective),
-    takeLatest(actionTypes.UPDATE_OBJECTIVE, updateObjective),
-    takeLatest(actionTypes.REMOVE_OBJECTIVE, removeObjective),
+    takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
+    takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
+    takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
+    takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
   ]);
 }

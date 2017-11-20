@@ -8,6 +8,7 @@ import loginUser from './loginUser';
 import okrPeriod from './okrPeriod';
 import signUp from './signUp';
 import password from './password';
+import loading from './loading';
 
 const reducers = combineReducers({
   keyResults,
@@ -18,7 +19,8 @@ const reducers = combineReducers({
   loginUser,
   okrPeriod,
   signUp,
-  password
+  password,
+  loading,
 });
 
 export default reducers;

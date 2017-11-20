@@ -2,6 +2,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import API from '../utils/api';
 import settingActions from '../actions/okrSettings';
 import actionTypes from '../constants/actionTypes';
+import withLoading from '../utils/withLoading';
 
 function* fetchOkrSettings({ payload }) {
   const result = yield call(API.get, `/organizations/${payload.organizationId}/okr_settings`);
@@ -20,8 +21,8 @@ function* resetOkrSettings({ payload }) {
 
 export function* okrSettingSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_OKR_SETTINGS, fetchOkrSettings),
-    takeLatest(actionTypes.UPDATE_OKR_SETTINGS, updateOkrSettings),
-    takeLatest(actionTypes.RESET_OKR_SETTINGS, resetOkrSettings),
+    takeLatest(actionTypes.FETCH_OKR_SETTINGS, withLoading(fetchOkrSettings)),
+    takeLatest(actionTypes.UPDATE_OKR_SETTINGS, withLoading(updateOkrSettings)),
+    takeLatest(actionTypes.RESET_OKR_SETTINGS, withLoading(resetOkrSettings)),
   ]);
 }

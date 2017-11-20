@@ -3,6 +3,7 @@ import API from '../utils/api';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
+import withLoading from '../utils/withLoading';
 
 function* fetchKeyResults() {
   const result = yield call(API.get, '/key_results');
@@ -22,8 +23,8 @@ function* updateKeyResult({payload}) {
 
 export function *keyResultSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
-    takeLatest(actionTypes.ADD_KEY_RESULT, addKeyResult),
-    takeLatest(actionTypes.UPDATE_KEY_RESULT, updateKeyResult),
+    takeLatest(actionTypes.FETCH_KEY_RESULTS, withLoading(fetchKeyResults)),
+    takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
+    takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
   ]);
 }
