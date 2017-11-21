@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Button, Form, Icon, Modal, Segment } from 'semantic-ui-react';
 import KeyResultAccordion from './KeyResultAccordion';
+import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
 import EditableMultiLineText from './utils/EditableMultiLineText'
 
@@ -30,10 +31,11 @@ class ObjectiveDetailModal extends Component {
 
   render() {
     const objective = this.props.objective;
+    if (!objective.size) { return null; }
     return (
       <Modal open={this.props.isOpen} size='small' className='objective_detail_modal'>
         <Modal.Header>
-          <h1><EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/></h1>
+          <h1><Avatar name={objective.get('owner').get('name')} path={objective.get('owner').get('avatarUrl')} /><EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/></h1>
         </Modal.Header>
         <Modal.Content>
           <Form>
