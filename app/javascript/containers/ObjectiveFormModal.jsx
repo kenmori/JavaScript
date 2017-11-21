@@ -6,6 +6,8 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
+    loginUser: state.loginUser,
+    users: state.users,
   };
 };
 

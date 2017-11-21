@@ -1,14 +1,16 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
+import gon from '../utils/gon';
 
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
       return state.merge(payload.objectives);
     },
-    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => (
-      state.insert(0, payload.objective)
-    ),
+    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
+      const ownerId = gon.getIn(['loginUser', 'ownerId']);
+      return ownerId === payload.objective.get('ownerId') ? state.insert(0, payload.objective) : state
+    },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       return state.set(state.findIndex((objective) => {
         return objective.get('id') === payload.objective.get('id');
