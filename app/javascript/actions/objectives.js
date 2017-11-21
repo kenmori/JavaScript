@@ -4,7 +4,7 @@ import actionTypes from '../constants/actionTypes';
 const actions = createActions({
   [actionTypes.FETCH_OBJECTIVES]: (args) => args,
   [actionTypes.FETCHED_OBJECTIVES]: (objectives) => ({ objectives }),
-  [actionTypes.ADD_OBJECTIVE]:  (objective, isOpenKeyResultModal) => ({ objective: objective, isOpenKeyResultModal }),
+  [actionTypes.ADD_OBJECTIVE]: (objective) => ({ objective }),
   [actionTypes.ADDED_OBJECTIVE]: objective => ({ objective }),
   [actionTypes.UPDATE_OBJECTIVE]: (objective) => ({ objective }),
   [actionTypes.UPDATED_OBJECTIVE]: objective => ({ objective }),
