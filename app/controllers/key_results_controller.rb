@@ -7,7 +7,7 @@ class KeyResultsController < ApplicationController
     ActiveRecord::Base.transaction do
       @key_result = KeyResult.create!(key_result_params)
       params[:key_result][:concerned_people].each do |id|
-        @key_result.concerned_people << ConcernedPerson.new(member_id: id, role: 0)
+        @key_result.concerned_people << ConcernedPerson.new(user_id: id, role: 0)
       end
     end
     render status: :created

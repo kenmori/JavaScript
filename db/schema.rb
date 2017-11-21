@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171108123540) do
+ActiveRecord::Schema.define(version: 20171121111831) do
 
   create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "key_result_id", null: false
-    t.integer "member_id", null: false
+    t.integer "user_id", null: false
     t.integer "role", null: false
   end
 
@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(version: 20171108123540) do
     t.integer "progress_rate", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_objectives_on_created_at"
   end
 
   create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
