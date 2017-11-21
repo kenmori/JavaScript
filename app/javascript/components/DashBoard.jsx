@@ -1,35 +1,21 @@
 import React, { Component } from 'react';
-import ObjectiveForm from '../containers/ObjectiveForm';
 import ObjectiveMap from './ObjectiveMap';
 import ObjectivePieChart from './ObjectivePieChart';
 import Avatar from './Avatar';
 
 export default class DashBoard extends Component {
-  static ACTIONS = {
-    objective_creation: 'objective_creation',
-    objective_selection: 'objective_selection'
-  };
-
   selectOKRBox = (objective) => {
     return () => {
       this.setState({
-        action: DashBoard.ACTIONS.objective_selection,
         selectedObjective: objective
       });
     }
-  };
-  showObjectiveForm = () => {
-    this.setState({
-      action: DashBoard.ACTIONS.objective_creation,
-      selectedObjective: null
-    })
   };
 
   constructor(props) {
     super(props);
     this.state = {
       selectedObjective: null,
-      action: null,
     };
   }
 
@@ -41,20 +27,14 @@ export default class DashBoard extends Component {
     if(nextProps.objectives && this.props.objectives !== nextProps.objectives) {
       //Objective一覧を取得、Objective追加時には最新のObjectiveをセットする
       this.setState({
-        action: DashBoard.ACTIONS.objective_selection,
         selectedObjective: nextProps.objectives.first()
       });
     }
   }
 
   get actionSection() {
-    switch(this.state.action) {
-      case DashBoard.ACTIONS.objective_creation:
-        return <div className="objective-form-block">
-          <ObjectiveForm />
-        </div>;
-      case DashBoard.ACTIONS.objective_selection:
-        return <ObjectiveMap objective={this.state.selectedObjective}/>;
+    if (this.state.selectedObjective) {
+      return <ObjectiveMap objective={this.state.selectedObjective}/>;
     }
   }
 
