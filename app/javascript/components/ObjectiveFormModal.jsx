@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Button, Form, Input, Modal, Dropdown } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Dropdown, TextArea } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
   save() {
     const objective = {
       name: this.nameInput.inputRef.value,
-      description: this.descriptionInput.inputRef.value,
+      description: findDOMNode(this.descriptionArea).value,
       ownerId: this.ownerSelect.getSelectedItem().value,
     };
     this.props.addObjective(objective);
@@ -40,7 +41,8 @@ class ObjectiveFormModal extends Component {
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>説明</label>
-                <Input placeholder='Objective の説明を入力してください' ref={(node) => { this.descriptionInput = node; }}/>
+                <TextArea autoHeight rows={3} placeholder='Objective の説明を入力してください'
+                          ref={(node) => { this.descriptionArea = node; }}/>
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
