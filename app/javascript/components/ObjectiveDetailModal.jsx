@@ -9,15 +9,15 @@ import EditableMultiLineText from './utils/EditableMultiLineText'
 class ObjectiveDetailModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { progressRate: 0 };
+    this.state = { sliderValue: 0 };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ progressRate: nextProps.objective.get('progressRate') });
+    this.setState({ sliderValue: nextProps.objective.get('progressRate') });
   }
 
   handleProgressChange(progressRate) {
-    this.setState({ progressRate: progressRate });
+    this.setState({ sliderValue: progressRate });
   }
 
   updateProgress(progressRate) {
@@ -37,34 +37,29 @@ class ObjectiveDetailModal extends Component {
         </Modal.Header>
         <Modal.Content>
           <Form>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>進捗: <span className='progress-rate'>{this.state.progressRate}%</span></label>
-                <div className='slider'>
-                  <input type='range' min='0' max='100' value={this.state.progressRate}
-                         step='1' data-unit='%' readOnly/>
-                </div>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>Objective の説明</label>
-                <EditableMultiLineText value={objective.get('description')} saveValue={(value) => this.updateObjective({ description: value })}/>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>Key Results: {objective.get('keyResults') && objective.get('keyResults').size}</label>
-                {(() => {
-                  if(objective.get('keyResults')) {
-                    return <KeyResultAccordion keyResults={objective.get('keyResults')}
-                                               updateKeyResult={this.props.updateKeyResult}
-                                               updateProgress={this.updateProgress.bind(this)}
-                                               onProgressChange={this.handleProgressChange.bind(this)}/>
-                  }
-                })()}
-              </Form.Field>
-            </Form.Group>
+            <Form.Field className='values'>
+              <label>進捗</label>
+              <div className='progress-rate'>{this.state.sliderValue}%</div>
+              <div className='slider'>
+                <input type='range' min='0' max='100' value={this.state.sliderValue}
+                       step='1' data-unit='%' readOnly/>
+              </div>
+            </Form.Field>
+            <Form.Field>
+              <label>Objective の説明</label>
+              <EditableMultiLineText value={objective.get('description')} saveValue={(value) => this.updateObjective({ description: value })}/>
+            </Form.Field>
+            <Form.Field>
+              <label>Key Result 一覧 ({objective.get('keyResults') && objective.get('keyResults').size})</label>
+              {(() => {
+                if(objective.get('keyResults')) {
+                  return <KeyResultAccordion keyResults={objective.get('keyResults')}
+                                             updateKeyResult={this.props.updateKeyResult}
+                                             updateProgress={this.updateProgress.bind(this)}
+                                             onProgressChange={this.handleProgressChange.bind(this)}/>
+                }
+              })()}
+            </Form.Field>
           </Form>
         </Modal.Content>
         <Modal.Actions>
