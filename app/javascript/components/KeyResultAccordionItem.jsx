@@ -96,7 +96,7 @@ class KeyResultAccordionItem extends Component {
               <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
               {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
             </Form.Field>
-            <Form.Field className='values'>
+            <Form.Field className='values input-date-picker'>
               <label>期限</label>
               <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
             </Form.Field>

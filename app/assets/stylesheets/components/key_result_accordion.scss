@@ -18,6 +18,14 @@
       }
     }
   }
+
+  .input-date-picker {
+    display: flex;
+    align-items: center;
+    .date-picker {
+      margin-bottom: .5rem;
+    }
+  }
 }
 
 .ui.form .content {
