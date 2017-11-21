@@ -36,6 +36,7 @@ class KeyResultAccordion extends Component {
       <Accordion className='key-result-accordion'>
         {this.props.keyResults.map((keyResult, index) => (
           <KeyResultAccordionItem key={index}
+                                  users={this.props.users}
                                   keyResult={keyResult}
                                   updateKeyResult={this.props.updateKeyResult}
                                   index={index}

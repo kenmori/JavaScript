@@ -55,7 +55,8 @@ class ObjectiveDetailModal extends Component {
               <label>Key Result 一覧 ({objective.get('keyResults') && objective.get('keyResults').size})</label>
               {(() => {
                 if(objective.get('keyResults')) {
-                  return <KeyResultAccordion keyResults={objective.get('keyResults')}
+                  return <KeyResultAccordion users={this.props.users}
+                                             keyResults={objective.get('keyResults')}
                                              updateKeyResult={this.props.updateKeyResult}
                                              updateProgress={this.updateProgress.bind(this)}
                                              onProgressChange={this.handleProgressChange.bind(this)}/>

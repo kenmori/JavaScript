@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Icon, Segment, Accordion } from 'semantic-ui-react';
+import { Form, Icon, Segment, Accordion, Dropdown } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
@@ -13,6 +13,17 @@ class KeyResultAccordionItem extends Component {
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
     };
+  }
+
+  usersOption(users, isOwner) {
+    return users.map(item => {
+      const id = isOwner ? item.get('ownerId') : item.get('id');
+      return {
+        key: id,
+        value: id,
+        text: `${item.get('lastName')} ${item.get('firstName')}`,
+      }
+    }).toArray();
   }
 
   handleClick(event, titleProps) {
@@ -100,6 +111,12 @@ class KeyResultAccordionItem extends Component {
               <label>期限</label>
               <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
             </Form.Field>
+            <Form.Group>
+              <Form.Field>
+                <label>責任者</label>
+                <Dropdown selection value={keyResult.get('owner').get('id')} options={this.usersOption(this.props.users, true)} onChange={(e, { value }) => this.updateKeyResult({ownerId: value})}/>
+              </Form.Field>
+            </Form.Group>
           </Accordion.Content>
       </Segment>
     );
@@ -107,11 +124,13 @@ class KeyResultAccordionItem extends Component {
 }
 
 KeyResultAccordionItem.propTypes = {
+  users: PropTypes.object,
   keyResult: PropTypes.object,
   updateKeyResult: PropTypes.func
 };
 
 KeyResultAccordionItem.defaultProps = {
+  users: [],
   keyResult: null,
   updateKeyResult: () => {}
 };
