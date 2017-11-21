@@ -82,7 +82,8 @@ export default class DashBoard extends Component {
                   </a>
                 );
               }) }
-            <a className={`okr-box ${this.state.selectedObjective ? '' : 'active'}`} href="javascript:void(0)" onClick={this.showObjectiveForm}>
+            <a className={`okr-box ${this.state.selectedObjective ? '' : 'active'}`} href="javascript:void(0)"
+               onClick={() => this.props.openObjectiveFormModal()}>
               Objective を作成する
             </a>
           </div>
