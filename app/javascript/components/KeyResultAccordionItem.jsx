@@ -9,9 +9,12 @@ import moment from 'moment';
 class KeyResultAccordionItem extends Component {
   constructor(props) {
     super(props);
+    const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
+    concernedPeople.push(null);
     this.state = {
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
+      concernedPeople,
     };
   }
 
@@ -24,6 +27,45 @@ class KeyResultAccordionItem extends Component {
         text: `${item.get('lastName')} ${item.get('firstName')}`,
       }
     }).toArray();
+  }
+
+  participantList(options, add, remove) {
+    const list = this.state.concernedPeople.map((id, idx) => {
+      const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
+      return <div key={idx} className="concerned-people__item">
+              <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
+              {icon}
+             </div>
+    })
+
+    return <div className="concerned-people">{list}</div>;
+  }
+
+  addConcernedPeople(value, boxIndex) {
+    const concernedPeople = this.state.concernedPeople;
+
+    concernedPeople[boxIndex] = value;
+    if (boxIndex === concernedPeople.length - 1) {
+      concernedPeople.push(null);
+    }
+
+    this.setState({
+      concernedPeople: concernedPeople
+    });
+
+    this.updateKeyResult({
+      concernedPeople: this.state.concernedPeople.filter(item => item !== null)
+    });
+  }
+
+  removeConcernedPeople(clickedId) {
+    this.setState({
+      concernedPeople: this.state.concernedPeople.filter( id => id !== clickedId)
+    });
+
+    this.updateKeyResult({
+      concernedPeople: this.state.concernedPeople.filter(item => item !== null)
+    });
   }
 
   handleClick(event, titleProps) {
@@ -115,6 +157,12 @@ class KeyResultAccordionItem extends Component {
               <Form.Field>
                 <label>責任者</label>
                 <Dropdown selection value={keyResult.get('owner').get('id')} options={this.usersOption(this.props.users, true)} onChange={(e, { value }) => this.updateKeyResult({ownerId: value})}/>
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field>
+                <label>関係者</label>
+                {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
           </Accordion.Content>
