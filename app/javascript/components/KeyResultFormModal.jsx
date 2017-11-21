@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Dropdown, Icon } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
+import DatePicker from './DatePicker';
 import moment from 'moment';
 
 class KeyResultFormModal extends Component {

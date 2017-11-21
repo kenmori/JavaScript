@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Icon, Segment, Accordion } from 'semantic-ui-react';
+import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
+import moment from 'moment';
 
 class KeyResultAccordionItem extends Component {
   constructor(props) {
     super(props);
-    this.state = { sliderValue: props.keyResult.get('progressRate') };
+    this.state = {
+      sliderValue: props.keyResult.get('progressRate'),
+      expiredDate: moment(props.keyResult.get('expiredDate')),
+    };
   }
 
   handleClick(event, titleProps) {
@@ -49,6 +54,13 @@ class KeyResultAccordionItem extends Component {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
 
+  handleCalendar(value) {
+    this.setState({
+      expiredDate: value
+    });
+    this.updateKeyResult({ expiredDate: value.format() });
+  }
+
   render() {
     const keyResult = this.props.keyResult;
     return (
@@ -86,7 +98,7 @@ class KeyResultAccordionItem extends Component {
             </Form.Field>
             <Form.Field className='values'>
               <label>期限</label>
-              <EditableText value={keyResult.get('expiredDate') || ''} saveValue={(value) => this.updateKeyResult({ expiredDate: value })}/>
+              <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
             </Form.Field>
           </Accordion.Content>
       </Segment>
