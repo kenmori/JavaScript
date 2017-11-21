@@ -2,7 +2,8 @@ json.extract! objective, :id, :name, :description, :owner_id, :progress_rate
 
 json.owner do
   json.id objective.owner_id
-  json.name objective.owner.user.name
+  json.first_name objective.owner.user.first_name
+  json.last_name objective.owner.user.last_name
   json.avatar_url objective.owner.user.avatar_url
 end
 
