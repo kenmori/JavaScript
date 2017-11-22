@@ -9,6 +9,7 @@ const initialState = fromJS({
   firstName: gon.getIn(['loginUser', 'firstName']),
   email: gon.getIn(['loginUser', 'email']),
   avatarPath: gon.get('loginUserAvatarPath'),
+  ownerId: gon.getIn(['loginUser', 'ownerId']),
 });
 
 export default handleActions({

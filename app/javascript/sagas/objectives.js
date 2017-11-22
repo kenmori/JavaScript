@@ -14,9 +14,7 @@ function* fetchObjectives({payload}) {
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
   yield put(objectiveActions.addedObjective(result.get('objective')));
-  if (payload.isOpenKeyResultModal) {
-    yield put(dialogActions.openKeyResultFormModal(result.get('objective')));
-  }
+  yield put(dialogActions.closeObjectiveFormModal());
 }
 
 function* updateObjective({payload}) {
