@@ -5,7 +5,7 @@ class ObjectivesController < ApplicationController
 
   def create
     @objective = Objective.new(
-      params.require(:objective).permit(:name, :description, :owner_id).merge(
+      params.require(:objective).permit(:name, :description, :owner_id, :parent_objective_id).merge(
         okr_period_id: current_user.organization.latest_okr_period_id
       )
     )

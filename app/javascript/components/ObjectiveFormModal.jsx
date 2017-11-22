@@ -9,6 +9,7 @@ class ObjectiveFormModal extends Component {
       name: this.nameInput.inputRef.value,
       description: findDOMNode(this.descriptionArea).value,
       ownerId: this.ownerSelect.getSelectedItem().value,
+      parentObjectiveId: this.props.parentObjective ? this.props.parentObjective.get('id') : null,
     };
     this.props.addObjective(objective);
   }
@@ -24,6 +25,19 @@ class ObjectiveFormModal extends Component {
     }).toArray();
   }
 
+  getRelatedKeyResultForm(relatedKeyResult) {
+    if (relatedKeyResult) {
+      return (
+        <Form.Group widths='equal'>
+          <Form.Field>
+            <label>関連する Key Result</label>
+            <Input value={relatedKeyResult.get('name')} readOnly/>
+          </Form.Field>
+        </Form.Group>
+      );
+    }
+  }
+
   render() {
     return (
       <Modal open={this.props.isOpen} size='small' className='objective-form-modal'>
@@ -32,6 +46,7 @@ class ObjectiveFormModal extends Component {
         </Modal.Header>
         <Modal.Content>
           <Form>
+            {this.getRelatedKeyResultForm(this.props.relatedKeyResult)}
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Objective 名</label>
@@ -67,6 +82,8 @@ class ObjectiveFormModal extends Component {
 
 ObjectiveFormModal.propTypes = {
   addObjective: PropTypes.func.isRequired,
+  parentObjective: PropTypes.object,
+  relatedKeyResult: PropTypes.object,
 };
 
 export default ObjectiveFormModal;
