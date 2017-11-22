@@ -54,17 +54,18 @@ class KeyResultAccordionItem extends Component {
     });
 
     this.updateKeyResult({
-      concernedPeople: this.state.concernedPeople.filter(item => item !== null)
+      concernedPeople: concernedPeople.filter(item => item !== null)
     });
   }
 
   removeConcernedPeople(clickedId) {
+    const concernedPeople = this.state.concernedPeople.filter( id => id !== clickedId)
     this.setState({
-      concernedPeople: this.state.concernedPeople.filter( id => id !== clickedId)
+      concernedPeople: concernedPeople
     });
 
     this.updateKeyResult({
-      concernedPeople: this.state.concernedPeople.filter(item => item !== null)
+      concernedPeople: concernedPeople.filter(item => item !== null)
     });
   }
 
