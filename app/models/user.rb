@@ -21,8 +21,4 @@ class User < ApplicationRecord
   def organization
     OrganizationMember.find_by(user_id: id).organization
   end
-
-  def name
-    [last_name, first_name].join(' ')
-  end
 end

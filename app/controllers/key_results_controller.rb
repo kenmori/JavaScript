@@ -31,15 +31,11 @@ class KeyResultsController < ApplicationController
   def update_concerned_people
     current_people = @key_result.concerned_people.pluck(:user_id)
     new_people = params[:key_result][:concerned_people]
-    p 'current_people', current_people
-    p 'new_people', new_people
     add_list = new_people - current_people
     remove_list = current_people - new_people
-    p 'add_list', add_list
     add_list.each do |id|
       @key_result.concerned_people.create!(user_id: id, role: 0)
     end
-    p 'remove_list', remove_list
     remove_list.each do |id|
       person = @key_result.concerned_people.find_by(user_id: id)
       person.destroy!
