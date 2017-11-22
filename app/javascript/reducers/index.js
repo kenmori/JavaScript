@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import keyResults from './keyReuslts';
+import keyResults from './keyResults';
 import objectives from './objectives';
 import users from './users';
 import okrSettings from './okrSettings';
