@@ -11,7 +11,10 @@ export default class ObjectiveCard extends Component {
       <Card.Content>
         <List bulleted>
           {keyResults.map(keyResult =>
-            <List.Item key={keyResult.get('id')}>{keyResult.get('name')}</List.Item>
+            <List.Item key={keyResult.get('id')}>
+              {keyResult.get('name')}
+              <Icon link name='plus' color='red' onClick={() => { this.props.openObjectiveFormModal(objective, keyResult)}}/>
+            </List.Item>
           )}
         </List>
       </Card.Content>
@@ -34,7 +37,7 @@ export default class ObjectiveCard extends Component {
     }
     const ownerName = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId')).get('lastName');
     return (
-      <Card key={objective.get('id')}>
+      <Card key={objective.get('id')} className='objective-card'>
         <Card.Content>
           <Card.Header>
             <div className="avatar flex-center">{ownerName}</div>

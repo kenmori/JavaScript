@@ -4,10 +4,14 @@ import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
     [ActionTypes.OPEN_OBJECTIVE_FORM_MODAL]: (state, { payload }) => (
-      state.set('objectiveForm', fromJS({ isOpen: true }))
+      state.set('objectiveForm', fromJS({
+        isOpen: true,
+        parentObjective: payload.parentObjective,
+        relatedKeyResult: payload.relatedKeyResult,
+      }))
     ),
     [ActionTypes.CLOSE_OBJECTIVE_FORM_MODAL]: (state) => (
-      state.set('objectiveForm', fromJS({ isOpen: false, objective: Map() }))
+      state.set('objectiveForm', fromJS({ isOpen: false }))
     ),
     [ActionTypes.OPEN_KEY_RESULT_FORM_MODAL]: (state, { payload }) => (
       state.set('keyResultForm', fromJS({ isOpen: true, objective: payload.objective }))
