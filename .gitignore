@@ -33,3 +33,5 @@ config/secrets.yml.key
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+package-lock.json
