@@ -9,6 +9,6 @@ end
 
 json.concerned_people do
   json.array!(key_result.concerned_people) do |person|
-    json.extract! person.user, :id, :name, :avatar_url
+    json.extract! person.user, :id, :avatar_url
   end
 end
