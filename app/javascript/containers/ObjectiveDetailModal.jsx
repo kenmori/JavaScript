@@ -7,7 +7,8 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['objectiveDetail', 'isOpen']),
-    objective: state.objectives.find((objective) => { return objective.get('id') == state.dialogs.getIn(['objectiveDetail', 'objectiveId'])})
+    objective: state.objectives.find((objective) => { return objective.get('id') == state.dialogs.getIn(['objectiveDetail', 'objectiveId'])}),
+    users: state.users,
   };
 };
 

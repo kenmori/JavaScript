@@ -26,8 +26,21 @@ export default handleActions({
       });
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      return state; // TODO: keyResultをstateへ反映させる処理の実装
-    },
+      const newState = state.map(objective => {
+        if (objective.get('id') === payload.keyResult.get('objectiveId')) {
+          const newKeyResults = objective.get('keyResults').map((keyResult => {
+            if (keyResult.get('id') === payload.keyResult.get('id')) {
+              return payload.keyResult
+            }
+            return keyResult
+          }));
+          objective = objective.set('keyResults', newKeyResults)
+        }
+
+        return objective
+      })
+      return newState
+    }
   },
   fromJS([]),
 );
