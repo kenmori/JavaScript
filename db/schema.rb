@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20171121111831) do
     t.integer "progress_rate", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_objectives_on_created_at"
   end
 
   create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
