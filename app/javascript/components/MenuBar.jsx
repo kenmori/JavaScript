@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Input, Dropdown, Header, Icon, Menu, Image} from 'semantic-ui-react';
+import {Dropdown, Header, Icon, Menu, Image} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
 import logo_image from '../images/logo.png'
 import Avatar from './Avatar';
@@ -45,32 +45,30 @@ class MenuBar extends Component {
       return null;
     }
     return (
-      <div className='menu-bar'>
-        <Menu secondary>
-          <Menu.Item header>
-            <Header as='h1'><Image src={logo_image} href='/'/></Header>
-          </Menu.Item>
-          <div className='users'>
-            <Dropdown placeholder='ユーザーを選択してください' search selection options={this.usersOption(this.props.users)} className='full-width'/>
-          </div>
-          <div className='periods'>
-            <Dropdown scrolling options={this.periodsOption} defaultValue={this.periodsOption[0].value} className='full-width'/>
-          </div>
-          <Menu.Menu position='right' className='right-menu'>
-            <Dropdown trigger={this.userTrigger(this.props.loginUser)}>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <NavLink to='/settings'>
-                    <Icon name='setting'/> 設定
-                  </NavLink>
-                </Dropdown.Item>
-                <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
-                <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Menu.Menu>
-        </Menu>
-      </div>
+      <Menu secondary className='menu-bar'>
+        <Menu.Item header>
+          <Header as='h1'><Image src={logo_image} href='/'/></Header>
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown options={this.periodsOption} defaultValue={this.periodsOption[0].value} scrolling pointing='top'/>
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown placeholder='ユーザーを選択してください' search selection options={this.usersOption(this.props.users)}/>
+        </Menu.Item>
+        <Menu.Item position='right'>
+          <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <NavLink to='/settings'>
+                  <Icon name='setting'/> 設定
+                </NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
+              <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Item>
+      </Menu>
     )
   }
 }
