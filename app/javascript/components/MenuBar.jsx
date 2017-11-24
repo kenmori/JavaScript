@@ -11,11 +11,15 @@ class MenuBar extends Component {
   }
 
   usersOption(users) {
-    return users.map(item => ({
-      key: item.get('id'),
-      value: item.get('id'),
-      text: `${item.get('lastName')} ${item.get('firstName')}`,
-    })).toArray();
+    return users.map(user => {
+      const avatarUrl = user.getIn(['avatar', 'url']) || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
+      return {
+        key: user.get('id'),
+        value: user.get('id'),
+        text: `${user.get('lastName')} ${user.get('firstName')}`,
+        image: { avatar: true, src: avatarUrl },
+      }
+    }).toArray();
   }
 
   // TODO:
@@ -52,7 +56,7 @@ class MenuBar extends Component {
           <Dropdown options={this.periodsOption} defaultValue={this.periodsOption[0].value} scrolling pointing='top'/>
         </Menu.Item>
         <Menu.Item>
-          <Dropdown placeholder='ユーザーを選択してください' search selection options={this.usersOption(this.props.users)}/>
+          <Dropdown search selection options={this.usersOption(this.props.users)} defaultValue={this.props.loginUser.get('id')}/>
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
