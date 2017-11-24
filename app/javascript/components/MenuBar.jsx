@@ -46,7 +46,7 @@ class MenuBar extends Component {
     return (
       <Menu secondary className='menu-bar'>
         <Menu.Item header>
-          <Header as='h1'><Image src={logo_image} href='/'/></Header>
+          <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
         </Menu.Item>
         <Menu.Item>
           <Dropdown options={this.periodsOption} defaultValue={this.periodsOption[0].value} scrolling pointing='top'/>

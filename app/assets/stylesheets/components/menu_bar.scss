@@ -4,6 +4,13 @@
     margin-right: 8px;
   }
 
+  .version {
+    color: $PRIMARY_COLOR;
+    font-size: large;
+    margin-left: 4px;
+    vertical-align: super;
+  }
+
   .avatarImg.is-small {
     vertical-align: text-bottom;
     margin-right: 4px;
