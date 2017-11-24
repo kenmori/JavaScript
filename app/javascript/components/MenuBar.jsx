@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Dropdown, Header, Icon, Menu, Image} from 'semantic-ui-react';
-import {NavLink} from 'react-router-dom';
+import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
 import Avatar from './Avatar';
 
@@ -58,11 +57,7 @@ class MenuBar extends Component {
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
             <Dropdown.Menu>
-              <Dropdown.Item>
-                <NavLink to='/settings'>
-                  <Icon name='setting'/> 設定
-                </NavLink>
-              </Dropdown.Item>
+              <Dropdown.Item as='a' href='/settings' icon='setting' text='設定'/>
               <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
               <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
             </Dropdown.Menu>
