@@ -121,7 +121,7 @@ class KeyResultAccordionItem extends Component {
       <Segment>
           <Accordion.Title className='flex flex-between' active={this.props.active} index={this.props.index} onClick={this.handleClick.bind(this)}>
             <Icon name='dropdown'/>
-            <Avatar name={keyResult.get('owner').get('lastName')} path={keyResult.get('owner').get('avatarUrl')} />
+            <Avatar user={keyResult.get('owner')} />
             <div className="name">{keyResult.get('name')}</div>
             <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>

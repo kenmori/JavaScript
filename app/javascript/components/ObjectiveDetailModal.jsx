@@ -35,7 +35,7 @@ class ObjectiveDetailModal extends Component {
     return (
       <Modal open={this.props.isOpen} size='small' className='objective_detail_modal'>
         <Modal.Header>
-          <h1><Avatar name={objective.get('owner').get('lastName')} path={objective.get('owner').get('avatarUrl')} /><EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/></h1>
+          <h1><Avatar user={objective.get('owner')} /><EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/></h1>
         </Modal.Header>
         <Modal.Content>
           <Form>

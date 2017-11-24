@@ -46,14 +46,14 @@ class AccountSettingTab extends Component {
           <dd>{user.get('email')}</dd>
 
           <dt>画像</dt>
-          <dd><Avatar path={user.get('avatarPath')} name={user.get('lastName')} size="large" /></dd>
+          <dd><Avatar user={user} size="large" /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">
                 <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
               </label>
               <Button className="change-button" content="アイコンを変更する" positive />
-              {user.get('avatarPath') && <Button className="change-button" content="アイコンを削除する" negative onClick={this.deleteAvatar} />}
+              {user.get('avatarUrl') && <Button className="change-button" content="アイコンを削除する" negative onClick={this.deleteAvatar} />}
             </div>
           </dd>
           <dd>
