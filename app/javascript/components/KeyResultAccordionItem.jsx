@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Input, Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
@@ -123,6 +124,16 @@ class KeyResultAccordionItem extends Component {
     this.updateKeyResult({ expiredDate: value.format() });
   }
 
+  handleRateViewClick() {
+    this.setState({
+      rateInputForm: true,
+    });
+    
+    setTimeout(() => {
+      ReactDOM.findDOMNode(this.refs.progressRateView).focus();
+    }, 0)
+  }
+
   handleRateInputBlur(event) {
     this.handleSliderBlur(event)
     this.setState({
@@ -148,11 +159,22 @@ class KeyResultAccordionItem extends Component {
             <Form.Field className='values'>
               <label>進捗</label>
               {this.state.rateInputForm && 
-                <div className="progress-rate-input"><div className="progress-rate-input__inner"><Input type="text" defaultValue={this.state.sliderValue} onBlur={this.handleRateInputBlur.bind(this)} onChange={this.handleSliderChange.bind(this)} />%</div></div>
+                <div className="progress-rate-input">
+                  <div className="progress-rate-input__inner">
+                    <Input type="number" 
+                          defaultValue={this.state.sliderValue} 
+                          onBlur={this.handleRateInputBlur.bind(this)} 
+                          onChange={this.handleSliderChange.bind(this)} 
+                          max="100"
+                          min="0"
+                          ref="progressRateView"
+                    /> %
+                  </div>
+                </div>
               }
               {!this.state.rateInputForm && 
                 <span>
-                  <div className='progress-rate is-slider-screen' onClick={() => this.setState({rateInputForm: true})}>{this.state.sliderValue}%</div>
+                  <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
                   <div className='slider'>
                     <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
                           data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
