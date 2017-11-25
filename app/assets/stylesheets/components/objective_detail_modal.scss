@@ -6,6 +6,26 @@
     .progress-rate {
       font-size: 1.1rem;
       color: $PRIMARY_COLOR;
+      &.is-slider-screen {
+        display: inline-block;
+        margin-right: 20px;
+      }
+    }
+
+    .progress-rate-input {
+      width: 60px;
+      display: inline-block;
+      margin-right: 30px;
+      font-size: 1.1rem;
+      color: $PRIMARY_COLOR;
+      .progress-rate-input__inner {
+        display: flex;
+        align-items: center;
+        input {
+          font-size: 1.1rem;
+          color: $PRIMARY_COLOR;
+        }
+      }
     }
 
 

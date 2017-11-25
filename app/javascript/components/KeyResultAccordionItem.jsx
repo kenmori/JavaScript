@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
+import { Input, Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
@@ -11,12 +11,11 @@ class KeyResultAccordionItem extends Component {
     super(props);
     const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
     concernedPeople.push(null);
-    console.log(props.keyResult.get('targetValue'))
-    console.log(props.keyResult.get('progressRate'))
     this.state = {
       targetValueInputForm: !!props.keyResult.get('targetValue'),
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
+      rateInputForm: false,
       concernedPeople,
     };
   }
@@ -124,6 +123,13 @@ class KeyResultAccordionItem extends Component {
     this.updateKeyResult({ expiredDate: value.format() });
   }
 
+  handleRateInputBlur(event) {
+    this.handleSliderBlur(event)
+    this.setState({
+      rateInputForm: false,
+    });
+  }
+
   render() {
     const keyResult = this.props.keyResult;
     return (
@@ -141,11 +147,18 @@ class KeyResultAccordionItem extends Component {
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
               <label>進捗</label>
-              <div className='progress-rate'>{this.state.sliderValue}%</div>
-              <div className='slider'>
-                <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                       data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
-              </div>
+              {this.state.rateInputForm && 
+                <div className="progress-rate-input"><div className="progress-rate-input__inner"><Input type="text" defaultValue={this.state.sliderValue} onBlur={this.handleRateInputBlur.bind(this)} onChange={this.handleSliderChange.bind(this)} />%</div></div>
+              }
+              {!this.state.rateInputForm && 
+                <span>
+                  <div className='progress-rate is-slider-screen' onClick={() => this.setState({rateInputForm: true})}>{this.state.sliderValue}%</div>
+                  <div className='slider'>
+                    <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
+                          data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
+                  </div>
+                </span>
+              }
             </Form.Field>
             <Form.Field className='values'>
               <label>Key Result 名</label>
@@ -188,11 +201,7 @@ class KeyResultAccordionItem extends Component {
                 {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
-            <Form.Group>
-              <Form.Field>
-                <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} negative />
-              </Form.Field>
-            </Form.Group>
+            <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="div" negative />
           </Accordion.Content>
       </Segment>
     );
