@@ -42,6 +42,7 @@ class KeyResultAccordion extends Component {
                                   index={index}
                                   active={this.state.activeIndex === index}
                                   updateProgress={this.updateProgress.bind(this)}
+                                  removeKeyResult={this.props.removeKeyResult}
                                   onProgressChange={this.handleProgressChange.bind(this)}
                                   onClick={this.handleClick.bind(this)}/>
         ))}

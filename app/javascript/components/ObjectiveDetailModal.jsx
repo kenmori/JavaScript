@@ -75,6 +75,7 @@ class ObjectiveDetailModal extends Component {
                                              keyResults={objective.get('keyResults')}
                                              updateKeyResult={this.props.updateKeyResult}
                                              updateProgress={this.updateProgress.bind(this)}
+                                             removeKeyResult={this.props.removeKeyResult}
                                              onProgressChange={this.handleProgressChange.bind(this)}/>
                 }
               })()}

@@ -22,6 +22,9 @@ const mapDispatchToProps = dispatch => {
     },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveDetailModal());
+    },
+    removeKeyResult: (keyResult) => {
+      dispatch(keyResultActions.removeKeyResult(keyResult));
     }
   };
 };

@@ -26,6 +26,15 @@ class KeyResultsController < ApplicationController
     render json: @key_result.errors, status: :unprocessable_entity
   end
 
+  def destroy
+    @key_result = KeyResult.find(params[:id])
+    if @key_result.destroy
+      render action: :create, status: :ok
+    else
+      render json: @key_result.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def update_concerned_people

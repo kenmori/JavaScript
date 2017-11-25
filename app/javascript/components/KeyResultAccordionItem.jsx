@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Icon, Segment, Accordion, Dropdown } from 'semantic-ui-react';
+import { Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
@@ -164,6 +164,11 @@ class KeyResultAccordionItem extends Component {
               <Form.Field>
                 <label>関係者</label>
                 {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field>
+                <Button content="KeyResultを削除する" onClick={() => this.props.removeKeyResult({id: keyResult.get('id')})} negative />
               </Form.Field>
             </Form.Group>
           </Accordion.Content>
