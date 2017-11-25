@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Button, Form, Icon, Modal, Segment } from 'semantic-ui-react';
+import { Button, Form, Icon, Modal, Segment, Dropdown } from 'semantic-ui-react';
 import KeyResultAccordion from './KeyResultAccordion';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
@@ -11,6 +11,17 @@ class ObjectiveDetailModal extends Component {
   constructor(props) {
     super(props);
     this.state = { sliderValue: 0 };
+  }
+
+  getUsersOption(users) {
+    return users.map(user => {
+      const id = user.get('ownerId');
+      return {
+        key: id,
+        value: id,
+        text: `${user.get('lastName')} ${user.get('firstName')}`,
+      }
+    }).toArray();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,6 +57,11 @@ class ObjectiveDetailModal extends Component {
                 <input type='range' min='0' max='100' value={this.state.sliderValue}
                        step='1' data-unit='%' readOnly/>
               </div>
+            </Form.Field>
+            <Form.Field>
+              <label>責任者</label>
+              <Dropdown selection options={this.getUsersOption(this.props.users)}
+                          value={objective.get('ownerId')} onChange={(e, {value}) => this.updateObjective({ownerId: value})}/>
             </Form.Field>
             <Form.Field>
               <label>Objective の説明</label>
