@@ -83,8 +83,9 @@ class KeyResultFormModal extends Component {
     }
   }
 
+  
   render() {
-    if (this.props.users.isEmpty()) {
+    if (this.props.users.isEmpty() || !this.props.objective.size) {
       return null;
     }
     return (
@@ -97,7 +98,7 @@ class KeyResultFormModal extends Component {
           <Form.Group widths='equal'>
               <Form.Field>
                 <label>関連するObjective</label>
-                <Input value={this.props.objective && this.props.objective.get('name')} readonly />
+                <Input value={this.props.objective.get('name')} readOnly />
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
@@ -129,7 +130,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
+                <Dropdown selection value={this.props.objective.get('ownerId')} options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>
