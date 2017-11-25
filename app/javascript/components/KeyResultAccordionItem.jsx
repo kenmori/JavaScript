@@ -11,7 +11,10 @@ class KeyResultAccordionItem extends Component {
     super(props);
     const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
     concernedPeople.push(null);
+    console.log(props.keyResult.get('targetValue'))
+    console.log(props.keyResult.get('progressRate'))
     this.state = {
+      targetValueInputForm: !!props.keyResult.get('targetValue'),
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
       concernedPeople,
@@ -108,6 +111,12 @@ class KeyResultAccordionItem extends Component {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
 
+  removeKeyResult(id) {
+    if(confirm('KeyResultを削除します')) {
+      this.props.removeKeyResult({id})
+    }
+  }
+
   handleCalendar(value) {
     this.setState({
       expiredDate: value
@@ -123,7 +132,9 @@ class KeyResultAccordionItem extends Component {
             <Icon name='dropdown'/>
             <Avatar name={keyResult.get('owner').get('lastName')} path={keyResult.get('owner').get('avatarUrl')} />
             <div className="name">{keyResult.get('name')}</div>
-            <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
+            {keyResult.get('targetValue') && 
+              <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
+            }
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
             <div className='progress-rate'>{keyResult.get('progressRate')}%</div>
           </Accordion.Title>
@@ -140,16 +151,27 @@ class KeyResultAccordionItem extends Component {
               <label>Key Result 名</label>
               <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
             </Form.Field>
-            <Form.Field className='values'>
-              <label>目標値</label>
-              <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
-              <EditableText value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
-            </Form.Field>
-            <Form.Field className='values'>
-              <label>実績値</label>
-              <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
-              {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
-            </Form.Field>
+            {this.state.targetValueInputForm && 
+              <div>
+                <Form.Field className='values'>
+                  <label>目標値</label>
+                  <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
+                  <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
+                </Form.Field>
+                <Form.Field className='values'>
+                  <label>実績値</label>
+                  <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
+                  {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
+                </Form.Field>
+              </div>
+            }
+            {!this.state.targetValueInputForm && 
+              <Form.Group>
+                <Form.Field>
+                  <Button content="目標値を設定する" onClick={() => this.setState({targetValueInputForm: true})} positive />
+                </Form.Field>
+              </Form.Group>
+            }
             <Form.Field className='values input-date-picker'>
               <label>期限</label>
               <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
@@ -168,7 +190,7 @@ class KeyResultAccordionItem extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Field>
-                <Button content="KeyResultを削除する" onClick={() => this.props.removeKeyResult({id: keyResult.get('id')})} negative />
+                <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} negative />
               </Form.Field>
             </Form.Group>
           </Accordion.Content>
