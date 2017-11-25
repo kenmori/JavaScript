@@ -90,10 +90,16 @@ class KeyResultFormModal extends Component {
     return (
       <Modal open={this.props.isOpen} className="key-result-form-modal" size="small">
         <Modal.Header>
-          {this.props.objective && this.props.objective.get('name')} の KeyResult を作成する
+          KeyResult を作成する
         </Modal.Header>
         <Modal.Content>
           <Form>
+          <Form.Group widths='equal'>
+              <Form.Field>
+                <label>関連するObjective</label>
+                <Input value={this.props.objective && this.props.objective.get('name')} readonly />
+              </Form.Field>
+            </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Key Result 名</label>
