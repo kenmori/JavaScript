@@ -20,7 +20,7 @@ export default class DashBoard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchObjectives({okrPeriodId: this.props.okrPeriod.get('id')});
+    this.props.fetchObjectives({okrPeriodId: this.props.menu.get('okrPeriodId')});
   }
 
   componentWillReceiveProps(nextProps) {

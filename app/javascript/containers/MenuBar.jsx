@@ -7,7 +7,7 @@ import sessionActions from '../actions/sessions';
 const mapStateToProps = (state) => {
   return {
     users: state.users,
-    okrPeriod: state.okrPeriod,
+    menu: state.menu,
     okrPeriods: state.okrPeriods,
     loginUser: state.loginUser,
   };

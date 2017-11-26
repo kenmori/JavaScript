@@ -51,7 +51,7 @@ class MenuBar extends Component {
           <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
         </Menu.Item>
         <Menu.Item>
-          <Dropdown options={this.okrPeriodsOption(this.props.okrPeriods)} defaultValue={this.props.okrPeriod.get('id')} scrolling pointing='top'/>
+          <Dropdown options={this.okrPeriodsOption(this.props.okrPeriods)} defaultValue={this.props.menu.get('okrPeriodId')} scrolling pointing='top'/>
         </Menu.Item>
         <Menu.Item>
           <Dropdown search selection options={this.usersOption(this.props.users)} defaultValue={this.props.loginUser.get('id')}/>
@@ -75,7 +75,7 @@ MenuBar.propTypes = {
   fetchOkrPeriods: PropTypes.func.isRequired,
   users: PropTypes.object,
   okrPeriods: PropTypes.object,
-  okrPeriod: PropTypes.object,
+  menu: PropTypes.object,
 };
 
 export default MenuBar;

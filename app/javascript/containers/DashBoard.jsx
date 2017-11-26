@@ -6,7 +6,7 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     loginUser: state.loginUser,
-    okrPeriod: state.okrPeriod,
+    menu: state.menu,
     objectives: state.objectives
   };
 };
