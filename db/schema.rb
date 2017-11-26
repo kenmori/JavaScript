@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20171126061903) do
     t.integer "year", null: false
     t.integer "period_number", null: false
     t.integer "status", default: 0, null: false
-    t.integer "month_start", null: false
-    t.integer "month_end", null: false
+    t.date "month_start", null: false
+    t.date "month_end", null: false
     t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
   end
 

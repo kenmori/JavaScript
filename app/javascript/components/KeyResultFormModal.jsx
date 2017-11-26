@@ -15,8 +15,7 @@ class KeyResultFormModal extends Component {
   getDefaultExpiredData(periods) {
     const selectedPeriodId = this.props.okrPeriod.get('id');
     const selectedPeriod = periods.find((item) => item.get('id') === selectedPeriodId);
-    const endOfMonth = `${selectedPeriod.get('year')}/${selectedPeriod.get('monthEnd')}`
-    return moment(new Date(endOfMonth)).endOf('month');
+    return moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
   }
 
   usersOption(users, isOwner) {
