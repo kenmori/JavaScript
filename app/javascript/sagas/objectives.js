@@ -7,7 +7,7 @@ import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 
 function* fetchObjectives({payload}) {
-  const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId });
+  const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
   yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
 }
 

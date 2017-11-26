@@ -20,7 +20,7 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchObjectives({okrPeriodId: this.props.menu.get('okrPeriodId')});
+    this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,7 +31,7 @@ export default class Dashboard extends Component {
       });
     }
     if(nextProps.menu && this.props.menu !== nextProps.menu) {
-      this.props.fetchObjectives({okrPeriodId: nextProps.menu.get('okrPeriodId')});
+      this.props.fetchObjectives(nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId'));
     }
   }
 
@@ -42,13 +42,16 @@ export default class Dashboard extends Component {
   }
 
   render() {
+    if (!this.props.user) {
+      return null;
+    }
     return (
       <div className="dash-board">
         <section className="login-user">
-          <Avatar user={this.props.loginUser} />
+          <Avatar user={this.props.user} />
           <div className="info flex-vertical-center">
-            <div>{this.props.loginUser.get('lastName') + this.props.loginUser.get('firstName')}</div>
-            <div>{this.props.loginUser.get('email')}</div>
+            <div>{this.props.user.get('lastName') + this.props.user.get('firstName')}</div>
+            <div>{this.props.user.get('email')}</div>
           </div>
         </section>
         <section className="okr">

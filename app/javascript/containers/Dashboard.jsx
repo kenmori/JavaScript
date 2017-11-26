@@ -5,7 +5,7 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    loginUser: state.loginUser,
+    user: state.users.find(item => item.get('id') === state.menu.get('userId')),
     menu: state.menu,
     objectives: state.objectives
   };
@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchObjectives: (args) => {
-      dispatch(objectiveActions.fetchObjectives(args));
+    fetchObjectives: (okrPeriodId, userId) => {
+      dispatch(objectiveActions.fetchObjectives(okrPeriodId, userId));
     },
     openObjectiveFormModal: () => {
       dispatch(dialogActions.openObjectiveFormModal());
