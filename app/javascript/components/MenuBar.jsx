@@ -41,6 +41,10 @@ class MenuBar extends Component {
     )
   }
 
+  handleOkrPeriodChange(event, { value }) {
+    this.props.changeOkrPeriod(value);
+  }
+
   render() {
     if (this.props.users.isEmpty() || this.props.okrPeriods.isEmpty()) {
       return null;
@@ -51,7 +55,10 @@ class MenuBar extends Component {
           <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
         </Menu.Item>
         <Menu.Item>
-          <Dropdown options={this.okrPeriodsOption(this.props.okrPeriods)} defaultValue={this.props.menu.get('okrPeriodId')} scrolling pointing='top'/>
+          <Dropdown scrolling pointing='top'
+                    options={this.okrPeriodsOption(this.props.okrPeriods)}
+                    defaultValue={this.props.menu.get('okrPeriodId')}
+                    onChange={this.handleOkrPeriodChange.bind(this)} />
         </Menu.Item>
         <Menu.Item>
           <Dropdown search selection options={this.usersOption(this.props.users)} defaultValue={this.props.loginUser.get('id')}/>
@@ -73,6 +80,7 @@ class MenuBar extends Component {
 MenuBar.propTypes = {
   fetchUsers: PropTypes.func.isRequired,
   fetchOkrPeriods: PropTypes.func.isRequired,
+  changeOkrPeriod: PropTypes.func.isRequired,
   users: PropTypes.object,
   okrPeriods: PropTypes.object,
   menu: PropTypes.object,

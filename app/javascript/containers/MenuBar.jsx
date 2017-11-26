@@ -2,6 +2,7 @@ import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
 import okrPeriodActions from '../actions/okrPeriods';
+import menuActions from '../actions/menu';
 import sessionActions from '../actions/sessions';
 
 const mapStateToProps = (state) => {
@@ -20,6 +21,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchOkrPeriods: () => {
       dispatch(okrPeriodActions.fetchOkrPeriods());
+    },
+    changeOkrPeriod: (okrPeriodId) => {
+      dispatch(menuActions.changeOkrPeriod(okrPeriodId));
     },
     signOut: () => {
       dispatch(sessionActions.signOut());

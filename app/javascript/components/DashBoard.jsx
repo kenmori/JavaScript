@@ -30,6 +30,9 @@ export default class DashBoard extends Component {
         selectedObjective: nextProps.objectives.first()
       });
     }
+    if(nextProps.menu && this.props.menu !== nextProps.menu) {
+      this.props.fetchObjectives({okrPeriodId: nextProps.menu.get('okrPeriodId')});
+    }
   }
 
   get actionSection() {
