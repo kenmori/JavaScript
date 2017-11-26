@@ -3,30 +3,29 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
-function rebuildKeyResult(type, state, payload) {
+
+const keyResultMethod = {
+  update: (keyResults, newKeyResult) => {
+    return keyResults.map(keyResult => {
+      if (keyResult.get('id') === newKeyResult.get('id')) {
+        return newKeyResult;
+      }
+      return keyResult;
+    });
+  },
+  remove: (keyResults, newKeyResult) => {
+    return keyResults.filter(keyResult => keyResult.get('id') !== newKeyResult.get('id'));
+  }
+}
+
+function rebuildKeyResult(method, state, payload) {
   return state.map(objective => {
     if (objective.get('id') === payload.keyResult.get('objectiveId')) {
-      const newKeyResults = crud()[type](objective.get('keyResults'), payload.keyResult);
-      objective = objective.set('keyResults', newKeyResults)
+      const newKeyResults = method(objective.get('keyResults'), payload.keyResult);
+      objective = objective.set('keyResults', newKeyResults);
     }
-    return objective
+    return objective;
   })
-
-  function crud() {
-    return {
-      update: (keyResults, newKeyResult) => {
-        return keyResults.map(keyResult => {
-          if (keyResult.get('id') === newKeyResult.get('id')) {
-            return newKeyResult
-          }
-          return keyResult
-        });
-      },
-      remove: (keyResults, newKeyResult) => {
-        return keyResults.filter(keyResult => keyResult.get('id') !== newKeyResult.get('id'));
-      }
-    }
-  }
 }
 
 export default handleActions({
@@ -52,10 +51,10 @@ export default handleActions({
       });
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      return rebuildKeyResult('remove', state, payload);
+      return rebuildKeyResult(keyResultMethod.remove, state, payload);
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      return rebuildKeyResult('update', state, payload);
+      return rebuildKeyResult(keyResultMethod.update, state, payload);
     }
   },
   fromJS([]),
