@@ -81,8 +81,8 @@ class KeyResultFormModal extends Component {
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
-    const fetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === null;
-    if (fetchedPeriods) {
+    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === null;
+    if (isFetchedPeriods) {
       this.setState({
         expiredDate: this.getDefaultExpiredData(nextProps.okrPeriods),
       });
@@ -99,7 +99,7 @@ class KeyResultFormModal extends Component {
 
   
   render() {
-    if (this.props.users.isEmpty() || !this.props.objective.size) {
+    if (this.props.users.isEmpty() || this.props.objective.isEmpty()) {
       return null;
     }
     return (
