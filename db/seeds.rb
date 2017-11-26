@@ -55,7 +55,9 @@ ApplicationRecord.transaction do
   active_okr_period = organization.okr_periods.create!(
       year: 2017,
       period_number: 3,
-      status: :active
+      status: :active,
+      month_start: 10,
+      month_end: 12,
   )
 
   active_objective1 = login_user.owner.objectives.create!(
@@ -130,7 +132,9 @@ ApplicationRecord.transaction do
   inactive_okr_period = organization.okr_periods.create!(
       year: 2017,
       period_number: 2,
-      status: :inactive
+      status: :inactive,
+      month_start: 7,
+      month_end: 9,
   )
 
   inactive_objective1 = login_user.owner.objectives.create!(
