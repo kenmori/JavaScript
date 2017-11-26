@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Popup } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 
 class Avatar extends Component {
   avatarTag = (path, name, size) => {
@@ -11,7 +11,7 @@ class Avatar extends Component {
     }
 
     return path ?
-            <Image src={path} className={cls} ui={false} /> :
+            <img src={path} className={cls} /> :
             <div className={cls}>{name}</div>
   }
   render() {
