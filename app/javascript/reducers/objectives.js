@@ -3,6 +3,31 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
+
+const keyResultMethod = {
+  update: (keyResults, newKeyResult) => {
+    return keyResults.map(keyResult => {
+      if (keyResult.get('id') === newKeyResult.get('id')) {
+        return newKeyResult;
+      }
+      return keyResult;
+    });
+  },
+  remove: (keyResults, newKeyResult) => {
+    return keyResults.filter(keyResult => keyResult.get('id') !== newKeyResult.get('id'));
+  }
+}
+
+function rebuildKeyResult(method, state, payload) {
+  return state.map(objective => {
+    if (objective.get('id') === payload.keyResult.get('objectiveId')) {
+      const newKeyResults = method(objective.get('keyResults'), payload.keyResult);
+      objective = objective.set('keyResults', newKeyResults);
+    }
+    return objective;
+  })
+}
+
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
       return state.merge(payload.objectives);
@@ -25,21 +50,11 @@ export default handleActions({
         }));
       });
     },
+    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+      return rebuildKeyResult(keyResultMethod.remove, state, payload);
+    },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      const newState = state.map(objective => {
-        if (objective.get('id') === payload.keyResult.get('objectiveId')) {
-          const newKeyResults = objective.get('keyResults').map((keyResult => {
-            if (keyResult.get('id') === payload.keyResult.get('id')) {
-              return payload.keyResult
-            }
-            return keyResult
-          }));
-          objective = objective.set('keyResults', newKeyResults)
-        }
-
-        return objective
-      })
-      return newState
+      return rebuildKeyResult(keyResultMethod.update, state, payload);
     }
   },
   fromJS([]),

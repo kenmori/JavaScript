@@ -14,6 +14,10 @@ export default handleActions({
         return keyResult.get('id') === payload.keyResult.get('id');
       }), payload.keyResult);
     },
+    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+      return state.filter(item => item.get('id') !== payload.keyResult.get('id'));
+    },
   },
   fromJS([])
 )
+

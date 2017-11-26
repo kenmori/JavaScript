@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Form, Icon, Segment, Accordion, Dropdown } from 'semantic-ui-react';
+import { Input, Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
@@ -12,8 +13,10 @@ class KeyResultAccordionItem extends Component {
     const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
     concernedPeople.push(null);
     this.state = {
+      isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
+      isDisplayedRateInputForm: false,
       concernedPeople,
     };
   }
@@ -108,11 +111,34 @@ class KeyResultAccordionItem extends Component {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
 
+  removeKeyResult(id) {
+    if(confirm('KeyResultを削除します')) {
+      this.props.removeKeyResult({id})
+    }
+  }
+
   handleCalendar(value) {
     this.setState({
       expiredDate: value
     });
     this.updateKeyResult({ expiredDate: value.format() });
+  }
+
+  handleRateViewClick() {
+    this.setState({
+      isDisplayedRateInputForm: true,
+    });
+    
+    setTimeout(() => {
+      ReactDOM.findDOMNode(this.refs.progressRateView).focus();
+    }, 0)
+  }
+
+  handleRateInputBlur(event) {
+    this.handleSliderBlur(event)
+    this.setState({
+      isDisplayedRateInputForm: false,
+    });
   }
 
   render() {
@@ -123,33 +149,64 @@ class KeyResultAccordionItem extends Component {
             <Icon name='dropdown'/>
             <Avatar name={keyResult.get('owner').get('lastName')} path={keyResult.get('owner').get('avatarUrl')} />
             <div className="name">{keyResult.get('name')}</div>
-            <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
+            {keyResult.get('targetValue') && 
+              <div className='target-value'>目標：{keyResult.get('targetValue')}{keyResult.get('valueUnit')}</div>
+            }
             <div className='expired-date'>期限：{keyResult.get('expiredDate')}</div>
             <div className='progress-rate'>{keyResult.get('progressRate')}%</div>
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
               <label>進捗</label>
-              <div className='progress-rate'>{this.state.sliderValue}%</div>
-              <div className='slider'>
-                <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                       data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
-              </div>
+              {this.state.isDisplayedRateInputForm && 
+                <div className="progress-rate-input">
+                  <div className="progress-rate-input__inner">
+                    <Input type="number" 
+                          defaultValue={this.state.sliderValue} 
+                          onBlur={this.handleRateInputBlur.bind(this)} 
+                          onChange={this.handleSliderChange.bind(this)} 
+                          max="100"
+                          min="0"
+                          ref="progressRateView"
+                    /> %
+                  </div>
+                </div>
+              }
+              {!this.state.isDisplayedRateInputForm && 
+                <span>
+                  <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
+                  <div className='slider'>
+                    <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
+                          data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
+                  </div>
+                </span>
+              }
             </Form.Field>
             <Form.Field className='values'>
               <label>Key Result 名</label>
               <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
             </Form.Field>
-            <Form.Field className='values'>
-              <label>目標値</label>
-              <EditableText value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
-              <EditableText value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
-            </Form.Field>
-            <Form.Field className='values'>
-              <label>実績値</label>
-              <EditableText value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
-              {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
-            </Form.Field>
+            {this.state.isDisplayedTargetValue && 
+              <div>
+                <Form.Field className='values'>
+                  <label>目標値</label>
+                  <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
+                  <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
+                </Form.Field>
+                <Form.Field className='values'>
+                  <label>実績値</label>
+                  <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
+                  {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
+                </Form.Field>
+              </div>
+            }
+            {!this.state.isDisplayedTargetValue && 
+              <Form.Group>
+                <Form.Field>
+                  <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} positive />
+                </Form.Field>
+              </Form.Group>
+            }
             <Form.Field className='values input-date-picker'>
               <label>期限</label>
               <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
@@ -166,6 +223,7 @@ class KeyResultAccordionItem extends Component {
                 {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
+            <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="div" negative />
           </Accordion.Content>
       </Segment>
     );
