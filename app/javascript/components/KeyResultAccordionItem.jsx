@@ -13,10 +13,10 @@ class KeyResultAccordionItem extends Component {
     const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
     concernedPeople.push(null);
     this.state = {
-      targetValueInputForm: !!props.keyResult.get('targetValue'),
+      isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
-      rateInputForm: false,
+      isDisplayedRateInputForm: false,
       concernedPeople,
     };
   }
@@ -126,7 +126,7 @@ class KeyResultAccordionItem extends Component {
 
   handleRateViewClick() {
     this.setState({
-      rateInputForm: true,
+      isDisplayedRateInputForm: true,
     });
     
     setTimeout(() => {
@@ -137,7 +137,7 @@ class KeyResultAccordionItem extends Component {
   handleRateInputBlur(event) {
     this.handleSliderBlur(event)
     this.setState({
-      rateInputForm: false,
+      isDisplayedRateInputForm: false,
     });
   }
 
@@ -158,7 +158,7 @@ class KeyResultAccordionItem extends Component {
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
               <label>進捗</label>
-              {this.state.rateInputForm && 
+              {this.state.isDisplayedRateInputForm && 
                 <div className="progress-rate-input">
                   <div className="progress-rate-input__inner">
                     <Input type="number" 
@@ -172,7 +172,7 @@ class KeyResultAccordionItem extends Component {
                   </div>
                 </div>
               }
-              {!this.state.rateInputForm && 
+              {!this.state.isDisplayedRateInputForm && 
                 <span>
                   <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
                   <div className='slider'>
@@ -186,7 +186,7 @@ class KeyResultAccordionItem extends Component {
               <label>Key Result 名</label>
               <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
             </Form.Field>
-            {this.state.targetValueInputForm && 
+            {this.state.isDisplayedTargetValue && 
               <div>
                 <Form.Field className='values'>
                   <label>目標値</label>
@@ -200,10 +200,10 @@ class KeyResultAccordionItem extends Component {
                 </Form.Field>
               </div>
             }
-            {!this.state.targetValueInputForm && 
+            {!this.state.isDisplayedTargetValue && 
               <Form.Group>
                 <Form.Field>
-                  <Button content="目標値を設定する" onClick={() => this.setState({targetValueInputForm: true})} positive />
+                  <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} positive />
                 </Form.Field>
               </Form.Group>
             }
