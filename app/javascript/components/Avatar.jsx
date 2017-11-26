@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 
 class Avatar extends Component {
   avatarTag = (path, name, size) => {
@@ -11,22 +11,23 @@ class Avatar extends Component {
     }
 
     return path ?
-            <Image src={path} className={cls} ui={false} /> :
+            <img src={path} className={cls} /> :
             <div className={cls}>{name}</div>
   }
   render() {
-    return this.avatarTag(this.props.path, this.props.name, this.props.size)
+    const lastName = this.props.user.get('lastName');
+    const name = `${lastName} ${this.props.user.get('firstName')}`;
+    const path = this.props.user.get('avatarUrl');
+    return <Popup trigger={this.avatarTag(path, lastName, this.props.size)} content={name} size='tiny'/>;
   }
 }
 
 Avatar.propTypes = {
-  name: PropTypes.string,
-  path: PropTypes.string,
+  user: PropTypes.object,
   size: PropTypes.string,
 };
 Avatar.defaultProps = {
-  name: '',
-  path: '',
+  user: null,
   size: 'normal',
 };
 

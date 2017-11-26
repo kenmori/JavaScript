@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Input, Dropdown, Header, Icon, Menu, Image} from 'semantic-ui-react';
-import {NavLink} from 'react-router-dom';
+import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
 import Avatar from './Avatar';
 
@@ -9,74 +8,74 @@ class MenuBar extends Component {
 
   componentDidMount() {
     this.props.fetchUsers();
+    this.props.fetchOkrPeriods();
   }
 
   usersOption(users) {
-    return users.map(item => ({
-      key: item.get('id'),
-      value: item.get('id'),
-      text: `${item.get('lastName')} ${item.get('firstName')}`,
-    })).toArray();
+    return users.map(user => {
+      const avatarUrl = user.getIn(['avatar', 'url']) || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
+      return {
+        key: user.get('id'),
+        value: user.get('id'),
+        text: `${user.get('lastName')} ${user.get('firstName')}`,
+        image: { avatar: true, src: avatarUrl },
+      }
+    }).toArray();
   }
 
-  // TODO:
-  //期間。
-  get periodsOption() {
-    return(
-      [
-        {key: '2017 1Q', value: '2017 1Q', text: '2017 1Q'},
-        {key: '2017 2Q', value: '2017 2Q', text: '2017 2Q'},
-        {key: '2017 3Q', value: '2017 3Q', text: '2017 3Q'},
-        {key: '2017 4Q', value: '2017 4Q', text: '2017 4Q'},
-      ]
-    )
+  okrPeriodsOption(okrPeriods) {
+    return okrPeriods.map(okrPeriod => {
+      return {
+        key: okrPeriod.get('id'),
+        value: okrPeriod.get('id'),
+        text: `${okrPeriod.get('year')}年${okrPeriod.get('periodNumber')}期`,
+      }
+    }).toArray();
   }
 
   userTrigger = (loginUser) => {
     return (
       <span>
-        <Avatar path={loginUser.get('avatarPath')} name={loginUser.get('lastName')} size="small" /> {loginUser.get('lastName')}
+        <Avatar user={loginUser} size="small" /> {loginUser.get('lastName')}
       </span>
     )
   }
 
   render() {
-    if (this.props.users.isEmpty()) {
+    if (this.props.users.isEmpty() || this.props.okrPeriods.isEmpty()) {
       return null;
     }
     return (
-      <div className='menu-bar'>
-        <Menu secondary>
-          <Menu.Item header>
-            <Header as='h1'><Image src={logo_image} href='/'/></Header>
-          </Menu.Item>
-          <div className='users'>
-            <Dropdown placeholder='ユーザーを選択してください' search selection options={this.usersOption(this.props.users)} className='full-width'/>
-          </div>
-          <div className='periods'>
-            <Dropdown scrolling options={this.periodsOption} defaultValue={this.periodsOption[0].value} className='full-width'/>
-          </div>
-          <Menu.Menu position='right' className='right-menu'>
-            <Dropdown trigger={this.userTrigger(this.props.loginUser)}>
-              <Dropdown.Menu>
-                <Dropdown.Item>
-                  <NavLink to='/settings'>
-                    <Icon name='setting'/> 設定
-                  </NavLink>
-                </Dropdown.Item>
-                <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
-                <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Menu.Menu>
-        </Menu>
-      </div>
+      <Menu secondary className='menu-bar'>
+        <Menu.Item header>
+          <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown options={this.okrPeriodsOption(this.props.okrPeriods)} defaultValue={this.props.okrPeriod.get('id')} scrolling pointing='top'/>
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown search selection options={this.usersOption(this.props.users)} defaultValue={this.props.loginUser.get('id')}/>
+        </Menu.Item>
+        <Menu.Item position='right'>
+          <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
+            <Dropdown.Menu>
+              <Dropdown.Item as='a' href='/settings' icon='setting' text='設定'/>
+              <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
+              <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Item>
+      </Menu>
     )
   }
 }
 
 MenuBar.propTypes = {
   fetchUsers: PropTypes.func.isRequired,
+  fetchOkrPeriods: PropTypes.func.isRequired,
+  users: PropTypes.object,
+  okrPeriods: PropTypes.object,
+  okrPeriod: PropTypes.object,
 };
 
 export default MenuBar;

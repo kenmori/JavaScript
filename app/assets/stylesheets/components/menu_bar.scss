@@ -1,31 +1,18 @@
 .menu-bar {
-  .users {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 245px;
-    margin-right: 55px;
+  &.ui.secondary.menu {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 
-  .periods {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: auto;
-    margin-left: auto;
+  .version {
+    color: $PRIMARY_COLOR;
+    font-size: large;
+    margin-left: 4px;
+    vertical-align: super;
   }
 
-  .full-width {
-    width: 100%;
-  }
-
-  .right-menu {
-    padding-right: 18px;
-    justify-content: center;
-    align-items: center;
-
-    .settings {
-      margin-right: 15px;
-    }
+  .avatarImg.is-small {
+    vertical-align: text-bottom;
+    margin-right: 4px;
   }
 }

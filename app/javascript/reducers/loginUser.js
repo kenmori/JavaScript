@@ -8,7 +8,7 @@ const initialState = fromJS({
   lastName: gon.getIn(['loginUser', 'lastName']),
   firstName: gon.getIn(['loginUser', 'firstName']),
   email: gon.getIn(['loginUser', 'email']),
-  avatarPath: gon.get('loginUserAvatarPath'),
+  avatarUrl: gon.get('loginUserAvatarUrl'),
   ownerId: gon.getIn(['loginUser', 'ownerId']),
 });
 

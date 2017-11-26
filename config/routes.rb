@@ -14,5 +14,6 @@ Rails.application.routes.draw do
   resources :organizations do
     resource :okr_settings, only: %i[show create update]
   end
+  resources :okr_periods, only: %i[index]
   get '*path', to: 'home#index'
 end

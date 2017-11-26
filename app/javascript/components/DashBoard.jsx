@@ -42,7 +42,7 @@ export default class DashBoard extends Component {
     return (
       <div className="dash-board">
         <section className="login-user">
-          <Avatar path={this.props.loginUser.get('avatarPath')} name={this.props.loginUser.get('lastName')} />
+          <Avatar user={this.props.loginUser} />
           <div className="info flex-vertical-center">
             <div>{this.props.loginUser.get('lastName') + this.props.loginUser.get('firstName')}</div>
             <div>{this.props.loginUser.get('email')}</div>
