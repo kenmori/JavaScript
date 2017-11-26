@@ -1,4 +1,4 @@
-import DashBoard from '../components/DashBoard';
+import Dashboard from '../components/Dashboard';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
@@ -25,4 +25,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DashBoard);
+)(Dashboard);

@@ -3,7 +3,7 @@ import ObjectiveMap from './ObjectiveMap';
 import ObjectivePieChart from './ObjectivePieChart';
 import Avatar from './Avatar';
 
-export default class DashBoard extends Component {
+export default class Dashboard extends Component {
   selectOKRBox = (objective) => {
     return () => {
       this.setState({
