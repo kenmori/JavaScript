@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ObjectiveMap from './ObjectiveMap';
 import ObjectivePieChart from './ObjectivePieChart';
-import Avatar from './Avatar';
 
 export default class Dashboard extends Component {
   selectOKRBox = (objective) => {
@@ -42,20 +41,10 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    if (!this.props.user) {
-      return null;
-    }
     return (
       <div className="dash-board">
-        <section className="login-user">
-          <Avatar user={this.props.user} />
-          <div className="info flex-vertical-center">
-            <div>{this.props.user.get('lastName') + this.props.user.get('firstName')}</div>
-            <div>{this.props.user.get('email')}</div>
-          </div>
-        </section>
         <section className="okr">
-          Objective 一覧 ({this.props.objectives.size})
+          <h2>OKR 一覧 ({this.props.objectives.size})</h2>
           <div className="okr-list">
             {
               this.props.objectives.map((objective) => {
@@ -75,6 +64,7 @@ export default class Dashboard extends Component {
           </div>
         </section>
         <section className='okr-action-section'>
+          <h2>OKR マップ</h2>
           {this.actionSection}
         </section>
       </div>

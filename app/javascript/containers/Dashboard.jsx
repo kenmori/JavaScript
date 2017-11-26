@@ -5,7 +5,6 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    user: state.users.find(item => item.get('id') === state.menu.get('userId')),
     menu: state.menu,
     objectives: state.objectives
   };
