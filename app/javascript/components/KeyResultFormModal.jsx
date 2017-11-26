@@ -7,9 +7,16 @@ class KeyResultFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expiredDate: moment(),
+      expiredDate: null,
       concernedPeople: [null]
     }
+  }
+
+  getDefaultExpiredData(periods) {
+    const selectedPeriodId = this.props.okrPeriod.get('id');
+    const selectedPeriod = periods.find((item) => item.get('id') === selectedPeriodId);
+    const endOfMonth = `${selectedPeriod.get('year')}/${selectedPeriod.get('monthEnd')}`
+    return moment(new Date(endOfMonth)).endOf('month');
   }
 
   usersOption(users, isOwner) {
@@ -74,10 +81,17 @@ class KeyResultFormModal extends Component {
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
+    const fetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === null;
+    if (fetchedPeriods) {
+      this.setState({
+        expiredDate: this.getDefaultExpiredData(nextProps.okrPeriods),
+      });
+    }
+
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
       this.setState({
-        expiredDate: moment(),
+        expiredDate: null,
         concernedPeople: [null]
       });
     }

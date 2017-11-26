@@ -8,6 +8,8 @@ const mapStateToProps = (state) => {
     isOpen: state.dialogs.getIn(['keyResultForm', 'isOpen']),
     objective: state.dialogs.getIn(['keyResultForm', 'objective']),
     users: state.users,
+    okrPeriod: state.okrPeriod,
+    okrPeriods: state.okrPeriods,
   };
 };
 
