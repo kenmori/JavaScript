@@ -141,24 +141,22 @@ class KeyResultAccordionItem extends Component {
     });
   }
 
-  commentList(comments, add) {
+  commentList(comments, remove) {
     const commentTags = comments.map((item, idx) => {
       return (
-        <div className="comment-item" key={idx}>
-          <div className="comment-item__text">{item.get('text')}</div>
-          <div className="comment-item__meta">
-            <div className="comment-item__created">{moment(item.get('createdAt')).format('YYYY/MM/DD HH:mm')}</div>
-            <div className="comment-item__name">{item.get('fullName')}</div>
+        <div className="comments" key={idx}>
+          <div className="comments__item">
+            <div className="comments__item-text">{item.get('text')}</div>
+            <div className="comments__item-meta">
+              <div className="comments__item-created">{moment(item.get('createdAt')).format('YYYY/MM/DD HH:mm')}</div>
+              <div className="comments__item-name">{item.get('fullName')}</div>
+            </div>
           </div>
+          {item.get('selfComment') && <Icon name="close" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
         </div>
       )
     });
-    return (
-      <div>
-        {commentTags}
-       
-      </div>
-    );
+    return <div>{commentTags}</div>;
   }
 
   addComment() {
@@ -167,7 +165,14 @@ class KeyResultAccordionItem extends Component {
       return;
     }
     this.updateKeyResult({
-      comment: value
+      comment: {data: value, behavior: 'add'}
+    });
+    findDOMNode(this.refs.commentArea).value = '';
+  }
+
+  removeComment(id) {
+    this.updateKeyResult({
+      comment: {data: id, behavior: 'remove'}
     });
     findDOMNode(this.refs.commentArea).value = '';
   }

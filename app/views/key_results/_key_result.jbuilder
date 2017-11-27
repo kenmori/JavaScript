@@ -18,6 +18,7 @@ json.comments do
     json.id comment.id
     json.text comment.text
     json.created_at comment.created_at
+    json.self_comment comment.user_id == current_user.id
     json.full_name comment.user.full_name
   end
 end

@@ -51,7 +51,13 @@
     width: 100%;
   }
 
-  .comment-item {
+  .comments {
+    display: flex;
+    align-items: center;
+  }
+  .comments__item {
+    width: 100%;
+    margin-bottom: 10px;
     border-radius: 3px;
     padding: 10px;
     border: 1px rgba(34,36,38,.15) solid;
@@ -59,16 +65,20 @@
       margin-bottom: 10px;
     }
   }
-  .comment-item__meta {
+  .comments__item-meta {
     display: flex;
     justify-content: flex-end;
     color: #666;
     font-size: smaller;
   }
-  .comment-item__name {
+  .comments__item-name {
     padding-left: 10px;
   }
-
+  .comments__item-icon {
+    width: 30px;
+    margin-bottom: 10px;
+    display: block;
+  }
 }
 
 .ui.form .content {

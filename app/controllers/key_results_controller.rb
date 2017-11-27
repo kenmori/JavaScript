@@ -20,7 +20,7 @@ class KeyResultsController < ApplicationController
       @key_result = KeyResult.find(params[:id])
       @key_result.update!(key_result_update_params)
       update_concerned_people if params[:key_result][:concerned_people]
-      @key_result.comments.create!(text: params[:key_result][:comment], user_id: current_user.id) if params[:key_result][:comment]
+      update_comment if params[:key_result][:comment]
     end
     render action: :create, status: :ok
   rescue
@@ -49,6 +49,16 @@ class KeyResultsController < ApplicationController
     remove_list.each do |id|
       person = @key_result.concerned_people.find_by(user_id: id)
       person.destroy!
+    end
+  end
+
+  def update_comment
+    comment_data = params[:key_result][:comment]
+    if comment_data['behavior'] == 'add'
+      @key_result.comments.create!(text: comment_data['data'], user_id: current_user.id)
+    elsif comment_data['behavior'] == 'remove'
+      comment = @key_result.comments.find(comment_data['data'])
+      comment.destroy!
     end
   end
 
