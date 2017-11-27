@@ -1,8 +1,45 @@
 .objective-card {
+  &.ui.card .content .header {
+    display: flex;
+    align-items: center;
+  }
+
   .content {
     .list .item {
+      display: flex;
+
+      .name {
+        flex-grow: 1;
+        margin: 0 4px;
+      }
+
+      .progress {
+        color: indianred;
+        text-align: right;
+      }
+
       .icon {
-        margin-left: .5rem;
+        margin-left: 4px;
+      }
+    }
+
+    .header {
+      width: 100%;
+
+      .avatarImg {
+        flex-shrink: 0;
+      }
+
+      .name {
+        flex-grow: 1;
+        margin: 0 8px;
+        font-size: smaller;
+        text-align: center;
+      }
+
+      .progress {
+        color: indianred;
+        font-size: smaller;
       }
     }
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon, List } from 'semantic-ui-react';
+import Avatar from './Avatar';
 
 export default class ObjectiveCard extends Component {
   generateKeyResultList(objective) {
@@ -9,10 +10,12 @@ export default class ObjectiveCard extends Component {
     }
     return (
       <Card.Content>
-        <List bulleted>
+        <List>
           {keyResults.map(keyResult =>
             <List.Item key={keyResult.get('id')}>
-              {keyResult.get('name')}
+              <Avatar user={keyResult.get('owner')} size='small' />
+              <div className='name'>{keyResult.get('name')}</div>
+              <div className="progress">{keyResult.get('progressRate')}%</div>
               <Icon link name='plus' color='red' onClick={() => { this.props.openObjectiveFormModal(objective, keyResult)}}/>
             </List.Item>
           )}
@@ -29,18 +32,15 @@ export default class ObjectiveCard extends Component {
 
   render() {
     const objective = this.props.objective;
-    if (!objective) {
+    if (!objective || this.props.users.isEmpty()) {
       return null;
     }
-    if (this.props.users.isEmpty()) {
-      return null;
-    }
-    const ownerName = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId')).get('lastName');
+    const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
       <Card key={objective.get('id')} className='objective-card'>
         <Card.Content>
           <Card.Header>
-            <div className="avatar flex-center">{ownerName}</div>
+            <Avatar user={user} />
             <div className="name">{objective.get('name')}</div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>
