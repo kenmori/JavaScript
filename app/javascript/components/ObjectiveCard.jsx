@@ -25,6 +25,10 @@ export default class ObjectiveCard extends Component {
   }
 
   removeObjective(objective) {
+    if (objective.get('keyResults') && !objective.get('keyResults').isEmpty()) {
+      alert('Key Result が紐付いているため削除できません。');
+      return;
+    }
     if (confirm(`Objective ${objective.get('name')} を削除しますか？`)) {
       this.props.removeObjective(objective.get('id'));
     }
