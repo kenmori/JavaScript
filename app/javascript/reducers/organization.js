@@ -4,11 +4,9 @@ import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
 const initialState = fromJS({
-  id: gon.getIn(['okrPeriod', 'id']),
+  id: gon.getIn(['organization', 'id']),
+  name: gon.getIn(['organization', 'name']),
 });
 
 export default handleActions({
-  [ActionTypes.CHANGE_OKR_PERIOD_ID]: (state, { payload }) => {
-    return state.set('id', payload.okrPeriodId);
-  },
 }, initialState);

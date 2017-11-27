@@ -20,6 +20,9 @@ class DatePicker extends Component {
       className: this.borderNone
     })
   }
+  componentDidMount() {
+    this.refs.datePicker.querySelector('input').setAttribute("readOnly",true);
+  }
   render() {
     let mouseOverHandler = () => {};
     let mouseOutHandler = () => {};
@@ -28,7 +31,7 @@ class DatePicker extends Component {
       mouseOutHandler = this.handleMouseOut.bind(this);
     }
     return (
-      <div className="date-picker" onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler}>
+      <div className="date-picker" onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler} ref="datePicker">
         <ReactDatePicker className={this.state.className} {...this.props} />
       </div>
     )

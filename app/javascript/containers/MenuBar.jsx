@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
     okrPeriod: state.okrPeriod,
     okrPeriods: state.okrPeriods,
     loginUser: state.loginUser,
+    organization: state.organization,
   };
 };
 
@@ -18,8 +19,11 @@ const mapDispatchToProps = dispatch => {
     fetchUsers: () => {
       dispatch(userActions.fetchUsers());
     },
-    fetchOkrPeriods: () => {
-      dispatch(okrPeriodActions.fetchOkrPeriods());
+    fetchOkrPeriods: (organizationId) => {
+      dispatch(okrPeriodActions.fetchOkrPeriods(organizationId));
+    },
+    changeOkrPeriodId: (okrPeriodId) => {
+      dispatch(okrPeriodActions.changeOkrPeriodId(okrPeriodId));
     },
     signOut: () => {
       dispatch(sessionActions.signOut());

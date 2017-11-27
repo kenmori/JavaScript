@@ -4,8 +4,9 @@ import withLoading from '../utils/withLoading';
 import okrPeriodActions from '../actions/okrPeriods';
 import actionTypes from '../constants/actionTypes';
 
-function* fetchOkrPeriods() {
-  const result = yield call(API.get, '/okr_periods');
+function* fetchOkrPeriods({ payload }) {
+  const query = payload.organizationId ? { organizationId: payload.organizationId } : {};
+  const result = yield call(API.get, '/okr_periods', query);
   yield put(okrPeriodActions.fetchedOkrPeriods(result));
 }
 
