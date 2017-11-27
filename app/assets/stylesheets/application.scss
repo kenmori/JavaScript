@@ -98,31 +98,6 @@ a.active {
   }
 }
 
-.objective-map {
-  margin: 15px;
-  position: relative;
-
-  .map-layer {
-    margin-top: 30px;
-
-    .ui.card .header {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-
-      .name {
-        margin: 0 8px;
-      }
-
-      .progress {
-        color: indianred;
-        font-size: smaller;
-      }
-    }
-  }
-}
-
 .card {
   z-index: 1;
 }

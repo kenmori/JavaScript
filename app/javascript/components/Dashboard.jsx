@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ObjectiveMap from './ObjectiveMap';
-import ObjectivePieChart from './ObjectivePieChart';
+import OkrMap from './OkrMap';
+import OkrPieChart from './OkrPieChart';
 
 export default class Dashboard extends Component {
   selectOKRBox = (objective) => {
@@ -38,7 +38,7 @@ export default class Dashboard extends Component {
 
   get actionSection() {
     if (this.state.selectedObjective) {
-      return <ObjectiveMap objective={this.state.selectedObjective}/>;
+      return <OkrMap objective={this.state.selectedObjective}/>;
     }
   }
 
@@ -55,7 +55,7 @@ export default class Dashboard extends Component {
                   <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                      href="javascript:void(0)" onClick={this.selectOKRBox(objective)}>
                     <div>{objective.get('name')}</div>
-                    <ObjectivePieChart objective={objective}/>
+                    <OkrPieChart objective={objective}/>
                   </a>
                 );
               }) }
