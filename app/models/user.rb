@@ -22,4 +22,8 @@ class User < ApplicationRecord
   def organization
     OrganizationMember.find_by(user_id: id).organization
   end
+
+  def full_name
+    "#{last_name} #{first_name}"
+  end
 end

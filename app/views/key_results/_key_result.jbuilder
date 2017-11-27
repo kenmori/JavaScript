@@ -1,4 +1,4 @@
-json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate, :comments
+json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate
 
 json.owner do
   json.id key_result.owner.user.owner_id
@@ -10,5 +10,14 @@ end
 json.concerned_people do
   json.array!(key_result.concerned_people) do |person|
     json.extract! person.user, :id, :avatar_url
+  end
+end
+
+json.comments do
+  json.array!(key_result.comments) do |comment|
+    json.id comment.id
+    json.text comment.text
+    json.created_at comment.created_at
+    json.full_name comment.user.full_name
   end
 end

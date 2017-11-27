@@ -17,6 +17,13 @@
         margin-right: 1rem;
       }
     }
+
+    .field-title {
+      font-weight: bold;
+    }
+    .delete-button {
+      margin: 10px auto 0;
+    }
   }
 
   .input-date-picker {
@@ -43,6 +50,25 @@
   .wide-field {
     width: 100%;
   }
+
+  .comment-item {
+    border-radius: 3px;
+    padding: 10px;
+    border: 1px rgba(34,36,38,.15) solid;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+  .comment-item__meta {
+    display: flex;
+    justify-content: flex-end;
+    color: #666;
+    font-size: smaller;
+  }
+  .comment-item__name {
+    padding-left: 10px;
+  }
+
 }
 
 .ui.form .content {

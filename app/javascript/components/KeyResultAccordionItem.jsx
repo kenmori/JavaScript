@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Input, Form, Icon, Segment, Accordion, Dropdown, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
@@ -130,7 +130,7 @@ class KeyResultAccordionItem extends Component {
     });
     
     setTimeout(() => {
-      ReactDOM.findDOMNode(this.refs.progressRateView).focus();
+      findDOMNode(this.refs.progressRateView).focus();
     }, 0)
   }
 
@@ -141,10 +141,35 @@ class KeyResultAccordionItem extends Component {
     });
   }
 
-  addComment(value) {
+  commentList(comments, add) {
+    const commentTags = comments.map((item, idx) => {
+      return (
+        <div className="comment-item" key={idx}>
+          <div className="comment-item__text">{item.get('text')}</div>
+          <div className="comment-item__meta">
+            <div className="comment-item__created">{moment(item.get('createdAt')).format('YYYY/MM/DD HH:mm')}</div>
+            <div className="comment-item__name">{item.get('fullName')}</div>
+          </div>
+        </div>
+      )
+    });
+    return (
+      <div>
+        {commentTags}
+       
+      </div>
+    );
+  }
+
+  addComment() {
+    const value = findDOMNode(this.refs.commentArea).value;
+    if (!value) {
+      return;
+    }
     this.updateKeyResult({
       comment: value
     });
+    findDOMNode(this.refs.commentArea).value = '';
   }
 
   render() {
@@ -163,7 +188,7 @@ class KeyResultAccordionItem extends Component {
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
-              <label>進捗</label>
+              <label className="field-title">進捗</label>
               {this.state.isDisplayedRateInputForm && 
                 <div className="progress-rate-input">
                   <div className="progress-rate-input__inner">
@@ -189,18 +214,18 @@ class KeyResultAccordionItem extends Component {
               }
             </Form.Field>
             <Form.Field className='values'>
-              <label>Key Result 名</label>
+              <label className="field-title">Key Result 名</label>
               <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
             </Form.Field>
             {this.state.isDisplayedTargetValue && 
               <div>
                 <Form.Field className='values'>
-                  <label>目標値</label>
+                  <label className="field-title">目標値</label>
                   <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
                   <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
                 </Form.Field>
                 <Form.Field className='values'>
-                  <label>実績値</label>
+                  <label className="field-title">実績値</label>
                   <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
                   {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
                 </Form.Field>
@@ -214,28 +239,42 @@ class KeyResultAccordionItem extends Component {
               </Form.Group>
             }
             <Form.Field className='values input-date-picker'>
-              <label>期限</label>
+              <label className="field-title">期限</label>
               <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
             </Form.Field>
             <Form.Group>
               <Form.Field>
-                <label>責任者</label>
+                <label className="field-title">責任者</label>
                 <Dropdown selection value={keyResult.get('owner').get('id')} options={this.usersOption(this.props.users, true)} onChange={(e, { value }) => this.updateKeyResult({ownerId: value})}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>
               <Form.Field>
-                <label>関係者</label>
+                <label className="field-title">関係者</label>
                 {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
             <Form.Group>
               <Form.Field className="wide-field">
-                <label>コメント</label>
-                <TextArea autoHeight style={{ minHeight: 80 }} id={null} onBlur={(event) => this.addComment(event.target.value)} />
+                <label className="field-title">コメント</label>
+                {this.commentList(keyResult.get('comments'))}
               </Form.Field>
             </Form.Group>
-            <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="div" negative />
+            <Form.Group>
+              <Form.Field className="wide-field">
+                <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} ref="commentArea" />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field>
+                <Button content="コメントを投稿する" onClick={() => this.addComment()} as="div" />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field className="delete-button">
+                <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
+              </Form.Field>
+            </Form.Group>
           </Accordion.Content>
       </Segment>
     );
