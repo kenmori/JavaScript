@@ -77,7 +77,7 @@ ApplicationRecord.transaction do
   )
   active_objective1.key_results.create!(
       name: '正式版をリリースする',
-      owner_id: login_user.owner_id,
+      owner_id: another.owner_id,
       progress_rate: 50,
       expired_date: '2017-11-30'
   )
@@ -138,30 +138,92 @@ ApplicationRecord.transaction do
   )
 
   inactive_objective1 = login_user.owner.objectives.create!(
-    name: '改善系タスクにより主要KPIをX%向上させる',
-    description: '主要KPIに注力する',
-    okr_period_id: inactive_okr_period.id,
-    progress_rate: 55
-  )
-  inactive_objective1.child_objectives.create!(
-    name: '全体検索の速度改善でDAUあたりの利用回数15%改善',
-    description: 'クエリチューニングなどを開発により実施する',
-    okr_period_id: inactive_okr_period.id,
-    owner_id: login_user.owner_id
+      name: 'プロトタイプを作る',
+      description: 'ビジネスモデルを仮説検証するために実際に動かすことのできるプロトタイプが必須。',
+      okr_period_id: inactive_okr_period.id,
+      progress_rate: 75
   )
   inactive_objective1.key_results.create!(
-    name: 'クエリチューニングの実施',
-    owner_id: login_user.owner_id,
-    target_value: '10',
-    actual_value: '6',
-    value_unit: '%改善',
-    progress_rate: 35
+      name: 'アプリの仕様をおおまかに決める',
+      owner_id: login_user.owner_id,
+      progress_rate: 65,
+      expired_date: '2017-09-30'
   )
   inactive_objective1.key_results.create!(
-    name: 'サーバーの増強',
-    owner_id: login_user.owner_id,
-    progress_rate: 20,
-    expired_date: '2017-10-13'
+      name: 'プロトアプリを動かせるようにする',
+      owner_id: another.owner_id,
+      progress_rate: 85,
+      expired_date: '2017-09-30'
+  )
+
+  inactive_objective2 = inactive_objective1.child_objectives.create!(
+      name: 'アプリの外部仕様を策定する',
+      description: 'プロトタイプを開発するために画面や機能に関する外部仕様が求められる。',
+      okr_period_id: inactive_okr_period.id,
+      owner_id: login_user.owner_id,
+      progress_rate: 65
+  )
+  inactive_objective2.key_results.create!(
+      name: 'ペルソナを絞り込む',
+      owner_id: login_user.owner_id,
+      target_value: 3,
+      actual_value: 3,
+      value_unit: '人',
+      progress_rate: 100,
+      expired_date: '2017-07-31'
+  )
+  inactive_objective2.key_results.create!(
+      name: 'ユーザーストーリーを考える',
+      owner_id: login_user.owner_id,
+      target_value: 5,
+      actual_value: 3,
+      value_unit: '個',
+      progress_rate: 60,
+      expired_date: '2017-07-31'
+  )
+  inactive_objective2.key_results.create!(
+      name: 'ビジネス要件をまとめる',
+      owner_id: login_user.owner_id,
+      progress_rate: 60,
+      expired_date: '2017-08-31'
+  )
+  inactive_objective2.key_results.create!(
+      name: '外部仕様を策定する',
+      owner_id: another.owner_id,
+      progress_rate: 40,
+      expired_date: '2017-09-30'
+  )
+
+  inactive_objective3 = inactive_objective1.child_objectives.create!(
+      name: 'プロトアプリをサーバーにデプロイする',
+      description: '開発環境以外でもアプリを触れるようにするためサーバー上でアプリを動かす。',
+      okr_period_id: inactive_okr_period.id,
+      owner_id: another.owner_id,
+      progress_rate: 85
+  )
+  inactive_objective3.key_results.create!(
+      name: 'ワイヤーフレームを作る',
+      owner_id: login_user.owner_id,
+      progress_rate: 80,
+      expired_date: '2017-07-31'
+  )
+  inactive_objective3.key_results.create!(
+      name: 'モックアップを作る',
+      owner_id: another.owner_id,
+      progress_rate: 90,
+      expired_date: '2017-08-31'
+  )
+  inactive_objective3.key_results.create!(
+      name: 'プロトタイプを実装する',
+      owner_id: another.owner_id,
+      progress_rate: 70,
+      expired_date: '2017-09-30'
+  )
+  inactive_objective3.key_results.create!(
+      name: 'サーバー環境を構築する',
+      owner_id: another.owner_id,
+      progress_rate: 100,
+      expired_date: '2017-09-30'
   )
 
 # 開発部の今期のOKRを作成
