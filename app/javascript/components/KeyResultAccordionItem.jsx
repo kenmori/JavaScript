@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
+import { Input, Form, Icon, Segment, Accordion, Dropdown, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
@@ -221,6 +221,12 @@ class KeyResultAccordionItem extends Component {
               <Form.Field>
                 <label>関係者</label>
                 {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field className="wide-field">
+                <label>コメント</label>
+                <TextArea autoHeight placeholder='Try adding multiple lines' style={{ minHeight: 80 }} />
               </Form.Field>
             </Form.Group>
             <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="div" negative />
