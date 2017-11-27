@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
-import gon from '../utils/gon';
 import ActionTypes from '../constants/actionTypes';
+import gon from '../utils/gon';
 
 const initialState = fromJS({
   okrPeriodId: gon.getIn(['okrPeriod', 'id']),

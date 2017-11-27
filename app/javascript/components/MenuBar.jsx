@@ -8,7 +8,7 @@ class MenuBar extends Component {
 
   componentDidMount() {
     this.props.fetchUsers();
-    this.props.fetchOkrPeriods();
+    this.props.fetchOkrPeriods(this.props.organization.get('id'));
   }
 
   usersOption(users) {
@@ -92,6 +92,7 @@ MenuBar.propTypes = {
   users: PropTypes.object,
   okrPeriods: PropTypes.object,
   menu: PropTypes.object,
+  organization: PropTypes.object,
 };
 
 export default MenuBar;

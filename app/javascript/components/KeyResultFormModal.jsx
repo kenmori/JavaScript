@@ -7,9 +7,15 @@ class KeyResultFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expiredDate: moment(),
+      expiredDate: null,
       concernedPeople: [null]
     }
+  }
+
+  getDefaultExpiredData(periods) {
+    const selectedPeriodId = this.props.menu.get('okrPeriodId');
+    const selectedPeriod = periods.find((item) => item.get('id') === selectedPeriodId);
+    return moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
   }
 
   usersOption(users, isOwner) {
@@ -74,26 +80,40 @@ class KeyResultFormModal extends Component {
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
+    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === null;
+    if (isFetchedPeriods) {
+      this.setState({
+        expiredDate: this.getDefaultExpiredData(nextProps.okrPeriods),
+      });
+    }
+
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
       this.setState({
-        expiredDate: moment(),
+        expiredDate: null,
         concernedPeople: [null]
       });
     }
   }
 
+  
   render() {
-    if (this.props.users.isEmpty()) {
+    if (this.props.users.isEmpty() || this.props.objective.isEmpty()) {
       return null;
     }
     return (
-      <Modal open={this.props.isOpen} className="key-result-form-modal">
+      <Modal open={this.props.isOpen} className="key-result-form-modal" size="small">
         <Modal.Header>
-          {this.props.objective && this.props.objective.get('name')} の KeyResult を作成する
+          KeyResult を作成する
         </Modal.Header>
         <Modal.Content>
           <Form>
+          <Form.Group widths='equal'>
+              <Form.Field>
+                <label>関連するObjective</label>
+                <Input value={this.props.objective.get('name')} readOnly />
+              </Form.Field>
+            </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Key Result 名</label>
@@ -123,7 +143,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
+                <Dropdown selection value={this.props.objective.get('ownerId')} options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>
