@@ -1,4 +1,4 @@
-json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate
+json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate, :comments
 
 json.owner do
   json.id key_result.owner.user.owner_id

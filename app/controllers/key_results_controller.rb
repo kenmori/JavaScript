@@ -20,6 +20,7 @@ class KeyResultsController < ApplicationController
       @key_result = KeyResult.find(params[:id])
       @key_result.update!(key_result_update_params)
       update_concerned_people if params[:key_result][:concerned_people]
+      @key_result.comments.create!(text: params[:key_result][:comment], user_id: current_user.id) if params[:key_result][:comment]
     end
     render action: :create, status: :ok
   rescue

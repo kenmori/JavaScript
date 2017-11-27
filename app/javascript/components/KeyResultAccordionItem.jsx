@@ -141,6 +141,12 @@ class KeyResultAccordionItem extends Component {
     });
   }
 
+  addComment(value) {
+    this.updateKeyResult({
+      comment: value
+    });
+  }
+
   render() {
     const keyResult = this.props.keyResult;
     return (
@@ -226,7 +232,7 @@ class KeyResultAccordionItem extends Component {
             <Form.Group>
               <Form.Field className="wide-field">
                 <label>コメント</label>
-                <TextArea autoHeight placeholder='Try adding multiple lines' style={{ minHeight: 80 }} />
+                <TextArea autoHeight style={{ minHeight: 80 }} id={null} onBlur={(event) => this.addComment(event.target.value)} />
               </Form.Field>
             </Form.Group>
             <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="div" negative />
