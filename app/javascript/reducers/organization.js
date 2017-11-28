@@ -9,4 +9,7 @@ const initialState = fromJS({
 });
 
 export default handleActions({
+  [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => {
+    return state.set('name', payload.organization.get('name'));
+  },
 }, initialState);
