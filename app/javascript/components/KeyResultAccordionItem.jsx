@@ -126,7 +126,7 @@ class KeyResultAccordionItem extends Component {
     });
   }
 
-  commentList(comments, remove) {
+  commentList(comments) {
     const commentTags = comments.map((item, idx) => {
       return (
         <div className="comments" key={idx}>
