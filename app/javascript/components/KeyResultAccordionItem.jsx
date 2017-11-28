@@ -35,10 +35,10 @@ class KeyResultAccordionItem extends Component {
   }
 
   concernedPeopleTag(options, add, remove) {
-    const list = this.state.concernedPeople.map((id, idx) => {
+    const list = this.state.concernedPeople.map((id) => {
       const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
       return (
-        <div key={idx} className="concerned-people__item">
+        <div key={id} className="concerned-people__item">
           <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value)}}/>
           {icon}
         </div>
@@ -129,9 +129,10 @@ class KeyResultAccordionItem extends Component {
   }
 
   commentList(comments) {
-    const commentTags = comments.map((item, idx) => {
+    console.log("keyResult.get('comments')", comments)
+    const commentTags = comments.map((item) => {
       return (
-        <div className="comments" key={idx}>
+        <div className="comments" key={item.get('id')}>
           <div className="comments__item">
             {item.get('selfComment') ? (
                 <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.updateComment(item.get('id'), text)}/>
