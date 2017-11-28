@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.datetime "updated_at", null: false
     t.integer "key_result_id", null: false
     t.integer "user_id", null: false
-    t.integer "role", null: false
   end
 
   create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

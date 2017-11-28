@@ -7,7 +7,7 @@ class KeyResultsController < ApplicationController
     ActiveRecord::Base.transaction do
       @key_result = KeyResult.create!(key_result_create_params)
       params[:key_result][:concerned_people].each do |id|
-        @key_result.concerned_people.create!(user_id: id, role: 0)
+        @key_result.concerned_people.create!(user_id: id)
       end
     end
     render status: :created
@@ -41,7 +41,7 @@ class KeyResultsController < ApplicationController
   def update_concerned_people
     concerned_person_data = params[:key_result][:concerned_person]
     if concerned_person_data['behavior'] == 'add'
-      @key_result.concerned_people.create!(user_id: concerned_person_data['data'], role: 0)
+      @key_result.concerned_people.create!(user_id: concerned_person_data['data'])
     elsif concerned_person_data['behavior'] == 'remove'
       person = @key_result.concerned_people.find_by(user_id: concerned_person_data['data'])
       person.destroy!
