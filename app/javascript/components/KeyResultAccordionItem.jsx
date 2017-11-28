@@ -135,7 +135,7 @@ class KeyResultAccordionItem extends Component {
         <div className="comments" key={item.get('id')}>
           <div className="comments__item">
             {item.get('selfComment') ? (
-                <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.updateComment(item.get('id'), text)}/>
+                <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.editComment(item.get('id'), text)}/>
               ) : (
                 <div className="comments__item-text is-others">{ br(item.get('text'))}</div>
               )
@@ -164,7 +164,7 @@ class KeyResultAccordionItem extends Component {
     findDOMNode(this.refs.commentArea).value = '';
   }
 
-  updateComment(id, text) {
+  editComment(id, text) {
     if (!text) {
       return;
     }
