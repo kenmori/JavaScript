@@ -17,7 +17,7 @@ json.comments do
   json.array!(key_result.comments) do |comment|
     json.id comment.id
     json.text comment.text
-    json.created_at comment.created_at
+    json.updated_at comment.updated_at
     json.self_comment comment.user_id == current_user.id
     json.full_name comment.user.full_name
   end

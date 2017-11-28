@@ -5,6 +5,8 @@ import { Input, Form, Icon, Segment, Accordion, Dropdown, Button, TextArea } fro
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
+import EditableMultiLineText from './utils/EditableMultiLineText';
+import br from '../utils/br';
 import moment from 'moment';
 
 class KeyResultAccordionItem extends Component {
@@ -131,9 +133,15 @@ class KeyResultAccordionItem extends Component {
       return (
         <div className="comments" key={idx}>
           <div className="comments__item">
-            <div className="comments__item-text">{item.get('text')}</div>
+            {item.get('selfComment') ? (
+                <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.updateComment(item.get('id'), text)}/>
+              ) : (
+                <div className="comments__item-text is-others">{ br(item.get('text'))}</div>
+              )
+
+            }
             <div className="comments__item-meta">
-              <div className="comments__item-created">{moment(item.get('createdAt')).format('YYYY/MM/DD HH:mm')}</div>
+              <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/MM/DD HH:mm')}</div>
               <div className="comments__item-name">{item.get('fullName')}</div>
             </div>
           </div>
@@ -155,11 +163,19 @@ class KeyResultAccordionItem extends Component {
     findDOMNode(this.refs.commentArea).value = '';
   }
 
+  updateComment(id, text) {
+    if (!text) {
+      return;
+    }
+    this.updateKeyResult({
+      comment: {data: {id, text}, behavior: 'edit'}
+    });
+  }
+
   removeComment(id) {
     this.updateKeyResult({
       comment: {data: id, behavior: 'remove'}
     });
-    findDOMNode(this.refs.commentArea).value = '';
   }
 
   componentWillReceiveProps(nextProps) {

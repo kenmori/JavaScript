@@ -52,6 +52,10 @@ class KeyResultsController < ApplicationController
     comment_data = params[:key_result][:comment]
     if comment_data['behavior'] == 'add'
       @key_result.comments.create!(text: comment_data['data'], user_id: current_user.id)
+    elsif comment_data['behavior'] == 'edit'
+      data = comment_data['data']
+      comment = @key_result.comments.find(data['id'])
+      comment.update!(text: data[:text])
     elsif comment_data['behavior'] == 'remove'
       comment = @key_result.comments.find(comment_data['data'])
       comment.destroy!
