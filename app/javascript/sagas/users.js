@@ -21,6 +21,7 @@ function* addUser({ payload }) {
 }
 
 function* updateUser({ payload }) {
+  console.log(payload)
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
   yield put(userActions.updatedUser(result.get('user')));
 }

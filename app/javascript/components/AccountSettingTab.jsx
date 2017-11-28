@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, Input } from 'semantic-ui-react';
 import Avatar from './Avatar';
+import EditableText from './utils/EditableText';
 
 class AccountSettingTab extends Component {
 
@@ -40,10 +41,16 @@ class AccountSettingTab extends Component {
       <Tab.Pane attached={false} className="account-setting-tab">
         <dl>
           <dt>名前</dt>
-          <dd>{user.get('lastName')} {user.get('firstName')}</dd>
+          <dd>
+            <EditableText value={user.get('lastName')} saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+            <EditableText value={user.get('firstName')} saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+          </dd>
 
           <dt>メールアドレス</dt>
-          <dd>{user.get('email')}</dd>
+          <dd><EditableText value={user.get('email')} saveValue={value => console.log(value)}/></dd>
+
+          <dt>会社名</dt>
+          <dd><EditableText value={this.props.organization.get('name')} saveValue={value => console.log(value)}/></dd>
 
           <dt>画像</dt>
           <dd><Avatar user={user} size="large" /></dd>

@@ -6,11 +6,15 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     user: state.loginUser,
+    organization: state.organization,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    updateUser: user => {
+      dispatch(userActions.updateUser(user));
+    },
     updatePassword: user => {
       dispatch(userActions.updatePassword(user));
     },
