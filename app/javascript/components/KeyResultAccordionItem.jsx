@@ -32,43 +32,28 @@ class KeyResultAccordionItem extends Component {
     }).toArray();
   }
 
-  participantList(options, add, remove) {
+  concernedPeopleTag(options, add, remove) {
     const list = this.state.concernedPeople.map((id, idx) => {
       const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
-      return <div key={idx} className="concerned-people__item">
-              <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
-              {icon}
-             </div>
+      return (
+        <div key={idx} className="concerned-people__item">
+          <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value)}}/>
+          {icon}
+        </div>
+      )
     })
-
     return <div className="concerned-people">{list}</div>;
   }
 
-  addConcernedPeople(value, boxIndex) {
-    const concernedPeople = this.state.concernedPeople;
-
-    concernedPeople[boxIndex] = value;
-    if (boxIndex === concernedPeople.length - 1) {
-      concernedPeople.push(null);
-    }
-
-    this.setState({
-      concernedPeople: concernedPeople
-    });
-
+  addConcernedPeople(value) {
     this.updateKeyResult({
-      concernedPeople: concernedPeople.filter(item => item !== null)
+      concernedPerson: {data: value, behavior: 'add'}
     });
   }
 
-  removeConcernedPeople(clickedId) {
-    const concernedPeople = this.state.concernedPeople.filter( id => id !== clickedId)
-    this.setState({
-      concernedPeople: concernedPeople
-    });
-
+  removeConcernedPeople(value) {
     this.updateKeyResult({
-      concernedPeople: concernedPeople.filter(item => item !== null)
+      concernedPerson: {data: value, behavior: 'remove'}
     });
   }
 
@@ -177,6 +162,14 @@ class KeyResultAccordionItem extends Component {
     findDOMNode(this.refs.commentArea).value = '';
   }
 
+  componentWillReceiveProps(nextProps) {
+    const concernedPeople = nextProps.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
+    concernedPeople.push(null);
+    this.setState({
+      concernedPeople
+    });
+  }
+
   render() {
     const keyResult = this.props.keyResult;
     return (
@@ -256,7 +249,7 @@ class KeyResultAccordionItem extends Component {
             <Form.Group>
               <Form.Field>
                 <label className="field-title">関係者</label>
-                {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
+                {this.concernedPeopleTag(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
             <Form.Group>
