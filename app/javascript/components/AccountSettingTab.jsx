@@ -5,7 +5,22 @@ import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
 
 class AccountSettingTab extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: null
+    }
+  }
 
+  changeEmail = (id, email) => {
+    if(confirm('emailを変更すると指定のメールアドレスへ確認のメールを送信いたします。 確認のメールにありますURLをクリックすると、変更が完了いたします。')) {
+      this.props.updateEmail({id, email});
+    } else {
+      this.setState({
+        email: this.props.user.get('email'),
+      });
+    }
+  }
 
   changePassword = () => {
     this.props.updatePassword({
@@ -32,10 +47,22 @@ class AccountSettingTab extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      email: this.props.user.get('email'),
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isLogout) {
+      this.props.signOut()
+    }
+  }
+
   render() {
     const user = this.props.user;
     const organization = this.props.organization;
-    if (!user) {
+    if (!user || !this.state.email) {
       return null;
     }
     return (
@@ -48,7 +75,7 @@ class AccountSettingTab extends Component {
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><EditableText value={user.get('email')} saveValue={value => console.log(value)}/></dd>
+          <dd><EditableText value={this.state.email} saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
 
           <dt>会社名</dt>
           <dd><EditableText value={organization.get('name')} saveValue={name => this.props.updateOrganization({id: organization.get('id') , name})}/></dd>
