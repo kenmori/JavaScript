@@ -19,7 +19,8 @@ class KeyResultsController < ApplicationController
     ActiveRecord::Base.transaction do
       @key_result = KeyResult.find(params[:id])
       @key_result.update!(key_result_update_params)
-      update_concerned_people if params[:key_result][:concerned_people]
+      update_concerned_people if params[:key_result][:concerned_person]
+      update_comment if params[:key_result][:comment]
     end
     render action: :create, status: :ok
   rescue
@@ -38,16 +39,26 @@ class KeyResultsController < ApplicationController
   private
 
   def update_concerned_people
-    current_people = @key_result.concerned_people.pluck(:user_id)
-    new_people = params[:key_result][:concerned_people]
-    add_list = new_people - current_people
-    remove_list = current_people - new_people
-    add_list.each do |id|
-      @key_result.concerned_people.create!(user_id: id, role: 0)
-    end
-    remove_list.each do |id|
-      person = @key_result.concerned_people.find_by(user_id: id)
+    concerned_person_data = params[:key_result][:concerned_person]
+    if concerned_person_data['behavior'] == 'add'
+      @key_result.concerned_people.create!(user_id: concerned_person_data['data'], role: 0)
+    elsif concerned_person_data['behavior'] == 'remove'
+      person = @key_result.concerned_people.find_by(user_id: concerned_person_data['data'])
       person.destroy!
+    end
+  end
+
+  def update_comment
+    comment_data = params[:key_result][:comment]
+    if comment_data['behavior'] == 'add'
+      @key_result.comments.create!(text: comment_data['data'], user_id: current_user.id)
+    elsif comment_data['behavior'] == 'edit'
+      data = comment_data['data']
+      comment = @key_result.comments.find(data['id'])
+      comment.update!(text: data[:text])
+    elsif comment_data['behavior'] == 'remove'
+      comment = @key_result.comments.find(comment_data['data'])
+      comment.destroy!
     end
   end
 
