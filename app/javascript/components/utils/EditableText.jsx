@@ -16,7 +16,9 @@ export default class EditableText extends Component {
 
   onInputBlur = () => {
     this.setState({ isReadOnly: true });
-    this.props.saveValue(this.state.value);
+    if(this.props.value !== this.state.value) {
+      this.props.saveValue(this.state.value);
+    }
   }
 
   updateInputValue = event => {
