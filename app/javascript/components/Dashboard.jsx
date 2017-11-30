@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ObjectiveMap from './ObjectiveMap';
 import ObjectivePieChart from './ObjectivePieChart';
-import Avatar from './Avatar';
 
-export default class DashBoard extends Component {
+export default class Dashboard extends Component {
   selectOKRBox = (objective) => {
     return () => {
       this.setState({
@@ -20,7 +19,7 @@ export default class DashBoard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchObjectives({okrPeriodId: this.props.okrPeriod.get('id')});
+    this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,6 +28,11 @@ export default class DashBoard extends Component {
       this.setState({
         selectedObjective: nextProps.objectives.first()
       });
+    }
+    const [okrPeriodId, userId] = [this.props.menu.get('okrPeriodId'), this.props.menu.get('userId')];
+    const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
+    if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
+      this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
     }
   }
 
@@ -41,15 +45,8 @@ export default class DashBoard extends Component {
   render() {
     return (
       <div className="dash-board">
-        <section className="login-user">
-          <Avatar user={this.props.loginUser} />
-          <div className="info flex-vertical-center">
-            <div>{this.props.loginUser.get('lastName') + this.props.loginUser.get('firstName')}</div>
-            <div>{this.props.loginUser.get('email')}</div>
-          </div>
-        </section>
         <section className="okr">
-          Objective 一覧 ({this.props.objectives.size})
+          <h2>OKR 一覧 ({this.props.objectives.size})</h2>
           <div className="okr-list">
             {
               this.props.objectives.map((objective) => {
@@ -69,6 +66,7 @@ export default class DashBoard extends Component {
           </div>
         </section>
         <section className='okr-action-section'>
+          <h2>OKR マップ</h2>
           {this.actionSection}
         </section>
       </div>

@@ -1,6 +1,7 @@
 class ObjectivesController < ApplicationController
   def index
-    @objectives = current_user.objectives.where(okr_period_id: params['okr_period_id']).order(created_at: :desc)
+    @user = User.find(params['user_id'])
+    @objectives = @user.objectives.where(okr_period_id: params['okr_period_id']).order(created_at: :desc)
   end
 
   def create
