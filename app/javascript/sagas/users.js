@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
@@ -47,7 +48,7 @@ function* editPassword({ payload }) {
 
 function* updateEmail({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result));
+  yield put(userActions.updatedEmail(result.merge(fromJS({notLogout: payload.user.notLogout}))));
 }
 
 function* updateAvatar({ payload }) {

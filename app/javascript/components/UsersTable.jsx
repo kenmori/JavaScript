@@ -28,6 +28,18 @@ class UsersTable extends Component {
     this.setState({
       users: nextProps.users,
     });
+    
+    console.log("changedEmailId", nextProps.changedEmailId)
+    if (nextProps.changedEmailId) {
+      console.log('changedEmailId', this.refs[`email${nextProps.changedEmailId}`])
+    }
+
+  }
+
+  changeEmail = (id, email) => {
+    if(confirm('メールアドレスを変更します。よろしいですか？')) {
+      this.props.onUpdateEmail({id, email, notLogout: true});
+    }
   }
 
   sort = (event) => {
@@ -159,16 +171,13 @@ class UsersTable extends Component {
                     <Table.Cell><Avatar user={user} /></Table.Cell>
                     <Table.Cell>{idx + 1}</Table.Cell>
                     <Table.Cell>
-                      <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}
-                             ref={node => { this.lastNameInputs[id] = node; }}/>
+                      <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Input type="text" defaultValue={firstName} readOnly={readOnly} className={className}
-                             ref={node => { this.firstNameInputs[id] = node; }}/>
+                      <EditableText value={firstName} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Input type="email" defaultValue={user.get('email')} readOnly={readOnly} className={className}
-                             ref={node => { this.emailInputs[id] = node; }}/>
+                      <EditableText value={user.get('email')} saveValue={(email) => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
@@ -223,7 +232,8 @@ class UsersTable extends Component {
 UsersTable.propTypes = {
   users: PropTypes.array.isRequired,
   onAdd: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onUpdateUser: PropTypes.func.isRequired,
+  onUpdateEmail: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
 };
 

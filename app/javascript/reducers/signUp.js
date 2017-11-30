@@ -12,6 +12,6 @@ export default handleActions({
     state.set('isCompleted', !!payload.user.size)
   ),
   [ActionTypes.UPDATED_EMAIL]: (state, { payload }) => (
-    state.set('isLogout', true)
+    payload.notLogout ? state : state.set('isLogout', true)
   ),
 }, initialState);

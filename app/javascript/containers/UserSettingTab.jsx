@@ -4,7 +4,8 @@ import userActions from '../actions/users';
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users
+    users: state.users,
+    changedEmailId: state.userSetting.get('changedEmailId'),
   };
 };
 
@@ -18,6 +19,9 @@ const mapDispatchToProps = dispatch => {
     },
     updateUser: user => {
       dispatch(userActions.updateUser(user));
+    },
+    updateEmail: user => {
+      dispatch(userActions.updateEmail(user));
     },
     removeUser: id => {
       dispatch(userActions.removeUser(id));
