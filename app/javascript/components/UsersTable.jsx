@@ -146,7 +146,7 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              users.map(user => {
+              users.map((user, idx) => {
                 const id = user.get('id');
                 const readOnly = id !== this.state.editableId;
                 const className = readOnly ? 'readonly' : '';
@@ -157,7 +157,7 @@ class UsersTable extends Component {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell><Avatar user={user} /></Table.Cell>
-                    <Table.Cell><a href={`/users/${id}`}>{id}</a></Table.Cell>
+                    <Table.Cell>{idx + 1}</Table.Cell>
                     <Table.Cell>
                       <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}
                              ref={node => { this.lastNameInputs[id] = node; }}/>
