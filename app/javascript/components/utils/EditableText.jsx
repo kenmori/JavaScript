@@ -25,6 +25,14 @@ export default class EditableText extends Component {
     this.setState({ value: event.target.value });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({
+        value: nextProps.value
+      })   
+    }
+  }
+
   render() {
     return (
       <AutosizeInput className="ui input editable-text"
