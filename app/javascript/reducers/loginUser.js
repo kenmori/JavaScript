@@ -13,5 +13,8 @@ const initialState = fromJS({
 });
 
 export default handleActions({
+  [ActionTypes.UPDATED_USER]: (state, { payload }) => (
+    state.get('id') === payload.user.get('id') ? payload.user : state
+  ),
   [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (payload.user),
 }, initialState);
