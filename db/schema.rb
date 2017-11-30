@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.integer "organization_id", null: false
     t.string "name", null: false
     t.integer "owner_id", null: false
-    t.integer "kind", null: false
   end
 
   create_table "key_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

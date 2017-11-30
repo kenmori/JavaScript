@@ -11,7 +11,6 @@ ApplicationRecord.transaction do
       name: 'Resily株式会社',
       uniq_name: 'resily'
   )
-  organization_group = organization.organization_group
 
 # ログインユーザーを作成
   login_user = User.new(
@@ -23,7 +22,6 @@ ApplicationRecord.transaction do
   login_user.skip_confirmation!
   login_user.save!
   organization.organization_members.create!(user_id: login_user.id)
-  organization_group.members.create!(user_id: login_user.id)
 
 # 他のユーザーを作成
   another = User.new(
@@ -35,7 +33,6 @@ ApplicationRecord.transaction do
   another.skip_confirmation!
   another.save!
   organization.organization_members.create!(user_id: another.id)
-  organization_group.members.create!(user_id: another.id)
 
 # 他のユーザーを作成
   horie = User.new(
@@ -47,7 +44,6 @@ ApplicationRecord.transaction do
   horie.skip_confirmation!
   horie.save!
   organization.organization_members.create!(user_id: horie.id)
-  organization_group.members.create!(user_id: horie.id)
 
   guest = User.new(
       last_name: 'ゲスト',
@@ -58,7 +54,6 @@ ApplicationRecord.transaction do
   guest.skip_confirmation!
   guest.save!
   organization.members.create!(user_id: guest.id)
-  organization_group.members.create!(user_id: guest.id)
 
 # ログインユーザーの今期のOKRを作成
   active_okr_period = organization.okr_periods.create!(
@@ -236,7 +231,7 @@ ApplicationRecord.transaction do
   )
 
 # 開発部の今期のOKRを作成
-  development_group = organization.groups.general.create(name: '開発部')
+  development_group = organization.groups.create(name: '開発部')
   development_group.members.create(user_id: login_user.id)
   development_group_objective = development_group.owner.objectives.create(
     name: 'ビジネス成長に寄与する機能を開発する',
@@ -257,7 +252,7 @@ ApplicationRecord.transaction do
   # )
 
 # マーケティング部の今期のOKRを作成
-  marketing_group = organization.groups.general.create(name: 'マーケティング部')
+  marketing_group = organization.groups.create(name: 'マーケティング部')
   marketing_group.members.create(user_id: login_user.id)
   marketing_group_objective = marketing_group.owner.objectives.create(
     name: 'ビジネス成長に寄与するマーケティングを実施する',

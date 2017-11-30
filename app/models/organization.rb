@@ -10,12 +10,7 @@ class Organization < ApplicationRecord
   mount_uploader :logo, LogoUploader
 
   after_create do
-    self.groups.create!(name: self.name, kind: :organization)
     self.create_okr_setting!
-  end
-
-  def organization_group
-    self.groups.organization.first
   end
 
   def latest_okr_period_id
