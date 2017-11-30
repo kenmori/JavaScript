@@ -61,7 +61,6 @@ class AccountSettingTab extends Component {
 
   render() {
     const user = this.props.user;
-    const organization = this.props.organization;
     if (!user || !this.state.email) {
       return null;
     }
@@ -78,7 +77,7 @@ class AccountSettingTab extends Component {
           <dd><EditableText value={this.state.email} saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
 
           <dt>会社名</dt>
-          <dd><EditableText value={organization.get('name')} saveValue={name => this.props.updateOrganization({id: organization.get('id') , name})}/></dd>
+          <dd><EditableText value={user.get('organizationName')} saveValue={name => this.props.updateUser({id: user.get('id'), organizationName: name})}/></dd>
 
           <dt>画像</dt>
           <dd><Avatar user={user} size="large" /></dd>

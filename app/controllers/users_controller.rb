@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     # TODO: organization_idの値を正しくする
     ActiveRecord::Base.transaction do
       @user.save!
-      OrganizationMember.new(organization_id: 1, user_id: @user.id).save!
+      @user.organization_member.create!(organization_id: 1)
     end
     render status: :created
   rescue => e
@@ -23,11 +23,14 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      render action: :create, status: :ok
-    else
-      render json: @user.errors, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      @user.update!(user_params)
+      organization_name = params['user']['organization_name']
+      @user.organization.update!(name: organization_name) if organization_name.present?
     end
+    render action: :create, status: :ok
+  rescue => e
+    render json: @user.errors, status: :unprocessable_entity
   end
 
   def update_password

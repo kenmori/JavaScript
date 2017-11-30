@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :objectives, primary_key: :owner_id, foreign_key: :owner_id
   has_many :concerned_people
 
+  has_one :organization_member
+  delegate :organization, to: :organization_member
+
   belongs_to :owner, optional: true
 
   before_create do

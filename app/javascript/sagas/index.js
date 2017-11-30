@@ -5,7 +5,6 @@ import { userSagas } from './users';
 import { okrSettingSagas } from './okrSettings';
 import { sessionSagas } from './sessions';
 import { okrPeriodSagas } from './okrPeriods';
-import { organizationSagas } from './organizations';
 
 const sagas = [
   objectiveSagas,
@@ -14,7 +13,6 @@ const sagas = [
   okrSettingSagas,
   sessionSagas,
   okrPeriodSagas,
-  organizationSagas
 ];
 
 export default function* rootSaga() {
