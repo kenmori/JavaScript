@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import EditableText from './utils/EditableText';
+import Avatar from './Avatar';
 
 const rollOptions = [
   { key: 'user', value: 'user', text: 'ユーザー' },
@@ -154,7 +156,7 @@ class UsersTable extends Component {
                 const name = `${lastName} ${firstName}`;
                 return (
                   <Table.Row key={id}>
-                    <Table.Cell><Image src="" avatar/></Table.Cell>
+                    <Table.Cell><Avatar user={user} /></Table.Cell>
                     <Table.Cell><a href={`/users/${id}`}>{id}</a></Table.Cell>
                     <Table.Cell>
                       <Input type="text" defaultValue={lastName} readOnly={readOnly} className={className}
