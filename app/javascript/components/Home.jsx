@@ -3,7 +3,7 @@ import MenuBar from '../containers/MenuBar';
 import Dashboard from '../containers/Dashboard';
 import KeyResultFormModal from '../containers/KeyResultFormModal';
 import ObjectiveFormModal from '../containers/ObjectiveFormModal';
-import ObjectiveDetailModal from '../containers/ObjectiveDetailModal';
+import OkrFormModal from '../containers/OkrFormModal';
 
 class Home extends Component {
   render() {
@@ -14,7 +14,7 @@ class Home extends Component {
           <Dashboard />
           <KeyResultFormModal/>
           <ObjectiveFormModal/>
-          <ObjectiveDetailModal/>
+          <OkrFormModal/>
         </main>
       </div>
     );

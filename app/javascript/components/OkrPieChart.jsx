@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PieChart, Pie, Tooltip, Label } from 'recharts';
 import PropTypes from 'prop-types';
 
-class ObjectivePieChart extends Component {
+class OkrPieChart extends Component {
 
   getPieChartProperties(objective) {
     return {
@@ -37,8 +37,8 @@ class ObjectivePieChart extends Component {
   }
 }
 
-ObjectivePieChart.propTypes = {
+OkrPieChart.propTypes = {
   objective: PropTypes.object.isRequired,
 };
 
-export default ObjectivePieChart;
+export default OkrPieChart;
