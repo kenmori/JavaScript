@@ -1,4 +1,4 @@
-import ObjectiveDetailModal from '../components/ObjectiveDetailModal';
+import OkrFormModal from '../components/OkrFormModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
@@ -23,8 +23,8 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    isOpen: state.dialogs.getIn(['objectiveDetail', 'isOpen']),
-    objective: findObjective(state.objectives, state.dialogs.getIn(['objectiveDetail', 'objectiveId'])),
+    isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
+    objective: findObjective(state.objectives, state.dialogs.getIn(['okrForm', 'objectiveId'])),
     users: state.users,
   };
 };
@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(keyResultActions.updateKeyResult(keyResult));
     },
     closeModal: () => {
-      dispatch(dialogActions.closeObjectiveDetailModal());
+      dispatch(dialogActions.closeOkrFormModal());
     },
     removeKeyResult: (keyResult) => {
       dispatch(keyResultActions.removeKeyResult(keyResult));
@@ -49,4 +49,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ObjectiveDetailModal);
+)(OkrFormModal);

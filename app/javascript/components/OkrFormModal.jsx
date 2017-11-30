@@ -7,7 +7,7 @@ import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
 import EditableMultiLineText from './utils/EditableMultiLineText'
 
-class ObjectiveDetailModal extends Component {
+class OkrFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = { sliderValue: 0 };
@@ -44,7 +44,7 @@ class ObjectiveDetailModal extends Component {
     const objective = this.props.objective;
     if (!objective.size) { return null; }
     return (
-      <Modal open={this.props.isOpen} size='small' className='objective_detail_modal'>
+      <Modal open={this.props.isOpen} size='small' className='okr-form-modal'>
         <Modal.Header>
           <h1><Avatar user={objective.get('owner')} /><EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/></h1>
         </Modal.Header>
@@ -92,14 +92,14 @@ class ObjectiveDetailModal extends Component {
   }
 }
 
-ObjectiveDetailModal.propTypes = {
+OkrFormModal.propTypes = {
   updateObjective: PropTypes.func.isRequired,
   objective: PropTypes.object,
   open: PropTypes.bool,
 };
 
-ObjectiveDetailModal.defaultProps = {
+OkrFormModal.defaultProps = {
   objective: Map(),
 };
 
-export default ObjectiveDetailModal;
+export default OkrFormModal;
