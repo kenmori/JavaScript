@@ -29,8 +29,10 @@ export default class Dashboard extends Component {
         selectedObjective: nextProps.objectives.first()
       });
     }
-    if(nextProps.menu && this.props.menu !== nextProps.menu) {
-      this.props.fetchObjectives(nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId'));
+    const [okrPeriodId, userId] = [this.props.menu.get('okrPeriodId'), this.props.menu.get('userId')];
+    const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
+    if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
+      this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
     }
   }
 
