@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     # TODO: organization_idの値を正しくする
     ActiveRecord::Base.transaction do
       @user.save!
-      @user.organization_member.create!(organization_id: 1)
+      OrganizationMember.new(organization_id: 1, user_id: @user.id).save!
     end
     render status: :created
   rescue => e
