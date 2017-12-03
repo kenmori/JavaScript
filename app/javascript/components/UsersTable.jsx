@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
+import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import EditableText from './utils/EditableText';
 import Avatar from './Avatar';
@@ -15,10 +16,11 @@ class UsersTable extends Component {
     super(props);
     this.state = {
       column: null,
-      users: props.users,
+      users: this.getUsers(props.users),
       direction: null,
       editableId: null,
       emails: this.getEmails(props.users),
+      indexes: this.getEmails(props.users),
     };
     this.firstNameInputs = [];
     this.lastNameInputs = [];
@@ -27,7 +29,7 @@ class UsersTable extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      users: nextProps.users,
+      users: this.getUsers(nextProps.users),
     });
   }
 
@@ -43,6 +45,12 @@ class UsersTable extends Component {
       });
     }
   }
+
+  getUsers = (users) => (
+    users.map((item, idx) => {
+      return item.merge(Map({idx: idx + 1}));
+    })
+  )
 
   getEmails = (users) => (
     users.reduce((prev, next) => { 
@@ -169,7 +177,7 @@ class UsersTable extends Component {
             <Table.Row>
               <Table.HeaderCell disabled/>
               <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort} name="id">
-                ID
+                No
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort} name="lastName">
                 姓
@@ -189,8 +197,9 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              users.map((user, idx) => {
+              users.map((user) => {
                 const id = user.get('id');
+                const idx = user.get('idx');
                 const readOnly = id !== this.state.editableId;
                 const className = readOnly ? 'readonly' : '';
                 const open = readOnly ? false : undefined;
@@ -200,7 +209,7 @@ class UsersTable extends Component {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell><Avatar user={user} /></Table.Cell>
-                    <Table.Cell>{idx + 1}</Table.Cell>
+                    <Table.Cell>{idx}</Table.Cell>
                     <Table.Cell>
                       <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
                     </Table.Cell>
