@@ -18,6 +18,10 @@ class UsersTable extends Component {
       users: props.users,
       direction: null,
       editableId: null,
+      emails: props.users.reduce((prev, next) => { 
+        prev[next.get('id')] = next.get('email');
+        return prev;
+      }, {}),
     };
     this.firstNameInputs = [];
     this.lastNameInputs = [];
@@ -28,17 +32,17 @@ class UsersTable extends Component {
     this.setState({
       users: nextProps.users,
     });
-    
-    console.log("changedEmailId", nextProps.changedEmailId)
-    if (nextProps.changedEmailId) {
-      console.log('changedEmailId', this.refs[`email${nextProps.changedEmailId}`])
-    }
-
   }
 
   changeEmail = (id, email) => {
     if(confirm('メールアドレスを変更します。よろしいですか？')) {
       this.props.onUpdateEmail({id, email, notLogout: true});
+    } else {
+      const newEmails = this.state.emails;
+      newEmails[id] == this.props.users.find(item => item.get('id') === id).get('email');
+      this.setState({
+        emails: newEmails
+      });
     }
   }
 
@@ -127,7 +131,6 @@ class UsersTable extends Component {
 
   render() {
     const { column, users, direction } = this.state;
-
     return (
       <div className="users-table">
         <Input icon="search" placeholder="ユーザーを検索&#8230;" className="search" onChange={this.filter}
@@ -177,7 +180,7 @@ class UsersTable extends Component {
                       <EditableText value={firstName} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <EditableText value={user.get('email')} saveValue={(email) => this.changeEmail(id, email)}/>
+                      <EditableText value={this.state.emails[id]} saveValue={(email) => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
