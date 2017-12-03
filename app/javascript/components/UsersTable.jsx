@@ -139,6 +139,28 @@ class UsersTable extends Component {
     const { column, users, direction } = this.state;
     return (
       <div className="users-table">
+        <Table singleLine sortable>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>
+                <Input type="text" maxLength="255" required ref={node => { this.lastNameInputs[0] = node; }}
+                       placeholder="姓"/>
+              </Table.Cell>
+              <Table.Cell>
+                <Input type="text" maxLength="255" required ref={node => { this.firstNameInputs[0] = node; }}
+                       placeholder="名"/>
+              </Table.Cell>
+              <Table.Cell>
+                <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
+                       placeholder="メールアドレス"/>
+              </Table.Cell>
+              <Table.Cell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.Cell>
+              <Table.Cell textAlign="center">
+                <Button icon="plus" content="追加" onClick={this.addUser}/>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
         <Input icon="search" placeholder="ユーザーを検索&#8230;" className="search" onChange={this.filter}
                ref={node => { this.searchInput = node; }}/>
 
@@ -208,29 +230,6 @@ class UsersTable extends Component {
               })
             }
           </Table.Body>
-
-          <Table.Footer>
-            <Table.Row>
-              <Table.HeaderCell/>
-              <Table.HeaderCell/>
-              <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.lastNameInputs[0] = node; }}
-                       placeholder="姓"/>
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <Input type="text" maxLength="255" required ref={node => { this.firstNameInputs[0] = node; }}
-                       placeholder="名"/>
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
-                       placeholder="メールアドレス"/>
-              </Table.HeaderCell>
-              <Table.HeaderCell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.HeaderCell>
-              <Table.HeaderCell textAlign="center">
-                <Button icon="plus" content="追加" onClick={this.addUser}/>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
         </Table>
       </div>
     );
