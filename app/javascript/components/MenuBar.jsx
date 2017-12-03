@@ -19,7 +19,7 @@ class MenuBar extends Component {
 
   usersOption(users) {
     return users.map(user => {
-      const avatarUrl = user.getIn(['avatar', 'url']) || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
+      const avatarUrl = user.get('avatarUrl') || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
       return {
         key: user.get('id'),
         value: user.get('id'),

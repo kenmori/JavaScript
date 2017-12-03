@@ -18,10 +18,7 @@ class UsersTable extends Component {
       users: props.users,
       direction: null,
       editableId: null,
-      emails: props.users.reduce((prev, next) => { 
-        prev[next.get('id')] = next.get('email');
-        return prev;
-      }, {}),
+      emails: this.getEmails(props.users),
     };
     this.firstNameInputs = [];
     this.lastNameInputs = [];
@@ -46,6 +43,14 @@ class UsersTable extends Component {
       });
     }
   }
+
+  getEmails = (users) => (
+    users.reduce((prev, next) => { 
+      const email = next.get('unconfirmedEmail') ? `${next.get('unconfirmedEmail')}（unconfirmed_email）` : next.get('email');
+      prev[next.get('id')] = email;
+      return prev;
+    }, {})
+  )
 
   sort = (event) => {
     const column = event.target.getAttribute('name');

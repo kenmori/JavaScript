@@ -13,7 +13,7 @@ function* fetchUser({ payload }) {
 
 function* fetchUsers() {
   const result = yield call(API.get, '/users');
-  yield put(userActions.fetchedUsers(result));
+  yield put(userActions.fetchedUsers(result.get('users')));
 }
 
 function* addUser({ payload }) {
