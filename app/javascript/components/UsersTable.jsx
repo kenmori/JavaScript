@@ -194,8 +194,7 @@ class UsersTable extends Component {
                     <Table.Cell textAlign="center">
                       {readOnly ? (
                         <div>
-                          <Button icon="pencil" onClick={this.editUser(id)} title="編集"/>
-                          <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>
+                          {id !== this.props.loginUser.get('id') && <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>}
                         </div>
                       ) : (
                         <div>
