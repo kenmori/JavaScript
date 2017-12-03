@@ -33,7 +33,7 @@ class UserSettingTab extends Component {
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
         <UsersTable users={users} 
-                    changedEmailId={this.props.changedEmailId}
+                    loginUser={this.props.loginUser} 
                     onAdd={user => this.addUser(user)} 
                     onUpdateUser={user => this.updateUser(user)}
                     onUpdateEmail={user => this.updateEmail(user)}

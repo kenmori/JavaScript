@@ -4,8 +4,8 @@ import userActions from '../actions/users';
 
 const mapStateToProps = (state) => {
   return {
+    loginUser: state.loginUser,
     users: state.users,
-    changedEmailId: state.userSetting.get('changedEmailId'),
   };
 };
 

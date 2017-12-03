@@ -36,7 +36,8 @@ class UsersTable extends Component {
 
   changeEmail = (id, email) => {
     if(confirm('メールアドレスを変更します。よろしいですか？')) {
-      this.props.onUpdateEmail({id, email, notLogout: true});
+      const notLogout = id !== this.props.loginUser.get('id');
+      this.props.onUpdateEmail({id, email, notLogout});
     } else {
       const newEmails = this.state.emails;
       newEmails[id] == this.props.users.find(item => item.get('id') === id).get('email');
@@ -233,6 +234,7 @@ class UsersTable extends Component {
 }
 
 UsersTable.propTypes = {
+  loginUser: PropTypes.object.isRequired,
   users: PropTypes.array.isRequired,
   onAdd: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,

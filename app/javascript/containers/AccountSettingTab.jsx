@@ -7,7 +7,6 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     user: state.loginUser,
-    isLogout: state.signUp.get('isLogout'),
   };
 };
 
@@ -27,9 +26,6 @@ const mapDispatchToProps = dispatch => {
     },
     deleteAvatar: user => {
       dispatch(userActions.updateAvatar(user));
-    },
-    signOut: user => {
-      dispatch(sessionActions.signOut());
     }
   };
 };

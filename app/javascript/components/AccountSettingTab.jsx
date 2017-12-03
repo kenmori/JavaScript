@@ -53,12 +53,6 @@ class AccountSettingTab extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isLogout) {
-      this.props.signOut()
-    }
-  }
-
   render() {
     const user = this.props.user;
     if (!user || !this.state.email) {

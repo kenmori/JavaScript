@@ -48,7 +48,7 @@ function* editPassword({ payload }) {
 
 function* updateEmail({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result.merge(fromJS({notLogout: payload.user.notLogout}))));
+  yield put(userActions.updatedEmail(result.get('user').merge(fromJS({notLogout: payload.user.notLogout}))));
 }
 
 function* updateAvatar({ payload }) {
