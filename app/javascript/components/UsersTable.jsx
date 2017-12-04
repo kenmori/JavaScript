@@ -20,7 +20,6 @@ class UsersTable extends Component {
       direction: null,
       editableId: null,
       emails: this.getEmails(props.users),
-      indexes: this.getEmails(props.users),
     };
     this.firstNameInputs = [];
     this.lastNameInputs = [];
@@ -30,6 +29,7 @@ class UsersTable extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       users: this.getUsers(nextProps.users),
+      emails: this.getEmails(nextProps.users),
     });
   }
 
