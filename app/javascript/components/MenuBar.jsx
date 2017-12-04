@@ -12,7 +12,7 @@ class MenuBar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isLogout) {
+    if (nextProps.needLogout) {
       this.props.signOut()
     }
   }

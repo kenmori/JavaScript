@@ -4,7 +4,7 @@ import ActionTypes from '../constants/actionTypes';
 
 const initialState = fromJS({
   isCompleted: false,
-  isLogout: false
+  needLogout: false
 });
 
 export default handleActions({
@@ -12,6 +12,6 @@ export default handleActions({
     state.set('isCompleted', !!payload.user.size)
   ),
   [ActionTypes.UPDATED_EMAIL]: (state, { payload }) => console.log(payload.user.get('notLogout')) || (
-    payload.user.get('notLogout') ? state : state.set('isLogout', true)
+    payload.user.get('notLogout') ? state : state.set('needLogout', true)
   ),
 }, initialState);
