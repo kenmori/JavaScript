@@ -54,11 +54,22 @@ class UsersTable extends Component {
 
   getEmails = (users) => (
     users.reduce((prev, next) => { 
-      const email = next.get('unconfirmedEmail') ? `${next.get('unconfirmedEmail')}（unconfirmed_email）` : next.get('email');
-      prev[next.get('id')] = email;
+      prev[next.get('id')] = this.getEmail(next);
       return prev;
     }, {})
   )
+
+  getEmail =(user) => {
+    if (user.get('unconfirmedEmail')) {
+      return `${user.get('unconfirmedEmail')}（unconfirmed_email）`;
+    }
+
+    if (!user.get('confirmedAt')) {
+      return `${user.get('email')}（unconfirmed_email）`;
+    }
+
+    return user.get('email');
+  }
 
   sort = (event) => {
     const column = event.target.getAttribute('name');
@@ -101,7 +112,7 @@ class UsersTable extends Component {
       firstName: this.firstNameInputs[0].inputRef.value,
       lastName: this.lastNameInputs[0].inputRef.value,
       email: this.emailInputs[0].inputRef.value,
-      password: "testtest",
+      no_password: true,
     });
     this.lastNameInputs[0].inputRef.value = '';
     this.firstNameInputs[0].inputRef.value = '';
