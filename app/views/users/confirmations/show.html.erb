@@ -1,19 +1,19 @@
-<div class='password-recover'>
-  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name)) do |f| %>
-    <%= f.hidden_field :confirmation_token %>
-
+<div class="non-login-forms">
+  <main>
     <%= devise_error_messages! %>
-
-    <div class="field">
-      <%= f.label :password %>
-      <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br />
-      <%= f.password_field :password, autocomplete: "off" %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Submit" %>
-    </div>
-  <% end %>
+    <h1 class="center">Resily</h1>
+    <%= form_for(resource, html: { class: 'ui form' },  as: resource_name, url: confirmation_path(resource_name)) do |f| %>
+      <div class="fields text-input-group">
+        <div class="inline field">
+          <div>パスワード</div>
+          <div class="ui mini input">
+            <%= f.password_field :password, autocomplete: "off" %>
+          </div>
+        </div>
+      </div>
+      <div class="center">
+        <%= f.submit "送信", class: 'ui negative button' %>
+      </div>
+    <% end %>
+  </main>
 </div>

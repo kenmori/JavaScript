@@ -1,7 +1,11 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
   def show
     self.resource = resource_class.find_by_confirmation_token(params[:confirmation_token])
-    super if resource.nil? || params[:password] != 'true'
+    if resource.nil? || params[:password].blank?
+      super
+    else
+      render layout: 'ssr' 
+    end
   end
 
   def confirm
