@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.no_password = params[:user][:no_password]
     # TODO: organization_idの値を正しくする
     ActiveRecord::Base.transaction do
       @user.save!
