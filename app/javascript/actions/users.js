@@ -20,6 +20,8 @@ const actions = createActions({
   [actionTypes.EDITED_PASSWORD]: () => (true),
   [actionTypes.UPDATE_AVATAR]: user => ({ user }),
   [actionTypes.UPDATED_AVATAR]: user => ({ user }),
+  [actionTypes.UPDATE_EMAIL]: user => ({ user }),
+  [actionTypes.UPDATED_EMAIL]: user => ({ user }),
 });
 
 export default actions;

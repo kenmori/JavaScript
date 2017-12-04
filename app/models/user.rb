@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :concerned_people
   has_many :comments
 
+  has_one :organization_member
+  delegate :organization, to: :organization_member
+
   belongs_to :owner, optional: true
 
   before_create do

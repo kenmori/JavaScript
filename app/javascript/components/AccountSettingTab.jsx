@@ -2,9 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, Input } from 'semantic-ui-react';
 import Avatar from './Avatar';
+import EditableText from './utils/EditableText';
 
 class AccountSettingTab extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: null
+    }
+  }
 
+  changeEmail = (id, email) => {
+    if(confirm('emailを変更すると指定のメールアドレスへ確認のメールを送信いたします。 確認のメールにありますURLをクリックすると、変更が完了いたします。')) {
+      this.props.updateEmail({id, email});
+    } else {
+      this.setState({
+        email: this.props.user.get('email'),
+      });
+    }
+  }
 
   changePassword = () => {
     this.props.updatePassword({
@@ -31,19 +47,37 @@ class AccountSettingTab extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      email: this.props.user.get('email'),
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isLogout) {
+      this.props.signOut()
+    }
+  }
+
   render() {
     const user = this.props.user;
-    if (!user) {
+    if (!user || !this.state.email) {
       return null;
     }
     return (
       <Tab.Pane attached={false} className="account-setting-tab">
         <dl>
           <dt>名前</dt>
-          <dd>{user.get('lastName')} {user.get('firstName')}</dd>
+          <dd>
+            <EditableText value={user.get('lastName')} saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+            <EditableText value={user.get('firstName')} saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+          </dd>
 
           <dt>メールアドレス</dt>
-          <dd>{user.get('email')}</dd>
+          <dd ref="email"><EditableText value={this.state.email} saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
+
+          <dt>会社名</dt>
+          <dd><EditableText value={user.get('organizationName')} saveValue={name => this.props.updateUser({id: user.get('id'), organizationName: name})}/></dd>
 
           <dt>画像</dt>
           <dd><Avatar user={user} size="large" /></dd>

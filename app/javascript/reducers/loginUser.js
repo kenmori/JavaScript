@@ -10,8 +10,12 @@ const initialState = fromJS({
   email: gon.getIn(['loginUser', 'email']),
   avatarUrl: gon.get('loginUserAvatarUrl'),
   ownerId: gon.getIn(['loginUser', 'ownerId']),
+  organizationName: gon.getIn(['organization', 'name']),
 });
 
 export default handleActions({
+  [ActionTypes.UPDATED_USER]: (state, { payload }) => (
+    state.get('id') === payload.user.get('id') ? state.merge(payload.user) : state
+  ),
   [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (payload.user),
 }, initialState);
