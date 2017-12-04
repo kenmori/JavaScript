@@ -119,35 +119,6 @@ class UsersTable extends Component {
     this.emailInputs[0].inputRef.value = '';
   };
 
-  editUser = id => () => {
-    this.setState({
-      editableId: id,
-    });
-  };
-
-  editUserOk = () => {
-    const id = this.state.editableId;
-    this.props.onUpdate({
-      id: id,
-      firstName: this.firstNameInputs[id].inputRef.value,
-      lastName: this.lastNameInputs[id].inputRef.value,
-      email: this.emailInputs[id].inputRef.value,
-    });
-    this.setState({
-      editableId: null,
-    });
-  };
-
-  editUserCancel = () => {
-    const id = this.state.editableId;
-    this.firstNameInputs[id].inputRef.value = this.firstNameInputs[id].inputRef.defaultValue;
-    this.lastNameInputs[id].inputRef.value = this.lastNameInputs[id].inputRef.defaultValue;
-    this.emailInputs[id].inputRef.value = this.emailInputs[id].inputRef.defaultValue;
-    this.setState({
-      editableId: null,
-    });
-  };
-
   removeUser = (id, name) => () => {
     if (confirm(`ユーザー ${name} を削除しますか？`)) {
       this.props.onRemove(id);
@@ -234,16 +205,9 @@ class UsersTable extends Component {
                       <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      {readOnly ? (
-                        <div>
-                          {id !== this.props.loginUser.get('id') && <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>}
-                        </div>
-                      ) : (
-                        <div>
-                          <Button icon="cancel" onClick={this.editUserCancel} title="キャンセル"/>
-                          <Button icon="check" onClick={this.editUserOk} title="OK" positive/>
-                        </div>
-                      )}
+                      <div>
+                        {id !== this.props.loginUser.get('id') && <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>}
+                      </div>
                     </Table.Cell>
                   </Table.Row>
                 );
