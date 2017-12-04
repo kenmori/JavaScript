@@ -112,7 +112,7 @@ class UsersTable extends Component {
       firstName: this.firstNameInputs[0].inputRef.value,
       lastName: this.lastNameInputs[0].inputRef.value,
       email: this.emailInputs[0].inputRef.value,
-      no_password: true,
+      noPasswordRequired: true,
     });
     this.lastNameInputs[0].inputRef.value = '';
     this.firstNameInputs[0].inputRef.value = '';

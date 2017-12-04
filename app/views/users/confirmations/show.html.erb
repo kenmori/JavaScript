@@ -1,0 +1,19 @@
+<div class='password-recover'>
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name)) do |f| %>
+    <%= f.hidden_field :confirmation_token %>
+
+    <%= devise_error_messages! %>
+
+    <div class="field">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "off" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Submit" %>
+    </div>
+  <% end %>
+</div>
