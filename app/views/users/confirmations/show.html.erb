@@ -4,6 +4,7 @@
     <h1 class="center">Resily</h1>
     <%= form_for(resource, html: { class: 'ui form' },  as: resource_name, url: confirmation_path(resource_name)) do |f| %>
       <div class="fields text-input-group">
+        <%= f.hidden_field :confirmation_token, value: params[:confirmation_token] %>
         <div class="inline field">
           <div>パスワード</div>
           <div class="ui mini input">

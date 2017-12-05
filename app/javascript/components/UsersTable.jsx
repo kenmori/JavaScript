@@ -38,10 +38,8 @@ class UsersTable extends Component {
       const notLogout = id !== this.props.loginUser.get('id');
       this.props.onUpdateEmail({id, email, notLogout});
     } else {
-      const newEmails = this.state.emails;
-      newEmails[id] == this.props.users.find(item => item.get('id') === id).get('email');
       this.setState({
-        emails: newEmails
+        emails: this.state.emails
       });
     }
   }
