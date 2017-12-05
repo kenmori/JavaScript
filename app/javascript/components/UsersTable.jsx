@@ -47,8 +47,8 @@ class UsersTable extends Component {
   }
 
   getUsers = (users) => (
-    users.map((item, idx) => {
-      return item.merge(Map({idx: idx + 1}));
+    users.map((item, index) => {
+      return item.merge(Map({index: index + 1}));
     })
   )
 
@@ -179,9 +179,9 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              users.map((user) => {
+              users.map(user => {
                 const id = user.get('id');
-                const idx = user.get('idx');
+                const index = user.get('index');
                 const readOnly = id !== this.state.editableId;
                 const className = readOnly ? 'readonly' : '';
                 const open = readOnly ? false : undefined;
@@ -191,7 +191,7 @@ class UsersTable extends Component {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell><Avatar user={user} /></Table.Cell>
-                    <Table.Cell>{idx}</Table.Cell>
+                    <Table.Cell>{index}</Table.Cell>
                     <Table.Cell>
                       <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
                     </Table.Cell>
