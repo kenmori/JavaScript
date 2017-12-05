@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import ObjectiveMap from './ObjectiveMap';
-import ObjectivePieChart from './ObjectivePieChart';
-import Avatar from './Avatar';
+import OkrMap from './OkrMap';
+import OkrPieChart from './OkrPieChart';
 
-export default class DashBoard extends Component {
+export default class Dashboard extends Component {
   selectOKRBox = (objective) => {
     return () => {
       this.setState({
@@ -20,7 +19,7 @@ export default class DashBoard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchObjectives({okrPeriodId: this.props.okrPeriod.get('id')});
+    this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,26 +29,24 @@ export default class DashBoard extends Component {
         selectedObjective: nextProps.objectives.first()
       });
     }
+    const [okrPeriodId, userId] = [this.props.menu.get('okrPeriodId'), this.props.menu.get('userId')];
+    const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
+    if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
+      this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
+    }
   }
 
   get actionSection() {
     if (this.state.selectedObjective) {
-      return <ObjectiveMap objective={this.state.selectedObjective}/>;
+      return <OkrMap objective={this.state.selectedObjective}/>;
     }
   }
 
   render() {
     return (
       <div className="dash-board">
-        <section className="login-user">
-          <Avatar user={this.props.loginUser} />
-          <div className="info flex-vertical-center">
-            <div>{this.props.loginUser.get('lastName') + this.props.loginUser.get('firstName')}</div>
-            <div>{this.props.loginUser.get('email')}</div>
-          </div>
-        </section>
         <section className="okr">
-          Objective 一覧 ({this.props.objectives.size})
+          <h2>OKR 一覧 ({this.props.objectives.size})</h2>
           <div className="okr-list">
             {
               this.props.objectives.map((objective) => {
@@ -58,7 +55,7 @@ export default class DashBoard extends Component {
                   <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                      href="javascript:void(0)" onClick={this.selectOKRBox(objective)}>
                     <div>{objective.get('name')}</div>
-                    <ObjectivePieChart objective={objective}/>
+                    <OkrPieChart objective={objective}/>
                   </a>
                 );
               }) }
@@ -69,6 +66,7 @@ export default class DashBoard extends Component {
           </div>
         </section>
         <section className='okr-action-section'>
+          <h2>OKR マップ</h2>
           {this.actionSection}
         </section>
       </div>

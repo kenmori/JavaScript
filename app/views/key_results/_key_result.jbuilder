@@ -12,3 +12,13 @@ json.concerned_people do
     json.extract! person.user, :id, :avatar_url
   end
 end
+
+json.comments do
+  json.array!(key_result.comments) do |comment|
+    json.id comment.id
+    json.text comment.text
+    json.updated_at comment.updated_at
+    json.self_comment comment.user_id == current_user.id
+    json.full_name comment.user.full_name
+  end
+end

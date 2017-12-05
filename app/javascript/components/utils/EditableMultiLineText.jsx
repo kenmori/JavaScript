@@ -18,13 +18,16 @@ export default class EditableMultiLineText extends Component {
   }
 
   render() {
+    const classNames = ['editable-multi-line-text'];
+    if(this.props.className) {
+      classNames.push(this.props.className);
+    }
     return (
-      <TextArea className='editable-multi-line-text'
+      <TextArea className={classNames.join(' ')}
                 defaultValue={this.props.value}
                 ref={node => {this.textArea = node;}}
                 placeholder={this.props.placeholder}
                 rows={3}
-                autoHeight
                 onFocus={this.onTextAreaFocus}
                 onBlur={this.onTextAreaBlur}
                 readOnly={this.state.isReadOnly}/>

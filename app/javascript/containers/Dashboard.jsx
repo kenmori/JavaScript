@@ -1,20 +1,19 @@
-import DashBoard from '../components/DashBoard';
+import Dashboard from '../components/Dashboard';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    loginUser: state.loginUser,
-    okrPeriod: state.okrPeriod,
+    menu: state.menu,
     objectives: state.objectives
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchObjectives: (args) => {
-      dispatch(objectiveActions.fetchObjectives(args));
+    fetchObjectives: (okrPeriodId, userId) => {
+      dispatch(objectiveActions.fetchObjectives(okrPeriodId, userId));
     },
     openObjectiveFormModal: () => {
       dispatch(dialogActions.openObjectiveFormModal());
@@ -25,4 +24,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DashBoard);
+)(Dashboard);

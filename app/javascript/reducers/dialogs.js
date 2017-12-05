@@ -19,11 +19,11 @@ export default handleActions({
     [ActionTypes.CLOSE_KEY_RESULT_FORM_MODAL]: (state) => (
       state.set('keyResultForm', fromJS({ isOpen: false, objective: Map() }))
     ),
-    [ActionTypes.OPEN_OBJECTIVE_DETAIL_MODAL]: (state, { payload }) => (
-      state.set('objectiveDetail', fromJS({ isOpen: true, objectiveId: payload.objectiveId }))
+    [ActionTypes.OPEN_OKR_FORM_MODAL]: (state, { payload }) => (
+      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId }))
     ),
-    [ActionTypes.CLOSE_OBJECTIVE_DETAIL_MODAL]: (state) => (
-      state.set('objectiveDetail', fromJS({ isOpen: false, objectiveId: null }))
+    [ActionTypes.CLOSE_OKR_FORM_MODAL]: (state) => (
+      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null }))
     ),
     [ActionTypes.OPEN_AVATAR_IMAGE_MODAL]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData }))
@@ -44,7 +44,7 @@ export default handleActions({
       isOpen: false,
       objective: Map(),
     },
-    objectiveDetail: {
+    okrForm: {
       isOpen: false,
       objectiveId: null,
     },

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Segment, Accordion, Dropdown, Button } from 'semantic-ui-react';
+import { Input, Form, Icon, Segment, Accordion, Dropdown, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import Avatar from './Avatar';
 import EditableText from './utils/EditableText';
+import EditableMultiLineText from './utils/EditableMultiLineText';
+import br from '../utils/br';
 import moment from 'moment';
 
 class KeyResultAccordionItem extends Component {
@@ -32,43 +34,28 @@ class KeyResultAccordionItem extends Component {
     }).toArray();
   }
 
-  participantList(options, add, remove) {
-    const list = this.state.concernedPeople.map((id, idx) => {
+  concernedPeopleTag(options, add, remove) {
+    const list = this.state.concernedPeople.map((id) => {
       const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
-      return <div key={idx} className="concerned-people__item">
-              <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
-              {icon}
-             </div>
+      return (
+        <div key={id} className="concerned-people__item">
+          <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value)}}/>
+          {icon}
+        </div>
+      )
     })
-
     return <div className="concerned-people">{list}</div>;
   }
 
-  addConcernedPeople(value, boxIndex) {
-    const concernedPeople = this.state.concernedPeople;
-
-    concernedPeople[boxIndex] = value;
-    if (boxIndex === concernedPeople.length - 1) {
-      concernedPeople.push(null);
-    }
-
-    this.setState({
-      concernedPeople: concernedPeople
-    });
-
+  addConcernedPeople(value) {
     this.updateKeyResult({
-      concernedPeople: concernedPeople.filter(item => item !== null)
+      concernedPerson: {data: value, behavior: 'add'}
     });
   }
 
-  removeConcernedPeople(clickedId) {
-    const concernedPeople = this.state.concernedPeople.filter( id => id !== clickedId)
-    this.setState({
-      concernedPeople: concernedPeople
-    });
-
+  removeConcernedPeople(value) {
     this.updateKeyResult({
-      concernedPeople: concernedPeople.filter(item => item !== null)
+      concernedPerson: {data: value, behavior: 'remove'}
     });
   }
 
@@ -130,7 +117,7 @@ class KeyResultAccordionItem extends Component {
     });
     
     setTimeout(() => {
-      ReactDOM.findDOMNode(this.refs.progressRateView).focus();
+      findDOMNode(this.refs.progressRateView).focus();
     }, 0)
   }
 
@@ -138,6 +125,65 @@ class KeyResultAccordionItem extends Component {
     this.handleSliderBlur(event)
     this.setState({
       isDisplayedRateInputForm: false,
+    });
+  }
+
+  commentList(comments) {
+    console.log("keyResult.get('comments')", comments)
+    const commentTags = comments.map((item) => {
+      return (
+        <div className="comments" key={item.get('id')}>
+          <div className="comments__item">
+            {item.get('selfComment') ? (
+                <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.editComment(item.get('id'), text)}/>
+              ) : (
+                <div className="comments__item-text is-others">{ br(item.get('text'))}</div>
+              )
+
+            }
+            <div className="comments__item-meta">
+              <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/MM/DD HH:mm')}</div>
+              <div className="comments__item-name">{item.get('fullName')}</div>
+            </div>
+          </div>
+          {item.get('selfComment') && <Icon name="close" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
+        </div>
+      )
+    });
+    return <div>{commentTags}</div>;
+  }
+
+  addComment() {
+    const value = findDOMNode(this.refs.commentArea).value;
+    if (!value) {
+      return;
+    }
+    this.updateKeyResult({
+      comment: {data: value, behavior: 'add'}
+    });
+    findDOMNode(this.refs.commentArea).value = '';
+  }
+
+  editComment(id, text) {
+    if (!text) {
+      return;
+    }
+    this.updateKeyResult({
+      comment: {data: {id, text}, behavior: 'edit'}
+    });
+  }
+
+  removeComment(id) {
+    this.updateKeyResult({
+      comment: {data: id, behavior: 'remove'}
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const concernedPeople = nextProps.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
+    concernedPeople.push(null);
+    this.setState({
+      concernedPeople
     });
   }
 
@@ -157,7 +203,7 @@ class KeyResultAccordionItem extends Component {
           </Accordion.Title>
           <Accordion.Content active={this.props.active}>
             <Form.Field className='values'>
-              <label>進捗</label>
+              <label className="field-title">進捗</label>
               {this.state.isDisplayedRateInputForm && 
                 <div className="progress-rate-input">
                   <div className="progress-rate-input__inner">
@@ -183,18 +229,18 @@ class KeyResultAccordionItem extends Component {
               }
             </Form.Field>
             <Form.Field className='values'>
-              <label>Key Result 名</label>
+              <label className="field-title">Key Result 名</label>
               <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
             </Form.Field>
             {this.state.isDisplayedTargetValue && 
               <div>
                 <Form.Field className='values'>
-                  <label>目標値</label>
+                  <label className="field-title">目標値</label>
                   <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
                   <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
                 </Form.Field>
                 <Form.Field className='values'>
-                  <label>実績値</label>
+                  <label className="field-title">実績値</label>
                   <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
                   {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
                 </Form.Field>
@@ -208,22 +254,42 @@ class KeyResultAccordionItem extends Component {
               </Form.Group>
             }
             <Form.Field className='values input-date-picker'>
-              <label>期限</label>
+              <label className="field-title">期限</label>
               <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
             </Form.Field>
             <Form.Group>
               <Form.Field>
-                <label>責任者</label>
+                <label className="field-title">責任者</label>
                 <Dropdown selection value={keyResult.get('owner').get('id')} options={this.usersOption(this.props.users, true)} onChange={(e, { value }) => this.updateKeyResult({ownerId: value})}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>
               <Form.Field>
-                <label>関係者</label>
-                {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
+                <label className="field-title">関係者</label>
+                {this.concernedPeopleTag(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
               </Form.Field>
             </Form.Group>
-            <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="div" negative />
+            <Form.Group>
+              <Form.Field className="wide-field">
+                <label className="field-title">コメント</label>
+                {this.commentList(keyResult.get('comments'))}
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field className="wide-field">
+                <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} ref="commentArea" />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field>
+                <Button content="コメントを投稿する" onClick={() => this.addComment()} as="div" />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field className="delete-button">
+                <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
+              </Form.Field>
+            </Form.Group>
           </Accordion.Content>
       </Segment>
     );

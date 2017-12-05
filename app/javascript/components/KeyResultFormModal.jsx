@@ -13,7 +13,7 @@ class KeyResultFormModal extends Component {
   }
 
   getDefaultExpiredData(periods) {
-    const selectedPeriodId = this.props.okrPeriod.get('id');
+    const selectedPeriodId = this.props.menu.get('okrPeriodId');
     const selectedPeriod = periods.find((item) => item.get('id') === selectedPeriodId);
     return moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
   }
@@ -143,7 +143,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection value={this.props.objective.get('ownerId')} options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
+                <Dropdown selection defaultValue={this.props.objective.get('ownerId')} options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>

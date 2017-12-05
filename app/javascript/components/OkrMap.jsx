@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ObjectiveCard from '../containers/ObjectiveCard';
 import { Card } from 'semantic-ui-react';
 
-class ObjectiveMap extends Component {
+class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,7 +68,7 @@ class ObjectiveMap extends Component {
   render() {
     const objective = this.props.objective;
     return (
-      <div key={objective.get('id')} className='objective-map' ref='map'>
+      <div key={objective.get('id')} className='okr-map' ref='map'>
         <div className='map-layer'>
           <Card.Group className='flex-center'>
             <ObjectiveCard objective={objective}/>
@@ -98,6 +98,6 @@ class ObjectiveMap extends Component {
   }
 }
 
-ObjectiveMap.propTypes = {};
+OkrMap.propTypes = {};
 
-export default ObjectiveMap;
+export default OkrMap;

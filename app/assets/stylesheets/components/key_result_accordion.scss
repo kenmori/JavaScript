@@ -17,6 +17,13 @@
         margin-right: 1rem;
       }
     }
+
+    .field-title {
+      font-weight: bold;
+    }
+    .delete-button {
+      margin: 10px auto 0;
+    }
   }
 
   .input-date-picker {
@@ -38,6 +45,43 @@
       top: 10px;
       left: 100%;
     }
+  }
+
+  .wide-field {
+    width: 100%;
+  }
+
+  .comments {
+    display: flex;
+    align-items: center;
+  }
+  .comments__item {
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    padding: 10px;
+    border: 1px rgba(34,36,38,.15) solid;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+  .comments__item-text.is-others {
+    padding: 1em;
+    min-height: 75px;
+  }
+  .comments__item-meta {
+    display: flex;
+    justify-content: flex-end;
+    color: #666;
+    font-size: smaller;
+  }
+  .comments__item-name {
+    padding-left: 10px;
+  }
+  .comments__item-icon {
+    width: 30px;
+    margin-bottom: 10px;
+    display: block;
   }
 }
 

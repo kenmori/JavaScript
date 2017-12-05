@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   has_many :objectives, primary_key: :owner_id, foreign_key: :owner_id
   has_many :concerned_people
+  has_many :comments
 
   has_one :organization_member
   delegate :organization, to: :organization_member
@@ -27,6 +28,10 @@ class User < ApplicationRecord
     OrganizationMember.find_by(user_id: id).organization
   end
 
+  def full_name
+    "#{last_name} #{first_name}"
+  end
+
   def password_required?
     super if need_confirmed?
   end
@@ -34,4 +39,5 @@ class User < ApplicationRecord
   def need_confirmed?
     !no_password_required
   end
+
 end
