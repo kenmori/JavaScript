@@ -17,8 +17,8 @@ class OkrPieChart extends Component {
     };
   }
 
-  render() {
-    const { data, endAngle, label } = this.getPieChartProperties(this.props.objective);
+  getPieChart = (objective) => {
+    const { data, endAngle, label } = this.getPieChartProperties(objective);
     return (
       <PieChart width={160} height={160}>
         <Pie data={data}
@@ -29,10 +29,24 @@ class OkrPieChart extends Component {
              outerRadius={70}
              fill="lightgray"
              paddingAngle={2}>
-          <Label value={label} position="center" fill="indianred"/>
+          <Label value={label} position="center" fill="indianred" />
         </Pie>
-        <Tooltip formatter={value => `${value}%`}/>
+        <Tooltip formatter={value => `${value}%`} />
       </PieChart>
+    );
+  }
+
+  render() {
+    return (
+      <div className='okr-pie-chart'>
+        {(() => {
+          if (this.props.objective.get('keyResults').isEmpty()) {
+            return <div className='empty'>- %</div>;
+          } else {
+            return this.getPieChart(this.props.objective);
+          }
+        })()}
+      </div>
     );
   }
 }
