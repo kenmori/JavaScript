@@ -22,6 +22,8 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
+  attr_accessor :no_password_required
+
   def organization
     OrganizationMember.find_by(user_id: id).organization
   end
@@ -29,4 +31,13 @@ class User < ApplicationRecord
   def full_name
     "#{last_name} #{first_name}"
   end
+
+  def password_required?
+    super if need_confirmed?
+  end
+
+  def need_confirmed?
+    !no_password_required
+  end
+
 end

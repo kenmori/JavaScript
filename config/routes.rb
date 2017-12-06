@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, skip: :registrations, controllers: {
+    :confirmations => 'users/confirmations',
     :passwords => 'users/passwords'
   }
+  devise_scope :user do
+    patch "users/confirmation", to: "users/confirmations#confirm"
+  end
 
   root to: 'home#index', as: :root
   get 'users/sign_up(/*path)' => 'home#non_login'

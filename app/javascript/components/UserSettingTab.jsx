@@ -17,6 +17,10 @@ class UserSettingTab extends Component {
     this.props.updateUser(user);
   };
 
+  updateEmail = user => {
+    this.props.updateEmail(user);
+  };
+
   removeUser = id => {
     this.props.removeUser(id);
   };
@@ -28,7 +32,11 @@ class UserSettingTab extends Component {
     }
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
-        <UsersTable users={users} onAdd={user => this.addUser(user)} onUpdate={user => this.updateUser(user)}
+        <UsersTable users={users} 
+                    loginUser={this.props.loginUser} 
+                    onAdd={user => this.addUser(user)} 
+                    onUpdateUser={user => this.updateUser(user)}
+                    onUpdateEmail={user => this.updateEmail(user)}
                     onRemove={id => this.removeUser(id)}/>
       </Tab.Pane>
     );
