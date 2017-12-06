@@ -42,7 +42,7 @@ class OkrList extends Component {
             return (
               <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                  href="javascript:void(0)" onClick={this.selectOKRBox(objective)}>
-                <div>{objective.get('name')}</div>
+                <div className='name'>{objective.get('name')}</div>
                 <OkrPieChart objective={objective} />
               </a>
             );
