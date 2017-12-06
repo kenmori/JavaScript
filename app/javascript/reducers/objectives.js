@@ -30,7 +30,8 @@ function rebuildKeyResult(method, state, payload) {
 
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return state.merge(payload.objectives);
+      // TODO OKR 期間やユーザーが異なる Objective がマージされてしまう問題の暫定対応
+      return state.clear().merge(payload.objectives);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const ownerId = gon.getIn(['loginUser', 'ownerId']);
