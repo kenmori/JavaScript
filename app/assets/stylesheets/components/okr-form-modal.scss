@@ -105,4 +105,35 @@
       }
     }
   }
+
+  .sidebar {
+    width: 300px;
+    .sidebar__items {
+      margin-bottom: 20px;
+    }
+    .sidebar__item {
+      position: relative;
+      cursor: pointer;
+      padding-right: 45px;
+      &.is-current {
+        background: rgba(239, 8, 3, 0.11);
+      }
+    }
+    .sidebar__avatar {
+      position: absolute;
+      top: 50%;
+      left: 7px;
+      margin-top: -10px;
+    }
+    .sidebar__val {
+      display: block;
+      padding-left: 18px;
+    }
+    .sidebar__rate {
+      position: absolute;
+      top: 50%;
+      right: 7px;
+      margin-top: -10px;
+    }
+  }
 }
