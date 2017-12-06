@@ -10,7 +10,7 @@ export default handleActions({
       state.merge(payload.okrSettings)
     ),
     [ActionTypes.DID_RESET_OKR_SETTINGS]: (state, { payload }) => (
-      state.clear().merge(payload.okrSettings)
+      payload.okrSettings
     ),
   },
   fromJS({}),
