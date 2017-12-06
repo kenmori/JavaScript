@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
+import OkrList from '../containers/OkrList';
 import OkrMap from './OkrMap';
-import OkrPieChart from './OkrPieChart';
 
 export default class Dashboard extends Component {
-  selectOKRBox = (objective) => {
-    return () => {
-      this.setState({
-        selectedObjective: objective
-      });
-    }
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -23,12 +15,6 @@ export default class Dashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.objectives && this.props.objectives !== nextProps.objectives) {
-      //Objective一覧を取得、Objective追加時には最新のObjectiveをセットする
-      this.setState({
-        selectedObjective: nextProps.objectives.first()
-      });
-    }
     const [okrPeriodId, userId] = [this.props.menu.get('okrPeriodId'), this.props.menu.get('userId')];
     const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
     if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
@@ -38,32 +24,24 @@ export default class Dashboard extends Component {
 
   get actionSection() {
     if (this.state.selectedObjective) {
-      return <OkrMap objective={this.state.selectedObjective}/>;
+      return <OkrMap objective={this.state.selectedObjective} />;
     }
   }
+
+  selectObjective = objective => {
+    this.setState({
+      selectedObjective: objective
+    });
+  };
 
   render() {
     return (
       <div className="dash-board">
         <section className="okr">
           <h2>OKR 一覧 ({this.props.objectives.size})</h2>
-          <div className="okr-list">
-            {
-              this.props.objectives.map((objective) => {
-                const isSelected = objective.get('id') === (this.state.selectedObjective && this.state.selectedObjective.get('id'));
-                return (
-                  <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
-                     href="javascript:void(0)" onClick={this.selectOKRBox(objective)}>
-                    <div>{objective.get('name')}</div>
-                    <OkrPieChart objective={objective}/>
-                  </a>
-                );
-              }) }
-            <a className={`okr-box ${this.state.selectedObjective ? '' : 'active'}`} href="javascript:void(0)"
-               onClick={() => this.props.openObjectiveFormModal()}>
-              Objective を作成する
-            </a>
-          </div>
+          <OkrList objectives={this.props.objectives}
+                   selectedObjective={this.state.selectedObjective}
+                   onSelect={this.selectObjective} />
         </section>
         <section className='okr-action-section'>
           <h2>OKR マップ</h2>

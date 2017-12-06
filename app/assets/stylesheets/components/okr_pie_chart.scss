@@ -1,0 +1,27 @@
+.okr-pie-chart {
+  .empty {
+    letter-spacing: .2rem;
+    display: flex;
+    align-items: center;
+    height: 160px;
+  }
+
+  .progress-rate {
+    font-size: medium;
+    color: indianred;
+    fill: indianred;
+  }
+
+  .recharts-wrapper {
+    cursor: pointer !important;
+
+    path.recharts-sector:hover {
+      fill: indianred;
+      fill-opacity: .5;
+    }
+
+    .recharts-tooltip-item-value {
+      color: indianred;
+    }
+  }
+}

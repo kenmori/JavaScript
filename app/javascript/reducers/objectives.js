@@ -30,7 +30,7 @@ function rebuildKeyResult(method, state, payload) {
 
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return state.merge(payload.objectives);
+      return payload.objectives;
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const ownerId = gon.getIn(['loginUser', 'ownerId']);

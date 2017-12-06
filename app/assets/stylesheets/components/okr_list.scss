@@ -1,0 +1,42 @@
+.okr-list {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-right: 30px;
+
+  .okr-box {
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 30px;
+    padding: 4px;
+    width: 210px;
+    height: 195px;
+    justify-content: center;
+    align-items: center;
+    border: 2px rgba(34, 36, 38, 0.15) dashed;
+    border-radius: 4px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #000000;
+
+    &.active {
+      border: 2px $ASSIST_COLOR solid;
+      background: rgba(239, 8, 3, 0.11);
+    }
+
+    &:hover {
+      border-color: $ASSIST_COLOR;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .name {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
