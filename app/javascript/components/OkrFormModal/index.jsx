@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Button, Form, Icon, Modal, Segment, Dropdown } from 'semantic-ui-react';
 import Sidebar from './Sidebar'
+import ObjectiveDetail from './ObjectiveDetail'
 
 class OkrFormModal extends Component {
   constructor(props) {
@@ -58,8 +59,11 @@ class OkrFormModal extends Component {
     return (
       <Modal open={this.props.isOpen} size='mini' className='okr-form-modal'>
         <Modal.Content>
-          {<Sidebar objective={objective} showDetail={this.showDetail.bind(this)} selectedOkr={this.state.selectedOkr} />}
-          <div className="okr-main">
+          <div className="okr-body">
+            {<Sidebar objective={objective} showDetail={this.showDetail.bind(this)} selectedOkr={this.state.selectedOkr} />}
+            <div className="okr-main">
+              {this.state.selectedOkr.get('okrType') === 'objective' ? <ObjectiveDetail {...this.props}/> : null}
+            </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
@@ -75,6 +79,7 @@ class OkrFormModal extends Component {
 OkrFormModal.propTypes = {
   updateObjective: PropTypes.func.isRequired,
   objective: PropTypes.object,
+  users: PropTypes.object,
   open: PropTypes.bool,
 };
 
