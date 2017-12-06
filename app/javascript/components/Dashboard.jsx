@@ -39,7 +39,9 @@ export default class Dashboard extends Component {
       <div className="dash-board">
         <section className="okr">
           <h2>OKR 一覧 ({this.props.objectives.size})</h2>
-          <OkrList objectives={this.props.objectives} onSelect={this.selectObjective} />
+          <OkrList objectives={this.props.objectives}
+                   selectedObjective={this.state.selectedObjective}
+                   onSelect={this.selectObjective} />
         </section>
         <section className='okr-action-section'>
           <h2>OKR マップ</h2>
