@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
 
 class OkrList extends Component {
@@ -32,6 +33,9 @@ class OkrList extends Component {
   render() {
     return (
       <div className="okr-list">
+        <a className="okr-box" href="javascript:void(0)" onClick={this.props.openObjectiveFormModal}>
+          <Button content='OKR を作成する' />
+        </a>
         {
           this.props.objectives.map((objective) => {
             const isSelected = objective.get('id') === (this.state.selectedObjective && this.state.selectedObjective.get('id'));
@@ -43,10 +47,6 @@ class OkrList extends Component {
               </a>
             );
           })}
-        <a className={`okr-box ${this.state.selectedObjective ? '' : 'active'}`} href="javascript:void(0)"
-           onClick={() => this.props.openObjectiveFormModal()}>
-          Objective を作成する
-        </a>
       </div>
     );
   }
