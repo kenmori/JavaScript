@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Icon, Modal, Segment, Dropdown } from 'semantic-ui-react';
 import Sidebar from './Sidebar'
 import ObjectiveDetail from './ObjectiveDetail'
+import KeyResultDetail from './KeyResultDetail'
 
 class OkrFormModal extends Component {
   constructor(props) {
@@ -32,8 +33,9 @@ class OkrFormModal extends Component {
     this.setState({ sliderValue: nextProps.objective.get('progressRate') });
   }
 
-  handleProgressChange(progressRate) {
-    this.setState({ sliderValue: progressRate });
+  handleProgressChange(index, progressRate) {
+    const totalProgressRate = this.getTotalProgressRate(this.props.keyResults, index, progressRate);
+    this.setState({ sliderValue: totalProgressRate });
   }
 
   updateProgress(progressRate) {
@@ -55,14 +57,26 @@ class OkrFormModal extends Component {
 
   render() {
     const objective = this.props.objective;
+    const selectedOkr = this.state.selectedOkr;
     if (!objective.size) { return null; }
     return (
       <Modal open={this.props.isOpen} size='mini' className='okr-form-modal'>
         <Modal.Content>
           <div className="okr-body">
-            {<Sidebar objective={objective} showDetail={this.showDetail.bind(this)} selectedOkr={this.state.selectedOkr} />}
+            {<Sidebar objective={objective} showDetail={this.showDetail.bind(this)} selectedOkr={selectedOkr} />}
             <div className="okr-main">
-              {this.state.selectedOkr.get('okrType') === 'objective' ? <ObjectiveDetail {...this.props}/> : null}
+              {selectedOkr.get('okrType') === 'objective' ? 
+                <ObjectiveDetail {...this.props}/> : 
+                <KeyResultDetail
+                  users={this.props.users}
+                  keyResult={objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'))}
+                  updateKeyResult={this.props.updateKeyResult}
+                  index={1}
+                  updateProgress={this.updateProgress.bind(this)}
+                  removeKeyResult={this.props.removeKeyResult}
+                  onProgressChange={this.handleProgressChange.bind(this)}
+                />
+              }
             </div>
           </div>
         </Modal.Content>
@@ -77,10 +91,13 @@ class OkrFormModal extends Component {
 }
 
 OkrFormModal.propTypes = {
-  updateObjective: PropTypes.func.isRequired,
+  updateObjective: PropTypes.func,
+  updateKeyResult: PropTypes.func,
+  closeModal: PropTypes.func,
+  removeKeyResult: PropTypes.func,
   objective: PropTypes.object,
   users: PropTypes.object,
-  open: PropTypes.bool,
+  isOpen: PropTypes.bool,
 };
 
 OkrFormModal.defaultProps = {
