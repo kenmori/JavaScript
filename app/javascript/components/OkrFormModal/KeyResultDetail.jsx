@@ -12,13 +12,14 @@ import moment from 'moment';
 class KeyResultDetail extends Component {
   constructor(props) {
     super(props);
-
+    const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
+    concernedPeople.push(null);
     this.state = {
       isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
       isDisplayedRateInputForm: false,
-      concernedPeople: []
+      concernedPeople,
     };
   }
 
@@ -128,7 +129,6 @@ class KeyResultDetail extends Component {
   }
 
   commentList(comments) {
-    console.log("keyResult.get('comments')", comments)
     const commentTags = comments.map((item) => {
       return (
         <div className="comments" key={item.get('id')}>
@@ -143,9 +143,9 @@ class KeyResultDetail extends Component {
             <div className="comments__item-meta">
               <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/MM/DD HH:mm')}</div>
               <div className="comments__item-name">{item.get('fullName')}</div>
+              {item.get('selfComment') && <Icon name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
             </div>
           </div>
-          {item.get('selfComment') && <Icon name="close" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
         </div>
       )
     });
@@ -189,7 +189,7 @@ class KeyResultDetail extends Component {
   render() {
     const keyResult = this.props.keyResult;
     return (
-      <Segment>
+      <Form>
         <Form.Field className='values'>
           <label className="field-title">進捗</label>
           {this.state.isDisplayedRateInputForm && 
@@ -261,15 +261,9 @@ class KeyResultDetail extends Component {
           <Form.Field className="wide-field">
             <label className="field-title">コメント</label>
             {this.commentList(keyResult.get('comments'))}
-          </Form.Field>
-        </Form.Group>
-        <Form.Group>
-          <Form.Field className="wide-field">
-            <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} ref="commentArea" />
-          </Form.Field>
-        </Form.Group>
-        <Form.Group>
-          <Form.Field>
+            <div className="comments__text-box">
+              <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} ref="commentArea" />
+            </div>
             <Button content="コメントを投稿する" onClick={() => this.addComment()} as="div" />
           </Form.Field>
         </Form.Group>
@@ -278,7 +272,7 @@ class KeyResultDetail extends Component {
             <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
           </Form.Field>
         </Form.Group>
-      </Segment>
+      </Form>
     );
   }
 }

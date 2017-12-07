@@ -112,7 +112,7 @@
   }
 
   .sidebar {
-    width: 300px;
+    width: 40%;
     .sidebar__items {
       margin-bottom: 20px;
     }
@@ -143,8 +143,11 @@
   }
 
   .okr-main {
-    width: 100%;
+    width: 60%;
     padding-left: 20px;
+    .field {
+      margin-bottom: 10px;
+    }
   }
 
   .input-date-picker {
@@ -157,6 +160,7 @@
 
   .concerned-people {
     .concerned-people__item {
+      width: 200px;
       position: relative;
       margin-top: 10px;
     }
@@ -179,12 +183,12 @@
   .comments__item {
     width: 100%;
     margin-bottom: 10px;
-    border-radius: 3px;
-    padding: 10px;
-    border: 1px rgba(34,36,38,.15) solid;
-    &:not(:last-child) {
-      margin-bottom: 10px;
-    }
+  }
+  .comments__text-box {
+    margin-bottom: 10px;
+  }
+  .comments__item-text {
+    width: 100%;
   }
   .comments__item-text.is-others {
     padding: 1em;
@@ -200,8 +204,7 @@
     padding-left: 10px;
   }
   .comments__item-icon {
-    width: 30px;
-    margin-bottom: 10px;
-    display: block;
+    margin-left: 10px;
+    cursor: pointer;
   }
 }
