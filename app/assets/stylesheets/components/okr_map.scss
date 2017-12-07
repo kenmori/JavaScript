@@ -4,5 +4,9 @@
 
   .map-layer {
     margin-top: 30px;
+
+    .flex-center {
+      align-items: flex-start;
+    }
   }
 }
