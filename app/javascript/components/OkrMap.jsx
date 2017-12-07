@@ -38,6 +38,7 @@ class OkrMap extends Component {
 
   componentDidMount() {
     this.updatechildObjectivePositions(this.props.objective);
+    window.addEventListener('resize', () => this.updateChildObjectivePositions(this.props.objective));
   }
 
   path() {
