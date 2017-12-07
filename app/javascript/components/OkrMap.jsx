@@ -25,6 +25,7 @@ class OkrMap extends Component {
       childObjectivePositions,
       width: ReactDOM.findDOMNode(this.refs.map).offsetWidth,
       height: ReactDOM.findDOMNode(this.refs.map).offsetHeight + 30,
+      startY: ReactDOM.findDOMNode(this.refs['objective_root']).offsetTop + ReactDOM.findDOMNode(this.refs['objective_root']).offsetHeight,
     });
   }
 
@@ -46,7 +47,7 @@ class OkrMap extends Component {
     return this.props.objective.get('childObjectives').map((objective) => {
       const position = this.state.childObjectivePositions[this.createKey(objective)];
       if(!position) {return null; }
-      const points = `${center},${position.y - 30} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`;
+      const points = `${center},${this.state.startY} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`;
       return (
         <svg key={`svg-${objective.get('id')}`} width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
           <polyline
@@ -71,7 +72,7 @@ class OkrMap extends Component {
       <div key={objective.get('id')} className='okr-map' ref='map'>
         <div className='map-layer'>
           <Card.Group className='flex-center'>
-            <ObjectiveCard objective={objective}/>
+            <ObjectiveCard objective={objective} ref='objective_root'/>
           </Card.Group>
         </div>
         {(() => {
