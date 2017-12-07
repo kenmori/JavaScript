@@ -12,14 +12,13 @@ import moment from 'moment';
 class KeyResultDetail extends Component {
   constructor(props) {
     super(props);
-    const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
-    concernedPeople.push(null);
+
     this.state = {
       isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
       sliderValue: props.keyResult.get('progressRate'),
       expiredDate: moment(props.keyResult.get('expiredDate')),
       isDisplayedRateInputForm: false,
-      concernedPeople,
+      concernedPeople: []
     };
   }
 
