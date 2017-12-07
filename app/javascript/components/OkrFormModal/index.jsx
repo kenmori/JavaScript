@@ -30,7 +30,18 @@ class OkrFormModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ sliderValue: nextProps.objective.get('progressRate') });
+    this.setState({ 
+      sliderValue: nextProps.objective.get('progressRate'),
+    });
+
+    if (!!nextProps.selectedData) {
+      this.setState({ 
+        selectedOkr: Map({
+          okrType: nextProps.selectedData.get('okrType'),
+          targetId: nextProps.selectedData.get('targetId'),
+        })
+      });
+    }
   }
 
   handleProgressChange(index, progressRate) {
@@ -96,6 +107,7 @@ OkrFormModal.propTypes = {
   closeModal: PropTypes.func,
   removeKeyResult: PropTypes.func,
   objective: PropTypes.object,
+  selectedData: PropTypes.object,
   users: PropTypes.object,
   isOpen: PropTypes.bool,
 };

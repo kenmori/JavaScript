@@ -25,6 +25,7 @@ const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
     objective: findObjective(state.objectives, state.dialogs.getIn(['okrForm', 'objectiveId'])),
+    selectedData: state.dialogs.getIn(['okrForm', 'selectedData']),
     users: state.users,
   };
 };
