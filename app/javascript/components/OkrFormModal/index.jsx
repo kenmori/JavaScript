@@ -44,9 +44,16 @@ class OkrFormModal extends Component {
     }
   }
 
-  handleProgressChange(index, progressRate) {
-    const totalProgressRate = this.getTotalProgressRate(this.props.keyResults, index, progressRate);
+  handleProgressChange(keyResults, index, progressRate) {
+    const totalProgressRate = this.getTotalProgressRate(keyResults, index, progressRate);
     this.setState({ sliderValue: totalProgressRate });
+  }
+
+  getTotalProgressRate(keyResults, index, progressRate) {
+    const totalProgressRate = keyResults.map((keyResult, i) =>
+      i === index ? progressRate : keyResult.get('progressRate')
+    ).reduce((sum, x) => sum + x) / keyResults.size;
+    return Math.round(totalProgressRate);
   }
 
   updateProgress(progressRate) {
@@ -85,7 +92,7 @@ class OkrFormModal extends Component {
                   index={1}
                   updateProgress={this.updateProgress.bind(this)}
                   removeKeyResult={this.props.removeKeyResult}
-                  onProgressChange={this.handleProgressChange.bind(this)}
+                  onProgressChange={(index, progressRate) => this.handleProgressChange(objective.get('keyResults'), index, progressRate)}
                 />
               }
             </div>
