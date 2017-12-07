@@ -26,6 +26,10 @@ body {
   font-family: 'M+ Type-1 (general-j) Regular', sans-serif;
   > div {
     height: 100%;
+
+    > #root {
+      height: 100%;
+    }
   }
 }
 
