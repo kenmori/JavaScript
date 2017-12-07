@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Form, Dropdown } from 'semantic-ui-react';
+import Avatar from '../Avatar';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
 
@@ -35,6 +36,9 @@ class ObjectiveDetail extends Component {
     if (!objective.size) { return null; }
     return (
       <Form>
+        <Form.Field className='values'>
+          <Avatar user={objective.get('owner')} /><EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
+        </Form.Field>
         <Form.Field className='values'>
           <label>進捗</label>
           <div className='progress-rate'>{this.state.sliderValue}%</div>
