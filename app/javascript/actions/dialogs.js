@@ -9,10 +9,11 @@ const actions = createActions({
     relatedKeyResult
   }),
   [actionTypes.CLOSE_OBJECTIVE_FORM_MODAL]: () => {},
-  [actionTypes.OPEN_OKR_FORM_MODAL]: (objectiveId, selectedData) => ({ objectiveId, selectedData }),
+  [actionTypes.OPEN_OKR_FORM_MODAL]: (objectiveId, selectedOkr) => ({ objectiveId, selectedOkr }),
   [actionTypes.CLOSE_OKR_FORM_MODAL]: () => {},
   [actionTypes.OPEN_AVATAR_IMAGE_MODAL]: (imageData) => ({ imageData }),
   [actionTypes.CLOSE_AVATAR_IMAGE_MODAL]: () => {},
+  [actionTypes.SHOW_OKR_DETAIL]: (selectedOkr) => ({selectedOkr}),
 });
 
 export default actions;

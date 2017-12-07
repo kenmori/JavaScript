@@ -129,7 +129,6 @@ class KeyResultAccordionItem extends Component {
   }
 
   commentList(comments) {
-    console.log("keyResult.get('comments')", comments)
     const commentTags = comments.map((item) => {
       return (
         <div className="comments" key={item.get('id')}>

@@ -11,10 +11,6 @@ class OkrFormModal extends Component {
     super(props);
     this.state = { 
       sliderValue: 0,
-      selectedOkr: Map({
-        okrType: 'objective',
-        targetId: null,
-      })
     };
   }
 
@@ -34,11 +30,11 @@ class OkrFormModal extends Component {
       sliderValue: nextProps.objective.get('progressRate'),
     });
 
-    if (!!nextProps.selectedData) {
+    if (!!nextProps.selectedOkr) {
       this.setState({ 
         selectedOkr: Map({
-          okrType: nextProps.selectedData.get('okrType'),
-          targetId: nextProps.selectedData.get('targetId'),
+          okrType: nextProps.selectedOkr.get('okrType'),
+          targetId: nextProps.selectedOkr.get('targetId'),
         })
       });
     }
@@ -64,24 +60,20 @@ class OkrFormModal extends Component {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
   }
 
-  showDetail(okrType, targetId) {
-    this.setState({
-      selectedOkr: Map({
-        okrType,
-        targetId,
-      })
-    });
+  showOkrDetail(okrType, targetId) {
+    this.props.showOkrDetail(okrType, targetId)
   }
 
   render() {
     const objective = this.props.objective;
-    const selectedOkr = this.state.selectedOkr;
+    const selectedOkr = this.props.selectedOkr;
+    console.log(1, selectedOkr, selectedOkr.get('targetId'))
     if (!objective.size) { return null; }
     return (
       <Modal open={this.props.isOpen} size='small' className='okr-form-modal'>
         <Modal.Content>
           <div className="okr-body">
-            {<Sidebar objective={objective} showDetail={this.showDetail.bind(this)} selectedOkr={selectedOkr} />}
+            {<Sidebar objective={objective} showOkrDetail={this.showOkrDetail.bind(this)} selectedOkr={this.props.selectedOkr} />}
             <div className="okr-main">
               {selectedOkr.get('okrType') === 'objective' ? 
                 <ObjectiveDetail {...this.props}/> : 
@@ -114,7 +106,7 @@ OkrFormModal.propTypes = {
   closeModal: PropTypes.func,
   removeKeyResult: PropTypes.func,
   objective: PropTypes.object,
-  selectedData: PropTypes.object,
+  selectedOkr: PropTypes.object,
   users: PropTypes.object,
   isOpen: PropTypes.bool,
 };

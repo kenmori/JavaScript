@@ -10,7 +10,7 @@ class Sidebar extends Component {
       const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
                     'sidebar__item is-current' : 'sidebar__item';
       return (
-        <Segment className={cls} key={item.get('id')} onClick={() => this.props.showDetail('keyResult', item.get('id'))}>
+        <Segment className={cls} key={item.get('id')} onClick={() => this.props.showOkrDetail('keyResult', item.get('id'))}>
           <span className="sidebar__avatar"><Avatar user={item.get('owner')} size='small' /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
@@ -23,14 +23,14 @@ class Sidebar extends Component {
     const { 
       objective, 
       selectedOkr,
-      showDetail,
+      showOkrDetail,
     } = this.props;
     const objectiveCls = selectedOkr.get('okrType') === 'objective' ? 'sidebar__item is-current' : 'sidebar__item';
     return (
       <div className="sidebar">
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
-          <Segment className={objectiveCls} onClick={() => showDetail('objective')}>
+          <Segment className={objectiveCls} onClick={() => showOkrDetail('objective')}>
             <span className="sidebar__avatar"><Avatar user={objective.get('owner')} size='small' /></span>
             <span className="sidebar__val">{objective.get('name')}</span>
             <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
@@ -51,7 +51,7 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
   selectedOkr: PropTypes.object.isRequired,
-  showDetail: PropTypes.func.isRequired,
+  showOkrDetail: PropTypes.func.isRequired,
 };
 
 Sidebar.defaultProps = {

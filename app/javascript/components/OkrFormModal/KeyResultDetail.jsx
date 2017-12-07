@@ -12,15 +12,19 @@ import moment from 'moment';
 class KeyResultDetail extends Component {
   constructor(props) {
     super(props);
-    const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
-    concernedPeople.push(null);
-    this.state = {
-      isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
-      sliderValue: props.keyResult.get('progressRate'),
-      expiredDate: moment(props.keyResult.get('expiredDate')),
-      isDisplayedRateInputForm: false,
-      concernedPeople,
-    };
+
+    if (props.keyResult) {
+      const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
+      concernedPeople.push(null);
+      this.state = {
+        isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
+        sliderValue: props.keyResult.get('progressRate'),
+        expiredDate: moment(props.keyResult.get('expiredDate')),
+        isDisplayedRateInputForm: false,
+        concernedPeople,
+      };
+    }
+   
   }
 
   usersOption(users, isOwner) {
@@ -179,15 +183,25 @@ class KeyResultDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.keyResult) {
+      return;
+    }
     const concernedPeople = nextProps.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
     concernedPeople.push(null);
     this.setState({
-      concernedPeople
+      isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
+      sliderValue: nextProps.keyResult.get('progressRate'),
+      expiredDate: moment(nextProps.keyResult.get('expiredDate')),
+      isDisplayedRateInputForm: false,
+      concernedPeople,
     });
   }
 
   render() {
     const keyResult = this.props.keyResult;
+    if (!keyResult) {
+      return null;
+    }
     return (
       <Form>
         <Form.Field className='values'>

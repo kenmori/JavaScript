@@ -19,8 +19,8 @@ const mapDispatchToProps = dispatch => {
     openObjectiveFormModal: (parentObjective, relatedKeyResult) => {
       dispatch(dialogActions.openObjectiveFormModal(parentObjective, relatedKeyResult));
     },
-    openOkrFormModal: (objectiveId, selectedData) => {
-      dispatch(dialogActions.openOkrFormModal(objectiveId, selectedData));
+    openOkrFormModal: (objectiveId, selectedOkr) => {
+      dispatch(dialogActions.openOkrFormModal(objectiveId, selectedOkr));
     },
     openKeyResultFormModal: (objective) => {
       dispatch(dialogActions.openKeyResultFormModal(objective));
