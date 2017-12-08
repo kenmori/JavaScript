@@ -68,11 +68,12 @@ class KeyResultDetail extends Component {
   }
 
   handleSliderChange(event) {
-    this.setState({ sliderValue: event.target.value });
-    this.props.onProgressChange(this.props.index, Number(event.target.value));
+    this.setState({
+      sliderValue: event.target.value,
+    });
   }
 
-  handleSliderBlur(event) {
+  handleSliderValue(event) {
     this.updateKeyResult({ progressRate: Number(event.target.value) });
     this.props.updateProgress(this.props.index, Number(event.target.value));
   }
@@ -81,7 +82,6 @@ class KeyResultDetail extends Component {
     if (targetValue && actualValue) {
       const progressRate = Math.round(actualValue / targetValue * 100);
 
-      this.setState({ sliderValue: progressRate });
       this.props.onProgressChange(this.props.index, progressRate);
       this.props.updateProgress(this.props.index, progressRate);
 
@@ -126,9 +126,10 @@ class KeyResultDetail extends Component {
   }
 
   handleRateInputBlur(event) {
-    this.handleSliderBlur(event)
+    this.handleSliderValue(event)
     this.setState({
       isDisplayedRateInputForm: false,
+      sliderValue: event.target.value,
     });
   }
 
@@ -210,9 +211,8 @@ class KeyResultDetail extends Component {
             <div className="progress-rate-input">
               <div className="progress-rate-input__inner">
                 <Input type="number" 
-                      defaultValue={this.state.sliderValue} 
+                      defaultValue={keyResult.get('progressRate')} 
                       onBlur={this.handleRateInputBlur.bind(this)} 
-                      onChange={this.handleSliderChange.bind(this)} 
                       max="100"
                       min="0"
                       ref="progressRateView"
@@ -225,7 +225,7 @@ class KeyResultDetail extends Component {
               <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
               <div className='slider'>
                 <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                      data-unit='%' onBlur={this.handleSliderBlur.bind(this)}/>
+                      data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
               </div>
             </span>
           }
