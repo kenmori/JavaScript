@@ -75,7 +75,7 @@ class KeyResultDetail extends Component {
 
   handleSliderValue(event) {
     this.updateKeyResult({ progressRate: Number(event.target.value) });
-    this.props.updateProgress(this.props.index, Number(event.target.value));
+    this.props.onProgressChange(this.props.index, Number(event.target.value));
   }
 
   updateValues(targetValue, actualValue) {
@@ -83,7 +83,6 @@ class KeyResultDetail extends Component {
       const progressRate = Math.round(actualValue / targetValue * 100);
 
       this.props.onProgressChange(this.props.index, progressRate);
-      this.props.updateProgress(this.props.index, progressRate);
 
       this.updateKeyResult({
         targetValue: targetValue,

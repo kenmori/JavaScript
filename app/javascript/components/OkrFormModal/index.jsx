@@ -9,9 +9,6 @@ import KeyResultDetail from './KeyResultDetail'
 class OkrFormModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      sliderValue: 0,
-    };
   }
 
   getUsersOption(users) {
@@ -26,10 +23,6 @@ class OkrFormModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ 
-      sliderValue: nextProps.objective.get('progressRate'),
-    });
-
     if (!!nextProps.selectedOkr) {
       this.setState({ 
         selectedOkr: Map({
@@ -42,7 +35,7 @@ class OkrFormModal extends Component {
 
   handleProgressChange(keyResults, index, progressRate) {
     const totalProgressRate = this.getTotalProgressRate(keyResults, index, progressRate);
-    this.setState({ sliderValue: totalProgressRate });
+    this.props.updateObjective({ id: this.props.objective.get('id'), progressRate: totalProgressRate });
   }
 
   getTotalProgressRate(keyResults, index, progressRate) {
@@ -50,14 +43,6 @@ class OkrFormModal extends Component {
       i === index ? progressRate : keyResult.get('progressRate')
     ).reduce((sum, x) => sum + x) / keyResults.size;
     return Math.round(totalProgressRate);
-  }
-
-  updateProgress(progressRate) {
-    this.updateObjective({ progressRate: progressRate });
-  }
-
-  updateObjective(values) {
-    this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
   }
 
   showOkrDetail(okrType, targetId) {
@@ -68,7 +53,6 @@ class OkrFormModal extends Component {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
     if (!objective.size) { return null; }
-    console.log('render')
     return (
       <Modal open={this.props.isOpen} size='small' className='okr-form-modal'>
         <Modal.Content>
@@ -82,7 +66,6 @@ class OkrFormModal extends Component {
                   keyResult={objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'))}
                   updateKeyResult={this.props.updateKeyResult}
                   index={1}
-                  updateProgress={this.updateProgress.bind(this)}
                   removeKeyResult={this.props.removeKeyResult}
                   onProgressChange={(index, progressRate) => this.handleProgressChange(objective.get('keyResults'), index, progressRate)}
                 />

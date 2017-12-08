@@ -8,11 +8,6 @@ import EditableMultiLineText from '../utils/EditableMultiLineText'
 class ObjectiveDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { sliderValue: 0 };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ sliderValue: nextProps.objective.get('progressRate') });
   }
 
   getUsersOption(users) {
@@ -41,9 +36,9 @@ class ObjectiveDetail extends Component {
         </Form.Field>
         <Form.Field className='values'>
           <label>進捗</label>
-          <div className='progress-rate'>{this.state.sliderValue}%</div>
+          <div className='progress-rate'>{objective.get('progressRate')}%</div>
           <div className='slider'>
-            <input type='range' min='0' max='100' value={this.state.sliderValue}
+            <input type='range' min='0' max='100' value={objective.get('progressRate')}
                     step='1' data-unit='%' readOnly/>
           </div>
         </Form.Field>
