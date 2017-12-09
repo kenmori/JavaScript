@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ObjectiveCard from '../containers/ObjectiveCard';
 import { Card } from 'semantic-ui-react';
 
@@ -13,35 +13,35 @@ class OkrMap extends Component {
     };
   }
 
-  updatechildObjectivePositions(objective) {
-    if(!this.props.objective.get('childObjectives')) return null;
+  updateChildObjectivePositions(objective) {
+    if (!this.props.objective.get('childObjectives')) return null;
     const childObjectivePositions = objective.get('childObjectives').reduce((result, objective) => {
-      const element = ReactDOM.findDOMNode(this.refs[this.createKey(objective)]);
+      const element = findDOMNode(this.refs[this.createKey(objective)]);
       result[this.createKey(objective)] = { x: element.offsetLeft + (element.offsetWidth / 2), y: element.offsetTop };
       return result;
     }, {});
 
     this.setState({
       childObjectivePositions,
-      width: ReactDOM.findDOMNode(this.refs.map).offsetWidth,
-      height: ReactDOM.findDOMNode(this.refs.map).offsetHeight + 30,
-      startY: ReactDOM.findDOMNode(this.refs['objective_root']).offsetTop + ReactDOM.findDOMNode(this.refs['objective_root']).offsetHeight,
+      width: findDOMNode(this.refs.map).offsetWidth,
+      height: findDOMNode(this.refs.map).offsetHeight + 30,
+      startY: findDOMNode(this.refs['objective_root']).offsetTop + findDOMNode(this.refs['objective_root']).offsetHeight,
     });
   }
 
   componentDidUpdate(prevProps, _prevState) {
     // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
-    if(prevProps !== this.props) {
-      this.updatechildObjectivePositions(this.props.objective);
+    if (prevProps !== this.props) {
+      this.updateChildObjectivePositions(this.props.objective);
     }
   }
 
   componentDidMount() {
-    this.updatechildObjectivePositions(this.props.objective);
+    this.updateChildObjectivePositions(this.props.objective);
     window.addEventListener('resize', () => this.updateChildObjectivePositions(this.props.objective));
   }
 
-  path() {
+  pathSvg() {
     const center = this.state.width / 2;
     if (!this.state.childObjectivePositions) return null;
     if (!this.props.objective.get('childObjectives')) return null;
@@ -76,7 +76,7 @@ class OkrMap extends Component {
           <ObjectiveCard objective={objective} ref='objective_root' />
         </Card.Group>
         {(() => {
-          if(objective.get('childObjectives').size != 0) {
+          if (!objective.get('childObjectives').isEmpty()) {
             return (
               <Card.Group className='okr-map__group'>
                 {objective.get('childObjectives').map((objective) => (
@@ -90,10 +90,7 @@ class OkrMap extends Component {
             );
           }
         })()}
-        {
-          this.path()
-          // パスの描画
-        }
+        {this.pathSvg()}
       </div>
     );
   }

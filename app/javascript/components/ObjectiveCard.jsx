@@ -6,7 +6,7 @@ export default class ObjectiveCard extends Component {
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
     if (!keyResults || keyResults.isEmpty()) {
-      return <Card.Content description='Key Result はありません'/>;
+      return <Card.Content description='Key Result はありません' />;
     }
     return (
       <Card.Content className="keyResults">
@@ -50,9 +50,9 @@ export default class ObjectiveCard extends Component {
         </Card.Content>
         {this.generateKeyResultList(objective)}
         <Card.Content extra>
-          <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)}/>
-          <Icon link name='trash' onClick={() => this.removeObjective(objective)}/>
-          <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), {okrType: 'objective'})}/>
+          <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)} />
+          <Icon link name='trash' onClick={() => this.removeObjective(objective)} />
+          <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
       </Card>
     );

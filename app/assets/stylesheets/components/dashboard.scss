@@ -1,9 +1,9 @@
-.dash-board {
+.dashboard {
   display: flex;
   flex-direction: column;
   height: 100%;
 
-  .okr {
+  .okr-list-section {
     padding: 0 24px 16px;
 
     h2 {
@@ -11,7 +11,7 @@
     }
   }
 
-  .okr-action-section {
+  .okr-map-section {
     padding: 0 24px 16px;
     height: 100%;
     background-color: rgba(185, 185, 185, 0.1);
@@ -19,12 +19,6 @@
     h2 {
       font-size: 14px;
       margin: 16px 0 0;
-    }
-
-    .objective-form-block {
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
   }
 }

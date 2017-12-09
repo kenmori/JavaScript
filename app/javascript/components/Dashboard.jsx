@@ -22,30 +22,24 @@ export default class Dashboard extends Component {
     }
   }
 
-  get actionSection() {
-    if (this.state.selectedObjective) {
-      return <OkrMap objective={this.state.selectedObjective} />;
-    }
-  }
-
   selectObjective = objective => {
     this.setState({
-      selectedObjective: objective
+      selectedObjective: objective,
     });
-  };
+  }
 
   render() {
     return (
-      <div className="dash-board">
-        <section className="okr">
+      <div className="dashboard">
+        <section className="okr-list-section">
           <h2>OKR 一覧 ({this.props.objectives.size})</h2>
           <OkrList objectives={this.props.objectives}
                    selectedObjective={this.state.selectedObjective}
                    onSelect={this.selectObjective} />
         </section>
-        <section className='okr-action-section'>
+        <section className='okr-map-section'>
           <h2>OKR マップ</h2>
-          {this.actionSection}
+          {this.state.selectedObjective && <OkrMap objective={this.state.selectedObjective} />}
         </section>
       </div>
     );
