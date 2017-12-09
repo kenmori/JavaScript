@@ -71,23 +71,21 @@ class OkrMap extends Component {
     const objective = this.props.objective;
     return (
       <div key={objective.get('id')} className='okr-map' ref='map'>
-        <div className='map-layer'>
-          <Card.Group className='flex-center'>
-            <ObjectiveCard objective={objective} ref='objective_root'/>
-          </Card.Group>
-        </div>
+        <Card.Group className='okr-map__group'>
+          <ObjectiveCard objective={objective} ref='objective_root' />
+        </Card.Group>
         {(() => {
           if(objective.get('childObjectives').size != 0) {
             return (
-              <div className='map-layer'>
-                <Card.Group className='flex-center'>
-                  {
-                    objective.get('childObjectives').map((objective) => {
-                      return (<ObjectiveCard key={this.createKey(objective)} objective={objective} ref={this.createKey(objective)}/>);
-                    })
-                  }
-                </Card.Group>
-              </div>
+              <Card.Group className='okr-map__group'>
+                {objective.get('childObjectives').map((objective) => (
+                  <ObjectiveCard
+                    key={this.createKey(objective)}
+                    objective={objective}
+                    ref={this.createKey(objective)}
+                  />
+                ))}
+              </Card.Group>
             );
           }
         })()}
