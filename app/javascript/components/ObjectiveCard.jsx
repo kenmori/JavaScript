@@ -1,9 +1,31 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Card, Icon, List } from 'semantic-ui-react';
 import Avatar from '../containers/Avatar';
 
 class ObjectiveCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { width: 0, height: 0, };
+  }
+
+  componentDidMount() {
+    this.setWidthAndHeight();
+  }
+
+  componentDidUpdate(prevProps, _prevState) {
+    if (prevProps !== this.props) {
+      // コンポーネント描画後の width, height を取得するためこのタイミングで呼び出す
+      this.setWidthAndHeight();
+    }
+  }
+
+  setWidthAndHeight = () => {
+    const card = findDOMNode(this.refs.card);
+    this.setState({ width: card.offsetWidth, height: card.offsetHeight, });
+  }
+
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
     if (!keyResults || keyResults.isEmpty()) {
@@ -34,6 +56,24 @@ class ObjectiveCard extends Component {
     }
   }
 
+  pathSvg = (parentOrNot, drawOrNot) => {
+    if (drawOrNot) {
+      const top = parentOrNot ? '-22' : this.state.height;
+      const x = Math.round(this.state.width / 2);
+      return (
+        <svg width={this.state.width} height='22' style={{ position: 'absolute', top: top }}>
+          <line
+            x1={x} y1='0'
+            x2={x} y2='22'
+            stroke='silver'
+            strokeWidth='2'
+            strokeDasharray='4,2'
+          />
+        </svg>
+      );
+    }
+  }
+
   render() {
     const objective = this.props.objective;
     if (!objective || this.props.users.isEmpty()) {
@@ -41,7 +81,7 @@ class ObjectiveCard extends Component {
     }
     const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
-      <Card className='objective-card' color={this.props.isSelected ? 'red' : null}
+      <Card className='objective-card' ref='card' color={this.props.isSelected ? 'red' : null}
             onClick={() => this.props.onSelect(objective.get('id'))}>
         <Card.Content>
           <Card.Header>
@@ -56,6 +96,8 @@ class ObjectiveCard extends Component {
           <Icon link name='trash' onClick={() => this.removeObjective(objective)} />
           <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
+        {this.pathSvg(true, !!objective.get('parentObjectiveId'))}
+        {this.pathSvg(false, !objective.get('childObjectives').isEmpty())}
       </Card>
     );
   }

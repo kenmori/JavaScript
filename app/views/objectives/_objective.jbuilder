@@ -1,4 +1,4 @@
-json.extract! objective, :id, :name, :description, :owner_id, :progress_rate
+json.extract! objective, :id, :name, :description, :owner_id, :progress_rate, :parent_objective_id
 
 json.owner do
   json.id objective.owner_id

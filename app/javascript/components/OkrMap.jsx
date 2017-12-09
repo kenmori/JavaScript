@@ -28,7 +28,7 @@ class OkrMap extends Component {
     this.setState({
       childObjectivePositions,
       width: map.offsetWidth,
-      height: map.offsetHeight + 30,
+      height: map.offsetHeight + 48,
       startY: parent.offsetTop + parent.offsetHeight,
     });
   }
@@ -46,9 +46,10 @@ class OkrMap extends Component {
   }
 
   pathSvg() {
-    const center = this.state.width / 2;
+    const center = Math.round(this.state.width / 2);
     if (!this.state.childObjectivePositions) return null;
     if (!this.props.objective.get('childObjectives')) return null;
+    if (this.props.objective.get('childObjectives').isEmpty()) return null;
     return (
       <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
         {this.props.objective.get('childObjectives').map(objective => {
@@ -57,9 +58,9 @@ class OkrMap extends Component {
           return (
             <polyline
               key={`polyline-${objective.get('id')}`}
-              points={`${center},${this.state.startY} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`}
+              points={`${center},${this.state.startY} ${center},${position.y - 24} ${position.x},${position.y - 24} ${position.x},${position.y}`}
               strokeWidth='2'
-              stroke='rgb(230, 230, 230)'
+              stroke='silver'
               fill='none'
             />
           );
