@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Card, Icon, List } from 'semantic-ui-react';
 import Avatar from '../containers/Avatar';
 
-export default class ObjectiveCard extends Component {
+class ObjectiveCard extends Component {
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
     if (!keyResults || keyResults.isEmpty()) {
@@ -40,7 +41,7 @@ export default class ObjectiveCard extends Component {
     }
     const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
-      <Card key={objective.get('id')} className='objective-card' color={this.props.isSelected ? 'red' : null}
+      <Card className='objective-card' color={this.props.isSelected ? 'red' : null}
             onClick={() => this.props.onSelect(objective.get('id'))}>
         <Card.Content>
           <Card.Header>
@@ -58,4 +59,12 @@ export default class ObjectiveCard extends Component {
       </Card>
     );
   }
+}
+
+ObjectiveCard.propTypes = {
+  objective: PropTypes.object.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired,
 };
+
+export default ObjectiveCard;

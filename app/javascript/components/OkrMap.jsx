@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
+import PropTypes from 'prop-types';
 import ObjectiveCard from '../containers/ObjectiveCard';
 import { Card } from 'semantic-ui-react';
 
@@ -17,16 +18,18 @@ class OkrMap extends Component {
   updateChildObjectivePositions(objective) {
     if (!this.props.objective.get('childObjectives')) return null;
     const childObjectivePositions = objective.get('childObjectives').reduce((result, objective) => {
-      const element = findDOMNode(this.refs[this.createKey(objective)]);
-      result[this.createKey(objective)] = { x: element.offsetLeft + (element.offsetWidth / 2), y: element.offsetTop };
+      const child = findDOMNode(this.refs[this.getKey(objective)]);
+      result[this.getKey(objective)] = { x: child.offsetLeft + (child.offsetWidth / 2), y: child.offsetTop };
       return result;
     }, {});
 
+    const map = findDOMNode(this.refs.map);
+    const parent = findDOMNode(this.refs[this.getKey(objective)]);
     this.setState({
       childObjectivePositions,
-      width: findDOMNode(this.refs.map).offsetWidth,
-      height: findDOMNode(this.refs.map).offsetHeight + 30,
-      startY: findDOMNode(this.refs['objective_root']).offsetTop + findDOMNode(this.refs['objective_root']).offsetHeight,
+      width: map.offsetWidth,
+      height: map.offsetHeight + 30,
+      startY: parent.offsetTop + parent.offsetHeight,
     });
   }
 
@@ -49,7 +52,7 @@ class OkrMap extends Component {
     return (
       <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
         {this.props.objective.get('childObjectives').map(objective => {
-          const position = this.state.childObjectivePositions[this.createKey(objective)];
+          const position = this.state.childObjectivePositions[this.getKey(objective)];
           if (!position) return null;
           return (
             <polyline
@@ -65,7 +68,7 @@ class OkrMap extends Component {
     );
   }
 
-  createKey(objective) {
+  getKey = objective => {
     return `objective_${objective.get('id')}`;
   }
 
@@ -78,13 +81,13 @@ class OkrMap extends Component {
   render() {
     const objective = this.props.objective;
     return (
-      <div key={objective.get('id')} className='okr-map' ref='map'>
+      <div className='okr-map' ref='map'>
         <Card.Group className='okr-map__group'>
           <ObjectiveCard
             objective={objective}
             onSelect={this.selectCard}
             isSelected={this.state.selectedCardId === objective.get('id')}
-            ref='objective_root'
+            ref={this.getKey(objective)}
           />
         </Card.Group>
         {(() => {
@@ -93,11 +96,11 @@ class OkrMap extends Component {
               <Card.Group className='okr-map__group'>
                 {objective.get('childObjectives').map((objective) => (
                   <ObjectiveCard
-                    key={this.createKey(objective)}
+                    key={this.getKey(objective)}
                     objective={objective}
                     onSelect={this.selectCard}
                     isSelected={this.state.selectedCardId === objective.get('id')}
-                    ref={this.createKey(objective)}
+                    ref={this.getKey(objective)}
                   />
                 ))}
               </Card.Group>
@@ -110,6 +113,8 @@ class OkrMap extends Component {
   }
 }
 
-OkrMap.propTypes = {};
+OkrMap.propTypes = {
+  objective: PropTypes.object.isRequired,
+};
 
 export default OkrMap;
