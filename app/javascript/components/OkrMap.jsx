@@ -10,6 +10,7 @@ class OkrMap extends Component {
       childObjectivePositions: null,
       width: 0,
       height: 0,
+      selectedCardId: -1,
     };
   }
 
@@ -68,12 +69,23 @@ class OkrMap extends Component {
     return `objective_${objective.get('id')}`;
   }
 
+  selectCard = cardId => {
+    this.setState({
+      selectedCardId: cardId,
+    });
+  }
+
   render() {
     const objective = this.props.objective;
     return (
       <div key={objective.get('id')} className='okr-map' ref='map'>
         <Card.Group className='okr-map__group'>
-          <ObjectiveCard objective={objective} ref='objective_root' />
+          <ObjectiveCard
+            objective={objective}
+            onSelect={this.selectCard}
+            isSelected={this.state.selectedCardId === objective.get('id')}
+            ref='objective_root'
+          />
         </Card.Group>
         {(() => {
           if (!objective.get('childObjectives').isEmpty()) {
@@ -83,6 +95,8 @@ class OkrMap extends Component {
                   <ObjectiveCard
                     key={this.createKey(objective)}
                     objective={objective}
+                    onSelect={this.selectCard}
+                    isSelected={this.state.selectedCardId === objective.get('id')}
                     ref={this.createKey(objective)}
                   />
                 ))}

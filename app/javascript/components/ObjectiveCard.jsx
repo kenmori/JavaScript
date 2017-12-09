@@ -40,7 +40,8 @@ export default class ObjectiveCard extends Component {
     }
     const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
-      <Card key={objective.get('id')} className='objective-card'>
+      <Card key={objective.get('id')} className='objective-card' color={this.props.isSelected ? 'red' : null}
+            onClick={() => this.props.onSelect(objective.get('id'))}>
         <Card.Content>
           <Card.Header>
             <Avatar user={user} />
