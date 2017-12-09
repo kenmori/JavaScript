@@ -43,24 +43,25 @@ class OkrMap extends Component {
 
   path() {
     const center = this.state.width / 2;
-    if(!this.state.childObjectivePositions) return null;
-    if(!this.props.objective.get('childObjectives')) return null;
-    return this.props.objective.get('childObjectives').map((objective) => {
-      const position = this.state.childObjectivePositions[this.createKey(objective)];
-      if(!position) {return null; }
-      const points = `${center},${this.state.startY} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`;
-      return (
-        <svg key={`svg-${objective.get('id')}`} width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
-          <polyline
-            points={points}
-            strokeWidth='2'
-            stroke='rgb(230, 230, 230)'
-            fill='none'
-          />
-        </svg>
-
-      );
-    });
+    if (!this.state.childObjectivePositions) return null;
+    if (!this.props.objective.get('childObjectives')) return null;
+    return (
+      <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
+        {this.props.objective.get('childObjectives').map(objective => {
+          const position = this.state.childObjectivePositions[this.createKey(objective)];
+          if (!position) return null;
+          return (
+            <polyline
+              key={`polyline-${objective.get('id')}`}
+              points={`${center},${this.state.startY} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`}
+              strokeWidth='2'
+              stroke='rgb(230, 230, 230)'
+              fill='none'
+            />
+          );
+        })}
+      </svg>
+    );
   }
 
   createKey(objective) {
