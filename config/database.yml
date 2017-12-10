@@ -5,7 +5,7 @@ default: &default
   collation: utf8mb4_general_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= ENV.fetch("RAILS_DATABASE_HOST") { 'localhost' } %>
-  port: <%= ENV.fetch("RAILS_DATABASE_HOST") { '3306' } %>
+  port: <%= ENV.fetch("RAILS_DATABASE_PORT") { 3306 } %>
   database: <%= ENV.fetch("RAILS_DATABASE") { 'rails' } %>
   username: <%= ENV.fetch("RAILS_DATABASE_USER") { 'root' } %>
   password: <%= ENV.fetch("RAILS_DATABASE_PASSWORD") { '' } %>

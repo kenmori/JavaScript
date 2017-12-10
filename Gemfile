@@ -84,16 +84,11 @@ end
 group :development, :test do
   gem 'awesome_print', require: 'ap'
   gem 'factory_girl_rails'
-  #gem 'guard'
-  #gem 'guard-rubocop'
-  #gem 'guard-rspec'
+  gem 'guard'
+  gem 'guard-rubocop'
+  gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
-  gem 'capistrano', '~> 3.2.1'
-  gem 'capistrano-rails'
-  gem 'capistrano-rbenv'
-  gem 'capistrano-bundler'
-  gem 'capistrano3-unicorn'
 end
 
 group :test do
