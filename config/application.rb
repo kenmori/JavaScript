@@ -48,5 +48,21 @@ module Resily
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # SMTP setting
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings ||= Hash.new.tap do |h|
+      h[:address] = ENV.fetch('SMTP_ADDRESS', 'mailhog')
+      h[:port] = ENV.fetch('SMTP_PORT', 1025)
+
+      if start_tls_enabled = ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', false)
+        h[:domain] = ENV.fetch('SMTP_DOMAIN', 'reesili.com')
+        h[:user_name] = ENV.fetch('SMTP_USER_NAME', '')
+        h[:password] = ENV.fetch('SMTP_PASSWORD', '')
+        h[:authentication] = 'login'
+        h[:enable_starttls_auto] = start_tls_enabled
+      end
+    end
+
   end
 end

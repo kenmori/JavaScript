@@ -38,13 +38,6 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.smtp_settings = {
-      address: ENV.fetch("SMTP_ADDRESS") { 'mailhog' },
-      port: ENV.fetch("SMTP_PORT") { 1025 }
-  }
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -63,7 +56,7 @@ Rails.application.configure do
     Bullet.console = true # ブラウザのコンソールログに記録
     Bullet.rails_logger = true # Railsログに出力
   end
-
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
