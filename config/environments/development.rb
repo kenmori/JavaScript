@@ -41,13 +41,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-      address: ENV.fetch("SMTP_ADDRESS") { 'localhost' },
-      port: ENV.fetch("SMTP_PORT") { 25 },
-      domain: ENV.fetch("SMTP_DOMAIN") { 'reesili.com' },
-      user_name: ENV.fetch("SMTP_USER_NAME") { '' },
-      password: ENV.fetch("SMTP_PASSWORD") { '' },
-      authentication: :login,
-      enable_starttls_auto: true
+      address: ENV.fetch("SMTP_ADDRESS") { 'mailhog' },
+      port: ENV.fetch("SMTP_PORT") { 1025 }
   }
 
   # Print deprecation notices to the Rails logger.
