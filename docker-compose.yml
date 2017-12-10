@@ -28,6 +28,8 @@ services:
       - db
     environment:
       TZ: Asia/Tokyo
+      RAILS_ENV: development
+      NODE_ENV: development
       AWS_ACCESS_KEY_ID: access_key_id
       AWS_SECRET_ACCESS_KEY: secret_key
       AWS_REGION: ap-northeast-1
