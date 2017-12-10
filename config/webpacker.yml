@@ -3,7 +3,7 @@
 default: &default
   source_path: app/javascript
   source_entry_path: packs
-  public_output_path: packs
+  public_output_path: assets
   cache_path: tmp/cache/webpacker
 
   # Additional paths webpack should lookup modules
@@ -36,9 +36,8 @@ development:
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
     https: false
-    host: webpack # Webサーバーからwebpack-dev-serverへののアクセスする際に使うhost(pingなど)
+    host: 0.0.0.0
     port: 8080
-    public: 0.0.0.0:8080 # 外部からwebpack-dev-serverが配布する静的ファイルへのアクセスに使うurl
     hmr: true
     # Inline should be set to true if using HMR
     inline: true

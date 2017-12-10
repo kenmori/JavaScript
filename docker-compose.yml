@@ -2,41 +2,41 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: "password"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: password
   web:
     build:
       context: .
       args:
-        RAILS_ENV: "development"
-        NODE_ENV: "development"
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        RAILS_ENV: development
+        NODE_ENV: development
+    command: bundle exec foreman start -f Procfile.dev
     volumes:
-      - .:/myapp
+      - .:/app
       - bundle:/usr/local/bundle
+      - /app/node_modules
     ports:
       - "3000:3000"
+      - "8080:8080"
     depends_on:
       - db
-      - webpack
     environment:
-      MYSQL_ROOT_PASSWORD: "password"
-  webpack:
-    build:
-      context: .
-      args:
-        RAILS_ENV: "development"
-        NODE_ENV: "development"
-    volumes:
-      - .:/myapp
-      - bundle:/usr/local/bundle
-    ports:
-      - "8080:8080"
-    command: bin/webpack-dev-server
+      TZ: Asia/Tokyo
+      AWS_ACCESS_KEY_ID: access_key_id
+      AWS_SECRET_ACCESS_KEY: secret_key
+      AWS_REGION: ap-northeast-1
+      AWS_S3_BUCKET: image
+      AWS_S3_URL: http://minio:9000/
+      SMTP_USER_NAME: user
+      SMTP_PASSWORD: password
+      RAILS_DATABASE_HOST: db
+      RAILS_DATABASE_PASSWORD: password
 volumes:
   mysql-data:
     driver: local

@@ -43,6 +43,8 @@ gem 'gon'
 gem 'carrierwave'
 gem 'rmagick'
 gem 'fog'
+gem 'foreman', '~> 0.82.0'
+gem 'health-monitor-rails', '~> 7.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -82,9 +84,9 @@ end
 group :development, :test do
   gem 'awesome_print', require: 'ap'
   gem 'factory_girl_rails'
-  gem 'guard'
-  gem 'guard-rubocop'
-  gem 'guard-rspec'
+  #gem 'guard'
+  #gem 'guard-rubocop'
+  #gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'capistrano', '~> 3.2.1'
