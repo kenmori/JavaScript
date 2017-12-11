@@ -36,7 +36,7 @@ class OkrList extends Component {
 
 OkrList.propTypes = {
   objectives: PropTypes.object.isRequired,
-  selectedObjective: PropTypes.object.isRequired,
+  selectedObjective: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
 };
 
