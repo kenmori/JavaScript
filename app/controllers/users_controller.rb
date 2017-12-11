@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:create]
 
   def index
-    @users = User.all.includes(organization_member: :organization)
+    @users = User.find(current_user.id).organization_members
   end
 
   def show
