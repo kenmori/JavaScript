@@ -12,10 +12,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.no_password_required = params[:user][:no_password_required]
-    # TODO: organization_idの値を正しくする
     ActiveRecord::Base.transaction do
       @user.save!
-      OrganizationMember.new(organization_id: 1, user_id: @user.id).save!
+      organization_id = params['user']['organization_name'] ? create_organization.id : current_user.organization.id
+      OrganizationMember.new(organization_id: organization_id, user_id: @user.id).save!
     end
     render status: :created
   rescue => e
@@ -55,6 +55,12 @@ class UsersController < ApplicationController
 
   private
 
+  def create_organization
+    organization = Organization.new(name: params['user']['organization_name'])
+    organization.save!
+    organization
+  end
+
   def user_params
     params.require(:user)
         .permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar)
@@ -64,4 +70,5 @@ class UsersController < ApplicationController
     params.require(:user)
         .permit(:id, :password, :password_confirmation, :current_password)
   end
+
 end
