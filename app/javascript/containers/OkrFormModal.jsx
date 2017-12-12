@@ -25,6 +25,7 @@ const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
     objective: findObjective(state.objectives, state.dialogs.getIn(['okrForm', 'objectiveId'])),
+    selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
   };
 };
@@ -32,6 +33,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     updateObjective: (objective) => {
+      console.log(objective)
       dispatch(objectiveActions.updateObjective(objective));
     },
     updateKeyResult: (keyResult) => {
@@ -42,6 +44,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeKeyResult: (keyResult) => {
       dispatch(keyResultActions.removeKeyResult(keyResult));
+    },
+    showOkrDetail: (okrType, targetId) => {
+      dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
     }
   };
 };

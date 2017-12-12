@@ -105,4 +105,106 @@
       }
     }
   }
+
+  .okr-body {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sidebar {
+    width: 40%;
+    .sidebar__items {
+      margin-bottom: 20px;
+    }
+    .sidebar__item {
+      position: relative;
+      cursor: pointer;
+      padding-right: 45px;
+      &.is-current {
+        background: rgba(239, 8, 3, 0.11);
+      }
+    }
+    .sidebar__avatar {
+      position: absolute;
+      top: 50%;
+      left: 7px;
+      margin-top: -10px;
+    }
+    .sidebar__val {
+      display: block;
+      padding-left: 18px;
+    }
+    .sidebar__rate {
+      position: absolute;
+      top: 50%;
+      right: 7px;
+      margin-top: -10px;
+    }
+  }
+
+  .okr-main {
+    width: 60%;
+    padding-left: 20px;
+    .field {
+      margin-bottom: 10px;
+    }
+  }
+
+  .input-date-picker {
+    display: flex;
+    align-items: center;
+    .date-picker {
+      margin-bottom: .5rem;
+    }
+  }
+
+  .concerned-people {
+    .concerned-people__item {
+      width: 200px;
+      position: relative;
+      margin-top: 10px;
+    }
+    .concerned-people__close {
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      left: 100%;
+    }
+  }
+
+  .wide-field {
+    width: 100%;
+  }
+
+  .comments {
+    display: flex;
+    align-items: center;
+  }
+  .comments__item {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .comments__text-box {
+    margin-bottom: 10px;
+  }
+  .comments__item-text {
+    width: 100%;
+  }
+  .comments__item-text.is-others {
+    padding: 1em;
+    min-height: 75px;
+  }
+  .comments__item-meta {
+    display: flex;
+    justify-content: flex-end;
+    color: #666;
+    font-size: smaller;
+  }
+  .comments__item-name {
+    padding-left: 10px;
+  }
+  .comments__item-icon {
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }

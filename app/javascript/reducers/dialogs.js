@@ -20,10 +20,13 @@ export default handleActions({
       state.set('keyResultForm', fromJS({ isOpen: false, objective: Map() }))
     ),
     [ActionTypes.OPEN_OKR_FORM_MODAL]: (state, { payload }) => (
-      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId }))
+      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, selectedOkr: payload.selectedOkr }))
     ),
     [ActionTypes.CLOSE_OKR_FORM_MODAL]: (state) => (
-      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null }))
+      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, selectedOkr: null }))
+    ),
+    [ActionTypes.SHOW_OKR_DETAIL]: (state, { payload }) => (
+      state.set('okrForm', state.get('okrForm').set('selectedOkr', fromJS(payload.selectedOkr)))
     ),
     [ActionTypes.OPEN_AVATAR_IMAGE_MODAL]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData }))
@@ -47,6 +50,7 @@ export default handleActions({
     okrForm: {
       isOpen: false,
       objectiveId: null,
+      selectedOkr: Map(),
     },
     avatarImage: {
       isOpen: false,

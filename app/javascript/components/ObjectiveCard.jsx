@@ -9,14 +9,13 @@ export default class ObjectiveCard extends Component {
       return <Card.Content description='Key Result はありません'/>;
     }
     return (
-      <Card.Content>
+      <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult =>
-            <List.Item key={keyResult.get('id')}>
+            <List.Item className="keyResults__item" key={keyResult.get('id')} onClick={() => this.props.openOkrFormModal(objective.get('id'), {okrType: 'keyResult', targetId: keyResult.get('id')})}>
               <Avatar user={keyResult.get('owner')} size='small' />
               <div className='name'>{keyResult.get('name')}</div>
               <div className="progress">{keyResult.get('progressRate')}%</div>
-              <Icon link name='plus' color='red' onClick={() => { this.props.openObjectiveFormModal(objective, keyResult)}}/>
             </List.Item>
           )}
         </List>
@@ -53,7 +52,7 @@ export default class ObjectiveCard extends Component {
         <Card.Content extra>
           <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)}/>
           <Icon link name='trash' onClick={() => this.removeObjective(objective)}/>
-          <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'))}/>
+          <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), {okrType: 'objective'})}/>
         </Card.Content>
       </Card>
     );
