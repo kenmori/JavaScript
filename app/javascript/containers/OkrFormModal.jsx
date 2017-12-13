@@ -45,6 +45,9 @@ const mapDispatchToProps = dispatch => {
     removeKeyResult: (keyResult) => {
       dispatch(keyResultActions.removeKeyResult(keyResult));
     },
+    removeObjective: (id) => {
+      dispatch(objectiveActions.removeObjective(id));
+    },
     showOkrDetail: (okrType, targetId) => {
       dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
     }

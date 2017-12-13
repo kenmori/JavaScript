@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Dropdown } from 'semantic-ui-react';
+import { Form, Dropdown, Button } from 'semantic-ui-react';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
 
@@ -23,6 +23,16 @@ class ObjectiveDetail extends Component {
 
   updateObjective(values) {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
+  }
+
+  removeObjective(objective) {
+    if (objective.get('keyResults') && !objective.get('keyResults').isEmpty()) {
+      alert('Key Result が紐付いているため削除できません。');
+      return;
+    }
+    if (confirm(`Objective ${objective.get('name')} を削除しますか？`)) {
+      this.props.removeObjective(objective.get('id'));
+    }
   }
 
   render() {
@@ -51,6 +61,12 @@ class ObjectiveDetail extends Component {
           <label>Objective の説明</label>
           <EditableMultiLineText value={objective.get('description')} saveValue={(value) => this.updateObjective({ description: value })}/>
         </Form.Field>
+
+        <Form.Group>
+          <Form.Field className="delete-button">
+            <Button content="Objectiveを削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative />
+          </Form.Field>
+        </Form.Group>
         
       </Form>
     );
