@@ -186,7 +186,6 @@ class UsersTable extends Component {
                 const lastName = user.get('lastName');
                 const firstName = user.get('firstName');
                 const name = `${lastName} ${firstName}`;
-                console.log(1, user.get('lastName'))
                 return (
                   <Table.Row key={id}>
                     <Table.Cell><Avatar user={user} isChangeImage={true} /></Table.Cell>

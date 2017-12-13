@@ -17,5 +17,7 @@ export default handleActions({
   [ActionTypes.UPDATED_USER]: (state, { payload }) => (
     state.get('id') === payload.user.get('id') ? state.merge(payload.user) : state
   ),
-  [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (payload.user),
+  [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
+    state.get('id') === payload.user.get('id') ? state.merge(payload.user) : state
+  ),
 }, initialState);
