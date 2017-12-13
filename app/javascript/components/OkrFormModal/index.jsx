@@ -49,6 +49,11 @@ class OkrFormModal extends Component {
     this.props.showOkrDetail(okrType, targetId)
   }
 
+  changeToObjectiveModal(parentObjective, relatedKeyResult) {
+    this.props.closeModal();
+    this.props.openObjectiveFormModal(parentObjective, relatedKeyResult);
+  }
+
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
@@ -62,11 +67,10 @@ class OkrFormModal extends Component {
               {selectedOkr.get('okrType') === 'objective' ? 
                 <ObjectiveDetail {...this.props}/> : 
                 <KeyResultDetail
-                  users={this.props.users}
+                  {...this.props}
                   keyResult={objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'))}
-                  updateKeyResult={this.props.updateKeyResult}
-                  removeKeyResult={this.props.removeKeyResult}
                   onProgressChange={(keyResultId, progressRate) => this.handleProgressChange(objective.get('keyResults'), keyResultId, progressRate)}
+                  changeToObjectiveModal={(keyResult) => this.changeToObjectiveModal(objective, keyResult)}
                 />
               }
             </div>

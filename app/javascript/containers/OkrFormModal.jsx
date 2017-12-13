@@ -32,6 +32,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    openObjectiveFormModal: (parentObjective, relatedKeyResult) => {
+      dispatch(dialogActions.openObjectiveFormModal(parentObjective, relatedKeyResult));
+    },
     updateObjective: (objective) => {
       dispatch(objectiveActions.updateObjective(objective));
     },

@@ -74,6 +74,7 @@ class ObjectiveDetail extends Component {
 }
 
 ObjectiveDetail.propTypes = {
+  removeObjective: PropTypes.func.isRequired,
   updateObjective: PropTypes.func.isRequired,
   objective: PropTypes.object,
   users: PropTypes.object,

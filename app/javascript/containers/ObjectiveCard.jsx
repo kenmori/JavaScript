@@ -16,9 +16,6 @@ const mapDispatchToProps = dispatch => {
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));
     },
-    openObjectiveFormModal: (parentObjective, relatedKeyResult) => {
-      dispatch(dialogActions.openObjectiveFormModal(parentObjective, relatedKeyResult));
-    },
     openOkrFormModal: (objectiveId, selectedOkr) => {
       dispatch(dialogActions.openOkrFormModal(objectiveId, selectedOkr));
     },

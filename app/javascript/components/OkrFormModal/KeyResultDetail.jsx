@@ -319,6 +319,7 @@ class KeyResultDetail extends Component {
         <Form.Group>
           <Form.Field className="delete-button">
             <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
+            <Button content="OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
           </Form.Field>
         </Form.Group>
       </Form>
@@ -329,13 +330,10 @@ class KeyResultDetail extends Component {
 KeyResultDetail.propTypes = {
   users: PropTypes.object,
   keyResult: PropTypes.object,
-  updateKeyResult: PropTypes.func
-};
-
-KeyResultDetail.defaultProps = {
-  users: [],
-  keyResult: null,
-  updateKeyResult: () => {}
+  updateKeyResult: PropTypes.func,
+  removeKeyResult: PropTypes.func,
+  onProgressChange: PropTypes.func,
+  changeToObjectiveModal: PropTypes.func,
 };
 
 export default KeyResultDetail;
