@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, Input } from 'semantic-ui-react';
-import Avatar from './Avatar';
+import Avatar from '../containers/Avatar';
 import EditableText from './utils/EditableText';
 
 class AccountSettingTab extends Component {
@@ -37,7 +37,7 @@ class AccountSettingTab extends Component {
 
   changeAvatarImage = (event) => {
     if (!event.target.files.length) { return; }
-    this.props.openAvatarImageModal(event.target.files[0]);
+    this.props.openAvatarImageModal(this.props.user.get('id'), event.target.files[0]);
     event.target.value = null;
   }
 

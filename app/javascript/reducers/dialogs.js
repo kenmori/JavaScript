@@ -29,10 +29,10 @@ export default handleActions({
       state.set('okrForm', state.get('okrForm').set('selectedOkr', fromJS(payload.selectedOkr)))
     ),
     [ActionTypes.OPEN_AVATAR_IMAGE_MODAL]: (state, { payload }) => (
-      state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData }))
+      state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
     ),
     [ActionTypes.CLOSE_AVATAR_IMAGE_MODAL]: (state) => (
-      state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
+      state.set('avatarImage', fromJS({ isOpen: false, imageData: null, targetId: null }))
     ),
     [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))

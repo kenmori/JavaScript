@@ -3,7 +3,7 @@ import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import EditableText from './utils/EditableText';
-import Avatar from './Avatar';
+import Avatar from '../containers/Avatar';
 
 const rollOptions = [
   { key: 'user', value: 'user', text: 'ユーザー' },
@@ -186,9 +186,10 @@ class UsersTable extends Component {
                 const lastName = user.get('lastName');
                 const firstName = user.get('firstName');
                 const name = `${lastName} ${firstName}`;
+                console.log(1, user.get('lastName'))
                 return (
                   <Table.Row key={id}>
-                    <Table.Cell><Avatar user={user} /></Table.Cell>
+                    <Table.Cell><Avatar user={user} isChangeImage={true} /></Table.Cell>
                     <Table.Cell>{index}</Table.Cell>
                     <Table.Cell>
                       <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>

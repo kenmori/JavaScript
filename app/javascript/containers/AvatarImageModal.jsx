@@ -5,9 +5,9 @@ import usersActions from '../actions/users';
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.loginUser.get('id'),
     isOpen: state.dialogs.getIn(['avatarImage', 'isOpen']),
-    imageData: state.dialogs.getIn(['avatarImage', 'imageData'])
+    imageData: state.dialogs.getIn(['avatarImage', 'imageData']),
+    targetId: state.dialogs.getIn(['avatarImage', 'targetId']),
   };
 };
 
