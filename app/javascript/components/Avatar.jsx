@@ -30,7 +30,7 @@ class Avatar extends Component {
     const popupAvaterTag = () => <Popup trigger={this.avatarTag(path, lastName, this.props.size)} content={name} size='tiny'/>;
     return (
       <div className="avatar">
-        { this.props.isChangeImage ? 
+        { this.props.isChangeableImage ? 
             <div className="avatar__changeable">
               <input type="file" ref="avatarIcon" className="avatar__file" onChange={this.changeAvatarImage.bind(this)} /> 
               <div onClick={this.openAvatarImageModal.bind(this)}>{popupAvaterTag()}</div>
@@ -45,13 +45,13 @@ class Avatar extends Component {
 Avatar.propTypes = {
   user: PropTypes.object,
   size: PropTypes.string,
-  isChangeImage: PropTypes.bool,
+  isChangeableImage: PropTypes.bool,
   openAvatarImageModal: PropTypes.func
 };
 Avatar.defaultProps = {
   user: null,
   size: 'normal',
-  isChangeImage: false
+  isChangeableImage: false
 };
 
 export default Avatar;

@@ -188,7 +188,7 @@ class UsersTable extends Component {
                 const name = `${lastName} ${firstName}`;
                 return (
                   <Table.Row key={id}>
-                    <Table.Cell><Avatar user={user} isChangeImage={true} /></Table.Cell>
+                    <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
                     <Table.Cell>{index}</Table.Cell>
                     <Table.Cell>
                       <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
