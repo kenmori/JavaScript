@@ -199,10 +199,6 @@ class KeyResultDetail extends Component {
   }
 
   changeSliderValue(value) {
-    if (value === this.state.sliderValue) {
-      return;
-    }
-
     this.setState({
       sliderValue: value
     });
@@ -217,12 +213,18 @@ class KeyResultDetail extends Component {
 
   increaseProgressRate() {
     const value = Math.min(this.state.sliderValue + 1, 100);
+    if (value === this.state.sliderValue) {
+      return;
+    }
     this.changeSliderValue(value);
     this.changeProgressRateThrottle(value);
   }
 
   decreaseProgressRate() {
     const value = Math.max(this.state.sliderValue - 1, 0);
+    if (value === this.state.sliderValue) {
+      return;
+    }
     this.changeSliderValue(value);
     this.changeProgressRateThrottle(value);
   }
