@@ -12,7 +12,8 @@ import moment from 'moment';
 class KeyResultDetail extends Component {
   constructor(props) {
     super(props);
-
+    
+    this.progressTimerId = null;
     if (props.keyResult) {
       const concernedPeople = props.keyResult.get('concernedPeople').map(item => item.get('id')).toArray();
       concernedPeople.push(null);
@@ -193,20 +194,37 @@ class KeyResultDetail extends Component {
   }
 
   changeProgressRate(value) {
-    if (value === this.state.sliderValue) {
-      return;
-    }
-    console.log(value)
     this.updateKeyResult({ progressRate: value });
     this.props.onProgressChange(this.props.keyResult.get('id'), value);
   }
 
+  changeSliderValue(value) {
+    if (value === this.state.sliderValue) {
+      return;
+    }
+
+    this.setState({
+      sliderValue: value
+    });
+  }
+
+  changeProgressRateThrottle(value) {
+    clearTimeout(this.progressTimerId);
+    this.progressTimerId = setTimeout(() => {
+      this.changeProgressRate(value);
+    }, 1500);
+  }
+
   increaseProgressRate() {
-    this.changeProgressRate(Math.min(this.state.sliderValue + 1, 100));
+    const value = Math.min(this.state.sliderValue + 1, 100);
+    this.changeSliderValue(value);
+    this.changeProgressRateThrottle(value);
   }
 
   decreaseProgressRate() {
-    this.changeProgressRate(Math.max(this.state.sliderValue - 1, 0));
+    const value = Math.max(this.state.sliderValue - 1, 0);
+    this.changeSliderValue(value);
+    this.changeProgressRateThrottle(value);
   }
 
   render() {
