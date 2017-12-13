@@ -33,7 +33,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     updateObjective: (objective) => {
-      console.log(objective)
       dispatch(objectiveActions.updateObjective(objective));
     },
     updateKeyResult: (keyResult) => {

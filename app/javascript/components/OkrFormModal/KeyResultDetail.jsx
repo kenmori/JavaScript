@@ -63,10 +63,6 @@ class KeyResultDetail extends Component {
     });
   }
 
-  handleClick(event, titleProps) {
-    this.props.onClick(titleProps.index);
-  }
-
   handleSliderChange(event) {
     this.setState({
       sliderValue: event.target.value,
@@ -74,15 +70,14 @@ class KeyResultDetail extends Component {
   }
 
   handleSliderValue(event) {
-    this.updateKeyResult({ progressRate: Number(event.target.value) });
-    this.props.onProgressChange(this.props.index, Number(event.target.value));
+    this.changeProgressRate(Number(event.target.value));
   }
 
   updateValues(targetValue, actualValue) {
     if (targetValue && actualValue) {
       const progressRate = Math.round(actualValue / targetValue * 100);
 
-      this.props.onProgressChange(this.props.index, progressRate);
+      this.props.onProgressChange(this.props.keyResult.get('id'), progressRate);
 
       this.updateKeyResult({
         targetValue: targetValue,
@@ -125,7 +120,7 @@ class KeyResultDetail extends Component {
   }
 
   handleRateInputBlur(event) {
-    this.handleSliderValue(event)
+    this.changeProgressRate(Number(event.target.value));
     this.setState({
       isDisplayedRateInputForm: false,
       sliderValue: event.target.value,
@@ -197,6 +192,23 @@ class KeyResultDetail extends Component {
     });
   }
 
+  changeProgressRate(value) {
+    if (value === this.state.sliderValue) {
+      return;
+    }
+    console.log(value)
+    this.updateKeyResult({ progressRate: value });
+    this.props.onProgressChange(this.props.keyResult.get('id'), value);
+  }
+
+  increaseProgressRate() {
+    this.changeProgressRate(Math.min(this.state.sliderValue + 1, 100));
+  }
+
+  decreaseProgressRate() {
+    this.changeProgressRate(Math.max(this.state.sliderValue - 1, 0));
+  }
+
   render() {
     const keyResult = this.props.keyResult;
     if (!keyResult) {
@@ -222,9 +234,15 @@ class KeyResultDetail extends Component {
           {!this.state.isDisplayedRateInputForm && 
             <span>
               <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
-              <div className='slider'>
-                <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                      data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
+              <div className='slider-box'>
+                <div className='slider-box__wrapper'>
+                  <div className='slider-box__content slider-box__icon'><Icon name="minus square" onClick={this.decreaseProgressRate.bind(this)} /></div>
+                  <div className='slider slider-box__content'>
+                    <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
+                        data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
+                  </div>
+                  <div className='slider-box__content slider-box__icon'><Icon name="plus square" onClick={this.increaseProgressRate.bind(this)} /></div>
+                </div>
               </div>
             </span>
           }
