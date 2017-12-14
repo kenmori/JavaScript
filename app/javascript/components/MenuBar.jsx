@@ -56,25 +56,26 @@ class MenuBar extends Component {
   }
 
   render() {
-    if (this.props.users.isEmpty() || this.props.okrPeriods.isEmpty()) {
-      return null;
-    }
     return (
       <Menu secondary className='menu-bar'>
         <Menu.Item header>
           <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
         </Menu.Item>
         <Menu.Item>
-          <Dropdown scrolling pointing='top'
-                    options={this.okrPeriodsOption(this.props.okrPeriods)}
-                    defaultValue={this.props.menu.get('okrPeriodId')}
-                    onChange={this.handleOkrPeriodChange.bind(this)} />
+          {!this.props.okrPeriods.isEmpty() &&
+            <Dropdown scrolling pointing='top'
+                      options={this.okrPeriodsOption(this.props.okrPeriods)}
+                      defaultValue={this.props.menu.get('okrPeriodId')}
+                      onChange={this.handleOkrPeriodChange.bind(this)} />
+          }
         </Menu.Item>
         <Menu.Item>
-          <Dropdown search selection
-                    options={this.usersOption(this.props.users)}
-                    defaultValue={this.props.menu.get('userId')}
-                    onChange={this.handleUserChange.bind(this)} />
+          {!this.props.users.isEmpty() &&
+            <Dropdown search selection
+                      options={this.usersOption(this.props.users)}
+                      defaultValue={this.props.menu.get('userId')}
+                      onChange={this.handleUserChange.bind(this)} />
+          }
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>

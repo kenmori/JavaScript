@@ -11,7 +11,6 @@ class User < ApplicationRecord
   has_many :comments
 
   has_one :organization_member
-  delegate :organization, to: :organization_member
 
   belongs_to :owner, optional: true
 
@@ -26,6 +25,10 @@ class User < ApplicationRecord
 
   def organization
     OrganizationMember.find_by(user_id: id).organization
+  end
+
+  def organization_members
+    self.organization.members.includes(:user).map(&:user)
   end
 
   def full_name

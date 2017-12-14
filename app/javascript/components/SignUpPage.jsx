@@ -8,6 +8,7 @@ export default class SignUp extends Component {
       first_name: this.firstNameInput.inputRef.value,
       email: this.emailInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
+      organization_name: this.organizationInput.inputRef.value,
     })
   }
   componentWillUpdate(props = this.props) {
@@ -22,6 +23,10 @@ export default class SignUp extends Component {
           <h1 className="center">Resily</h1>
           <Form className="user-form">
             <Form.Group className='text-input-group'>
+              <Form.Field inline>
+                <div>組織名</div>
+                <Input type='text' size='mini' ref={(node) => {this.organizationInput = node;}}/>
+              </Form.Field>
               <Form.Field inline>
                 <div>姓</div>
                 <Input type='text' size='mini' ref={(node) => {this.lastNameInput = node;}}/>
