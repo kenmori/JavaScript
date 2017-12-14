@@ -4,7 +4,7 @@ import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react
 
 export default class SignIn extends Component {
   signIn() {
-    this.props.signIn(this.emailInput.inputRef.value, this.passwordInput.inputRef.value, this.rememberMeCheckBox.state.checked);
+    this.props.signIn(this.emailInput.inputRef.value, this.passwordInput.inputRef.value, true);
   }
 
   render() {
@@ -23,9 +23,6 @@ export default class SignIn extends Component {
                 <Input type='password' size='mini' placeholder='パスワードを入力してください' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
-            <Form.Field>
-              <Checkbox label={<label>ログイン情報を保存する</label>} ref={(node) => {this.rememberMeCheckBox = node;}}/>
-            </Form.Field>
             <div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>
             <div className="user-create-link">パスワードを忘れた方は<Link to="/users/password/recover">こちら</Link></div>
             <div className='center'>
