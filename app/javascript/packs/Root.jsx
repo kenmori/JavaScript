@@ -13,7 +13,7 @@ import PasswordRecoverdPage from '../containers/PasswordRecoverdPage';
 import PasswordEditPage from '../containers/PasswordEditPage';
 import PasswordEditedPage from '../containers/PasswordEditedPage';
 import SignInPage from '../containers/SignInPage';
-import SettingsPage from '../components/SettingsPage';
+import SettingsPage from '../containers/SettingsPage';
 import Loading from '../containers/Loading';
 
 const store = configureStore();
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <Route exact path='/users/password/edit' component={PasswordEditPage}/>
             <Route exact path='/users/password/edit/completed' component={PasswordEditedPage}/>
             <Route exact path='/users/sign_in' component={SignInPage}/>
-            <Route exact path='/settings' component={SettingsPage}/>
+            <Route exact path='/settings/:name' component={SettingsPage}/>
             <Route path='/' component={Home}/>
           </Switch>
         </Router>
