@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Input, Form, Icon, Segment, Accordion, Dropdown, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
-import Avatar from './Avatar';
+import Avatar from '../containers/Avatar';
 import EditableText from './utils/EditableText';
 import EditableMultiLineText from './utils/EditableMultiLineText';
 import br from '../utils/br';

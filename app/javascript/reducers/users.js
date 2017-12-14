@@ -17,6 +17,11 @@ export default handleActions({
         return user.get('id') === payload.user.get('id');
       }), payload.user);
     },
+    [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => {
+      return state.set(state.findIndex((user) => {
+        return user.get('id') === payload.user.get('id');
+      }), payload.user);
+    },
     [ActionTypes.REMOVED_USER]: (state, { payload }) => {
       return state.filter((user) => {
         return user.get('id') !== payload.id;

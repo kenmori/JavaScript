@@ -11,7 +11,7 @@ export default handleActions({
   [ActionTypes.ADDED_USER]: (state, { payload }) => (
     state.set('isCompleted', !!payload.user.size)
   ),
-  [ActionTypes.UPDATED_EMAIL]: (state, { payload }) => console.log(payload.user.get('notLogout')) || (
+  [ActionTypes.UPDATED_EMAIL]: (state, { payload }) => (
     payload.user.get('notLogout') ? state : state.set('needLogout', true)
   ),
 }, initialState);

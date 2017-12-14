@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
-import Avatar from './Avatar';
+import Avatar from '../containers/Avatar';
 
 class MenuBar extends Component {
 

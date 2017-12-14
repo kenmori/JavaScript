@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon, List } from 'semantic-ui-react';
-import Avatar from './Avatar';
+import Avatar from '../containers/Avatar';
 
 export default class ObjectiveCard extends Component {
   generateKeyResultList(objective) {

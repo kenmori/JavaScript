@@ -21,8 +21,8 @@ const mapDispatchToProps = dispatch => {
     updatePassword: user => {
       dispatch(userActions.updatePassword(user));
     },
-    openAvatarImageModal: imageData => {
-      dispatch(dialogActions.openAvatarImageModal(imageData));
+    openAvatarImageModal: (targetId, imageData) => {
+      dispatch(dialogActions.openAvatarImageModal(targetId, imageData));
     },
     deleteAvatar: user => {
       dispatch(userActions.updateAvatar(user));

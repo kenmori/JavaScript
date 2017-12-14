@@ -31,7 +31,7 @@ class AvatarImageModal extends Component {
   }
   render() {
     const {
-      userId,
+      targetId,
       imageData,
       closeModal,
       uploadAvatarImage,
@@ -50,7 +50,7 @@ class AvatarImageModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button color='grey' onClick={this.closeModal}><Icon name='remove'/>キャンセル</Button>
-            <Button positive onClick={() => {uploadAvatarImage(userId, imageData)}}><Icon name='checkmark'/>更新</Button>
+            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}><Icon name='checkmark'/>更新</Button>
           </div>
         </ Modal.Actions >
       </ Modal >
