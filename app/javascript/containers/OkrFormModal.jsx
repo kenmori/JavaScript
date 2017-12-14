@@ -32,6 +32,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    openObjectiveFormModal: (parentObjective, relatedKeyResult) => {
+      dispatch(dialogActions.openObjectiveFormModal(parentObjective, relatedKeyResult));
+    },
     updateObjective: (objective) => {
       dispatch(objectiveActions.updateObjective(objective));
     },
@@ -43,6 +46,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeKeyResult: (keyResult) => {
       dispatch(keyResultActions.removeKeyResult(keyResult));
+    },
+    removeObjective: (id) => {
+      dispatch(objectiveActions.removeObjective(id));
     },
     showOkrDetail: (okrType, targetId) => {
       dispatch(dialogActions.showOkrDetail({ okrType, targetId }));

@@ -207,4 +207,16 @@
     margin-left: 10px;
     cursor: pointer;
   }
+
+  .slider-box {
+    display: inline-block;
+  }
+  .slider-box__wrapper {
+    display: flex;
+  }
+  .slider-box__icon {
+    font-size: larger;
+    color: #767676;
+    cursor: pointer;
+  }
 }

@@ -33,20 +33,25 @@ class OkrFormModal extends Component {
     }
   }
 
-  handleProgressChange(keyResults, index, progressRate) {
-    const totalProgressRate = this.getTotalProgressRate(keyResults, index, progressRate);
+  handleProgressChange(keyResults, keyResultId, progressRate) {
+    const totalProgressRate = this.getTotalProgressRate(keyResults, keyResultId, progressRate);
     this.props.updateObjective({ id: this.props.objective.get('id'), progressRate: totalProgressRate });
   }
 
-  getTotalProgressRate(keyResults, index, progressRate) {
-    const totalProgressRate = keyResults.map((keyResult, i) =>
-      i === index ? progressRate : keyResult.get('progressRate')
+  getTotalProgressRate(keyResults, keyResultId, progressRate) {
+    const totalProgressRate = keyResults.map((keyResult) =>
+      keyResult.get('id') === keyResultId ? progressRate : keyResult.get('progressRate')
     ).reduce((sum, x) => sum + x) / keyResults.size;
     return Math.round(totalProgressRate);
   }
 
   showOkrDetail(okrType, targetId) {
     this.props.showOkrDetail(okrType, targetId)
+  }
+
+  changeToObjectiveModal(parentObjective, relatedKeyResult) {
+    this.props.closeModal();
+    this.props.openObjectiveFormModal(parentObjective, relatedKeyResult);
   }
 
   render() {
@@ -62,12 +67,10 @@ class OkrFormModal extends Component {
               {selectedOkr.get('okrType') === 'objective' ? 
                 <ObjectiveDetail {...this.props}/> : 
                 <KeyResultDetail
-                  users={this.props.users}
+                  {...this.props}
                   keyResult={objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'))}
-                  updateKeyResult={this.props.updateKeyResult}
-                  index={1}
-                  removeKeyResult={this.props.removeKeyResult}
-                  onProgressChange={(index, progressRate) => this.handleProgressChange(objective.get('keyResults'), index, progressRate)}
+                  onProgressChange={(keyResultId, progressRate) => this.handleProgressChange(objective.get('keyResults'), keyResultId, progressRate)}
+                  changeToObjectiveModal={(keyResult) => this.changeToObjectiveModal(objective, keyResult)}
                 />
               }
             </div>
