@@ -43,6 +43,8 @@ gem 'gon'
 gem 'carrierwave'
 gem 'rmagick'
 gem 'fog'
+gem 'foreman', '~> 0.82.0'
+gem 'health-monitor-rails', '~> 7.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -87,11 +89,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
-  gem 'capistrano', '~> 3.2.1'
-  gem 'capistrano-rails'
-  gem 'capistrano-rbenv'
-  gem 'capistrano-bundler'
-  gem 'capistrano3-unicorn'
 end
 
 group :test do

@@ -2,43 +2,81 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: "password"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: password
   web:
     build:
       context: .
       args:
-        RAILS_ENV: "development"
-        NODE_ENV: "development"
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        RAILS_ENV: development
+        NODE_ENV: development
+    command: bundle exec foreman start -f Procfile.dev
     volumes:
-      - .:/myapp
+      - .:/app
       - bundle:/usr/local/bundle
+      - /app/node_modules
     ports:
       - "3000:3000"
-    depends_on:
-      - db
-      - webpack
-    environment:
-      MYSQL_ROOT_PASSWORD: "password"
-  webpack:
-    build:
-      context: .
-      args:
-        RAILS_ENV: "development"
-        NODE_ENV: "development"
-    volumes:
-      - .:/myapp
-      - bundle:/usr/local/bundle
-    ports:
       - "8080:8080"
-    command: bin/webpack-dev-server
+    links:
+      - db
+      - mailhog
+      - minio
+    environment:
+      TZ: Asia/Tokyo
+      RAILS_ENV: development
+      NODE_ENV: development
+      AWS_ACCESS_KEY_ID: access_key_id
+      AWS_SECRET_KEY: secret_key
+      AWS_REGION: ap-northeast-1
+      AWS_S3_BUCKET: resily
+      AWS_S3_URL: http://localhost:9000/resily
+      AWS_S3_HOST: minio
+      AWS_S3_ENDPOINT: http://minio:9000
+      RAILS_DATABASE_HOST: db
+      RAILS_DATABASE_PASSWORD: password
+  mailhog:
+    image: blueimp/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+  minio:
+    image: minio/minio
+    command: server /data
+    volumes:
+      - minio-data:/data
+      - minio-config:/root/.minio
+    ports:
+      - "9000:9000"
+    environment:
+      - MINIO_ACCESS_KEY=access_key_id
+      - MINIO_SECRET_KEY=secret_key
+      - MINIO_REGION=ap-northeast-1
+  minio-cli:
+    image: minio/mc
+    links:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      while ! nc -z minio 9000; do echo 'Wait minio to startup...' && sleep 1; done;
+      sleep 5;
+      mc config host add minio http://minio:9000 access_key_id secret_key S3v4;
+      mc mb --region ap-northeast-1 minio/resily;
+      mc policy download minio/resily;
+      exit 0;
+      "
 volumes:
   mysql-data:
     driver: local
   bundle:
+    driver: local
+  minio-data:
+    driver: local
+  minio-config:
     driver: local

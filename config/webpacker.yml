@@ -35,16 +35,13 @@ development:
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
-    https: false
-    host: webpack # Webサーバーからwebpack-dev-serverへののアクセスする際に使うhost(pingなど)
+    host: 0.0.0.0
     port: 8080
-    public: 0.0.0.0:8080 # 外部からwebpack-dev-serverが配布する静的ファイルへのアクセスに使うurl
+    https: false
     hmr: true
     # Inline should be set to true if using HMR
     inline: true
     overlay: true
-    disable_host_check: true
-    use_local_ip: true
 
 test:
   <<: *default
@@ -53,11 +50,9 @@ test:
   # Compile test packs to a separate directory
   public_output_path: packs-test
 
-staging:
-  <<: *default
-
 production:
   <<: *default
+  public_output_path: assets
 
   # Production depends on precompilation of packs prior to booting for performance.
   compile: false

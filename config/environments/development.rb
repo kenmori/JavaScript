@@ -29,7 +29,7 @@ Rails.application.configure do
   # Attempt to read encrypted secrets from `config/secrets.yml.enc`.
   # Requires an encryption key in `ENV["RAILS_MASTER_KEY"]` or
   # `config/secrets.yml.key`.
-  config.read_encrypted_secrets = true
+  config.read_encrypted_secrets = false
 
   # Don't care if the mailer can't send.
   # config.action_mailer.raise_delivery_errors = false
@@ -37,18 +37,6 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.smtp_settings = {
-      address: 'email-smtp.us-west-2.amazonaws.com',
-      port: 587,
-      domain: 'reesili.com',
-      user_name: Rails.application.secrets.smtp_user_name,
-      password: Rails.application.secrets.smtp_password,
-      authentication: :login,
-      enable_starttls_auto: true
-  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -68,7 +56,7 @@ Rails.application.configure do
     Bullet.console = true # ブラウザのコンソールログに記録
     Bullet.rails_logger = true # Railsログに出力
   end
-
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
