@@ -106,15 +106,17 @@ class UsersTable extends Component {
   };
 
   addUser = () => {
-    this.props.onAdd({
-      firstName: this.firstNameInputs[0].inputRef.value,
-      lastName: this.lastNameInputs[0].inputRef.value,
-      email: this.emailInputs[0].inputRef.value,
-      noPasswordRequired: true,
-    });
-    this.lastNameInputs[0].inputRef.value = '';
-    this.firstNameInputs[0].inputRef.value = '';
-    this.emailInputs[0].inputRef.value = '';
+    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？')) {
+      this.props.onAdd({
+        firstName: this.firstNameInputs[0].inputRef.value,
+        lastName: this.lastNameInputs[0].inputRef.value,
+        email: this.emailInputs[0].inputRef.value,
+        noPasswordRequired: true,
+      });
+      this.lastNameInputs[0].inputRef.value = '';
+      this.firstNameInputs[0].inputRef.value = '';
+      this.emailInputs[0].inputRef.value = '';
+    }
   };
 
   removeUser = (id, name) => () => {

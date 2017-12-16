@@ -13,7 +13,7 @@ class AccountSettingTab extends Component {
   }
 
   changeEmail = (id, email) => {
-    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL をクリックすると変更が完了します。メールアドレスを変更しますか？')) {
+    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？')) {
       this.props.updateEmail({id, email});
     } else {
       this.setState({
