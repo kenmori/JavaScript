@@ -173,9 +173,11 @@ class KeyResultDetail extends Component {
   }
 
   removeComment(id) {
-    this.updateKeyResult({
-      comment: {data: id, behavior: 'remove'}
-    });
+    if (confirm('コメントを削除しますか？')) {
+      this.updateKeyResult({
+        comment: { data: id, behavior: 'remove' }
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
