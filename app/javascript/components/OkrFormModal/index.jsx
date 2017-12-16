@@ -59,7 +59,7 @@ class OkrFormModal extends Component {
     const selectedOkr = this.props.selectedOkr;
     if (!objective.size) { return null; }
     return (
-      <Modal open={this.props.isOpen} size='small' className='okr-form-modal'>
+      <Modal open={this.props.isOpen} size='large' className='okr-form-modal'>
         <Modal.Content>
           <div className="okr-body">
             {<Sidebar objective={objective} showOkrDetail={this.showOkrDetail.bind(this)} selectedOkr={this.props.selectedOkr} />}
