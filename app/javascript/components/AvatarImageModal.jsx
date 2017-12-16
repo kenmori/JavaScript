@@ -39,9 +39,6 @@ class AvatarImageModal extends Component {
 
     return (
       <Modal open={this.props.isOpen}>
-        <Modal.Header>
-          ユーザーアイコン画像確認
-        </Modal.Header>
         <Modal.Content style={{ margin: '10px 0' }}>
           <div style={{textAlign: 'center'}}>
             {this.avatarImage()}
@@ -50,7 +47,7 @@ class AvatarImageModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button color='grey' onClick={this.closeModal}><Icon name='remove'/>キャンセル</Button>
-            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}><Icon name='checkmark'/>更新</Button>
+            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}><Icon name='checkmark'/>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >

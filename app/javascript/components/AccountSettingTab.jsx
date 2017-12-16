@@ -13,7 +13,7 @@ class AccountSettingTab extends Component {
   }
 
   changeEmail = (id, email) => {
-    if(confirm('emailを変更すると指定のメールアドレスへ確認のメールを送信いたします。 確認のメールにありますURLをクリックすると、変更が完了いたします。')) {
+    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL をクリックすると変更が完了します。メールアドレスを変更しますか？')) {
       this.props.updateEmail({id, email});
     } else {
       this.setState({
@@ -42,7 +42,7 @@ class AccountSettingTab extends Component {
   }
 
   deleteAvatar = (event) => {
-    if (confirm('アイコンを削除します。')) {
+    if (confirm('設定済みのアイコンを削除しますか？')) {
       this.props.deleteAvatar({id: this.props.user.get('id'), removeAvatar: true});
     }
   }
@@ -70,7 +70,7 @@ class AccountSettingTab extends Component {
           <dt>メールアドレス</dt>
           <dd><EditableText value={this.state.email} saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
 
-          <dt>会社名</dt>
+          <dt>組織名</dt>
           <dd><EditableText value={user.get('organizationName')} saveValue={name => this.props.updateUser({id: user.get('id'), organizationName: name})}/></dd>
 
           <dt>画像</dt>
@@ -80,8 +80,8 @@ class AccountSettingTab extends Component {
               <label className="file-button">
                 <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
               </label>
-              <Button className="change-button" content="アイコンを変更する" positive />
-              {user.get('avatarUrl') && <Button className="change-button" content="アイコンを削除する" negative onClick={this.deleteAvatar} />}
+              <Button className="change-button" content="変更する" positive />
+              {user.get('avatarUrl') && <Button className="change-button" content="削除する" negative onClick={this.deleteAvatar} />}
             </div>
           </dd>
           <dd>

@@ -34,7 +34,7 @@ class UsersTable extends Component {
   }
 
   changeEmail = (id, email) => {
-    if(confirm('メールアドレスを変更します。よろしいですか？')) {
+    if(confirm('メールアドレスを変更しますか？')) {
       const notLogout = id !== this.props.loginUser.get('id');
       this.props.onUpdateEmail({id, email, notLogout});
     } else {
@@ -144,7 +144,7 @@ class UsersTable extends Component {
               </Table.Cell>
               <Table.Cell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.Cell>
               <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加" onClick={this.addUser}/>
+                <Button icon="plus" content="追加する" onClick={this.addUser}/>
               </Table.Cell>
             </Table.Row>
           </Table.Body>

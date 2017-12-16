@@ -41,11 +41,11 @@ class ObjectiveDetail extends Component {
     return (
       <Form>
         <Form.Field className='values'>
-        <label>Objective名</label>
+        <label>Objective 名</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
         </Form.Field>
         <Form.Field className='values'>
-          <label>進捗</label>
+          <label>Objective の進捗</label>
           <div className='progress-rate'>{objective.get('progressRate')}%</div>
           <div className='slider'>
             <input type='range' min='0' max='100' value={objective.get('progressRate')}
@@ -64,7 +64,7 @@ class ObjectiveDetail extends Component {
 
         <Form.Group>
           <Form.Field className="delete-button">
-            <Button content="Objectiveを削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative />
+            <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative />
           </Form.Field>
         </Form.Group>
         

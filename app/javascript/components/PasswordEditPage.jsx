@@ -12,7 +12,7 @@ export default class PasswordEditPage extends Component {
       );
     } else {
       //TODO: エラーメッセージを出す
-      alert('パスワードが一致しません');
+      alert('パスワードが一致しません。');
     }
   }
   componentWillUpdate(props = this.props) {

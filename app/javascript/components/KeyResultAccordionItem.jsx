@@ -99,7 +99,7 @@ class KeyResultAccordionItem extends Component {
   }
 
   removeKeyResult(id) {
-    if(confirm('KeyResultを削除します')) {
+    if(confirm('Key Result を削除しますか？')) {
       this.props.removeKeyResult({id})
     }
   }

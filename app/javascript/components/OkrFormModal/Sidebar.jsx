@@ -38,7 +38,7 @@ class Sidebar extends Component {
         </div>
 
         <div className="sidebar__items">
-          <div className="sidebar__title">KeyResult</div>
+          <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
             { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
           </Segment.Group>

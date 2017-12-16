@@ -16,17 +16,17 @@ export default class SignIn extends Component {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='メールアドレスを入力してください' ref={(node) => {this.emailInput = node;}}/>
+                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
-                <Input type='password' size='mini' placeholder='パスワードを入力してください' ref={(node) => {this.passwordInput = node;}}/>
+                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
             <div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>
             <div className="user-create-link">パスワードを忘れた方は<Link to="/users/password/recover">こちら</Link></div>
             <div className='center'>
-              <Button negative onClick={this.signIn.bind(this)}>ログイン</Button>
+              <Button negative onClick={this.signIn.bind(this)}>ログインする</Button>
             </div>
           </Form>
         </main>
