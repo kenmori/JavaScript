@@ -23,7 +23,7 @@ export default class SignIn extends Component {
               </Form.Field>
             </Form.Group>
             <div className='center'>
-              <Button negative onClick={this.send.bind(this)}>送信する</Button>
+              <Button positive onClick={this.send.bind(this)}>送信する</Button>
             </div>
           </Form>
         </main>

@@ -78,7 +78,7 @@ class OkrFormModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button color='grey' onClick={this.props.closeModal}><Icon name='remove'/>閉じる</Button>
+            <Button onClick={this.props.closeModal}>閉じる</Button>
           </div>
         </Modal.Actions>
       </Modal>

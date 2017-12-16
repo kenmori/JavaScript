@@ -45,7 +45,7 @@ export default class SignUp extends Component {
               </Form.Field>
             </Form.Group>
             <div className="center">
-              <Button negative onClick={this.addUser.bind(this)}>登録する</Button>
+              <Button positive onClick={this.addUser.bind(this)}>登録する</Button>
             </div>
           </Form>
         </main>

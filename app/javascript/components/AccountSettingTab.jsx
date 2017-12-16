@@ -97,7 +97,7 @@ class AccountSettingTab extends Component {
               <dd><Input type="password" ref={node => { this.passwordInput = node; }}/></dd>
               <dt>新しいパスワード (確認用)</dt>
               <dd><Input type="password" ref={node => { this.passwordConfirmationInput = node; }}/></dd>
-              <dd><Button content="パスワードを変更する" onClick={this.changePassword} positive /></dd>
+              <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
             </dl>
           </dd>
         </dl>

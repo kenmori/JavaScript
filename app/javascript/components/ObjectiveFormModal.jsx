@@ -71,7 +71,7 @@ class ObjectiveFormModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button color='grey' onClick={this.props.closeModal}>キャンセル</Button>
+            <Button onClick={this.props.closeModal}>キャンセル</Button>
             <Button positive onClick={this.save.bind(this)}>保存</Button>
           </div>
         </Modal.Actions>

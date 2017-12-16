@@ -204,7 +204,7 @@ class UsersTable extends Component {
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <div>
-                        {id !== this.props.loginUser.get('id') && <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>}
+                        {id !== this.props.loginUser.get('id') && <Button icon="trash" onClick={this.removeUser(id, name)} title="削除" negative/>}
                       </div>
                     </Table.Cell>
                   </Table.Row>

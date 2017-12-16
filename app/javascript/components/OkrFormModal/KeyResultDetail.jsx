@@ -288,7 +288,7 @@ class KeyResultDetail extends Component {
         {!this.state.isDisplayedTargetValue && 
           <Form.Group>
             <Form.Field>
-              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} positive />
+              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} />
             </Form.Field>
           </Form.Group>
         }

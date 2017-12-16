@@ -46,8 +46,8 @@ class AvatarImageModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button color='grey' onClick={this.closeModal}><Icon name='remove'/>キャンセル</Button>
-            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}><Icon name='checkmark'/>OK</Button>
+            <Button onClick={this.closeModal}>キャンセル</Button>
+            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >

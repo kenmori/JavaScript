@@ -26,7 +26,7 @@ export default class SignIn extends Component {
             <div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>
             <div className="user-create-link">パスワードを忘れた方は<Link to="/users/password/recover">こちら</Link></div>
             <div className='center'>
-              <Button negative onClick={this.signIn.bind(this)}>ログインする</Button>
+              <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
             </div>
           </Form>
         </main>
