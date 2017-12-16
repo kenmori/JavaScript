@@ -104,7 +104,7 @@ class KeyResultFormModal extends Component {
     return (
       <Modal open={this.props.isOpen} className="key-result-form-modal" size="small">
         <Modal.Header>
-          KeyResult を作成する
+          KeyResult を追加する
         </Modal.Header>
         <Modal.Content>
           <Form>

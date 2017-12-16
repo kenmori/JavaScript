@@ -42,7 +42,7 @@ class ObjectiveFormModal extends Component {
     return (
       <Modal open={this.props.isOpen} size='small' className='objective-form-modal'>
         <Modal.Header>
-          <h1>Objective を作成する</h1>
+          Objective を決める
         </Modal.Header>
         <Modal.Content>
           <Form>
