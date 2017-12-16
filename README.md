@@ -1,8 +1,8 @@
 ## JavaScript練習問題集
 
-**2017/8/6更新**
-問347~問352を追加
-prototypeと\_\_proto\_\_の違い等
+**2017/12/15更新**
+scss問題集をリンク
+https://github.com/kenmori/scss_exercise
 
 ![毘沙門天](http://kenjimorita.jp/wp-content/uploads/2017/07/image.jpeg)
 
