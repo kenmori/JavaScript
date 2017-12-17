@@ -80,7 +80,7 @@ class MenuBar extends Component {
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
             <Dropdown.Menu>
-              <Dropdown.Item as='a' href='/settings' icon='setting' text='設定'/>
+              <Dropdown.Item as='a' href='/settings/account' icon='setting' text='設定'/>
               <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
               <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
             </Dropdown.Menu>
