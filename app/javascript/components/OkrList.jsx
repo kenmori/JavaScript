@@ -16,7 +16,7 @@ class OkrList extends Component {
     return (
       <div className="okr-list">
         <a className="okr-box" href="javascript:void(0)" onClick={this.props.openObjectiveFormModal}>
-          <Button content='OKR を作成する' />
+          <Button icon="plus" content='OKR を作成する' />
         </a>
         {
           this.props.objectives.map((objective) => {

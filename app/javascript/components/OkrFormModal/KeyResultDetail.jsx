@@ -98,7 +98,7 @@ class KeyResultDetail extends Component {
   }
 
   removeKeyResult(id) {
-    if(confirm('KeyResultを削除します')) {
+    if(confirm('Key Result を削除しますか？')) {
       this.props.removeKeyResult({id})
     }
   }
@@ -173,9 +173,11 @@ class KeyResultDetail extends Component {
   }
 
   removeComment(id) {
-    this.updateKeyResult({
-      comment: {data: id, behavior: 'remove'}
-    });
+    if (confirm('コメントを削除しますか？')) {
+      this.updateKeyResult({
+        comment: { data: id, behavior: 'remove' }
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -237,7 +239,7 @@ class KeyResultDetail extends Component {
     return (
       <Form>
         <Form.Field className='values'>
-          <label className="field-title">進捗</label>
+          <label className="field-title">Key Result の進捗</label>
           {this.state.isDisplayedRateInputForm && 
             <div className="progress-rate-input">
               <div className="progress-rate-input__inner">
@@ -288,7 +290,7 @@ class KeyResultDetail extends Component {
         {!this.state.isDisplayedTargetValue && 
           <Form.Group>
             <Form.Field>
-              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} positive />
+              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} />
             </Form.Field>
           </Form.Group>
         }
@@ -313,14 +315,14 @@ class KeyResultDetail extends Component {
             <label className="field-title">コメント</label>
             {this.commentList(keyResult.get('comments'))}
             <div className="comments__text-box">
-              <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} ref="commentArea" />
+              <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} placeholder='進捗状況や、次のアクションなどをメモしてください' ref="commentArea" />
             </div>
-            <Button content="コメントを投稿する" onClick={() => this.addComment()} as="div" />
+            <Button content="投稿する" onClick={() => this.addComment()} as="div" />
           </Form.Field>
         </Form.Group>
         <Form.Group>
           <Form.Field className="delete-button">
-            <Button content="KeyResultを削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
+            <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
             <Button content="OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
           </Form.Field>
         </Form.Group>

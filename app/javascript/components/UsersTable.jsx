@@ -34,7 +34,7 @@ class UsersTable extends Component {
   }
 
   changeEmail = (id, email) => {
-    if(confirm('メールアドレスを変更します。よろしいですか？')) {
+    if(confirm('メールアドレスを変更しますか？')) {
       const notLogout = id !== this.props.loginUser.get('id');
       this.props.onUpdateEmail({id, email, notLogout});
     } else {
@@ -106,15 +106,17 @@ class UsersTable extends Component {
   };
 
   addUser = () => {
-    this.props.onAdd({
-      firstName: this.firstNameInputs[0].inputRef.value,
-      lastName: this.lastNameInputs[0].inputRef.value,
-      email: this.emailInputs[0].inputRef.value,
-      noPasswordRequired: true,
-    });
-    this.lastNameInputs[0].inputRef.value = '';
-    this.firstNameInputs[0].inputRef.value = '';
-    this.emailInputs[0].inputRef.value = '';
+    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？')) {
+      this.props.onAdd({
+        firstName: this.firstNameInputs[0].inputRef.value,
+        lastName: this.lastNameInputs[0].inputRef.value,
+        email: this.emailInputs[0].inputRef.value,
+        noPasswordRequired: true,
+      });
+      this.lastNameInputs[0].inputRef.value = '';
+      this.firstNameInputs[0].inputRef.value = '';
+      this.emailInputs[0].inputRef.value = '';
+    }
   };
 
   removeUser = (id, name) => () => {
@@ -144,7 +146,7 @@ class UsersTable extends Component {
               </Table.Cell>
               <Table.Cell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.Cell>
               <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加" onClick={this.addUser}/>
+                <Button icon="plus" content="追加する" onClick={this.addUser}/>
               </Table.Cell>
             </Table.Row>
           </Table.Body>
@@ -204,7 +206,7 @@ class UsersTable extends Component {
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <div>
-                        {id !== this.props.loginUser.get('id') && <Button icon="user delete" onClick={this.removeUser(id, name)} title="削除" negative/>}
+                        {id !== this.props.loginUser.get('id') && <Button icon="trash" onClick={this.removeUser(id, name)} title="削除" negative/>}
                       </div>
                     </Table.Cell>
                   </Table.Row>

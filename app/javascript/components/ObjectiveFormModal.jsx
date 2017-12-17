@@ -30,7 +30,7 @@ class ObjectiveFormModal extends Component {
       return (
         <Form.Group widths='equal'>
           <Form.Field>
-            <label>関連する Key Result</label>
+            <label>割り当てられた Key Result</label>
             <Input value={relatedKeyResult.get('name')} readOnly/>
           </Form.Field>
         </Form.Group>
@@ -42,7 +42,7 @@ class ObjectiveFormModal extends Component {
     return (
       <Modal open={this.props.isOpen} size='small' className='objective-form-modal'>
         <Modal.Header>
-          <h1>Objective を作成する</h1>
+          Objective を決める
         </Modal.Header>
         <Modal.Content>
           <Form>
@@ -55,8 +55,8 @@ class ObjectiveFormModal extends Component {
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
-                <label>説明</label>
-                <TextArea autoHeight rows={3} placeholder='Objective の説明を入力してください'
+                <label>Objective の説明</label>
+                <TextArea autoHeight rows={3} placeholder='どのように Objective を達成するかをメンバーに伝えるために、Objective の説明を2〜3行で入力してください'
                           ref={(node) => { this.descriptionArea = node; }}/>
               </Form.Field>
             </Form.Group>
@@ -71,7 +71,7 @@ class ObjectiveFormModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button color='grey' onClick={this.props.closeModal}>キャンセル</Button>
+            <Button onClick={this.props.closeModal}>キャンセル</Button>
             <Button positive onClick={this.save.bind(this)}>保存</Button>
           </div>
         </Modal.Actions>

@@ -19,11 +19,11 @@ export default class SignIn extends Component {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='メールアドレスを入力してください' ref={(node) => {this.emailInput = node;}}/>
+                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
               </Form.Field>
             </Form.Group>
             <div className='center'>
-              <Button negative onClick={this.send.bind(this)}>送信</Button>
+              <Button positive onClick={this.send.bind(this)}>送信する</Button>
             </div>
           </Form>
         </main>

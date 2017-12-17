@@ -104,20 +104,20 @@ class KeyResultFormModal extends Component {
     return (
       <Modal open={this.props.isOpen} className="key-result-form-modal" size="small">
         <Modal.Header>
-          KeyResult を作成する
+          KeyResult を追加する
         </Modal.Header>
         <Modal.Content>
           <Form>
           <Form.Group widths='equal'>
               <Form.Field>
-                <label>関連するObjective</label>
+                <label>紐付ける Objective</label>
                 <Input value={this.props.objective.get('name')} readOnly />
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Key Result 名</label>
-                <Input placeholder='Objective の達成に必要な Key Result' ref={node => {this.nameInput = node;}}/>
+                <Input placeholder='Objective 達成のカギとなる成果を入力してください' ref={node => {this.nameInput = node;}}/>
               </Form.Field>
             </Form.Group>
             <Form.Group>
@@ -125,11 +125,11 @@ class KeyResultFormModal extends Component {
                 <div className="flex-center">
                   <div style={{marginRight: "10px"}}>
                     <label>目標値</label>
-                    <Input type="number" ref={node => {this.targetInput = node;}}/>
+                    <Input type="number" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
                   </div>
                   <div>
                     <label>単位</label>
-                    <Input type="text" ref={node => {this.unitInput = node;}}/>
+                    <Input type="text" placeholder='例：円、件、人' ref={node => {this.unitInput = node;}}/>
                   </div>
                 </div>
               </Form.Field>
