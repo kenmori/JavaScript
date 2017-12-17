@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Card, Icon, List } from 'semantic-ui-react';
 import Avatar from '../../containers/Avatar';
+import moment from 'moment';
 
 class OkrCard extends Component {
   constructor(props) {
@@ -80,8 +81,9 @@ class OkrCard extends Component {
           </Card.Header>
         </Card.Content>
         {this.generateKeyResultList(objective)}
-        <Card.Content extra>
+        <Card.Content extra className='okr-card__meta'>
           <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
+          <div className='lastUpdateTime'>{moment(objective.get('updatedAt')).format('YYYY/MM/DD')} 更新</div>
         </Card.Content>
         {this.pathSvg(true, !!objective.get('parentObjectiveId'))}
         {this.pathSvg(false, !objective.get('childObjectives').isEmpty())}

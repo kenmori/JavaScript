@@ -61,4 +61,13 @@
       text-decoration: underline;
     }
   }
+  .okr-card__meta {
+    display: flex;
+    flex-direction: row-reverse;
+
+    .lastUpdateTime {
+      font-size: small;
+      margin-right: .5rem;
+    }
+  }
 }
