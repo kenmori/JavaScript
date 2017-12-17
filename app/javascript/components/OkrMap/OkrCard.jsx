@@ -28,9 +28,6 @@ class OkrCard extends Component {
 
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
-    if (!keyResults || keyResults.isEmpty()) {
-      return <Card.Content description='Key Result はありません' />;
-    }
     return (
       <Card.Content className="keyResults">
         <List>
@@ -41,6 +38,8 @@ class OkrCard extends Component {
               <div className="progress">{keyResult.get('progressRate')}%</div>
             </List.Item>
           )}
+          <List.Item className="keyResults__item--add" icon='plus' content='Key Result を追加する'
+                     onClick={() => this.props.openKeyResultFormModal(objective)} />
         </List>
       </Card.Content>
     );
@@ -82,7 +81,6 @@ class OkrCard extends Component {
         </Card.Content>
         {this.generateKeyResultList(objective)}
         <Card.Content extra>
-          <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)} />
           <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
         {this.pathSvg(true, !!objective.get('parentObjectiveId'))}

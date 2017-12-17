@@ -43,8 +43,22 @@
       }
     }
   }
-  .keyResults {}
+  .keyResults {
+    .list {
+      width: 100%;
+    }
+  }
   .keyResults__item {
-    cursor: pointer;
+    .name:hover {
+      text-decoration: underline;
+    }
+  }
+  .keyResults__item--add {
+    margin-top: .5rem;
+    justify-content: center;
+
+    .content:hover {
+      text-decoration: underline;
+    }
   }
 }
