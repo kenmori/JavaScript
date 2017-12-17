@@ -39,5 +39,8 @@ OkrList.propTypes = {
   selectedObjective: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
 };
+OkrList.defaultProps = {
+  selectedObjective: null,
+};
 
 export default OkrList;

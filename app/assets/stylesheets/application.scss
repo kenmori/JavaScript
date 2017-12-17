@@ -14,9 +14,9 @@
  */
 @import 'variable';
 
-@import url('//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css');
-@import url(http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css);
-@import url(https://cdnjs.cloudflare.com/ajax/libs/react-datepicker/0.60.2/react-datepicker.min.css);
+@import url(//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css);
+@import url(//mplus-fonts.osdn.jp/webfonts/general-j/mplus_webfonts.css);
+@import url(//cdnjs.cloudflare.com/ajax/libs/react-datepicker/0.60.2/react-datepicker.min.css);
 
 @import 'pages/*';
 @import 'components/**/*';
@@ -26,6 +26,10 @@ body {
   font-family: 'M+ Type-1 (general-j) Regular', sans-serif;
   > div {
     height: 100%;
+
+    > #root {
+      height: 100%;
+    }
   }
 }
 

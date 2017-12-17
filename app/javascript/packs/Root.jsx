@@ -21,7 +21,7 @@ const store = configureStore();
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
-      <div>
+      <div id='root'>
         <Router history={history}>
           <Switch>
             <Route exact path='/users/sign_up' component={SignUpPage}/>

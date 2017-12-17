@@ -1,8 +1,12 @@
 .okr-map {
-  margin: 15px;
+  margin: 0 15px 0;
   position: relative;
 
-  .map-layer {
-    margin-top: 30px;
+  .okr-map__group {
+    margin: 24px 0 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
 }

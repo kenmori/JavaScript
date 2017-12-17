@@ -1,103 +1,132 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
+import PropTypes from 'prop-types';
 import ObjectiveCard from '../containers/ObjectiveCard';
 import { Card } from 'semantic-ui-react';
+import { List } from 'immutable'
 
 class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      childObjectivePositions: null,
+      pointsList: null,
       width: 0,
       height: 0,
+      selectedCardId: -1,
+      groups: this.createOkrGroups(props.objective),
     };
   }
 
-  updatechildObjectivePositions(objective) {
-    if(!this.props.objective.get('childObjectives')) return null;
-    const childObjectivePositions = objective.get('childObjectives').reduce((result, objective) => {
-      const element = ReactDOM.findDOMNode(this.refs[this.createKey(objective)]);
-      result[this.createKey(objective)] = { x: element.offsetLeft + (element.offsetWidth / 2), y: element.offsetTop };
-      return result;
-    }, {});
+  componentWillReceiveProps(nextProps) {
+    if (this.props.objective !== nextProps.objective) {
+      this.setState({
+        groups: this.createOkrGroups(nextProps.objective),
+      });
+    }
+  }
 
+  createOkrGroups(objective) {
+    // TODO: 将来的には親と子だけでなく祖先や子孫も展開して描画できるようにする
+    const objectiveGroup = List.of(objective);
+    if (objective.get('childObjectives').isEmpty()) {
+      return List.of(objectiveGroup);
+    } else {
+      return List.of(objectiveGroup, objective.get('childObjectives'));
+    }
+  }
+
+  updatePointsList() {
+    const edges = this.state.groups.map(group => (
+      group.reduce((result, objective) => {
+        const element = findDOMNode(this.refs[this.getKey(objective)]);
+        const x = element.offsetLeft + (element.offsetWidth / 2);
+        return result.push({
+          top: { x: x, y: element.offsetTop },
+          bottom: { x: x, y: element.offsetTop + element.offsetHeight },
+        });
+      }, List())
+    ));
+    const pointsList = edges.reduce((result, _, key, iter) => {
+      if (key === 0) return result;
+
+      const prev = iter.get(key - 1).first();
+      return iter.get(key).map(next => {
+        const centerY = (prev.bottom.y + next.top.y) / 2;
+        return `${prev.bottom.x},${prev.bottom.y} ${prev.bottom.x},${centerY} ${next.top.x},${centerY} ${next.top.x},${next.top.y}`
+      });
+    }, List());
+
+    const map = findDOMNode(this.refs.map);
     this.setState({
-      childObjectivePositions,
-      width: ReactDOM.findDOMNode(this.refs.map).offsetWidth,
-      height: ReactDOM.findDOMNode(this.refs.map).offsetHeight + 30,
+      pointsList: pointsList,
+      width: map.offsetWidth,
+      height: map.offsetHeight,
     });
   }
 
   componentDidUpdate(prevProps, _prevState) {
     // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
-    if(prevProps !== this.props) {
-      this.updatechildObjectivePositions(this.props.objective);
+    if (prevProps !== this.props) {
+      this.updatePointsList(this.props.objective);
     }
   }
 
   componentDidMount() {
-    this.updatechildObjectivePositions(this.props.objective);
+    this.updatePointsList(this.props.objective);
+    window.addEventListener('resize', () => this.updatePointsList(this.props.objective));
   }
 
-  path() {
-    const center = this.state.width / 2;
-    if(!this.state.childObjectivePositions) return null;
-    if(!this.props.objective.get('childObjectives')) return null;
-    return this.props.objective.get('childObjectives').map((objective) => {
-      const position = this.state.childObjectivePositions[this.createKey(objective)];
-      if(!position) {return null; }
-      const points = `${center},${position.y - 30} ${center},${position.y - 15} ${position.x},${position.y - 15} ${position.x},${position.y}`;
-      return (
-        <svg key={`svg-${objective.get('id')}`} width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
+  pathSvg() {
+    if (!this.state.pointsList || this.state.pointsList.isEmpty()) return null;
+    return (
+      <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
+        {this.state.pointsList.map((points, key) => (
           <polyline
+            key={key}
             points={points}
             strokeWidth='2'
-            stroke='rgb(230, 230, 230)'
+            stroke='silver'
             fill='none'
           />
-        </svg>
-
-      );
-    });
+        ))}
+      </svg>
+    );
   }
 
-  createKey(objective) {
+  getKey = objective => {
     return `objective_${objective.get('id')}`;
   }
 
+  selectCard = cardId => {
+    this.setState({
+      selectedCardId: cardId,
+    });
+  }
+
   render() {
-    const objective = this.props.objective;
     return (
-      <div key={objective.get('id')} className='okr-map' ref='map'>
-        <div className='map-layer'>
-          <Card.Group className='flex-center'>
-            <ObjectiveCard objective={objective}/>
+      <div className='okr-map' ref='map'>
+        {this.state.groups.map((group, key) => (
+          <Card.Group key={key} className='okr-map__group'>
+            {group.map((objective, key) => (
+              <ObjectiveCard
+                key={key}
+                objective={objective}
+                onSelect={this.selectCard}
+                isSelected={this.state.selectedCardId === objective.get('id')}
+                ref={this.getKey(objective)}
+              />
+            ))}
           </Card.Group>
-        </div>
-        {(() => {
-          if(objective.get('childObjectives').size != 0) {
-            return (
-              <div className='map-layer'>
-                <Card.Group className='flex-center'>
-                  {
-                    objective.get('childObjectives').map((objective) => {
-                      return (<ObjectiveCard key={this.createKey(objective)} objective={objective} ref={this.createKey(objective)}/>);
-                    })
-                  }
-                </Card.Group>
-              </div>
-            );
-          }
-        })()}
-        {
-          this.path()
-          // パスの描画
-        }
+        ))}
+        {this.pathSvg()}
       </div>
     );
   }
 }
 
-OkrMap.propTypes = {};
+OkrMap.propTypes = {
+  objective: PropTypes.object.isRequired,
+};
 
 export default OkrMap;
