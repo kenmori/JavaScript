@@ -46,16 +46,6 @@ class OkrCard extends Component {
     );
   }
 
-  removeObjective(objective) {
-    if (objective.get('keyResults') && !objective.get('keyResults').isEmpty()) {
-      alert('Key Result が紐付いているため削除できません。');
-      return;
-    }
-    if (confirm(`Objective ${objective.get('name')} を削除しますか？`)) {
-      this.props.removeObjective(objective.get('id'));
-    }
-  }
-
   pathSvg = (parentOrNot, drawOrNot) => {
     if (drawOrNot) {
       const top = parentOrNot ? '-22' : this.state.height;
@@ -93,7 +83,6 @@ class OkrCard extends Component {
         {this.generateKeyResultList(objective)}
         <Card.Content extra>
           <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)} />
-          <Icon link name='trash' onClick={() => this.removeObjective(objective)} />
           <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
         {this.pathSvg(true, !!objective.get('parentObjectiveId'))}
