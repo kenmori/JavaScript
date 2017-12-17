@@ -53,4 +53,8 @@ SettingsPage.propTypes = {
   changeURL: PropTypes.func,
 };
 
+SettingsPage.defaultProps = {
+  name: 'account'
+};
+
 export default SettingsPage;
