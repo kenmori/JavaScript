@@ -33,14 +33,23 @@ class OkrCard extends Component {
       <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult =>
-            <List.Item className="keyResults__item" key={keyResult.get('id')} onClick={() => this.props.openOkrFormModal(objective.get('id'), {okrType: 'keyResult', targetId: keyResult.get('id')})}>
+            <List.Item className="keyResults__item" key={keyResult.get('id')}>
               <Avatar user={keyResult.get('owner')} size='small' />
-              <div className='name'>{keyResult.get('name')}</div>
+              <div className='name'>
+                <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
+                  okrType: 'keyResult',
+                  targetId: keyResult.get('id')
+                })}>{keyResult.get('name')}</a>
+              </div>
               <div className="progress">{keyResult.get('progressRate')}%</div>
             </List.Item>
           )}
-          <List.Item className="keyResults__item--add" icon='plus' content='Key Result を追加する'
-                     onClick={() => this.props.openKeyResultFormModal(objective)} />
+          <List.Item className="keyResults__item--add">
+            <List.List>
+              <List.Item as='a' icon='plus' content='Key Result を追加する'
+                         onClick={() => this.props.openKeyResultFormModal(objective)} />
+            </List.List>
+          </List.Item>
         </List>
       </Card.Content>
     );
@@ -71,7 +80,7 @@ class OkrCard extends Component {
     }
     const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
-      <Card className='okr-card' ref='card' color={this.props.isSelected ? 'red' : null}
+      <Card as='div' className='okr-card' ref='card' color={this.props.isSelected ? 'red' : null}
             onClick={() => this.props.onSelect(objective.get('id'))}>
         <Card.Content>
           <Card.Header>
@@ -82,8 +91,8 @@ class OkrCard extends Component {
         </Card.Content>
         {this.generateKeyResultList(objective)}
         <Card.Content extra className='okr-card__meta'>
-          <div className='lastUpdateTime'>{moment(objective.get('updatedAt')).format('YYYY/MM/DD')} 更新</div>
-          <Icon link name='write' color='red' circular inverted
+          <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/MM/DD')} 更新</div>
+          <Icon link name='write' className='add-button' color='red' circular inverted
                 onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
         {this.pathSvg(true, !!objective.get('parentObjectiveId'))}

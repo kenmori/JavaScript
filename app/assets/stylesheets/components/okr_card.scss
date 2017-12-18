@@ -1,6 +1,8 @@
 .okr-card {
   &.ui.card {
-    cursor: default !important;
+    &:hover {
+      transform: translateY(-3px);
+    }
 
     .content .header {
       display: flex;
@@ -11,6 +13,8 @@
   .content {
     .list .item {
       display: flex;
+      justify-content: center;
+      align-items: center;
 
       .name {
         flex-grow: 1;
@@ -53,31 +57,28 @@
     }
   }
   .keyResults__item {
-    .name {
-      cursor: pointer;
-    }
   }
   .keyResults__item--add {
-    margin-top: .5rem;
-    justify-content: center;
-    cursor: pointer;
+    .list {
+      width: auto;
+    }
   }
   .okr-card__meta {
     display: flex;
     align-items: center;
 
-    .lastUpdateTime {
+    .update-time {
       font-size: small;
       margin-right: .5rem;
       flex-grow: 1;
     }
 
-    .write {
+    .add-button {
       visibility: hidden;
     }
   }
   &:hover {
-    .okr-card__meta .write{
+    .okr-card__meta .add-button{
       visibility: visible;
     }
   }
