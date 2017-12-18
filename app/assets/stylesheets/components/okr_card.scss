@@ -1,7 +1,11 @@
 .okr-card {
-  &.ui.card .content .header {
-    display: flex;
-    align-items: center;
+  &.ui.card {
+    cursor: default !important;
+
+    .content .header {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .content {
@@ -49,25 +53,32 @@
     }
   }
   .keyResults__item {
-    .name:hover {
-      text-decoration: underline;
+    .name {
+      cursor: pointer;
     }
   }
   .keyResults__item--add {
     margin-top: .5rem;
     justify-content: center;
-
-    .content:hover {
-      text-decoration: underline;
-    }
+    cursor: pointer;
   }
   .okr-card__meta {
     display: flex;
-    flex-direction: row-reverse;
+    align-items: center;
 
     .lastUpdateTime {
       font-size: small;
       margin-right: .5rem;
+      flex-grow: 1;
+    }
+
+    .write {
+      visibility: hidden;
+    }
+  }
+  &:hover {
+    .okr-card__meta .write{
+      visibility: visible;
     }
   }
 }

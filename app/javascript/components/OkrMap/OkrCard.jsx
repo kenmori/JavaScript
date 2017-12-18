@@ -82,8 +82,9 @@ class OkrCard extends Component {
         </Card.Content>
         {this.generateKeyResultList(objective)}
         <Card.Content extra className='okr-card__meta'>
-          <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
           <div className='lastUpdateTime'>{moment(objective.get('updatedAt')).format('YYYY/MM/DD')} 更新</div>
+          <Icon link name='write' color='red' circular inverted
+                onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
         {this.pathSvg(true, !!objective.get('parentObjectiveId'))}
         {this.pathSvg(false, !objective.get('childObjectives').isEmpty())}
