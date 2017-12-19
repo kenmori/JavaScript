@@ -9,6 +9,7 @@
 ApplicationRecord.transaction do
   organization = Organization.create!(
       name: 'りしり株式会社',
+      uniq_name: 'resily',
       postal_code: '100-8111',
       address: '東京都千代田区千代田1-1-1',
       phone_number: '03-1234-5678'
