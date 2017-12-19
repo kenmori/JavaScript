@@ -9,6 +9,7 @@ export default class SignUp extends Component {
       email: this.emailInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       organization_name: this.organizationInput.inputRef.value,
+      organization_uniq_name: this.organizationUniqNameInput.inputRef.value.toLowerCase(),
     })
   }
   componentWillUpdate(props = this.props) {
@@ -26,6 +27,10 @@ export default class SignUp extends Component {
               <Form.Field inline>
                 <div>組織名</div>
                 <Input type='text' size='mini' placeholder='会社名、チーム名' ref={(node) => {this.organizationInput = node;}}/>
+              </Form.Field>
+              <Form.Field inline>
+                <div>組織ID</div>
+                <Input type='text' size='mini' placeholder='英数字、ハイフン、アンダースコア' ref={(node) => {this.organizationUniqNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>姓</div>
