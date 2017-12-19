@@ -9,7 +9,7 @@ export default class SignUp extends Component {
       email: this.emailInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       organization_name: this.organizationInput.inputRef.value,
-      organization_uniq_name: this.organizationUniqNameInput.inputRef.value.toLowerCase(),
+      organization_uniq_name: this.organizationUniqNameInput.inputRef.value,
     })
   }
   componentWillUpdate(props = this.props) {

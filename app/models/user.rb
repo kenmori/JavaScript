@@ -3,6 +3,8 @@ class User < ApplicationRecord
   # :timeoutable and :omniauthable
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
 
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :first_name, presence: true, length: { maximum: 255 }
   validates :last_name, presence: true, length: { maximum: 255 }
 
@@ -22,6 +24,18 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
 
   attr_accessor :no_password_required
+
+  def self.create_user_with_organization(user_params, no_password_required, organization_name, organization_uniq_name)
+    user = new(user_params)
+    user.no_password_required = no_password_required
+    transaction do
+      user.save!
+      organization = Organization.new(name: organization_name,uniq_name: organization_uniq_name.downcase)
+      organization.save!
+      OrganizationMember.new(organization_id: organization.id, user_id: user.id).save!
+    end
+    user
+  end
 
   def organization
     OrganizationMember.find_by(user_id: id).organization

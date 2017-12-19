@@ -10,14 +10,11 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    @user.no_password_required = params[:user][:no_password_required]
-    ActiveRecord::Base.transaction do
-      @user.save!
-      organization_id = params['user']['organization_name'] ? create_organization.id : current_user.organization.id
-      OrganizationMember.new(organization_id: organization_id, user_id: @user.id).save!
-    end
-    render status: :created
+    @user = User.create_user_with_organization(user_params, 
+                                               params[:user][:no_password_required],
+                                               params[:user][:organization_name],
+                                               params[:user][:organization_uniq_name])
+    render json: @user, status: :ok
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
@@ -55,11 +52,6 @@ class UsersController < ApplicationController
 
   private
 
-  def create_organization
-    organization = Organization.new(name: params['user']['organization_name'])
-    organization.save!
-    organization
-  end
 
   def user_params
     params.require(:user)
@@ -70,5 +62,5 @@ class UsersController < ApplicationController
     params.require(:user)
         .permit(:id, :password, :password_confirmation, :current_password)
   end
-
+  
 end

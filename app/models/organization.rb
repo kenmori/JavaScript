@@ -1,4 +1,7 @@
 class Organization < ApplicationRecord
+  validates :name, presence: true
+  validates :uniq_name, presence: true, uniqueness: true, format: { with: /\A[a-z0-9_-]+\z/i }
+  
   has_many :groups
   has_many :members, class_name: 'OrganizationMember'
   has_many :okr_periods
