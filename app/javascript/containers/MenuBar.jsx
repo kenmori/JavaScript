@@ -31,6 +31,9 @@ const mapDispatchToProps = dispatch => {
     changeOkrPeriod: (okrPeriodId) => {
       dispatch(menuActions.changeOkrPeriod(okrPeriodId));
     },
+    changeCurrentOrganizationId: (id, organizationId) => {
+      dispatch(userActions.updateCurrentOrganizationId({id, organizationId}));
+    },
     signOut: () => {
       dispatch(sessionActions.signOut());
     }

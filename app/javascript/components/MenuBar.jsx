@@ -55,8 +55,8 @@ class MenuBar extends Component {
     this.props.changeUser(value);
   }
 
-  handleChangeOrganization() {
-
+  handleChangeOrganization(event, { value }) {
+    this.props.changeCurrentOrganizationId(this.props.loginUser.get('id'), value);
   }
 
   organizationTag(props = this.props) {
@@ -129,6 +129,7 @@ MenuBar.propTypes = {
   fetchOkrPeriods: PropTypes.func.isRequired,
   changeUser: PropTypes.func.isRequired,
   changeOkrPeriod: PropTypes.func.isRequired,
+  changeCurrentOrganizationId: PropTypes.func.isRequired,
   users: PropTypes.object,
   okrPeriods: PropTypes.object,
   menu: PropTypes.object,

@@ -47,12 +47,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_current_organization_id
+    @user = User.find(params[:user_id])
+    if @user.update(current_organization_id: params['user'][:organization_id])
+      render action: :create, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
 
   def user_params
     params.require(:user)
-        .permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :no_password_required)
+        .permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :current_organization_id, :no_password_required)
   end
 
   def password_params

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :key_results, only: %i[index create update destroy]
   resources :users, only: %i[index show create update destroy] do
     put 'password', to: 'users#update_password'
+    put 'current_organization_id', to: 'users#update_current_organization_id'
   end
   resources :organizations do
     resource :okr_settings, only: %i[show create update]

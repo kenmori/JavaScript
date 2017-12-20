@@ -14,4 +14,7 @@ const initialState = fromJS({
 });
 
 export default handleActions({
+  [ActionTypes.UPDATE_CURRENT_ORGANIZATION_ID]: (state, { payload }) => console.log(111, payload) || (
+    state
+  ),
 }, initialState);
