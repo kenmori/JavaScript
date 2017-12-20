@@ -10,9 +10,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create_user_with_organization(current_user,
+    @user = User.create_user_with_organization!(current_user,
                                                user_params, 
-                                               params[:user][:no_password_required],
                                                params[:user][:organization_name],
                                                params[:user][:organization_uniq_name])
     render status: :created
@@ -53,7 +52,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user)
-        .permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar)
+        .permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :no_password_required)
   end
 
   def password_params

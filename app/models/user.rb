@@ -25,22 +25,17 @@ class User < ApplicationRecord
 
   attr_accessor :no_password_required
 
-  def self.create_user_with_organization(organization_admin_user, user_params, no_password_required, organization_name, organization_uniq_name)
-    user = new(user_params)
-    user.no_password_required = no_password_required
+  def self.create_user_with_organization!(organization_admin_user, user_params, organization_name, organization_uniq_name)
     transaction do
-      user.save!
-      
+      user = User.create_with(user_params).find_or_create_by!(email: user_params['email'])
       if organization_admin_user.present?
         organization = organization_admin_user.organization
       else
-        organization = Organization.new(name: organization_name, uniq_name: organization_uniq_name.downcase)
-        organization.save!
+        organization = Organization.create!(name: organization_name, uniq_name: organization_uniq_name)
       end
-
-      OrganizationMember.new(organization_id: organization.id, user_id: user.id).save!
+      OrganizationMember.find_or_create_by!(organization_id: organization.id, user_id: user.id)
+      user
     end
-    user
   end
 
   def organization(organization_id = nil)
