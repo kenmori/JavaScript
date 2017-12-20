@@ -5,6 +5,7 @@ import MenuBar from '../containers/MenuBar';
 import AccountSettingTab from '../containers/AccountSettingTab'
 import UserSettingTab from '../containers/UserSettingTab'
 import OKRSettingTab from '../containers/OKRSettingTab'
+import OrganizationSettingTab from '../containers/OrganizationSettingTab'
 import AvatarImageModal from '../containers/AvatarImageModal'
 
 class SettingsPage extends Component {
@@ -13,6 +14,7 @@ class SettingsPage extends Component {
       { id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' },
       { id: 1, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
       { id: 2, menuItem: 'OKR', render: () => <OKRSettingTab/> , name: 'okr'},
+      { id: 3, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
     ]);
   }
 

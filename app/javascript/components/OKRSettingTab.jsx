@@ -45,7 +45,7 @@ class OKRSettingTab extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOkrSettings(gon.organization.id);
+    this.props.fetchOkrSettings(this.props.organization.get('id'));
   }
 
   updateOkrSettings = () => {
@@ -131,6 +131,7 @@ class OKRSettingTab extends Component {
 }
 
 OKRSettingTab.propTypes = {
+  organization: PropTypes.object,
   fetchOkrSettings: PropTypes.func.isRequired,
   updateOkrSettings: PropTypes.func.isRequired,
   resetOkrSettings: PropTypes.func.isRequired,
