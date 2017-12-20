@@ -25,17 +25,17 @@ class User < ApplicationRecord
 
   attr_accessor :no_password_required
 
-  def self.create_user_with_organization(creater, user_params, no_password_required, organization_name, organization_uniq_name)
+  def self.create_user_with_organization(organization_admin_user, user_params, no_password_required, organization_name, organization_uniq_name)
     user = new(user_params)
     user.no_password_required = no_password_required
     transaction do
       user.save!
       
-      if organization_name.present? && organization_uniq_name.present?
+      if organization_admin_user.present?
+        organization = organization_admin_user.organization
+      else
         organization = Organization.new(name: organization_name, uniq_name: organization_uniq_name.downcase)
         organization.save!
-      else
-        organization = creater.organization
       end
 
       OrganizationMember.new(organization_id: organization.id, user_id: user.id).save!
