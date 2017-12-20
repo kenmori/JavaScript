@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :concerned_person do
+  factory :related_user do
     
   end
 end

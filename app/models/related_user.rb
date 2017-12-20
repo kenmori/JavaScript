@@ -1,4 +1,4 @@
-class ConcernedPerson < ApplicationRecord
+class RelatedUser < ApplicationRecord
   belongs_to :user
   belongs_to :key_result
 

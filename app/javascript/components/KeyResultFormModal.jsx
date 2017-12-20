@@ -8,7 +8,7 @@ class KeyResultFormModal extends Component {
     super(props);
     this.state = {
       expiredDate: null,
-      concernedPeople: [null]
+      relatedUsers: [null]
     }
   }
 
@@ -33,35 +33,35 @@ class KeyResultFormModal extends Component {
     this.setState({expiredDate: date})
   }
 
-  addConcernedPeople(value, boxIndex) {
-    const concernedPeople = this.state.concernedPeople;
+  addRelatedUsers(value, boxIndex) {
+    const relatedUsers = this.state.relatedUsers;
 
-    concernedPeople[boxIndex] = value;
-    if (boxIndex === concernedPeople.length - 1) {
-      concernedPeople.push(null);
+    relatedUsers[boxIndex] = value;
+    if (boxIndex === relatedUsers.length - 1) {
+      relatedUsers.push(null);
     }
 
     this.setState({
-      concernedPeople: concernedPeople
+      relatedUsers: relatedUsers
     })
   }
 
-  removeConcernedPeople(clickedId) {
+  removeRelatedUsers(clickedId) {
     this.setState({
-      concernedPeople: this.state.concernedPeople.filter( id => id !== clickedId)
+      relatedUsers: this.state.relatedUsers.filter( id => id !== clickedId)
     })
   }
 
   participantList(options, add, remove) {
-    const list = this.state.concernedPeople.map((id, idx) => {
-      const icon = id !== null && <Icon name="close" className="concerned-people__close" onClick={() => {remove(id)}} />
-      return <div key={idx} className="concerned-people__item">
+    const list = this.state.relatedUsers.map((id, idx) => {
+      const icon = id !== null && <Icon name="close" className="related-users__close" onClick={() => {remove(id)}} />
+      return <div key={idx} className="related-users__item">
               <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
               {icon}
              </div>
     })
 
-    return <div className="concerned-people">{list}</div>;
+    return <div className="related-users">{list}</div>;
   }
 
   add() {
@@ -72,7 +72,7 @@ class KeyResultFormModal extends Component {
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
-      concernedPeople: this.state.concernedPeople.filter(item => item !== null)
+      relatedUsers: this.state.relatedUsers.filter(item => item !== null)
     };
     this.props.addKeyResult(keyResult);
     this.nameInput.inputRef.value = '';
@@ -91,7 +91,7 @@ class KeyResultFormModal extends Component {
     if (willClose) {
       this.setState({
         expiredDate: null,
-        concernedPeople: [null]
+        relatedUsers: [null]
       });
     }
   }
@@ -149,7 +149,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>関係者</label>
-                {this.participantList(this.usersOption(this.props.users), this.addConcernedPeople.bind(this), this.removeConcernedPeople.bind(this))}
+                {this.participantList(this.usersOption(this.props.users), this.addRelatedUsers.bind(this), this.removeRelatedUsers.bind(this))}
               </Form.Field>
             </Form.Group>
           </Form>

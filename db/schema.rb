@@ -20,13 +20,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "key_result_id", null: false
-    t.integer "user_id", null: false
-  end
-
   create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -116,6 +109,13 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kind", null: false
+  end
+
+  create_table "related_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "key_result_id", null: false
+    t.integer "user_id", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
