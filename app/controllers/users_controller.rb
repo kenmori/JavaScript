@@ -22,14 +22,11 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    ActiveRecord::Base.transaction do
-      @user.update!(user_params)
-      organization_name = params['user']['organization_name']
-      @user.organization.update!(name: organization_name) if organization_name.present?
+    if @user.update(user_params)
+      render action: :create, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
     end
-    render action: :create, status: :ok
-  rescue => e
-    render json: @user.errors, status: :unprocessable_entity
   end
 
   def update_password
