@@ -1,0 +1,85 @@
+.okr-card {
+  &.ui.card {
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    .content .header {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .content {
+    .list .item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .name {
+        flex-grow: 1;
+        margin: 0 4px;
+      }
+
+      .progress {
+        color: indianred;
+        text-align: right;
+      }
+
+      .icon {
+        margin-left: 4px;
+      }
+    }
+
+    .header {
+      width: 100%;
+
+      .avatarImg {
+        flex-shrink: 0;
+      }
+
+      .name {
+        flex-grow: 1;
+        margin: 0 8px;
+        font-size: smaller;
+        text-align: center;
+      }
+
+      .progress {
+        color: indianred;
+        font-size: smaller;
+      }
+    }
+  }
+  .keyResults {
+    .list {
+      width: 100%;
+    }
+  }
+  .keyResults__item {
+  }
+  .keyResults__item--add {
+    .list {
+      width: auto;
+    }
+  }
+  .okr-card__meta {
+    display: flex;
+    align-items: center;
+
+    .update-time {
+      font-size: small;
+      margin-right: .5rem;
+      flex-grow: 1;
+    }
+
+    .add-button {
+      visibility: hidden;
+    }
+  }
+  &:hover {
+    .okr-card__meta .add-button{
+      visibility: visible;
+    }
+  }
+}

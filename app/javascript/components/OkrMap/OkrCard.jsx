@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Card, Icon, List } from 'semantic-ui-react';
-import Avatar from '../containers/Avatar';
+import Avatar from '../../containers/Avatar';
+import moment from 'moment';
 
-class ObjectiveCard extends Component {
+class OkrCard extends Component {
   constructor(props) {
     super(props);
     this.state = { width: 0, height: 0, };
@@ -28,32 +29,30 @@ class ObjectiveCard extends Component {
 
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
-    if (!keyResults || keyResults.isEmpty()) {
-      return <Card.Content description='Key Result はありません' />;
-    }
     return (
       <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult =>
-            <List.Item className="keyResults__item" key={keyResult.get('id')} onClick={() => this.props.openOkrFormModal(objective.get('id'), {okrType: 'keyResult', targetId: keyResult.get('id')})}>
+            <List.Item className="keyResults__item" key={keyResult.get('id')}>
               <Avatar user={keyResult.get('owner')} size='small' />
-              <div className='name'>{keyResult.get('name')}</div>
+              <div className='name'>
+                <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
+                  okrType: 'keyResult',
+                  targetId: keyResult.get('id')
+                })}>{keyResult.get('name')}</a>
+              </div>
               <div className="progress">{keyResult.get('progressRate')}%</div>
             </List.Item>
           )}
+          <List.Item className="keyResults__item--add">
+            <List.List>
+              <List.Item as='a' icon='plus' content='Key Result を追加する'
+                         onClick={() => this.props.openKeyResultFormModal(objective)} />
+            </List.List>
+          </List.Item>
         </List>
       </Card.Content>
     );
-  }
-
-  removeObjective(objective) {
-    if (objective.get('keyResults') && !objective.get('keyResults').isEmpty()) {
-      alert('Key Result が紐付いているため削除できません。');
-      return;
-    }
-    if (confirm(`Objective ${objective.get('name')} を削除しますか？`)) {
-      this.props.removeObjective(objective.get('id'));
-    }
   }
 
   pathSvg = (parentOrNot, drawOrNot) => {
@@ -81,7 +80,7 @@ class ObjectiveCard extends Component {
     }
     const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
-      <Card className='objective-card' ref='card' color={this.props.isSelected ? 'red' : null}
+      <Card as='div' className='okr-card' ref='card' color={this.props.isSelected ? 'red' : null}
             onClick={() => this.props.onSelect(objective.get('id'))}>
         <Card.Content>
           <Card.Header>
@@ -91,10 +90,10 @@ class ObjectiveCard extends Component {
           </Card.Header>
         </Card.Content>
         {this.generateKeyResultList(objective)}
-        <Card.Content extra>
-          <Icon link name='plus' onClick={() => this.props.openKeyResultFormModal(objective)} />
-          <Icon link name='trash' onClick={() => this.removeObjective(objective)} />
-          <Icon link name='write' onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
+        <Card.Content extra className='okr-card__meta'>
+          <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/MM/DD')} 更新</div>
+          <Icon link name='write' className='add-button' color='red' circular inverted
+                onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>
         {this.pathSvg(true, !!objective.get('parentObjectiveId'))}
         {this.pathSvg(false, !objective.get('childObjectives').isEmpty())}
@@ -103,10 +102,10 @@ class ObjectiveCard extends Component {
   }
 }
 
-ObjectiveCard.propTypes = {
+OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
 };
 
-export default ObjectiveCard;
+export default OkrCard;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import ObjectiveCard from '../containers/ObjectiveCard';
+import OkrCard from '../../containers/OkrCard';
 import { Card } from 'semantic-ui-react';
 import { List } from 'immutable'
 
@@ -109,7 +109,7 @@ class OkrMap extends Component {
         {this.state.groups.map((group, key) => (
           <Card.Group key={key} className='okr-map__group'>
             {group.map((objective, key) => (
-              <ObjectiveCard
+              <OkrCard
                 key={key}
                 objective={objective}
                 onSelect={this.selectCard}
