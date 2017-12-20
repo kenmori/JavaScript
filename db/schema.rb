@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20171223081436) do
 
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
-    t.string "description"
+    t.text "description"
     t.integer "parent_objective_id"
     t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
