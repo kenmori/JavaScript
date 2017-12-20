@@ -20,7 +20,7 @@ ApplicationRecord.transaction do
       last_name: '山田',
       first_name: '太郎',
       email: 'yamada@example.com',
-      password: 'Pass1234'
+      password: 'Pass0123'
   )
   login_user.skip_confirmation!
   login_user.save!
@@ -32,7 +32,7 @@ ApplicationRecord.transaction do
       last_name: '鈴木',
       first_name: '花子',
       email: 'suzuki@example.com',
-      password: 'Pass1234'
+      password: 'Pass0123'
   )
   another.skip_confirmation!
   another.save!
@@ -44,12 +44,23 @@ ApplicationRecord.transaction do
       last_name: '堀江',
       first_name: '真弘',
       email: 'horie@example.com',
-      password: 'Pass1234'
+      password: 'Pass0123'
   )
   horie.skip_confirmation!
   horie.save!
   organization.members.create!(user_id: horie.id)
   organization_group.members.create!(user_id: horie.id)
+
+  guest = User.new(
+      last_name: 'ゲスト',
+      first_name: 'ユーザー',
+      email: 'guest@example.com',
+      password: 'Resily6289'
+  )
+  guest.skip_confirmation!
+  guest.save!
+  organization.members.create!(user_id: guest.id)
+  organization_group.members.create!(user_id: guest.id)
 
 # ログインユーザーの今期のOKRを作成
   active_okr_period = organization.okr_periods.create!(
