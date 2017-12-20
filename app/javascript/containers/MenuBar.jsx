@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
     menu: state.menu,
     okrPeriods: state.okrPeriods,
     loginUser: state.loginUser,
-    organization: state.organization,
+    organization: state.organizations.get('selected'),
+    organizations: state.organizations.get('list'),
     needLogout: state.signUp.get('needLogout'),
   };
 };

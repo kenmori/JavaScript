@@ -55,11 +55,44 @@ class MenuBar extends Component {
     this.props.changeUser(value);
   }
 
+  handleChangeOrganization() {
+
+  }
+
+  organizationTag(props = this.props) {
+    if(!props.organizations) { return null; }
+
+    function options(organizations) {
+      return organizations.map(item => (
+        {
+          key: item.get('id'),
+          value: item.get('id'),
+          text: item.get('name'),
+        }
+      )).toArray();
+    }
+
+    if(props.organizations.size === 1) {
+      return <div>{props.organization.get('name')}</div>
+    } else {
+      return <Dropdown 
+                scrolling 
+                pointing='top'
+                options={options(props.organizations)}
+                defaultValue={props.organization.get('id')}
+                onChange={this.handleChangeOrganization.bind(this)} 
+            />
+      }
+  }
+
   render() {
     return (
       <Menu secondary className='menu-bar'>
         <Menu.Item header>
           <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
+        </Menu.Item>
+        <Menu.Item>
+          {this.organizationTag()}
         </Menu.Item>
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
@@ -100,6 +133,7 @@ MenuBar.propTypes = {
   okrPeriods: PropTypes.object,
   menu: PropTypes.object,
   organization: PropTypes.object,
+  organizations: PropTypes.object,
 };
 
 export default MenuBar;

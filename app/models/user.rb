@@ -43,6 +43,10 @@ class User < ApplicationRecord
     OrganizationMember.find_by(organization_id: organization_id, user_id: self.id).organization
   end
 
+  def organizations(organization_id = nil)
+    OrganizationMember.where(user_id: self.id).includes(:organization).map(&:organization)
+  end
+
   def full_name
     "#{last_name} #{first_name}"
   end

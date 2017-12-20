@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index
     gon.login_user = current_user
     gon.login_user_avatar_url = current_user.avatar_url
-    gon.organization = current_user.organization
+    gon.organizations = current_user.organizations
     gon.okr_period = current_user.organization.okr_periods.active.first
   end
 

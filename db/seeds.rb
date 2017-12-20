@@ -25,7 +25,7 @@ ApplicationRecord.transaction do
   )
   login_user.skip_confirmation!
   login_user.save!
-  organization.members.create!(user_id: login_user.id)
+  organization.organization_members.create!(user_id: login_user.id)
   organization_group.members.create!(user_id: login_user.id)
 
 # 他のユーザーを作成
@@ -37,7 +37,7 @@ ApplicationRecord.transaction do
   )
   another.skip_confirmation!
   another.save!
-  organization.members.create!(user_id: another.id)
+  organization.organization_members.create!(user_id: another.id)
   organization_group.members.create!(user_id: another.id)
 
 # 他のユーザーを作成
@@ -49,7 +49,7 @@ ApplicationRecord.transaction do
   )
   horie.skip_confirmation!
   horie.save!
-  organization.members.create!(user_id: horie.id)
+  organization.organization_members.create!(user_id: horie.id)
   organization_group.members.create!(user_id: horie.id)
 
 # ログインユーザーの今期のOKRを作成
