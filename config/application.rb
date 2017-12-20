@@ -55,7 +55,8 @@ module Resily
       h[:address] = ENV.fetch('SMTP_ADDRESS', 'mailhog')
       h[:port] = ENV.fetch('SMTP_PORT', 1025)
 
-      if start_tls_enabled = ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', false)
+      start_tls_enabled = ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', 'false') == 'true'
+      if start_tls_enabled
         h[:domain] = ENV.fetch('SMTP_DOMAIN', 'reesili.com')
         h[:user_name] = ENV.fetch('SMTP_USER_NAME', '')
         h[:password] = ENV.fetch('SMTP_PASSWORD', '')
