@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :no_password_required
+  attr_accessor :no_password_required, :current_organization_id
 
   def self.create_user_with_organization!(organization_admin_user, user_params, organization_name, organization_uniq_name)
     transaction do
@@ -38,9 +38,9 @@ class User < ApplicationRecord
     end
   end
 
-  def organization(organization_id = nil)
-    organization_id ||= self.organization_member[0].organization_id
-    OrganizationMember.find_by(organization_id: organization_id, user_id: self.id).organization
+  def organization
+    self.current_organization_id ||= self.organization_member[0].organization_id
+    OrganizationMember.find_by(organization_id: self.current_organization_id, user_id: self.id).organization
   end
 
   def organizations(organization_id = nil)
