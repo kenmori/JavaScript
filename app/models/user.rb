@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :concerned_people
   has_many :comments
 
-  has_one :organization_member
+  has_many :organization_member
 
   belongs_to :owner, optional: true
 
@@ -37,12 +37,9 @@ class User < ApplicationRecord
     user
   end
 
-  def organization
-    OrganizationMember.find_by(user_id: id).organization
-  end
-
-  def organization_members
-    self.organization.members.includes(:user).map(&:user)
+  def organization(organization_id = nil)
+    organization_id ||= self.organization_member[0].organization_id
+    OrganizationMember.find_by(organization_id: organization_id, user_id: self.id).organization
   end
 
   def full_name

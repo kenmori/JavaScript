@@ -3,7 +3,7 @@ class Organization < ApplicationRecord
   validates :uniq_name, presence: true, uniqueness: true, format: { with: /\A[a-z0-9_-]+\z/i }
   
   has_many :groups
-  has_many :members, class_name: 'OrganizationMember'
+  has_many :organization_members
   has_many :okr_periods
   has_one :okr_setting
 
@@ -18,5 +18,9 @@ class Organization < ApplicationRecord
 
   def latest_okr_period_id
     self.okr_periods.active.pluck(:id).first
+  end
+
+  def members
+    self.organization_members.includes(:user).map(&:user)
   end
 end
