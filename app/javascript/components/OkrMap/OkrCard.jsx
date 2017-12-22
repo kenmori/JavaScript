@@ -80,8 +80,7 @@ class OkrCard extends Component {
     }
     const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
-      <Card as='div' className='okr-card' ref='card' color={this.props.isSelected ? 'red' : null}
-            onClick={() => this.props.onSelect(objective.get('id'))}>
+      <Card className={`okr-card ${this.props.isSelected ? 'active' : ''}`} ref='card'>
         <Card.Content>
           <Card.Header>
             <Avatar user={user} />
@@ -104,7 +103,6 @@ class OkrCard extends Component {
 
 OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
-  onSelect: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
 };
 

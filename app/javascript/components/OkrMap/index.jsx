@@ -12,7 +12,6 @@ class OkrMap extends Component {
       pointsList: null,
       width: 0,
       height: 0,
-      selectedCardId: -1,
       groups: this.createOkrGroups(props.objective, props.objectives),
     };
   }
@@ -108,13 +107,8 @@ class OkrMap extends Component {
     return `objective_${objective.get('id')}`;
   }
 
-  selectCard = cardId => {
-    this.setState({
-      selectedCardId: cardId,
-    });
-  }
-
   render() {
+    const selectedId = this.props.objective.get('id');
     return (
       <div className='okr-map' ref='map'>
         {this.state.groups.map((group, key) => (
@@ -123,8 +117,7 @@ class OkrMap extends Component {
               <OkrCard
                 key={key}
                 objective={objective}
-                onSelect={this.selectCard}
-                isSelected={this.state.selectedCardId === objective.get('id')}
+                isSelected={objective.get('id') === selectedId}
                 ref={this.getKey(objective)}
               />
             ))}

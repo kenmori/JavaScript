@@ -4,6 +4,11 @@
       transform: translateY(-3px);
     }
 
+    &.active {
+      border: 2px $ASSIST_COLOR solid;
+      background: rgba(239, 8, 3, 0.11);
+    }
+
     .content .header {
       display: flex;
       align-items: center;
