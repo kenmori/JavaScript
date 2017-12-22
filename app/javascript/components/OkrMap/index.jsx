@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import OkrCard from '../../containers/OkrCard';
+import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List } from 'immutable'
 
@@ -9,7 +10,7 @@ class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pointsList: null,
+      edgesList: null,
       width: 0,
       height: 0,
       groups: this.createOkrGroups(props.objective, props.objectives),
@@ -51,31 +52,29 @@ class OkrMap extends Component {
     return List.of(...groups);
   }
 
-  updatePointsList() {
-    const edges = this.state.groups.map(group => (
-      group.reduce((result, objective) => {
+  updateEdgesList() {
+    const edgesList = this.state.groups.map(group => (
+      group.map(objective => {
         const element = findDOMNode(this.refs[this.getKey(objective)]);
         const x = element.offsetLeft + (element.offsetWidth / 2);
-        return result.push({
+        return {
           top: { x: x, y: element.offsetTop },
           bottom: { x: x, y: element.offsetTop + element.offsetHeight },
-        });
-      }, List())
+        };
+      })
     ));
-    const pointsList = edges.reduce((result, _, key, iter) => {
-      if (key === 0) return result;
 
+    // {top, bottom}, {top, bottom}... を1つずらして {bottom, top}, {bottom, top}... にする (パスは bottom → top のため)
+    const shiftedEdgesList = edgesList.reduce((result, value, key, iter) => {
+      if (key === 0) return result;
       const prev = iter.get(key - 1).first();
-      const pointsList = iter.get(key).map(next => {
-        const centerY = (prev.bottom.y + next.top.y) / 2;
-        return `${prev.bottom.x},${prev.bottom.y} ${prev.bottom.x},${centerY} ${next.top.x},${centerY} ${next.top.x},${next.top.y}`;
-      });
-      return result.push(...pointsList);
+      const list = value.map(next => ({ bottom: prev.bottom, top: next.top }));
+      return result.push(list);
     }, List());
 
     const map = findDOMNode(this.refs.map);
     this.setState({
-      pointsList: pointsList,
+      edgesList: shiftedEdgesList,
       width: map.offsetWidth,
       height: map.offsetHeight,
     });
@@ -84,30 +83,13 @@ class OkrMap extends Component {
   componentDidUpdate(prevProps, _prevState) {
     // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
     if (prevProps !== this.props) {
-      this.updatePointsList(this.props.objective);
+      this.updateEdgesList(this.props.objective);
     }
   }
 
   componentDidMount() {
-    this.updatePointsList(this.props.objective);
-    window.addEventListener('resize', () => this.updatePointsList(this.props.objective));
-  }
-
-  pathSvg() {
-    if (!this.state.pointsList || this.state.pointsList.isEmpty()) return null;
-    return (
-      <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
-        {this.state.pointsList.map((points, key) => (
-          <polyline
-            key={key}
-            points={points}
-            strokeWidth='2'
-            stroke='silver'
-            fill='none'
-          />
-        ))}
-      </svg>
-    );
+    this.updateEdgesList(this.props.objective);
+    window.addEventListener('resize', () => this.updateEdgesList(this.props.objective));
   }
 
   getKey = objective => {
@@ -130,7 +112,9 @@ class OkrMap extends Component {
             ))}
           </Card.Group>
         ))}
-        {this.pathSvg()}
+        {this.state.edgesList && this.state.edgesList.map((edges, key) => (
+          <OkrPath key={key} width={this.state.width} height={this.state.height} edges={edges} />
+        ))}
       </div>
     );
   }
