@@ -60,10 +60,11 @@ class OkrMap extends Component {
       if (key === 0) return result;
 
       const prev = iter.get(key - 1).first();
-      return iter.get(key).map(next => {
+      const pointsList = iter.get(key).map(next => {
         const centerY = (prev.bottom.y + next.top.y) / 2;
-        return `${prev.bottom.x},${prev.bottom.y} ${prev.bottom.x},${centerY} ${next.top.x},${centerY} ${next.top.x},${next.top.y}`
+        return `${prev.bottom.x},${prev.bottom.y} ${prev.bottom.x},${centerY} ${next.top.x},${centerY} ${next.top.x},${next.top.y}`;
       });
+      return result.push(...pointsList);
     }, List());
 
     const map = findDOMNode(this.refs.map);
