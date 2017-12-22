@@ -13,26 +13,37 @@ class OkrMap extends Component {
       width: 0,
       height: 0,
       selectedCardId: -1,
-      groups: this.createOkrGroups(props.objective),
+      groups: this.createOkrGroups(props.objective, props.objectives),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.objective !== nextProps.objective) {
       this.setState({
-        groups: this.createOkrGroups(nextProps.objective),
+        groups: this.createOkrGroups(nextProps.objective, nextProps.objectives),
       });
     }
   }
 
-  createOkrGroups(objective) {
+  createOkrGroups(objective, objectives) {
     // TODO: 将来的には親と子だけでなく祖先や子孫も展開して描画できるようにする
-    const objectiveGroup = List.of(objective);
-    if (objective.get('childObjectives').isEmpty()) {
-      return List.of(objectiveGroup);
-    } else {
-      return List.of(objectiveGroup, objective.get('childObjectives'));
+    const groups = [];
+
+    function collectAncestors(objective) {
+      const parentId = objective.get('parentObjectiveId');
+      if (parentId) {
+        const parent = objectives.find(objective => objective.get('id') === parentId)
+        groups.unshift(List.of(parent));
+        collectAncestors(parent)
+      }
     }
+
+    collectAncestors(objective)
+    groups.push(List.of(objective))
+    if (!objective.get('childObjectives').isEmpty()) {
+      groups.push(objective.get('childObjectives'));
+    }
+    return List.of(...groups);
   }
 
   updatePointsList() {
@@ -127,6 +138,7 @@ class OkrMap extends Component {
 
 OkrMap.propTypes = {
   objective: PropTypes.object.isRequired,
+  objectives: PropTypes.object.isRequired,
 };
 
 export default OkrMap;

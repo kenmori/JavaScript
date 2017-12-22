@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import OkrList from '../containers/OkrList';
-import OkrMap from './OkrMap';
+import OkrMap from '../containers/OkrMap';
 
 export default class Dashboard extends Component {
   constructor(props) {
