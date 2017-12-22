@@ -33,15 +33,21 @@ class OkrMap extends Component {
       if (parentId) {
         const parent = objectives.find(objective => objective.get('id') === parentId)
         groups.unshift(List.of(parent));
-        collectAncestors(parent)
+        collectAncestors(parent);
       }
     }
 
-    collectAncestors(objective)
-    groups.push(List.of(objective))
-    if (!objective.get('childObjectives').isEmpty()) {
-      groups.push(objective.get('childObjectives'));
+    function collectDescendants(objective) {
+      const childObjectives = objective.get('childObjectives');
+      if (!childObjectives.isEmpty()) {
+        groups.push(childObjectives);
+        childObjectives.map(child => collectDescendants(child));
+      }
     }
+
+    collectAncestors(objective);
+    groups.push(List.of(objective));
+    collectDescendants(objective);
     return List.of(...groups);
   }
 
