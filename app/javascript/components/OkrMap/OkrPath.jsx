@@ -3,24 +3,24 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 class OkrPath extends Component {
-  getPointsList(edges) {
-    return edges.map(edge => {
-      const centerY = (edge.bottom.y + edge.top.y) / 2;
-      return `${edge.bottom.x},${edge.bottom.y} ${edge.bottom.x},${centerY} ${edge.top.x},${centerY} ${edge.top.x},${edge.top.y}`;
+  getPointsList(from, tos) {
+    return tos.map(to => {
+      const centerY = (from.y + to.y) / 2;
+      return `${from.x},${from.y} ${from.x},${centerY} ${to.x},${centerY} ${to.x},${to.y}`;
     });
   }
 
-  getIconStyle(edge) {
+  getIconStyle(from, to) {
     return {
       position: 'absolute',
-      top: (edge.bottom.y + edge.top.y) / 2 - 10,
-      left: edge.bottom.x - 12,
+      top: (from.y + to.y) / 2 - 10,
+      left: from.x - 12,
     }
   }
 
   render() {
-    const pointsList = this.getPointsList(this.props.edges);
-    const iconStyle = this.getIconStyle(this.props.edges.first());
+    const pointsList = this.getPointsList(this.props.fromPoint, this.props.toPoints);
+    const iconStyle = this.getIconStyle(this.props.fromPoint, this.props.toPoints.first());
     return (
       <div className='okr-path'>
         <svg width={this.props.width} height={this.props.height} style={{ position: 'absolute', top: 0, left: 0 }}>
@@ -43,7 +43,8 @@ class OkrPath extends Component {
 OkrPath.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  edges: PropTypes.object.isRequired,
+  fromPoint: PropTypes.object.isRequired,
+  toPoints: PropTypes.object.isRequired,
 };
 
 export default OkrPath;

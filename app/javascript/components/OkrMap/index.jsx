@@ -10,7 +10,7 @@ class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      edgesList: null,
+      fromToPointsList: null,
       width: 0,
       height: 0,
       groups: this.createOkrGroups(props.objective, props.objectives),
@@ -52,7 +52,7 @@ class OkrMap extends Component {
     return List.of(...groups);
   }
 
-  updateEdgesList() {
+  updateFromToPoints() {
     const edgesList = this.state.groups.map(group => (
       group.map(objective => {
         const element = findDOMNode(this.refs[this.getKey(objective)]);
@@ -64,17 +64,19 @@ class OkrMap extends Component {
       })
     ));
 
-    // {top, bottom}, {top, bottom}... を1つずらして {bottom, top}, {bottom, top}... にする (パスは bottom → top のため)
-    const shiftedEdgesList = edgesList.reduce((result, value, key, iter) => {
-      if (key === 0) return result;
+    // {top, bottom}, {top, bottom}... を1つずつずらした {bottom, top} から {from, to} の組み合わせを作る
+    const fromToPointsList = edgesList.map((edges, key, iter) => {
+      if (key === 0) return;
       const prev = iter.get(key - 1).first();
-      const list = value.map(next => ({ bottom: prev.bottom, top: next.top }));
-      return result.push(list);
-    }, List());
+      return {
+        fromPoint: prev.bottom,
+        toPoints: edges.map(next => next.top),
+      };
+    }).skip(1);
 
     const map = findDOMNode(this.refs.map);
     this.setState({
-      edgesList: shiftedEdgesList,
+      fromToPointsList: fromToPointsList,
       width: map.offsetWidth,
       height: map.offsetHeight,
     });
@@ -83,13 +85,13 @@ class OkrMap extends Component {
   componentDidUpdate(prevProps, _prevState) {
     // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
     if (prevProps !== this.props) {
-      this.updateEdgesList(this.props.objective);
+      this.updateFromToPoints(this.props.objective);
     }
   }
 
   componentDidMount() {
-    this.updateEdgesList(this.props.objective);
-    window.addEventListener('resize', () => this.updateEdgesList(this.props.objective));
+    this.updateFromToPoints(this.props.objective);
+    window.addEventListener('resize', () => this.updateFromToPoints(this.props.objective));
   }
 
   getKey = objective => {
@@ -112,8 +114,9 @@ class OkrMap extends Component {
             ))}
           </Card.Group>
         ))}
-        {this.state.edgesList && this.state.edgesList.map((edges, key) => (
-          <OkrPath key={key} width={this.state.width} height={this.state.height} edges={edges} />
+        {this.state.fromToPointsList && this.state.fromToPointsList.map((fromToPoints, key) => (
+          <OkrPath key={key} width={this.state.width} height={this.state.height}
+                   fromPoint={fromToPoints.fromPoint} toPoints={fromToPoints.toPoints} />
         ))}
       </div>
     );
