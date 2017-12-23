@@ -58,20 +58,22 @@ class OkrMap extends Component {
         return {
           top: { x: x, y: element.offsetTop },
           bottom: { x: x, y: element.offsetTop + element.offsetHeight },
+          width: element.offsetParent.offsetWidth,
         };
       })
     ));
 
     // {top, bottom}, {top, bottom}... を1つずつずらした {bottom, top} から {from, to} の組み合わせを作る
-    const map = findDOMNode(this.refs.map);
     const okrPathPropsList = edgesList.map((edges, key, iter) => {
       if (key === 0) return;
       const prev = iter.get(key - 1).first();
+      const top = prev.bottom.y;
       return {
-        width: map.offsetWidth,
-        height: map.offsetHeight,
-        fromPoint: prev.bottom,
-        toPoints: edges.map(next => next.top),
+        top: top,
+        width: prev.width,
+        height: edges.first().top.y - top,
+        fromPoint: { x: prev.bottom.x, y: 0 },
+        toPoints: edges.map(next => ({ x: next.top.x, y: next.top.y - top })),
       };
     }).skip(1);
 
@@ -99,7 +101,7 @@ class OkrMap extends Component {
   render() {
     const selectedId = this.props.objective.get('id');
     return (
-      <div className='okr-map' ref='map'>
+      <div className='okr-map'>
         {this.state.okrGroups.map((okrGroup, key) => (
           <Card.Group key={key} className='okr-map__group'>
             {okrGroup.map((objective, key) => (

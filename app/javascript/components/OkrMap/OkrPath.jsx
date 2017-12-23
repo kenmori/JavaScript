@@ -1,30 +1,57 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 class OkrPath extends Component {
-  getPointsList(from, tos) {
-    return tos.map(to => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      iconTopDiff: 0,
+      iconLeftDiff: 0,
+    };
+  }
+
+  componentDidMount() {
+    const icon = findDOMNode(this.refs.icon);
+    this.setState({
+      iconTopDiff: icon.offsetHeight / 2,
+      iconLeftDiff: icon.offsetWidth / 2,
+    });
+  }
+
+  getPointsList() {
+    const from = this.props.fromPoint;
+    return this.props.toPoints.map(to => {
       const centerY = (from.y + to.y) / 2;
       return `${from.x},${from.y} ${from.x},${centerY} ${to.x},${centerY} ${to.x},${to.y}`;
     });
   }
 
-  getIconStyle(from, to) {
+  getSvgStyle() {
     return {
       position: 'absolute',
-      top: (from.y + to.y) / 2 - 10,
-      left: from.x - 12,
-    }
+      top: this.props.top,
+      left: 0,
+    };
+  }
+
+  getIconStyle() {
+    const from = this.props.fromPoint;
+    const to = this.props.toPoints.first();
+    const top = this.props.top;
+    return {
+      position: 'absolute',
+      top: top + (from.y + to.y) / 2 - this.state.iconTopDiff,
+      left: from.x - this.state.iconLeftDiff,
+    };
   }
 
   render() {
-    const pointsList = this.getPointsList(this.props.fromPoint, this.props.toPoints);
-    const iconStyle = this.getIconStyle(this.props.fromPoint, this.props.toPoints.first());
     return (
       <div className='okr-path'>
-        <svg width={this.props.width} height={this.props.height} style={{ position: 'absolute', top: 0, left: 0 }}>
-          {pointsList.map((points, key) => (
+        <svg width={this.props.width} height={this.props.height} style={this.getSvgStyle()}>
+          {this.getPointsList().map((points, key) => (
             <polyline
               key={key}
               points={points}
@@ -34,7 +61,7 @@ class OkrPath extends Component {
             />
           ))}
         </svg>
-        <Icon link name='minus square outline' size='large' style={iconStyle} onClick={() => {}} />
+        <Icon link name='minus square outline' size='large' style={this.getIconStyle()} ref='icon' onClick={() => {}} />
       </div>
     );
   }
