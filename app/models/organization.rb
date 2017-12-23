@@ -7,6 +7,8 @@ class Organization < ApplicationRecord
   has_many :okr_periods
   has_one :okr_setting
 
+  mount_uploader :logo, LogoUploader
+
   after_create do
     self.groups.create!(name: self.name, kind: :organization)
     self.create_okr_setting!

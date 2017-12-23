@@ -1,10 +1,10 @@
 import OrganizationSettingTab from '../components/OrganizationSettingTab';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
+import organizationActions from '../actions/organizations';
 
 const mapStateToProps = (state) => {
   return {
-    user: state.loginUser,
     organization: state.organizations.get('selected')
   };
 };
@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => {
     openLogoImageModal: (targetId, imageData) => {
       dispatch(dialogActions.openLogoImageModal(targetId, imageData));
     },
-    deleteLogo: (user) => {
-      dispatch(userActions.updateLogo(user));
+    deleteLogo: (organization) => {
+      dispatch(organizationActions.updateLogo(organization));
     }
   };
 };
