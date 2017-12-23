@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button } from 'semantic-ui-react';
 import EditableText from './utils/EditableText';
+import Logo from './Logo';
 
 class OrganizationSettingTab extends Component {
   changeLogoImage = (event) => {
@@ -25,6 +26,7 @@ class OrganizationSettingTab extends Component {
           <dd><EditableText value={organization.get('name')} saveValue={name => this.props.updateOrganization({id: user.get('id'), organizationName: name})}/></dd>
           <dt>ロゴ画像</dt>
           <dd>
+            <Logo path="" />
             <div className="logo-img-button">
               <label className="file-button">
                 <input type="file" style={{display: "none"}} onChange={this.changeLogoImage} />
