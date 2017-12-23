@@ -4,6 +4,7 @@ import userActions from '../actions/users';
 import okrPeriodActions from '../actions/okrPeriods';
 import menuActions from '../actions/menu';
 import sessionActions from '../actions/sessions';
+import history from '../utils/history';
 
 const mapStateToProps = (state) => {
   return {
@@ -33,6 +34,9 @@ const mapDispatchToProps = dispatch => {
     },
     changeCurrentOrganizationId: (id, organizationId) => {
       dispatch(userActions.updateCurrentOrganizationId({id, organizationId}));
+      setTimeout(() => {
+        location.href = '/';
+      }, 300);
     },
     signOut: () => {
       dispatch(sessionActions.signOut());
