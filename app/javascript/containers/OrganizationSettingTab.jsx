@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateOrganization: () => {
-
+    updateOrganization: (organization) => {
+      dispatch(organizationActions.updateOrganization(organization));
     },
     openLogoImageModal: (targetId, imageData) => {
       dispatch(dialogActions.openLogoImageModal(targetId, imageData));

@@ -23,7 +23,7 @@ class OrganizationSettingTab extends Component {
       <Tab.Pane attached={false} className="organization-setting-tab">
         <dl>
           <dt>組織名</dt>
-          <dd><EditableText value={organization.get('name')} saveValue={name => this.props.updateOrganization({id: organization.get('id'), organizationName: name})}/></dd>
+          <dd><EditableText value={organization.get('name')} saveValue={name => this.props.updateOrganization({id: organization.get('id'), name})}/></dd>
           <dt>ロゴ画像</dt>
           <dd>
             <Logo path={path} />
