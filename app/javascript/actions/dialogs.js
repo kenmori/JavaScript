@@ -14,6 +14,8 @@ const actions = createActions({
   [actionTypes.OPEN_AVATAR_IMAGE_MODAL]: (targetId, imageData) => ({ targetId, imageData }),
   [actionTypes.CLOSE_AVATAR_IMAGE_MODAL]: () => {},
   [actionTypes.SHOW_OKR_DETAIL]: (selectedOkr) => ({selectedOkr}),
+  [actionTypes.OPEN_LOGO_IMAGE_MODAL]: (targetId, imageData) => ({ targetId, imageData }),
+  [actionTypes.CLOSE_LOGO_IMAGE_MODAL]: () => {},
 });
 
 export default actions;

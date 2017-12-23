@@ -15,10 +15,10 @@ const mapDispatchToProps = dispatch => {
 
     },
     openLogoImageModal: (targetId, imageData) => {
-      dispatch(dialogActions.openAvatarImageModal(targetId, imageData));
+      dispatch(dialogActions.openLogoImageModal(targetId, imageData));
     },
-    deleteAvatar: (user) => {
-      dispatch(userActions.updateAvatar(user));
+    deleteLogo: (user) => {
+      dispatch(userActions.updateLogo(user));
     }
   };
 };

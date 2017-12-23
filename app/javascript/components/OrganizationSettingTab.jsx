@@ -12,7 +12,7 @@ class OrganizationSettingTab extends Component {
 
   deleteLogo = (event) => {
     if (confirm('設定済みのアイコンを削除しますか？')) {
-      this.props.deleteAvatar({id: this.props.user.get('id'), removeLogo: true});
+      this.props.deleteLogo({id: this.props.user.get('id'), removeLogo: true});
     }
   }
   render() {
