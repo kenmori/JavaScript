@@ -10,30 +10,28 @@ class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fromToPointsList: null,
-      width: 0,
-      height: 0,
-      groups: this.createOkrGroups(props.objective, props.objectives),
+      okrPathPropsList: null,
+      okrGroups: this.createOkrGroups(props.objective, props.objectives),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.objective !== nextProps.objective) {
       this.setState({
-        groups: this.createOkrGroups(nextProps.objective, nextProps.objectives),
+        okrGroups: this.createOkrGroups(nextProps.objective, nextProps.objectives),
       });
     }
   }
 
   createOkrGroups(objective, objectives) {
     // TODO: 将来的には親と子だけでなく祖先や子孫も展開して描画できるようにする
-    const groups = [];
+    const okrGroups = [];
 
     function collectAncestors(objective) {
       const parentId = objective.get('parentObjectiveId');
       if (parentId) {
         const parent = objectives.find(objective => objective.get('id') === parentId)
-        groups.unshift(List.of(parent));
+        okrGroups.unshift(List.of(parent));
         collectAncestors(parent);
       }
     }
@@ -41,20 +39,20 @@ class OkrMap extends Component {
     function collectDescendants(objective) {
       const childObjectives = objective.get('childObjectives');
       if (!childObjectives.isEmpty()) {
-        groups.push(childObjectives);
+        okrGroups.push(childObjectives);
         childObjectives.map(child => collectDescendants(child));
       }
     }
 
     collectAncestors(objective);
-    groups.push(List.of(objective));
+    okrGroups.push(List.of(objective));
     collectDescendants(objective);
-    return List.of(...groups);
+    return List.of(...okrGroups);
   }
 
-  updateFromToPoints() {
-    const edgesList = this.state.groups.map(group => (
-      group.map(objective => {
+  updateOkrPathProps() {
+    const edgesList = this.state.okrGroups.map(okrGroup => (
+      okrGroup.map(objective => {
         const element = findDOMNode(this.refs[this.getKey(objective)]);
         const x = element.offsetLeft + (element.offsetWidth / 2);
         return {
@@ -65,33 +63,33 @@ class OkrMap extends Component {
     ));
 
     // {top, bottom}, {top, bottom}... を1つずつずらした {bottom, top} から {from, to} の組み合わせを作る
-    const fromToPointsList = edgesList.map((edges, key, iter) => {
+    const map = findDOMNode(this.refs.map);
+    const okrPathPropsList = edgesList.map((edges, key, iter) => {
       if (key === 0) return;
       const prev = iter.get(key - 1).first();
       return {
+        width: map.offsetWidth,
+        height: map.offsetHeight,
         fromPoint: prev.bottom,
         toPoints: edges.map(next => next.top),
       };
     }).skip(1);
 
-    const map = findDOMNode(this.refs.map);
     this.setState({
-      fromToPointsList: fromToPointsList,
-      width: map.offsetWidth,
-      height: map.offsetHeight,
+      okrPathPropsList: okrPathPropsList,
     });
   }
 
   componentDidUpdate(prevProps, _prevState) {
     // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
     if (prevProps !== this.props) {
-      this.updateFromToPoints(this.props.objective);
+      this.updateOkrPathProps(this.props.objective);
     }
   }
 
   componentDidMount() {
-    this.updateFromToPoints(this.props.objective);
-    window.addEventListener('resize', () => this.updateFromToPoints(this.props.objective));
+    this.updateOkrPathProps(this.props.objective);
+    window.addEventListener('resize', () => this.updateOkrPathProps(this.props.objective));
   }
 
   getKey = objective => {
@@ -102,9 +100,9 @@ class OkrMap extends Component {
     const selectedId = this.props.objective.get('id');
     return (
       <div className='okr-map' ref='map'>
-        {this.state.groups.map((group, key) => (
+        {this.state.okrGroups.map((okrGroup, key) => (
           <Card.Group key={key} className='okr-map__group'>
-            {group.map((objective, key) => (
+            {okrGroup.map((objective, key) => (
               <OkrCard
                 key={key}
                 objective={objective}
@@ -114,9 +112,8 @@ class OkrMap extends Component {
             ))}
           </Card.Group>
         ))}
-        {this.state.fromToPointsList && this.state.fromToPointsList.map((fromToPoints, key) => (
-          <OkrPath key={key} width={this.state.width} height={this.state.height}
-                   fromPoint={fromToPoints.fromPoint} toPoints={fromToPoints.toPoints} />
+        {this.state.okrPathPropsList && this.state.okrPathPropsList.map((okrPathProps, key) => (
+          <OkrPath key={key} {...okrPathProps} />
         ))}
       </div>
     );
