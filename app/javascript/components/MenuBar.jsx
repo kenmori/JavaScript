@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
 import Avatar from '../containers/Avatar';
+import Logo from './Logo';
 
 class MenuBar extends Component {
 
@@ -86,10 +87,19 @@ class MenuBar extends Component {
   }
 
   render() {
+    const path = this.props.organization.get('logo').get('url');
     return (
       <Menu secondary className='menu-bar'>
         <Menu.Item header>
-          <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
+          <Header as='h1'>
+            { path ? 
+                <Logo path={path} /> : 
+                <div>
+                  <Image src={logo_image} href='/'/>
+                  <span className="version">β</span>
+                </div> 
+            }
+          </Header>
         </Menu.Item>
         <Menu.Item>
           {this.organizationTag()}
