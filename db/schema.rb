@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171223081436) do
   end
 
   create_table "okr_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "organization_id", null: false
     t.integer "year_end"
     t.integer "span"
     t.integer "ready_from"
@@ -92,7 +93,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.integer "review_end_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "organization_id", null: false
     t.index ["organization_id"], name: "index_okr_settings_on_organization_id"
   end
 
