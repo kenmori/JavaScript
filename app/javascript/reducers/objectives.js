@@ -3,8 +3,8 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
-
 const keyResultMethod = {
+  add: (keyResults, newKeyResult) => (keyResults.push(newKeyResult)),
   update: (keyResults, newKeyResult) => {
     return keyResults.map(keyResult => {
       if (keyResult.get('id') === newKeyResult.get('id')) {
@@ -19,9 +19,10 @@ const keyResultMethod = {
 }
 
 function rebuildKeyResult(method, state, payload) {
+  const newKeyResult = payload.get('keyResult')
   return state.map(objective => {
-    if (objective.get('id') === payload.keyResult.get('objectiveId')) {
-      const newKeyResults = method(objective.get('keyResults'), payload.keyResult);
+    if (objective.get('id') === newKeyResult.get('objectiveId')) {
+      const newKeyResults = method(objective.get('keyResults'), newKeyResult);
       objective = objective.set('keyResults', newKeyResults);
     }
     return objective;
@@ -49,6 +50,9 @@ export default handleActions({
           return childObjective.get('id') !== payload.id;
         }));
       });
+    },
+    [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
+      return rebuildKeyResult(keyResultMethod.add, state, payload);
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       return rebuildKeyResult(keyResultMethod.remove, state, payload);

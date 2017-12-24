@@ -6,7 +6,7 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedObjective: null,
+      selectedObjectiveId: null,
     };
   }
 
@@ -24,22 +24,24 @@ export default class Dashboard extends Component {
 
   selectObjective = objective => {
     this.setState({
-      selectedObjective: objective,
+      selectedObjectiveId: objective.get('id'),
     });
   }
 
   render() {
+    if(!this.props.objectives) return;
+    const selectedObjective = this.props.objectives.find((objective) => objective.get('id') === this.state.selectedObjectiveId);
     return (
       <div className="dashboard">
         <section className="okr-list-section">
           <h2>OKR 一覧 ({this.props.objectives.size})</h2>
           <OkrList objectives={this.props.objectives}
-                   selectedObjective={this.state.selectedObjective}
+                   selectedObjective={selectedObjective}
                    onSelect={this.selectObjective} />
         </section>
         <section className='okr-map-section'>
           <h2>OKR マップ</h2>
-          {this.state.selectedObjective && <OkrMap objective={this.state.selectedObjective} />}
+          {selectedObjective && <OkrMap objective={selectedObjective} />}
         </section>
       </div>
     );
