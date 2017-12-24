@@ -51,6 +51,7 @@ class KeyResultsController < ApplicationController
   def update_key_result_members
     key_result_member_data = params[:key_result][:key_result_member]
     if key_result_member_data['behavior'] == 'add'
+      # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       @key_result.key_result_members.create!(user_id: key_result_member_data['data'])
     elsif key_result_member_data['behavior'] == 'remove'
       # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
