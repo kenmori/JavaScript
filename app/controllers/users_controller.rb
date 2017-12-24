@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    forbidden and return unless valid_permission?(user&.organization.id)
+    forbidden and return unless valid_permission?(user.organization.id)
 
     render json: user
   end
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    forbidden and return unless valid_permission?(@user&.organization.id)
+    forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update(user_params)
       render action: :create, status: :ok
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    forbidden and return unless valid_permission?(@user&.organization.id)
+    forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.destroy
       head :no_content
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def update_current_organization_id
     @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user&.organization.id)
+    forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update(current_organization_id: params['user'][:organization_id])
       render action: :create, status: :ok
