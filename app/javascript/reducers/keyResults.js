@@ -12,7 +12,7 @@ export default handleActions({
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
       return state.set(state.findIndex((keyResult) => {
         return keyResult.get('id') === payload.getIn(['keyResult', 'id']);
-      }), payload.keyResult);
+      }), payload.get('keyResult'));
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       return state.filter(item => item.get('id') !== payload.getIn(['keyResult', 'id']));
