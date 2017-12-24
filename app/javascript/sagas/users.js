@@ -56,6 +56,11 @@ function* updateAvatar({ payload }) {
   yield put(userActions.updatedAvatar(result.get('user')));
 }
 
+function* updateCurrentOrganizationId({ payload }) {
+  const result = yield call(API.put, '/users/' + payload.user.id + '/current_organization_id', { user: payload.user });
+  yield put(userActions.updatedCurrentOrganizationId(result.get('user')));
+}
+
 export function* userSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_USER, withLoading(fetchUser)),
@@ -68,5 +73,6 @@ export function* userSagas() {
     takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),
     takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
     takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
+    takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
   ]);
 }

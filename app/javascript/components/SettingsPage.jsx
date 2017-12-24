@@ -5,7 +5,9 @@ import MenuBar from '../containers/MenuBar';
 import AccountSettingTab from '../containers/AccountSettingTab'
 import UserSettingTab from '../containers/UserSettingTab'
 import OKRSettingTab from '../containers/OKRSettingTab'
+import OrganizationSettingTab from '../containers/OrganizationSettingTab'
 import AvatarImageModal from '../containers/AvatarImageModal'
+import LogoImageModal from '../containers/LogoImageModal'
 
 class SettingsPage extends Component {
   get panes() {
@@ -13,6 +15,7 @@ class SettingsPage extends Component {
       { id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' },
       { id: 1, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
       { id: 2, menuItem: 'OKR', render: () => <OKRSettingTab/> , name: 'okr'},
+      { id: 3, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
     ]);
   }
 
@@ -43,6 +46,7 @@ class SettingsPage extends Component {
           <Tab activeIndex={activeIndex} menu={{ secondary: true, pointing: true }} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange.bind(this)}/>
         </main>
         <AvatarImageModal/>
+        <LogoImageModal/>
       </div>
     );
   }

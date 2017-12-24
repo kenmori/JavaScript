@@ -4,7 +4,8 @@ import settingActions from '../actions/okrSettings';
 
 const mapStateToProps = (state) => {
   return {
-    okrSettings: state.okrSettings
+    okrSettings: state.okrSettings,
+    organization: state.organizations.get('selected')
   };
 };
 

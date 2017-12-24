@@ -70,9 +70,6 @@ class AccountSettingTab extends Component {
           <dt>メールアドレス</dt>
           <dd><EditableText value={this.state.email} saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
 
-          <dt>組織名</dt>
-          <dd><EditableText value={user.get('organizationName')} saveValue={name => this.props.updateUser({id: user.get('id'), organizationName: name})}/></dd>
-
           <dt>画像</dt>
           <dd><Avatar user={user} size="large" /></dd>
           <dd>

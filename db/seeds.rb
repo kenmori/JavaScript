@@ -9,6 +9,7 @@
 ApplicationRecord.transaction do
   organization = Organization.create!(
       name: 'りしり株式会社',
+      uniq_name: 'resily',
       postal_code: '100-8111',
       address: '東京都千代田区千代田1-1-1',
       phone_number: '03-1234-5678'
@@ -24,7 +25,7 @@ ApplicationRecord.transaction do
   )
   login_user.skip_confirmation!
   login_user.save!
-  organization.members.create!(user_id: login_user.id)
+  organization.organization_members.create!(user_id: login_user.id)
   organization_group.members.create!(user_id: login_user.id)
 
 # 他のユーザーを作成
@@ -36,7 +37,7 @@ ApplicationRecord.transaction do
   )
   another.skip_confirmation!
   another.save!
-  organization.members.create!(user_id: another.id)
+  organization.organization_members.create!(user_id: another.id)
   organization_group.members.create!(user_id: another.id)
 
 # 他のユーザーを作成
@@ -48,7 +49,7 @@ ApplicationRecord.transaction do
   )
   horie.skip_confirmation!
   horie.save!
-  organization.members.create!(user_id: horie.id)
+  organization.organization_members.create!(user_id: horie.id)
   organization_group.members.create!(user_id: horie.id)
 
   guest = User.new(

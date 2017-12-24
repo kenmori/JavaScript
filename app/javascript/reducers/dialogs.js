@@ -37,6 +37,15 @@ export default handleActions({
     [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
     ),
+    [ActionTypes.OPEN_LOGO_IMAGE_MODAL]: (state, { payload }) => (
+      state.set('logoImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
+    ),
+    [ActionTypes.CLOSE_LOGO_IMAGE_MODAL]: (state) => (
+      state.set('logoImage', fromJS({ isOpen: false, imageData: null, targetId: null }))
+    ),
+    [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
+      state.set('logoImage', fromJS({ isOpen: false, imageData: null }))
+    ),
   },
   fromJS({
     objectiveForm: {
@@ -53,6 +62,10 @@ export default handleActions({
       selectedOkr: Map(),
     },
     avatarImage: {
+      isOpen: false,
+      imageData: '',
+    },
+    logoImage: {
       isOpen: false,
       imageData: '',
     },

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
 import Avatar from '../containers/Avatar';
+import Logo from './Logo';
 
 class MenuBar extends Component {
 
@@ -55,11 +56,53 @@ class MenuBar extends Component {
     this.props.changeUser(value);
   }
 
+  handleChangeOrganization(event, { value }) {
+    this.props.changeCurrentOrganizationId(this.props.loginUser.get('id'), value);
+  }
+
+  organizationTag(props = this.props) {
+    if(!props.organizations) { return null; }
+
+    function options(organizations) {
+      return organizations.map(item => (
+        {
+          key: item.get('id'),
+          value: item.get('id'),
+          text: item.get('name'),
+        }
+      )).toArray();
+    }
+
+    if(props.organizations.size === 1) {
+      return <div>{props.organization.get('name')}</div>
+    } else {
+      return <Dropdown 
+                scrolling 
+                pointing='top'
+                options={options(props.organizations)}
+                defaultValue={props.organization.get('id')}
+                onChange={this.handleChangeOrganization.bind(this)} 
+            />
+      }
+  }
+
   render() {
+    const path = this.props.organization.get('logo').get('url');
     return (
       <Menu secondary className='menu-bar'>
         <Menu.Item header>
-          <Header as='h1'><Image src={logo_image} href='/'/><span className="version">β</span></Header>
+          <Header as='h1'>
+            { path ? 
+                <Logo path={path} /> : 
+                <div>
+                  <Image src={logo_image} href='/'/>
+                  <span className="version">β</span>
+                </div> 
+            }
+          </Header>
+        </Menu.Item>
+        <Menu.Item>
+          {this.organizationTag()}
         </Menu.Item>
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
@@ -96,10 +139,12 @@ MenuBar.propTypes = {
   fetchOkrPeriods: PropTypes.func.isRequired,
   changeUser: PropTypes.func.isRequired,
   changeOkrPeriod: PropTypes.func.isRequired,
+  changeCurrentOrganizationId: PropTypes.func.isRequired,
   users: PropTypes.object,
   okrPeriods: PropTypes.object,
   menu: PropTypes.object,
   organization: PropTypes.object,
+  organizations: PropTypes.object,
 };
 
 export default MenuBar;
