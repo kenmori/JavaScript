@@ -20,14 +20,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "concerned_people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "key_result_id", null: false
-    t.integer "user_id", null: false
-    t.integer "role", null: false
-  end
-
   create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,7 +34,14 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.integer "organization_id", null: false
     t.string "name", null: false
     t.integer "owner_id", null: false
-    t.integer "kind", null: false
+  end
+
+  create_table "key_result_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "key_result_id", null: false
+    t.integer "user_id", null: false
+    t.integer "role", limit: 1, default: 0, null: false
   end
 
   create_table "key_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -60,7 +59,7 @@ ActiveRecord::Schema.define(version: 20171223081436) do
 
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
-    t.string "description"
+    t.text "description"
     t.integer "parent_objective_id"
     t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
@@ -83,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171223081436) do
   end
 
   create_table "okr_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "organization_id", null: false
     t.integer "year_end"
     t.integer "span"
     t.integer "ready_from"
@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.integer "review_end_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "organization_id", null: false
     t.index ["organization_id"], name: "index_okr_settings_on_organization_id"
   end
 
@@ -110,9 +109,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
-    t.string "postal_code"
-    t.string "address"
-    t.string "phone_number"
     t.string "uniq_name", null: false
     t.string "logo"
   end
@@ -120,13 +116,6 @@ ActiveRecord::Schema.define(version: 20171223081436) do
   create_table "owners", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "kind", null: false
-  end
-
-  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "organization_member_id", null: false
     t.integer "kind", null: false
   end
 

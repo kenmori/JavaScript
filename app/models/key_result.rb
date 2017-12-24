@@ -1,6 +1,6 @@
 class KeyResult < ApplicationRecord
   has_many :comments, dependent: :destroy
-  has_many :concerned_people, dependent: :destroy
+  has_many :key_result_members, dependent: :destroy
   belongs_to :objective
   belongs_to :owner
 

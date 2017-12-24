@@ -8,7 +8,6 @@ class CreateKeyResults < ActiveRecord::Migration[5.1]
       t.integer :target_value
       t.integer :actual_value
       t.string  :value_unit
-      t.text :memo
       t.date :expired_date
       t.timestamps
     end

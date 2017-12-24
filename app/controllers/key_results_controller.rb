@@ -6,8 +6,8 @@ class KeyResultsController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       @key_result = KeyResult.create!(key_result_create_params)
-      params[:key_result][:concerned_people].each do |id|
-        @key_result.concerned_people.create!(user_id: id, role: 0)
+      params[:key_result][:key_result_members].each do |id|
+        @key_result.key_result_members.create!(user_id: id)
       end
     end
     render status: :created
@@ -19,7 +19,7 @@ class KeyResultsController < ApplicationController
     ActiveRecord::Base.transaction do
       @key_result = KeyResult.find(params[:id])
       @key_result.update!(key_result_update_params)
-      update_concerned_people if params[:key_result][:concerned_person]
+      update_key_result_members if params[:key_result][:key_result_member]
       update_comment if params[:key_result][:comment]
     end
     render action: :create, status: :ok
@@ -38,12 +38,12 @@ class KeyResultsController < ApplicationController
 
   private
 
-  def update_concerned_people
-    concerned_person_data = params[:key_result][:concerned_person]
-    if concerned_person_data['behavior'] == 'add'
-      @key_result.concerned_people.create!(user_id: concerned_person_data['data'], role: 0)
-    elsif concerned_person_data['behavior'] == 'remove'
-      person = @key_result.concerned_people.find_by(user_id: concerned_person_data['data'])
+  def update_key_result_members
+    key_result_member_data = params[:key_result][:key_result_member]
+    if key_result_member_data['behavior'] == 'add'
+      @key_result.key_result_members.create!(user_id: key_result_member_data['data'])
+    elsif key_result_member_data['behavior'] == 'remove'
+      person = @key_result.key_result_members.find_by(user_id: key_result_member_data['data'])
       person.destroy!
     end
   end
