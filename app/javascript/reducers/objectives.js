@@ -19,9 +19,10 @@ const keyResultMethod = {
 }
 
 function rebuildKeyResult(method, state, payload) {
+  const newKeyResult = payload.get('keyResult')
   return state.map(objective => {
-    if (objective.get('id') === payload.keyResult.get('objectiveId')) {
-      const newKeyResults = method(objective.get('keyResults'), payload.keyResult);
+    if (objective.get('id') === newKeyResult.get('objectiveId')) {
+      const newKeyResults = method(objective.get('keyResults'), newKeyResult);
       objective = objective.set('keyResults', newKeyResults);
     }
     return objective;
