@@ -62,6 +62,8 @@ class KeyResultsController < ApplicationController
     end
   end
 
+  private
+
   def key_result_create_params
     params.require(:key_result)
       .permit(:name, :objective_id, :owner_id, :target_value, :value_unit, :expired_date)
