@@ -53,7 +53,7 @@ ApplicationRecord.transaction do
   )
   guest.skip_confirmation!
   guest.save!
-  organization.members.create!(user_id: guest.id)
+  organization.organization_members.create!(user_id: guest.id)
 
 # ログインユーザーの今期のOKRを作成
   active_okr_period = organization.okr_periods.create!(

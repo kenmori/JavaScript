@@ -7,8 +7,8 @@ json.owner do
   json.avatar_url key_result.owner.user.avatar_url
 end
 
-json.related_users do
-  json.array!(key_result.related_users) do |person|
+json.key_result_members do
+  json.array!(key_result.key_result_members) do |person|
     json.extract! person.user, :id, :avatar_url
   end
 end

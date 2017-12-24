@@ -15,14 +15,14 @@ class KeyResultDetail extends Component {
     
     this.progressTimerId = null;
     if (props.keyResult) {
-      const relatedUsers = props.keyResult.get('relatedUsers').map(item => item.get('id')).toArray();
-      relatedUsers.push(null);
+      const keyResultMembers = props.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
+      keyResultMembers.push(null);
       this.state = {
         isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
         sliderValue: props.keyResult.get('progressRate'),
         expiredDate: moment(props.keyResult.get('expiredDate')),
         isDisplayedRateInputForm: false,
-        relatedUsers,
+        keyResultMembers,
       };
     }
    
@@ -39,28 +39,28 @@ class KeyResultDetail extends Component {
     }).toArray();
   }
 
-  relatedUsersTag(options, add, remove) {
-    const list = this.state.relatedUsers.map((id) => {
-      const icon = id !== null && <Icon name="close" className="related-users__close" onClick={() => {remove(id)}} />
+  keyResultMembersTag(options, add, remove) {
+    const list = this.state.keyResultMembers.map((id) => {
+      const icon = id !== null && <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
       return (
-        <div key={id} className="related-users__item">
+        <div key={id} className="key-result-members__item">
           <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value)}}/>
           {icon}
         </div>
       )
     })
-    return <div className="related-users">{list}</div>;
+    return <div className="key-result-members">{list}</div>;
   }
 
-  addRelatedUsers(value) {
+  addKeyResultMembers(value) {
     this.updateKeyResult({
-      relatedUser: {data: value, behavior: 'add'}
+      keyResultMember: {data: value, behavior: 'add'}
     });
   }
 
-  removeRelatedUsers(value) {
+  removeKeyResultMembers(value) {
     this.updateKeyResult({
-      relatedUser: {data: value, behavior: 'remove'}
+      keyResultMember: {data: value, behavior: 'remove'}
     });
   }
 
@@ -184,14 +184,14 @@ class KeyResultDetail extends Component {
     if (!nextProps.keyResult) {
       return;
     }
-    const relatedUsers = nextProps.keyResult.get('relatedUsers').map(item => item.get('id')).toArray();
-    relatedUsers.push(null);
+    const keyResultMembers = nextProps.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
+    keyResultMembers.push(null);
     this.setState({
       isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
       sliderValue: nextProps.keyResult.get('progressRate'),
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
       isDisplayedRateInputForm: false,
-      relatedUsers,
+      keyResultMembers,
     });
   }
 
@@ -307,7 +307,7 @@ class KeyResultDetail extends Component {
         <Form.Group>
           <Form.Field>
             <label className="field-title">関係者</label>
-            {this.relatedUsersTag(this.usersOption(this.props.users), this.addRelatedUsers.bind(this), this.removeRelatedUsers.bind(this))}
+            {this.keyResultMembersTag(this.usersOption(this.props.users), this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
           </Form.Field>
         </Form.Group>
         <Form.Group>
