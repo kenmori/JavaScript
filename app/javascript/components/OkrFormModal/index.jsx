@@ -24,6 +24,9 @@ class OkrFormModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
+      if(this.isRemovedKeyResult(nextProps)) {
+        this.showOkrDetail('objective');
+      }
       this.setState({ 
         selectedOkr: Map({
           okrType: nextProps.selectedOkr.get('okrType'),
@@ -32,6 +35,14 @@ class OkrFormModal extends Component {
       });
     }
   }
+
+  isRemovedKeyResult(props) {
+    const keyResult = props.objective.get('keyResults');
+    const selectedOkr = props.selectedOkr;
+    return selectedOkr.get('okrType') === 'keyResult' && 
+            !(keyResult && keyResult.find(item => item.get('id') === selectedOkr.get('targetId')))
+  }
+
 
   handleProgressChange(keyResults, keyResultId, progressRate) {
     const totalProgressRate = this.getTotalProgressRate(keyResults, keyResultId, progressRate);
