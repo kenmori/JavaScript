@@ -24,7 +24,9 @@ class OkrPath extends Component {
     const from = this.props.fromPoint;
     return this.props.toPoints.map(to => {
       const centerY = (from.y + to.y) / 2;
-      return `${from.x},${from.y} ${from.x},${centerY} ${to.x},${centerY} ${to.x},${to.y}`;
+      const first = `${from.x},${from.y} ${from.x},${centerY}`;
+      const second = `${to.x},${centerY} ${to.x},${to.y}`;
+      return this.props.isExpanded ? `${first} ${second}` : (this.props.direction === 'ancestor' ? second : first);
     });
   }
 
@@ -61,17 +63,23 @@ class OkrPath extends Component {
             />
           ))}
         </svg>
-        <Icon link name='minus square outline' size='large' style={this.getIconStyle()} ref='icon' onClick={() => {}} />
+        <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon'
+              style={this.getIconStyle()} onClick={() => this.props.onClick()} />
       </div>
     );
   }
 }
 
 OkrPath.propTypes = {
+  top: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   fromPoint: PropTypes.object.isRequired,
   toPoints: PropTypes.object.isRequired,
+  objectiveIds: PropTypes.object.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  direction: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default OkrPath;
