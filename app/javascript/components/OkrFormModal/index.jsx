@@ -54,6 +54,11 @@ class OkrFormModal extends Component {
     this.props.openObjectiveFormModal(parentObjective, relatedKeyResult);
   }
 
+  changeToKeyResultModal(pbjectiv) {
+    this.props.closeModal();
+    this.props.openKeyResultFormModal(pbjectiv);
+  }
+
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
@@ -62,7 +67,12 @@ class OkrFormModal extends Component {
       <Modal open={this.props.isOpen} size='large' className='okr-form-modal'>
         <Modal.Content>
           <div className="okr-body">
-            {<Sidebar objective={objective} showOkrDetail={this.showOkrDetail.bind(this)} selectedOkr={this.props.selectedOkr} />}
+            <Sidebar 
+              objective={objective} 
+              showOkrDetail={this.showOkrDetail.bind(this)} 
+              selectedOkr={this.props.selectedOkr} 
+              changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
+            />
             <div className="okr-main">
               {selectedOkr.get('okrType') === 'objective' ? 
                 <ObjectiveDetail {...this.props}/> : 
@@ -89,6 +99,8 @@ class OkrFormModal extends Component {
 OkrFormModal.propTypes = {
   updateObjective: PropTypes.func,
   updateKeyResult: PropTypes.func,
+  openObjectiveFormModal: PropTypes.func,
+  openKeyResultFormModal: PropTypes.func,
   closeModal: PropTypes.func,
   removeKeyResult: PropTypes.func,
   objective: PropTypes.object,

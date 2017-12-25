@@ -35,6 +35,9 @@ const mapDispatchToProps = dispatch => {
     openObjectiveFormModal: (parentObjective, relatedKeyResult) => {
       dispatch(dialogActions.openObjectiveFormModal(parentObjective, relatedKeyResult));
     },
+    openKeyResultFormModal: (objective) => {
+      dispatch(dialogActions.openKeyResultFormModal(objective));
+    },
     updateObjective: (objective) => {
       dispatch(objectiveActions.updateObjective(objective));
     },
