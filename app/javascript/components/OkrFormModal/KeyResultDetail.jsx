@@ -239,6 +239,30 @@ class KeyResultDetail extends Component {
     return (
       <Form>
         <Form.Field className='values'>
+          <label className="field-title">Key Result 名</label>
+          <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
+        </Form.Field>
+
+        {this.state.isDisplayedTargetValue && 
+          <Form.Field className='values'>
+            <label className="field-title">目標値</label>
+            <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
+            <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
+            <br />
+            <label className="field-title">実績値</label>
+            <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
+            {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
+          </Form.Field>
+        }
+        {!this.state.isDisplayedTargetValue && 
+          <Form.Group>
+            <Form.Field>
+              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} />
+            </Form.Field>
+          </Form.Group>
+        }
+
+        <Form.Field className='values'>
           <label className="field-title">Key Result の進捗</label>
           {this.state.isDisplayedRateInputForm && 
             <div className="progress-rate-input">
@@ -269,31 +293,7 @@ class KeyResultDetail extends Component {
             </span>
           }
         </Form.Field>
-        <Form.Field className='values'>
-          <label className="field-title">Key Result 名</label>
-          <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
-        </Form.Field>
-        {this.state.isDisplayedTargetValue && 
-          <div>
-            <Form.Field className='values'>
-              <label className="field-title">目標値</label>
-              <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
-              <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
-            </Form.Field>
-            <Form.Field className='values'>
-              <label className="field-title">実績値</label>
-              <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
-              {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
-            </Form.Field>
-          </div>
-        }
-        {!this.state.isDisplayedTargetValue && 
-          <Form.Group>
-            <Form.Field>
-              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} />
-            </Form.Field>
-          </Form.Group>
-        }
+        
         <Form.Field className='values input-date-picker'>
           <label className="field-title">期限</label>
           <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
