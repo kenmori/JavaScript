@@ -102,9 +102,6 @@ class MenuBar extends Component {
           </Header>
         </Menu.Item>
         <Menu.Item>
-          {this.organizationTag()}
-        </Menu.Item>
-        <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
                       options={this.okrPeriodsOption(this.props.okrPeriods)}
