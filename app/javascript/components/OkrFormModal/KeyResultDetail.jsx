@@ -313,11 +313,11 @@ class KeyResultDetail extends Component {
         <Form.Group>
           <Form.Field className="wide-field">
             <label className="field-title">コメント</label>
-            {this.commentList(keyResult.get('comments'))}
             <div className="comments__text-box">
               <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} placeholder='進捗状況や、次のアクションなどをメモしてください' ref="commentArea" />
             </div>
             <Button content="投稿する" onClick={() => this.addComment()} as="div" />
+            {this.commentList(keyResult.get('comments'))}
           </Form.Field>
         </Form.Group>
         <Form.Group>

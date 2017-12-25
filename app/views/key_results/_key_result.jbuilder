@@ -14,7 +14,7 @@ json.key_result_members do
 end
 
 json.comments do
-  json.array!(key_result.comments) do |comment|
+  json.array!(key_result.comments.order('created_at DESC')) do |comment|
     json.id comment.id
     json.text comment.text
     json.updated_at comment.updated_at

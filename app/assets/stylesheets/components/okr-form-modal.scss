@@ -180,10 +180,13 @@
   .comments {
     display: flex;
     align-items: center;
+    margin: 10px 0;
   }
   .comments__item {
     width: 100%;
     margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted rgba(34,36,38,.15)
   }
   .comments__text-box {
     margin-bottom: 10px;
