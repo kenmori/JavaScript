@@ -30,71 +30,76 @@ class OkrMap extends Component {
   }
 
   updateOkrPathProps(objectivesList) {
-    const map = findDOMNode(this.refs.map);
-    const edgesList = objectivesList.reduce((result, objectives, key, iter) => {
-      if (key === 0) {
-        // 親がいる場合は親へのパスを追加する
+    // リンク情報の構築
+    const links = objectivesList.reduce((result, objectives) => {
+      if (result.isEmpty()) {
+        // ルート要素に親がいる場合は親とのリンクを追加する
         const parentId = objectives.first().get('parentObjectiveId');
         if (parentId) {
-          result = result.push(List.of({
-            top: { x: 0, y: 0 },
-            bottom: { x: map.offsetWidth / 2, y: 0 },
-            objectiveIds: List.of(parentId),
-            isVisible: false,
-          }));
+          result = result.push({
+            fromId: parentId,
+            toIds: objectives.map(objective => objective.get('id')),
+          });
         }
       }
 
-      const edges = objectives.map(objective => {
-        const objectiveId = objective.get('id');
-        const element = findDOMNode(this.refs[`objective_${objectiveId}`]);
-        const x = element.offsetLeft + (element.offsetWidth / 2);
-        return {
-          top: { x: x, y: element.offsetTop },
-          bottom: { x: x, y: element.offsetTop + element.offsetHeight },
-          objectiveIds: List.of(objectiveId),
-          isVisible: true,
-        };
+      // 子がいる場合は子とのリンクを追加する
+      objectives.forEach(objective => {
+        const childObjectives = objective.get('childObjectives');
+        if (!childObjectives.isEmpty()) {
+          result = result.push({
+            fromId: objective.get('id'),
+            toIds: childObjectives.map(objective => objective.get('id')),
+          });
+        }
       });
-      result = result.push(edges);
-
-      if (key === iter.size - 1) {
-        // 子がいる場合は子へのパスを追加する
-        const childIds = objectives.first().get('childObjectives').map(objective => objective.get('id'));
-        if (!childIds.isEmpty()) {
-          result = result.push(List.of({
-            top: { x: map.offsetWidth / 2, y: map.offsetHeight },
-            bottom: { x: 0, y: 0 },
-            objectiveIds: childIds,
-            isVisible: false,
-          }));
-        }
-      }
 
       return result;
     }, List());
 
-    // {top, bottom}, {top, bottom}... を1つずつずらした {bottom, top} から {from, to} の組み合わせを作る
+    // リンク情報からパス情報を作成
+    const mapElement = findDOMNode(this.refs.map);
     const selectedId = this.props.objective.get('id');
     let toAncestor = true;
-    const okrPathPropsList = edgesList.map((edges, key, iter) => {
-      if (key === 0) return null;
-      const parent = iter.get(key - 1).first();
-      const top = parent.bottom.y;
-      if (parent.objectiveIds.includes(selectedId)) {
+    const okrPathPropsList = links.map((link, key) => {
+      let isExpanded = true;
+      if (link.fromId === selectedId) {
         toAncestor = false;
       }
+
+      let fromPoint;
+      const fromRef = this.refs[`objective_${link.fromId}`];
+      if (fromRef) {
+        const element = findDOMNode(fromRef);
+        const x = element.offsetLeft + (element.offsetWidth / 2);
+        fromPoint = { x: x, y: element.offsetTop + element.offsetHeight };
+      } else {
+        isExpanded = false;
+        fromPoint = { x: mapElement.offsetWidth / 2, y: 0 };
+      }
+
+      const toPoints = link.toIds.map(toId => {
+        const toRef = this.refs[`objective_${toId}`];
+        if (toRef) {
+          const element = findDOMNode(toRef);
+          const x = element.offsetLeft + (element.offsetWidth / 2);
+          return { x: x, y: element.offsetTop };
+        } else {
+          isExpanded = false;
+          return { x: mapElement.offsetWidth / 2, y: mapElement.offsetHeight };
+        }
+      })
+
       return {
-        top: top,
-        width: map.offsetWidth,
-        height: edges.first().top.y - top,
-        fromPoint: { x: parent.bottom.x, y: 0 },
-        toPoints: edges.map(current => ({ x: current.top.x, y: current.top.y - top })),
-        objectiveIds: toAncestor ? parent.objectiveIds : edges.flatMap(edge => edge.objectiveIds),
-        isExpanded: parent.isVisible && edges.first().isVisible,
-        direction: toAncestor ? 'ancestor' : 'descendant',
+        width: mapElement.offsetWidth,
+        height: mapElement.offsetHeight,
+        fromPoint: fromPoint,
+        toPoints: toPoints,
+        toAncestor: toAncestor,
+        isExpanded: isExpanded,
+        targetIds: toAncestor ? List.of(link.fromId) : link.toIds,
       };
-    }).skip(1);
+    });
 
     this.setState({
       okrPathPropsList: okrPathPropsList,
@@ -113,19 +118,17 @@ class OkrMap extends Component {
     }
   }
 
-  updateObjectivesList({ objectiveIds, isExpanded, direction }) {
+  updateObjectivesList({ toAncestor, isExpanded, targetIds }) {
     let objectivesList;
     if (isExpanded) {
       const index = this.state.objectivesList.findIndex(objectives =>
-        objectives.map(objective => objective.get('id')).equals(objectiveIds)
+        objectives.map(objective => objective.get('id')).equals(targetIds)
       );
-      objectivesList = direction === 'ancestor'
-        ? this.state.objectivesList.skip(index + 1) : this.state.objectivesList.take(index);
+      objectivesList = toAncestor ? this.state.objectivesList.skip(index + 1) : this.state.objectivesList.take(index);
     } else {
       // FIXME: this.props.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
-      const objectives = objectiveIds.map(id => this.props.objectives.find(objective => objective.get('id') === id));
-      objectivesList = direction === 'ancestor'
-        ? this.state.objectivesList.insert(0, objectives) : this.state.objectivesList.push(objectives);
+      const objectives = targetIds.map(id => this.props.objectives.find(objective => objective.get('id') === id));
+      objectivesList = toAncestor ? this.state.objectivesList.insert(0, objectives) : this.state.objectivesList.push(objectives);
     }
     this.setState({
       objectivesList: objectivesList,
@@ -136,20 +139,18 @@ class OkrMap extends Component {
     const selectedId = this.props.objective.get('id');
     return (
       <div className='okr-map' ref='map'>
-        {this.state.objectivesList.map((objectives, key) => {
-          return (
-            <Card.Group key={key} className='okr-map__group'>
-              {objectives.map((objective, key) => (
-                <OkrCard
-                  key={key}
-                  objective={objective}
-                  isSelected={objective.get('id') === selectedId}
-                  ref={`objective_${objective.get('id')}`}
-                />
-              ))}
-            </Card.Group>
-          );
-        })}
+        {this.state.objectivesList.map((objectives, key) => (
+          <Card.Group key={key} className='okr-map__group'>
+            {objectives.map((objective, key) => (
+              <OkrCard
+                key={key}
+                objective={objective}
+                isSelected={objective.get('id') === selectedId}
+                ref={`objective_${objective.get('id')}`}
+              />
+            ))}
+          </Card.Group>
+        ))}
         {this.state.okrPathPropsList && this.state.okrPathPropsList.map((okrPathProps, key) => (
           <OkrPath key={key} {...okrPathProps} onClick={this.updateObjectivesList.bind(this, okrPathProps)} />
         ))}

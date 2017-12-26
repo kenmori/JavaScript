@@ -26,25 +26,25 @@ class OkrPath extends Component {
       const centerY = (from.y + to.y) / 2;
       const first = `${from.x},${from.y} ${from.x},${centerY}`;
       const second = `${to.x},${centerY} ${to.x},${to.y}`;
-      return this.props.isExpanded ? `${first} ${second}` : (this.props.direction === 'ancestor' ? second : first);
+      return this.props.isExpanded ? `${first} ${second}` : (this.props.toAncestor ? second : first);
     });
   }
 
   getSvgStyle() {
     return {
       position: 'absolute',
-      top: this.props.top,
+      top: 0,
       left: 0,
+      pointerEvents: 'none',
     };
   }
 
   getIconStyle() {
     const from = this.props.fromPoint;
     const to = this.props.toPoints.first();
-    const top = this.props.top;
     return {
       position: 'absolute',
-      top: top + (from.y + to.y) / 2 - this.state.iconTopDiff,
+      top: (from.y + to.y) / 2 - this.state.iconTopDiff,
       left: from.x - this.state.iconLeftDiff,
     };
   }
@@ -71,14 +71,13 @@ class OkrPath extends Component {
 }
 
 OkrPath.propTypes = {
-  top: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   fromPoint: PropTypes.object.isRequired,
   toPoints: PropTypes.object.isRequired,
-  objectiveIds: PropTypes.object.isRequired,
+  toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
-  direction: PropTypes.string.isRequired,
+  targetIds: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
