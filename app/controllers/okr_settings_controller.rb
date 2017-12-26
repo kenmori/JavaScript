@@ -1,23 +1,29 @@
 class OkrSettingsController < ApplicationController
   def show
+    forbidden and return unless valid_permission?(params[:organization_id])
+
     render json: OkrSetting.find(params[:organization_id])
   end
 
   def create
+    forbidden and return unless valid_permission?(params[:organization_id])
+
     @okr_settings = OkrSetting.find(params[:organization_id])
     if @okr_settings.reset
       render json: @okr_settings, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(@user.errors)
     end
   end
 
   def update
+    forbidden and return unless valid_permission?(params[:organization_id])
+
     @okr_settings = OkrSetting.find(params[:organization_id])
     if @okr_settings.update(okr_settings_params)
       render json: @okr_settings, status: :ok
     else
-      render json: @okr_settings.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(@okr_settings.errors)
     end
   end
 
