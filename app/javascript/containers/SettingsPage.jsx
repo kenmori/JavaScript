@@ -4,7 +4,8 @@ import history from '../utils/history';
 
 const mapStateToProps = (state, {match}) => {
   return {
-    name: match.params.name
+    name: match.params.name,
+    isAdmin: state.loginUser.get('isAdmin'),
   };
 };
 

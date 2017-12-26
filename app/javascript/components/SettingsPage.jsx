@@ -11,12 +11,13 @@ import LogoImageModal from '../containers/LogoImageModal'
 
 class SettingsPage extends Component {
   get panes() {
-    return ([
-      { id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' },
+    const panes = [{ id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' }];
+    const adminPanes = [
       { id: 1, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
       { id: 2, menuItem: 'OKR', render: () => <OKRSettingTab/> , name: 'okr'},
       { id: 3, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
-    ]);
+    ]
+    return this.props.isAdmin ? panes.concat(adminPanes) : panes;
   }
 
   handleTabChange(event, {activeIndex}) {
