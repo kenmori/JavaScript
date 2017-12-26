@@ -27,4 +27,8 @@ ErrorModal.propTypes = {
   closeModal: PropTypes.func,
 };
 
+ErrorModal.defaultProps = {
+  message: 'エラーが発生しました。',
+};
+
 export default ErrorModal;
