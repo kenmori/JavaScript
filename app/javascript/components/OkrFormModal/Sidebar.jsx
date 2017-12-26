@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Button } from 'semantic-ui-react';
 import Avatar from '../Avatar';
 
 class Sidebar extends Component {
@@ -42,6 +42,7 @@ class Sidebar extends Component {
           <Segment.Group>
             { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
           </Segment.Group>
+          <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="KeyResultを作成する" positive />
         </div>
       </div>
     )
@@ -52,6 +53,7 @@ Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
   selectedOkr: PropTypes.object.isRequired,
   showOkrDetail: PropTypes.func.isRequired,
+  changeToKeyResultModal: PropTypes.func.isRequired,
 };
 
 Sidebar.defaultProps = {

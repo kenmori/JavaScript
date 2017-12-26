@@ -12,12 +12,12 @@ function* addKeyResult({ payload }) {
 }
 
 function* updateKeyResult({payload}) {
-  const result = yield call(API.put, '/key_results/' + payload.id, payload);
+  const result = yield call(API.put, '/key_results/' + payload.id, { keyResult: payload });
   yield put(keyResultActions.updatedKeyResult(result));
 }
 
 function* removeKeyResult({payload}) {
-  const result = yield call(API.delete, '/key_results/' + payload.id, payload);
+  const result = yield call(API.delete, '/key_results/' + payload.id, { keyResult: payload });
   yield put(keyResultActions.removedKeyResult(result));
 }
 
