@@ -1,65 +1,44 @@
-import { fromJS } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
-import gon from '../utils/gon';
+import ActionTypes from '../../constants/actionTypes';
 
-const keyResultMethod = {
-  add: (keyResults, newKeyResult) => (keyResults.push(newKeyResult)),
-  update: (keyResults, newKeyResult) => {
-    return keyResults.map(keyResult => {
-      if (keyResult.get('id') === newKeyResult.get('id')) {
-        return newKeyResult;
-      }
-      return keyResult;
-    });
-  },
-  remove: (keyResults, newKeyResult) => {
-    return keyResults.filter(keyResult => keyResult.get('id') !== newKeyResult.get('id'));
-  }
-};
-
-function rebuildKeyResult(method, state, payload) {
-  const newKeyResult = payload.get('keyResult')
-  return state.map(objective => {
-    if (objective.get('id') === newKeyResult.get('objectiveId')) {
-      const newKeyResults = method(objective.get('keyResults'), newKeyResult);
-      objective = objective.set('keyResults', newKeyResults);
-    }
-    return objective;
-  })
+function merge(state, { payload }) {
+  // normalizeした結果ではidがstringになっているためintへ変換する
+  return state.merge(
+    payload.getIn(['entities', 'objectives']).mapKeys((key) => (parseInt(key)))
+      .map(
+        (objective) => {
+          return objective
+            .update('keyResults', (keyResultIds) => (keyResultIds.map((keyResultId) => parseInt(keyResultId))))
+            .update('childObjectives', (childObjectiveIds) => (childObjectiveIds.map((childObjectiveId) => (parseInt(childObjectiveId)))))
+        }
+      )
+  );
 }
 
 export default handleActions({
-    [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return payload.objectives;
-    },
-    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      const ownerId = gon.getIn(['loginUser', 'ownerId']);
-      return ownerId === payload.objective.get('ownerId') ? state.insert(0, payload.objective) : state
-    },
-    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      return state.set(state.findIndex((objective) => {
-        return objective.get('id') === payload.objective.get('id');
-      }), payload.objective);
-    },
+    [ActionTypes.FETCHED_OBJECTIVES]: merge,
+    [ActionTypes.ADDED_OBJECTIVE]: merge,
+    [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return state.filter((objective) => {
-        return objective.get('id') !== payload.id;
-      }).map((objective) => {
-        return objective.set('childObjectives', objective.get('childObjectives').filter((childObjective) => {
-          return childObjective.get('id') !== payload.id;
-        }));
+      return state.delete(payload.id).map((objective) => {
+        return objective.set('childObjectives', objective.get('childObjectives').delete(payload.id));
       });
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      return rebuildKeyResult(keyResultMethod.add, state, payload);
+      const keyResult = payload.get('keyResult');1
+      return state.update(keyResult.get('objectiveId'), (objective) => {
+        return objective.update('keyResults', (keyResultIds) => keyResultIds.push(keyResult.get('id')));
+      });
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      return rebuildKeyResult(keyResultMethod.remove, state, payload);
+      const keyResult = payload.get('keyResult');
+      return state.update(keyResult.get('objectiveId'), (objective) => (objective.get('keyResults').delete(keyResult.get('id'))));
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      return rebuildKeyResult(keyResultMethod.update, state, payload);
+      const keyResult = payload.get('keyResult');
+      return state.update(keyResult.get('objectiveId'), (objective) => (objective.get('keyResults').set(keyResult.get('id'), keyResult)));
     }
   },
-  fromJS([]),
+  Map()
 );

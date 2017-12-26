@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import entities from './entities';
-import objectives from './objectives';
+import objectiveIds from './objectiveIds';
 import users from './users';
 import okrSettings from './okrSettings';
 import dialogs from './dialogs';
@@ -14,7 +14,7 @@ import loading from './loading';
 
 const reducers = combineReducers({
   entities,
-  objectives,
+  objectiveIds,
   users,
   okrSettings,
   dialogs,
