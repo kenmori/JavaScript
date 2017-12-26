@@ -5,7 +5,7 @@ import actionTypes from '../constants/actionTypes';
 import history from '../utils/history';
 
 function* signIn({ payload }) {
-  const response = yield call(API.post, '/users/sign_in', { user: payload.params });
+  yield call(API.post, '/users/sign_in', { user: payload.params });
   location.href = '/';
 }
 
