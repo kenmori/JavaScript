@@ -13,6 +13,7 @@ class OkrMap extends Component {
       visibleIds: null,
       okrPathPropsList: null,
       objectivesList: null,
+      rootObjective: null,
     };
   }
 
@@ -50,17 +51,20 @@ class OkrMap extends Component {
       return result;
     };
 
+    let rootObjective;
     let objectivesList;
     if (visibleIds.isEmpty()) {
-      // 表示 ID リストが空の場合は選択中 Objective のみ表示する (子は表示しない)
-      objectivesList = List.of(List.of(objective));
+      // 表示リストが空の場合はルート要素のみ表示する (子は表示しない)
+      rootObjective = this.state.rootObjective;
+      objectivesList = List.of(List.of(rootObjective));
     } else {
-      const root = findRoot(objective, visibleIds.first());
-      objectivesList = collectDescendants(List.of(List.of(root)), root);
+      rootObjective = findRoot(objective, visibleIds.first());
+      objectivesList = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
     }
     this.setState({
       visibleIds: visibleIds,
       objectivesList: objectivesList,
+      rootObjective: rootObjective,
     });
   }
 
