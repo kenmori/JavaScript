@@ -64,7 +64,7 @@ class OkrMap extends Component {
     });
   }
 
-  updateOkrPathProps(objectivesList) {
+  updateOkrPathProps({ objectivesList }) {
     // リンク情報の構築
     const links = objectivesList.reduce((result, objectives) => {
       if (result.isEmpty()) {
@@ -93,14 +93,9 @@ class OkrMap extends Component {
     }, List());
 
     // リンク情報からパス情報を作成
-    const selectedId = this.props.objective.get('id');
-    let foundSelected = false;
     const okrPathPropsList = links.map(link => {
       let collapsedParent = false;
       let collapsedChild = false;
-      if (link.fromId === selectedId) {
-        foundSelected = true;
-      }
 
       let fromPoint;
       const fromRef = this.refs[`objective_${link.fromId}`];
@@ -131,7 +126,7 @@ class OkrMap extends Component {
         height: mapElement.offsetHeight,
         fromPoint: fromPoint,
         toPoints: toPoints,
-        toAncestor: !foundSelected && !collapsedChild,
+        toAncestor: collapsedParent,
         isExpanded: !collapsedParent && !collapsedChild,
         targetId: link.fromId,
       };
@@ -143,14 +138,14 @@ class OkrMap extends Component {
   }
 
   componentDidMount() {
-    this.updateOkrPathProps(this.state.objectivesList);
-    window.addEventListener('resize', () => this.updateOkrPathProps(this.state.objectivesList));
+    this.updateOkrPathProps(this.state);
+    window.addEventListener('resize', () => this.updateOkrPathProps(this.state));
   }
 
   componentDidUpdate(prevProps, prevState) {
     // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
     if (prevProps !== this.props || prevState.objectivesList !== this.state.objectivesList) {
-      this.updateOkrPathProps(this.state.objectivesList);
+      this.updateOkrPathProps(this.state);
     }
   }
 
