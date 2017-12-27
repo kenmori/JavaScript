@@ -27,20 +27,18 @@ class OkrMap extends Component {
   }
 
   createObjectivesList(objective, visibleIds = List.of(objective.get('id'))) {
-    const objectives = this.props.objectives;
-
-    function findRoot(objective, rootId) {
+    const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
       } else {
         const parentId = objective.get('parentObjectiveId');
-        // FIXME: objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
-        const parent = objectives.find(objective => objective.get('id') === parentId)
+        // FIXME: this.props.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
+        const parent = this.props.objectives.find(objective => objective.get('id') === parentId)
         return findRoot(parent, rootId);
       }
-    }
+    };
 
-    function collectDescendants(result, objective) {
+    const collectDescendants = (result, objective) => {
       const childObjectives = objective.get('childObjectives');
       if (!childObjectives.isEmpty()) {
         result = result.push(childObjectives);
@@ -50,7 +48,7 @@ class OkrMap extends Component {
         }
       }
       return result;
-    }
+    };
 
     let objectivesList;
     if (visibleIds.isEmpty()) {
