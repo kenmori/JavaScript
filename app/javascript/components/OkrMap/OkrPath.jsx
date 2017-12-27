@@ -77,7 +77,7 @@ OkrPath.propTypes = {
   toPoints: PropTypes.object.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
-  targetIds: PropTypes.object.isRequired,
+  targetId: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

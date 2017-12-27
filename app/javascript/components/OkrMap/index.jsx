@@ -10,23 +10,60 @@ class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      visibleIds: null,
       okrPathPropsList: null,
-      objectivesList: this.createObjectivesList(props.objective),
+      objectivesList: null,
     };
+  }
+
+  componentWillMount() {
+    this.createObjectivesList(this.props.objective);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.objective !== nextProps.objective) {
-      this.setState({
-        objectivesList: this.createObjectivesList(nextProps.objective),
-      });
+      this.createObjectivesList(nextProps.objective);
     }
   }
 
-  createObjectivesList(objective) {
-    const objectivesList = List.of(List.of(objective));
-    const childObjectives = objective.get('childObjectives');
-    return childObjectives.isEmpty() ? objectivesList : objectivesList.push(childObjectives);
+  createObjectivesList(objective, visibleIds = List.of(objective.get('id'))) {
+    const objectives = this.props.objectives;
+
+    function findRoot(objective, rootId) {
+      if (objective.get('id') === rootId) {
+        return objective;
+      } else {
+        const parentId = objective.get('parentObjectiveId');
+        // FIXME: objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
+        const parent = objectives.find(objective => objective.get('id') === parentId)
+        return findRoot(parent, rootId);
+      }
+    }
+
+    function collectDescendants(result, objective) {
+      const childObjectives = objective.get('childObjectives');
+      if (!childObjectives.isEmpty()) {
+        result = result.push(childObjectives);
+        const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')))
+        if (child) {
+          result = collectDescendants(result, child);
+        }
+      }
+      return result;
+    }
+
+    let objectivesList;
+    if (visibleIds.isEmpty()) {
+      // 表示 ID リストが空の場合は選択中 Objective のみ表示する (子は表示しない)
+      objectivesList = List.of(List.of(objective));
+    } else {
+      const root = findRoot(objective, visibleIds.first());
+      objectivesList = collectDescendants(List.of(List.of(root)), root);
+    }
+    this.setState({
+      visibleIds: visibleIds,
+      objectivesList: objectivesList,
+    });
   }
 
   updateOkrPathProps(objectivesList) {
@@ -60,11 +97,12 @@ class OkrMap extends Component {
     // リンク情報からパス情報を作成
     const mapElement = findDOMNode(this.refs.map);
     const selectedId = this.props.objective.get('id');
-    let toAncestor = true;
-    const okrPathPropsList = links.map((link, key) => {
-      let isExpanded = true;
+    let foundSelected = false;
+    const okrPathPropsList = links.map(link => {
+      let collapsedParent = false;
+      let collapsedChild = false;
       if (link.fromId === selectedId) {
-        toAncestor = false;
+        foundSelected = true;
       }
 
       let fromPoint;
@@ -74,7 +112,7 @@ class OkrMap extends Component {
         const x = element.offsetLeft + (element.offsetWidth / 2);
         fromPoint = { x: x, y: element.offsetTop + element.offsetHeight };
       } else {
-        isExpanded = false;
+        collapsedParent = true;
         fromPoint = { x: mapElement.offsetWidth / 2, y: 0 };
       }
 
@@ -85,19 +123,19 @@ class OkrMap extends Component {
           const x = element.offsetLeft + (element.offsetWidth / 2);
           return { x: x, y: element.offsetTop };
         } else {
-          isExpanded = false;
+          collapsedChild = true;
           return { x: mapElement.offsetWidth / 2, y: mapElement.offsetHeight };
         }
-      })
+      });
 
       return {
         width: mapElement.offsetWidth,
         height: mapElement.offsetHeight,
         fromPoint: fromPoint,
         toPoints: toPoints,
-        toAncestor: toAncestor,
-        isExpanded: isExpanded,
-        targetIds: toAncestor ? List.of(link.fromId) : link.toIds,
+        toAncestor: !foundSelected && !collapsedChild,
+        isExpanded: !collapsedParent && !collapsedChild,
+        targetId: link.fromId,
       };
     });
 
@@ -118,28 +156,35 @@ class OkrMap extends Component {
     }
   }
 
-  updateObjectivesList({ toAncestor, isExpanded, targetIds }) {
-    let objectivesList;
+  updateObjectivesList({ toAncestor, isExpanded, targetId }) {
+    let visibleIds;
     if (isExpanded) {
-      const index = this.state.objectivesList.findIndex(objectives =>
-        objectives.map(objective => objective.get('id')).equals(targetIds)
-      );
-      objectivesList = toAncestor ? this.state.objectivesList.skip(index + 1) : this.state.objectivesList.take(index);
+      const index = this.state.visibleIds.indexOf(targetId);
+      if (toAncestor) {
+        visibleIds = this.state.visibleIds.skip(index + 1);
+      } else {
+        visibleIds = this.state.visibleIds.take(index);
+      }
     } else {
-      // FIXME: this.props.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
-      const objectives = targetIds.map(id => this.props.objectives.find(objective => objective.get('id') === id));
-      objectivesList = toAncestor ? this.state.objectivesList.insert(0, objectives) : this.state.objectivesList.push(objectives);
+      if (toAncestor) {
+        visibleIds = this.state.visibleIds.unshift(targetId);
+      } else {
+        // 表示系統を切り替えるため親の ID を検索する
+        const parentId = this.state.objectivesList.find(objectives =>
+          objectives.some(objective => objective.get('id') === targetId))
+          .first().get('parentObjectiveId');
+        const index = this.state.visibleIds.indexOf(parentId);
+        visibleIds = this.state.visibleIds.take(index + 1).push(targetId);
+      }
     }
-    this.setState({
-      objectivesList: objectivesList,
-    });
+    this.createObjectivesList(this.props.objective, visibleIds);
   }
 
   render() {
     const selectedId = this.props.objective.get('id');
     return (
       <div className='okr-map' ref='map'>
-        {this.state.objectivesList.map((objectives, key) => (
+        {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
             {objectives.map((objective, key) => (
               <OkrCard
