@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 class OkrPath extends Component {
+  static LENGTH = 24;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,10 +25,16 @@ class OkrPath extends Component {
   getPointsList() {
     const from = this.props.fromPoint;
     return this.props.toPoints.map(to => {
-      const centerY = (from.y + to.y) / 2;
-      const first = `${from.x},${from.y} ${from.x},${centerY}`;
-      const second = `${to.x},${centerY} ${to.x},${to.y}`;
-      return this.props.isExpanded ? `${first} ${second}` : (this.props.toAncestor ? second : first);
+      if (this.props.isExpanded) {
+        const centerY = (from.y + to.y) / 2;
+        return `${from.x},${from.y} ${from.x},${centerY} ${to.x},${centerY} ${to.x},${to.y}`;
+      } else {
+        if (this.props.toAncestor) {
+          return `${to.x},${to.y - OkrPath.LENGTH} ${to.x},${to.y}`;
+        } else {
+          return `${from.x},${from.y} ${from.x},${from.y + OkrPath.LENGTH}`;
+        }
+      }
     });
   }
 
@@ -42,10 +50,24 @@ class OkrPath extends Component {
   getIconStyle() {
     const from = this.props.fromPoint;
     const to = this.props.toPoints.first();
+    let x;
+    let y;
+    if (this.props.isExpanded) {
+      x = from.x;
+      y = (from.y + to.y) / 2;
+    } else {
+      if (this.props.toAncestor) {
+        x = to.x;
+        y = to.y - OkrPath.LENGTH;
+      } else {
+        x = from.x;
+        y = from.y + OkrPath.LENGTH;
+      }
+    }
     return {
       position: 'absolute',
-      top: (from.y + to.y) / 2 - this.state.iconTopDiff,
-      left: from.x - this.state.iconLeftDiff,
+      top: y - this.state.iconTopDiff,
+      left: x - this.state.iconLeftDiff,
     };
   }
 

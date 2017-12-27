@@ -95,7 +95,6 @@ class OkrMap extends Component {
     }, List());
 
     // リンク情報からパス情報を作成
-    const mapElement = findDOMNode(this.refs.map);
     const selectedId = this.props.objective.get('id');
     let foundSelected = false;
     const okrPathPropsList = links.map(link => {
@@ -113,7 +112,7 @@ class OkrMap extends Component {
         fromPoint = { x: x, y: element.offsetTop + element.offsetHeight };
       } else {
         collapsedParent = true;
-        fromPoint = { x: mapElement.offsetWidth / 2, y: 0 };
+        fromPoint = { x: 0, y: 0 };
       }
 
       const toPoints = link.toIds.map(toId => {
@@ -124,10 +123,11 @@ class OkrMap extends Component {
           return { x: x, y: element.offsetTop };
         } else {
           collapsedChild = true;
-          return { x: mapElement.offsetWidth / 2, y: mapElement.offsetHeight };
+          return { x: 0, y: 0 };
         }
       });
 
+      const mapElement = findDOMNode(this.refs.map);
       return {
         width: mapElement.offsetWidth,
         height: mapElement.offsetHeight,
