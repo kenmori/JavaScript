@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
+import { Button, Image, Input, Checkbox, Table } from 'semantic-ui-react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import EditableText from './utils/EditableText';
@@ -111,11 +111,13 @@ class UsersTable extends Component {
         firstName: this.firstNameInputs[0].inputRef.value,
         lastName: this.lastNameInputs[0].inputRef.value,
         email: this.emailInputs[0].inputRef.value,
+        admin: this.isAdminInputs.inputRef.checked,
         noPasswordRequired: true,
       });
       this.lastNameInputs[0].inputRef.value = '';
       this.firstNameInputs[0].inputRef.value = '';
       this.emailInputs[0].inputRef.value = '';
+      this.isAdminInputs.inputRef.checked = false;
     }
   };
 
@@ -144,7 +146,9 @@ class UsersTable extends Component {
                 <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
                        placeholder="メールアドレス"/>
               </Table.Cell>
-              <Table.Cell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.Cell>
+              <Table.Cell>
+                <Checkbox label='管理者' defaultChecked={false} required ref={node => { this.isAdminInputs = node; }} />
+              </Table.Cell>
               <Table.Cell textAlign="center">
                 <Button icon="plus" content="追加する" onClick={this.addUser}/>
               </Table.Cell>
@@ -187,6 +191,7 @@ class UsersTable extends Component {
                 const open = readOnly ? false : undefined;
                 const lastName = user.get('lastName');
                 const firstName = user.get('firstName');
+                const isAdmin = user.get('isAdmin');
                 const name = `${lastName} ${firstName}`;
                 return (
                   <Table.Row key={id}>
@@ -202,7 +207,7 @@ class UsersTable extends Component {
                       <EditableText value={this.state.emails[id]} saveValue={(email) => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
+                      <Checkbox label='管理者' defaultChecked={isAdmin} required ref={node => { this.isAdminInputs = node; }} />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <div>
