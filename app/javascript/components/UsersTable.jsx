@@ -175,7 +175,7 @@ class UsersTable extends Component {
                 メールアドレス
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort} name="roll">
-                役割
+                権限
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
             </Table.Row>
