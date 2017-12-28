@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 class OkrPath extends Component {
-  static LENGTH = 24;
+  static STEP_HEIGHT = 24; // 折れ線の段差の高さ
+  static LINE_LENGTH = 24; // 折り畳まれた線分の長さ
+  static BYPASS_WIDTH = 290 / 2 + 16; // 迂回路の幅
 
   constructor(props) {
     super(props);
@@ -24,18 +26,28 @@ class OkrPath extends Component {
 
   getPointsList() {
     const from = this.props.fromPoint;
-    return this.props.toPoints.map(to => {
-      if (this.props.isExpanded) {
-        const centerY = (from.y + to.y) / 2;
-        return `${from.x},${from.y} ${from.x},${centerY} ${to.x},${centerY} ${to.x},${to.y}`;
-      } else {
-        if (this.props.toAncestor) {
-          return `${to.x},${to.y - OkrPath.LENGTH} ${to.x},${to.y}`;
-        } else {
-          return `${from.x},${from.y} ${from.x},${from.y + OkrPath.LENGTH}`;
-        }
+    if (this.props.isExpanded) {
+      let wrapped = false;
+      const bypass = {
+        x: this.props.toPoints.maxBy(to => to.x).x + OkrPath.BYPASS_WIDTH,
+        y: this.props.toPoints.first().y - OkrPath.STEP_HEIGHT,
       }
-    });
+      return this.props.toPoints.map((to, key, iter) => {
+        if (!wrapped && key > 0 && to.x < iter.get(key - 1).x) {
+          wrapped = true; // x 座標が前後している場合は折り返し表示と判定
+        }
+        const iconY = to.y - OkrPath.STEP_HEIGHT;
+        return wrapped
+          ? `${from.x},${from.y} ${from.x},${bypass.y} ${bypass.x},${bypass.y} ${bypass.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`
+          : `${from.x},${from.y} ${from.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`;
+      });
+    } else {
+      return this.props.toPoints.map(to => (
+        this.props.toAncestor
+          ? `${to.x},${to.y - OkrPath.LINE_LENGTH} ${to.x},${to.y}`
+          : `${from.x},${from.y} ${from.x},${from.y + OkrPath.LINE_LENGTH}`
+      ));
+    }
   }
 
   getSvgStyle() {
@@ -54,14 +66,14 @@ class OkrPath extends Component {
     let y;
     if (this.props.isExpanded) {
       x = from.x;
-      y = (from.y + to.y) / 2;
+      y = to.y - OkrPath.STEP_HEIGHT;
     } else {
       if (this.props.toAncestor) {
         x = to.x;
-        y = to.y - OkrPath.LENGTH;
+        y = to.y - OkrPath.LINE_LENGTH;
       } else {
         x = from.x;
-        y = from.y + OkrPath.LENGTH;
+        y = from.y + OkrPath.LINE_LENGTH;
       }
     }
     return {

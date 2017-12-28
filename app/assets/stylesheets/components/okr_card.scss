@@ -1,5 +1,8 @@
 .okr-card {
   &.ui.card {
+    margin-top: 24px;
+    margin-bottom: 48px;
+
     &:hover {
       transform: translateY(-3px);
     }

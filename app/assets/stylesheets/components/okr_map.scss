@@ -1,13 +1,23 @@
 .okr-map {
-  margin: 0 15px;
-  padding: 12px 0;
   position: relative;
 
   .okr-map__group {
-    margin: 24px 0;
-
     display: flex;
     justify-content: center;
     align-items: flex-start;
+
+    &.ui.cards {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-right: 32px;
+      padding-left: 32px;
+    }
+
+    &:nth-child(odd) {
+      background-color: #FAFAFA;
+    }
+    &:nth-child(even) {
+      background-color: white;
+    }
   }
 }
