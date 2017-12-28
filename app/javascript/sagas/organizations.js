@@ -7,7 +7,7 @@ import actionTypes from '../constants/actionTypes';
 
 function* fetchOrganization({ payload }) {
   const result = yield call(API.get, '/organizations/' + payload.organization.id);
-  yield put(organizationActions.fetchdOrganization(result.get('organization')));
+  yield put(organizationActions.fetchedOrganization(result.get('organization')));
 }
 
 function* updateOrganization({ payload }) {

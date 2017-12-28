@@ -13,5 +13,6 @@ json.organization do
             json.is_admin user.admin?
         end
     end 
+    json.okr_periods @organization.okr_periods.order(:year, :period_number)
 end
   

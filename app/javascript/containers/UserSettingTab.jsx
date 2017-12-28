@@ -13,9 +13,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrganization: (id) => {
-      dispatch(organizationActions.fetchOrganization({id}));
-    },
     addUser: user => {
       dispatch(userActions.addUser(user));
     },
