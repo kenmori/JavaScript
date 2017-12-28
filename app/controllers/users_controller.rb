@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:create]
+  before_action :valid_operatable_user?
 
   def show
     user = User.find(params[:id])
@@ -79,6 +80,10 @@ class UsersController < ApplicationController
   def password_params
     params.require(:user)
         .permit(:id, :password, :password_confirmation, :current_password)
+  end
+
+  def valid_operatable_user?
+    forbidden and return unless current_user.id == params[:id].to_i || current_user.admin?
   end
   
 end

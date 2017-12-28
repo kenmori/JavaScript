@@ -207,7 +207,9 @@ class UsersTable extends Component {
                       <EditableText value={this.state.emails[id]} saveValue={(email) => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Checkbox label='管理者' defaultChecked={isAdmin} onChange={(event, {checked}) => this.props.onUpdateUser({id, admin: checked})} />
+                      <div>
+                        {id !== this.props.loginUser.get('id') && <Checkbox label='管理者' defaultChecked={isAdmin} onChange={(event, {checked}) => this.props.onUpdateUser({id, admin: checked})} />}
+                      </div>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <div>
