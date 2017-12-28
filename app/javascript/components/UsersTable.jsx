@@ -77,9 +77,9 @@ class UsersTable extends Component {
         if (typeof a.get(column) === 'string') {
           return a.get(column).localeCompare(b.get(column));
         } else {
-          if (a < b) { return -1; }
-          if (a > b) { return 1; }
-          if (a === b) { return 0; }
+          if (a.get(column) < b.get(column)) { return -1; }
+          if (a.get(column) > b.get(column)) { return 1; }
+          if (a.get(column) === b.get(column)) { return 0; }
         }
       });
       this.setState({
