@@ -1,6 +1,7 @@
 import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
+import organizationActions from '../actions/organizations';
 import okrPeriodActions from '../actions/okrPeriods';
 import menuActions from '../actions/menu';
 import sessionActions from '../actions/sessions';
@@ -20,8 +21,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => {
-      dispatch(userActions.fetchUsers());
+    fetchOrganization: (id) => {
+      dispatch(organizationActions.fetchOrganization({id}));
     },
     fetchOkrPeriods: (organizationId) => {
       dispatch(okrPeriodActions.fetchOkrPeriods(organizationId));

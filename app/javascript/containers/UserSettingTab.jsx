@@ -1,18 +1,20 @@
 import UserSettingTab from '../components/UserSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
+import organizationActions from '../actions/organizations';
 
 const mapStateToProps = (state) => {
   return {
     loginUser: state.loginUser,
+    organization: state.organizations.get('selected'),
     users: state.users,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => {
-      dispatch(userActions.fetchUsers());
+    fetchOrganization: (id) => {
+      dispatch(organizationActions.fetchOrganization({id}));
     },
     addUser: user => {
       dispatch(userActions.addUser(user));

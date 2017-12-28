@@ -1,5 +1,9 @@
 class OrganizationsController < ApplicationController
 
+  def show
+    @organization = Organization.find(params[:id])
+  end
+
   def update
     @organization = Organization.find(params[:id])
     if @organization.update(organization_params)

@@ -1,10 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:create]
 
-  def index
-    @users = current_user.organization.members
-  end
-
   def show
     render json: User.find(params[:id])
   end

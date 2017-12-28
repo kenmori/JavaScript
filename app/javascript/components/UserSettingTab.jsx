@@ -6,7 +6,7 @@ import UsersTable from './UsersTable';
 class UserSettingTab extends Component {
 
   componentDidMount() {
-    this.props.fetchUsers();
+    this.props.fetchOrganization(this.props.organization.get('id'));
   }
 
   addUser = user => {
@@ -44,7 +44,8 @@ class UserSettingTab extends Component {
 }
 
 UserSettingTab.propTypes = {
-  fetchUsers: PropTypes.func.isRequired,
+  organization: PropTypes.object,
+  fetchOrganization: PropTypes.func.isRequired,
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,
