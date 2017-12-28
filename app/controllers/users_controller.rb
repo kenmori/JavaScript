@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
+  before_action :valid_operatable_user?, except: [:create]
   skip_before_action :authenticate_user!, only: [:create]
-  before_action :valid_operatable_user?
 
   def show
     user = User.find(params[:id])

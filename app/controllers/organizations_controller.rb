@@ -5,7 +5,7 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    forbidden and return unless valid_permission?(params[:id])
+    forbidden and return unless valid_permission?(params[:id]) && current_user.admin?
 
     @organization = Organization.find(params[:id])
     if @organization.update(organization_params)
