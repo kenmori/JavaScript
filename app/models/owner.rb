@@ -8,4 +8,13 @@ class Owner < ApplicationRecord
     user_kind: 1,
     group_kind: 2,
   }
+
+  # organization returns belongs to parent organization
+  def organization
+    if user_kind?
+      User.find_by(owner_id: id).organization
+    else
+      Organization.find_by(id: Group.find_by(owner_id: id).organization_id)
+    end
+  end
 end

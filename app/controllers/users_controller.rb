@@ -2,7 +2,10 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:create]
 
   def show
-    render json: User.find(params[:id])
+    user = User.find(params[:id])
+    forbidden and return unless valid_permission?(user.organization.id)
+
+    render json: user
   end
 
   def create
@@ -12,48 +15,52 @@ class UsersController < ApplicationController
                                                params[:user][:organization_uniq_name])
     render status: :created
   rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    unprocessable_entity(e.message)
   end
 
   def update
     @user = User.find(params[:id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
     if @user.update(user_params)
       render action: :create, status: :ok
     else
-      render json: @user.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(@user.errors)
     end
   end
 
   def update_password
-    @user = User.find(params[:user_id])
-    if @user.update_with_password(password_params)
-      bypass_sign_in(@user)
-      render json: @user, status: :ok
+    if current_user.update_with_password(password_params)
+      bypass_sign_in(current_user)
+      render json: current_user, status: :ok
     else
-      render json: @user.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(current_user.errors)
     end
   end
 
   def destroy
     @user = User.find(params[:id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
     if @user.destroy
       head :no_content
     else
-      render json: @user.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(@user.errors)
     end
   end
 
   def update_current_organization_id
     @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
     if @user.update(current_organization_id: params['user'][:organization_id])
       render action: :create, status: :ok
     else
-      render json: @user.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(@user.errors)
     end
   end
 
   private
-
 
   def user_params
     params.require(:user)

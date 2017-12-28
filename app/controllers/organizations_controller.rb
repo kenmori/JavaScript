@@ -5,11 +5,13 @@ class OrganizationsController < ApplicationController
   end
 
   def update
+    forbidden and return unless valid_permission?(params[:id])
+
     @organization = Organization.find(params[:id])
     if @organization.update(organization_params)
       render status: :ok
     else
-      render json: @organization.errors, status: :unprocessable_entity
+      unprocessable_entity_with_errors(@organization.errors)
     end
   end
 
