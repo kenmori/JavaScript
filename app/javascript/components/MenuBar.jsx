@@ -9,7 +9,6 @@ class MenuBar extends Component {
 
   componentDidMount() {
     this.props.fetchOrganization(this.props.organization.get('id'));
-    this.props.fetchOkrPeriods(this.props.organization.get('id'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -133,7 +132,6 @@ class MenuBar extends Component {
 
 MenuBar.propTypes = {
   fetchOrganization: PropTypes.func.isRequired,
-  fetchOkrPeriods: PropTypes.func.isRequired,
   changeUser: PropTypes.func.isRequired,
   changeOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,
