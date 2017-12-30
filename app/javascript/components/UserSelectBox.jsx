@@ -7,6 +7,11 @@ import Logo from './Logo';
 
 class UserSelectBox extends Component {
 
+  constructor(props) {
+    super(props);
+    this.selectedValue = props.defaultValue;
+  }
+
   usersOption(users) {
     return users.map(user => {
       const avatarUrl = user.get('avatarUrl') || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
@@ -19,12 +24,17 @@ class UserSelectBox extends Component {
     }).toArray();
   }
 
+  onHandleChange(event, {value}) {
+    this.selectedValue = value;
+    this.props.onChange(value);
+  }
+
   render() {
     return (
       <Dropdown search selection
                 options={this.usersOption(this.props.users)}
                 defaultValue={this.props.defaultValue}
-                onChange={(event, { value }) => this.props.onChange(value)} />
+                onChange={this.onHandleChange.bind(this)} />
     )
   }
 }
@@ -34,5 +44,9 @@ UserSelectBox.propTypes = {
   defaultValue: PropTypes.number,
   onChange: PropTypes.func,
 };
+
+UserSelectBox.defaultProps = {
+  onChange: () => {}
+}
 
 export default UserSelectBox;

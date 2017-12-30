@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import UserSelectBox from './UserSelectBox';
 import { Button, Form, Input, Modal, Dropdown, TextArea } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
@@ -8,21 +9,10 @@ class ObjectiveFormModal extends Component {
     const objective = {
       name: this.nameInput.inputRef.value,
       description: findDOMNode(this.descriptionArea).value,
-      ownerId: this.ownerSelect.getSelectedItem().value,
+      ownerId: this.ownerSelect.selectedValue,
       parentObjectiveId: this.props.parentObjective ? this.props.parentObjective.get('id') : null,
     };
     this.props.addObjective(objective);
-  }
-
-  getUsersOption(users) {
-    return users.map(user => {
-      const id = user.get('ownerId');
-      return {
-        key: id,
-        value: id,
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-      }
-    }).toArray();
   }
 
   getRelatedKeyResultForm(relatedKeyResult) {
@@ -63,8 +53,11 @@ class ObjectiveFormModal extends Component {
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection options={this.getUsersOption(this.props.users)}
-                          defaultValue={this.props.loginUser.get('ownerId')} ref={node => {this.ownerSelect = node;}}/>
+                <UserSelectBox
+                  users={this.props.users} 
+                  defaultValue={this.props.loginUser.get('ownerId')} 
+                  ref={node => {this.ownerSelect = node;}}
+                />
               </Form.Field>
             </Form.Group>
           </Form>
