@@ -42,7 +42,7 @@ class KeyResultFormModal extends Component {
     })
   }
 
-  keyResultMemberListTag(users, add, remove) {
+  keyResultMembersTag(users, add, remove) {
     const list = this.state.keyResultMembers.map((id, idx) => {
       const icon = id !== null && <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
       return <div key={idx} className="key-result-members__item">
@@ -148,7 +148,7 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>関係者</label>
-                {this.keyResultMemberListTag(this.props.users, this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
+                {this.keyResultMembersTag(this.props.users, this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
               </Form.Field>
             </Form.Group>
           </Form>

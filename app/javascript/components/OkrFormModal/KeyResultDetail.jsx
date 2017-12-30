@@ -6,6 +6,7 @@ import DatePicker from '../DatePicker';
 import Avatar from '../Avatar';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
+import UserSelectBox from '../UserSelectBox';
 import br from '../../utils/br';
 import moment from 'moment';
 
@@ -39,12 +40,16 @@ class KeyResultDetail extends Component {
     }).toArray();
   }
 
-  keyResultMembersTag(options, add, remove) {
+  keyResultMembersTag(users, add, remove) {
     const list = this.state.keyResultMembers.map((id) => {
       const icon = id !== null && <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
       return (
         <div key={id} className="key-result-members__item">
-          <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value)}}/>
+          <UserSelectBox
+            users={users} 
+            value={id}
+            onChange={(value) => {add(value)}}
+          />
           {icon}
         </div>
       )
@@ -301,13 +306,19 @@ class KeyResultDetail extends Component {
         <Form.Group>
           <Form.Field>
             <label className="field-title">責任者</label>
-            <Dropdown selection value={keyResult.get('owner').get('id')} options={this.usersOption(this.props.users, true)} onChange={(e, { value }) => this.updateKeyResult({ownerId: value})}/>
+            <UserSelectBox
+              users={this.props.users}
+              value={keyResult.get('owner').get('id')}
+              defaultValue={this.props.objective.get('ownerId')} 
+              isOwner={true}
+              onChange={(value) => this.updateKeyResult({ownerId: value})}
+            />
           </Form.Field>
         </Form.Group>
         <Form.Group>
           <Form.Field>
             <label className="field-title">関係者</label>
-            {this.keyResultMembersTag(this.usersOption(this.props.users), this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
+            {this.keyResultMembersTag(this.props.users, this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
           </Form.Field>
         </Form.Group>
         <Form.Group>

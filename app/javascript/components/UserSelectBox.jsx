@@ -34,6 +34,7 @@ class UserSelectBox extends Component {
     return (
       <Dropdown search selection
                 options={this.usersOption(this.props.users)}
+                value={this.props.value}
                 defaultValue={this.props.defaultValue}
                 onChange={this.onHandleChange.bind(this)} />
     )
@@ -42,6 +43,7 @@ class UserSelectBox extends Component {
 
 UserSelectBox.propTypes = {
   users: PropTypes.object.isRequired,
+  value: PropTypes.number,
   defaultValue: PropTypes.number,
   onChange: PropTypes.func,
   isOwner: PropTypes.bool,
