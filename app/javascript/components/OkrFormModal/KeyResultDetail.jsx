@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Segment, Dropdown, Button, TextArea } from 'semantic-ui-react';
+import { Input, Form, Icon, Segment, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
 import Avatar from '../Avatar';
 import EditableText from '../utils/EditableText';

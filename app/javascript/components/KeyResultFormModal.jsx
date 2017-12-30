@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, Dropdown, Icon } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Icon } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import UserSelectBox from './UserSelectBox';
 import moment from 'moment';
