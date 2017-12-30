@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state) => {
   return {
     objectives: state.objectives,
+    users: state.users,
   };
 };
 

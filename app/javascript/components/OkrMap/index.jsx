@@ -147,8 +147,10 @@ class OkrMap extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
-    if (prevProps !== this.props || prevState.objectivesList !== this.state.objectivesList) {
+    // componentDidUpdateではsetStateするべきではないが、コンポーネント間のパスを描画するには
+    // コンポーネントをいったん描画してDOMの位置情報を取得する必要があるため許容する
+    if ((prevProps.users.isEmpty() && !this.props.users.isEmpty()) // アバター表示により OkrCard の高さが変わるため再描画
+      || (prevState.objectivesList !== this.state.objectivesList)) { // 展開/折り畳みによる再描画
       this.updateOkrPathProps(this.state);
     }
   }
