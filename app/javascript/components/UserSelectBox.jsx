@@ -15,9 +15,10 @@ class UserSelectBox extends Component {
   usersOption(users) {
     return users.map(user => {
       const avatarUrl = user.get('avatarUrl') || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
+      const id = this.props.isOwner ? user.get('ownerId') : user.get('id');
       return {
-        key: user.get('id'),
-        value: user.get('id'),
+        key: id,
+        value: id,
         text: `${user.get('lastName')} ${user.get('firstName')}`,
         image: { avatar: true, src: avatarUrl },
       }
@@ -43,10 +44,12 @@ UserSelectBox.propTypes = {
   users: PropTypes.object.isRequired,
   defaultValue: PropTypes.number,
   onChange: PropTypes.func,
+  isOwner: PropTypes.bool,
 };
 
 UserSelectBox.defaultProps = {
-  onChange: () => {}
+  onChange: () => {},
+  isOwner: false,
 }
 
 export default UserSelectBox;
