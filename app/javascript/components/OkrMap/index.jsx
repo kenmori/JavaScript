@@ -15,6 +15,7 @@ class OkrMap extends Component {
       objectivesList: null,
       rootObjective: null,
     };
+    this.onResize = () => this.updateOkrPathProps(this.state);
   }
 
   componentWillMount() {
@@ -143,7 +144,7 @@ class OkrMap extends Component {
 
   componentDidMount() {
     this.updateOkrPathProps(this.state);
-    window.addEventListener('resize', () => this.updateOkrPathProps(this.state));
+    window.addEventListener('resize', this.onResize);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -153,6 +154,10 @@ class OkrMap extends Component {
       || (prevState.objectivesList !== this.state.objectivesList)) { // 展開/折り畳みによる再描画
       this.updateOkrPathProps(this.state);
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   updateObjectivesList({ toAncestor, isExpanded, targetId }) {
