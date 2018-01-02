@@ -24,6 +24,7 @@ export default class EditableMultiLineText extends Component {
                 defaultValue={this.props.value}
                 ref={node => {this.textArea = node;}}
                 placeholder={this.props.placeholder}
+                autoHeight
                 rows={3}
                 onFocus={this.onTextAreaFocus}
                 onBlur={this.onTextAreaBlur}
