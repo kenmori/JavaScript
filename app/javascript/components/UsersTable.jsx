@@ -5,11 +5,6 @@ import PropTypes from 'prop-types';
 import EditableText from './utils/EditableText';
 import Avatar from '../containers/Avatar';
 
-const rollOptions = [
-  { key: 'user', value: 'user', text: 'ユーザー' },
-  { key: 'admin', value: 'admin', text: '管理者' },
-];
-
 class UsersTable extends Component {
 
   constructor(props) {
@@ -69,8 +64,7 @@ class UsersTable extends Component {
     return user.get('email');
   }
 
-  sort = (event) => {
-    const column = event.target.getAttribute('name');
+  sort = (column) => {
 
     if (this.state.column !== column) {
       const sortedUsers = this.state.users.sort((a, b) => {
@@ -162,19 +156,19 @@ class UsersTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell disabled/>
-              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort} name="id">
+              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={(event) => this.sort('id')}>
                 No
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort} name="lastName">
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={(event) => this.sort('lastName')}>
                 姓
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort} name="firstName">
+              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={(event) => this.sort('firstName')}>
                 名
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort} name="email">
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={(event) => this.sort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort} name="roll">
+              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={(event) => this.sort('isAdmin')}>
                 権限
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
