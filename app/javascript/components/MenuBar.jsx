@@ -101,6 +101,7 @@ class MenuBar extends Component {
             }
           </Header>
         </Menu.Item>
+        <Menu.Item href='/'>ホーム</Menu.Item>
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
