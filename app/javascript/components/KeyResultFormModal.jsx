@@ -129,7 +129,7 @@ class KeyResultFormModal extends Component {
               <Form.Field>
                 <label>関係者</label>
                 <KeyResultMemberSelectBox 
-                  users={this.props.users.filter(item => item.get('ownerId') !== this.props.objective.get('ownerId') )}
+                  users={this.props.users}
                   keyResultMembers={this.state.keyResultMembers}
                   add={this.addKeyResultMembers.bind(this)}
                   remove={this.removeKeyResultMembers.bind(this)}
