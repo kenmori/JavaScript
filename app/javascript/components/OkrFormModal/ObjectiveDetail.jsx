@@ -47,10 +47,6 @@ class ObjectiveDetail extends Component {
         <Form.Field className='values'>
           <label>Objective の進捗</label>
           <div className='progress-rate'>{objective.get('progressRate')}%</div>
-          <div className='slider'>
-            <input type='range' min='0' max='100' value={objective.get('progressRate')}
-                    step='1' data-unit='%' readOnly/>
-          </div>
         </Form.Field>
         <Form.Field>
           <label>責任者</label>
