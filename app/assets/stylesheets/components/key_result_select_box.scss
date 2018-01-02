@@ -1,0 +1,18 @@
+.key-result-members-select-box {
+  width: 196px;
+  .key-result-members-select-box__item {
+    position: relative;
+    margin-top: 10px;
+  }
+  .key-result-members-select-box__name {
+    padding-left: 1rem;
+  }
+  .key-result-members-select-box__selected {
+    margin-bottom: 10px;
+  }
+  .key-result-members-select-box__close {
+    cursor: pointer;
+    position: absolute;
+    left: 100%;
+  }
+}

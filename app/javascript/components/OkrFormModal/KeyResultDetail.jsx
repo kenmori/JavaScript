@@ -7,6 +7,7 @@ import Avatar from '../Avatar';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
 import UserSelectBox from '../UserSelectBox';
+import KeyResultMemberSelectBox from '../KeyResultMemberSelectBox';
 import br from '../../utils/br';
 import moment from 'moment';
 
@@ -17,7 +18,6 @@ class KeyResultDetail extends Component {
     this.progressTimerId = null;
     if (props.keyResult) {
       const keyResultMembers = props.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
-      keyResultMembers.push(null);
       this.state = {
         isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
         sliderValue: props.keyResult.get('progressRate'),
@@ -38,23 +38,6 @@ class KeyResultDetail extends Component {
         text: `${item.get('lastName')} ${item.get('firstName')}`,
       }
     }).toArray();
-  }
-
-  keyResultMembersTag(users, add, remove) {
-    const list = this.state.keyResultMembers.map((id) => {
-      const icon = id !== null && <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
-      return (
-        <div key={id} className="key-result-members__item">
-          <UserSelectBox
-            users={users} 
-            defaultValue={id}
-            onChange={(value) => {add(value)}}
-          />
-          {icon}
-        </div>
-      )
-    })
-    return <div className="key-result-members">{list}</div>;
   }
 
   addKeyResultMembers(value) {
@@ -190,7 +173,6 @@ class KeyResultDetail extends Component {
       return;
     }
     const keyResultMembers = nextProps.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
-    keyResultMembers.push(null);
     this.setState({
       isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
       sliderValue: nextProps.keyResult.get('progressRate'),
@@ -314,11 +296,16 @@ class KeyResultDetail extends Component {
               onChange={(value) => this.updateKeyResult({ownerId: value})}
             />
           </Form.Field>
-        </Form.Group>
+        </Form.Group> 
         <Form.Group>
           <Form.Field>
             <label className="field-title">関係者</label>
-            {this.keyResultMembersTag(this.props.users, this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
+            <KeyResultMemberSelectBox 
+              users={this.props.users.filter(item => item.get('ownerId') !== this.props.objective.get('ownerId') )}
+              keyResultMembers={this.state.keyResultMembers}
+              add={this.addKeyResultMembers.bind(this)}
+              remove={this.removeKeyResultMembers.bind(this)}
+            />
           </Form.Field>
         </Form.Group>
         <Form.Group>

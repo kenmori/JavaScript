@@ -8,13 +8,13 @@ class KeyResultMemberSelectBox extends Component {
     const list = keyResultMembers.map((id, idx) => {
       const user = users.find(item => item.get('id') === id);
       return (
-        <div key={idx} className="key-result-members__item">
-          <span className="key-result-members__name">{`${user.get('lastName')} ${user.get('firstName')}`}</span>
-          <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
+        <div key={idx} className="key-result-members-select-box__item">
+          <span className="key-result-members-select-box__name">{`${user.get('lastName')} ${user.get('firstName')}`}</span>
+          <Icon name="close" className="key-result-members-select-box__close" onClick={() => {remove(id)}} />
         </div>
       )
     });
-    return <div className="key-result-members__selected">{list}</div>;
+    return <div className="key-result-members-select-box__selected">{list}</div>;
   }
   render() {
     const {
@@ -25,9 +25,8 @@ class KeyResultMemberSelectBox extends Component {
     } = this.props;
 
     const selectableMembers = users.filter((item) => !keyResultMembers.includes(item.get('id')));
-    console.log(1, selectableMembers)
     return (
-      <div className="key-result-members">
+      <div className="key-result-members-select-box">
         {this.selectedMembersTag(this.props)}
         { selectableMembers.size > 0 && 
             <UserSelectBox

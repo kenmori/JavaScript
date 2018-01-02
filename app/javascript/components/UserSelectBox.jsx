@@ -31,7 +31,6 @@ class UserSelectBox extends Component {
       this.isCancel = false;
       return;
     }
-    console.log('change')
     this.selectedValue = value;
     this.props.onChange(value);
   }
