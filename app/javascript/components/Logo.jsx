@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import {Image} from 'semantic-ui-react';
+import logo_image from '../images/logo.png'
 
 class Logo extends Component {
   render() {
     return (
       <div className="logo">
-        <img src={this.props.path || '/packs/images/logo-01f2a16d666b66ec1e2c17764ffe394d.png'} className="logo__img" />
+        <Image src={this.props.path || logo_image} className="logo__img" size={this.props.size} />
       </div>
     )
   }

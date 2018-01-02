@@ -1,7 +1,15 @@
 .okr-card {
   &.ui.card {
+    margin-top: 24px;
+    margin-bottom: 48px;
+
     &:hover {
       transform: translateY(-3px);
+    }
+
+    &.active {
+      border: 2px $ASSIST_COLOR solid;
+      background: rgba(239, 8, 3, 0.11);
     }
 
     .content .header {

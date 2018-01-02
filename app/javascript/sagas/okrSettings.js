@@ -1,4 +1,5 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
+import call from '../utils/call';
 import API from '../utils/api';
 import settingActions from '../actions/okrSettings';
 import actionTypes from '../constants/actionTypes';
