@@ -9,7 +9,9 @@ export default handleActions({
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const ownerId = gon.getIn(['loginUser', 'ownerId']);
-      return ownerId === payload.objective.get('ownerId') ? state.insert(0, payload.result.first()) : state;
+      const objectiveId = payload.get('result').first();
+      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
+      return ownerId === objective.get('ownerId') ? state.insert(0, objectiveId) : state;
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.filter((objectiveId) => (objectiveId !== payload.id));
