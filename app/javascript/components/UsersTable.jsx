@@ -22,8 +22,9 @@ class UsersTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const users = this.getSortedUsers(this.getUsers(nextProps.users), this.state.column);
     this.setState({
-      users: this.getUsers(nextProps.users),
+      users,
       emails: this.getEmails(nextProps.users),
     });
   }
@@ -64,18 +65,22 @@ class UsersTable extends Component {
     return user.get('email');
   }
 
+  getSortedUsers = (users, column) => {
+    return users.sort((a, b) => {
+      if (typeof a.get(column) === 'string') {
+        return a.get(column).localeCompare(b.get(column));
+      } else {
+        if (a.get(column) < b.get(column)) { return -1; }
+        if (a.get(column) > b.get(column)) { return 1; }
+        if (a.get(column) === b.get(column)) { return 0; }
+      }
+    });
+  }
+
   sort = (column) => {
 
     if (this.state.column !== column) {
-      const sortedUsers = this.state.users.sort((a, b) => {
-        if (typeof a.get(column) === 'string') {
-          return a.get(column).localeCompare(b.get(column));
-        } else {
-          if (a.get(column) < b.get(column)) { return -1; }
-          if (a.get(column) > b.get(column)) { return 1; }
-          if (a.get(column) === b.get(column)) { return 0; }
-        }
-      });
+      const sortedUsers = this.getSortedUsers(this.state.users, column);
       this.setState({
         column: column,
         users: sortedUsers,
@@ -89,6 +94,7 @@ class UsersTable extends Component {
       direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
+  
 
   filter = () => {
     const keyword = this.searchInput.inputRef.value;
