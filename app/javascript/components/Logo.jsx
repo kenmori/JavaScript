@@ -19,7 +19,7 @@ Logo.propTypes = {
 };
 Logo.defaultProps = {
   path: null,
-  size: 'normal',
+  size: 'small',
 };
 
 export default Logo;

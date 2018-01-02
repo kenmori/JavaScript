@@ -6,16 +6,13 @@ export default class EditableText extends Component {
     super(props);
     this.state = {
       value: this.props.value,
-      isReadOnly: true,
     };
   }
 
   onInputFocus = () => {
-    this.setState({ isReadOnly: false });
   }
 
   onInputBlur = () => {
-    this.setState({ isReadOnly: true });
     if(this.props.value !== this.state.value) {
       this.props.saveValue(this.state.value);
     }
@@ -41,7 +38,7 @@ export default class EditableText extends Component {
                      onChange={this.updateInputValue}
                      onFocus={this.onInputFocus}
                      onBlur={this.onInputBlur}
-                     readOnly={this.state.isReadOnly}/>
+                     readOnly={this.props.readonly} />
     );
   }
 }
