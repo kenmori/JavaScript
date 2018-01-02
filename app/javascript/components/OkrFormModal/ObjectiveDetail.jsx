@@ -57,7 +57,7 @@ class ObjectiveDetail extends Component {
           <label>責任者</label>
           <UserSelectBox
             users={this.props.users}
-            value={objective.get('ownerId')}
+            defaultValue={objective.get('ownerId')}
             isOwner={true}
             onChange={(value) => this.updateObjective({ownerId: value})}
           />

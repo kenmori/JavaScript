@@ -47,7 +47,7 @@ class KeyResultDetail extends Component {
         <div key={id} className="key-result-members__item">
           <UserSelectBox
             users={users} 
-            value={id}
+            defaultValue={id}
             onChange={(value) => {add(value)}}
           />
           {icon}

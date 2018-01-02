@@ -48,7 +48,7 @@ class KeyResultFormModal extends Component {
       return <div key={idx} className="key-result-members__item">
               <UserSelectBox
                   users={users} 
-                  value={id}
+                  defaultValue={id}
                   onChange={(value) => {add(value, idx)}}
                 />
               {icon}
