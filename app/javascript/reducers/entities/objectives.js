@@ -22,18 +22,16 @@ export default handleActions({
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.delete(payload.id).map((objective) => {
-        return objective.set('childObjectives', objective.get('childObjectives').delete(payload.id));
+        return objective.update('childObjectives', (childObjectiveIds) => childObjectiveIds.filter((childObjectiveId) => (childObjectiveId !== payload.id)));
       });
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      const keyResult = payload.get('keyResult');1
-      return state.update(keyResult.get('objectiveId'), (objective) => {
-        return objective.update('keyResults', (keyResultIds) => keyResultIds.push(keyResult.get('id')));
-      });
+      const keyResult = payload.get('keyResult');
+      return state.updateIn([keyResult.get('objectiveId'), 'keyResults'], (keyResultIds) => keyResultIds.push(keyResult.get('id')));
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResult = payload.get('keyResult');
-      return state.update(keyResult.get('objectiveId'), (objective) => (objective.get('keyResults').delete(keyResult.get('id'))));
+      return state.updateIn([keyResult.get('objectiveId'), 'keyResults'], (keyResultIds) => (keyResultIds.filter((keyResultId) => keyResultId !== keyResult.get('id'))));
     },
   },
   Map()
