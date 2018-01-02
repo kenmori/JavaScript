@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
+import {Dropdown, Menu} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
 import UserSelectBox from './UserSelectBox';
 import Avatar from '../containers/Avatar';
@@ -72,20 +72,12 @@ class MenuBar extends Component {
   }
 
   render() {
-    const path = this.props.organization.get('logo').get('url');
     return (
       <Menu secondary className='menu-bar'>
-        <Menu.Item header>
-          <Header as='h1'>
-            { path ? 
-                <Logo path={path} /> : 
-                <div>
-                  <Image src={logo_image} href='/'/>
-                  <span className="version">β</span>
-                </div> 
-            }
-          </Header>
+        <Menu.Item header href='/'>
+          <Logo path={this.props.organization.get('logo').get('url')} size='tiny'/>
         </Menu.Item>
+        <Menu.Item href='/'>ホーム</Menu.Item>
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
