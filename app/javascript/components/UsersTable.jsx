@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Image, Input, Select, Table } from 'semantic-ui-react';
+import { Button, Image, Input, Checkbox, Table } from 'semantic-ui-react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import EditableText from './utils/EditableText';
 import Avatar from '../containers/Avatar';
-
-const rollOptions = [
-  { key: 'user', value: 'user', text: 'ユーザー' },
-  { key: 'admin', value: 'admin', text: '管理者' },
-];
 
 class UsersTable extends Component {
 
@@ -27,8 +22,9 @@ class UsersTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const users = this.getSortedUsers(this.getUsers(nextProps.users), this.state.column);
     this.setState({
-      users: this.getUsers(nextProps.users),
+      users,
       emails: this.getEmails(nextProps.users),
     });
   }
@@ -69,19 +65,22 @@ class UsersTable extends Component {
     return user.get('email');
   }
 
-  sort = (event) => {
-    const column = event.target.getAttribute('name');
+  getSortedUsers = (users, column) => {
+    return users.sort((a, b) => {
+      if (typeof a.get(column) === 'string') {
+        return a.get(column).localeCompare(b.get(column));
+      } else {
+        if (a.get(column) < b.get(column)) { return -1; }
+        if (a.get(column) > b.get(column)) { return 1; }
+        if (a.get(column) === b.get(column)) { return 0; }
+      }
+    });
+  }
+
+  sort = (column) => {
 
     if (this.state.column !== column) {
-      const sortedUsers = this.state.users.sort((a, b) => {
-        if (typeof a.get(column) === 'string') {
-          return a.get(column).localeCompare(b.get(column));
-        } else {
-          if (a < b) { return -1; }
-          if (a > b) { return 1; }
-          if (a === b) { return 0; }
-        }
-      });
+      const sortedUsers = this.getSortedUsers(this.state.users, column);
       this.setState({
         column: column,
         users: sortedUsers,
@@ -95,6 +94,7 @@ class UsersTable extends Component {
       direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
+  
 
   filter = () => {
     const keyword = this.searchInput.inputRef.value;
@@ -111,11 +111,13 @@ class UsersTable extends Component {
         firstName: this.firstNameInputs[0].inputRef.value,
         lastName: this.lastNameInputs[0].inputRef.value,
         email: this.emailInputs[0].inputRef.value,
+        admin: this.isAdminInputs.inputRef.checked,
         noPasswordRequired: true,
       });
       this.lastNameInputs[0].inputRef.value = '';
       this.firstNameInputs[0].inputRef.value = '';
       this.emailInputs[0].inputRef.value = '';
+      this.isAdminInputs.inputRef.checked = false;
     }
   };
 
@@ -144,7 +146,9 @@ class UsersTable extends Component {
                 <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
                        placeholder="メールアドレス"/>
               </Table.Cell>
-              <Table.Cell><Select options={rollOptions} defaultValue={rollOptions[0].value}/></Table.Cell>
+              <Table.Cell>
+                <Checkbox label='管理者' defaultChecked={false} required ref={node => { this.isAdminInputs = node; }} />
+              </Table.Cell>
               <Table.Cell textAlign="center">
                 <Button icon="plus" content="追加する" onClick={this.addUser}/>
               </Table.Cell>
@@ -158,20 +162,20 @@ class UsersTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell disabled/>
-              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={this.sort} name="id">
+              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={(event) => this.sort('id')}>
                 No
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort} name="lastName">
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={(event) => this.sort('lastName')}>
                 姓
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={this.sort} name="firstName">
+              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={(event) => this.sort('firstName')}>
                 名
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort} name="email">
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={(event) => this.sort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'roll' ? direction : null} onClick={this.sort} name="roll">
-                役割
+              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={(event) => this.sort('isAdmin')}>
+                権限
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
             </Table.Row>
@@ -187,6 +191,7 @@ class UsersTable extends Component {
                 const open = readOnly ? false : undefined;
                 const lastName = user.get('lastName');
                 const firstName = user.get('firstName');
+                const isAdmin = user.get('isAdmin');
                 const name = `${lastName} ${firstName}`;
                 return (
                   <Table.Row key={id}>
@@ -202,7 +207,9 @@ class UsersTable extends Component {
                       <EditableText value={this.state.emails[id]} saveValue={(email) => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Select options={rollOptions} defaultValue={'user'} open={open} className={className}/>
+                      <div>
+                        {id !== this.props.loginUser.get('id') && <Checkbox label='管理者' defaultChecked={isAdmin} onChange={(event, {checked}) => this.props.onUpdateUser({id, admin: checked})} />}
+                      </div>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <div>

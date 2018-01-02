@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
+  before_action :valid_operatable_user?, except: [:create]
   skip_before_action :authenticate_user!, only: [:create]
-
-  def index
-    @users = current_user.organization.members
-  end
 
   def show
     user = User.find(params[:id])
@@ -68,12 +65,25 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user)
-        .permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :current_organization_id, :no_password_required)
+        .permit(:id, 
+                :first_name, 
+                :last_name,
+                :email,
+                :password,
+                :avatar,
+                :remove_avatar,
+                :current_organization_id,
+                :no_password_required,
+                :admin)
   end
 
   def password_params
     params.require(:user)
         .permit(:id, :password, :password_confirmation, :current_password)
+  end
+
+  def valid_operatable_user?
+    forbidden and return unless current_user.id == params[:id].to_i || current_user.admin?
   end
   
 end
