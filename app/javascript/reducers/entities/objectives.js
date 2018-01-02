@@ -18,7 +18,17 @@ function merge(state, { payload }) {
 
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
-    [ActionTypes.ADDED_OBJECTIVE]: merge,
+    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
+      const objectiveId = payload.get('result').first();
+      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
+      const newObjectives = state.set(objectiveId, objective);
+      const parentObjectiveId = objective.get('parentObjectiveId');
+      if (parentObjectiveId) {
+        return newObjectives.updateIn([parentObjectiveId, 'childObjectives'], (childObjectiveIds) => (childObjectiveIds.push(objectiveId)));
+      } else {
+        return newObjectives;
+      }
+    },
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.delete(payload.id).map((objective) => {
