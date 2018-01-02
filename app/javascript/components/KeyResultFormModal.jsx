@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Icon } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
+import KeyResultMemberSelectBox from './KeyResultMemberSelectBox';
 import UserSelectBox from './UserSelectBox';
 import moment from 'moment';
 
@@ -9,7 +10,7 @@ class KeyResultFormModal extends Component {
     super(props);
     this.state = {
       expiredDate: null,
-      keyResultMembers: [null]
+      keyResultMembers: []
     }
   }
 
@@ -23,14 +24,9 @@ class KeyResultFormModal extends Component {
     this.setState({expiredDate: date})
   }
 
-  addKeyResultMembers(value, boxIndex) {
+  addKeyResultMembers(value) {
     const keyResultMembers = this.state.keyResultMembers;
-
-    keyResultMembers[boxIndex] = value;
-    if (boxIndex === keyResultMembers.length - 1) {
-      keyResultMembers.push(null);
-    }
-
+    keyResultMembers.push(value);
     this.setState({
       keyResultMembers: keyResultMembers
     })
@@ -42,22 +38,6 @@ class KeyResultFormModal extends Component {
     })
   }
 
-  keyResultMembersTag(users, add, remove) {
-    const list = this.state.keyResultMembers.map((id, idx) => {
-      const icon = id !== null && <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
-      return <div key={idx} className="key-result-members__item">
-              <UserSelectBox
-                  users={users} 
-                  defaultValue={id}
-                  onChange={(value) => {add(value, idx)}}
-                />
-              {icon}
-             </div>
-    })
-
-    return <div className="key-result-members">{list}</div>;
-  }
-
   add() {
     const keyResult = {
       name: this.nameInput.inputRef.value,
@@ -66,7 +46,7 @@ class KeyResultFormModal extends Component {
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
-      keyResultMembers: this.state.keyResultMembers.filter(item => item !== null)
+      keyResultMembers: this.state.keyResultMembers
     };
     this.props.addKeyResult(keyResult);
     this.nameInput.inputRef.value = '';
@@ -85,7 +65,7 @@ class KeyResultFormModal extends Component {
     if (willClose) {
       this.setState({
         expiredDate: null,
-        keyResultMembers: [null]
+        keyResultMembers: []
       });
     }
   }
@@ -148,7 +128,12 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>関係者</label>
-                {this.keyResultMembersTag(this.props.users, this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
+                <KeyResultMemberSelectBox 
+                  users={this.props.users.filter(item => item.get('ownerId') !== this.props.objective.get('ownerId') )}
+                  keyResultMembers={this.state.keyResultMembers}
+                  add={this.addKeyResultMembers.bind(this)}
+                  remove={this.removeKeyResultMembers.bind(this)}
+                />
               </Form.Field>
             </Form.Group>
           </Form>

@@ -9,6 +9,7 @@ class UserSelectBox extends Component {
 
   constructor(props) {
     super(props);
+    this.isCancel = false;
     this.selectedValue = props.defaultValue;
   }
 
@@ -26,6 +27,11 @@ class UserSelectBox extends Component {
   }
 
   onHandleChange(event, {value}) {
+    if(this.isCancel) {
+      this.isCancel = false;
+      return;
+    }
+    console.log('change')
     this.selectedValue = value;
     this.props.onChange(value);
   }
@@ -35,7 +41,8 @@ class UserSelectBox extends Component {
       <Dropdown search selection
                 options={this.usersOption(this.props.users)}
                 defaultValue={this.props.defaultValue}
-                onChange={this.onHandleChange.bind(this)} />
+                onChange={this.onHandleChange.bind(this)}
+                onBlur={() => this.isCancel = true} />
     )
   }
 }
