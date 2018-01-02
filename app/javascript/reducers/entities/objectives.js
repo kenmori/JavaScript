@@ -35,10 +35,6 @@ export default handleActions({
       const keyResult = payload.get('keyResult');
       return state.update(keyResult.get('objectiveId'), (objective) => (objective.get('keyResults').delete(keyResult.get('id'))));
     },
-    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      const keyResult = payload.get('keyResult');
-      return state.update(keyResult.get('objectiveId'), (objective) => (objective.get('keyResults').set(keyResult.get('id'), keyResult)));
-    }
   },
   Map()
 );
