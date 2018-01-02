@@ -4,7 +4,7 @@ import ActionTypes from '../../constants/actionTypes';
 
 function merge(state, { payload }) {
   const keyResult = payload.get('keyResult');
-  return state.merge(Map({[keyResult.get('id')]: keyResult}));
+  return state.set(keyResult.get('id'), keyResult);
 }
 
 export default handleActions({
