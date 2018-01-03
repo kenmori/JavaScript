@@ -36,12 +36,16 @@ class UserSelectBox extends Component {
   }
 
   render() {
+    const value = this.props.defaultValue || null;
     return (
-      <Dropdown search selection
-                options={this.usersOption(this.props.users)}
-                defaultValue={this.props.defaultValue}
-                onChange={this.onHandleChange.bind(this)}
-                onBlur={() => this.isCancel = true} />
+      <Dropdown 
+        search 
+        selection
+        options={this.usersOption(this.props.users)}
+        value={value}
+        onChange={this.onHandleChange.bind(this)}
+        onBlur={() => this.isCancel = true} 
+      />
     )
   }
 }
