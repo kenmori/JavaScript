@@ -24,7 +24,7 @@ function denormalizeObjective(objective, entities) {
 }
 
 function denormalizeObjectives(state) {
-  return state.objectiveIds.map((objectiveId) => {
+  return state.objectives.map((objectiveId) => {
     return denormalizeObjective(state.entities.objectives.get(objectiveId), state.entities)
   });
 }
