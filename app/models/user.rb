@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :key_result_members
   has_many :comments
 
-  has_many :organization_member
+  has_many :organization_member, dependent: :destroy
 
   belongs_to :owner, optional: true
 

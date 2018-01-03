@@ -3,6 +3,9 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
+    [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
+      return payload.organization.get('members');
+    },
     [ActionTypes.FETCHED_USER]: (state, { payload }) => {
       return payload.user;
     },

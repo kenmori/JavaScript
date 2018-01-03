@@ -6,6 +6,11 @@ import withLoading from '../utils/withLoading';
 import organizationActions from '../actions/organizations';
 import actionTypes from '../constants/actionTypes';
 
+function* fetchOrganization({ payload }) {
+  const result = yield call(API.get, '/organizations/' + payload.organization.id);
+  yield put(organizationActions.fetchedOrganization(result.get('organization')));
+}
+
 function* updateOrganization({ payload }) {
   const result = yield call(API.put, '/organizations/' + payload.organization.id, { organization: payload.organization });
   yield put(organizationActions.updatedOrganization(result.get('organization')));
@@ -18,6 +23,7 @@ function* updateLogo({ payload }) {
 
 export function* organizationSagas() {
   yield all([
+    takeLatest(actionTypes.FETCH_ORGANIZATION, withLoading(fetchOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION, withLoading(updateOrganization)),
     takeLatest(actionTypes.UPDATE_LOGO, withLoading(updateLogo)),
   ]);

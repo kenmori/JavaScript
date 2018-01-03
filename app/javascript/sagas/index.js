@@ -4,7 +4,6 @@ import { keyResultSagas } from './keyResults';
 import { userSagas } from './users';
 import { okrSettingSagas } from './okrSettings';
 import { sessionSagas } from './sessions';
-import { okrPeriodSagas } from './okrPeriods';
 import { organizationSagas } from './organizations';
 
 const sagas = [
@@ -13,7 +12,6 @@ const sagas = [
   userSagas,
   okrSettingSagas,
   sessionSagas,
-  okrPeriodSagas,
   organizationSagas,
 ];
 

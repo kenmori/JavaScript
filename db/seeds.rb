@@ -17,7 +17,8 @@ ApplicationRecord.transaction do
       last_name: '山田',
       first_name: '太郎',
       email: 'yamada@example.com',
-      password: 'Pass0123'
+      password: 'Pass0123',
+      admin: true
   )
   login_user.skip_confirmation!
   login_user.save!

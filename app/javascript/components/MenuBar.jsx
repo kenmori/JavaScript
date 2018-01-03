@@ -9,8 +9,7 @@ import Logo from './Logo';
 class MenuBar extends Component {
 
   componentDidMount() {
-    this.props.fetchUsers();
-    this.props.fetchOkrPeriods(this.props.organization.get('id'));
+    this.props.fetchOrganization(this.props.organization.get('id'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -104,8 +103,7 @@ class MenuBar extends Component {
 }
 
 MenuBar.propTypes = {
-  fetchUsers: PropTypes.func.isRequired,
-  fetchOkrPeriods: PropTypes.func.isRequired,
+  fetchOrganization: PropTypes.func.isRequired,
   changeUser: PropTypes.func.isRequired,
   changeOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,
