@@ -8,6 +8,7 @@ export default class SignUp extends Component {
       first_name: this.firstNameInput.inputRef.value,
       email: this.emailInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
+      admin: true,
       organization_name: this.organizationInput.inputRef.value,
       organization_uniq_name: this.organizationUniqNameInput.inputRef.value,
     })
