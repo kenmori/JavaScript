@@ -26,10 +26,10 @@ export default handleActions({
   [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => (
     newSelectedData(state, payload)
   ),
-  [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => {
+  [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => (
     newSelectedData(state, payload)
-  },
-  [ActionTypes.UPDATED_LOGO]: (state, { payload }) => {
+  ),
+  [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
     newSelectedData(state, payload)
-  }
+  )
 }, initialState);
