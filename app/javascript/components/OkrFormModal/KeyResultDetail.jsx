@@ -290,8 +290,7 @@ class KeyResultDetail extends Component {
             <label className="field-title">責任者</label>
             <UserSelectBox
               users={this.props.users}
-              value={keyResult.get('owner').get('id')}
-              defaultValue={this.props.objective.get('ownerId')} 
+              defaultValue={keyResult.get('owner').get('id')} 
               isOwner={true}
               onChange={(value) => this.updateKeyResult({ownerId: value})}
             />
