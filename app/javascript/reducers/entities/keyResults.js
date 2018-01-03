@@ -17,6 +17,6 @@ export default handleActions({
           .mapKeys((key) => (parseInt(key))) // normalizeした結果ではidがstringになっているためintへ変換する
       )
     },
- }, Map()
+  }, Map()
 )
 

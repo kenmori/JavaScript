@@ -9,16 +9,16 @@ objectiveSchema.define({
 const objectiveListSchema = [objectiveSchema];
 
 function denormalizeObjective(objective, entities) {
-  const denormalizedObjective =  objective
+  const denormalizedObjective = objective
     .set('keyResults', objective.get('keyResults').map((keyResultId) => {
       return entities.keyResults.get(keyResultId)
     }))
     .set('childObjectives', objective.get('childObjectives').map((childObjectiveId) => {
-        if(childObjectiveId) {
-          return denormalizeObjective(entities.objectives.get(childObjectiveId), entities);
-        } else {
-          return undefined;
-        }
+      if (childObjectiveId) {
+        return denormalizeObjective(entities.objectives.get(childObjectiveId), entities);
+      } else {
+        return undefined;
+      }
     }));
   return denormalizedObjective;
 }
