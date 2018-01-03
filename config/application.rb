@@ -49,6 +49,12 @@ module Resily
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # ActionMailer setting
+    config.action_mailer.default_url_options = {
+        host: ENV.fetch('MAILER_URL_HOST', 'localhost'),
+        port: ENV.fetch('MAILER_URL_PORT', 3000)
+    }
+
     # SMTP setting
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings ||= Hash.new.tap do |h|
