@@ -3,6 +3,7 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../../constants/actionTypes';
 
 function merge(state, { payload }) {
+  if (!payload.getIn(['entities', 'objectives'])) return state;
   // normalizeした結果ではidがstringになっているためintへ変換する
   return state.merge(
     payload.getIn(['entities', 'objectives']).mapKeys((key) => (parseInt(key)))

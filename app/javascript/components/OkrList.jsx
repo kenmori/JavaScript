@@ -5,7 +5,7 @@ import OkrPieChart from './OkrPieChart';
 
 class OkrList extends Component {
   componentWillReceiveProps(nextProps) {
-    if (this.props.objectives.size !== nextProps.objectives.size) {
+    if (nextProps.objectives.size !== 0 && this.props.objectives.size !== nextProps.objectives.size) {
       // Objective一覧取得時、Objective追加/削除時は最初のObjectiveを選択する
       this.props.onSelect(nextProps.objectives.first());
     }
