@@ -37,8 +37,8 @@ services:
       AWS_REGION: ap-northeast-1
       AWS_S3_BUCKET: resily
       AWS_S3_URL: http://localhost:9000/resily
-      AWS_S3_HOST: minio
-      AWS_S3_ENDPOINT: http://minio:9000
+      MINIO_HOST: minio
+      MINIO_ENDPOINT: http://minio:9000
       RAILS_DATABASE_HOST: db
       RAILS_DATABASE_PASSWORD: password
   mailhog:
