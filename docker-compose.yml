@@ -36,7 +36,7 @@ services:
       AWS_SECRET_KEY: secret_key
       AWS_REGION: ap-northeast-1
       AWS_S3_BUCKET: resily
-      AWS_S3_URL: http://localhost:9000/resily
+      AWS_S3_URL: http://localhost:9000/
       MINIO_HOST: minio
       MINIO_ENDPOINT: http://minio:9000
       RAILS_DATABASE_HOST: db
