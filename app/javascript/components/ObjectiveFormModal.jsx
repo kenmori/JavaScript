@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import UserSelectBox from './UserSelectBox';
 import Avatar from './Avatar';
-import { Button, Form, Input, Modal, Dropdown, TextArea, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Dropdown, TextArea, Segment, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
   save() {
@@ -49,22 +49,30 @@ class ObjectiveFormModal extends Component {
             {
               hasObjective && (
                 <div className="objective-form-modal__sidebar sidebar">
-                  <div className="sidebar__items">
+                  <div className="sidebar__item">
                     <div className="sidebar__title">上位Objective</div>
-                    <Segment className="sidebar__item" onClick={() => console.log("hoge")}>
-                      <span className="sidebar__avatar"><Avatar user={objective.get('owner')} size='small' /></span>
-                      <span className="sidebar__val">{objective.get('name')}</span>
-                      <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
-                    </Segment>
-                    <p className="sidebar__description">{objective.get('description')}</p>
+                    <div className="sidebar__content">
+                      <List>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>{objective.get('name')}</List.Header>
+                            <List.Description>{objective.get('description')}</List.Description>
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    </div>
                   </div>
-                  <div className="sidebar__items">
+                  <div className="sidebar__item">
                     <div className="sidebar__title">割り当てられた Key Result</div>
-                    <Segment className="sidebar__item" onClick={() => console.log("fuga")}>
-                    <span className="sidebar__avatar"><Avatar user={keyResult.get('owner')} size='small' /></span>
-                      <span className="sidebar__val">{keyResult.get('name')}</span>
-                      <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
-                    </Segment>
+                    <div className="sidebar__content">
+                      <List>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>{keyResult.get('name')}</List.Header>
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    </div>
                   </div>
                 </div>
               )

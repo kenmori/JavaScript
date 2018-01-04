@@ -1,5 +1,6 @@
 .objective-form-modal {
   .content {
+    display: block;
     input[readonly] {
       opacity: .65;
     }
@@ -16,23 +17,20 @@
     .objective-form-modal__body {
       display: flex;
       justify-content: space-between;
-      min-height: 556px;
     }
     .sidebar {
       width: 30%;
-      .sidebar__items {
-        margin-bottom: 40px;
-      }
       .sidebar__item {
-        position: relative;
-        cursor: pointer;
-        padding-right: 45px;
-        &.is-current {
-          background: rgba(239, 8, 3, 0.11);
-        }
+        margin-bottom: 20px;
+        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid rgba(34,36,38,.15);
       }
       .sidebar__description {
         font-size: smaller;
+      }
+      .sidebar__content {
+        padding-left: 1rem;
       }
       .sidebar__avatar {
         position: absolute;
@@ -55,6 +53,9 @@
       }
       .sidebar__title {
         font-weight: bold;
+        border-bottom: 1px solid rgba(34,36,38,.15);
+        margin-bottom: 10px;
+        padding-bottom: 3px;
       }
     }
   }
