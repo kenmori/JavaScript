@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import UserSelectBox from './UserSelectBox';
-import Avatar from './Avatar';
 import { Button, Form, Input, Modal, Dropdown, TextArea, Segment, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
