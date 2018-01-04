@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Dropdown, Menu} from 'semantic-ui-react';
+import logo_image from '../images/logo.png'
+import UserSelectBox from './UserSelectBox';
 import Avatar from '../containers/Avatar';
 import Logo from './Logo';
 
@@ -14,18 +16,6 @@ class MenuBar extends Component {
     if (nextProps.needLogout) {
       this.props.signOut()
     }
-  }
-
-  usersOption(users) {
-    return users.map(user => {
-      const avatarUrl = user.get('avatarUrl') || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
-      return {
-        key: user.get('id'),
-        value: user.get('id'),
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-        image: { avatar: true, src: avatarUrl },
-      }
-    }).toArray();
   }
 
   okrPeriodsOption(okrPeriods) {
@@ -48,10 +38,6 @@ class MenuBar extends Component {
 
   handleOkrPeriodChange(event, { value }) {
     this.props.changeOkrPeriod(value);
-  }
-
-  handleUserChange(event, { value }) {
-    this.props.changeUser(value);
   }
 
   handleChangeOrganization(event, { value }) {
@@ -100,12 +86,7 @@ class MenuBar extends Component {
           }
         </Menu.Item>
         <Menu.Item>
-          {!this.props.users.isEmpty() &&
-            <Dropdown search selection
-                      options={this.usersOption(this.props.users)}
-                      defaultValue={this.props.menu.get('userId')}
-                      onChange={this.handleUserChange.bind(this)} />
-          }
+          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.menu.get('userId')} onChange={(value) => this.props.changeUser(value)} /> }
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>

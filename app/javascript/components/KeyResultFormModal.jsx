@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, Dropdown, Icon } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Icon } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
+import KeyResultMemberSelectBox from './KeyResultMemberSelectBox';
+import UserSelectBox from './UserSelectBox';
 import moment from 'moment';
 
 class KeyResultFormModal extends Component {
@@ -8,7 +10,7 @@ class KeyResultFormModal extends Component {
     super(props);
     this.state = {
       expiredDate: null,
-      keyResultMembers: [null]
+      keyResultMembers: []
     }
   }
 
@@ -18,29 +20,13 @@ class KeyResultFormModal extends Component {
     return moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
   }
 
-  usersOption(users, isOwner) {
-    return users.map(item => {
-      const id = isOwner ? item.get('ownerId') : item.get('id');
-      return {
-        key: id,
-        value: id,
-        text: `${item.get('lastName')} ${item.get('firstName')}`,
-      }
-    }).toArray();
-  }
-
   handleCalendar(date) {
     this.setState({expiredDate: date})
   }
 
-  addKeyResultMembers(value, boxIndex) {
+  addKeyResultMembers(value) {
     const keyResultMembers = this.state.keyResultMembers;
-
-    keyResultMembers[boxIndex] = value;
-    if (boxIndex === keyResultMembers.length - 1) {
-      keyResultMembers.push(null);
-    }
-
+    keyResultMembers.push(value);
     this.setState({
       keyResultMembers: keyResultMembers
     })
@@ -52,27 +38,15 @@ class KeyResultFormModal extends Component {
     })
   }
 
-  participantList(options, add, remove) {
-    const list = this.state.keyResultMembers.map((id, idx) => {
-      const icon = id !== null && <Icon name="close" className="key-result-members__close" onClick={() => {remove(id)}} />
-      return <div key={idx} className="key-result-members__item">
-              <Dropdown selection value={id} options={options} onChange={(e, { value }) => {add(value, idx)}}/>
-              {icon}
-             </div>
-    })
-
-    return <div className="key-result-members">{list}</div>;
-  }
-
   add() {
     const keyResult = {
       name: this.nameInput.inputRef.value,
       objectiveId: this.props.objective.get('id'),
-      ownerId: this.ownerSelect.getSelectedItem().value,
+      ownerId: this.ownerSelect.selectedValue,
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
-      keyResultMembers: this.state.keyResultMembers.filter(item => item !== null)
+      keyResultMembers: this.state.keyResultMembers
     };
     this.props.addKeyResult(keyResult);
     this.nameInput.inputRef.value = '';
@@ -91,7 +65,7 @@ class KeyResultFormModal extends Component {
     if (willClose) {
       this.setState({
         expiredDate: null,
-        keyResultMembers: [null]
+        keyResultMembers: []
       });
     }
   }
@@ -143,13 +117,23 @@ class KeyResultFormModal extends Component {
             <Form.Group>
               <Form.Field>
                 <label>責任者</label>
-                <Dropdown selection defaultValue={this.props.objective.get('ownerId')} options={this.usersOption(this.props.users, true)} ref={node => {this.ownerSelect = node;}}/>
+                <UserSelectBox
+                  users={this.props.users} 
+                  defaultValue={this.props.objective.get('ownerId')} 
+                  isOwner={true}
+                  ref={node => {this.ownerSelect = node;}}
+                />
               </Form.Field>
             </Form.Group>
             <Form.Group>
               <Form.Field>
                 <label>関係者</label>
-                {this.participantList(this.usersOption(this.props.users), this.addKeyResultMembers.bind(this), this.removeKeyResultMembers.bind(this))}
+                <KeyResultMemberSelectBox 
+                  users={this.props.users}
+                  keyResultMembers={this.state.keyResultMembers}
+                  add={this.addKeyResultMembers.bind(this)}
+                  remove={this.removeKeyResultMembers.bind(this)}
+                />
               </Form.Field>
             </Form.Group>
           </Form>

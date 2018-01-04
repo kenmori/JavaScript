@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Dropdown, Button } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
+import UserSelectBox from '../UserSelectBox';
 
 class ObjectiveDetail extends Component {
   constructor(props) {
@@ -50,8 +51,12 @@ class ObjectiveDetail extends Component {
         </Form.Field>
         <Form.Field>
           <label>責任者</label>
-          <Dropdown selection options={this.getUsersOption(this.props.users)}
-                      value={objective.get('ownerId')} onChange={(e, {value}) => this.updateObjective({ownerId: value})}/>
+          <UserSelectBox
+            users={this.props.users}
+            defaultValue={objective.get('ownerId')}
+            isOwner={true}
+            onChange={(value) => this.updateObjective({ownerId: value})}
+          />
         </Form.Field>
         <Form.Field>
           <label>Objective の説明</label>
