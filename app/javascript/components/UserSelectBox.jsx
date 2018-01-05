@@ -38,7 +38,7 @@ class UserSelectBox extends Component {
   render() {
     const value = this.props.defaultValue || null;
     return (
-      <div className="user-selectbox">
+      <div>
         <Dropdown 
           search 
           selection
