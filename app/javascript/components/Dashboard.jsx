@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Menu, Button } from 'semantic-ui-react';
 import OkrList from '../containers/OkrList';
 import OkrMap from '../containers/OkrMap';
 
@@ -37,13 +38,26 @@ export default class Dashboard extends Component {
     return (
       <div className="dashboard">
         <section className="okr-list-section">
-          <h2>OKR 一覧 ({this.props.objectives.size})</h2>
+          <div className='okr-list-section__menu'>
+            <Menu compact secondary pointing>
+              <Menu.Item header>OKR 一覧</Menu.Item>
+              <Menu.Item active>Objective ({this.props.objectives.size})</Menu.Item>
+              <Menu.Item>Key Result (0)</Menu.Item>
+              <Menu.Item>
+                <Button compact icon="plus" content='OKR を作成する' onClick={this.props.openObjectiveFormModal} />
+              </Menu.Item>
+            </Menu>
+          </div>
           <OkrList objectives={this.props.objectives}
                    selectedObjective={selectedObjective}
                    onSelect={this.selectObjective} />
         </section>
         <section className='okr-map-section'>
-          <h2>OKR マップ</h2>
+          <div className='okr-map-section__menu'>
+            <Menu compact secondary pointing>
+              <Menu.Item header>OKR マップ</Menu.Item>
+            </Menu>
+          </div>
           {selectedObjective && <OkrMap objective={selectedObjective} />}
         </section>
       </div>

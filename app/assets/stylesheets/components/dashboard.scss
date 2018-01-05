@@ -4,10 +4,8 @@
   height: 100%;
 
   .okr-list-section {
-    padding: 0 24px 16px;
-
-    h2 {
-      font-size: 14px;
+    .okr-list-section__menu {
+      margin-left: 16px;
     }
   }
 
@@ -15,9 +13,8 @@
     height: 100%;
     background-color: #FAFAFA;
 
-    h2 {
-      font-size: 14px;
-      margin: 16px 0 0 24px;
+    .okr-map-section__menu {
+      margin-left: 16px;
     }
   }
 }
