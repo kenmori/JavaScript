@@ -283,7 +283,7 @@ class KeyResultDetail extends Component {
         
         <Form.Field className='values input-date-picker'>
           <label className="field-title">期限</label>
-          <DatePicker likeEditable={true} dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+          <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
         </Form.Field>
         <Form.Group>
           <Form.Field>
