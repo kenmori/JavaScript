@@ -42,7 +42,6 @@ class UserSelectBox extends Component {
         <Dropdown 
           search 
           selection
-          simple
           options={this.usersOption(this.props.users)}
           defaultValue={value}
           onChange={this.onHandleChange.bind(this)}
