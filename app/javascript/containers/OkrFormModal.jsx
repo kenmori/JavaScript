@@ -3,28 +3,13 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
+import { denormalizeObjective } from '../schemas/index'
 
 const mapStateToProps = (state) => {
-  function findObjective(objectives, id) {
-    let objective = undefined;
-    objectives.forEach(item => {
-      if (item.get('id') === id) {
-        objective = item;
-        return false;
-      }
-      if (item.get('childObjectives')) {
-        objective = findObjective(item.get('childObjectives'), id);
-        if (objective) {
-          return false;
-        }
-      }
-    });
-    return objective;
-  }
-
+  let objective = state.entities.objectives.get(state.dialogs.getIn(['okrForm', 'objectiveId']));
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
-    objective: findObjective(state.objectives, state.dialogs.getIn(['okrForm', 'objectiveId'])),
+    objective: objective && denormalizeObjective(objective, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
   };

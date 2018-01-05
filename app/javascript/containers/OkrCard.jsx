@@ -1,11 +1,11 @@
 import OkrCard from '../components/OkrMap/OkrCard';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
+import { denormalizeObjectives } from "../schemas";
 
 const mapStateToProps = (state) => {
   return {
-    keyResults: state.keyResults,
-    objectives: state.objectives,
+    objectives: denormalizeObjectives(state),
     users: state.users,
   };
 };

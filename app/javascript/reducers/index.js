@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import keyResults from './keyResults';
+import entities from './entities';
 import objectives from './objectives';
 import users from './users';
 import okrSettings from './okrSettings';
@@ -13,7 +13,7 @@ import password from './password';
 import loading from './loading';
 
 const reducers = combineReducers({
-  keyResults,
+  entities,
   objectives,
   users,
   okrSettings,
