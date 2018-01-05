@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, Icon } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, Icon, List } from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import KeyResultMemberSelectBox from './KeyResultMemberSelectBox';
 import UserSelectBox from './UserSelectBox';
@@ -72,71 +72,83 @@ class KeyResultFormModal extends Component {
 
   
   render() {
-    if (this.props.users.isEmpty() || this.props.objective.isEmpty()) {
-      return null;
-    }
+    const objective = this.props.objective;
+
     return (
-      <Modal open={this.props.isOpen} className="key-result-form-modal" size="small">
+      <Modal open={this.props.isOpen} className="keyresult-form-modal" size="large">
         <Modal.Header>
           KeyResult を追加する
         </Modal.Header>
         <Modal.Content>
-          <Form>
-          <Form.Group widths='equal'>
-              <Form.Field>
-                <label>紐付ける Objective</label>
-                <Input value={this.props.objective.get('name')} readOnly />
-              </Form.Field>
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>Key Result 名</label>
-                <Input placeholder='Objective 達成のカギとなる成果を入力してください' ref={node => {this.nameInput = node;}}/>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group>
-              <Form.Field>
-                <div className="flex-center">
-                  <div style={{marginRight: "10px"}}>
-                    <label>目標値</label>
-                    <Input type="number" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
-                  </div>
-                  <div>
-                    <label>単位</label>
-                    <Input type="text" placeholder='例：円、件、人' ref={node => {this.unitInput = node;}}/>
-                  </div>
+          <div className="keyresult-form-modal__body">
+            <div className="keyresult-form-modal__sidebar sidebar">
+              <div className="sidebar__item">
+                <div className="sidebar__title">紐付ける Objective</div>
+                <div className="sidebar__content">
+                  <List>
+                    <List.Item>
+                      <List.Content>
+                        <List.Header>{objective.get('name')}</List.Header>
+                        <List.Description>{objective.get('description')}</List.Description>
+                      </List.Content>
+                    </List.Item>
+                  </List>
                 </div>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group>
-              <Form.Field>
-                <label>期限</label>
-                <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
-              </Form.Field>
-            </Form.Group>
-            <Form.Group>
-              <Form.Field>
-                <label>責任者</label>
-                <UserSelectBox
-                  users={this.props.users} 
-                  defaultValue={this.props.objective.get('ownerId')} 
-                  isOwner={true}
-                  ref={node => {this.ownerSelect = node;}}
-                />
-              </Form.Field>
-            </Form.Group>
-            <Form.Group>
-              <Form.Field>
-                <label>関係者</label>
-                <KeyResultMemberSelectBox 
-                  users={this.props.users}
-                  keyResultMembers={this.state.keyResultMembers}
-                  add={this.addKeyResultMembers.bind(this)}
-                  remove={this.removeKeyResultMembers.bind(this)}
-                />
-              </Form.Field>
-            </Form.Group>
-          </Form>
+              </div>
+            </div>
+            <div className="keyresult-form-modal__main">
+              <Form>
+                <Form.Group widths='equal'>
+                  <Form.Field>
+                    <label>Key Result 名</label>
+                    <Input placeholder='Objective 達成のカギとなる成果を入力してください' ref={node => {this.nameInput = node;}}/>
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Field>
+                    <div className="flex-center">
+                      <div style={{marginRight: "10px"}}>
+                        <label>目標値</label>
+                        <Input type="number" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
+                      </div>
+                      <div>
+                        <label>単位</label>
+                        <Input type="text" placeholder='例：円、件、人' ref={node => {this.unitInput = node;}}/>
+                      </div>
+                    </div>
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Field>
+                    <label>期限</label>
+                    <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Field>
+                    <label>責任者</label>
+                    <UserSelectBox
+                      users={this.props.users} 
+                      defaultValue={this.props.objective.get('ownerId')} 
+                      isOwner={true}
+                      ref={node => {this.ownerSelect = node;}}
+                    />
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Field>
+                    <label>関係者</label>
+                    <KeyResultMemberSelectBox 
+                      users={this.props.users}
+                      keyResultMembers={this.state.keyResultMembers}
+                      add={this.addKeyResultMembers.bind(this)}
+                      remove={this.removeKeyResultMembers.bind(this)}
+                    />
+                  </Form.Field>
+                </Form.Group>
+              </Form>
+            </div>
+          </div>
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>

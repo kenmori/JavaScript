@@ -1,3 +1,40 @@
-.key-result-form-modal {
+.keyresult-form-modal {
+    .content {
+      display: block;
+      input[readonly] {
+        opacity: .65;
+      }
+    }
 
-}
+    .keyresult-form-modal__main {
+        width: 70%;
+        padding-left: 20px;
+        .field {
+            margin-bottom: 10px;
+        }
+    }
+    
+    .keyresult-form-modal__body {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .sidebar {
+        width: 30%;
+        .sidebar__item {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid rgba(34,36,38,.15);
+        }
+        .sidebar__content {
+            padding-left: 1rem;
+        }
+        .sidebar__title {
+            font-weight: bold;
+            border-bottom: 1px solid rgba(34,36,38,.15);
+            margin-bottom: 10px;
+            padding-bottom: 3px;
+        }
+    }
+  }
