@@ -12,6 +12,7 @@ export default handleActions({
     [ActionTypes.UPDATED_KEY_RESULT]: merge,
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => (state.delete(payload.get('id'))),
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
+      if (!payload.getIn(['entities', 'keyResults'])) return state;
       return state.merge(
         payload.getIn(['entities', 'keyResults'])
           .mapKeys((key) => (parseInt(key))) // normalizeした結果ではidがstringになっているためintへ変換する
