@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Button } from 'semantic-ui-react';
+import { Menu, Button, Segment, Header } from 'semantic-ui-react';
 import OkrList from '../containers/OkrList';
 import OkrMap from '../containers/OkrMap';
 
@@ -7,6 +7,7 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFetched: false,
       selectedObjectiveId: null,
     };
   }
@@ -22,7 +23,10 @@ export default class Dashboard extends Component {
       this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
     } else if (this.props.objectives !== nextProps.objectives) {
       // Objective 一覧取得時や追加/削除時は最初の Objective を選択する
-      this.selectObjective(nextProps.objectives.first())
+      this.selectObjective(nextProps.objectives.first());
+      this.setState({
+        isFetched: true,
+      });
     }
   }
 
@@ -32,8 +36,16 @@ export default class Dashboard extends Component {
     });
   }
 
+  emptyViewHtml() {
+    return (
+      <Segment compact padded='very' textAlign='center' className='empty-view'>
+        <Header as='h4'>Objective がありません</Header>
+        <Button icon="plus" content='OKR を作成する' onClick={this.props.openObjectiveFormModal} />
+      </Segment>
+    );
+  }
+
   render() {
-    if (!this.props.objectives) return;
     const selectedObjective = this.props.objectives.find((objective) => objective.get('id') === this.state.selectedObjectiveId);
     return (
       <div className="dashboard">
@@ -58,7 +70,10 @@ export default class Dashboard extends Component {
               <Menu.Item header>OKR マップ</Menu.Item>
             </Menu>
           </div>
-          {selectedObjective && <OkrMap objective={selectedObjective} />}
+          {selectedObjective
+            ? <OkrMap objective={selectedObjective} />
+            : this.state.isFetched && this.emptyViewHtml()
+          }
         </section>
       </div>
     );
