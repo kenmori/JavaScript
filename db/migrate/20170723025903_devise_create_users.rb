@@ -36,6 +36,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       t.integer  :owner_id, null: false
       t.timestamps null: false
       t.boolean :admin, default: false
+      t.string :avatar
+      t.integer :current_organization_id
     end
 
     add_index :users, :email,                unique: true
