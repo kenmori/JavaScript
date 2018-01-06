@@ -1,4 +1,5 @@
 class OkrPeriod < ApplicationRecord
   belongs_to :organization
-  enum status: { inactive: 0, active: 1 }
+
+  scope :current, -> { where('month_start <= ? AND month_end >= ?', Date.today, Date.today) }
 end
