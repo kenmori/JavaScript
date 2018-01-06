@@ -39,7 +39,14 @@ const mapDispatchToProps = dispatch => {
       dispatch(objectiveActions.removeObjective(id));
     },
     showOkrDetail: (okrType, targetId) => {
-      dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
+      if (okrType === 'objective') {
+        dispatch(dialogActions.showOkrDetail({ okrType }));
+      } else {
+        dispatch(dialogActions.showOkrDetail({ okrType, targetId: -1 }));
+        setTimeout(() => {
+          dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
+        }, 0);
+      }
     }
   };
 };
