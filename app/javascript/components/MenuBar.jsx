@@ -23,7 +23,7 @@ class MenuBar extends Component {
       return {
         key: okrPeriod.get('id'),
         value: okrPeriod.get('id'),
-        text: `${okrPeriod.get('year')}年${okrPeriod.get('periodNumber')}期`,
+        text: `${okrPeriod.get('name')}`,
       }
     }).toArray();
   }
