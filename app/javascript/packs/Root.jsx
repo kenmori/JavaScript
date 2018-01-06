@@ -15,6 +15,7 @@ import PasswordEditedPage from '../containers/PasswordEditedPage';
 import SignInPage from '../containers/SignInPage';
 import SettingsPage from '../containers/SettingsPage';
 import Loading from '../containers/Loading';
+import ErrorModal from '../containers/ErrorModal';
 
 const store = configureStore();
 
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </Switch>
         </Router>
         <Loading />
+        <ErrorModal />
       </div>
     </Provider>,
     document.body.appendChild(document.createElement('div')),

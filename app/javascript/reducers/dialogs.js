@@ -46,6 +46,12 @@ export default handleActions({
     [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
       state.set('logoImage', fromJS({ isOpen: false, imageData: null }))
     ),
+    [ActionTypes.OPEN_ERROR_MODAL]: (state, { payload }) => (
+      state.set('error', fromJS({ isOpen: true, message: payload.message }))
+    ),
+    [ActionTypes.CLOSE_ERROR_MODAL]: (state) => (
+      state.set('error', fromJS({ isOpen: false, message: ''}))
+    ),
   },
   fromJS({
     objectiveForm: {
@@ -69,5 +75,9 @@ export default handleActions({
       isOpen: false,
       imageData: '',
     },
+    error: {
+      isOpen: false,
+      message: '',
+    }
   }),
 );

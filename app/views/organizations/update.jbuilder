@@ -1,1 +1,4 @@
-json.organization @organization
+json.organization do
+    json.partial!(@organization)
+  end
+  # 

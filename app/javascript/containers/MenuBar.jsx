@@ -1,7 +1,7 @@
 import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
-import okrPeriodActions from '../actions/okrPeriods';
+import organizationActions from '../actions/organizations';
 import menuActions from '../actions/menu';
 import sessionActions from '../actions/sessions';
 import history from '../utils/history';
@@ -20,16 +20,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => {
-      dispatch(userActions.fetchUsers());
-    },
-    fetchOkrPeriods: (organizationId) => {
-      dispatch(okrPeriodActions.fetchOkrPeriods(organizationId));
+    fetchOrganization: (id) => {
+      dispatch(organizationActions.fetchOrganization({id}));
     },
     changeUser: (userId) => {
+      if (location.pathname !== '/') {
+        history.push('/');
+      }
       dispatch(menuActions.changeUser(userId));
     },
     changeOkrPeriod: (okrPeriodId) => {
+      if (location.pathname !== '/') {
+        history.push('/');
+      }
       dispatch(menuActions.changeOkrPeriod(okrPeriodId));
     },
     changeCurrentOrganizationId: (id, organizationId) => {

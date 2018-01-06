@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import OkrCard from '../../containers/OkrCard';
+import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List } from 'immutable'
 
@@ -9,117 +10,199 @@ class OkrMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pointsList: null,
-      width: 0,
-      height: 0,
-      selectedCardId: -1,
-      groups: this.createOkrGroups(props.objective),
+      visibleIds: null,
+      okrPathPropsList: null,
+      objectivesList: null,
+      rootObjective: null,
     };
+    this.onResize = () => this.updateOkrPathProps(this.state);
+  }
+
+  componentWillMount() {
+    this.createObjectivesList(this.props.objective);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.objective !== nextProps.objective) {
-      this.setState({
-        groups: this.createOkrGroups(nextProps.objective),
-      });
+      this.createObjectivesList(nextProps.objective);
     }
   }
 
-  createOkrGroups(objective) {
-    // TODO: 将来的には親と子だけでなく祖先や子孫も展開して描画できるようにする
-    const objectiveGroup = List.of(objective);
-    if (objective.get('childObjectives').isEmpty()) {
-      return List.of(objectiveGroup);
+  createObjectivesList(objective, visibleIds = List.of(objective.get('id'))) {
+    const findRoot = (objective, rootId) => {
+      if (objective.get('id') === rootId) {
+        return objective;
+      } else {
+        const parentId = objective.get('parentObjectiveId');
+        // FIXME: this.props.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
+        const parent = this.props.objectives.find(objective => objective.get('id') === parentId)
+        return findRoot(parent, rootId);
+      }
+    };
+
+    const collectDescendants = (result, objective) => {
+      const childObjectives = objective.get('childObjectives');
+      if (!childObjectives.isEmpty()) {
+        result = result.push(childObjectives);
+        const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')))
+        if (child) {
+          result = collectDescendants(result, child);
+        }
+      }
+      return result;
+    };
+
+    let rootObjective;
+    let objectivesList;
+    if (visibleIds.isEmpty()) {
+      // 表示リストが空の場合はルート要素のみ表示する (子は表示しない)
+      rootObjective = this.state.rootObjective;
+      objectivesList = List.of(List.of(rootObjective));
     } else {
-      return List.of(objectiveGroup, objective.get('childObjectives'));
+      rootObjective = findRoot(objective, visibleIds.first());
+      objectivesList = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
     }
-  }
-
-  updatePointsList() {
-    const edges = this.state.groups.map(group => (
-      group.reduce((result, objective) => {
-        const element = findDOMNode(this.refs[this.getKey(objective)]);
-        const x = element.offsetLeft + (element.offsetWidth / 2);
-        return result.push({
-          top: { x: x, y: element.offsetTop },
-          bottom: { x: x, y: element.offsetTop + element.offsetHeight },
-        });
-      }, List())
-    ));
-    const pointsList = edges.reduce((result, _, key, iter) => {
-      if (key === 0) return result;
-
-      const prev = iter.get(key - 1).first();
-      return iter.get(key).map(next => {
-        const centerY = (prev.bottom.y + next.top.y) / 2;
-        return `${prev.bottom.x},${prev.bottom.y} ${prev.bottom.x},${centerY} ${next.top.x},${centerY} ${next.top.x},${next.top.y}`
-      });
-    }, List());
-
-    const map = findDOMNode(this.refs.map);
     this.setState({
-      pointsList: pointsList,
-      width: map.offsetWidth,
-      height: map.offsetHeight,
+      visibleIds: visibleIds,
+      objectivesList: objectivesList,
+      rootObjective: rootObjective,
     });
   }
 
-  componentDidUpdate(prevProps, _prevState) {
-    // componentDidUpdateではsetStateするべきではないが、オブジェクティブ同士のパスを表示するには一度描画したあとにDOMの位置情報を更新する必要があるため許容する
-    if (prevProps !== this.props) {
-      this.updatePointsList(this.props.objective);
-    }
+  updateOkrPathProps({ objectivesList }) {
+    // リンク情報の構築
+    const links = objectivesList.reduce((result, objectives) => {
+      if (result.isEmpty()) {
+        // ルート要素に親がいる場合は親とのリンクを追加する
+        const parentId = objectives.first().get('parentObjectiveId');
+        if (parentId) {
+          result = result.push({
+            fromId: parentId,
+            toIds: objectives.map(objective => objective.get('id')),
+          });
+        }
+      }
+
+      // 子がいる場合は子とのリンクを追加する
+      objectives.forEach(objective => {
+        const childObjectives = objective.get('childObjectives');
+        if (!childObjectives.isEmpty()) {
+          result = result.push({
+            fromId: objective.get('id'),
+            toIds: childObjectives.map(objective => objective.get('id')),
+          });
+        }
+      });
+
+      return result;
+    }, List());
+
+    // リンク情報からパス情報を作成
+    const okrPathPropsList = links.map(link => {
+      let collapsedParent = false;
+      let collapsedChild = false;
+
+      let fromPoint;
+      const fromRef = this.refs[`objective_${link.fromId}`];
+      if (fromRef) {
+        const element = findDOMNode(fromRef);
+        const x = element.offsetLeft + (element.offsetWidth / 2);
+        fromPoint = { x: x, y: element.offsetTop + element.offsetHeight };
+      } else {
+        collapsedParent = true;
+        fromPoint = { x: 0, y: 0 };
+      }
+
+      const toPoints = link.toIds.map(toId => {
+        const toRef = this.refs[`objective_${toId}`];
+        if (toRef) {
+          const element = findDOMNode(toRef);
+          const x = element.offsetLeft + (element.offsetWidth / 2);
+          return { x: x, y: element.offsetTop };
+        } else {
+          collapsedChild = true;
+          return { x: 0, y: 0 };
+        }
+      });
+
+      const mapElement = findDOMNode(this.refs.map);
+      return {
+        width: mapElement.offsetWidth,
+        height: mapElement.offsetHeight,
+        fromPoint: fromPoint,
+        toPoints: toPoints,
+        toAncestor: collapsedParent,
+        isExpanded: !collapsedParent && !collapsedChild,
+        targetId: link.fromId,
+      };
+    });
+
+    this.setState({
+      okrPathPropsList: okrPathPropsList,
+    });
   }
 
   componentDidMount() {
-    this.updatePointsList(this.props.objective);
-    window.addEventListener('resize', () => this.updatePointsList(this.props.objective));
+    this.updateOkrPathProps(this.state);
+    window.addEventListener('resize', this.onResize);
   }
 
-  pathSvg() {
-    if (!this.state.pointsList || this.state.pointsList.isEmpty()) return null;
-    return (
-      <svg width={this.state.width} height={this.state.height} style={{ position: 'absolute', top: 0, left: 0 }}>
-        {this.state.pointsList.map((points, key) => (
-          <polyline
-            key={key}
-            points={points}
-            strokeWidth='2'
-            stroke='silver'
-            fill='none'
-          />
-        ))}
-      </svg>
-    );
+  componentDidUpdate(prevProps, prevState) {
+    // componentDidUpdateではsetStateするべきではないが、コンポーネント間のパスを描画するには
+    // コンポーネントをいったん描画してDOMの位置情報を取得する必要があるため許容する
+    if ((prevProps.users.isEmpty() && !this.props.users.isEmpty()) // アバター表示により OkrCard の高さが変わるため再描画
+      || (prevState.objectivesList !== this.state.objectivesList)) { // 展開/折り畳みによる再描画
+      this.updateOkrPathProps(this.state);
+    }
   }
 
-  getKey = objective => {
-    return `objective_${objective.get('id')}`;
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
-  selectCard = cardId => {
-    this.setState({
-      selectedCardId: cardId,
-    });
+  updateObjectivesList({ toAncestor, isExpanded, targetId }) {
+    let visibleIds;
+    if (isExpanded) {
+      const index = this.state.visibleIds.indexOf(targetId);
+      if (toAncestor) {
+        visibleIds = this.state.visibleIds.skip(index + 1);
+      } else {
+        visibleIds = this.state.visibleIds.take(index);
+      }
+    } else {
+      if (toAncestor) {
+        visibleIds = this.state.visibleIds.unshift(targetId);
+      } else {
+        // 表示系統を切り替えるため親の ID を検索する
+        const parentId = this.state.objectivesList.find(objectives =>
+          objectives.some(objective => objective.get('id') === targetId))
+          .first().get('parentObjectiveId');
+        const index = this.state.visibleIds.indexOf(parentId);
+        visibleIds = this.state.visibleIds.take(index + 1).push(targetId);
+      }
+    }
+    this.createObjectivesList(this.props.objective, visibleIds);
   }
 
   render() {
+    const selectedId = this.props.objective.get('id');
     return (
       <div className='okr-map' ref='map'>
-        {this.state.groups.map((group, key) => (
+        {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
-            {group.map((objective, key) => (
+            {objectives.map((objective, key) => (
               <OkrCard
                 key={key}
                 objective={objective}
-                onSelect={this.selectCard}
-                isSelected={this.state.selectedCardId === objective.get('id')}
-                ref={this.getKey(objective)}
+                isSelected={objective.get('id') === selectedId}
+                ref={`objective_${objective.get('id')}`}
               />
             ))}
           </Card.Group>
         ))}
-        {this.pathSvg()}
+        {this.state.okrPathPropsList && this.state.okrPathPropsList.map((okrPathProps, key) => (
+          <OkrPath key={key} {...okrPathProps} onClick={this.updateObjectivesList.bind(this, okrPathProps)} />
+        ))}
       </div>
     );
   }
@@ -127,6 +210,7 @@ class OkrMap extends Component {
 
 OkrMap.propTypes = {
   objective: PropTypes.object.isRequired,
+  objectives: PropTypes.object.isRequired,
 };
 
 export default OkrMap;

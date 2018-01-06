@@ -4,11 +4,6 @@ import { Tab } from 'semantic-ui-react';
 import UsersTable from './UsersTable';
 
 class UserSettingTab extends Component {
-
-  componentDidMount() {
-    this.props.fetchUsers();
-  }
-
   addUser = user => {
     this.props.addUser(user);
   };
@@ -44,7 +39,7 @@ class UserSettingTab extends Component {
 }
 
 UserSettingTab.propTypes = {
-  fetchUsers: PropTypes.func.isRequired,
+  organization: PropTypes.object,
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,

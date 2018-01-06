@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Button, Form, Icon, Modal, Segment, Dropdown } from 'semantic-ui-react';
+import { Button, Form, Icon, Modal, Segment } from 'semantic-ui-react';
 import Sidebar from './Sidebar'
 import ObjectiveDetail from './ObjectiveDetail'
 import KeyResultDetail from './KeyResultDetail'

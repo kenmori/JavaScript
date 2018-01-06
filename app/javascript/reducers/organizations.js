@@ -8,28 +8,28 @@ const initialState = fromJS({
   list: gon.get('organizations')
 });
 
-function isSelectedData(state, payload) {
-  return state.get('selected').get('id') === payload.organization.get('id')
+function newSelectedData(state, payload) {
+  const isSelectedData = state.get('selected').get('id') === payload.organization.get('id')
+  
+  if(isSelectedData) {
+    const newData = state.get('selected').merge(payload.organization);
+    return state.set('selected', newData);
+  }
+
+  return state;
 }
 
 export default handleActions({
   [ActionTypes.UPDATE_CURRENT_ORGANIZATION_ID]: (state, { payload }) => (
     state
   ),
-  [ActionTypes.UPDATED_ORGANIZATIONM]: (state, { payload }) => {
-    if(isSelectedData(state, payload)) {
-      const newSelectedData = state.get('selected').merge(payload.organization);
-      return state.set('selected', newSelectedData);
-    }
-
-    return state;
-  },
-  [ActionTypes.UPDATED_LOGO]: (state, { payload }) => {
-    if(isSelectedData(state, payload)) {
-      const newSelectedData = state.get('selected').merge(payload.organization);
-      return state.set('selected', newSelectedData);
-    }
-
-    return state;
-  }
+  [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => (
+    newSelectedData(state, payload)
+  ),
+  [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => (
+    newSelectedData(state, payload)
+  ),
+  [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
+    newSelectedData(state, payload)
+  )
 }, initialState);

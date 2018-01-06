@@ -4,11 +4,21 @@
     margin-right: 8px;
   }
 
-  .version {
-    color: $PRIMARY_COLOR;
-    font-size: large;
-    margin-left: 4px;
-    vertical-align: super;
+  .header {
+    &::after {
+      content: 'β';
+      color: $PRIMARY_COLOR;
+      font-size: medium;
+      margin-top: -16px;
+      margin-left: 4px;
+    }
+
+    .logo__img {
+      max-width: 80px;
+      max-height: 40px;
+      width: auto;
+      height: auto;
+    }
   }
 
   .avatar__img.is-small {

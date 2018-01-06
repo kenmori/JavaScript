@@ -1,33 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
+import {Dropdown, Menu} from 'semantic-ui-react';
 import logo_image from '../images/logo.png'
+import UserSelectBox from './UserSelectBox';
 import Avatar from '../containers/Avatar';
 import Logo from './Logo';
 
 class MenuBar extends Component {
 
   componentDidMount() {
-    this.props.fetchUsers();
-    this.props.fetchOkrPeriods(this.props.organization.get('id'));
+    this.props.fetchOrganization(this.props.organization.get('id'));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.needLogout) {
       this.props.signOut()
     }
-  }
-
-  usersOption(users) {
-    return users.map(user => {
-      const avatarUrl = user.get('avatarUrl') || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
-      return {
-        key: user.get('id'),
-        value: user.get('id'),
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-        image: { avatar: true, src: avatarUrl },
-      }
-    }).toArray();
   }
 
   okrPeriodsOption(okrPeriods) {
@@ -50,10 +38,6 @@ class MenuBar extends Component {
 
   handleOkrPeriodChange(event, { value }) {
     this.props.changeOkrPeriod(value);
-  }
-
-  handleUserChange(event, { value }) {
-    this.props.changeUser(value);
   }
 
   handleChangeOrganization(event, { value }) {
@@ -87,20 +71,12 @@ class MenuBar extends Component {
   }
 
   render() {
-    const path = this.props.organization.get('logo').get('url');
     return (
       <Menu secondary className='menu-bar'>
-        <Menu.Item header>
-          <Header as='h1'>
-            { path ? 
-                <Logo path={path} /> : 
-                <div>
-                  <Image src={logo_image} href='/'/>
-                  <span className="version">β</span>
-                </div> 
-            }
-          </Header>
+        <Menu.Item header href='/'>
+          <Logo path={this.props.organization.get('logo').get('url')} size='tiny'/>
         </Menu.Item>
+        <Menu.Item href='/'>ホーム</Menu.Item>
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
@@ -110,12 +86,7 @@ class MenuBar extends Component {
           }
         </Menu.Item>
         <Menu.Item>
-          {!this.props.users.isEmpty() &&
-            <Dropdown search selection
-                      options={this.usersOption(this.props.users)}
-                      defaultValue={this.props.menu.get('userId')}
-                      onChange={this.handleUserChange.bind(this)} />
-          }
+          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.menu.get('userId')} onChange={(value) => this.props.changeUser(value)} /> }
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
@@ -132,8 +103,7 @@ class MenuBar extends Component {
 }
 
 MenuBar.propTypes = {
-  fetchUsers: PropTypes.func.isRequired,
-  fetchOkrPeriods: PropTypes.func.isRequired,
+  fetchOrganization: PropTypes.func.isRequired,
   changeUser: PropTypes.func.isRequired,
   changeOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,

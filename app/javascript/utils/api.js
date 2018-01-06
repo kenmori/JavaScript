@@ -84,19 +84,23 @@ const API = {
   get: (url, query = {}) => {
     if(Object.keys(query).length != 0) url += '?' +  queryString.stringify(decamelizeKeys(query));
     return fetch(url, { ...defaultHeaders, ...{ method: 'GET' } })
-      .then(handlerResponse);
+      .then(handlerResponse)
+      .catch(error => ({ error }));
   },
   post: (url, data) => {
     return fetch(url, { ...setContentType(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'POST' } })
-      .then(handlerResponse);
+      .then(handlerResponse)
+      .catch(error => ({ error }));
   },
   put: (url, data) => {
     return fetch(url, { ...setContentType(data, csrfHeaders), ...{ body: bodyData(data) }, ...{ method: 'PUT' } })
-      .then(handlerResponse);
+      .then(handlerResponse)
+      .catch(error => ({ error }));
   },
   delete: (url) => {
     return fetch(url, { ...csrfHeaders, ...{ method: 'DELETE' } })
-      .then(handlerResponse);
+      .then(handlerResponse)
+      .catch(error => ({ error }));
   },
 };
 

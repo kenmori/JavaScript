@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
   def index
     gon.login_user = current_user
+    gon.is_admin = current_user.admin?
     gon.login_user_avatar_url = current_user.avatar_url
     gon.organization = current_user.organization
     gon.organizations = current_user.organizations

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Dropdown, Button } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
+import UserSelectBox from '../UserSelectBox';
 
 class ObjectiveDetail extends Component {
   constructor(props) {
@@ -47,15 +48,15 @@ class ObjectiveDetail extends Component {
         <Form.Field className='values'>
           <label>Objective の進捗</label>
           <div className='progress-rate'>{objective.get('progressRate')}%</div>
-          <div className='slider'>
-            <input type='range' min='0' max='100' value={objective.get('progressRate')}
-                    step='1' data-unit='%' readOnly/>
-          </div>
         </Form.Field>
         <Form.Field>
           <label>責任者</label>
-          <Dropdown selection options={this.getUsersOption(this.props.users)}
-                      value={objective.get('ownerId')} onChange={(e, {value}) => this.updateObjective({ownerId: value})}/>
+          <UserSelectBox
+            users={this.props.users}
+            defaultValue={objective.get('ownerId')}
+            isOwner={true}
+            onChange={(value) => this.updateObjective({ownerId: value})}
+          />
         </Form.Field>
         <Form.Field>
           <label>Objective の説明</label>

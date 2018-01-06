@@ -4,6 +4,7 @@ import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
 const initialState = fromJS({
+  isAdmin: gon.get('isAdmin'),
   id: gon.getIn(['loginUser', 'id']),
   lastName: gon.getIn(['loginUser', 'lastName']),
   firstName: gon.getIn(['loginUser', 'firstName']),

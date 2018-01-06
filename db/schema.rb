@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20171223081436) do
     t.integer "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false
     t.string "avatar"
     t.integer "current_organization_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
