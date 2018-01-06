@@ -1,4 +1,4 @@
-import { schema, normalize } from 'normalizr';
+import { schema } from 'normalizr';
 
 const keyResultSchema = new schema.Entity('keyResults');
 const objectiveSchema = new schema.Entity('objectives');
@@ -7,9 +7,10 @@ objectiveSchema.define({
   keyResults: [keyResultSchema]
 });
 const objectiveListSchema = [objectiveSchema];
+const keyResultListSchema = [keyResultSchema];
 
 function denormalizeObjective(objective, entities) {
-  const denormalizedObjective = objective
+  return objective
     .set('keyResults', objective.get('keyResults').map((keyResultId) => {
       return entities.keyResults.get(keyResultId)
     }))
@@ -20,7 +21,6 @@ function denormalizeObjective(objective, entities) {
         return undefined;
       }
     }));
-  return denormalizedObjective;
 }
 
 function denormalizeObjectives(state) {
@@ -29,9 +29,23 @@ function denormalizeObjectives(state) {
   });
 }
 
+function denormalizeKeyResult(keyResult, entities) {
+  return keyResult
+    .set('objective', entities.objectives.get(keyResult.get('objectiveId')));
+}
+
+function denormalizeKeyResults(state) {
+  return state.keyResults.map((keyResultId) => {
+    return denormalizeKeyResult(state.entities.keyResults.get(keyResultId), state.entities)
+  });
+}
+
 export {
   objectiveListSchema,
+  keyResultListSchema,
   denormalizeObjective,
   denormalizeObjectives,
+  denormalizeKeyResult,
+  denormalizeKeyResults,
 };
 

@@ -9,6 +9,7 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { maximum: 255 }
 
   has_many :objectives, primary_key: :owner_id, foreign_key: :owner_id
+  has_many :key_results, primary_key: :owner_id, foreign_key: :owner_id
   has_many :key_result_members
   has_many :comments
 

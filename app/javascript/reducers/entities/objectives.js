@@ -37,7 +37,8 @@ export default handleActions({
       });
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      const keyResult = payload.get('keyResult');
+      const keyResultId = payload.get('result').first();
+      const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
       return state.updateIn([keyResult.get('objectiveId'), 'keyResults'], (keyResultIds) => keyResultIds.push(keyResult.get('id')));
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {

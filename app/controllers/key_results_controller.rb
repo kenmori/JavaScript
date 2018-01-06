@@ -1,8 +1,9 @@
 class KeyResultsController < ApplicationController
   def index
-    render json: KeyResult
-                   .joins({ owner: { user: :organization_member } })
-                   .where(organization_members: { organization_id: current_organization.id })
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
+    @key_results = @user.key_results.order(created_at: :desc)
   end
 
   def create

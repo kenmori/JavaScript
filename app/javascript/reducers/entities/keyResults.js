@@ -3,11 +3,21 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../../constants/actionTypes';
 
 function merge(state, { payload }) {
-  const keyResult = payload.get('keyResult');
-  return state.set(keyResult.get('id'), keyResult);
+  if (!payload.getIn(['entities', 'keyResults'])) return state;
+  // normalizeした結果ではidがstringになっているためintへ変換する
+  return state.merge(
+    payload.getIn(['entities', 'keyResults']).mapKeys((key) => (parseInt(key)))
+      .map(
+        (keyResult) => {
+          return keyResult
+            .update('objective', (objectiveId) => (parseInt(objectiveId)))
+        }
+      )
+  );
 }
 
 export default handleActions({
+    [ActionTypes.FETCHED_KEY_RESULTS]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: merge,
     [ActionTypes.UPDATED_KEY_RESULT]: merge,
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => (state.delete(payload.get('id'))),
@@ -20,4 +30,3 @@ export default handleActions({
     },
   }, Map()
 )
-
