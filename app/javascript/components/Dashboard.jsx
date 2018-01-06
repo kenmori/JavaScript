@@ -16,6 +16,7 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
+    this.props.fetchKeyResults(this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,6 +24,7 @@ export default class Dashboard extends Component {
     const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
     if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
       this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
+      this.props.fetchKeyResults(nextUserId);
     } else if (this.props.objectives !== nextProps.objectives) {
       // Objective 一覧取得時や追加/削除時は最初の Objective を選択する
       this.selectObjective(nextProps.objectives.first());
@@ -66,7 +68,7 @@ export default class Dashboard extends Component {
                 Objective ({this.props.objectives.size})
               </Menu.Item>
               <Menu.Item name='keyResult' active={activeItem === 'keyResult'} onClick={this.handleMenuItemClick}>
-                Key Result (0)
+                Key Result ({this.props.keyResults.size})
               </Menu.Item>
               <Menu.Item>
                 <Button compact icon="plus" content='OKR を作成する' onClick={this.props.openObjectiveFormModal} />
@@ -77,7 +79,8 @@ export default class Dashboard extends Component {
             ? <OkrList objectives={this.props.objectives}
                        selectedObjective={selectedObjective}
                        onSelect={this.selectObjective} />
-            : <KeyResultList />
+            : <KeyResultList keyResults={this.props.keyResults}
+                             onSelect={this.selectObjective} />
           }
         </section>
         <section className='okr-map-section'>

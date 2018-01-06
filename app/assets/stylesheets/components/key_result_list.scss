@@ -1,4 +1,9 @@
 .key-result-list {
+  overflow-y: scroll;
   margin: 16px 16px 16px 24px;
-  min-height: 195px;
+  height: 195px;
+
+  .key-result-table {
+    cursor: pointer;
+  }
 }
