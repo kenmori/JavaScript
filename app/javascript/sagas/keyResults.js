@@ -23,8 +23,8 @@ function* updateKeyResult({payload}) {
 }
 
 function* removeKeyResult({payload}) {
-  const result = yield call(API.delete, '/key_results/' + payload.id, { keyResult: payload });
-  yield put(keyResultActions.removedKeyResult(result));
+  const result = yield call(API.delete, '/key_results/' + payload.id);
+  yield put(keyResultActions.removedKeyResult(result.get('keyResult')));
 }
 
 export function *keyResultSagas() {

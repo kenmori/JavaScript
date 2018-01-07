@@ -42,8 +42,7 @@ export default handleActions({
       return state.updateIn([keyResult.get('objectiveId'), 'keyResults'], (keyResultIds) => keyResultIds.push(keyResult.get('id')));
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      const keyResult = payload.get('keyResult');
-      return state.updateIn([keyResult.get('objectiveId'), 'keyResults'], (keyResultIds) => (keyResultIds.filter((keyResultId) => keyResultId !== keyResult.get('id'))));
+      return state.updateIn([payload.get('objectiveId'), 'keyResults'], (keyResultIds) => (keyResultIds.filter((keyResultId) => keyResultId !== payload.get('id'))));
     },
   },
   Map()

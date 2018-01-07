@@ -3,7 +3,6 @@ import call from '../utils/call';
 import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
-import actions from '../actions/objectives';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 
@@ -25,7 +24,7 @@ function* updateObjective({payload}) {
 
 function* removeObjective({payload}) {
   yield call(API.delete, '/objectives/' + payload.id);
-  yield put(actions.removedObjective(payload.id));
+  yield put(objectiveActions.removedObjective(payload.id));
 }
 
 export function *objectiveSagas() {

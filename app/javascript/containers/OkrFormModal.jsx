@@ -32,8 +32,8 @@ const mapDispatchToProps = dispatch => {
     closeModal: () => {
       dispatch(dialogActions.closeOkrFormModal());
     },
-    removeKeyResult: (keyResult) => {
-      dispatch(keyResultActions.removeKeyResult(keyResult));
+    removeKeyResult: (id) => {
+      dispatch(keyResultActions.removeKeyResult(id));
     },
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));

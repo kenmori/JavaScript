@@ -16,7 +16,7 @@ const actions = createActions({
   [actionTypes.ADDED_KEY_RESULT]: keyResult => (normalizeKeyResults([keyResult.toJSON()])),
   [actionTypes.UPDATE_KEY_RESULT]: keyResult => (keyResult),
   [actionTypes.UPDATED_KEY_RESULT]: keyResult => (normalizeKeyResults([keyResult.toJSON()])),
-  [actionTypes.REMOVE_KEY_RESULT]: keyResult => (keyResult),
+  [actionTypes.REMOVE_KEY_RESULT]: id => (id),
   [actionTypes.REMOVED_KEY_RESULT]: keyResult => (keyResult),
 });
 
