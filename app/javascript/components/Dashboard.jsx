@@ -60,7 +60,12 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const activeItem = this.state.activeItem;
+    let activeItem = this.state.activeItem;
+    if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
+      activeItem = 'objective';
+    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0) {
+      activeItem = 'keyResult';
+    }
     return (
       <div className="dashboard">
         <section className="okr-list-section">

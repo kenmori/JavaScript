@@ -30,8 +30,14 @@ function denormalizeObjectives(state) {
 }
 
 function denormalizeKeyResult(keyResult, entities) {
-  return keyResult
-    .set('objective', denormalizeObjective(entities.objectives.get(keyResult.get('objectiveId')), entities));
+  const objective = entities.objectives.get(keyResult.get('objectiveId'));
+  if (objective) {
+    return keyResult
+      .set('objective', denormalizeObjective(objective, entities));
+  } else {
+    // FIXME: entities.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
+    return keyResult;
+  }
 }
 
 function denormalizeKeyResults(state) {
