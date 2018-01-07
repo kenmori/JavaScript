@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180106123700) do
+ActiveRecord::Schema.define(version: 20171127115903) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -48,23 +48,25 @@ ActiveRecord::Schema.define(version: 20180106123700) do
     t.string "name", null: false
     t.integer "objective_id", null: false
     t.integer "owner_id", null: false
-    t.integer "progress_rate", default: 0, null: false
+    t.integer "okr_period_id", null: false
+    t.integer "progress_rate"
     t.integer "target_value"
     t.integer "actual_value"
     t.string "value_unit"
     t.date "expired_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "okr_period_id", null: false
+    t.index ["created_at"], name: "index_key_results_on_created_at"
   end
 
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
     t.text "description"
     t.integer "parent_objective_id"
+    t.integer "parent_key_result_id"
     t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
-    t.integer "progress_rate", default: 0, null: false
+    t.integer "progress_rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_objectives_on_created_at"
