@@ -16,7 +16,7 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
-    this.props.fetchKeyResults(this.props.menu.get('userId'));
+    this.props.fetchKeyResults(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,7 +24,7 @@ export default class Dashboard extends Component {
     const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
     if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
       this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
-      this.props.fetchKeyResults(nextUserId);
+      this.props.fetchKeyResults(nextOkrPeriodId, nextUserId);
     } else if (this.props.objectives !== nextProps.objectives) {
       // Objective 一覧取得時や追加/削除時は最初の Objective を選択する
       this.selectObjective(nextProps.objectives.first());

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127115903) do
+ActiveRecord::Schema.define(version: 20180106123700) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.date "expired_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "okr_period_id", null: false
   end
 
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

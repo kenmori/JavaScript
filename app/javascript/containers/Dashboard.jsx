@@ -20,8 +20,8 @@ const mapDispatchToProps = dispatch => {
     fetchObjectives: (okrPeriodId, userId) => {
       dispatch(objectiveActions.fetchObjectives(okrPeriodId, userId));
     },
-    fetchKeyResults: userId => {
-      dispatch(keyResultActions.fetchKeyResults(userId));
+    fetchKeyResults: (okrPeriodId, userId) => {
+      dispatch(keyResultActions.fetchKeyResults(okrPeriodId, userId));
     },
     openObjectiveFormModal: () => {
       dispatch(dialogActions.openObjectiveFormModal());
