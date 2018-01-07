@@ -44,7 +44,7 @@ class UserSelectBox extends Component {
           selection
           simple
           options={this.usersOption(this.props.users)}
-          value={value}
+          defaultValue={value}
           onChange={this.onHandleChange.bind(this)}
           onBlur={() => this.isCancel = true} 
         />

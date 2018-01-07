@@ -24,7 +24,7 @@ class OkrFormModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
-      if(this.isRemovedKeyResult(nextProps)) {
+      if(nextProps.selectedOkr.get('targetId') !== -1 && this.isRemovedKeyResult(nextProps)) {
         this.showOkrDetail('objective');
       }
       this.setState({ 
