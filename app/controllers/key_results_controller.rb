@@ -1,8 +1,9 @@
 class KeyResultsController < ApplicationController
   def index
-    render json: KeyResult
-                   .joins({ owner: { user: :organization_member } })
-                   .where(organization_members: { organization_id: current_organization.id })
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
+    @key_results = @user.key_results.where(okr_period_id: params[:okr_period_id]).order(created_at: :desc)
   end
 
   def create
@@ -76,11 +77,11 @@ class KeyResultsController < ApplicationController
 
   def key_result_create_params
     params.require(:key_result)
-      .permit(:name, :objective_id, :owner_id, :target_value, :value_unit, :expired_date)
+      .permit(:name, :objective_id, :okr_period_id, :owner_id, :target_value, :value_unit, :expired_date)
   end
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :owner_id)
+      .permit(:name, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :owner_id)
   end
 end

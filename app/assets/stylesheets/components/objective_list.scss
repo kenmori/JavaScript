@@ -1,9 +1,10 @@
-.okr-list {
+.objective-list {
   overflow-x: auto;
   white-space: nowrap;
-  padding-right: 30px;
+  margin: 16px 16px 16px 24px;
+  height: 195px;
 
-  .okr-box {
+  .objective-box {
     display: inline-flex;
     flex-direction: column;
     margin-right: 30px;

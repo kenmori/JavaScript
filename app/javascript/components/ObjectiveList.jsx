@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
 
-class OkrList extends Component {
+class ObjectiveList extends Component {
   render() {
     const selectedId = this.props.selectedObjective && this.props.selectedObjective.get('id');
     return (
-      <div className="okr-list">
-        <a className="okr-box" href="javascript:void(0)" onClick={this.props.openObjectiveFormModal}>
-          <Button icon="plus" content='OKR を作成する' />
-        </a>
+      <div className="objective-list">
         {
           this.props.objectives.map((objective) => {
             const isSelected = objective.get('id') === selectedId;
             return (
-              <a className={`okr-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
-                 href="javascript:void(0)" onClick={() => this.props.onSelect(objective)}>
+              <a className={`objective-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
+                 href="javascript:void(0)" onClick={() => this.props.onSelectObjective(objective)}>
                 <div className='name'>{objective.get('name')}</div>
                 <OkrPieChart objective={objective} />
               </a>
@@ -27,13 +23,13 @@ class OkrList extends Component {
   }
 }
 
-OkrList.propTypes = {
+ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
   selectedObjective: PropTypes.object,
-  onSelect: PropTypes.func.isRequired,
+  onSelectObjective: PropTypes.func.isRequired,
 };
-OkrList.defaultProps = {
+ObjectiveList.defaultProps = {
   selectedObjective: null,
 };
 
-export default OkrList;
+export default ObjectiveList;
