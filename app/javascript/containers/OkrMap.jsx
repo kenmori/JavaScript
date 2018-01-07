@@ -1,9 +1,10 @@
 import OkrMap from '../components/OkrMap';
 import { connect } from 'react-redux';
+import { denormalizeObjectives } from "../schemas";
 
 const mapStateToProps = (state) => {
   return {
-    objectives: state.objectives,
+    objectives: denormalizeObjectives(state),
     users: state.users,
   };
 };

@@ -31,7 +31,7 @@ function denormalizeObjectives(state) {
 
 function denormalizeKeyResult(keyResult, entities) {
   return keyResult
-    .set('objective', entities.objectives.get(keyResult.get('objectiveId')));
+    .set('objective', denormalizeObjective(entities.objectives.get(keyResult.get('objectiveId')), entities));
 }
 
 function denormalizeKeyResults(state) {

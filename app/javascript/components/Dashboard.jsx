@@ -9,14 +9,13 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       isFetched: false,
-      selectedObjectiveId: null,
+      selectedObjective: null,
       activeItem: 'objective',
     };
   }
 
   componentDidMount() {
     this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
-    this.props.fetchKeyResults(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,19 +23,24 @@ export default class Dashboard extends Component {
     const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
     if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
       this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
-      this.props.fetchKeyResults(nextOkrPeriodId, nextUserId);
+      this.setState({
+        isFetched: false,
+      });
     } else if (this.props.objectives !== nextProps.objectives) {
       // Objective 一覧取得時や追加/削除時は最初の Objective を選択する
       this.selectObjective(nextProps.objectives.first());
-      this.setState({
-        isFetched: true,
-      });
+      if (!this.state.isFetched) {
+        this.props.fetchKeyResults(nextOkrPeriodId, nextUserId);
+        this.setState({
+          isFetched: true,
+        });
+      }
     }
   }
 
   selectObjective = objective => {
     this.setState({
-      selectedObjectiveId: objective ? objective.get('id') : null,
+      selectedObjective: objective,
     });
   }
 
@@ -56,7 +60,6 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const selectedObjective = this.props.objectives.find((objective) => objective.get('id') === this.state.selectedObjectiveId);
     const activeItem = this.state.activeItem;
     return (
       <div className="dashboard">
@@ -77,8 +80,8 @@ export default class Dashboard extends Component {
           </div>
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.props.objectives}
-                       selectedObjective={selectedObjective}
-                       onSelect={this.selectObjective} />
+                             selectedObjective={this.state.selectedObjective}
+                             onSelect={this.selectObjective} />
             : <KeyResultList keyResults={this.props.keyResults}
                              onSelect={this.selectObjective} />
           }
@@ -89,8 +92,8 @@ export default class Dashboard extends Component {
               <Menu.Item header>OKR マップ</Menu.Item>
             </Menu>
           </div>
-          {selectedObjective
-            ? <OkrMap objective={selectedObjective} />
+          {this.state.selectedObjective
+            ? <OkrMap objective={this.state.selectedObjective} />
             : this.state.isFetched && this.emptyViewHtml()
           }
         </section>
