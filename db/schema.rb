@@ -73,11 +73,9 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
-    t.integer "year", null: false
-    t.integer "period_number", null: false
-    t.integer "status", default: 0, null: false
     t.date "month_start", null: false
     t.date "month_end", null: false
+    t.string "name"
     t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
   end
 

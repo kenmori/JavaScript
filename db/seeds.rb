@@ -58,11 +58,9 @@ ApplicationRecord.transaction do
 
 # ログインユーザーの今期のOKRを作成
   active_okr_period = organization.okr_periods.create!(
-      year: 2017,
-      period_number: 3,
-      status: :active,
-      month_start: '2017/10/01',
-      month_end: '2017/12/31',
+      month_start: '2017/12/01',
+      month_end: '2018/02/28',
+      name: '3Q'
   )
 
   active_objective1 = login_user.owner.objectives.create!(
@@ -135,11 +133,8 @@ ApplicationRecord.transaction do
 
 # ログインユーザーの前期のOKRを作成
   inactive_okr_period = organization.okr_periods.create!(
-      year: 2017,
-      period_number: 2,
-      status: :inactive,
-      month_start: '2017/7/1',
-      month_end: '2017/9/30',
+      month_start: '2017/9/1',
+      month_end: '2017/11/30',
   )
 
   inactive_objective1 = login_user.owner.objectives.create!(

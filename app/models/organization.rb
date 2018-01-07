@@ -13,8 +13,8 @@ class Organization < ApplicationRecord
     self.create_okr_setting!
   end
 
-  def latest_okr_period_id
-    self.okr_periods.active.pluck(:id).first
+  def current_okr_period
+    self.okr_periods.current.first
   end
 
   def members
