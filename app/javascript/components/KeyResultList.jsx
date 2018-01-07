@@ -20,8 +20,9 @@ class KeyResultList extends Component {
           </Table.Header>
           <Table.Body className='key-result-table'>
             {this.props.keyResults.map((keyResult, key) =>
-              <Table.Row key={key} onClick={() => this.props.onSelect(keyResult.get('objective'))}>
-                <Table.Cell><Avatar user={keyResult.get('owner')} size='small' /></Table.Cell>
+              <Table.Row key={key} active={keyResult === this.props.selectedKeyResult}
+                         onClick={() => this.props.onSelectKeyResult(keyResult)}>
+                <Table.Cell textAlign='center'><Avatar user={keyResult.get('owner')} size='small' /></Table.Cell>
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell>{keyResult.get('actualValue')} {keyResult.get('valueUnit')}</Table.Cell>
@@ -38,7 +39,11 @@ class KeyResultList extends Component {
 
 KeyResultList.propTypes = {
   keyResults: PropTypes.object.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  selectedKeyResult: PropTypes.object,
+  onSelectKeyResult: PropTypes.func.isRequired,
+};
+KeyResultList.defaultProps = {
+  selectedKeyResult: null,
 };
 
 export default KeyResultList;

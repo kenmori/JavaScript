@@ -10,6 +10,7 @@ export default class Dashboard extends Component {
     this.state = {
       isFetched: false,
       selectedObjective: null,
+      selectedKeyResult: null,
       activeItem: 'objective',
     };
   }
@@ -41,6 +42,14 @@ export default class Dashboard extends Component {
   selectObjective = objective => {
     this.setState({
       selectedObjective: objective,
+      selectedKeyResult: null,
+    });
+  }
+
+  selectKeyResult = keyResult => {
+    this.setState({
+      selectedObjective: keyResult.get('objective'),
+      selectedKeyResult: keyResult
     });
   }
 
@@ -86,9 +95,10 @@ export default class Dashboard extends Component {
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.props.objectives}
                              selectedObjective={this.state.selectedObjective}
-                             onSelect={this.selectObjective} />
+                             onSelectObjective={this.selectObjective} />
             : <KeyResultList keyResults={this.props.keyResults}
-                             onSelect={this.selectObjective} />
+                             selectedKeyResult={this.state.selectedKeyResult}
+                             onSelectKeyResult={this.selectKeyResult} />
           }
         </section>
         <section className='okr-map-section'>

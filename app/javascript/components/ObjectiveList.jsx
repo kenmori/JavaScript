@@ -12,7 +12,7 @@ class ObjectiveList extends Component {
             const isSelected = objective.get('id') === selectedId;
             return (
               <a className={`objective-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
-                 href="javascript:void(0)" onClick={() => this.props.onSelect(objective)}>
+                 href="javascript:void(0)" onClick={() => this.props.onSelectObjective(objective)}>
                 <div className='name'>{objective.get('name')}</div>
                 <OkrPieChart objective={objective} />
               </a>
@@ -26,7 +26,7 @@ class ObjectiveList extends Component {
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
   selectedObjective: PropTypes.object,
-  onSelect: PropTypes.func.isRequired,
+  onSelectObjective: PropTypes.func.isRequired,
 };
 ObjectiveList.defaultProps = {
   selectedObjective: null,
