@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Button, Segment, Header } from 'semantic-ui-react';
-import OkrList from '../containers/OkrList';
+import ObjectiveList from '../components/ObjectiveList';
 import KeyResultList from '../components/KeyResultList';
 import OkrMap from '../containers/OkrMap';
 
@@ -76,7 +76,7 @@ export default class Dashboard extends Component {
             </Menu>
           </div>
           {activeItem === 'objective'
-            ? <OkrList objectives={this.props.objectives}
+            ? <ObjectiveList objectives={this.props.objectives}
                        selectedObjective={selectedObjective}
                        onSelect={this.selectObjective} />
             : <KeyResultList keyResults={this.props.keyResults}
