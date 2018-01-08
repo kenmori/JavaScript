@@ -1,5 +1,6 @@
 class OkrPeriod < ApplicationRecord
   belongs_to :organization
+  has_many :objectives
   has_many :key_results
 
   scope :current, -> { where('month_start <= ? AND month_end >= ?', Date.today, Date.today) }

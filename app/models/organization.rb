@@ -11,6 +11,7 @@ class Organization < ApplicationRecord
 
   after_create do
     self.create_okr_setting!
+    self.okr_periods.create!(month_start: Date.today, month_end: Date.today.months_since(okr_setting.span))
   end
 
   def current_okr_period
