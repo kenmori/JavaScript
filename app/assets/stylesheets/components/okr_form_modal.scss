@@ -81,6 +81,12 @@
       }
     }
 
+    .progress-rate-field {
+      .linkify, .unlinkify {
+        margin-left: 8px;
+      }
+    }
+
     .ui.form .field {
       > label {
         margin: 0 0 .5rem;

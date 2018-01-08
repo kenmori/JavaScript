@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Segment, Button, TextArea } from 'semantic-ui-react';
+import { Input, Form, Icon, Popup, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
-import Avatar from '../Avatar';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
 import UserSelectBox from '../UserSelectBox';
@@ -240,7 +239,7 @@ class KeyResultDetail extends Component {
           </Form.Group>
         }
 
-        <Form.Field className='values'>
+        <Form.Field className='values progress-rate-field'>
           <label className="field-title">Key Result の進捗</label>
           {this.state.isDisplayedRateInputForm && 
             <div className="progress-rate-input">
@@ -269,6 +268,10 @@ class KeyResultDetail extends Component {
                 </div>
               </div>
             </span>
+          }
+          {keyResult.get('isProgressRateLinked')
+            ? <Popup trigger={<Icon name='linkify' />} content='下位 Objective の進捗率とリンクしています' />
+            : <Popup trigger={<Icon name='unlinkify' />} content='下位 Objective の進捗率とはリンクしていません' />
           }
         </Form.Field>
         

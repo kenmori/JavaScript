@@ -15,4 +15,8 @@ class KeyResult < ApplicationRecord
     super || (child_objectives.size == 0 ? 0
         : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size)
   end
+
+  def progress_rate_linked?
+    progress_rate_in_database.nil? # 進捗率が未設定の場合は true
+  end
 end
