@@ -43,19 +43,6 @@ class OkrFormModal extends Component {
             !(keyResult && keyResult.find(item => item.get('id') === selectedOkr.get('targetId')))
   }
 
-
-  handleProgressChange(keyResults, keyResultId, progressRate) {
-    const totalProgressRate = this.getTotalProgressRate(keyResults, keyResultId, progressRate);
-    this.props.updateObjective({ id: this.props.objective.get('id'), progressRate: totalProgressRate });
-  }
-
-  getTotalProgressRate(keyResults, keyResultId, progressRate) {
-    const totalProgressRate = keyResults.map((keyResult) =>
-      keyResult.get('id') === keyResultId ? progressRate : keyResult.get('progressRate')
-    ).reduce((sum, x) => sum + x) / keyResults.size;
-    return Math.round(totalProgressRate);
-  }
-
   showOkrDetail(okrType, targetId) {
     this.props.showOkrDetail(okrType, targetId)
   }
@@ -90,7 +77,6 @@ class OkrFormModal extends Component {
                 <KeyResultDetail
                   {...this.props}
                   keyResult={objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'))}
-                  onProgressChange={(keyResultId, progressRate) => this.handleProgressChange(objective.get('keyResults'), keyResultId, progressRate)}
                   changeToObjectiveModal={(keyResult) => this.changeToObjectiveModal(objective, keyResult)}
                 />
               }

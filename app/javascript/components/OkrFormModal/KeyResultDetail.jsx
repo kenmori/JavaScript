@@ -59,19 +59,15 @@ class KeyResultDetail extends Component {
   }
 
   handleSliderValue(event) {
-    this.changeProgressRate(Number(event.target.value));
+    this.updateKeyResult({ progressRate: Number(event.target.value) });
   }
 
   updateValues(targetValue, actualValue) {
     if (targetValue && actualValue) {
-      const progressRate = Math.round(actualValue / targetValue * 100);
-
-      this.props.onProgressChange(this.props.keyResult.get('id'), progressRate);
-
       this.updateKeyResult({
         targetValue: targetValue,
         actualValue: actualValue,
-        progressRate: progressRate,
+        progressRate: Math.round(actualValue / targetValue * 100),
       });
     } else {
       this.updateKeyResult({
@@ -109,7 +105,7 @@ class KeyResultDetail extends Component {
   }
 
   handleRateInputBlur(event) {
-    this.changeProgressRate(Number(event.target.value));
+    this.updateKeyResult({ progressRate: Number(event.target.value) });
     this.setState({
       isDisplayedRateInputForm: false,
       sliderValue: event.target.value,
@@ -182,11 +178,6 @@ class KeyResultDetail extends Component {
     });
   }
 
-  changeProgressRate(value) {
-    this.updateKeyResult({ progressRate: value });
-    this.props.onProgressChange(this.props.keyResult.get('id'), value);
-  }
-
   changeSliderValue(value) {
     this.setState({
       sliderValue: value
@@ -196,7 +187,7 @@ class KeyResultDetail extends Component {
   changeProgressRateThrottle(value) {
     clearTimeout(this.progressTimerId);
     this.progressTimerId = setTimeout(() => {
-      this.changeProgressRate(value);
+      this.updateKeyResult({ progressRate: value });
     }, 1500);
   }
 
@@ -333,7 +324,6 @@ KeyResultDetail.propTypes = {
   keyResult: PropTypes.object,
   updateKeyResult: PropTypes.func,
   removeKeyResult: PropTypes.func,
-  onProgressChange: PropTypes.func,
   changeToObjectiveModal: PropTypes.func,
 };
 

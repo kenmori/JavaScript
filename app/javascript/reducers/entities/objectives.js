@@ -41,6 +41,14 @@ export default handleActions({
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
       return state.updateIn([keyResult.get('objectiveId'), 'keyResults'], (keyResultIds) => keyResultIds.push(keyResult.get('id')));
     },
+    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
+      const keyResultId = payload.get('result').first();
+      const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
+      const objectiveId = keyResult.get('objective');
+      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
+      // TODO payload の objective に owner, keyResults, childObjectives を含めるようにして mergeIn ではなく set を使う
+      return state.mergeIn([objectiveId], objective);
+    },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       return state.updateIn([payload.get('objectiveId'), 'keyResults'], (keyResultIds) => (keyResultIds.filter((keyResultId) => keyResultId !== payload.get('id'))));
     },
