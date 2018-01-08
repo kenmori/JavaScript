@@ -2,6 +2,9 @@ import { schema } from 'normalizr';
 
 const keyResultSchema = new schema.Entity('keyResults');
 const objectiveSchema = new schema.Entity('objectives');
+keyResultSchema.define({
+  objective: objectiveSchema,
+});
 objectiveSchema.define({
   childObjectives: [objectiveSchema],
   keyResults: [keyResultSchema]

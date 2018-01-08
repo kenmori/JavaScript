@@ -35,7 +35,6 @@ ApplicationRecord.transaction do
   another.save!
   organization.organization_members.create!(user_id: another.id)
 
-# 他のユーザーを作成
   horie = User.new(
       last_name: '堀江',
       first_name: '真弘',
@@ -67,23 +66,20 @@ ApplicationRecord.transaction do
     name: '使いやすいサービスを作る',
     description: '事業を成功させるには、少なくとも競合より使いやすいサービスが欲しい。',
     okr_period_id: active_okr_period.id,
-    progress_rate: 65
   )
-  active_objective1.key_results.create!(
+  active_key_result1 = active_objective1.key_results.create!(
       name: 'イケてるエンジニアを採用する',
       okr_period_id: active_okr_period.id,
       owner_id: login_user.owner_id,
       target_value: 1,
       actual_value: 0,
       value_unit: '人',
-      progress_rate: 80,
       expired_date: '2017-11-30'
   )
-  active_objective1.key_results.create!(
+  active_key_result2 = active_objective1.key_results.create!(
       name: '正式版をリリースする',
       okr_period_id: active_okr_period.id,
       owner_id: another.owner_id,
-      progress_rate: 50,
       expired_date: '2017-11-30'
   )
 
@@ -92,7 +88,7 @@ ApplicationRecord.transaction do
     description: '開発を加速するには、シニアエンジニア級のスキルを持ったエンジニアが必要。',
     okr_period_id: active_okr_period.id,
     owner_id: login_user.owner_id,
-    progress_rate: 80
+    parent_key_result_id: active_key_result1.id,
   )
   active_objective2.key_results.create!(
       name: '5人を面接する',
@@ -120,7 +116,7 @@ ApplicationRecord.transaction do
     description: '方針として MVP の機能にフォーカスすることで、確実に正式版のリリース日までに実装を完了する。',
     okr_period_id: active_okr_period.id,
     owner_id: another.owner_id,
-    progress_rate: 50
+    parent_key_result_id: active_key_result2.id,
   )
   active_objective3.key_results.create!(
       name: 'ログイン機能を実装する',
@@ -147,20 +143,17 @@ ApplicationRecord.transaction do
       name: 'プロトタイプを作る',
       description: 'ビジネスモデルを仮説検証するために実際に動かすことのできるプロトタイプが必須。',
       okr_period_id: inactive_okr_period.id,
-      progress_rate: 75
   )
-  inactive_objective1.key_results.create!(
+  inactive_key_result1 = inactive_objective1.key_results.create!(
       name: 'アプリの仕様をおおまかに決める',
       okr_period_id: inactive_okr_period.id,
       owner_id: login_user.owner_id,
-      progress_rate: 65,
       expired_date: '2017-09-30'
   )
-  inactive_objective1.key_results.create!(
+  inactive_key_result2 = inactive_objective1.key_results.create!(
       name: 'プロトアプリを動かせるようにする',
       okr_period_id: inactive_okr_period.id,
       owner_id: another.owner_id,
-      progress_rate: 85,
       expired_date: '2017-09-30'
   )
 
@@ -169,7 +162,7 @@ ApplicationRecord.transaction do
       description: 'プロトタイプを開発するために画面や機能に関する外部仕様が求められる。',
       okr_period_id: inactive_okr_period.id,
       owner_id: login_user.owner_id,
-      progress_rate: 65
+      parent_key_result_id: inactive_key_result1.id,
   )
   inactive_objective2.key_results.create!(
       name: 'ペルソナを絞り込む',
@@ -211,7 +204,7 @@ ApplicationRecord.transaction do
       description: '開発環境以外でもアプリを触れるようにするためサーバー上でアプリを動かす。',
       okr_period_id: inactive_okr_period.id,
       owner_id: another.owner_id,
-      progress_rate: 85
+      parent_key_result_id: inactive_key_result2.id,
   )
   inactive_objective3.key_results.create!(
       name: 'ワイヤーフレームを作る',

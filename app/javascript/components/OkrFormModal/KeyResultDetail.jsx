@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Segment, Button, TextArea } from 'semantic-ui-react';
+import { Input, Form, Icon, Popup, Button, TextArea } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
-import Avatar from '../Avatar';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
 import UserSelectBox from '../UserSelectBox';
@@ -59,19 +58,15 @@ class KeyResultDetail extends Component {
   }
 
   handleSliderValue(event) {
-    this.changeProgressRate(Number(event.target.value));
+    this.updateKeyResult({ progressRate: Number(event.target.value) });
   }
 
   updateValues(targetValue, actualValue) {
     if (targetValue && actualValue) {
-      const progressRate = Math.round(actualValue / targetValue * 100);
-
-      this.props.onProgressChange(this.props.keyResult.get('id'), progressRate);
-
       this.updateKeyResult({
         targetValue: targetValue,
         actualValue: actualValue,
-        progressRate: progressRate,
+        progressRate: Math.round(actualValue / targetValue * 100),
       });
     } else {
       this.updateKeyResult({
@@ -109,7 +104,7 @@ class KeyResultDetail extends Component {
   }
 
   handleRateInputBlur(event) {
-    this.changeProgressRate(Number(event.target.value));
+    this.updateKeyResult({ progressRate: Number(event.target.value) });
     this.setState({
       isDisplayedRateInputForm: false,
       sliderValue: event.target.value,
@@ -182,11 +177,6 @@ class KeyResultDetail extends Component {
     });
   }
 
-  changeProgressRate(value) {
-    this.updateKeyResult({ progressRate: value });
-    this.props.onProgressChange(this.props.keyResult.get('id'), value);
-  }
-
   changeSliderValue(value) {
     this.setState({
       sliderValue: value
@@ -196,7 +186,7 @@ class KeyResultDetail extends Component {
   changeProgressRateThrottle(value) {
     clearTimeout(this.progressTimerId);
     this.progressTimerId = setTimeout(() => {
-      this.changeProgressRate(value);
+      this.updateKeyResult({ progressRate: value });
     }, 1500);
   }
 
@@ -249,7 +239,7 @@ class KeyResultDetail extends Component {
           </Form.Group>
         }
 
-        <Form.Field className='values'>
+        <Form.Field className='values progress-rate-field'>
           <label className="field-title">Key Result の進捗</label>
           {this.state.isDisplayedRateInputForm && 
             <div className="progress-rate-input">
@@ -278,6 +268,10 @@ class KeyResultDetail extends Component {
                 </div>
               </div>
             </span>
+          }
+          {keyResult.get('isProgressRateLinked')
+            ? <Popup trigger={<Icon name='linkify' />} content='下位 Objective の進捗率とリンクしています' />
+            : <Popup trigger={<Icon name='unlinkify' />} content='下位 Objective の進捗率とはリンクしていません' />
           }
         </Form.Field>
         
@@ -333,7 +327,6 @@ KeyResultDetail.propTypes = {
   keyResult: PropTypes.object,
   updateKeyResult: PropTypes.func,
   removeKeyResult: PropTypes.func,
-  onProgressChange: PropTypes.func,
   changeToObjectiveModal: PropTypes.func,
 };
 
