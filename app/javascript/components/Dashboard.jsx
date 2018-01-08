@@ -17,6 +17,7 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
+    this.props.fetchKeyResults(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,19 +25,35 @@ export default class Dashboard extends Component {
     const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
     if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
       this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
+      this.props.fetchKeyResults(nextOkrPeriodId, nextUserId);
       this.setState({
         isFetched: false,
       });
     } else if (this.props.objectives !== nextProps.objectives) {
-      // Objective 一覧取得時や追加/削除時は最初の Objective を選択する
-      this.selectObjective(nextProps.objectives.first());
-      if (!this.state.isFetched) {
-        this.props.fetchKeyResults(nextOkrPeriodId, nextUserId);
-        this.setState({
-          isFetched: true,
-        });
+      this.selectObjective(this.getSelectedObjective(this.props.objectives, nextProps.objectives));
+      this.setState({
+        isFetched: true,
+      });
+    }
+  }
+
+  getSelectedObjective = (prevObjectives, nextObjectives) => {
+    // Objective 一覧取得時や追加/削除時に選択する Objective を返す
+    const prevObjectiveId = this.state.selectedObjective && this.state.selectedObjective.get('id');
+    const nextObjective = nextObjectives.first();
+    if (!prevObjectiveId) {
+      return nextObjective; // 未選択の場合
+    }
+    const prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
+    if (!prevObjective) {
+      return nextObjective; // 前回の選択 Objective が存在しない場合
+    }
+    if (prevObjectives.size < nextObjectives.size) {
+      if (!nextObjective.get('parentObjectiveId')) {
+        return nextObjective; // 追加された Objective が親を持たない場合 (新規作成)
       }
     }
+    return prevObjective; // 選択状態は変えない
   }
 
   selectObjective = objective => {
@@ -72,7 +89,7 @@ export default class Dashboard extends Component {
     let activeItem = this.state.activeItem;
     if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
       activeItem = 'objective';
-    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0) {
+    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.state.isFetched) {
       activeItem = 'keyResult';
     }
     return (
