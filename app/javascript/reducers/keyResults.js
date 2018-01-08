@@ -14,7 +14,8 @@ export default handleActions({
       return ownerId === keyResult.get('ownerId') ? state.insert(0, keyResultId) : state;
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      return state.filter((keyResultId) => (keyResultId !== payload.get('id')));
+      const keyResultId = payload.get('result').first();
+      return state.filter((id) => (id !== keyResultId));
     },
   },
   fromJS([]),
