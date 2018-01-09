@@ -12,6 +12,9 @@ ApplicationRecord.transaction do
       uniq_name: 'resily'
   )
 
+# 自動生成される OKR 期間を削除
+  OkrPeriod.find(1).destroy
+
 # ログインユーザーを作成
   login_user = User.new(
       last_name: '山田',
