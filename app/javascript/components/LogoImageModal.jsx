@@ -41,7 +41,6 @@ class LogoImageModal extends Component {
         closeIcon 
         open={this.props.isOpen} 
         size='small' 
-        className='okr-form-modal' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
         onClose={this.props.closeModal}
