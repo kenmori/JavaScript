@@ -57,10 +57,33 @@ class OkrFormModal extends Component {
     this.props.openKeyResultFormModal(pbjectiv);
   }
 
+  modalContentTag(objective, selectedOkr) {
+    if(selectedOkr.get('okrType') === 'objective') {
+      return <ObjectiveDetail {...this.props}/>
+    } else {
+      const keyResult = objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'));
+      let childObjectives = {};
+      if(keyResult) {
+        childObjectives = objective.get('childObjectives').filter((item) => {
+          return item.get('parentKeyResultId') === keyResult.get('id');
+        });
+      }
+      return (
+        <KeyResultDetail
+          {...this.props}
+          keyResult={keyResult}
+          childObjectives={childObjectives}
+          changeToObjectiveModal={(parentKeyResult) => this.changeToObjectiveModal(objective, parentKeyResult)}
+        />
+      )
+    }
+  }
+
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
     if (!objective.size) { return null; }
+
     return (
       <Modal open={this.props.isOpen} size='large' className='okr-form-modal'>
         <Modal.Content>
@@ -72,14 +95,7 @@ class OkrFormModal extends Component {
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
             />
             <div className="okr-main">
-              {selectedOkr.get('okrType') === 'objective' ? 
-                <ObjectiveDetail {...this.props}/> : 
-                <KeyResultDetail
-                  {...this.props}
-                  keyResult={objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'))}
-                  changeToObjectiveModal={(keyResult) => this.changeToObjectiveModal(objective, keyResult)}
-                />
-              }
+              {this.modalContentTag(objective, selectedOkr)}
             </div>
           </div>
         </Modal.Content>

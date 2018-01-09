@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Popup, Button, TextArea } from 'semantic-ui-react';
+import { Input, Form, Icon, Popup, Button, TextArea, List } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
@@ -208,11 +208,29 @@ class KeyResultDetail extends Component {
     this.changeProgressRateThrottle(value);
   }
 
+  childObjectivesTag(childObjectives) {
+    if(childObjectives.isEmpty()) {return null;}
+
+    const list = childObjectives.map(item => {
+      return <List.Item key={item.get('id')}>{item.get('name')}</List.Item>
+    })
+    
+    return (
+      <div className="navi is-down">
+        <div><Icon name="arrow down" />下位のObjective</div>
+        <List bulleted>
+          {list}
+        </List>
+      </div>
+    );
+  }
+
   render() {
     const keyResult = this.props.keyResult;
     if (!keyResult) {
       return null;
     }
+
     return (
       <Form>
         <Form.Field className='values'>
@@ -317,6 +335,8 @@ class KeyResultDetail extends Component {
             <Button content="OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
           </Form.Field>
         </Form.Group>
+
+        {this.childObjectivesTag(this.props.childObjectives)}
       </Form>
     );
   }
@@ -325,6 +345,7 @@ class KeyResultDetail extends Component {
 KeyResultDetail.propTypes = {
   users: PropTypes.object,
   keyResult: PropTypes.object,
+  childObjectives: PropTypes.object,
   updateKeyResult: PropTypes.func,
   removeKeyResult: PropTypes.func,
   changeToObjectiveModal: PropTypes.func,

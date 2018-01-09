@@ -234,5 +234,10 @@
     background: #E0E1E2;
     padding: 5px 10px;
     margin-bottom: 20px;
+    border-radius: 5px;
+    &.is-down {
+      margin: 20px 0 0 0;
+      padding: 10px;
+    }
   }
 }
