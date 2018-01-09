@@ -39,7 +39,15 @@ class ObjectiveFormModal extends Component {
       wrapperClassName += ' is-keyresult';
     }
     return (
-      <Modal open={this.props.isOpen} size={modalSize} className={wrapperClassName}>
+      <Modal
+        closeIcon 
+        open={this.props.isOpen} 
+        size={modalSize} 
+        className={wrapperClassName}
+        closeOnEscape={true} 
+        closeOnRootNodeClick={true} 
+        onClose={() => this.props.closeModal()}
+      >
         <Modal.Header>
           Objective を決める
         </Modal.Header>

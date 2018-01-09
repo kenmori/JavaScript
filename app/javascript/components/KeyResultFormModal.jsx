@@ -76,7 +76,15 @@ class KeyResultFormModal extends Component {
     const objective = this.props.objective;
 
     return (
-      <Modal open={this.props.isOpen} className="keyresult-form-modal" size="large">
+      <Modal
+        closeIcon 
+        open={this.props.isOpen} 
+        size='large' 
+        className='keyresult-form-modal' 
+        closeOnEscape={true} 
+        closeOnRootNodeClick={true} 
+        onClose={() => this.props.closeModal()}
+      >
         <Modal.Header>
           KeyResult を追加する
         </Modal.Header>

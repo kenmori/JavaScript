@@ -57,10 +57,6 @@ class OkrFormModal extends Component {
     this.props.openKeyResultFormModal(pbjectiv);
   }
 
-  onClose() {
-    
-  }
-
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
