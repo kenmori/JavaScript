@@ -86,7 +86,7 @@ class OkrFormModal extends Component {
 
     return (
       <Modal open={this.props.isOpen} size='large' className='okr-form-modal'>
-        <Modal.Content>
+        <Modal.Content scrolling>
           <div className="okr-body">
             <Sidebar 
               objective={objective} 
