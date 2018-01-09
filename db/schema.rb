@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
     t.integer "progress_rate"
-    t.integer "target_value"
-    t.integer "actual_value"
+    t.float "target_value", limit: 24
+    t.float "actual_value", limit: 24
     t.string "value_unit"
     t.date "expired_date"
     t.datetime "created_at", null: false
