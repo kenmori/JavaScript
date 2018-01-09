@@ -44,7 +44,7 @@ class LogoImageModal extends Component {
         className='okr-form-modal' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={() => this.props.closeModal()}
+        onClose={this.props.closeModal}
       >
         <Modal.Content style={{ margin: '10px 0' }}>
           <div style={{textAlign: 'center'}}>

@@ -69,7 +69,7 @@ class OkrFormModal extends Component {
         className='okr-form-modal' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={() => this.props.closeModal()}
+        onClose={this.props.closeModal}
       >
         <Modal.Content>
           <div className="okr-body">
