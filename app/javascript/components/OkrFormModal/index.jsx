@@ -57,12 +57,24 @@ class OkrFormModal extends Component {
     this.props.openKeyResultFormModal(pbjectiv);
   }
 
+  onClose() {
+    
+  }
+
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
     if (!objective.size) { return null; }
     return (
-      <Modal open={this.props.isOpen} size='large' className='okr-form-modal'>
+      <Modal
+        closeIcon 
+        open={this.props.isOpen} 
+        size='large' 
+        className='okr-form-modal' 
+        closeOnEscape={true} 
+        closeOnRootNodeClick={true} 
+        onClose={() => this.props.closeModal()}
+      >
         <Modal.Content>
           <div className="okr-body">
             <Sidebar 
