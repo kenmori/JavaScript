@@ -82,21 +82,6 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
   end
 
-  create_table "okr_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.integer "organization_id", null: false
-    t.integer "year_end"
-    t.integer "span"
-    t.integer "ready_from"
-    t.integer "ready_to"
-    t.integer "review_during_from"
-    t.integer "review_during_to"
-    t.integer "review_end_from"
-    t.integer "review_end_to"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_okr_settings_on_organization_id"
-  end
-
   create_table "organization_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -112,6 +97,7 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.string "name", null: false
     t.string "uniq_name", null: false
     t.string "logo"
+    t.integer "okr_span", default: 3, null: false
   end
 
   create_table "owners", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

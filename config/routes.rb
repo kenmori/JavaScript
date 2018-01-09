@@ -20,9 +20,7 @@ Rails.application.routes.draw do
     put 'password', to: 'users#update_password'
     put 'current_organization_id', to: 'users#update_current_organization_id'
   end
-  resources :organizations do
-    resource :okr_settings, only: %i[show create update]
-  end
+  resources :organizations, only: %i[show update]
   resources :okr_periods, only: %i[index]
   get '*path', to: 'home#index'
 end

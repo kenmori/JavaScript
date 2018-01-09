@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import MenuBar from '../containers/MenuBar';
 import AccountSettingTab from '../containers/AccountSettingTab'
 import UserSettingTab from '../containers/UserSettingTab'
-import OKRSettingTab from '../containers/OKRSettingTab'
 import OrganizationSettingTab from '../containers/OrganizationSettingTab'
 import AvatarImageModal from '../containers/AvatarImageModal'
 import LogoImageModal from '../containers/LogoImageModal'
@@ -14,8 +13,7 @@ class SettingsPage extends Component {
     const panes = [{ id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' }];
     const adminPanes = [
       { id: 1, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
-      { id: 2, menuItem: 'OKR', render: () => <OKRSettingTab/> , name: 'okr'},
-      { id: 3, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
+      { id: 2, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
     ]
     return this.props.isAdmin ? panes.concat(adminPanes) : panes;
   }

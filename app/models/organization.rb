@@ -5,13 +5,11 @@ class Organization < ApplicationRecord
   has_many :groups
   has_many :organization_members
   has_many :okr_periods
-  has_one :okr_setting
 
   mount_uploader :logo, LogoUploader
 
   after_create do
-    self.create_okr_setting!
-    self.okr_periods.create!(month_start: Date.today, month_end: Date.today.months_since(okr_setting.span))
+    self.okr_periods.create!(month_start: Date.today, month_end: Date.today.months_since(okr_span))
   end
 
   def current_okr_period

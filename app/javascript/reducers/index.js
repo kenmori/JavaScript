@@ -3,7 +3,6 @@ import entities from './entities';
 import objectives from './objectives';
 import keyResults from './keyResults';
 import users from './users';
-import okrSettings from './okrSettings';
 import dialogs from './dialogs';
 import loginUser from './loginUser';
 import menu from './menu';
@@ -18,7 +17,6 @@ const reducers = combineReducers({
   objectives,
   keyResults,
   users,
-  okrSettings,
   dialogs,
   loginUser,
   menu,
