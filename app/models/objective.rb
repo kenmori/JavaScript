@@ -11,6 +11,10 @@ class Objective < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  def owner
+    objective_members.find_by(role: :owner).user
+  end
+
   def progress_rate
     # 進捗率が未設定の場合は紐付く Key Result の進捗率から算出する
     progress_rate_in_database || (key_results.size == 0 ? 0

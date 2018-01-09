@@ -10,6 +10,14 @@ class KeyResult < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  def owner
+    key_result_members.find_by(role: :owner).user
+  end
+
+  def members
+    key_result_members.where(role: :member).map(&:user)
+  end
+
   def progress_rate
     # 進捗率が未設定の場合は子 Objective の進捗率から算出する
     progress_rate_in_database || (child_objectives.size == 0 ? 0
