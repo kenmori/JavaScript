@@ -128,30 +128,6 @@ a.active {
   }
 }
 
-.okr-setting-tab {
-  dt {
-    font-weight: bold;
-  }
-  dd {
-    margin-top: 1em;
-    margin-bottom: 2em;
-  }
-}
-
-.okr-setting-tab {
-  .ui.input {
-    margin: 0 1em;
-
-    input {
-      max-width: 4em;
-    }
-  }
-
-  .ui.readonly.input {
-    opacity: .65;
-  }
-}
-
 #console {
   height: 20px;
 }
