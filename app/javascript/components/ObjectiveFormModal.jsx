@@ -5,6 +5,7 @@ import UserSelectBox from './UserSelectBox';
 import { Button, Form, Input, Modal, Dropdown, TextArea, Segment, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
+
   save() {
     const objective = {
       name: this.nameInput.inputRef.value,
@@ -28,6 +29,28 @@ class ObjectiveFormModal extends Component {
     }
   }
 
+  isEditing() {
+    if (
+      this.nameInput.inputRef.value !== '' ||
+      findDOMNode(this.descriptionArea).value !== '' ||
+      this.ownerSelect.selectedValue !== this.props.loginUser.get('ownerId')
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  handleClose() {
+    if(this.isEditing()) {
+      if(confirm('編集中の内容を破棄します。よろしいですか？')) {
+        this.props.closeModal();
+      }
+    } else {
+      this.props.closeModal();
+    }
+  }
+
   render() {
     const objective = this.props.parentObjective;
     const keyResult = this.props.relatedKeyResult;
@@ -46,7 +69,7 @@ class ObjectiveFormModal extends Component {
         className={wrapperClassName}
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={() => this.props.closeModal()}
+        onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>
           Objective を決める
@@ -115,7 +138,7 @@ class ObjectiveFormModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button onClick={this.props.closeModal}>キャンセル</Button>
+            <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
             <Button positive onClick={this.save.bind(this)}>保存</Button>
           </div>
         </Modal.Actions>

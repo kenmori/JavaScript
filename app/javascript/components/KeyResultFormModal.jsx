@@ -8,6 +8,7 @@ import moment from 'moment';
 class KeyResultFormModal extends Component {
   constructor(props) {
     super(props);
+    this.defaultExpiredDate = null;
     this.state = {
       expiredDate: null,
       keyResultMembers: []
@@ -15,9 +16,11 @@ class KeyResultFormModal extends Component {
   }
 
   getDefaultExpiredData(periods) {
+    if(this.defaultExpiredDate) { return this.defaultExpiredDate; }
     const selectedPeriodId = this.props.menu.get('okrPeriodId');
     const selectedPeriod = periods.find((item) => item.get('id') === selectedPeriodId);
-    return moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
+    this.defaultExpiredDate = moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
+    return this.defaultExpiredDate;
   }
 
   handleCalendar(date) {
@@ -71,6 +74,32 @@ class KeyResultFormModal extends Component {
     }
   }
 
+  isEditing() {
+    if (
+      this.nameInput.inputRef.value !== '' ||
+      this.targetInput.inputRef.value !== '' ||
+      this.unitInput.inputRef.value !== '' ||
+      this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods) ||
+      this.ownerSelect.selectedValue !== this.props.objective.get('ownerId') ||
+      this.state.keyResultMembers.length
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  handleClose() {
+    if(this.isEditing()) {
+      if(confirm('編集中の内容を破棄します。よろしいですか？')) {
+        this.props.closeModal();
+      }
+    } else {
+      this.props.closeModal();
+    }
+  }
+
+
   
   render() {
     const objective = this.props.objective;
@@ -83,7 +112,7 @@ class KeyResultFormModal extends Component {
         className='keyresult-form-modal' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={() => this.props.closeModal()}
+        onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>
           KeyResult を追加する
@@ -161,7 +190,7 @@ class KeyResultFormModal extends Component {
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button onClick={this.props.closeModal}>キャンセル</Button>
+            <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
             <Button positive onClick={this.add.bind(this)}>保存</Button>
           </div>
         </Modal.Actions>
