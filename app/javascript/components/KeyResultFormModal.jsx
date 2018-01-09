@@ -110,7 +110,7 @@ class KeyResultFormModal extends Component {
                     <div className="flex-center">
                       <div style={{marginRight: "10px"}}>
                         <label>目標値</label>
-                        <Input type="number" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
+                        <Input type="text" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
                       </div>
                       <div>
                         <label>単位</label>
