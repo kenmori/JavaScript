@@ -38,7 +38,14 @@ class AvatarImageModal extends Component {
     } = this.props
 
     return (
-      <Modal open={this.props.isOpen} size='small'>
+      <Modal
+        closeIcon 
+        open={this.props.isOpen} 
+        size='small' 
+        closeOnEscape={true} 
+        closeOnRootNodeClick={true} 
+        onClose={this.props.closeModal}
+      >
         <Modal.Content style={{ margin: '10px 0' }}>
           <div style={{textAlign: 'center'}}>
             {this.avatarImage()}
