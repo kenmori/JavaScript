@@ -22,6 +22,12 @@ class ObjectiveDetail extends Component {
     }).toArray();
   }
 
+  changeObjectiveOwner(value) {
+    this.updateObjective({
+      objectiveMember: {user: value}
+    });
+  }
+
   updateObjective(values) {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
   }
@@ -59,9 +65,8 @@ class ObjectiveDetail extends Component {
           <label>責任者</label>
           <UserSelectBox
             users={this.props.users}
-            defaultValue={objective.get('ownerId')}
-            isOwner={true}
-            onChange={(value) => this.updateObjective({ownerId: value})}
+            defaultValue={objective.get('owner').get('id')}
+            onChange={(value) => this.changeObjectiveOwner(value)}
           />
         </Form.Field>
         <Form.Field>
