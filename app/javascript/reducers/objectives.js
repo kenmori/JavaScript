@@ -8,10 +8,10 @@ export default handleActions({
       return fromJS(payload.get('result'));
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      const ownerId = gon.getIn(['loginUser', 'ownerId']);
+      const userId = gon.getIn(['loginUser', 'id']);
       const objectiveId = payload.get('result').first();
       const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
-      return ownerId === objective.get('ownerId') ? state.insert(0, objectiveId) : state;
+      return userId === objective.get('owner').get('id') ? state.insert(0, objectiveId) : state;
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.filter((objectiveId) => (objectiveId !== payload.id));
