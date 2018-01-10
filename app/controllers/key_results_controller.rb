@@ -25,7 +25,7 @@ class KeyResultsController < ApplicationController
 
   def update
     @key_result = KeyResult.find(params[:id])
-    forbidden and return unless valid_permission?(@key_result.objective.owner.organization.id)
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
 
     ActiveRecord::Base.transaction do
       @key_result.update!(key_result_update_params)
@@ -39,7 +39,7 @@ class KeyResultsController < ApplicationController
 
   def destroy
     @key_result = KeyResult.find(params[:id])
-    forbidden and return unless valid_permission?(@key_result.objective.owner.organization.id)
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
 
     if @key_result.destroy
       render action: :create, status: :ok
@@ -52,13 +52,28 @@ class KeyResultsController < ApplicationController
 
   def update_key_result_members
     key_result_member_data = params[:key_result][:key_result_member]
-    if key_result_member_data['behavior'] == 'add'
+    user_id = key_result_member_data['user']
+    behavior = key_result_member_data['behavior']
+    role = key_result_member_data['role'] == 'owner' ? :owner : :member
+
+    if behavior == 'add'
+      if role == :owner
+        # 責任者の変更 (前の owner を削除する)
+        owner = @key_result.key_result_members.find_by(role: :owner)
+        owner.destroy!
+      end
+      member = @key_result.key_result_members.find_by(user_id: user_id)
+      if member.nil?
+        # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
+        @key_result.key_result_members.create!(user_id: user_id, role: role)
+      else
+        # 関係者から責任者に変更
+        member.update!(role: role)
+      end
+    elsif behavior == 'remove'
       # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
-      @key_result.key_result_members.create!(user_id: key_result_member_data['data'])
-    elsif key_result_member_data['behavior'] == 'remove'
-      # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
-      person = @key_result.key_result_members.find_by(user_id: key_result_member_data['data'])
-      person.destroy!
+      member = @key_result.key_result_members.find_by(user_id: user_id)
+      member.destroy!
     end
   end
 
@@ -83,6 +98,6 @@ class KeyResultsController < ApplicationController
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:name, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :owner_id)
+      .permit(:name, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date)
   end
 end
