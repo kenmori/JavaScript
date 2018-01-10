@@ -13,7 +13,7 @@ class Organization < ApplicationRecord
   end
 
   def current_okr_period
-    self.okr_periods.current.first
+    self.okr_periods.current.first || okr_periods.order(month_start: :desc).first
   end
 
   def members

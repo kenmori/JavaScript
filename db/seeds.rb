@@ -72,7 +72,6 @@ ApplicationRecord.transaction do
   )
   active_key_result1 = login_user.key_results.create!(
       name: 'イケてるエンジニアを採用する',
-      okr_period_id: active_okr_period.id,
       objective_id: active_objective1.id,
       target_value: 1,
       actual_value: 0,
@@ -81,7 +80,6 @@ ApplicationRecord.transaction do
   )
   active_key_result2 = another.key_results.create!(
       name: '正式版をリリースする',
-      okr_period_id: active_okr_period.id,
       objective_id: active_objective1.id,
       expired_date: '2017-11-30'
   )
@@ -95,7 +93,6 @@ ApplicationRecord.transaction do
   )
   login_user.key_results.create!(
       name: '5人を面接する',
-      okr_period_id: active_okr_period.id,
       objective_id: active_objective2.id,
       target_value: 5,
       actual_value: 3,
@@ -105,7 +102,6 @@ ApplicationRecord.transaction do
   )
   another.key_results.create!(
       name: '採用サービスを2つ利用する',
-      okr_period_id: active_okr_period.id,
       objective_id: active_objective2.id,
       target_value: 2,
       actual_value: 2,
@@ -123,14 +119,12 @@ ApplicationRecord.transaction do
   )
   another.key_results.create!(
       name: 'ログイン機能を実装する',
-      okr_period_id: active_okr_period.id,
       objective_id: active_objective3.id,
       progress_rate: 70,
       expired_date: '2017-10-31'
   )
   another.key_results.create!(
       name: 'ユーザー登録機能を実装する',
-      okr_period_id: active_okr_period.id,
       objective_id: active_objective3.id,
       progress_rate: 30,
       expired_date: '2017-11-30'
@@ -149,13 +143,11 @@ ApplicationRecord.transaction do
   )
   inactive_key_result1 = login_user.key_results.create!(
       name: 'アプリの仕様をおおまかに決める',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective1.id,
       expired_date: '2017-09-30'
   )
   inactive_key_result2 = another.key_results.create!(
       name: 'プロトアプリを動かせるようにする',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective1.id,
       expired_date: '2017-09-30'
   )
@@ -169,7 +161,6 @@ ApplicationRecord.transaction do
   )
   login_user.key_results.create!(
       name: 'ペルソナを絞り込む',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective2.id,
       target_value: 3,
       actual_value: 3,
@@ -179,7 +170,6 @@ ApplicationRecord.transaction do
   )
   login_user.key_results.create!(
       name: 'ユーザーストーリーを考える',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective2.id,
       target_value: 5,
       actual_value: 3,
@@ -189,14 +179,12 @@ ApplicationRecord.transaction do
   )
   login_user.key_results.create!(
       name: 'ビジネス要件をまとめる',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective2.id,
       progress_rate: 60,
       expired_date: '2017-08-31'
   )
   another.key_results.create!(
       name: '外部仕様を策定する',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective2.id,
       progress_rate: 40,
       expired_date: '2017-09-30'
@@ -211,28 +199,24 @@ ApplicationRecord.transaction do
   )
   login_user.key_results.create!(
       name: 'ワイヤーフレームを作る',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective3.id,
       progress_rate: 80,
       expired_date: '2017-07-31'
   )
   another.key_results.create!(
       name: 'モックアップを作る',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective3.id,
       progress_rate: 90,
       expired_date: '2017-08-31'
   )
   another.key_results.create!(
       name: 'プロトタイプを実装する',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective3.id,
       progress_rate: 70,
       expired_date: '2017-09-30'
   )
   another.key_results.create!(
       name: 'サーバー環境を構築する',
-      okr_period_id: inactive_okr_period.id,
       objective_id: inactive_objective3.id,
       progress_rate: 100,
       expired_date: '2017-09-30'

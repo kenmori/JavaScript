@@ -8,7 +8,7 @@ class ObjectivesController < ApplicationController
 
   def create
     create_params = objective_create_params.merge(
-      okr_period_id: current_organization.current_okr_period&.id
+      okr_period_id: current_organization.current_okr_period.id
     )
     @user = User.find(params[:objective][:owner_id])
     return forbidden unless valid_permission?(@user.organization.id)
@@ -67,7 +67,7 @@ class ObjectivesController < ApplicationController
 
   def objective_create_params
     params.require(:objective)
-      .permit(:name, :description, :parent_objective_id)
+      .permit(:name, :description, :parent_objective_id, :parent_key_result_id)
   end
 
   def objective_update_params
