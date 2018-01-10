@@ -67,7 +67,7 @@ class ObjectivesController < ApplicationController
 
   def objective_create_params
     params.require(:objective)
-      .permit(:name, :description, :parent_objective_id)
+      .permit(:name, :description, :parent_objective_id, :parent_key_result_id)
   end
 
   def objective_update_params
