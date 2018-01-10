@@ -35,12 +35,11 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
-    const user = this.props.users.find(user => user.get('ownerId') === objective.get('ownerId'));
     return (
       <Card className={`okr-card ${this.props.isSelected ? 'active' : ''}`}>
         <Card.Content>
           <Card.Header>
-            {user && <Avatar user={user} />}
+            <Avatar user={objective.get('owner')} />
             <div className="name">{objective.get('name')}</div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>
