@@ -96,11 +96,6 @@ class OkrFormModal extends Component {
             </div>
           </div>
         </Modal.Content>
-        <Modal.Actions>
-          <div className='center'>
-            <Button onClick={this.props.closeModal}>閉じる</Button>
-          </div>
-        </Modal.Actions>
       </Modal>
     );
   }
