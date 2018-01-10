@@ -8,10 +8,10 @@ export default handleActions({
       return fromJS(payload.get('result'));
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      const ownerId = gon.getIn(['loginUser', 'ownerId']);
+      const userId = gon.getIn(['loginUser', 'id']);
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
-      return ownerId === keyResult.get('ownerId') ? state.insert(0, keyResultId) : state;
+      return userId === keyResult.get('owner').get('id') ? state.insert(0, keyResultId) : state;
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();

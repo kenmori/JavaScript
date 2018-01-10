@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import UserSelectBox from './UserSelectBox';
-import { Button, Form, Input, Modal, Dropdown, TextArea, Segment, List } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
 
@@ -33,7 +33,7 @@ class ObjectiveFormModal extends Component {
     if (
       this.nameInput.inputRef.value !== '' ||
       findDOMNode(this.descriptionArea).value !== '' ||
-      this.ownerSelect.selectedValue !== this.props.loginUser.get('ownerId')
+      this.ownerSelect.selectedValue !== this.props.loginUser.get('id')
     ) {
       return true;
     }
@@ -127,7 +127,7 @@ class ObjectiveFormModal extends Component {
                     <label>責任者</label>
                     <UserSelectBox
                       users={this.props.users} 
-                      defaultValue={this.props.loginUser.get('ownerId')} 
+                      defaultValue={this.props.loginUser.get('id')}
                       ref={node => {this.ownerSelect = node;}}
                     />
                   </Form.Field>

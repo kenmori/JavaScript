@@ -34,26 +34,21 @@ class KeyResultDetail extends Component {
    
   }
 
-  usersOption(users, isOwner) {
-    return users.map(item => {
-      const id = isOwner ? item.get('ownerId') : item.get('id');
-      return {
-        key: id,
-        value: id,
-        text: `${item.get('lastName')} ${item.get('firstName')}`,
-      }
-    }).toArray();
-  }
-
   addKeyResultMembers(value) {
     this.updateKeyResult({
-      keyResultMember: {data: value, behavior: 'add'}
+      keyResultMember: {user: value, behavior: 'add', role: 'member'}
     });
   }
 
   removeKeyResultMembers(value) {
     this.updateKeyResult({
-      keyResultMember: {data: value, behavior: 'remove'}
+      keyResultMember: {user: value, behavior: 'remove'}
+    });
+  }
+
+  changeKeyResultOwner(value) {
+    this.updateKeyResult({
+      keyResultMember: {user: value, behavior: 'add', role: 'owner'}
     });
   }
 
@@ -341,9 +336,8 @@ class KeyResultDetail extends Component {
             <label className="field-title">責任者</label>
             <UserSelectBox
               users={this.props.users}
-              defaultValue={keyResult.get('owner').get('id')} 
-              isOwner={true}
-              onChange={(value) => this.updateKeyResult({ownerId: value})}
+              defaultValue={keyResult.get('owner').get('id')}
+              onChange={(value) => this.changeKeyResultOwner(value)}
             />
           </Form.Field>
         </Form.Group> 
@@ -353,6 +347,7 @@ class KeyResultDetail extends Component {
             <KeyResultMemberSelectBox 
               users={this.props.users}
               keyResultMembers={this.state.keyResultMembers}
+              ownerId={keyResult.get('owner').get('id')}
               add={this.addKeyResultMembers.bind(this)}
               remove={this.removeKeyResultMembers.bind(this)}
             />

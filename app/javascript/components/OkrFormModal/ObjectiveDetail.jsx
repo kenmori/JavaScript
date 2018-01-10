@@ -11,15 +11,10 @@ class ObjectiveDetail extends Component {
     super(props);
   }
 
-  getUsersOption(users) {
-    return users.map(user => {
-      const id = user.get('ownerId');
-      return {
-        key: id,
-        value: id,
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-      }
-    }).toArray();
+  changeObjectiveOwner(value) {
+    this.updateObjective({
+      objectiveMember: {user: value}
+    });
   }
 
   updateObjective(values) {
@@ -59,9 +54,8 @@ class ObjectiveDetail extends Component {
           <label>責任者</label>
           <UserSelectBox
             users={this.props.users}
-            defaultValue={objective.get('ownerId')}
-            isOwner={true}
-            onChange={(value) => this.updateObjective({ownerId: value})}
+            defaultValue={objective.get('owner').get('id')}
+            onChange={(value) => this.changeObjectiveOwner(value)}
           />
         </Form.Field>
         <Form.Field>

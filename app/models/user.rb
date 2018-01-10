@@ -8,19 +8,15 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { maximum: 255 }
   validates :last_name, presence: true, length: { maximum: 255 }
 
-  has_many :objectives, primary_key: :owner_id, foreign_key: :owner_id
-  has_many :key_results, primary_key: :owner_id, foreign_key: :owner_id
+  has_many :group_members
+  has_many :groups, through: :group_members
+  has_many :objective_members
+  has_many :objectives, through: :objective_members
   has_many :key_result_members
+  has_many :key_results, through: :key_result_members
   has_many :comments
 
   has_many :organization_member, dependent: :destroy
-
-  belongs_to :owner, optional: true
-
-  before_create do
-    owner = Owner.create!(kind: :user_kind)
-    self.owner_id = owner.id
-  end
 
   mount_uploader :avatar, AvatarUploader
 

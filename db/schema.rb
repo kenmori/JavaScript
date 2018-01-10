@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127115903) do
+ActiveRecord::Schema.define(version: 20180109073948) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 20171127115903) do
   end
 
   create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "group_id", null: false
     t.integer "user_id", null: false
-    t.index ["group_id", "user_id"], name: "index_group_members_on_group_id_and_user_id", unique: true
+    t.integer "role", limit: 1, default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -33,21 +33,19 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
     t.string "name", null: false
-    t.integer "owner_id", null: false
   end
 
   create_table "key_result_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "key_result_id", null: false
     t.integer "user_id", null: false
     t.integer "role", limit: 1, default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "key_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
     t.integer "objective_id", null: false
-    t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
     t.integer "progress_rate"
     t.integer "target_value"
@@ -59,12 +57,19 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.index ["created_at"], name: "index_key_results_on_created_at"
   end
 
+  create_table "objective_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "objective_id", null: false
+    t.integer "user_id", null: false
+    t.integer "role", limit: 1, default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
     t.text "description"
     t.integer "parent_objective_id"
     t.integer "parent_key_result_id"
-    t.integer "owner_id", null: false
     t.integer "okr_period_id", null: false
     t.integer "progress_rate"
     t.datetime "created_at", null: false
@@ -100,12 +105,6 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.integer "okr_span", default: 3, null: false
   end
 
-  create_table "owners", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "kind", null: false
-  end
-
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "last_name", null: false
     t.string "first_name", null: false
@@ -126,7 +125,6 @@ ActiveRecord::Schema.define(version: 20171127115903) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.integer "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false

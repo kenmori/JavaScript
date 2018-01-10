@@ -1,18 +1,18 @@
-json.extract! key_result, :id, :name, :objective_id, :owner_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate
+json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate
 
 json.objective key_result.objective
 json.is_progress_rate_linked key_result.progress_rate_linked?
 
 json.owner do
-  json.id key_result.owner.user.owner_id
-  json.first_name key_result.owner.user.first_name
-  json.last_name key_result.owner.user.last_name
-  json.avatar_url key_result.owner.user.avatar_url
+  json.id key_result.owner.id
+  json.first_name key_result.owner.first_name
+  json.last_name key_result.owner.last_name
+  json.avatar_url key_result.owner.avatar_url
 end
 
 json.key_result_members do
-  json.array!(key_result.key_result_members) do |person|
-    json.extract! person.user, :id, :avatar_url
+  json.array!(key_result.members) do |user|
+    json.extract! user, :id, :avatar_url
   end
 end
 

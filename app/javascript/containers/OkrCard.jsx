@@ -6,7 +6,6 @@ import { denormalizeObjectives } from "../schemas";
 const mapStateToProps = (state) => {
   return {
     objectives: denormalizeObjectives(state),
-    users: state.users,
   };
 };
 

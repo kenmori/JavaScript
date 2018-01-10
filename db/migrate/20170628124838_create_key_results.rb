@@ -3,7 +3,6 @@ class CreateKeyResults < ActiveRecord::Migration[5.1]
     create_table :key_results do |t|
       t.string  :name,          null: false
       t.integer :objective_id,  null: false
-      t.integer :owner_id,      null: false
       t.integer :okr_period_id, null: false
       t.integer :progress_rate # 進捗率
       t.integer :target_value

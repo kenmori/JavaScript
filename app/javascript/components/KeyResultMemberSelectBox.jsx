@@ -20,11 +20,15 @@ class KeyResultMemberSelectBox extends Component {
     const {
       users,
       keyResultMembers,
+      ownerId,
       add,
       remove,
     } = this.props;
 
-    const selectableMembers = users.filter((item) => !keyResultMembers.includes(item.get('id')));
+    const selectableMembers = users.filter(user => {
+      const userId = user.get('id');
+      return !keyResultMembers.includes(userId) && userId !== ownerId;
+    });
     return (
       <div className="key-result-members-select-box">
         {this.selectedMembersTag(this.props)}
@@ -42,6 +46,7 @@ class KeyResultMemberSelectBox extends Component {
 KeyResultMemberSelectBox.propTypes = {
   users: PropTypes.object.isRequired,
   keyResultMembers: PropTypes.array.isRequired,
+  ownerId: PropTypes.number,
   add: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 };
