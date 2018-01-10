@@ -7,19 +7,20 @@ class KeyResultsController < ApplicationController
   end
 
   def create
+    @user = User.find(params[:key_result][:owner_id])
     forbidden and return unless valid_permission?(Objective.find(params[:key_result][:objective_id]).owner.organization.id)
-    forbidden and return unless valid_permission?(Owner.find(params[:key_result][:owner_id]).organization.id)
+    forbidden and return unless valid_permission?(@user.organization.id)
 
     ActiveRecord::Base.transaction do
-      @key_result = KeyResult.create!(key_result_create_params)
+      @key_result = @user.key_results.create!(key_result_create_params)
       params[:key_result][:key_result_members].each do |id|
         # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
-        @key_result.key_result_members.create!(user_id: id)
+        @key_result.key_result_members.create!(user_id: id, role: :member)
       end
     end
     render status: :created
   rescue
-    render json: @key_result.errors, status: :unprocessable_entity
+    unprocessable_entity_with_errors(@key_result.errors)
   end
 
   def update
@@ -77,7 +78,7 @@ class KeyResultsController < ApplicationController
 
   def key_result_create_params
     params.require(:key_result)
-      .permit(:name, :objective_id, :okr_period_id, :owner_id, :target_value, :value_unit, :expired_date)
+      .permit(:name, :objective_id, :okr_period_id, :target_value, :value_unit, :expired_date)
   end
 
   def key_result_update_params

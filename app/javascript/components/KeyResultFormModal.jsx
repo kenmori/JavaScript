@@ -11,7 +11,8 @@ class KeyResultFormModal extends Component {
     this.defaultExpiredDate = null;
     this.state = {
       expiredDate: null,
-      keyResultMembers: []
+      keyResultMembers: [],
+      ownerId: null,
     }
   }
 
@@ -25,6 +26,13 @@ class KeyResultFormModal extends Component {
 
   handleCalendar(date) {
     this.setState({expiredDate: date})
+  }
+
+  changeKeyResultOwner(value) {
+    this.setState({
+      ownerId: value,
+    });
+    this.removeKeyResultMembers(value);
   }
 
   addKeyResultMembers(value) {
@@ -46,7 +54,7 @@ class KeyResultFormModal extends Component {
       name: this.nameInput.inputRef.value,
       objectiveId: this.props.objective.get('id'),
       okrPeriodId: this.props.objective.get('okrPeriodId'),
-      ownerId: this.ownerSelect.selectedValue,
+      ownerId: this.state.ownerId,
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
@@ -65,6 +73,12 @@ class KeyResultFormModal extends Component {
       });
     }
 
+    if (nextProps.objective && this.props.objective !== nextProps.objective) {
+      this.setState({
+        ownerId: nextProps.objective.get('owner').get('id'),
+      });
+    }
+
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
       this.setState({
@@ -80,7 +94,7 @@ class KeyResultFormModal extends Component {
       this.targetInput.inputRef.value !== '' ||
       this.unitInput.inputRef.value !== '' ||
       this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods) ||
-      this.ownerSelect.selectedValue !== this.props.objective.get('ownerId') ||
+      this.state.ownerId !== this.props.objective.get('owner').get('id') ||
       this.state.keyResultMembers.length
     ) {
       return true;
@@ -103,7 +117,6 @@ class KeyResultFormModal extends Component {
   
   render() {
     const objective = this.props.objective;
-
     return (
       <Modal
         closeIcon 
@@ -126,8 +139,8 @@ class KeyResultFormModal extends Component {
                   <List>
                     <List.Item>
                       <List.Content>
-                        <List.Header>{objective.get('name')}</List.Header>
-                        <List.Description>{objective.get('description')}</List.Description>
+                        <List.Header>{objective && objective.get('name')}</List.Header>
+                        <List.Description>{objective && objective.get('description')}</List.Description>
                       </List.Content>
                     </List.Item>
                   </List>
@@ -167,9 +180,8 @@ class KeyResultFormModal extends Component {
                     <label>責任者</label>
                     <UserSelectBox
                       users={this.props.users} 
-                      defaultValue={this.props.objective.get('ownerId')} 
-                      isOwner={true}
-                      ref={node => {this.ownerSelect = node;}}
+                      defaultValue={objective && objective.get('owner') && objective.get('owner').get('id')}
+                      onChange={value => this.changeKeyResultOwner(value)}
                     />
                   </Form.Field>
                 </Form.Group>
@@ -179,6 +191,7 @@ class KeyResultFormModal extends Component {
                     <KeyResultMemberSelectBox 
                       users={this.props.users}
                       keyResultMembers={this.state.keyResultMembers}
+                      ownerId={this.state.ownerId}
                       add={this.addKeyResultMembers.bind(this)}
                       remove={this.removeKeyResultMembers.bind(this)}
                     />

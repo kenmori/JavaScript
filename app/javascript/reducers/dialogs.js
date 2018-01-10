@@ -17,7 +17,7 @@ export default handleActions({
       state.set('keyResultForm', fromJS({ isOpen: true, objective: payload.objective }))
     ),
     [ActionTypes.CLOSE_KEY_RESULT_FORM_MODAL]: (state) => (
-      state.set('keyResultForm', fromJS({ isOpen: false, objective: Map() }))
+      state.set('keyResultForm', fromJS({ isOpen: false }))
     ),
     [ActionTypes.OPEN_OKR_FORM_MODAL]: (state, { payload }) => (
       state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, selectedOkr: payload.selectedOkr }))
