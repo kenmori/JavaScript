@@ -23,7 +23,9 @@ function denormalizeObjective(objective, entities) {
       } else {
         return undefined;
       }
-    }));
+    }))
+    .set('parentKeyResult', entities.keyResults.get(objective.get('parentKeyResultId')))
+    .set('parentObjective', entities.objectives.get(objective.get('parentObjectiveId')));
 }
 
 function denormalizeObjectives(state) {
