@@ -93,7 +93,7 @@ class KeyResultsController < ApplicationController
 
   def key_result_create_params
     params.require(:key_result)
-      .permit(:name, :objective_id, :okr_period_id, :target_value, :value_unit, :expired_date)
+      .permit(:name, :objective_id, :target_value, :value_unit, :expired_date)
   end
 
   def key_result_update_params

@@ -10,6 +10,10 @@ class KeyResult < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  before_validation do
+    self.okr_period_id = objective.okr_period_id
+  end
+
   def owner
     key_result_members.find_by(role: :owner).user
   end

@@ -53,7 +53,6 @@ class KeyResultFormModal extends Component {
     const keyResult = {
       name: this.nameInput.inputRef.value,
       objectiveId: this.props.objective.get('id'),
-      okrPeriodId: this.props.objective.get('okrPeriodId'),
       ownerId: this.state.ownerId,
       targetValue: this.targetInput.inputRef.value,
       valueUnit: this.unitInput.inputRef.value,
