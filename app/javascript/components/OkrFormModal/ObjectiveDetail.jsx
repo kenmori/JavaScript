@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Icon } from 'semantic-ui-react';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
 import UserSelectBox from '../UserSelectBox';
@@ -41,8 +41,14 @@ class ObjectiveDetail extends Component {
     if (!objective.size) { return null; }
     return (
       <Form>
+        {objective.get('parentKeyResult') &&
+          <div className="navi">
+            <Icon name="arrow up" />
+            <span>上位のKeyResult: {objective.get('parentKeyResult').get('name')}</span>
+          </div>
+        }
         <Form.Field className='values'>
-        <label>Objective 名</label>
+          <label>Objective 名</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
         </Form.Field>
         <Form.Field className='values'>

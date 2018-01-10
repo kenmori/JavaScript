@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Popup, Button, TextArea } from 'semantic-ui-react';
+import { Input, Form, Icon, Popup, Button, TextArea, List } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
@@ -13,8 +13,14 @@ import moment from 'moment';
 class KeyResultDetail extends Component {
   constructor(props) {
     super(props);
-    
+
+    this.isMouseDown = false;
+    this.progressIntervalTimerId = null;
     this.progressTimerId = null;
+    this.requestInterval = null;
+    this.REQUEST_DELAY_TIME = 200;
+    this.RECALC_INTERVAL_TIME = 600;
+    this.REQUEST_INTERVAL_TIME = 1000;
     if (props.keyResult) {
       const keyResultMembers = props.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
       this.state = {
@@ -168,13 +174,54 @@ class KeyResultDetail extends Component {
       return;
     }
     const keyResultMembers = nextProps.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
+    let isChangedProgressRate = true;
+    if (this.props.keyResult) {
+      isChangedProgressRate = nextProps.keyResult.get('progressRate') !== this.props.keyResult.get('progressRate');
+    }
     this.setState({
       isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
-      sliderValue: nextProps.keyResult.get('progressRate'),
+      sliderValue: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.sliderValue,
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
       isDisplayedRateInputForm: false,
       keyResultMembers,
     });
+  }
+
+  getNextProgressValue(upOrDown) {
+    let value = Math.min(this.state.sliderValue + 1, 100);
+    if (upOrDown === 'down'){
+      value = Math.max(this.state.sliderValue - 1, 0);
+    }
+    
+    return value;
+  }
+
+  handleProgressMouseDown(upOrDown) {
+    if (!upOrDown) {
+      return;
+    }
+    this.isMouseDown = true; 
+    const value = this.getNextProgressValue(upOrDown);
+    if (value === this.state.sliderValue) {
+      return;
+    }
+    this.changeSliderValue(value);
+    setTimeout(() => {
+      if(!this.isMouseDown) {return}
+      clearInterval(this.progressIntervalTimerId);
+      this.progressIntervalTimerId = setInterval(() => {
+        this.changeSliderValue(this.getNextProgressValue(upOrDown));
+      }, 30);
+    }, this.RECALC_INTERVAL_TIME);
+  }
+
+  handleProgressMouseUp() {
+    this.isMouseDown = false;
+    clearInterval(this.progressIntervalTimerId);
+    if (this.state.sliderValue === this.props.keyResult.get('progressRate')) {
+      return;
+    }
+    this.changeProgressRateThrottle(this.state.sliderValue);
   }
 
   changeSliderValue(value) {
@@ -184,28 +231,37 @@ class KeyResultDetail extends Component {
   }
 
   changeProgressRateThrottle(value) {
-    clearTimeout(this.progressTimerId);
+    const interval = new Date().getTime() - this.requestInterval;
+    if (interval <= this.REQUEST_INTERVAL_TIME) {
+      this.requestInterval = new Date().getTime();
+      clearTimeout(this.progressTimerId);
+      this.progressTimerId = setTimeout(() => {
+        this.updateKeyResult({ progressRate: value });
+      }, this.REQUEST_INTERVAL_TIME);
+      return;
+    }
+    this.requestInterval = new Date().getTime();
     this.progressTimerId = setTimeout(() => {
       this.updateKeyResult({ progressRate: value });
-    }, 1500);
+    }, this.REQUEST_DELAY_TIME);
   }
 
-  increaseProgressRate() {
-    const value = Math.min(this.state.sliderValue + 1, 100);
-    if (value === this.state.sliderValue) {
-      return;
-    }
-    this.changeSliderValue(value);
-    this.changeProgressRateThrottle(value);
-  }
 
-  decreaseProgressRate() {
-    const value = Math.max(this.state.sliderValue - 1, 0);
-    if (value === this.state.sliderValue) {
-      return;
-    }
-    this.changeSliderValue(value);
-    this.changeProgressRateThrottle(value);
+  childObjectivesTag(childObjectives) {
+    if(childObjectives.isEmpty()) {return null;}
+
+    const list = childObjectives.map(item => {
+      return <List.Item key={item.get('id')}>{item.get('name')}</List.Item>
+    })
+    
+    return (
+      <div className="navi is-down">
+        <div><Icon name="arrow down" />下位のObjective</div>
+        <List bulleted>
+          {list}
+        </List>
+      </div>
+    );
   }
 
   render() {
@@ -213,6 +269,7 @@ class KeyResultDetail extends Component {
     if (!keyResult) {
       return null;
     }
+
     return (
       <Form>
         <Form.Field className='values'>
@@ -259,12 +316,12 @@ class KeyResultDetail extends Component {
               <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
               <div className='slider-box'>
                 <div className='slider-box__wrapper'>
-                  <div className='slider-box__content slider-box__icon'><Icon name="minus square" onClick={this.decreaseProgressRate.bind(this)} /></div>
+                  <div className='slider-box__content slider-box__icon'><Icon name="minus square" onMouseDown={() => {this.handleProgressMouseDown('down')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
                   <div className='slider slider-box__content'>
                     <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
                         data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
                   </div>
-                  <div className='slider-box__content slider-box__icon'><Icon name="plus square" onClick={this.increaseProgressRate.bind(this)} /></div>
+                  <div className='slider-box__content slider-box__icon'><Icon name="plus square" onMouseDown={() => {this.handleProgressMouseDown('up')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
                 </div>
               </div>
             </span>
@@ -317,6 +374,8 @@ class KeyResultDetail extends Component {
             <Button content="OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
           </Form.Field>
         </Form.Group>
+
+        {this.childObjectivesTag(this.props.childObjectives)}
       </Form>
     );
   }
@@ -325,6 +384,7 @@ class KeyResultDetail extends Component {
 KeyResultDetail.propTypes = {
   users: PropTypes.object,
   keyResult: PropTypes.object,
+  childObjectives: PropTypes.object,
   updateKeyResult: PropTypes.func,
   removeKeyResult: PropTypes.func,
   changeToObjectiveModal: PropTypes.func,
