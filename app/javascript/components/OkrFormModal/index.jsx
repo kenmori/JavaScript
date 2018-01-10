@@ -11,17 +11,6 @@ class OkrFormModal extends Component {
     super(props);
   }
 
-  getUsersOption(users) {
-    return users.map(user => {
-      const id = user.get('ownerId');
-      return {
-        key: id,
-        value: id,
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-      }
-    }).toArray();
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
       if(nextProps.selectedOkr.get('targetId') !== -1 && this.isRemovedKeyResult(nextProps)) {

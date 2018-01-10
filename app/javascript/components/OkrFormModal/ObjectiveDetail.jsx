@@ -11,17 +11,6 @@ class ObjectiveDetail extends Component {
     super(props);
   }
 
-  getUsersOption(users) {
-    return users.map(user => {
-      const id = user.get('ownerId');
-      return {
-        key: id,
-        value: id,
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-      }
-    }).toArray();
-  }
-
   changeObjectiveOwner(value) {
     this.updateObjective({
       objectiveMember: {user: value}

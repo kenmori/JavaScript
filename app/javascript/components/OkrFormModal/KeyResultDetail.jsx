@@ -34,17 +34,6 @@ class KeyResultDetail extends Component {
    
   }
 
-  usersOption(users, isOwner) {
-    return users.map(item => {
-      const id = isOwner ? item.get('ownerId') : item.get('id');
-      return {
-        key: id,
-        value: id,
-        text: `${item.get('lastName')} ${item.get('firstName')}`,
-      }
-    }).toArray();
-  }
-
   addKeyResultMembers(value) {
     this.updateKeyResult({
       keyResultMember: {user: value, behavior: 'add', role: 'member'}
