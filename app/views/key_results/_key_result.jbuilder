@@ -4,10 +4,10 @@ json.objective key_result.objective
 json.is_progress_rate_linked key_result.progress_rate_linked?
 
 json.owner do
-  json.id key_result.owner.id
-  json.first_name key_result.owner.first_name
-  json.last_name key_result.owner.last_name
-  json.avatar_url key_result.owner.avatar_url
+  json.id key_result.owner&.id
+  json.first_name key_result.owner&.first_name
+  json.last_name key_result.owner&.last_name
+  json.avatar_url key_result.owner&.avatar_url
 end
 
 json.key_result_members do

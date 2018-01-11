@@ -12,7 +12,7 @@ class Objective < ApplicationRecord
             allow_nil: true
 
   def owner
-    objective_members.find_by(role: :owner).user
+    objective_members.find_by(role: :owner)&.user
   end
 
   def progress_rate
