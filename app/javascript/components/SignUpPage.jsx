@@ -27,7 +27,7 @@ export default class SignUp extends Component {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>組織名</div>
-                <Input type='text' size='mini' placeholder='会社名、チーム名' ref={(node) => {this.organizationInput = node;}}/>
+                <Input type='text' size='mini' placeholder='会社名やチーム名など' ref={(node) => {this.organizationInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>組織ID</div>
@@ -35,11 +35,11 @@ export default class SignUp extends Component {
               </Form.Field>
               <Form.Field inline>
                 <div>姓</div>
-                <Input type='text' size='mini' ref={(node) => {this.lastNameInput = node;}}/>
+                <Input type='text' size='mini' placeholder='姓' ref={(node) => {this.lastNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>名</div>
-                <Input type='text' size='mini' ref={(node) => {this.firstNameInput = node;}}/>
+                <Input type='text' size='mini' placeholder='名' ref={(node) => {this.firstNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>メールアドレス</div>

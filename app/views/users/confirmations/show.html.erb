@@ -8,12 +8,12 @@
         <div class="inline field">
           <div>パスワード</div>
           <div class="ui mini input">
-            <%= f.password_field :password, autocomplete: "off" %>
+            <%= f.password_field :password, placeholder: '英数字8文字以上', autocomplete: "off" %>
           </div>
         </div>
       </div>
       <div class="center">
-        <%= f.submit "送信", class: 'ui negative button' %>
+        <%= f.submit "設定する", class: 'ui negative button' %>
       </div>
     <% end %>
   </main>

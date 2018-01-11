@@ -73,7 +73,7 @@ class ObjectiveFormModal extends Component {
         onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>
-          Objective を決める
+          Objective を入力する
         </Modal.Header>
         <Modal.Content>
           <div className="objective-form-modal__body">
@@ -81,7 +81,7 @@ class ObjectiveFormModal extends Component {
               hasObjective && (
                 <div className="objective-form-modal__sidebar sidebar">
                   <div className="sidebar__item">
-                    <div className="sidebar__title">上位Objective</div>
+                    <div className="sidebar__title">上位 Objective</div>
                     <div className="sidebar__content">
                       <List>
                         <List.Item>
@@ -94,7 +94,7 @@ class ObjectiveFormModal extends Component {
                     </div>
                   </div>
                   <div className="sidebar__item">
-                    <div className="sidebar__title">割り当てられた Key Result</div>
+                    <div className="sidebar__title">割り当てる Key Result</div>
                     <div className="sidebar__content">
                       <List>
                         <List.Item>
@@ -112,15 +112,15 @@ class ObjectiveFormModal extends Component {
               <Form>
                 <Form.Group widths='equal'>
                   <Form.Field>
-                    <label>Objective 名</label>
-                    <Input placeholder='Objective 名を入力してください' ref={(node) => { this.nameInput = node; }}/>
+                    <label>Objective</label>
+                    <Input placeholder='Objective を入力してください' ref={(node) => { this.nameInput = node; }}/>
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>
                   <Form.Field>
                     <label>Objective の説明</label>
-                    <TextArea autoHeight rows={3} placeholder='どのように Objective を達成するかをメンバーに伝えるために、Objective の説明を2〜3行で入力してください'
-                              ref={(node) => { this.descriptionArea = node; }}/>
+                    <TextArea autoHeight rows={3} placeholder={`Objective についての説明や補足を入力してください。
+説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }}/>
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>

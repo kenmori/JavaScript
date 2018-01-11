@@ -37,7 +37,7 @@ export default class PasswordEditPage extends Component {
               </Form.Field>
             </Form.Group>
             <div className='center'>
-              <Button negative onClick={this.editPassword.bind(this)}>再設定</Button>
+              <Button negative onClick={this.editPassword.bind(this)}>再設定する</Button>
             </div>
           </Form>
         </main>

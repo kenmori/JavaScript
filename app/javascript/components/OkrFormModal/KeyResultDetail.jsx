@@ -251,7 +251,7 @@ class KeyResultDetail extends Component {
     
     return (
       <div className="navi is-down">
-        <div><Icon name="arrow down" />下位のObjective</div>
+        <div><Icon name="arrow down" />下位 Objective</div>
         <List bulleted>
           {list}
         </List>
@@ -268,7 +268,7 @@ class KeyResultDetail extends Component {
     return (
       <Form>
         <Form.Field className='values'>
-          <label className="field-title">Key Result 名</label>
+          <label className="field-title">Key Result</label>
           <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
         </Form.Field>
 
@@ -366,7 +366,7 @@ class KeyResultDetail extends Component {
         <Form.Group>
           <Form.Field className="delete-button">
             <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
-            <Button content="OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
+            <Button content="下位 OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
           </Form.Field>
         </Form.Group>
 

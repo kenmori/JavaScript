@@ -42,7 +42,7 @@ class Sidebar extends Component {
           <Segment.Group>
             { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
           </Segment.Group>
-          <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="KeyResultを作成する" positive />
+          <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
       </div>
     )
