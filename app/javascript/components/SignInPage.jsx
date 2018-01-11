@@ -23,7 +23,7 @@ export default class SignIn extends Component {
                 <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
-            <div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>
+            {/*<div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>*/}
             <div className="user-create-link">パスワードを忘れた方は<Link to="/users/password/recover">こちら</Link></div>
             <div className='center'>
               <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
