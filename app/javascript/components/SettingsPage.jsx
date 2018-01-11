@@ -12,8 +12,10 @@ class SettingsPage extends Component {
   get panes() {
     const panes = [{ id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' }];
     const adminPanes = [
-      { id: 1, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
-      { id: 2, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
+      { id: 1, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
+      { id: 2, menuItem: 'OKR期間', render: () => <UserSettingTab/>, name: 'okr_periods' },
+      { id: 3, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
+      
     ]
     return this.props.isAdmin ? panes.concat(adminPanes) : panes;
   }
