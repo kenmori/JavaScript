@@ -97,7 +97,6 @@ export default class Dashboard extends Component {
         <section className="okr-list-section">
           <div className='okr-list-section__menu'>
             <Menu tabular>
-              <Menu.Item header>OKR 一覧</Menu.Item>
               <Menu.Item name='objective' active={activeItem === 'objective'} onClick={this.handleMenuItemClick}>
                 Objective ({this.props.objectives.size})
               </Menu.Item>
