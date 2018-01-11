@@ -166,10 +166,7 @@ class UsersTable extends Component {
                 No
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={(event) => this.sort('lastName')}>
-                姓
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={(event) => this.sort('firstName')}>
-                名
+                名前
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={(event) => this.sort('email')}>
                 メールアドレス
@@ -198,9 +195,9 @@ class UsersTable extends Component {
                     <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
                     <Table.Cell>{index}</Table.Cell>
                     <Table.Cell>
-                      <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
-                    </Table.Cell>
-                    <Table.Cell>
+                      <span style={{marginRight: '5px'}}>
+                        <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
+                      </span>
                       <EditableText value={firstName} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
