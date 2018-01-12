@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Image } from 'semantic-ui-react';
+import logo_image from '../images/logo_large.png';
 
 export default class SignUp extends Component {
   addUser() {
@@ -21,8 +22,8 @@ export default class SignUp extends Component {
   render() {
     return (
       <div className="sign-up">
-        <main>
-          <h1 className="center">Resily</h1>
+        <main className='center'>
+          <Image as='h1' src={logo_image} title='Resily' />
           <Form className="user-form">
             <Form.Group className='text-input-group'>
               <Form.Field inline>
@@ -50,7 +51,7 @@ export default class SignUp extends Component {
                 <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
-            <div className="center">
+            <div>
               <Button positive onClick={this.addUser.bind(this)}>登録する</Button>
             </div>
           </Form>

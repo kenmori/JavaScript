@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Image } from 'semantic-ui-react';
+import logo_image from '../images/logo_large.png';
 
 export default class SignIn extends Component {
   signIn() {
@@ -11,7 +12,7 @@ export default class SignIn extends Component {
     return (
       <div className='sign-in'>
         <main style={{ margin: 30, flexDirection: 'column' }} className='flex flex-center '>
-          <h1 className='center'>Resily</h1>
+          <Image as='h1' src={logo_image} title='Resily' />
           <Form>
             <Form.Group className='text-input-group'>
               <Form.Field inline>

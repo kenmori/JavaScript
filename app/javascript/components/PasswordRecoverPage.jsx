@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Image } from 'semantic-ui-react';
+import logo_image from '../images/logo_large.png';
 
 export default class PasswordRecoverPage extends Component {
   send() {
@@ -13,9 +14,9 @@ export default class PasswordRecoverPage extends Component {
   render() {
     return (
       <div className='password-recover'>
-        <main>
-          <h1 className='center'>Resily</h1>
-          <p className='center'>パスワードを再設定するためのメールを送信します。</p>
+        <main className='center'>
+          <Image as='h1' src={logo_image} title='Resily' />
+          <p>パスワードを再設定するためのメールを送信します。</p>
           <Form>
             <Form.Group className='text-input-group'>
               <Form.Field inline>
@@ -23,7 +24,7 @@ export default class PasswordRecoverPage extends Component {
                 <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
               </Form.Field>
             </Form.Group>
-            <div className='center'>
+            <div>
               <Button positive onClick={this.send.bind(this)}>送信する</Button>
             </div>
           </Form>

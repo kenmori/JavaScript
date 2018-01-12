@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Image} from 'semantic-ui-react';
-import logo_image from '../images/logo.png'
+import logo_image from '../images/logo.png';
 
 class Logo extends Component {
   render() {
