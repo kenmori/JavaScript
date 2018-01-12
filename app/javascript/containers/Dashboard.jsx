@@ -6,12 +6,14 @@ import dialogActions from '../actions/dialogs';
 import { denormalizeObjectives, denormalizeKeyResults } from "../schemas";
 
 const mapStateToProps = (state) => {
-  const denormalizedObjectives = denormalizeObjectives(state);
-  const denormalizedKeyResults = denormalizeKeyResults(state);
+  const denormalizedObjectives = denormalizeObjectives(state.objectives.get('items'), state.entities);
+  const denormalizedKeyResults = denormalizeKeyResults(state.keyResults, state.entities);
   return {
-    menu: state.menu,
+    okrPeriodId: state.menu.get('okrPeriodId'),
+    userId: state.menu.get('userId'),
     objectives: denormalizedObjectives,
     keyResults: denormalizedKeyResults,
+    isFetched: state.objectives.get('isFetched'),
   };
 };
 

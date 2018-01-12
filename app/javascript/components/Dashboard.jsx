@@ -8,7 +8,6 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFetched: false,
       selectedObjective: null,
       selectedKeyResult: null,
       activeItem: 'objective',
@@ -16,24 +15,16 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchObjectives(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
-    this.props.fetchKeyResults(this.props.menu.get('okrPeriodId'), this.props.menu.get('userId'));
+    this.props.fetchObjectives(this.props.okrPeriodId, this.props.userId);
+    this.props.fetchKeyResults(this.props.okrPeriodId, this.props.userId);
   }
 
   componentWillReceiveProps(nextProps) {
-    const [okrPeriodId, userId] = [this.props.menu.get('okrPeriodId'), this.props.menu.get('userId')];
-    const [nextOkrPeriodId, nextUserId] = [nextProps.menu.get('okrPeriodId'), nextProps.menu.get('userId')];
-    if (okrPeriodId !== nextOkrPeriodId || userId !== nextUserId) {
-      this.props.fetchObjectives(nextOkrPeriodId, nextUserId);
-      this.props.fetchKeyResults(nextOkrPeriodId, nextUserId);
-      this.setState({
-        isFetched: false,
-      });
+    if (this.props.okrPeriodId !== nextProps.okrPeriodId || this.props.userId !== nextProps.userId) {
+      this.props.fetchObjectives(nextProps.okrPeriodId, nextProps.userId);
+      this.props.fetchKeyResults(nextProps.okrPeriodId, nextProps.userId);
     } else if (this.props.objectives !== nextProps.objectives) {
       this.selectObjective(this.getSelectedObjective(this.props.objectives, nextProps.objectives));
-      this.setState({
-        isFetched: true,
-      });
     }
   }
 
@@ -89,7 +80,7 @@ export default class Dashboard extends Component {
     let activeItem = this.state.activeItem;
     if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
       activeItem = 'objective';
-    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.state.isFetched) {
+    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetched) {
       activeItem = 'keyResult';
     }
     return (
@@ -125,7 +116,7 @@ export default class Dashboard extends Component {
           </div>
           {this.state.selectedObjective
             ? <OkrMap objective={this.state.selectedObjective} />
-            : this.state.isFetched && this.emptyViewHtml()
+            : this.props.isFetched && this.emptyViewHtml()
           }
         </section>
       </div>

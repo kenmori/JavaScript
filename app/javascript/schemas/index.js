@@ -28,9 +28,9 @@ function denormalizeObjective(objective, entities) {
     .set('parentObjective', entities.objectives.get(objective.get('parentObjectiveId')));
 }
 
-function denormalizeObjectives(state) {
-  return state.objectives.map((objectiveId) => {
-    return denormalizeObjective(state.entities.objectives.get(objectiveId), state.entities)
+function denormalizeObjectives(objectives, entities) {
+  return objectives.map((objectiveId) => {
+    return denormalizeObjective(entities.objectives.get(objectiveId), entities)
   });
 }
 
@@ -45,9 +45,9 @@ function denormalizeKeyResult(keyResult, entities) {
   }
 }
 
-function denormalizeKeyResults(state) {
-  return state.keyResults.map((keyResultId) => {
-    return denormalizeKeyResult(state.entities.keyResults.get(keyResultId), state.entities)
+function denormalizeKeyResults(keyResults, entities) {
+  return keyResults.map((keyResultId) => {
+    return denormalizeKeyResult(entities.keyResults.get(keyResultId), entities)
   });
 }
 
@@ -59,4 +59,3 @@ export {
   denormalizeKeyResult,
   denormalizeKeyResults,
 };
-
