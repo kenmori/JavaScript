@@ -25,6 +25,7 @@ export default class PasswordEditPage extends Component {
       <div className='password-edit'>
         <main>
           <h1 className='center'>Resily</h1>
+          <p className='center'>アカウントに再設定する新しいパスワードを入力してください。</p>
           <Form>
             <Form.Group className='text-input-group'>
               <Form.Field inline>
@@ -37,7 +38,7 @@ export default class PasswordEditPage extends Component {
               </Form.Field>
             </Form.Group>
             <div className='center'>
-              <Button negative onClick={this.editPassword.bind(this)}>再設定する</Button>
+              <Button positive onClick={this.editPassword.bind(this)}>再設定する</Button>
             </div>
           </Form>
         </main>

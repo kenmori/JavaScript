@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 
-export default class SignIn extends Component {
+export default class PasswordRecoverPage extends Component {
   send() {
     this.props.send(this.emailInput.inputRef.value);
   }
@@ -15,6 +15,7 @@ export default class SignIn extends Component {
       <div className='password-recover'>
         <main>
           <h1 className='center'>Resily</h1>
+          <p className='center'>パスワードを再設定するためのメールを送信します。</p>
           <Form>
             <Form.Group className='text-input-group'>
               <Form.Field inline>

@@ -6,8 +6,12 @@ export default class SignUpCompletedPage extends Component {
     return (
       <div className="sign-up-completed">
         <main className="main-content">
-          指定のメールアドレスへ確認のメールを送信いたしました。<br />
-          確認のメールにありますURLをクリックすると、登録が完了いたします。
+          <h1>Resily</h1>
+          <p>
+            入力されたメールアドレスに確認メールを送信しました。<br />
+            メール中の URL がクリックされると処理が完了します。
+          </p>
+          <p><a href="/">トップに戻る</a></p>
         </main>
       </div>
     );

@@ -6,8 +6,9 @@ export default class PasswordEditedPage extends Component {
     return (
       <div className="password-edited">
         <main className="main-content">
-          パスワードを変更しました<br />
-          <a href="/">ホーム</a>
+          <h1>Resily</h1>
+          <p>アカウントに新しいパスワードを再設定しました。</p>
+          <p><a href="/">トップに戻る</a></p>
         </main>
       </div>
     );
