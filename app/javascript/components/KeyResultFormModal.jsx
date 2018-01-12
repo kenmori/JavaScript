@@ -133,7 +133,7 @@ class KeyResultFormModal extends Component {
           <div className="keyresult-form-modal__body">
             <div className="keyresult-form-modal__sidebar sidebar">
               <div className="sidebar__item">
-                <div className="sidebar__title">紐付ける Objective</div>
+                <div className="sidebar__title">紐付く Objective</div>
                 <div className="sidebar__content">
                   <List>
                     <List.Item>
@@ -150,8 +150,8 @@ class KeyResultFormModal extends Component {
               <Form>
                 <Form.Group widths='equal'>
                   <Form.Field>
-                    <label>Key Result 名</label>
-                    <Input placeholder='Objective 達成のカギとなる成果を入力してください' ref={node => {this.nameInput = node;}}/>
+                    <label>Key Result</label>
+                    <Input placeholder='Key Result を入力してください' ref={node => {this.nameInput = node;}}/>
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>

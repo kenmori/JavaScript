@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Dropdown, Menu} from 'semantic-ui-react';
-import logo_image from '../images/logo.png'
 import UserSelectBox from './UserSelectBox';
 import Avatar from '../containers/Avatar';
 import Logo from './Logo';

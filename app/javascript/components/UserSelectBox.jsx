@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Dropdown, Header, Menu, Image} from 'semantic-ui-react';
-import logo_image from '../images/logo.png'
-import Avatar from '../containers/Avatar';
-import Logo from './Logo';
+import {Dropdown} from 'semantic-ui-react';
+import avatar_image from '../images/avatar.png';
 
 class UserSelectBox extends Component {
 
@@ -15,7 +13,7 @@ class UserSelectBox extends Component {
 
   usersOption(users) {
     return users.map(user => {
-      const avatarUrl = user.get('avatarUrl') || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
+      const avatarUrl = user.get('avatarUrl') || avatar_image;
       return {
         key: user.get('id'),
         value: user.get('id'),
