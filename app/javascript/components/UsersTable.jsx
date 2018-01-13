@@ -164,10 +164,7 @@ class UsersTable extends Component {
               <Table.HeaderCell disabled/>
               <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={(event) => this.sort('id')} />
               <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={(event) => this.sort('lastName')}>
-                姓
-              </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'firstName' ? direction : null} onClick={(event) => this.sort('firstName')}>
-                名
+                名前
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={(event) => this.sort('email')}>
                 メールアドレス
@@ -196,10 +193,10 @@ class UsersTable extends Component {
                     <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
                     <Table.Cell>{index}</Table.Cell>
                     <Table.Cell>
-                      <EditableText value={lastName} placeholder='姓' saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <EditableText value={firstName} placeholder='名' saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
+                      <span style={{marginRight: '5px'}}>
+                        <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
+                      </span>
+                      <EditableText value={firstName} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
                       <EditableText value={this.state.emails[id]} placeholder='name@example.com' saveValue={(email) => this.changeEmail(id, email)}/>
