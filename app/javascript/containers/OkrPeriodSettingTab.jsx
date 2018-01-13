@@ -1,27 +1,21 @@
 import OkrPeriodSettingTab from '../components/OkrPeriodSettingTab';
 import { connect } from 'react-redux';
-import objectiveActions from '../actions/objectives';
+import organizationActions from '../actions/organizations';
 import { denormalizeObjectives } from "../schemas";
 
 const mapStateToProps = (state) => {
-  const denormalizedObjectives = denormalizeObjectives(state);
   return {
-    loginUserId: state.loginUser.get('id'),
-    objectives: denormalizedObjectives,
+    okrPeriods: state.okrPeriods,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchObjectives: (id) => {
-      dispatch(objectiveActions.fetchObjectives(null, id));
+    addOkrPeriod: okrPeriod => {
     },
-    addObjective: user => {
+    updateOkrPeriod: okrPeriod => {
     },
-    updateObjective: objective => {
-      dispatch(objectiveActions.updateObjective(objective))
-    },
-    removeObjective: id => {
+    removeOkrPeriod: okrPeriod => {
     }
   };
 };
