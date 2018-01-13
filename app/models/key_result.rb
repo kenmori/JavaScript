@@ -29,6 +29,6 @@ class KeyResult < ApplicationRecord
   end
 
   def progress_rate_linked?
-    progress_rate_in_database.nil? # 進捗率が未設定の場合は true
+    !child_objectives.empty? && progress_rate_in_database.nil?  # 子 Objective がいて進捗率が未設定の場合は true
   end
 end
