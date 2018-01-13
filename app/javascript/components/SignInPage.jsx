@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Image } from 'semantic-ui-react';
+import logo_image from '../images/logo_large.png';
 
 export default class SignIn extends Component {
   signIn() {
@@ -11,7 +12,7 @@ export default class SignIn extends Component {
     return (
       <div className='sign-in'>
         <main style={{ margin: 30, flexDirection: 'column' }} className='flex flex-center '>
-          <h1 className='center'>Resily</h1>
+          <Image as='h1' src={logo_image} title='Resily' />
           <Form>
             <Form.Group className='text-input-group'>
               <Form.Field inline>
@@ -23,8 +24,8 @@ export default class SignIn extends Component {
                 <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
-            <div className="user-create-link">新規ユーザー登録は<Link to="/users/sign_up">こちら</Link></div>
-            <div className="user-create-link">パスワードを忘れた方は<Link to="/users/password/recover">こちら</Link></div>
+            {/*<div className="user-create-link"><Link to="/users/sign_up">新規ユーザー登録はこちら</Link></div>*/}
+            <div className="user-create-link"><Link to="/users/password/recover">パスワードを忘れた方はこちら</Link></div>
             <div className='center'>
               <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
             </div>

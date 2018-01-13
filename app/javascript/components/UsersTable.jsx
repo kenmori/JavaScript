@@ -55,11 +55,11 @@ class UsersTable extends Component {
 
   getEmail =(user) => {
     if (user.get('unconfirmedEmail')) {
-      return `${user.get('unconfirmedEmail')}（unconfirmed_email）`;
+      return `${user.get('unconfirmedEmail')}（確認中）`;
     }
 
     if (!user.get('confirmedAt')) {
-      return `${user.get('email')}（unconfirmed_email）`;
+      return `${user.get('email')}（確認中）`;
     }
 
     return user.get('email');
@@ -162,9 +162,7 @@ class UsersTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell disabled/>
-              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={(event) => this.sort('id')}>
-                No
-              </Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={(event) => this.sort('id')} />
               <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={(event) => this.sort('lastName')}>
                 名前
               </Table.HeaderCell>
@@ -201,7 +199,7 @@ class UsersTable extends Component {
                       <EditableText value={firstName} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <EditableText value={this.state.emails[id]} saveValue={(email) => this.changeEmail(id, email)}/>
+                      <EditableText value={this.state.emails[id]} placeholder='name@example.com' saveValue={(email) => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <div>

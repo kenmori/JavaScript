@@ -39,11 +39,11 @@ class ObjectiveDetail extends Component {
         {objective.get('parentKeyResult') &&
           <div className="navi">
             <Icon name="arrow up" />
-            <span>上位のKeyResult: {objective.get('parentKeyResult').get('name')}</span>
+            <span>上位 KeyResult: {objective.get('parentKeyResult').get('name')}</span>
           </div>
         }
         <Form.Field className='values'>
-          <label>Objective 名</label>
+          <label>Objective</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
         </Form.Field>
         <Form.Field className='values'>

@@ -15,7 +15,7 @@ class KeyResult < ApplicationRecord
   end
 
   def owner
-    key_result_members.find_by(role: :owner).user
+    key_result_members.find_by(role: :owner)&.user
   end
 
   def members

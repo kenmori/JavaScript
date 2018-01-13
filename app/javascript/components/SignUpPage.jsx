@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, CustomCalendar, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Image } from 'semantic-ui-react';
+import logo_image from '../images/logo_large.png';
 
 export default class SignUp extends Component {
   addUser() {
@@ -21,13 +22,13 @@ export default class SignUp extends Component {
   render() {
     return (
       <div className="sign-up">
-        <main>
-          <h1 className="center">Resily</h1>
+        <main className='center'>
+          <Image as='h1' src={logo_image} title='Resily' />
           <Form className="user-form">
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>組織名</div>
-                <Input type='text' size='mini' placeholder='会社名、チーム名' ref={(node) => {this.organizationInput = node;}}/>
+                <Input type='text' size='mini' placeholder='会社名やチーム名など' ref={(node) => {this.organizationInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>組織ID</div>
@@ -35,11 +36,11 @@ export default class SignUp extends Component {
               </Form.Field>
               <Form.Field inline>
                 <div>姓</div>
-                <Input type='text' size='mini' ref={(node) => {this.lastNameInput = node;}}/>
+                <Input type='text' size='mini' placeholder='姓' ref={(node) => {this.lastNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>名</div>
-                <Input type='text' size='mini' ref={(node) => {this.firstNameInput = node;}}/>
+                <Input type='text' size='mini' placeholder='名' ref={(node) => {this.firstNameInput = node;}}/>
               </Form.Field>
               <Form.Field inline>
                 <div>メールアドレス</div>
@@ -50,7 +51,7 @@ export default class SignUp extends Component {
                 <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
-            <div className="center">
+            <div>
               <Button positive onClick={this.addUser.bind(this)}>登録する</Button>
             </div>
           </Form>
