@@ -15,7 +15,41 @@ class OkrPeriodSettingTab extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchObjectives(this.props.loginUser.get('id'));
+    this.props.fetchObjectives(this.props.loginUserId);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.isChangedObjectiveName(nextProps) || this.isChangedObjectiveMonthStart(nextProps) || this.isChangedObjectiveMonthEnd(nextProps);
+  }
+
+  isChangedArr(arr1, arr2) {
+    const mergeArr = [...arr1, ...arr2];
+    const resultArr = []
+    
+    for (let [i, v] of mergeArr.entries()) {
+      if(!arr1.includes(v)) resultArr.push(v)
+      if(!arr2.includes(v)) resultArr.push(v)
+    }
+
+    return !!resultArr.length;
+  }
+
+  isChangedObjectiveName(nextProps) {
+    const newArr = nextProps.objectives.map(item => item.get('name')).toArray();
+    const currentArr = this.props.objectives.map(item => item.get('name')).toArray();
+    return this.isChangedArr(newArr, currentArr);
+  }
+
+  isChangedObjectiveMonthStart(nextProps) {
+    const newArr = nextProps.objectives.map(item => item.get('okrPeriod').get('monthStart')).toArray();
+    const currentArr = this.props.objectives.map(item => item.get('okrPeriod').get('monthStart')).toArray();
+    return this.isChangedArr(newArr, currentArr);
+  }
+
+  isChangedObjectiveMonthEnd(nextProps) {
+    const newArr = nextProps.objectives.map(item => item.get('okrPeriod').get('monthEnd')).toArray();
+    const currentArr = this.props.objectives.map(item => item.get('okrPeriod').get('monthEnd')).toArray();
+    return this.isChangedArr(newArr, currentArr);
   }
 
   render() {
@@ -43,18 +77,21 @@ class OkrPeriodSettingTab extends Component {
             {
               objectives.map(objective => {
                 const id = objective.get('id');
-                const name = objective.get('name');
+                const objectiveName = objective.get('name');
                 const monthStart = objective.get('okrPeriod').get('monthStart');
                 const monthEnd = objective.get('okrPeriod').get('monthEnd');
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
+                      <EditableText value={objectiveName} saveValue={name => this.props.updateObjective({id, name})}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Form>
                         <Form.Group>
                           <Form.Field>
+                            <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthStart)} onChange={console.log} />
                             〜
+                            <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthEnd)} onChange={console.log} />
                           </Form.Field>
                         </Form.Group>
                       </Form>
@@ -74,7 +111,7 @@ class OkrPeriodSettingTab extends Component {
 }
 
 OkrPeriodSettingTab.propTypes = {
-  loginUser: PropTypes.object,
+  loginUserId: PropTypes.number,
   objectives: PropTypes.object,
   fetchObjectives: PropTypes.func,
   addObjective: PropTypes.func,

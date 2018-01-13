@@ -6,7 +6,7 @@ import { denormalizeObjectives } from "../schemas";
 const mapStateToProps = (state) => {
   const denormalizedObjectives = denormalizeObjectives(state);
   return {
-    loginUser: state.loginUser,
+    loginUserId: state.loginUser.get('id'),
     objectives: denormalizedObjectives,
   };
 };
@@ -18,7 +18,8 @@ const mapDispatchToProps = dispatch => {
     },
     addObjective: user => {
     },
-    updateObjective: user => {
+    updateObjective: objective => {
+      dispatch(objectiveActions.updateObjective(objective))
     },
     removeObjective: id => {
     }
