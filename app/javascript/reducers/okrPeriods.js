@@ -7,7 +7,7 @@ export default handleActions({
     return state.merge(payload.organization.get('okrPeriods'));
   },
   [ActionTypes.ADDED_OKR_PERIOD]: (state, { payload }) => {
-    state.push(payload.okrPeriod)
+    return state.push(payload.okrPeriod)
   },
   [ActionTypes.UPDATED_OKR_PERIOD]: (state, { payload }) => {
     return state.set(state.findIndex((okrPeriod) => {

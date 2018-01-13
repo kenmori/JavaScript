@@ -1,29 +1,61 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Tab, Table, Form, Button } from 'semantic-ui-react';
+import { Tab, Table, Form, Button, Input } from 'semantic-ui-react';
 import EditableText from './utils/EditableText';
 import DatePicker from './DatePicker';
 
 class OkrPeriodSettingTab extends Component {
   constructor(props) {
     super(props);
+    this.name = '';
     this.state = {
       column: null,
       direction: null,
+      monthStart: moment(),
+      monthEnd: moment(),
     };
+  }
+
+  addOkrPeriod() {
+    this.props.addOkrPeriod({
+      name: this.name.inputRef.value,
+      monthStart: this.state.monthStart.format(),
+      monthEnd: this.state.monthEnd.format(),
+      organizationId: this.props.organizationId,
+    })
   }
 
   render() {
     const { column, direction } = this.state;
-    console.log(3, this.props.okrPeriods)
-    console.log(3, this.props.okrPeriods)
     if (!this.props.okrPeriods) {
       return null;
     }
     const okrPeriods = this.props.okrPeriods;
     return (
       <Tab.Pane attached={false} className="okr-setting-tab">
+        <Form>
+          <Form.Group>
+            <Table singleLine sortable>
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell>
+                    <Input type="text" maxLength="255" required ref={node => { this.name = node; }} placeholder="期間名"/>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Form.Field><DatePicker dateFormat="YYYY/MM/DD" selected={this.state.monthStart} locale="ja" onChange={date => this.setState({monthStart: date})} /></Form.Field>
+                  </Table.Cell>
+                  <Table.Cell>
+                  <Form.Field><DatePicker dateFormat="YYYY/MM/DD" selected={this.state.monthEnd} locale="ja" onChange={date => this.setState({monthEnd: date})} /></Form.Field>
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    <Button icon="plus" content="追加する" onClick={this.addOkrPeriod.bind(this)}/>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+          </Form.Group>
+        </Form>
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
@@ -63,7 +95,7 @@ class OkrPeriodSettingTab extends Component {
                       </Form>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={() => this.props.updateOkrPeriod({id})} title="削除" negative/>
+                      <Button icon="trash" onClick={() => this.props.deleteOkrPeriod({id})} title="削除" negative/>
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -77,6 +109,7 @@ class OkrPeriodSettingTab extends Component {
 }
 
 OkrPeriodSettingTab.propTypes = {
+  organizationId: PropTypes.number,
   okrPeriods: PropTypes.object,
   addOkrPeriod: PropTypes.func,
   updateOkrPeriod: PropTypes.func,

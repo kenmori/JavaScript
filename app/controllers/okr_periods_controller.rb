@@ -3,7 +3,7 @@ class OkrPeriodsController < ApplicationController
     forbidden and return unless valid_permission?(params[:okr_period][:organization_id]) && current_user.admin?
     @okr_period = OkrPeriod.new(okr_period_params)
     if @okr_period.save
-      render action: :created
+      render status: :created
     else
       unprocessable_entity_with_errors(@okr_period.errors)
     end

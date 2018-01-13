@@ -5,6 +5,7 @@ import { denormalizeObjectives } from "../schemas";
 
 const mapStateToProps = (state) => {
   return {
+    organizationId: state.organizations.get('selected').get('id'),
     okrPeriods: state.okrPeriods,
   };
 };
