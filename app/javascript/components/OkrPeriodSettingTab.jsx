@@ -47,23 +47,23 @@ class OkrPeriodSettingTab extends Component {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
-                      <EditableText value={okrPeripdName} saveValue={name => this.props.updateObjective({id, name})}/>
+                      <EditableText value={okrPeripdName} saveValue={name => this.props.updateOkrPeriod({id, name})}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Form>
                         <Form.Group>
                           <Form.Field>
                             <div className="date-input">
-                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthStart)} onChange={console.log} />
+                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthStart)} onChange={date => this.props.updateOkrPeriod({id, monthStart: date.format()})} />
                               <div className="date-input__between">〜</div>
-                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthEnd)} onChange={console.log} />
+                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthEnd)} onChange={date => this.props.updateOkrPeriod({id, monthEnd: date.format()})} />
                             </div>
                           </Form.Field>
                         </Form.Group>
                       </Form>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={console.log} title="削除" negative/>
+                      <Button icon="trash" onClick={() => this.props.updateOkrPeriod({id})} title="削除" negative/>
                     </Table.Cell>
                   </Table.Row>
                 );

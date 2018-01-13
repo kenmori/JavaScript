@@ -1,6 +1,6 @@
 import OkrPeriodSettingTab from '../components/OkrPeriodSettingTab';
 import { connect } from 'react-redux';
-import organizationActions from '../actions/organizations';
+import okrPeriodActions from '../actions/okrPeriods';
 import { denormalizeObjectives } from "../schemas";
 
 const mapStateToProps = (state) => {
@@ -12,10 +12,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addOkrPeriod: okrPeriod => {
+      dispatch(okrPeriodActions.addOkrPeriod(okrPeriod));
     },
     updateOkrPeriod: okrPeriod => {
+      dispatch(okrPeriodActions.updateOkrPeriod(okrPeriod));
     },
     removeOkrPeriod: okrPeriod => {
+      dispatch(okrPeriodActions.removeOkrPeriod(okrPeriod));
     }
   };
 };

@@ -21,6 +21,6 @@ Rails.application.routes.draw do
     put 'current_organization_id', to: 'users#update_current_organization_id'
   end
   resources :organizations, only: %i[show update]
-  resources :okr_periods, only: %i[index]
+  resources :okr_periods, only: %i[index create update destroy]
   get '*path', to: 'home#index'
 end
