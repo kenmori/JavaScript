@@ -89,9 +89,11 @@ class OkrPeriodSettingTab extends Component {
                       <Form>
                         <Form.Group>
                           <Form.Field>
-                            <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthStart)} onChange={console.log} />
-                            〜
-                            <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthEnd)} onChange={console.log} />
+                            <div className="date-input">
+                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthStart)} onChange={console.log} />
+                              <div className="date-input__between">〜</div>
+                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthEnd)} onChange={console.log} />
+                            </div>
                           </Form.Field>
                         </Form.Group>
                       </Form>
