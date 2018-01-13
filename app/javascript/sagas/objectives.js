@@ -13,7 +13,7 @@ function* fetchObjectives({payload}) {
 
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
-  yield put(objectiveActions.addedObjective(result.get('objective')));
+  yield put(objectiveActions.addedObjective(result.get('objective'), payload.currentUserId));
   yield put(dialogActions.closeObjectiveFormModal());
 }
 

@@ -12,8 +12,8 @@ function normalizeObjectives(objectives) {
 const actions = createActions({
   [actionTypes.FETCH_OBJECTIVES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_OBJECTIVES]: (objectives) => (normalizeObjectives(objectives.toJSON())),
-  [actionTypes.ADD_OBJECTIVE]: (objective) => ({ objective }),
-  [actionTypes.ADDED_OBJECTIVE]: objective => (normalizeObjectives([objective.toJSON()])),
+  [actionTypes.ADD_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),
+  [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) => (normalizeObjectives([objective.toJSON()]).set('currentUserId', currentUserId)),
   [actionTypes.UPDATE_OBJECTIVE]: (objective) => ({ objective }),
   [actionTypes.UPDATED_OBJECTIVE]: objective => (normalizeObjectives([objective.toJSON()])),
   [actionTypes.REMOVE_OBJECTIVE]: (id) => ({ id }),

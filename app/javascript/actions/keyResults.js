@@ -12,8 +12,8 @@ function normalizeKeyResults(keyResults) {
 const actions = createActions({
   [actionTypes.FETCH_KEY_RESULTS]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_KEY_RESULTS]: (keyResults) => (normalizeKeyResults(keyResults.toJSON())),
-  [actionTypes.ADD_KEY_RESULT]: keyResult => (keyResult),
-  [actionTypes.ADDED_KEY_RESULT]: keyResult => (normalizeKeyResults([keyResult.toJSON()])),
+  [actionTypes.ADD_KEY_RESULT]: (keyResult, currentUserId) => ({ keyResult, currentUserId }),
+  [actionTypes.ADDED_KEY_RESULT]: (keyResult, currentUserId) => (normalizeKeyResults([keyResult.toJSON()]).set('currentUserId', currentUserId)),
   [actionTypes.UPDATE_KEY_RESULT]: keyResult => (keyResult),
   [actionTypes.UPDATED_KEY_RESULT]: keyResult => (normalizeKeyResults([keyResult.toJSON()])),
   [actionTypes.REMOVE_KEY_RESULT]: id => (id),

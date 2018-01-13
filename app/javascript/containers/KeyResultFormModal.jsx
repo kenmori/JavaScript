@@ -4,6 +4,7 @@ import actions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
+  this.currentUserId = state.current.get('userId');
   return {
     isOpen: state.dialogs.getIn(['keyResultForm', 'isOpen']),
     objective: state.dialogs.getIn(['keyResultForm', 'objective']),
@@ -16,7 +17,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addKeyResult: (keyResult) => {
-      dispatch(actions.addKeyResult(keyResult));
+      dispatch(actions.addKeyResult(keyResult, this.currentUserId));
     },
     closeModal: () => {
       dispatch(dialogActions.closeKeyResultFormModal());
