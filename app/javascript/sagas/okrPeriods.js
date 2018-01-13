@@ -19,7 +19,7 @@ function* updateOkrPeriod({ payload }) {
 
 function* removeOkrPeriod({ payload }) {
   yield call(API.delete, '/okr_periods/' + payload.okrPeriod.id);
-  yield put(okrPeriodActions.removedOkrPeriod(payload.okrPeriod.id));
+  yield put(okrPeriodActions.removedOkrPeriod({id: payload.okrPeriod.id}));
 }
 
 export function* okrPeriodSagas() {

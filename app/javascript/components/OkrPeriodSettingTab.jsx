@@ -26,6 +26,12 @@ class OkrPeriodSettingTab extends Component {
     })
   }
 
+  removeOkrPeriod(id, name){
+    if (confirm(`OKR期間 ${name} を削除しますか？`)) {
+      this.props.removeOkrPeriod({id});
+    }
+  };
+
   render() {
     const { column, direction } = this.state;
     if (!this.props.okrPeriods) {
@@ -73,13 +79,13 @@ class OkrPeriodSettingTab extends Component {
             {
               okrPeriods.map(okrPeriod => {
                 const id = okrPeriod.get('id');
-                const okrPeripdName = okrPeriod.get('name');
+                const okrPeriodName = okrPeriod.get('name');
                 const monthStart = okrPeriod.get('monthStart');
                 const monthEnd = okrPeriod.get('monthEnd');
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
-                      <EditableText value={okrPeripdName} saveValue={name => this.props.updateOkrPeriod({id, name})}/>
+                      <EditableText value={okrPeriodName} saveValue={name => this.props.updateOkrPeriod({id, name})}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Form>
@@ -95,7 +101,7 @@ class OkrPeriodSettingTab extends Component {
                       </Form>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={() => this.props.deleteOkrPeriod({id})} title="削除" negative/>
+                      <Button icon="trash" onClick={() => this.removeOkrPeriod(id, okrPeriodName)} title="削除" negative/>
                     </Table.Cell>
                   </Table.Row>
                 );

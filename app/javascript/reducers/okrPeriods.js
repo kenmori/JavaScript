@@ -16,7 +16,7 @@ export default handleActions({
   },
   [ActionTypes.REMOVED_OKR_PERIOD]: (state, { payload }) => {
     return state.filter((okrPeriod) => {
-      return okrPeriod.get('id') !== payload.id;
+      return okrPeriod.get('id') !== payload.okrPeriod.id;
     });
   },
 }, fromJS([]));
