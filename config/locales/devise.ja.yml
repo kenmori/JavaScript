@@ -48,21 +48,21 @@ ja:
       unconfirmed: "メールアドレスの本人確認が必要です。"
     mailer:
       confirmation_instructions:
-        action: "アカウント確認"
-        greeting: "ようこそ、%{recipient}さん!"
-        instruction: "次のリンクでメールアドレスの確認が完了します。"
-        subject: "アカウントの有効化について"
+        action: "アカウントを確認する"
+        greeting: "ようこそ、%{recipient} さん!"
+        instruction: "次のリンクをクリックするとメールアドレスの確認が完了します。"
+        subject: "Resily アカウントを有効化してください"
       password_change:
         greeting: "こんにちは、%{recipient}さん!"
         message: "あなたのパスワードが再設定されたことを通知します。"
         subject: "パスワードの変更について"
       reset_password_instructions:
-        action: "パスワード変更"
-        greeting: "こんにちは、%{recipient}さん!"
-        instruction: "誰かがパスワードの再設定を希望しました。次のリンクでパスワードの再設定が出来ます。"
-        instruction_2: "あなたが希望したのではないのなら、このメールは無視してください。"
+        action: "パスワードを変更する"
+        greeting: "こんにちは、%{recipient} さん!"
+        instruction: "あなたのパスワードの再設定がリクエストされました。次のリンクをクリックするとパスワードを再設定できます。"
+        instruction_2: "このメールに心当たりがない場合は、このメールを無視してください。"
         instruction_3: "上のリンクにアクセスして新しいパスワードを設定するまで、パスワードは変更されません。"
-        subject: "パスワードの再設定について"
+        subject: "Resily パスワードを再設定してください"
       unlock_instructions:
         action: "アカウントのロック解除"
         greeting: "こんにちは、%{recipient}さん!"

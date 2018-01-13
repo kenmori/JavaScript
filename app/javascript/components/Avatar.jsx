@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Popup } from 'semantic-ui-react';
+import avatar_image from '../images/avatar.png';
 
 class Avatar extends Component {
   avatarTag(path, name, size) {
     let cls = `avatar__img is-${size}`;
 
     if (size === 'small') {
-      path = path || 'https://s3-ap-northeast-1.amazonaws.com/resily-development/avatar/default.png';
+      path = path || avatar_image;
     }
 
     return path ?

@@ -63,14 +63,14 @@ class AccountSettingTab extends Component {
         <dl>
           <dt>名前</dt>
           <dd>
-            <EditableText value={user.get('lastName')} saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
-            <EditableText value={user.get('firstName')} saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+            <EditableText value={user.get('lastName')} placeholder='姓' saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+            <EditableText value={user.get('firstName')} placeholder='名' saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><EditableText value={this.state.email} saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
+          <dd><EditableText value={this.state.email} placeholder='name@example.com' saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
 
-          <dt>画像</dt>
+          <dt>アバター</dt>
           <dd><Avatar user={user} size="large" /></dd>
           <dd>
             <div className="avatar-img-button">
@@ -89,11 +89,11 @@ class AccountSettingTab extends Component {
           <dd>
             <dl>
               <dt>現在のパスワード</dt>
-              <dd><Input type="password" ref={node => { this.currentPasswordInput = node; }}/></dd>
+              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node; }}/></dd>
               <dt>新しいパスワード</dt>
-              <dd><Input type="password" ref={node => { this.passwordInput = node; }}/></dd>
+              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node; }}/></dd>
               <dt>新しいパスワード (確認用)</dt>
-              <dd><Input type="password" ref={node => { this.passwordConfirmationInput = node; }}/></dd>
+              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node; }}/></dd>
               <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
             </dl>
           </dd>

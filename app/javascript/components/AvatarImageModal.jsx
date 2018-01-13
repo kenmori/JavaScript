@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, CustomCalendar, Form, Icon, Input, Modal, Select, TextArea } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 
 class AvatarImageModal extends Component {
   constructor() {

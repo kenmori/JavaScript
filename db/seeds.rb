@@ -7,32 +7,37 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ApplicationRecord.transaction do
+
+  ###########
+  # 1. Test #
+  ###########
+
+  # 組織を作成
   organization = Organization.create!(
-      name: 'Resily株式会社',
-      uniq_name: 'resily'
+      name: 'Test',
+      uniq_name: 'test',
   )
 
-# 自動生成される OKR 期間を削除
-  OkrPeriod.find(1).destroy
+  # 自動生成される OKR 期間を削除
+  organization.okr_periods.first.destroy!
 
-# ログインユーザーを作成
+  # 管理者ユーザーを作成
   login_user = User.new(
       last_name: '山田',
       first_name: '太郎',
       email: 'yamada@example.com',
       password: 'Pass0123',
-      admin: true
+      admin: true,
   )
   login_user.skip_confirmation!
   login_user.save!
   organization.organization_members.create!(user_id: login_user.id)
 
-# 他のユーザーを作成
   another = User.new(
       last_name: '鈴木',
       first_name: '花子',
       email: 'suzuki@example.com',
-      password: 'Pass0123'
+      password: 'Pass0123',
   )
   another.skip_confirmation!
   another.save!
@@ -42,7 +47,8 @@ ApplicationRecord.transaction do
       last_name: '堀江',
       first_name: '真弘',
       email: 'horie@example.com',
-      password: 'Pass0123'
+      password: 'Pass0123',
+      admin: true,
   )
   horie.skip_confirmation!
   horie.save!
@@ -52,23 +58,28 @@ ApplicationRecord.transaction do
       last_name: 'ゲスト',
       first_name: 'ユーザー',
       email: 'guest@example.com',
-      password: 'Resily6289'
+      password: 'Ke4nQVXL',
   )
   guest.skip_confirmation!
   guest.save!
   organization.organization_members.create!(user_id: guest.id)
 
-# ログインユーザーの今期のOKRを作成
+  # OKR 期間を作成
   active_okr_period = organization.okr_periods.create!(
       month_start: '2017/12/01',
       month_end: '2018/02/28',
-      name: '3Q'
+      name: '3Q',
+  )
+  inactive_okr_period = organization.okr_periods.create!(
+      month_start: '2017/9/1',
+      month_end: '2017/11/30',
   )
 
+  # 今期 OKR を作成
   active_objective1 = login_user.objectives.create!(
-    name: '使いやすいサービスを作る',
-    description: '事業を成功させるには、少なくとも競合より使いやすいサービスが欲しい。',
-    okr_period_id: active_okr_period.id,
+      name: '使いやすいサービスを作る',
+      description: '事業を成功させるには、少なくとも競合より使いやすいサービスが欲しい。',
+      okr_period_id: active_okr_period.id,
   )
   active_key_result1 = login_user.key_results.create!(
       name: 'イケてるエンジニアを採用する',
@@ -85,11 +96,11 @@ ApplicationRecord.transaction do
   )
 
   active_objective2 = login_user.objectives.create!(
-    name: 'シニアエンジニアを採用する',
-    description: '開発を加速するには、シニアエンジニア級のスキルを持ったエンジニアが必要。',
-    okr_period_id: active_okr_period.id,
-    parent_objective_id: active_objective1.id,
-    parent_key_result_id: active_key_result1.id,
+      name: 'シニアエンジニアを採用する',
+      description: '開発を加速するには、シニアエンジニア級のスキルを持ったエンジニアが必要。',
+      okr_period_id: active_okr_period.id,
+      parent_objective_id: active_objective1.id,
+      parent_key_result_id: active_key_result1.id,
   )
   login_user.key_results.create!(
       name: '5人を面接する',
@@ -111,11 +122,11 @@ ApplicationRecord.transaction do
   )
 
   active_objective3 = another.objectives.create!(
-    name: 'MVP の機能を開発する',
-    description: '方針として MVP の機能にフォーカスすることで、確実に正式版のリリース日までに実装を完了する。',
-    okr_period_id: active_okr_period.id,
-    parent_objective_id: active_objective1.id,
-    parent_key_result_id: active_key_result2.id,
+      name: 'MVP の機能を開発する',
+      description: '方針として MVP の機能にフォーカスすることで、確実に正式版のリリース日までに実装を完了する。',
+      okr_period_id: active_okr_period.id,
+      parent_objective_id: active_objective1.id,
+      parent_key_result_id: active_key_result2.id,
   )
   another.key_results.create!(
       name: 'ログイン機能を実装する',
@@ -130,12 +141,7 @@ ApplicationRecord.transaction do
       expired_date: '2017-11-30'
   )
 
-# ログインユーザーの前期のOKRを作成
-  inactive_okr_period = organization.okr_periods.create!(
-      month_start: '2017/9/1',
-      month_end: '2017/11/30',
-  )
-
+  # 前期 OKR (Objective and Key Result) を作成
   inactive_objective1 = login_user.objectives.create!(
       name: 'プロトタイプを作る',
       description: 'ビジネスモデルを仮説検証するために実際に動かすことのできるプロトタイプが必須。',
@@ -222,21 +228,22 @@ ApplicationRecord.transaction do
       expired_date: '2017-09-30'
   )
 
-# 開発部の今期のOKRを作成
+  # 開発部 OKR を作成
   development_group = organization.groups.create(name: '開発部')
   development_group.group_members.create(user_id: another.id)
   development_group.owner.objectives.create(
-    name: '生産的な開発体制を構築する',
-    description: '',
-    okr_period_id: inactive_okr_period.id,
+      name: '生産的な開発体制を構築する',
+      description: '',
+      okr_period_id: inactive_okr_period.id,
   )
 
-# マーケティング部の今期のOKRを作成
+  # マーケティング部 OKR 作成
   marketing_group = organization.groups.create(name: 'マーケティング部')
   marketing_group.group_members.create(user_id: login_user.id)
   marketing_group.owner.objectives.create(
-    name: 'グローバルマーケティングを実施する',
-    description: '',
-    okr_period_id: inactive_okr_period.id
+      name: 'グローバルマーケティングを実施する',
+      description: '',
+      okr_period_id: inactive_okr_period.id
   )
+
 end

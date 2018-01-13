@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Image } from 'semantic-ui-react';
+import logo_image from '../images/logo_large.png';
 
 export default class PasswordEditPage extends Component {
   editPassword() {
@@ -23,8 +24,9 @@ export default class PasswordEditPage extends Component {
   render() {
     return (
       <div className='password-edit'>
-        <main>
-          <h1 className='center'>Resily</h1>
+        <main className='center'>
+          <Image as='h1' src={logo_image} title='Resily' />
+          <p>アカウントに再設定する新しいパスワードを入力してください。</p>
           <Form>
             <Form.Group className='text-input-group'>
               <Form.Field inline>
@@ -36,8 +38,8 @@ export default class PasswordEditPage extends Component {
                 <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInputConfirm = node;}}/>
               </Form.Field>
             </Form.Group>
-            <div className='center'>
-              <Button negative onClick={this.editPassword.bind(this)}>再設定</Button>
+            <div>
+              <Button positive onClick={this.editPassword.bind(this)}>再設定する</Button>
             </div>
           </Form>
         </main>
