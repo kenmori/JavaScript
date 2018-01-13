@@ -80,12 +80,12 @@ class MenuBar extends Component {
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
                       options={this.okrPeriodsOption(this.props.okrPeriods)}
-                      defaultValue={this.props.menu.get('okrPeriodId')}
+                      defaultValue={this.props.okrPeriodId}
                       onChange={this.handleOkrPeriodChange.bind(this)} />
           }
         </Menu.Item>
         <Menu.Item>
-          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.menu.get('userId')} onChange={(value) => this.props.changeUser(value)} /> }
+          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.userId} onChange={(value) => this.props.changeUser(value)} /> }
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
