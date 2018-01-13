@@ -18,8 +18,8 @@ function* addKeyResult({ payload }) {
 }
 
 function* updateKeyResult({payload}) {
-  const result = yield call(API.put, '/key_results/' + payload.id, { keyResult: payload });
-  yield put(keyResultActions.updatedKeyResult(result.get('keyResult')));
+  const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
+  yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), payload.currentUserId));
 }
 
 function* removeKeyResult({payload}) {

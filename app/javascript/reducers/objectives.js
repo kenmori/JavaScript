@@ -2,6 +2,14 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
+function add(state, objectiveId) {
+  return state.update('items', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId));
+}
+
+function remove(state, objectiveId) {
+  return state.update('items', ids => ids.filter(id => id !== objectiveId));
+}
+
 export default handleActions({
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetched', false);
@@ -16,11 +24,18 @@ export default handleActions({
       const userId = payload.get('currentUserId');
       const objectiveId = payload.get('result').first();
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const shouldAdd = userId === objective.get('owner').get('id');
-      return shouldAdd ? state.set('items', state.get('items').insert(0, objectiveId)) : state;
+      const isMine = userId === objective.get('owner').get('id');
+      return isMine ? add(state, objectiveId) : state;
+    },
+    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
+      const userId = payload.get('currentUserId');
+      const objectiveId = payload.get('result').first();
+      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
+      const isMine = userId === objective.get('owner').get('id');
+      return isMine ? add(state, objectiveId) : remove(state, objectiveId);
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return state.set('items', state.get('items').filter((objectiveId) => (objectiveId !== payload.id)));
+      return remove(state, payload.id);
     },
   },
   fromJS({
