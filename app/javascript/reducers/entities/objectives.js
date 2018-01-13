@@ -18,6 +18,7 @@ function merge(state, { payload }) {
 }
 
 export default handleActions({
+    [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();

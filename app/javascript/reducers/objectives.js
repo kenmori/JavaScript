@@ -11,6 +11,12 @@ function remove(state, objectiveId) {
 }
 
 export default handleActions({
+    [ActionTypes.FETCH_OBJECTIVE]: (state, { payload }) => {
+      return state.set('isFetched', false);
+    },
+    [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
+      return state.set('isFetched', true);
+    },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetched', false);
     },
