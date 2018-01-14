@@ -32,7 +32,7 @@ export default function withLoading(xhrRequest){
     if(++connectingCounter === 1) {
       yield fork(openLoading);  
     }
-    const response = yield xhrRequest(...arguments);
+    yield xhrRequest(...arguments);
     if(--connectingCounter === 0) {
       yield put(loadingActions.closeLoading());
     }
