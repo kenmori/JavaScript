@@ -2,7 +2,7 @@ class OkrPeriodsController < ApplicationController
   def create
     forbidden and return unless valid_permission?(params[:okr_period][:organization_id]) && current_user.admin?
     @okr_period = OkrPeriod.new(okr_period_params)
-    if @okr_period.save
+    if valid_month_start_and_month_end && @okr_period.save
       render status: :created
     else
       unprocessable_entity_with_errors(@okr_period.errors)
@@ -32,6 +32,25 @@ class OkrPeriodsController < ApplicationController
   end
 
   private
+
+  def valid_month_start_and_month_end
+    p "----"
+    p @okr_period.month_start, @okr_period.month_end, @okr_period.month_start >= @okr_period.month_end
+    if @okr_period.month_start >= @okr_period.month_end
+      @okr_period.errors[:error] << "期間が不正です。"
+      return false 
+    end
+
+    periods = OkrPeriod.where(organization_id: @okr_period.organization_id).pluck(:month_start, :month_end)
+    periods.each do |period|
+      if @okr_period.month_start.between?(period[0], period[1]) || @okr_period.month_end.between?(period[0], period[1])
+        @okr_period.errors[:error] << "期間が重複しています。"
+        return false
+      end
+    end
+
+    return true
+  end
 
   def okr_period_params
     params.require(:okr_period)
