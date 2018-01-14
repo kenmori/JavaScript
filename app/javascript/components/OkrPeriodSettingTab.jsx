@@ -12,9 +12,49 @@ class OkrPeriodSettingTab extends Component {
     this.state = {
       column: null,
       direction: null,
+      okrPeriods: this.props.okrPeriods,
       monthStart: moment(),
       monthEnd: moment(),
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.okrPeriods) {
+      const okrPeriods = this.state.column 
+                          ? this.getSortedOkrPeriods(nextProps.okrPeriods, this.state.column) 
+                          : nextProps.okrPeriods;
+      this.setState({
+        okrPeriods
+      })
+    }
+  }
+
+  sort(column) {
+    if (this.state.column !== column) {
+      const sortedOkrPeriods = this.getSortedOkrPeriods(this.state.okrPeriods, column);
+      this.setState({
+        column: column,
+        okrPeriods: sortedOkrPeriods,
+        direction: 'ascending',
+      });
+      return;
+    }
+
+    this.setState({
+      okrPeriods: this.state.okrPeriods.reverse(),
+      direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
+    });
+  };
+
+  getSortedOkrPeriods = (okrPeriods, column) => {
+    return okrPeriods.sort((a, b) => {
+      if (typeof a.get(column) === 'string') {
+        return a.get(column).localeCompare(b.get(column));
+      } else {
+        if (a.get(column) < b.get(column)) { return -1; }
+        if (a.get(column) > b.get(column)) { return 1; }
+        if (a.get(column) === b.get(column)) { return 0; }
+      }
+    });
   }
 
   addOkrPeriod() {
@@ -37,7 +77,7 @@ class OkrPeriodSettingTab extends Component {
     if (!this.props.okrPeriods) {
       return null;
     }
-    const okrPeriods = this.props.okrPeriods;
+    const okrPeriods = this.state.okrPeriods;
     return (
       <Tab.Pane attached={false} className="okr-setting-tab">
         <Form>
@@ -65,10 +105,10 @@ class OkrPeriodSettingTab extends Component {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={(event) => this.sort('id')}>
+              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={(event) => this.sort('name')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'month_start' ? direction : null} onClick={(event) => this.sort('lastName')}>
+              <Table.HeaderCell sorted={column === 'month_start' ? direction : null} onClick={(event) => this.sort('month_start')}>
                 期間
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
