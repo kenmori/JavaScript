@@ -22,10 +22,24 @@ class OkrPeriodSettingTab extends Component {
       const okrPeriods = this.state.column 
                           ? this.getSortedOkrPeriods(nextProps.okrPeriods, this.state.column) 
                           : nextProps.okrPeriods;
+      const monthStart = this.getMonthStart(nextProps.okrPeriods);
+      const monthEnd = this.getMonthEnd(monthStart);
       this.setState({
-        okrPeriods
+        okrPeriods,
+        monthStart,
+        monthEnd,
       })
     }
+  }
+
+  getMonthStart(okrPeriods) {
+    const endDateList = okrPeriods.map(item => item.get('monthEnd')).sort().toArray();
+    const endDate = endDateList[endDateList.length - 1]
+    return moment(endDate).add(1, 'month').startOf('month');
+  }
+
+  getMonthEnd(monthStart) {
+    return monthStart.clone().add(this.props.okrSpan - 1, 'month').endOf('month');
   }
 
   sort(column) {
@@ -156,6 +170,7 @@ class OkrPeriodSettingTab extends Component {
 
 OkrPeriodSettingTab.propTypes = {
   organizationId: PropTypes.number,
+  okrSpan: PropTypes.number,
   okrPeriods: PropTypes.object,
   addOkrPeriod: PropTypes.func,
   updateOkrPeriod: PropTypes.func,
