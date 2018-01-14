@@ -12,7 +12,7 @@ class OkrPeriodsController < ApplicationController
   def update
     @okr_period = OkrPeriod.find(params[:id])
     forbidden and return unless valid_permission?(@okr_period.organization_id) && current_user.admin?
-    if @okr_period.update(okr_period_params)
+    if valid_month_start_and_month_end && @okr_period.update(okr_period_params)
       render action: :create, status: :ok
     else
       unprocessable_entity_with_errors(@okr_period.errors)
@@ -23,7 +23,7 @@ class OkrPeriodsController < ApplicationController
     @okr_period = OkrPeriod.find(params[:id])
     forbidden and return unless valid_permission?(@okr_period.organization_id) && current_user.admin?
 
-    if @okr_period.destroy
+    if can_delete? && @okr_period.destroy
       head :no_content
     else
       unprocessable_entity_with_errors(@okr_period.errors)
@@ -33,9 +33,13 @@ class OkrPeriodsController < ApplicationController
 
   private
 
+  def can_delete?
+    return true if @okr_period.objectives.blank? && @okr_period.key_results.blank?
+    @okr_period.errors[:error] << "関連するObjective、またはKeyResultが存在するため削除できません。"
+    return false
+  end 
+
   def valid_month_start_and_month_end
-    p "----"
-    p @okr_period.month_start, @okr_period.month_end, @okr_period.month_start >= @okr_period.month_end
     if @okr_period.month_start >= @okr_period.month_end
       @okr_period.errors[:error] << "期間が不正です。"
       return false 
