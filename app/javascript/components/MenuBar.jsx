@@ -36,7 +36,7 @@ class MenuBar extends Component {
   }
 
   handleOkrPeriodChange(event, { value }) {
-    this.props.changeOkrPeriod(value);
+    this.props.changeCurrentOkrPeriod(value);
   }
 
   handleChangeOrganization(event, { value }) {
@@ -85,7 +85,7 @@ class MenuBar extends Component {
           }
         </Menu.Item>
         <Menu.Item>
-          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.userId} onChange={(value) => this.props.changeUser(value)} /> }
+          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.userId} onChange={(value) => this.props.changeCurrentUser(value)} /> }
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
@@ -103,8 +103,8 @@ class MenuBar extends Component {
 
 MenuBar.propTypes = {
   fetchOrganization: PropTypes.func.isRequired,
-  changeUser: PropTypes.func.isRequired,
-  changeOkrPeriod: PropTypes.func.isRequired,
+  changeCurrentUser: PropTypes.func.isRequired,
+  changeCurrentOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,
   users: PropTypes.object,
   okrPeriods: PropTypes.object,

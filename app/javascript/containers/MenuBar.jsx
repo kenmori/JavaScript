@@ -24,17 +24,17 @@ const mapDispatchToProps = dispatch => {
     fetchOrganization: (id) => {
       dispatch(organizationActions.fetchOrganization({id}));
     },
-    changeUser: (userId) => {
+    changeCurrentUser: (userId) => {
       if (location.pathname !== '/') {
         history.push('/');
       }
-      dispatch(currentActions.changeUser(userId));
+      dispatch(currentActions.changeCurrentUser(userId));
     },
-    changeOkrPeriod: (okrPeriodId) => {
+    changeCurrentOkrPeriod: (okrPeriodId) => {
       if (location.pathname !== '/') {
         history.push('/');
       }
-      dispatch(currentActions.changeOkrPeriod(okrPeriodId));
+      dispatch(currentActions.changeCurrentOkrPeriod(okrPeriodId));
     },
     changeCurrentOrganizationId: (id, organizationId) => {
       dispatch(userActions.updateCurrentOrganizationId({id, organizationId}));

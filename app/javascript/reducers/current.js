@@ -9,10 +9,10 @@ const initialState = fromJS({
 });
 
 export default handleActions({
-  [ActionTypes.CHANGE_OKR_PERIOD]: (state, { payload }) => (
+  [ActionTypes.CHANGE_CURRENT_OKR_PERIOD]: (state, { payload }) => (
     state.set('okrPeriodId', payload.okrPeriodId)
   ),
-  [ActionTypes.CHANGE_USER]: (state, { payload }) => (
+  [ActionTypes.CHANGE_CURRENT_USER]: (state, { payload }) => (
     state.set('userId', payload.userId)
   ),
 }, initialState);
