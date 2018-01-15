@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
     objective: objective && denormalizeObjective(objective, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
+    message: state.dialogs.getIn(['okrForm', 'message']),
   };
 };
 
@@ -47,6 +48,9 @@ const mapDispatchToProps = dispatch => {
           dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
         }, 0);
       }
+    },
+    clearMessage: () => {
+      dispatch(dialogActions.clearOkrFormModalMessage());
     }
   };
 };

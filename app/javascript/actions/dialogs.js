@@ -11,6 +11,7 @@ const actions = createActions({
   [actionTypes.CLOSE_OBJECTIVE_FORM_MODAL]: () => {},
   [actionTypes.OPEN_OKR_FORM_MODAL]: (objectiveId, selectedOkr) => ({ objectiveId, selectedOkr }),
   [actionTypes.CLOSE_OKR_FORM_MODAL]: () => {},
+  [actionTypes.CLEAR_OKR_FORM_MODAL_MESSAGE]: () => {},
   [actionTypes.OPEN_AVATAR_IMAGE_MODAL]: (targetId, imageData) => ({ targetId, imageData }),
   [actionTypes.CLOSE_AVATAR_IMAGE_MODAL]: () => {},
   [actionTypes.SHOW_OKR_DETAIL]: (selectedOkr) => ({selectedOkr}),
