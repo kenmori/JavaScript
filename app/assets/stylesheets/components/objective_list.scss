@@ -1,7 +1,8 @@
 .objective-list {
   overflow-x: auto;
+  white-space: nowrap;
   margin: 16px 16px 16px 24px;
-  height: 205px;
+  height: 195px;
 
   .objective-box {
     display: inline-flex;
@@ -9,7 +10,7 @@
     margin-right: 30px;
     padding: 4px;
     width: 210px;
-    height: 205px;
+    height: 195px;
     justify-content: center;
     align-items: center;
     border: 2px rgba(34, 36, 38, 0.15) dashed;
@@ -36,6 +37,7 @@
     .name {
       width: 100%;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
