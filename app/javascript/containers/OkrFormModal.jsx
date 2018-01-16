@@ -49,9 +49,6 @@ const mapDispatchToProps = dispatch => {
         }, 0);
       }
     },
-    clearMessage: () => {
-      dispatch(dialogActions.clearOkrFormModalMessage());
-    }
   };
 };
 

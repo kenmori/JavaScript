@@ -5,7 +5,7 @@ import { Modal, Transition, Message } from 'semantic-ui-react';
 import Sidebar from './Sidebar'
 import ObjectiveDetail from './ObjectiveDetail'
 import KeyResultDetail from './KeyResultDetail'
-
+import ToastMessage from '../../containers/ToastMessage';
 
 class OkrFormModal extends Component {
   constructor(props) {
@@ -94,6 +94,7 @@ class OkrFormModal extends Component {
         closeOnRootNodeClick={true} 
         onClose={this.props.closeModal}
       >
+        <ToastMessage />
         <Modal.Content>
           <div className="okr-body">
             <Sidebar 
@@ -103,7 +104,6 @@ class OkrFormModal extends Component {
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
             />
             <div className="okr-main">
-              {this.message()}
               {this.modalContentTag(objective, selectedOkr)}
             </div>
           </div>

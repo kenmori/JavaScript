@@ -5,6 +5,7 @@ import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
+import toastActions from '../actions/toasts';
 
 function* fetchObjectives({payload}) {
   const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
@@ -20,6 +21,7 @@ function* addObjective({ payload }) {
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   yield put(objectiveActions.updatedObjective(result.get('objective')));
+  yield put(toastActions.showSuccessMessage('Objective を変更しました'));
 }
 
 function* removeObjective({payload}) {

@@ -22,9 +22,6 @@ export default handleActions({
     [ActionTypes.OPEN_OKR_FORM_MODAL]: (state, { payload }) => (
       state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, selectedOkr: payload.selectedOkr }))
     ),
-    [ActionTypes.CLEAR_OKR_FORM_MODAL_MESSAGE]: (state) => (
-      state.setIn(['okrForm', 'message'], null)
-    ),
     [ActionTypes.CLOSE_OKR_FORM_MODAL]: (state) => (
       state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, selectedOkr: null }))
     ),
@@ -55,18 +52,6 @@ export default handleActions({
     [ActionTypes.CLOSE_ERROR_MODAL]: (state) => (
       state.set('error', fromJS({ isOpen: false, message: '' }))
     ),
-    [ActionTypes.UPDATED_OBJECTIVE]: (state) => {
-      if(!state.getIn(['okrForm', 'isOpen'])) return state;
-      return state.setIn(['okrForm', 'message'], 'Objective を変更しました');
-    },
-    [ActionTypes.UPDATED_KEY_RESULT]: (state) => {
-      if(!state.getIn(['okrForm', 'isOpen'])) return state;
-      return state.setIn(['okrForm', 'message'], 'Key Result を変更しました');
-    },
-    [ActionTypes.REMOVED_KEY_RESULT]: (state) => {
-      if(!state.getIn(['okrForm', 'isOpen'])) return state;
-      return state.setIn(['okrForm', 'message'], 'Key Result を削除しました');
-    },
   },
   fromJS({
     objectiveForm: {

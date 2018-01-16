@@ -11,6 +11,7 @@ import okrPeriods from './okrPeriods';
 import signUp from './signUp';
 import password from './password';
 import loading from './loading';
+import toasts from './toasts';
 
 const reducers = combineReducers({
   entities,
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   signUp,
   password,
   loading,
+  toasts
 });
 
 export default reducers;
