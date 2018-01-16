@@ -3,22 +3,28 @@ import PropTypes from 'prop-types';
 import OkrPieChart from './OkrPieChart';
 
 class ObjectiveList extends Component {
+
+  selectObjective = objective => {
+    this.props.onSelectObjective(objective);
+    this.props.changeCurrentObjective(objective.get('id'));
+  }
+
   ellipsis(text, displayTextNum) {
     if (text.length <= displayTextNum) {
       return text;
     }
     return text.split("").splice(0, displayTextNum).join("") + "…";
   }
+
   render() {
-    const selectedId = this.props.selectedObjective && this.props.selectedObjective.get('id');
     return (
       <div className="objective-list">
         {
           this.props.objectives.map((objective) => {
-            const isSelected = objective.get('id') === selectedId;
+            const isSelected = objective.get('id') === this.props.currentObjectiveId;
             return (
               <a className={`objective-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
-                 href="javascript:void(0)" onClick={() => this.props.onSelectObjective(objective)}>
+                 href="javascript:void(0)" onClick={() => this.selectObjective(objective)}>
                 <div className='name'>{this.ellipsis(objective.get('name'), 31)}</div>
                 <OkrPieChart objective={objective} />
               </a>
@@ -31,11 +37,7 @@ class ObjectiveList extends Component {
 
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
-  selectedObjective: PropTypes.object,
   onSelectObjective: PropTypes.func.isRequired,
-};
-ObjectiveList.defaultProps = {
-  selectedObjective: null,
 };
 
 export default ObjectiveList;

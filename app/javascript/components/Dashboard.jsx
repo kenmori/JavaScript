@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Button, Segment, Header } from 'semantic-ui-react';
-import ObjectiveList from '../components/ObjectiveList';
-import KeyResultList from '../components/KeyResultList';
+import ObjectiveList from '../containers/ObjectiveList';
+import KeyResultList from '../containers/KeyResultList';
 import OkrMap from '../containers/OkrMap';
 
 export default class Dashboard extends Component {
@@ -9,7 +9,6 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       selectedObjective: null,
-      selectedKeyResult: null,
       activeItem: 'objective',
     };
   }
@@ -23,8 +22,19 @@ export default class Dashboard extends Component {
     if (this.props.okrPeriodId !== nextProps.okrPeriodId || this.props.userId !== nextProps.userId) {
       this.props.fetchObjectives(nextProps.okrPeriodId, nextProps.userId);
       this.props.fetchKeyResults(nextProps.okrPeriodId, nextProps.userId);
-    } else if (this.props.objectives !== nextProps.objectives) {
-      this.selectObjective(this.getSelectedObjective(this.props.objectives, nextProps.objectives));
+    } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {
+      this.selectObjective(nextProps.fetchedObjective);
+    } else if (this.props.objectiveIds !== nextProps.objectiveIds) {
+      const selectedObjective = this.getSelectedObjective(this.props.objectives, nextProps.objectives);
+      this.selectObjective(selectedObjective);
+      if (selectedObjective) {
+        this.props.changeCurrentObjective(selectedObjective.get('id'));
+      }
+    } else if (this.props.entities !== nextProps.entities) {
+      const selectedObjective = this.getCurrentSelectedObjective(nextProps.objectives, nextProps.fetchedObjective);
+      if (selectedObjective) {
+        this.selectObjective(selectedObjective);
+      }
     }
   }
 
@@ -47,17 +57,21 @@ export default class Dashboard extends Component {
     return prevObjective; // 選択状態は変えない
   }
 
+  getCurrentSelectedObjective = (nextObjectives, nextFetchedObjective) => {
+    // 現在選択中の Objective を nextProps の中から探して返す
+    const prevObjectiveId = this.state.selectedObjective && this.state.selectedObjective.get('id');
+    const prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
+    if (prevObjective) {
+      return prevObjective;
+    } else if (nextFetchedObjective && nextFetchedObjective.get('id') === prevObjectiveId) {
+      return nextFetchedObjective;
+    }
+    return null;
+  }
+
   selectObjective = objective => {
     this.setState({
       selectedObjective: objective,
-      selectedKeyResult: null,
-    });
-  }
-
-  selectKeyResult = keyResult => {
-    this.setState({
-      selectedObjective: keyResult.get('objective'),
-      selectedKeyResult: keyResult
     });
   }
 
@@ -101,11 +115,9 @@ export default class Dashboard extends Component {
           </div>
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.props.objectives}
-                             selectedObjective={this.state.selectedObjective}
                              onSelectObjective={this.selectObjective} />
             : <KeyResultList keyResults={this.props.keyResults}
-                             selectedKeyResult={this.state.selectedKeyResult}
-                             onSelectKeyResult={this.selectKeyResult} />
+                             onSelectObjective={this.selectObjective} />
           }
         </section>
         <section className='okr-map-section'>
