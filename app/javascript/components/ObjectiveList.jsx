@@ -9,13 +9,6 @@ class ObjectiveList extends Component {
     this.props.changeCurrentObjective(objective.get('id'));
   }
 
-  ellipsis(text, displayTextNum) {
-    if (text.length <= displayTextNum) {
-      return text;
-    }
-    return text.split("").splice(0, displayTextNum).join("") + "…";
-  }
-
   render() {
     return (
       <div className="objective-list">
@@ -25,7 +18,7 @@ class ObjectiveList extends Component {
             return (
               <a className={`objective-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                  href="javascript:void(0)" onClick={() => this.selectObjective(objective)}>
-                <div className='name'>{this.ellipsis(objective.get('name'), 31)}</div>
+                <div className='name'>{objective.get('name')}</div>
                 <OkrPieChart objective={objective} />
               </a>
             );
