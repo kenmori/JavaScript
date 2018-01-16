@@ -10,18 +10,21 @@ class OkrCard extends Component {
     return (
       <Card.Content className="keyResults">
         <List>
-          {keyResults.map(keyResult =>
-            <List.Item className="keyResults__item" key={keyResult.get('id')}>
-              <Avatar user={keyResult.get('owner')} size='small' />
-              <div className='name'>
-                <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
-                  okrType: 'keyResult',
-                  targetId: keyResult.get('id')
-                })}>{keyResult.get('name')}</a>
-              </div>
-              <div className="progress">{keyResult.get('progressRate')}%</div>
-            </List.Item>
-          )}
+          {keyResults.map(keyResult => {
+            const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
+            return (
+              <List.Item className={`keyResults__item ${isSelected ? 'active' : ''}`} key={keyResult.get('id')}>
+                <Avatar user={keyResult.get('owner')} size='small' />
+                <div className='name'>
+                  <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
+                    okrType: 'keyResult',
+                    targetId: keyResult.get('id')
+                  })}>{keyResult.get('name')}</a>
+                </div>
+                <div className="progress">{keyResult.get('progressRate')}%</div>
+              </List.Item>
+            );
+          })}
           <List.Item className="keyResults__item--add">
             <List.List>
               <List.Item as='a' icon='plus' content='Key Result を追加する'
