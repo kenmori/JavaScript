@@ -5,6 +5,7 @@ import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List } from 'immutable'
+import { denormalizeObjective } from "../../schemas";
 
 class OkrMap extends Component {
   constructor(props) {
@@ -23,20 +24,35 @@ class OkrMap extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.objective !== nextProps.objective) {
-      this.createObjectivesList(nextProps.objective);
+    const nextObjectiveId = nextProps.objective.get('id');
+    if (this.props.objective.get('id') !== nextObjectiveId) {
+      if (this.state.visibleIds.includes(nextObjectiveId)) {
+        this.createObjectivesList(nextProps.objective, this.state.visibleIds);
+      } else {
+        this.createObjectivesList(nextProps.objective);
+      }
+    } else if (this.props.objective !== nextProps.objective) {
+      this.createObjectivesList(nextProps.objective, this.state.visibleIds);
     }
   }
 
   createObjectivesList(objective, visibleIds = List.of(objective.get('id'))) {
-    const findRoot = (objective, rootId) => {
+    const getRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
       } else {
         const parentId = objective.get('parentObjectiveId');
-        // FIXME: this.props.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
-        const parent = this.props.objectives.find(objective => objective.get('id') === parentId)
-        return findRoot(parent, rootId);
+        if (parentId === rootId) {
+          const parent = objective.get('parentObjective');
+          if (parent) {
+            // TODO: parentObjective は denormalize されていないため直接 denormalize する必要がある
+            return denormalizeObjective(parent, this.props.entities);
+          } else {
+            // 他人の Objective の場合
+            this.props.fetchObjective(parentId);
+          }
+        }
+        return objective;
       }
     };
 
@@ -44,7 +60,7 @@ class OkrMap extends Component {
       const childObjectives = objective.get('childObjectives');
       if (!childObjectives.isEmpty()) {
         result = result.push(childObjectives);
-        const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')))
+        const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')));
         if (child) {
           result = collectDescendants(result, child);
         }
@@ -59,7 +75,7 @@ class OkrMap extends Component {
       rootObjective = this.state.rootObjective;
       objectivesList = List.of(List.of(rootObjective));
     } else {
-      rootObjective = findRoot(objective, visibleIds.first());
+      rootObjective = getRoot(objective, visibleIds.first());
       objectivesList = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
     }
     this.setState({
@@ -180,11 +196,10 @@ class OkrMap extends Component {
         visibleIds = this.state.visibleIds.take(index + 1).push(targetId);
       }
     }
-    this.createObjectivesList(this.props.objective, visibleIds);
+    this.createObjectivesList(this.state.rootObjective, visibleIds);
   }
 
   render() {
-    const selectedId = this.props.objective.get('id');
     return (
       <div className='okr-map' ref='map'>
         {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
@@ -193,7 +208,6 @@ class OkrMap extends Component {
               <OkrCard
                 key={key}
                 objective={objective}
-                isSelected={objective.get('id') === selectedId}
                 ref={`objective_${objective.get('id')}`}
               />
             ))}
@@ -209,7 +223,6 @@ class OkrMap extends Component {
 
 OkrMap.propTypes = {
   objective: PropTypes.object.isRequired,
-  objectives: PropTypes.object.isRequired,
 };
 
 export default OkrMap;

@@ -15,16 +15,14 @@ export default handleActions({
       return state.set('isFetched', false);
     },
     [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
-      return state.set('isFetched', true);
+      const objectiveId = payload.get('result').first();
+      return state.set('fetchedObjective', objectiveId).set('isFetched', true);
     },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetched', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return fromJS({
-        items: payload.get('result'),
-        isFetched: true,
-      });
+      return state.set('items', payload.get('result')).set('isFetched', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const userId = payload.get('currentUserId');
@@ -46,6 +44,7 @@ export default handleActions({
   },
   fromJS({
     items: [],
+    fetchedObjective: null,
     isFetched: false,
   }),
 );
