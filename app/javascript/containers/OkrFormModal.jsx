@@ -7,10 +7,9 @@ import { denormalizeObjective } from '../schemas/index'
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
-  let objective = state.entities.objectives.get(state.dialogs.getIn(['okrForm', 'objectiveId']));
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
-    objective: objective && denormalizeObjective(objective, state.entities),
+    objective: denormalizeObjective(state.dialogs.getIn(['okrForm', 'objectiveId']), state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
   };

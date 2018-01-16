@@ -46,7 +46,7 @@ class OkrMap extends Component {
           const parent = objective.get('parentObjective');
           if (parent) {
             // TODO: parentObjective は denormalize されていないため直接 denormalize する必要がある
-            return denormalizeObjective(parent, this.props.entities);
+            return denormalizeObjective(parentId, this.props.entities);
           } else {
             // 他人の Objective の場合
             this.props.fetchObjective(parentId);

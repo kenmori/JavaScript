@@ -7,19 +7,17 @@ import currentActions from '../actions/current';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
 
 const mapStateToProps = (state) => {
-  const objectiveIds = state.objectives.get('items');
-  const denormalizedObjectives = denormalizeObjectives(objectiveIds, state.entities);
-  const denormalizedKeyResults = denormalizeKeyResults(state.keyResults, state.entities);
+  const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     objectiveIds: objectiveIds,
-    objectives: denormalizedObjectives,
-    keyResults: denormalizedKeyResults,
+    objectives: denormalizeObjectives(objectiveIds, state.entities),
+    keyResults: denormalizeKeyResults(state.keyResults, state.entities),
     isFetched: state.objectives.get('isFetched'),
     fetchedObjectiveId: fetchedObjectiveId,
-    fetchedObjective: denormalizeObjective(state.entities.objectives.get(fetchedObjectiveId), state.entities),
+    fetchedObjective: denormalizeObjective(fetchedObjectiveId, state.entities),
     entities: state.entities,
   };
 };
