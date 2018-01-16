@@ -18,6 +18,12 @@ class ObjectiveFormModal extends Component {
     this.props.addObjective(objective);
   }
 
+  getInitialOwnerId() {
+    return this.props.relatedKeyResult
+      ? this.props.relatedKeyResult.get('owner').get('id')
+      : this.props.currentUserId;
+  }
+
   getRelatedKeyResultForm(relatedKeyResult) {
     if (relatedKeyResult) {
       return (
@@ -35,7 +41,7 @@ class ObjectiveFormModal extends Component {
     if (
       this.nameInput.inputRef.value !== '' ||
       findDOMNode(this.descriptionArea).value !== '' ||
-      this.ownerSelect.selectedValue !== this.props.loginUser.get('id')
+      this.ownerSelect.selectedValue !== this.getInitialOwnerId()
     ) {
       return true;
     }
@@ -129,7 +135,7 @@ class ObjectiveFormModal extends Component {
                     <label>責任者</label>
                     <UserSelectBox
                       users={this.props.users} 
-                      defaultValue={this.props.loginUser.get('id')}
+                      defaultValue={this.getInitialOwnerId()}
                       ref={node => {this.ownerSelect = node;}}
                     />
                   </Form.Field>
