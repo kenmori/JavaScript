@@ -66,7 +66,6 @@ export default handleActions({
       isOpen: false,
       objectiveId: null,
       selectedOkr: Map(),
-      message: null,
     },
     avatarImage: {
       isOpen: false,
