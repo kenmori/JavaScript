@@ -35,8 +35,9 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
+    const isSelected = objective.get('id') === this.props.currentObjectiveId;
     return (
-      <Card className={`okr-card ${this.props.isSelected ? 'active' : ''}`}>
+      <Card className={`okr-card ${isSelected ? 'active' : ''}`}>
         <Card.Content>
           <Card.Header>
             <Avatar user={objective.get('owner')} />
@@ -57,7 +58,6 @@ class OkrCard extends Component {
 
 OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
-  isSelected: PropTypes.bool.isRequired,
 };
 
 export default OkrCard;

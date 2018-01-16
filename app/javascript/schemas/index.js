@@ -13,42 +13,28 @@ const objectiveListSchema = [objectiveSchema];
 const keyResultListSchema = [keyResultSchema];
 
 function denormalizeObjective(objective, entities) {
+  if (!objective) return null;
   return objective
-    .set('keyResults', objective.get('keyResults').map((keyResultId) => {
-      return entities.keyResults.get(keyResultId)
-    }))
-    .set('childObjectives', objective.get('childObjectives').map((childObjectiveId) => {
-      if (childObjectiveId) {
-        return denormalizeObjective(entities.objectives.get(childObjectiveId), entities);
-      } else {
-        return undefined;
-      }
-    }))
+    .set('parentObjective', entities.objectives.get(objective.get('parentObjectiveId')))
     .set('parentKeyResult', entities.keyResults.get(objective.get('parentKeyResultId')))
-    .set('parentObjective', entities.objectives.get(objective.get('parentObjectiveId')));
+    .update('keyResults', ids => ids.map(id => entities.keyResults.get(id)).filter(value => !!value))
+    .update('childObjectives', ids => ids.map(id => denormalizeObjective(entities.objectives.get(id), entities)));
 }
 
-function denormalizeObjectives(state) {
-  return state.objectives.map((objectiveId) => {
-    return denormalizeObjective(state.entities.objectives.get(objectiveId), state.entities)
-  });
+function denormalizeObjectives(objectives, entities) {
+  return objectives
+    .map(id => denormalizeObjective(entities.objectives.get(id), entities));
 }
 
 function denormalizeKeyResult(keyResult, entities) {
-  const objective = entities.objectives.get(keyResult.get('objectiveId'));
-  if (objective) {
-    return keyResult
-      .set('objective', denormalizeObjective(objective, entities));
-  } else {
-    // FIXME: entities.objectives には自分の Objective しかないため他人が責任者の Objective を取得できない
-    return keyResult;
-  }
+  if (!keyResult) return null;
+  return keyResult
+    .set('objective', denormalizeObjective(entities.objectives.get(keyResult.get('objectiveId')), entities));
 }
 
-function denormalizeKeyResults(state) {
-  return state.keyResults.map((keyResultId) => {
-    return denormalizeKeyResult(state.entities.keyResults.get(keyResultId), state.entities)
-  });
+function denormalizeKeyResults(keyResults, entities) {
+  return keyResults
+    .map(id => denormalizeKeyResult(entities.keyResults.get(id), entities));
 }
 
 export {
@@ -59,4 +45,3 @@ export {
   denormalizeKeyResult,
   denormalizeKeyResults,
 };
-
