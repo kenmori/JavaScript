@@ -40,28 +40,20 @@ export default handleActions({
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
-      const objectiveId = keyResult.get('objective');
-      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
-      // TODO payload の objective に owner, keyResults, childObjectives を含めるようにして mergeIn ではなく set を使う
-      return state.mergeIn([objectiveId], objective)
-        .updateIn([objectiveId, 'keyResults'], (ids) => ids.push(keyResultId));
+      const objectiveId = keyResult.get('objectiveId');
+      return state.updateIn([objectiveId, 'keyResults'], ids => ids.push(keyResultId));
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
-      const objectiveId = keyResult.get('objective');
-      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
-      // TODO payload の objective に owner, keyResults, childObjectives を含めるようにして mergeIn ではなく set を使う
-      return state.mergeIn([objectiveId], objective);
+      const objectiveId = keyResult.get('objectiveId');
+      return state.mergeIn([objectiveId], payload.getIn(['entities', 'objectives', objectiveId.toString()]));
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
-      const objectiveId = keyResult.get('objective');
-      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
-      // TODO payload の objective に owner, keyResults, childObjectives を含めるようにして mergeIn ではなく set を使う
-      return state.mergeIn([objectiveId], objective)
-        .updateIn([objectiveId, 'keyResults'], (ids) => (ids.filter((id) => id !== keyResultId)));
+      const objectiveId = keyResult.get('objectiveId');
+      return state.updateIn([objectiveId, 'keyResults'], ids => ids.filter(id => id !== keyResultId));
     },
   },
   Map()

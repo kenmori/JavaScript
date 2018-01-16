@@ -7,12 +7,6 @@ function merge(state, { payload }) {
   // normalizeした結果ではidがstringになっているためintへ変換する
   return state.merge(
     payload.getIn(['entities', 'keyResults']).mapKeys((key) => (parseInt(key)))
-      .map(
-        (keyResult) => {
-          return keyResult
-            .update('objective', (objectiveId) => (parseInt(objectiveId)))
-        }
-      )
   );
 }
 
@@ -24,12 +18,7 @@ export default handleActions({
       const keyResultId = payload.get('result').first();
       return state.delete(keyResultId);
     },
-    [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      if (!payload.getIn(['entities', 'keyResults'])) return state;
-      return state.merge(
-        payload.getIn(['entities', 'keyResults'])
-          .mapKeys((key) => (parseInt(key))) // normalizeした結果ではidがstringになっているためintへ変換する
-      )
-    },
+    [ActionTypes.FETCHED_OBJECTIVE]: merge,
+    [ActionTypes.FETCHED_OBJECTIVES]: merge,
   }, Map()
 )
