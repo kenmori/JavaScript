@@ -1,15 +1,19 @@
 import OkrMap from '../components/OkrMap';
 import { connect } from 'react-redux';
-import { denormalizeObjectives } from "../schemas";
+import objectiveActions from '../actions/objectives';
 
 const mapStateToProps = (state) => {
   return {
-    objectives: denormalizeObjectives(state),
+    entities: state.entities,
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    fetchObjective: id => {
+      dispatch(objectiveActions.fetchObjective(id));
+    },
+  };
 };
 
 export default connect(

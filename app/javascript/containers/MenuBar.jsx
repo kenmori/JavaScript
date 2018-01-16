@@ -2,14 +2,15 @@ import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
 import organizationActions from '../actions/organizations';
-import menuActions from '../actions/menu';
+import currentActions from '../actions/current';
 import sessionActions from '../actions/sessions';
 import history from '../utils/history';
 
 const mapStateToProps = (state) => {
   return {
     users: state.users,
-    menu: state.menu,
+    userId: state.current.get('userId'),
+    okrPeriodId: state.current.get('okrPeriodId'),
     okrPeriods: state.okrPeriods,
     loginUser: state.loginUser,
     organization: state.organizations.get('selected'),
@@ -23,17 +24,17 @@ const mapDispatchToProps = dispatch => {
     fetchOrganization: (id) => {
       dispatch(organizationActions.fetchOrganization({id}));
     },
-    changeUser: (userId) => {
+    changeCurrentUser: (userId) => {
       if (location.pathname !== '/') {
         history.push('/');
       }
-      dispatch(menuActions.changeUser(userId));
+      dispatch(currentActions.changeCurrentUser(userId));
     },
-    changeOkrPeriod: (okrPeriodId) => {
+    changeCurrentOkrPeriod: (okrPeriodId) => {
       if (location.pathname !== '/') {
         history.push('/');
       }
-      dispatch(menuActions.changeOkrPeriod(okrPeriodId));
+      dispatch(currentActions.changeCurrentOkrPeriod(okrPeriodId));
     },
     changeCurrentOrganizationId: (id, organizationId) => {
       dispatch(userActions.updateCurrentOrganizationId({id, organizationId}));

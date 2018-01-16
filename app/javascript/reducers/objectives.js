@@ -1,21 +1,50 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
-import gon from "../utils/gon";
+
+function add(state, objectiveId) {
+  return state.update('items', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId));
+}
+
+function remove(state, objectiveId) {
+  return state.update('items', ids => ids.filter(id => id !== objectiveId));
+}
 
 export default handleActions({
+    [ActionTypes.FETCH_OBJECTIVE]: (state, { payload }) => {
+      return state.set('isFetched', false);
+    },
+    [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
+      const objectiveId = payload.get('result').first();
+      return state.set('fetchedObjective', objectiveId).set('isFetched', true);
+    },
+    [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
+      return state.set('isFetched', false);
+    },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return fromJS(payload.get('result'));
+      return state.set('items', payload.get('result')).set('isFetched', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      const userId = gon.getIn(['loginUser', 'id']);
+      const userId = payload.get('currentUserId');
       const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
-      return userId === objective.get('owner').get('id') ? state.insert(0, objectiveId) : state;
+      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
+      const isMine = userId === objective.get('owner').get('id');
+      return isMine ? add(state, objectiveId) : state;
+    },
+    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
+      const userId = payload.get('currentUserId');
+      const objectiveId = payload.get('result').first();
+      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
+      const isMine = userId === objective.get('owner').get('id');
+      return isMine ? add(state, objectiveId) : remove(state, objectiveId);
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return state.filter((objectiveId) => (objectiveId !== payload.id));
+      return remove(state, payload.id);
     },
   },
-  fromJS([]),
+  fromJS({
+    items: [],
+    fetchedObjective: null,
+    isFetched: false,
+  }),
 );

@@ -13,6 +13,7 @@ class ObjectiveFormModal extends Component {
       ownerId: this.ownerSelect.selectedValue,
       parentObjectiveId: this.props.parentObjective ? this.props.parentObjective.get('id') : null,
       parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
+      okrPeriodId: this.props.okrPeriodId,
     };
     this.props.addObjective(objective);
   }

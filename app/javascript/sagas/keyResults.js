@@ -13,14 +13,14 @@ function* fetchKeyResults({payload}) {
 }
 
 function* addKeyResult({ payload }) {
-  const result = yield call(API.post, '/key_results', { keyResult: payload });
-  yield put(keyResultActions.addedKeyResult(result.get('keyResult')));
+  const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
+  yield put(keyResultActions.addedKeyResult(result.get('keyResult'), payload.currentUserId));
   yield put(dialogActions.closeKeyResultFormModal());
 }
 
 function* updateKeyResult({payload}) {
-  const result = yield call(API.put, '/key_results/' + payload.id, { keyResult: payload });
-  yield put(keyResultActions.updatedKeyResult(result.get('keyResult')));
+  const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
+  yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), payload.currentUserId));
   yield put(toastActions.showSuccessMessage('Key Result を変更しました'));
 }
 
