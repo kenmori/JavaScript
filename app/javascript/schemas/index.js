@@ -29,14 +29,22 @@ function normalizeKeyResults(keyResults) {
   return fromJS(normalize(keyResults.toJSON(), keyResultListSchema));
 }
 
+function getObjective(objectiveId, entities) {
+  return entities.objectives.get(objectiveId);
+}
+
+function getKeyResult(keyResultId, entities) {
+  return entities.keyResults.get(keyResultId);
+}
+
 function denormalizeObjective(objectiveId, entities) {
-  const objective = entities.objectives.get(objectiveId);
+  const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return objective
-    .set('parentObjective', entities.objectives.get(objective.get('parentObjectiveId')))
-    .set('parentKeyResult', entities.keyResults.get(objective.get('parentKeyResultId')))
-    .update('keyResults', ids => ids.map(id => entities.keyResults.get(id)).filter(value => !!value))
+    .set('parentObjective', getObjective(objective.get('parentObjectiveId'), entities))
+    .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
+    .update('keyResults', ids => ids.map(id => getKeyResult(id, entities)))
     .update('childObjectives', ids => ids.map(id => denormalizeObjective(id, entities)));
 }
 
@@ -45,7 +53,7 @@ function denormalizeObjectives(objectiveIds, entities) {
 }
 
 function denormalizeKeyResult(keyResultId, entities) {
-  const keyResult = entities.keyResults.get(keyResultId);
+  const keyResult = getKeyResult(keyResultId, entities);
   if (!keyResult) return null;
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return keyResult

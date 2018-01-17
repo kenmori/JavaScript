@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
     keyResults: denormalizeKeyResults(state.keyResults, state.entities),
     isFetched: state.objectives.get('isFetched'),
     fetchedObjectiveId: fetchedObjectiveId,
-    fetchedObjective: denormalizeObjective(fetchedObjectiveId, state.entities),
+    fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
     entities: state.entities,
   };
 };
