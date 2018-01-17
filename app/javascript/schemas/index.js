@@ -6,9 +6,7 @@ const objectiveSchema = new schema.Entity('objectives');
 const objectiveListSchema = [objectiveSchema];
 const keyResultListSchema = [keyResultSchema];
 
-keyResultSchema.define({
-  objective: objectiveSchema,
-});
+keyResultSchema.define({});
 
 objectiveSchema.define({
   keyResults: keyResultListSchema,
