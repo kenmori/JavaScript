@@ -5,7 +5,7 @@ import OkrPieChart from './OkrPieChart';
 class ObjectiveList extends Component {
 
   selectObjective = objective => {
-    this.props.onSelectObjective(objective);
+    this.props.onClick(objective);
     this.props.changeCurrentObjective(objective.get('id'));
   }
 
@@ -30,7 +30,7 @@ class ObjectiveList extends Component {
 
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
-  onSelectObjective: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ObjectiveList;

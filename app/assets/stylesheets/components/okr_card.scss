@@ -23,6 +23,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 3px 1px;
 
       .name {
         flex-grow: 1;
@@ -65,6 +66,10 @@
     }
   }
   .keyResults__item {
+    &.active {
+      background: rgba(236, 95, 0, 0.3);
+      font-weight: bold;
+    }
   }
   .keyResults__item--add {
     .list {

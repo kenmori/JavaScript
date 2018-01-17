@@ -8,7 +8,7 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedObjective: null,
+      mapObjective: null,
       activeItem: 'objective',
     };
   }
@@ -23,24 +23,24 @@ export default class Dashboard extends Component {
       this.props.fetchObjectives(nextProps.okrPeriodId, nextProps.userId);
       this.props.fetchKeyResults(nextProps.okrPeriodId, nextProps.userId);
     } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {
-      this.selectObjective(nextProps.fetchedObjective);
-    } else if (this.props.objectiveIds !== nextProps.objectiveIds) {
-      const selectedObjective = this.getSelectedObjective(this.props.objectives, nextProps.objectives);
-      this.selectObjective(selectedObjective);
-      if (selectedObjective) {
-        this.props.changeCurrentObjective(selectedObjective.get('id'));
+      this.setMapObjective(nextProps.fetchedObjective);
+    } else if (!this.props.objectiveIds.equals(nextProps.objectiveIds)) {
+      const objective = this.getNextMapObjective(this.props.objectives, nextProps.objectives);
+      this.setMapObjective(objective);
+      if (objective) {
+        this.props.changeCurrentObjective(objective.get('id'));
       }
     } else if (this.props.entities !== nextProps.entities) {
-      const selectedObjective = this.getCurrentSelectedObjective(nextProps.objectives, nextProps.fetchedObjective);
-      if (selectedObjective) {
-        this.selectObjective(selectedObjective);
+      const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.fetchedObjective);
+      if (objective) {
+        this.setMapObjective(objective);
       }
     }
   }
 
-  getSelectedObjective = (prevObjectives, nextObjectives) => {
+  getNextMapObjective = (prevObjectives, nextObjectives) => {
     // Objective 一覧取得時や追加/削除時に選択する Objective を返す
-    const prevObjectiveId = this.state.selectedObjective && this.state.selectedObjective.get('id');
+    const prevObjectiveId = this.state.mapObjective && this.state.mapObjective.get('id');
     const nextObjective = nextObjectives.first();
     if (!prevObjectiveId) {
       return nextObjective; // 未選択の場合
@@ -57,9 +57,9 @@ export default class Dashboard extends Component {
     return prevObjective; // 選択状態は変えない
   }
 
-  getCurrentSelectedObjective = (nextObjectives, nextFetchedObjective) => {
+  getCurrentMapObjective = (nextObjectives, nextFetchedObjective) => {
     // 現在選択中の Objective を nextProps の中から探して返す
-    const prevObjectiveId = this.state.selectedObjective && this.state.selectedObjective.get('id');
+    const prevObjectiveId = this.state.mapObjective && this.state.mapObjective.get('id');
     const prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
     if (prevObjective) {
       return prevObjective;
@@ -69,9 +69,9 @@ export default class Dashboard extends Component {
     return null;
   }
 
-  selectObjective = objective => {
+  setMapObjective = objective => {
     this.setState({
-      selectedObjective: objective,
+      mapObjective: objective,
     });
   }
 
@@ -115,9 +115,9 @@ export default class Dashboard extends Component {
           </div>
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.props.objectives}
-                             onSelectObjective={this.selectObjective} />
+                             onClick={objective => this.setMapObjective(objective)} />
             : <KeyResultList keyResults={this.props.keyResults}
-                             onSelectObjective={this.selectObjective} />
+                             onClick={keyResult => this.setMapObjective(keyResult.get('objective'))} />
           }
         </section>
         <section className='okr-map-section'>
@@ -126,8 +126,8 @@ export default class Dashboard extends Component {
               <Menu.Item header>OKR マップ</Menu.Item>
             </Menu>
           </div>
-          {this.state.selectedObjective
-            ? <OkrMap objective={this.state.selectedObjective} />
+          {this.state.mapObjective
+            ? <OkrMap objective={this.state.mapObjective} />
             : this.props.isFetched && this.emptyViewHtml()
           }
         </section>

@@ -26,6 +26,7 @@ class OkrFormModal extends Component {
   }
 
   isRemovedKeyResult(props) {
+    if (!props.objective) return false;
     const keyResult = props.objective.get('keyResults');
     const selectedOkr = props.selectedOkr;
     return selectedOkr.get('okrType') === 'keyResult' && 
@@ -71,7 +72,7 @@ class OkrFormModal extends Component {
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
-    if (!objective.size) { return null; }
+    if (!objective) { return null; }
 
     return (
       <Modal

@@ -1,26 +1,16 @@
 import { createActions } from 'redux-actions';
 import actionTypes from '../constants/actionTypes';
-import { normalize } from 'normalizr';
-import { fromJS } from 'immutable';
-import { objectiveListSchema } from '../schemas/index'
-
-function normalizeObjectives(objectives, currentUserId) {
-  const normalized = normalize(objectives, objectiveListSchema);
-  if (currentUserId) {
-    normalized.currentUserId = currentUserId;
-  }
-  return fromJS(normalized)
-}
+import { normalizeObjective, normalizeObjectives } from '../schemas/index'
 
 const actions = createActions({
   [actionTypes.FETCH_OBJECTIVE]: (id) => ({ id }),
-  [actionTypes.FETCHED_OBJECTIVE]: (objective) => normalizeObjectives([objective.toJSON()]),
+  [actionTypes.FETCHED_OBJECTIVE]: (objective) => normalizeObjective(objective),
   [actionTypes.FETCH_OBJECTIVES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
-  [actionTypes.FETCHED_OBJECTIVES]: (objectives) => normalizeObjectives(objectives.toJSON()),
+  [actionTypes.FETCHED_OBJECTIVES]: (objectives) => normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),
-  [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) => normalizeObjectives([objective.toJSON()], currentUserId),
+  [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
   [actionTypes.UPDATE_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),
-  [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) => normalizeObjectives([objective.toJSON()], currentUserId),
+  [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
   [actionTypes.REMOVE_OBJECTIVE]: (id) => ({ id }),
   [actionTypes.REMOVED_OBJECTIVE]: (id) => ({ id }),
 });

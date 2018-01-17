@@ -8,7 +8,7 @@ class KeyResultList extends Component {
   selectKeyResult = keyResult => {
     const objective = keyResult.get('objective')
     if (objective) {
-      this.props.onSelectObjective(objective);
+      this.props.onClick(keyResult);
     } else {
       // 他人の Objective の場合
       this.props.fetchObjective(keyResult.get('objectiveId'));
@@ -52,7 +52,7 @@ class KeyResultList extends Component {
 
 KeyResultList.propTypes = {
   keyResults: PropTypes.object.isRequired,
-  onSelectObjective: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default KeyResultList;

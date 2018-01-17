@@ -3,11 +3,11 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
 function add(state, objectiveId) {
-  return state.update('items', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId));
+  return state.update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId));
 }
 
 function remove(state, objectiveId) {
-  return state.update('items', ids => ids.filter(id => id !== objectiveId));
+  return state.update('ids', ids => ids.filter(id => id !== objectiveId));
 }
 
 export default handleActions({
@@ -22,7 +22,7 @@ export default handleActions({
       return state.set('isFetched', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return state.set('items', payload.get('result')).set('isFetched', true);
+      return state.set('ids', payload.get('result')).set('isFetched', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const userId = payload.get('currentUserId');
@@ -43,7 +43,7 @@ export default handleActions({
     },
   },
   fromJS({
-    items: [],
+    ids: [],
     fetchedObjective: null,
     isFetched: false,
   }),
