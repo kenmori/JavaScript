@@ -2,6 +2,12 @@ json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_valu
 
 json.is_progress_rate_linked key_result.progress_rate_linked?
 
+json.child_objectives do
+  json.array!(key_result.child_objectives) do |objective|
+    json.partial!(objective)
+  end
+end
+
 json.owner do
   json.id key_result.owner&.id
   json.first_name key_result.owner&.first_name
