@@ -24,7 +24,7 @@ export default class Dashboard extends Component {
       this.props.fetchKeyResults(nextProps.okrPeriodId, nextProps.userId);
     } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {
       this.setMapObjective(nextProps.fetchedObjective);
-    } else if (this.props.objectiveIds !== nextProps.objectiveIds) {
+    } else if (!this.props.objectiveIds.equals(nextProps.objectiveIds)) {
       const objective = this.getNextMapObjective(this.props.objectives, nextProps.objectives);
       this.setMapObjective(objective);
       if (objective) {
