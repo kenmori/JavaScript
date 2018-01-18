@@ -4,6 +4,8 @@ class Objective < ApplicationRecord
   has_many :objective_members, dependent: :destroy
   has_many :users, through: :objective_members
   belongs_to :okr_period
+  belongs_to :parent_objective, class_name: 'Objective', optional: true
+  belongs_to :parent_key_result, class_name: 'KeyResult', optional: true
 
   scope :tops, -> { where(parent_objective_id: nil) }
 
