@@ -11,12 +11,9 @@ function remove(state, objectiveId) {
 }
 
 export default handleActions({
-    [ActionTypes.FETCH_OBJECTIVE]: (state, { payload }) => {
-      return state.set('isFetched', false);
-    },
     [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
-      return state.set('fetchedObjective', objectiveId).set('isFetched', true);
+      return state.set('fetchedObjective', objectiveId);
     },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetched', false);
