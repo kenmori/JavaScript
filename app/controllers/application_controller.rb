@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
+  helper_method :current_user
   helper_method :current_organization
 
   rescue_from ActionController::RoutingError, with: :not_found
@@ -36,6 +37,12 @@ class ApplicationController < ActionController::Base
   # render 422 with errors
   def unprocessable_entity_with_errors(errors)
     render_with_errors(:unprocessable_entity, errors)
+  end
+
+  #  current_user return decorated devise current_user object
+  def current_user
+    ActiveDecorator::Decorator.instance.decorate(super) if super.present?
+    super
   end
 
   # current_organization returns current organization

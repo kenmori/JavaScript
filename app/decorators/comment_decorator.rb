@@ -1,0 +1,2 @@
+module CommentDecorator
+end

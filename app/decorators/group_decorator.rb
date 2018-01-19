@@ -1,0 +1,2 @@
+module GroupDecorator
+end

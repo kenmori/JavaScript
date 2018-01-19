@@ -44,10 +44,6 @@ class User < ApplicationRecord
     OrganizationMember.where(user_id: self.id).includes(:organization).map(&:organization)
   end
 
-  def full_name
-    "#{last_name} #{first_name}"
-  end
-
   def password_required?
     super if need_confirmed?
   end
