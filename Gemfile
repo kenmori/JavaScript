@@ -71,7 +71,7 @@ end
 
 group :development, :test do
   gem 'awesome_print', require: 'ap'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'guard'
   gem 'guard-rubocop'
   gem 'guard-rspec'
