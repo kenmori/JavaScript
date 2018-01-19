@@ -1,5 +1,3 @@
 json.objectives do
-  json.array!(@objectives) do |objective|
-    json.partial!(objective)
-  end
+  json.partial! 'objectives/objective', collection: @objectives, as: :objective
 end

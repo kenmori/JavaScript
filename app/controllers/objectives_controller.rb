@@ -3,7 +3,10 @@ class ObjectivesController < ApplicationController
     @user = User.find(params[:user_id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    @objectives = @user.objectives.where(okr_period_id: params[:okr_period_id]).order(created_at: :desc)
+    @objectives = @user.objectives
+                    .includes(:key_results, :child_objectives)
+                    .where(okr_period_id: params[:okr_period_id])
+                    .order(created_at: :desc)
   end
 
   def show

@@ -15,7 +15,6 @@ class User < ApplicationRecord
   has_many :key_result_members
   has_many :key_results, through: :key_result_members
   has_many :comments
-
   has_many :organization_member, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
@@ -36,12 +35,12 @@ class User < ApplicationRecord
   end
 
   def organization
-    organization_id = self.current_organization_id || self.organization_member[0].organization_id
-    OrganizationMember.find_by(organization_id: organization_id, user_id: self.id).organization
+    return organizations.select { |e| e.id == current_organization_id }.first if current_organization_id.present?
+    organizations.first
   end
 
-  def organizations(organization_id = nil)
-    OrganizationMember.where(user_id: self.id).includes(:organization).map(&:organization)
+  def organizations
+    organization_member.includes(:organization).map(&:organization)
   end
 
   def password_required?

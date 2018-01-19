@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
 
   def show
+    forbidden and return unless valid_permission?(params[:id])
     @organization = Organization.find(params[:id])
   end
 
