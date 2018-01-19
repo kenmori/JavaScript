@@ -11,23 +11,18 @@ json.child_objectives do
 end
 
 json.owner do
-  json.id key_result.owner&.id
-  json.first_name key_result.owner&.first_name
-  json.last_name key_result.owner&.last_name
-  json.avatar_url key_result.owner&.avatar_url
+  json.extract! key_result.owner, :id, :first_name, :last_name, :avatar_url if key_result.owner
 end
 
 json.key_result_members do
   json.array!(key_result.members) do |user|
-    json.extract! user, :id, :avatar_url
+    json.extract! user, :id, :first_name, :last_name, :avatar_url
   end
 end
 
 json.comments do
   json.array!(key_result.comments.order('created_at DESC')) do |comment|
-    json.id comment.id
-    json.text comment.text
-    json.updated_at comment.updated_at
+    json.extract! comment, :id, :text, :updated_at
     json.self_comment comment.user_id == current_user.id
     json.full_name comment.user.full_name
   end
