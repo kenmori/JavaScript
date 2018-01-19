@@ -1,10 +1,9 @@
 json.extract! objective, :id, :name, :description, :okr_period_id, :progress_rate, :parent_objective_id, :parent_key_result_id, :updated_at
 
+json.is_full true
+
 json.owner do
-  json.id objective.owner&.id
-  json.first_name objective.owner&.first_name
-  json.last_name objective.owner&.last_name
-  json.avatar_url objective.owner&.avatar_url
+  json.extract! objective.owner, :id, :first_name, :last_name, :avatar_url
 end
 
 json.key_results do

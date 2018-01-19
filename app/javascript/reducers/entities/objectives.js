@@ -6,14 +6,21 @@ function merge(state, { payload }) {
   if (!payload.getIn(['entities', 'objectives'])) return state;
   // normalizeした結果ではidがstringになっているためintへ変換する
   return state.merge(
-    payload.getIn(['entities', 'objectives']).mapKeys((key) => (parseInt(key)))
-      .map(
-        (objective) => {
-          return objective
-            .update('keyResults', (keyResultIds) => (keyResultIds.map((keyResultId) => parseInt(keyResultId))))
-            .update('childObjectives', (childObjectiveIds) => (childObjectiveIds.map((childObjectiveId) => (parseInt(childObjectiveId)))))
-        }
-      )
+    payload.getIn(['entities', 'objectives'])
+      .filter(objective => objective.get('isFull'))
+      .mapKeys(key => parseInt(key))
+      .map(objective => objective
+        .update('keyResults', ids => ids.map(id => parseInt(id)))
+        .update('childObjectives', ids => ids.map(id => parseInt(id))))
+  );
+}
+
+function updateProgressRate(state, { payload }) {
+  const objectives = payload.getIn(['entities', 'objectives']);
+  return state.map((objective, objectiveId) =>
+    objective.update('progressRate', progressRate =>
+      objectives.getIn([`${objectiveId}`, 'progressRate']) || progressRate
+    )
   );
 }
 
@@ -38,18 +45,15 @@ export default handleActions({
       });
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
+      state = updateProgressRate(state, { payload });
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
       const objectiveId = keyResult.get('objectiveId');
       return state.updateIn([objectiveId, 'keyResults'], ids => ids.push(keyResultId));
     },
-    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
-      const objectiveId = keyResult.get('objectiveId');
-      return state.mergeIn([objectiveId], payload.getIn(['entities', 'objectives', objectiveId.toString()]));
-    },
+    [ActionTypes.UPDATED_KEY_RESULT]: updateProgressRate,
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+      state = updateProgressRate(state, { payload });
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
       const objectiveId = keyResult.get('objectiveId');
