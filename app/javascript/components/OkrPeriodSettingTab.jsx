@@ -100,7 +100,7 @@ class OkrPeriodSettingTab extends Component {
               <Table.Body>
                 <Table.Row>
                   <Table.Cell>
-                    <Input type="text" maxLength="255" required ref={node => { this.name = node; }} placeholder="期間名"/>
+                    <Input type="text" maxLength="255" ref={node => { this.name = node; }} placeholder="期間名"/>
                   </Table.Cell>
                   <Table.Cell>
                     <Form.Field><DatePicker dateFormat="YYYY/MM/DD" selected={this.state.monthStart} locale="ja" onChange={date => this.setState({monthStart: date})} /></Form.Field>
