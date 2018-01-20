@@ -51,7 +51,10 @@ class OkrPeriodsController < ApplicationController
       return false 
     end
 
-    periods = OkrPeriod.where(organization_id: @okr_period.organization_id).pluck(:month_start, :month_end)
+    periods = OkrPeriod
+                .where(organization_id: @okr_period.organization_id)
+                .where.not(id: @okr_period.id)
+                .pluck(:month_start, :month_end)
     periods.each do |period|
       if @okr_period.month_start.between?(period[0], period[1]) || @okr_period.month_end.between?(period[0], period[1])
         @okr_period.errors[:error] << "期間が重複しています。"
