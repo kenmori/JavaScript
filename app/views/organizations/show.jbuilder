@@ -1,6 +1,6 @@
 json.organization do
   json.partial! 'organizations/organization', organization: @organization
-  json.okr_periods json.array!(@organization&.okr_periods.order(:month_start)) do |period|
+  json.okr_periods @organization&.okr_periods.order(:month_start) do |period|
     json.id period.id
     json.name period.name
     json.organization_id period.organization_id

@@ -2,7 +2,6 @@ class OkrPeriodsController < ApplicationController
   def create
     forbidden and return unless valid_permission?(params[:okr_period][:organization_id]) && current_user.admin?
     @okr_period = OkrPeriod.new(okr_period_params)
-    @okr_period.name = valid_name
     if valid_month_start_and_month_end && @okr_period.save
       render status: :created
     else
@@ -12,7 +11,6 @@ class OkrPeriodsController < ApplicationController
 
   def update
     @okr_period = OkrPeriod.find(params[:id])
-    @okr_period.name = valid_name
     forbidden and return unless valid_permission?(@okr_period.organization_id) && current_user.admin?
     if valid_month_start_and_month_end && @okr_period.update(okr_period_params)
       render action: :create, status: :ok
@@ -40,10 +38,6 @@ class OkrPeriodsController < ApplicationController
     @okr_period.errors[:error] << "関連するObjective、またはKeyResultが存在するため削除できません。"
     return false
   end 
-
-  def valid_name
-    params[:okr_period][:name] === "" ? nil : params[:okr_period][:name]
-  end
 
   def valid_month_start_and_month_end
     month_start = params[:okr_period][:month_start]
