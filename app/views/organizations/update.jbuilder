@@ -1,3 +1,3 @@
 json.organization do
-  json.partial!(@organization)
+  json.partial! 'organizations/organization', organization: @organization
 end

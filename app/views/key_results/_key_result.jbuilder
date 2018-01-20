@@ -1,13 +1,9 @@
 json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate
-
 json.is_full true
-
 json.is_progress_rate_linked key_result.progress_rate_linked?
 
 json.child_objectives do
-  json.array!(key_result.child_objectives) do |objective|
-    json.partial!(objective)
-  end
+  json.partial! 'objectives/objective', collection: key_result.child_objectives, as: :objective
 end
 
 json.owner do

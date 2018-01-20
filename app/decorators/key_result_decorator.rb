@@ -1,0 +1,2 @@
+module KeyResultDecorator
+end

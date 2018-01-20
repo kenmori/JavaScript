@@ -7,13 +7,9 @@ json.owner do
 end
 
 json.key_results do
-  json.array!(objective.key_results) do |key_result|
-    json.partial!(key_result)
-  end
+  json.partial! 'key_results/key_result', collection: objective.key_results, as: :key_result
 end
 
 json.child_objectives do
-  json.array!(objective.child_objectives) do |objective|
-    json.partial!(objective)
-  end
+  json.partial! 'objectives/objective', collection: objective.child_objectives, as: :objective
 end
