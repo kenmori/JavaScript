@@ -42,7 +42,7 @@ class OkrPeriodsController < ApplicationController
   end 
 
   def valid_name
-    nil if params[:name] === ""
+    params[:okr_period][:name] === "" ? nil : params[:okr_period][:name]
   end
 
   def valid_month_start_and_month_end
