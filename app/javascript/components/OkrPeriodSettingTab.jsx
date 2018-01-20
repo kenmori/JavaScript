@@ -39,7 +39,7 @@ class OkrPeriodSettingTab extends Component {
   getMonthStart(okrPeriods) {
     const endDateList = okrPeriods.map(item => item.get('monthEnd')).sort().toArray();
     const endDate = endDateList[endDateList.length - 1]
-    return moment(endDate).add(1, 'month').startOf('month');
+    return moment(endDate).add(1, 'day')
   }
 
   getMonthEnd(monthStart) {
