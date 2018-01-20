@@ -50,7 +50,7 @@ export default handleActions({
       state.set('error', fromJS({ isOpen: true, message: payload.message }))
     ),
     [ActionTypes.CLOSE_ERROR_MODAL]: (state) => (
-      state.set('error', fromJS({ isOpen: false, message: ''}))
+      state.set('error', fromJS({ isOpen: false, message: '' }))
     ),
   },
   fromJS({
