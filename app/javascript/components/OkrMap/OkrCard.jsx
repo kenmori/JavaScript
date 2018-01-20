@@ -10,18 +10,21 @@ class OkrCard extends Component {
     return (
       <Card.Content className="keyResults">
         <List>
-          {keyResults.map(keyResult =>
-            <List.Item className="keyResults__item" key={keyResult.get('id')}>
-              <Avatar user={keyResult.get('owner')} size='small' />
-              <div className='name'>
-                <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
-                  okrType: 'keyResult',
-                  targetId: keyResult.get('id')
-                })}>{keyResult.get('name')}</a>
-              </div>
-              <div className="progress">{keyResult.get('progressRate')}%</div>
-            </List.Item>
-          )}
+          {keyResults.map(keyResult => {
+            const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
+            return (
+              <List.Item className={`keyResults__item ${isSelected ? 'active' : ''}`} key={keyResult.get('id')}>
+                <Avatar user={keyResult.get('owner')} size='small' />
+                <div className='name'>
+                  <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
+                    okrType: 'keyResult',
+                    targetId: keyResult.get('id')
+                  })}>{keyResult.get('name')}</a>
+                </div>
+                <div className="progress">{keyResult.get('progressRate')}%</div>
+              </List.Item>
+            );
+          })}
           <List.Item className="keyResults__item--add">
             <List.List>
               <List.Item as='a' icon='plus' content='Key Result を追加する'
@@ -35,8 +38,9 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
+    const isSelected = objective.get('id') === this.props.currentObjectiveId;
     return (
-      <Card className={`okr-card ${this.props.isSelected ? 'active' : ''}`}>
+      <Card className={`okr-card ${isSelected ? 'active' : ''}`}>
         <Card.Content>
           <Card.Header>
             <Avatar user={objective.get('owner')} />
@@ -57,7 +61,6 @@ class OkrCard extends Component {
 
 OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
-  isSelected: PropTypes.bool.isRequired,
 };
 
 export default OkrCard;

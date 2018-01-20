@@ -63,8 +63,10 @@ class AccountSettingTab extends Component {
         <dl>
           <dt>名前</dt>
           <dd>
-            <EditableText value={user.get('lastName')} placeholder='姓' saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
-            <EditableText value={user.get('firstName')} placeholder='名' saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+            <span style={{marginRight: '5px'}}>
+              <EditableText value={user.get('lastName')} saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+            </span>
+            <EditableText value={user.get('firstName')} saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
           </dd>
 
           <dt>メールアドレス</dt>

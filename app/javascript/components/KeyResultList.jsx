@@ -4,6 +4,19 @@ import { Table } from 'semantic-ui-react';
 import Avatar from './Avatar';
 
 class KeyResultList extends Component {
+
+  selectKeyResult = keyResult => {
+    const objective = keyResult.get('objective')
+    if (objective) {
+      this.props.onClick(keyResult);
+    } else {
+      // 他人の Objective の場合
+      this.props.fetchObjective(keyResult.get('objectiveId'));
+    }
+    this.props.changeCurrentKeyResult(keyResult.get('id'));
+    this.props.changeCurrentObjective(keyResult.get('objectiveId'));
+  }
+
   render() {
     return (
       <div className="key-result-list">
@@ -20,8 +33,8 @@ class KeyResultList extends Component {
           </Table.Header>
           <Table.Body className='key-result-table'>
             {this.props.keyResults.map((keyResult, key) =>
-              <Table.Row key={key} active={keyResult === this.props.selectedKeyResult}
-                         onClick={() => this.props.onSelectKeyResult(keyResult)}>
+              <Table.Row key={key} active={keyResult.get('id') === this.props.currentKeyResultId}
+                         onClick={() => this.selectKeyResult(keyResult)}>
                 <Table.Cell textAlign='center'><Avatar user={keyResult.get('owner')} size='small' /></Table.Cell>
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
@@ -39,11 +52,7 @@ class KeyResultList extends Component {
 
 KeyResultList.propTypes = {
   keyResults: PropTypes.object.isRequired,
-  selectedKeyResult: PropTypes.object,
-  onSelectKeyResult: PropTypes.func.isRequired,
-};
-KeyResultList.defaultProps = {
-  selectedKeyResult: null,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default KeyResultList;

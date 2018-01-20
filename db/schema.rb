@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180109073948) do
+ActiveRecord::Schema.define(version: 20180119095346) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20180109073948) do
     t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key_result_id"], name: "index_comments_on_key_result_id"
   end
 
   create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -41,6 +42,7 @@ ActiveRecord::Schema.define(version: 20180109073948) do
     t.integer "role", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key_result_id"], name: "index_key_result_members_on_key_result_id"
   end
 
   create_table "key_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -55,6 +57,7 @@ ActiveRecord::Schema.define(version: 20180109073948) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_key_results_on_created_at"
+    t.index ["objective_id"], name: "index_key_results_on_objective_id"
   end
 
   create_table "objective_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -63,6 +66,8 @@ ActiveRecord::Schema.define(version: 20180109073948) do
     t.integer "role", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["objective_id"], name: "index_objective_members_on_objective_id"
+    t.index ["user_id"], name: "index_objective_members_on_user_id"
   end
 
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -75,6 +80,8 @@ ActiveRecord::Schema.define(version: 20180109073948) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_objectives_on_created_at"
+    t.index ["parent_key_result_id"], name: "index_objectives_on_parent_key_result_id"
+    t.index ["parent_objective_id"], name: "index_objectives_on_parent_objective_id"
   end
 
   create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

@@ -3,15 +3,22 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import { denormalizeObjectives, denormalizeKeyResults } from "../schemas";
+import currentActions from '../actions/current';
+import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
 
 const mapStateToProps = (state) => {
-  const denormalizedObjectives = denormalizeObjectives(state);
-  const denormalizedKeyResults = denormalizeKeyResults(state);
+  const objectiveIds = state.objectives.get('ids');
+  const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   return {
-    menu: state.menu,
-    objectives: denormalizedObjectives,
-    keyResults: denormalizedKeyResults,
+    okrPeriodId: state.current.get('okrPeriodId'),
+    userId: state.current.get('userId'),
+    objectiveIds: objectiveIds,
+    objectives: denormalizeObjectives(objectiveIds, state.entities),
+    keyResults: denormalizeKeyResults(state.keyResults, state.entities),
+    isFetched: state.objectives.get('isFetched'),
+    fetchedObjectiveId: fetchedObjectiveId,
+    fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
+    entities: state.entities,
   };
 };
 
@@ -25,6 +32,9 @@ const mapDispatchToProps = dispatch => {
     },
     openObjectiveFormModal: () => {
       dispatch(dialogActions.openObjectiveFormModal());
+    },
+    changeCurrentObjective: id => {
+      dispatch(currentActions.changeCurrentObjective(id));
     },
   };
 };

@@ -6,10 +6,11 @@ import dialogActions from '../actions/dialogs';
 import { denormalizeObjective } from '../schemas/index'
 
 const mapStateToProps = (state) => {
-  let objective = state.entities.objectives.get(state.dialogs.getIn(['okrForm', 'objectiveId']));
+  this.currentUserId = state.current.get('userId');
+  const objectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
-    objective: objective && denormalizeObjective(objective, state.entities),
+    objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
   };
@@ -24,10 +25,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(dialogActions.openKeyResultFormModal(objective));
     },
     updateObjective: (objective) => {
-      dispatch(objectiveActions.updateObjective(objective));
+      dispatch(objectiveActions.updateObjective(objective, this.currentUserId));
     },
     updateKeyResult: (keyResult) => {
-      dispatch(keyResultActions.updateKeyResult(keyResult));
+      dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));
     },
     closeModal: () => {
       dispatch(dialogActions.closeOkrFormModal());

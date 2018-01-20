@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   root to: 'home#index', as: :root
   get 'users/sign_up(/*path)' => 'home#non_login'
   get 'users/password(/*path)' => 'home#non_login'
-  resources :objectives, only: %i[index create update destroy]
+  resources :objectives, only: %i[index show create update destroy]
   resources :key_results, only: %i[index create update destroy]
   resources :users, only: %i[index show create update destroy] do
     put 'password', to: 'users#update_password'
