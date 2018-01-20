@@ -9,12 +9,15 @@ class OkrPeriodSettingTab extends Component {
   constructor(props) {
     super(props);
     this.name = '';
+    const okrPeriods = this.props.okrPeriods;
+    const monthStart = this.getMonthStart(okrPeriods);
+    const monthEnd = this.getMonthEnd(monthStart);
     this.state = {
       column: null,
       direction: null,
       okrPeriods: this.props.okrPeriods,
-      monthStart: moment(),
-      monthEnd: moment(),
+      monthStart: monthStart,
+      monthEnd: monthEnd,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -24,6 +27,7 @@ class OkrPeriodSettingTab extends Component {
                           : nextProps.okrPeriods;
       const monthStart = this.getMonthStart(nextProps.okrPeriods);
       const monthEnd = this.getMonthEnd(monthStart);
+
       this.setState({
         okrPeriods,
         monthStart,
