@@ -6,7 +6,7 @@ json.organization do
         end
     end 
     json.okr_periods do 
-        json.array!(@organization.okr_periods) do |period|
+        json.array!(@organization.okr_periods.order(:month_start)) do |period|
             json.id period.id
             json.name period.name
             json.organization_id period.organization_id

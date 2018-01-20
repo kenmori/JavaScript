@@ -46,7 +46,9 @@ class OkrPeriodsController < ApplicationController
   end
 
   def valid_month_start_and_month_end
-    if @okr_period.month_start >= @okr_period.month_end
+    month_start = params[:okr_period][:month_start]
+    month_end = params[:okr_period][:month_end]
+    if month_start.present? && month_end.present? && month_start.to_date >= month_end.to_date
       @okr_period.errors[:error] << "期間が不正です。"
       return false 
     end
@@ -56,7 +58,9 @@ class OkrPeriodsController < ApplicationController
                 .where.not(id: @okr_period.id)
                 .pluck(:month_start, :month_end)
     periods.each do |period|
-      if @okr_period.month_start.between?(period[0], period[1]) || @okr_period.month_end.between?(period[0], period[1])
+      is_invalid_month_start = month_start.present? ? month_start.to_date.between?(period[0], period[1]) : false
+      is_invalid_month_end = month_end.present? ? month_end.to_date.between?(period[0], period[1]) : false
+      if is_invalid_month_start || is_invalid_month_end
         @okr_period.errors[:error] << "期間が重複しています。"
         return false
       end
