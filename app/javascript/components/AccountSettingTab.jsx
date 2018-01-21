@@ -45,7 +45,7 @@ class AccountSettingTab extends Component {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
       onConfirm: () => this.props.deleteAvatar({id: this.props.user.get('id'), removeAvatar: true}),
-    })
+    });
   }
 
   componentDidMount() {
