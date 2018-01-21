@@ -82,9 +82,10 @@ class KeyResultDetail extends Component {
   }
 
   removeKeyResult(id) {
-    if(confirm('Key Result を削除しますか？')) {
-      this.props.removeKeyResult({id})
-    }
+    this.props.confirm({
+      content: "Key Result を削除しますか？",
+      onConfirm: () => this.props.removeKeyResult({id}),
+    })
   }
 
   handleCalendar(value) {
