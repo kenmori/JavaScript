@@ -12,9 +12,10 @@ class OrganizationSettingTab extends Component {
   }
 
   deleteLogo = (event) => {
-    if (confirm('設定済みのアイコンを削除しますか？')) {
-      this.props.deleteLogo({id: this.props.organization.get('id'), removeLogo: true});
-    }
+    this.props.confirm({
+      content: '設定済みのロゴを削除しますか？',
+      onConfirm: () => this.props.deleteLogo({id: this.props.organization.get('id'), removeLogo: true}),
+    });
   }
   render() {
     const organization = this.props.organization;
