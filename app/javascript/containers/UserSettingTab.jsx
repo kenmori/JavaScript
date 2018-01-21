@@ -2,6 +2,7 @@ import UserSettingTab from '../components/UserSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
 import organizationActions from '../actions/organizations';
+import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   return {
@@ -24,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeUser: id => {
       dispatch(userActions.removeUser(id));
+    },
+    confirm: confirmParams => {
+      dispatch(confirmActions.openConfirm(confirmParams));
     }
   };
 };

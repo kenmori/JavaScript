@@ -122,9 +122,10 @@ class UsersTable extends Component {
   };
 
   removeUser = (id, name) => () => {
-    if (confirm(`ユーザー ${name} を削除しますか？`)) {
-      this.props.onRemove(id);
-    }
+    this.props.confirm({
+      content: `ユーザー ${name} を削除しますか？`,
+      onConfirm: () => this.props.onRemove(id),
+    });
   };
 
   render() {
