@@ -53,17 +53,10 @@ class OkrFormModal extends Component {
       return <ObjectiveDetail {...this.props}/>
     } else {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'));
-      let childObjectives = {};
-      if(keyResult) {
-        childObjectives = objective.get('childObjectives').filter((item) => {
-          return item.get('parentKeyResultId') === keyResult.get('id');
-        });
-      }
       return (
         <KeyResultDetail
           {...this.props}
           keyResult={keyResult}
-          childObjectives={childObjectives}
           changeToObjectiveModal={(parentKeyResult) => this.changeToObjectiveModal(objective, parentKeyResult)}
         />
       )

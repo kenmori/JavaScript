@@ -9,6 +9,7 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       mapObjective: null,
+      mapObjectiveId: null,
       activeItem: 'objective',
     };
   }
@@ -25,7 +26,10 @@ export default class Dashboard extends Component {
     if (this.props.okrPeriodId !== nextProps.okrPeriodId || this.props.userId !== nextProps.userId) {
       this.props.fetchObjectives(nextProps.okrPeriodId, nextProps.userId);
     } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {
-      this.setMapObjective(nextProps.fetchedObjective);
+      const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.keyResults, nextProps.fetchedObjective);
+      if (objective) {
+        this.setMapObjective(objective);
+      }
     } else if (!this.props.objectiveIds.equals(nextProps.objectiveIds)) {
       const objective = this.getNextMapObjective(this.props.objectives, nextProps.objectives);
       this.setMapObjective(objective);
@@ -33,7 +37,7 @@ export default class Dashboard extends Component {
         this.props.changeCurrentObjective(objective.get('id'));
       }
     } else if (this.props.entities !== nextProps.entities) {
-      const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.fetchedObjective);
+      const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.keyResults);
       if (objective) {
         this.setMapObjective(objective);
       }
@@ -42,7 +46,7 @@ export default class Dashboard extends Component {
 
   getNextMapObjective = (prevObjectives, nextObjectives) => {
     // Objective 一覧取得時や追加/削除時に選択する Objective を返す
-    const prevObjectiveId = this.state.mapObjective && this.state.mapObjective.get('id');
+    const prevObjectiveId = this.state.mapObjectiveId;
     const nextObjective = nextObjectives.first();
     if (!prevObjectiveId) {
       return nextObjective; // 未選択の場合
@@ -56,24 +60,35 @@ export default class Dashboard extends Component {
         return nextObjective; // 追加された Objective が親を持たない場合 (新規作成)
       }
     }
-    return prevObjective; // 選択状態は変えない
+    return prevObjective; // 選択状態は変えない (別インスタンス)
   }
 
-  getCurrentMapObjective = (nextObjectives, nextFetchedObjective) => {
+  getCurrentMapObjective = (nextObjectives, nextKeyResults, nextFetchedObjective = null) => {
     // 現在選択中の Objective を nextProps の中から探して返す
-    const prevObjectiveId = this.state.mapObjective && this.state.mapObjective.get('id');
-    const prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
-    if (prevObjective) {
-      return prevObjective;
-    } else if (nextFetchedObjective && nextFetchedObjective.get('id') === prevObjectiveId) {
-      return nextFetchedObjective;
+    const prevObjectiveId = this.state.mapObjectiveId;
+    if (nextFetchedObjective && nextFetchedObjective.get('id') === prevObjectiveId) {
+      return nextFetchedObjective; // 選択 Objective を fetch した場合
     }
-    return null;
+    let prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
+    if (!prevObjective) {
+      const prevKeyResult = nextKeyResults.find(keyResult => keyResult.get('objectiveId') === prevObjectiveId);
+      if (prevKeyResult) {
+        prevObjective = prevKeyResult.get('objective');
+      }
+    }
+    return prevObjective;
   }
 
   setMapObjective = objective => {
     this.setState({
       mapObjective: objective,
+      mapObjectiveId: objective && objective.get('id'),
+    });
+  }
+
+  setMapObjectiveId = objectiveId => {
+    this.setState({
+      mapObjectiveId: objectiveId,
     });
   }
 
@@ -117,9 +132,10 @@ export default class Dashboard extends Component {
           </div>
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.props.objectives}
-                             onClick={objective => this.setMapObjective(objective)} />
+                             setMapObjective={this.setMapObjective} />
             : <KeyResultList keyResults={this.props.keyResults}
-                             onClick={keyResult => this.setMapObjective(keyResult.get('objective'))} />
+                             setMapObjective={this.setMapObjective}
+                             setMapObjectiveId={this.setMapObjectiveId} />
           }
         </section>
         <section className='okr-map-section'>

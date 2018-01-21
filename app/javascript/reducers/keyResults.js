@@ -12,7 +12,7 @@ function remove(state, keyResultId) {
 
 export default handleActions({
     [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
-      return fromJS(payload.get('result'));
+      return payload.get('result');
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const userId = payload.get('currentUserId');

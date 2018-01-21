@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 
 const mapStateToProps = (state) => {
-  return {
-    entities: state.entities,
-  };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {

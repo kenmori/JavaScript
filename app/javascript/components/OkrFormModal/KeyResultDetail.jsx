@@ -370,7 +370,7 @@ class KeyResultDetail extends Component {
           </Form.Field>
         </Form.Group>
 
-        {this.childObjectivesTag(this.props.childObjectives)}
+        {this.childObjectivesTag(keyResult.get('childObjectives'))}
       </Form>
     );
   }
@@ -379,7 +379,6 @@ class KeyResultDetail extends Component {
 KeyResultDetail.propTypes = {
   users: PropTypes.object,
   keyResult: PropTypes.object,
-  childObjectives: PropTypes.object,
   updateKeyResult: PropTypes.func,
   removeKeyResult: PropTypes.func,
   changeToObjectiveModal: PropTypes.func,
