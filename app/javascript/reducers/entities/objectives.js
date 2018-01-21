@@ -26,25 +26,23 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', objectiveId.toString()]);
-      const newObjectives = state.set(objectiveId, objective);
+      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
       const parentObjectiveId = objective.get('parentObjectiveId');
-      if (parentObjectiveId) {
-        return newObjectives.updateIn([parentObjectiveId, 'childObjectiveIds'], (childObjectiveIds) => (childObjectiveIds.push(objectiveId)));
-      } else {
-        return newObjectives;
-      }
+      const newState = state.set(objectiveId, objective);
+      return parentObjectiveId
+        ? newState.updateIn([parentObjectiveId, 'childObjectiveIds'], ids => ids.push(objectiveId))
+        : newState;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return state.delete(payload.id).map((objective) => {
-        return objective.update('childObjectiveIds', (childObjectiveIds) => childObjectiveIds.filter((childObjectiveId) => (childObjectiveId !== payload.id)));
-      });
+      return state.delete(payload.id).map(objective =>
+        objective.update('childObjectiveIds', ids => ids.filter(id => id !== payload.id))
+      );
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
       const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
+      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const objectiveId = keyResult.get('objectiveId');
       return state.updateIn([objectiveId, 'keyResults'], ids => ids.push(keyResultId));
     },
@@ -52,7 +50,7 @@ export default handleActions({
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
       const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', keyResultId.toString()]);
+      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const objectiveId = keyResult.get('objectiveId');
       return state.updateIn([objectiveId, 'keyResults'], ids => ids.filter(id => id !== keyResultId));
     },
