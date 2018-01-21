@@ -5,7 +5,6 @@ import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List } from 'immutable'
-import { denormalizeObjective } from "../../schemas";
 
 class OkrMap extends Component {
   constructor(props) {
@@ -37,32 +36,34 @@ class OkrMap extends Component {
   }
 
   createObjectivesList(objective, visibleIds = List.of(objective.get('id'))) {
-    const getRoot = (objective, rootId) => {
+    const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
       } else {
-        const parentId = objective.get('parentObjectiveId');
-        if (parentId === rootId) {
-          const parent = objective.get('parentObjective');
-          if (parent) {
-            // TODO: parentObjective は denormalize されていないため直接 denormalize する必要がある
-            return denormalizeObjective(parentId, this.props.entities);
-          } else {
-            // 他人の Objective の場合
-            this.props.fetchObjective(parentId);
-          }
+        const parent = objective.get('parentObjective');
+        if (parent) {
+          return findRoot(parent, rootId);
+        } else {
+          // 他人の親 Objective の場合
+          this.props.fetchObjective(objective.get('parentObjectiveId'));
         }
         return objective;
       }
     };
 
     const collectDescendants = (result, objective) => {
-      const childObjectives = objective.get('childObjectives');
-      if (!childObjectives.isEmpty()) {
-        result = result.push(childObjectives);
-        const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')));
-        if (child) {
-          result = collectDescendants(result, child);
+      const childObjectiveIds = objective.get('childObjectiveIds');
+      if (!childObjectiveIds.isEmpty()) {
+        const childObjectives = objective.get('childObjectives');
+        if (childObjectiveIds.size === childObjectives.size) {
+          result = result.push(childObjectives);
+          const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')));
+          if (child) {
+            result = collectDescendants(result, child);
+          }
+        } else {
+          // 他人の子 Objective が含まれている場合
+          this.props.fetchObjective(objective.get('id'));
         }
       }
       return result;
@@ -75,7 +76,7 @@ class OkrMap extends Component {
       rootObjective = this.state.rootObjective;
       objectivesList = List.of(List.of(rootObjective));
     } else {
-      rootObjective = getRoot(objective, visibleIds.first());
+      rootObjective = findRoot(objective, visibleIds.first());
       objectivesList = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
     }
     this.setState({
@@ -101,11 +102,11 @@ class OkrMap extends Component {
 
       // 子がいる場合は子とのリンクを追加する
       objectives.forEach(objective => {
-        const childObjectives = objective.get('childObjectives');
-        if (!childObjectives.isEmpty()) {
+        const childObjectiveIds = objective.get('childObjectiveIds');
+        if (!childObjectiveIds.isEmpty()) {
           result = result.push({
             fromId: objective.get('id'),
-            toIds: childObjectives.map(objective => objective.get('id')),
+            toIds: childObjectiveIds
           });
         }
       });
