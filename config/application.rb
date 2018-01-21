@@ -71,5 +71,12 @@ module Resily
       end
     end
 
+    # SSL setting
+    config.force_ssl = true
+    config.ssl_options = {
+       hsts: { subdomains: true },
+       redirect: { exclude: -> (request) { request.headers[:HTTP_X_FORWARDED_FOR].blank? } }
+    }
+
   end
 end
