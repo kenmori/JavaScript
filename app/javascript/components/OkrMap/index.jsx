@@ -23,13 +23,8 @@ class OkrMap extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextObjectiveId = nextProps.objective.get('id');
-    if (this.props.objective.get('id') !== nextObjectiveId) {
-      if (this.state.visibleIds.includes(nextObjectiveId)) {
-        this.createObjectivesList(nextProps.objective, this.state.visibleIds);
-      } else {
-        this.createObjectivesList(nextProps.objective);
-      }
+    if (this.props.objective.get('id') !== nextProps.objective.get('id')) {
+      this.createObjectivesList(nextProps.objective);
     } else if (this.props.objective !== nextProps.objective) {
       this.createObjectivesList(nextProps.objective, this.state.visibleIds);
     }
