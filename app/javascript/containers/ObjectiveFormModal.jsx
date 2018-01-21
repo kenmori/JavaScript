@@ -2,6 +2,7 @@ import ObjectiveFormModal from '../components/ObjectiveFormModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
+import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -22,6 +23,9 @@ const mapDispatchToProps = dispatch => {
     },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveFormModal());
+    },
+    confirm: confirmParams => {
+      dispatch(confirmActions.openConfirm(confirmParams));
     }
   };
 };
