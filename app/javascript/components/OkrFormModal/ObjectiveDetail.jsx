@@ -26,9 +26,10 @@ class ObjectiveDetail extends Component {
       alert('Key Result が紐付いているため削除できません。');
       return;
     }
-    if (confirm(`Objective ${objective.get('name')} を削除しますか？`)) {
-      this.props.removeObjective(objective.get('id'));
-    }
+    this.props.confirm({
+      content: `Objective ${objective.get('name')} を削除しますか？`,
+      onConfirm: () => this.props.removeObjective(objective.get('id')),
+    });
   }
 
   render() {
