@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  force_ssl if: :ssl_required?
+
   respond_to :html, :json
 
   protect_from_forgery with: :exception
@@ -70,5 +72,10 @@ class ApplicationController < ActionController::Base
     # errors.messageを展開するだけであれば展開した文字列を引数として
     # 直接renderせずにrender_with_errorを呼び出す方式に変える
     render json: errors, status: code
+  end
+
+  # required ssl?
+  def ssl_required?
+    request.env['HTTP_X_FORWARDED_FOR'].present?
   end
 end
