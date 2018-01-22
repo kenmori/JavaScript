@@ -1,11 +1,10 @@
-import { fromJS } from 'immutable';
 import { all, put, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
 import okrPeriodActions from '../actions/okrPeriods';
 import actionTypes from '../constants/actionTypes';
-
+import toastActions from '../actions/toasts';
 
 function* addOkrPeriod({ payload }) {
   const result = yield call(API.post, '/okr_periods', { okrPeriod: payload.okrPeriod });
@@ -15,6 +14,7 @@ function* addOkrPeriod({ payload }) {
 function* updateOkrPeriod({ payload }) {
   const result = yield call(API.put, '/okr_periods/' + payload.okrPeriod.id, { okrPeriod: payload.okrPeriod });
   yield put(okrPeriodActions.updatedOkrPeriod(result.get('okrPeriod')));
+  yield put(toastActions.showToast('OKR 期間情報を更新しました'));
 }
 
 function* removeOkrPeriod({ payload }) {

@@ -1,10 +1,10 @@
-import { fromJS } from 'immutable';
 import { all, put, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
 import organizationActions from '../actions/organizations';
 import actionTypes from '../constants/actionTypes';
+import toastActions from '../actions/toasts';
 
 function* fetchOrganization({ payload }) {
   const result = yield call(API.get, '/organizations/' + payload.organization.id);
@@ -14,6 +14,7 @@ function* fetchOrganization({ payload }) {
 function* updateOrganization({ payload }) {
   const result = yield call(API.put, '/organizations/' + payload.organization.id, { organization: payload.organization });
   yield put(organizationActions.updatedOrganization(result.get('organization')));
+  yield put(toastActions.showToast('組織情報を更新しました'));
 }
 
 function* updateLogo({ payload }) {
