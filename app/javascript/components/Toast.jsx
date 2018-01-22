@@ -5,13 +5,24 @@ class Toast extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { visible: false };
+    this.state = {
+      visible: false,
+      timeoutId: -1,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.message) {
-      this.setState({ visible: true });
-      setTimeout(() => this.setState({ visible: false }), 3000);
+      clearTimeout(this.state.timeoutId); // 現在表示中のトーストを非表示にするタイマーをキャンセルする
+      this.setState({
+        visible: true,
+        timeoutId: setTimeout(() => {
+          this.setState({
+            visible: false,
+            timeoutId: -1,
+          });
+        }, 3000),
+      });
     }
   }
 
