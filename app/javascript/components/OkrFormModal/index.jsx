@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Modal, Transition, Message } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import Sidebar from './Sidebar'
 import ObjectiveDetail from './ObjectiveDetail'
 import KeyResultDetail from './KeyResultDetail'
-import ToastMessage from '../../containers/ToastMessage';
 
 class OkrFormModal extends Component {
   constructor(props) {
@@ -63,16 +62,6 @@ class OkrFormModal extends Component {
     }
   }
 
-  message() {
-    return (
-      <Transition visible={!this.props.message} animation='fade' duration={3000} onHide={()=> this.props.clearMessage()}>
-        {
-          this.props.message ? <Message positive>{this.props.message}</Message> : <span />
-        }
-      </Transition>
-    );
-  }
-
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
@@ -88,7 +77,6 @@ class OkrFormModal extends Component {
         closeOnRootNodeClick={true} 
         onClose={this.props.closeModal}
       >
-        <ToastMessage />
         <Modal.Content>
           <div className="okr-body">
             <Sidebar 

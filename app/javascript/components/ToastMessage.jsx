@@ -2,21 +2,14 @@ import React, { Component } from 'react';
 import { Transition, Message } from 'semantic-ui-react';
 
 class ToastMessage extends Component {
-  successMessage() {
-    return (
-      <Transition visible={!this.props.successMessage} animation='fade' duration={1500} onHide={() => {this.props.clearMessage()}}>
-        {
-          this.props.successMessage ? <Message positive>{this.props.successMessage}</Message> : <span/>
-        }
-      </Transition>
-    );
-  }
 
   render() {
     return (
-      <div className='toast'>
-        {this.successMessage()}
-      </div>
+      <Transition visible={!this.props.successMessage} animation='fade' duration={1500} onHide={() => {this.props.clearMessage()}}>
+        <div className='toast'>
+          {this.props.successMessage ? <Message positive compact>{this.props.successMessage}</Message> : <span />}
+        </div>
+      </Transition>
     );
   }
 }
