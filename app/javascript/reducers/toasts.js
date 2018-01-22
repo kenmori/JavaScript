@@ -3,14 +3,14 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
-    [ActionTypes.SHOW_SUCCESS_MESSAGE]: (state, { payload }) => {
-      return state.set('successMessage', payload.message)
+    [ActionTypes.SHOW_TOAST]: (state, { payload }) => {
+      return state.set('message', payload.message);
     },
-    [ActionTypes.CLEAR_SUCCESS_MESSAGE]: (state) => (
-      state.set('successMessage', null)
-    ),
+    [ActionTypes.CLEAR_TOAST]: (state, { payload }) => {
+      return state.set('message', null);
+    },
   },
   fromJS({
-    successMessage: null
+    message: null
   })
 );

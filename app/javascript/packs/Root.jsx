@@ -15,7 +15,7 @@ import PasswordEditedPage from '../containers/PasswordEditedPage';
 import SignInPage from '../containers/SignInPage';
 import SettingsPage from '../containers/SettingsPage';
 import Loading from '../containers/Loading';
-import ToastMessage from '../containers/ToastMessage';
+import Toast from '../containers/Toast';
 import ErrorModal from '../containers/ErrorModal';
 import Confirm from '../containers/Confirm';
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </Switch>
         </Router>
         <Loading />
-        <ToastMessage />
+        <Toast />
         <ErrorModal />
         <Confirm />
       </div>
