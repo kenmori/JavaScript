@@ -5,7 +5,7 @@ import { Button, Modal } from 'semantic-ui-react';
 class ErrorModal extends Component {
   
   render() {
-
+    const message = Array.isArray(this.props.message) ? this.props.message.join('<br />') : this.props.message;
     return (
       <Modal
         closeIcon 
@@ -30,7 +30,7 @@ class ErrorModal extends Component {
 
 ErrorModal.propTypes = {
   isOpen: PropTypes.bool,
-  message: PropTypes.string,
+  message: PropTypes.any,
   closeModal: PropTypes.func,
 };
 
