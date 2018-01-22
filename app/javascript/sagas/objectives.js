@@ -26,7 +26,7 @@ function* addObjective({ payload }) {
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   yield put(objectiveActions.updatedObjective(result.get('objective'), payload.currentUserId));
-  yield put(toastActions.showToast('Objective を変更しました'));
+  yield put(toastActions.showToast('Objective を変更しました', 'success'));
 }
 
 function* removeObjective({payload}) {

@@ -21,13 +21,13 @@ function* addKeyResult({ payload }) {
 function* updateKeyResult({payload}) {
   const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
   yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), payload.currentUserId));
-  yield put(toastActions.showToast('Key Result を変更しました'));
+  yield put(toastActions.showToast('Key Result を変更しました', 'success'));
 }
 
 function* removeKeyResult({payload}) {
   const result = yield call(API.delete, '/key_results/' + payload.id);
   yield put(keyResultActions.removedKeyResult(result.get('keyResult')));
-  yield put(toastActions.showToast('Key Result を削除しました'));
+  yield put(toastActions.showToast('Key Result を削除しました', 'success'));
 }
 
 export function *keyResultSagas() {

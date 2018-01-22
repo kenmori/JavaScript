@@ -5,6 +5,7 @@ import toastActions from '../actions/toasts';
 const mapStateToProps = (state) => {
   return {
     message: state.toasts.get('message'),
+    type: state.toasts.get('type'),
   };
 };
 

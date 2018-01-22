@@ -4,13 +4,14 @@ import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
     [ActionTypes.SHOW_TOAST]: (state, { payload }) => {
-      return state.set('message', payload.message);
+      return state.merge({ 'message': payload.message, 'type': payload.type, });
     },
     [ActionTypes.CLEAR_TOAST]: (state, { payload }) => {
-      return state.set('message', null);
+      return state.merge({ 'message': null, 'type': null });
     },
   },
   fromJS({
-    message: null
+    message: null,
+    type: null,
   })
 );
