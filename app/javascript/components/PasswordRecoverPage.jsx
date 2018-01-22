@@ -21,7 +21,8 @@ export default class PasswordRecoverPage extends Component {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
+                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
+                       defaultValue={this.props.location.state && this.props.location.state.email} />
               </Form.Field>
             </Form.Group>
             <div>

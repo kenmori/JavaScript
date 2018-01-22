@@ -4,6 +4,20 @@ import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../images/logo_large.png';
 
 export default class SignIn extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+    };
+  }
+
+  handleEmailChange(value) {
+    this.setState({
+      email: value,
+    });
+  }
+
   signIn() {
     this.props.signIn(this.emailInput.inputRef.value, this.passwordInput.inputRef.value, true);
   }
@@ -17,7 +31,8 @@ export default class SignIn extends Component {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
+                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
+                       onChange={(event, { value }) => this.handleEmailChange(value)} />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
@@ -25,7 +40,12 @@ export default class SignIn extends Component {
               </Form.Field>
             </Form.Group>
             {/*<div className="user-create-link"><Link to="/users/sign_up">新規ユーザー登録はこちら</Link></div>*/}
-            <div className="user-create-link"><Link to="/users/password/recover">パスワードを忘れた方はこちら</Link></div>
+            <div className="user-create-link">
+              <Link to={{
+                pathname: '/users/password/recover',
+                state: { email: this.state.email },
+              }}>パスワードを忘れた方はこちら</Link>
+            </div>
             <div className='center'>
               <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
             </div>
