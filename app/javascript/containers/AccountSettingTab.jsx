@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import userActions from '../actions/users';
 import sessionActions from '../actions/sessions';
 import dialogActions from '../actions/dialogs';
+import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   return {
@@ -26,6 +27,9 @@ const mapDispatchToProps = dispatch => {
     },
     deleteAvatar: user => {
       dispatch(userActions.updateAvatar(user));
+    },
+    confirm: confirmParams => {
+      dispatch(confirmActions.openConfirm(confirmParams));
     }
   };
 };

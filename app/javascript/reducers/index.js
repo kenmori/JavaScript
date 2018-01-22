@@ -12,6 +12,7 @@ import signUp from './signUp';
 import password from './password';
 import loading from './loading';
 import toasts from './toasts';
+import confirm from './confirm';
 
 const reducers = combineReducers({
   entities,
@@ -26,7 +27,8 @@ const reducers = combineReducers({
   signUp,
   password,
   loading,
-  toasts
+  toasts,
+  confirm,
 });
 
 export default reducers;

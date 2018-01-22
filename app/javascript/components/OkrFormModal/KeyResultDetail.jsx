@@ -82,9 +82,10 @@ class KeyResultDetail extends Component {
   }
 
   removeKeyResult(id) {
-    if(confirm('Key Result を削除しますか？')) {
-      this.props.removeKeyResult({id})
-    }
+    this.props.confirm({
+      content: "Key Result を削除しますか？",
+      onConfirm: () => this.props.removeKeyResult({id}),
+    });
   }
 
   handleCalendar(value) {
@@ -157,11 +158,14 @@ class KeyResultDetail extends Component {
   }
 
   removeComment(id) {
-    if (confirm('コメントを削除しますか？')) {
-      this.updateKeyResult({
-        comment: { data: id, behavior: 'remove' }
-      });
-    }
+    this.props.confirm({
+      content: 'コメントを削除しますか？',
+      onConfirm: () => {
+        this.updateKeyResult({
+          comment: { data: id, behavior: 'remove' }
+        });
+      },
+    })
   }
 
   componentWillReceiveProps(nextProps) {

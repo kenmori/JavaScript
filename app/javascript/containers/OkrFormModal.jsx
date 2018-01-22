@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
+import confirmActions from '../actions/confirm';
 import { denormalizeObjective } from '../schemas/index'
 
 const mapStateToProps = (state) => {
@@ -48,6 +49,9 @@ const mapDispatchToProps = dispatch => {
           dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
         }, 0);
       }
+    },
+    confirm: (conformParams) => {
+      dispatch(confirmActions.openConfirm(conformParams));
     }
   };
 };

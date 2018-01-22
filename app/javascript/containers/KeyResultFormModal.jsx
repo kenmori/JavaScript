@@ -2,6 +2,7 @@ import KeyResultFormModal from '../components/KeyResultFormModal';
 import { connect } from 'react-redux';
 import actions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
+import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -21,6 +22,9 @@ const mapDispatchToProps = dispatch => {
     },
     closeModal: () => {
       dispatch(dialogActions.closeKeyResultFormModal());
+    },
+    confirm: confirmParams => {
+      dispatch(confirmActions.openConfirm(confirmParams));
     }
   };
 };

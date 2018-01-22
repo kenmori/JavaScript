@@ -104,9 +104,10 @@ class KeyResultFormModal extends Component {
 
   handleClose() {
     if(this.isEditing()) {
-      if(confirm('編集中の内容を破棄します。よろしいですか？')) {
-        this.props.closeModal();
-      }
+      this.props.confirm({
+        content: '編集中の内容を破棄します。よろしいですか？',
+        onConfirm: () => this.props.closeModal(),
+      })
     } else {
       this.props.closeModal();
     }

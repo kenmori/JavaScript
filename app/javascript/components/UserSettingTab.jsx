@@ -32,7 +32,8 @@ class UserSettingTab extends Component {
                     onAdd={user => this.addUser(user)} 
                     onUpdateUser={user => this.updateUser(user)}
                     onUpdateEmail={user => this.updateEmail(user)}
-                    onRemove={id => this.removeUser(id)}/>
+                    onRemove={id => this.removeUser(id)}
+                    confirm={this.props.confirm}/>
       </Tab.Pane>
     );
   }

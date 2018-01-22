@@ -16,6 +16,7 @@ import SignInPage from '../containers/SignInPage';
 import SettingsPage from '../containers/SettingsPage';
 import Loading from '../containers/Loading';
 import ErrorModal from '../containers/ErrorModal';
+import Confirm from '../containers/Confirm';
 
 const store = configureStore();
 
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </Router>
         <Loading />
         <ErrorModal />
+        <Confirm />
       </div>
     </Provider>,
     document.body.appendChild(document.createElement('div')),
