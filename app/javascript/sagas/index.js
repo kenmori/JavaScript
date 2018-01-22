@@ -4,6 +4,7 @@ import { keyResultSagas } from './keyResults';
 import { userSagas } from './users';
 import { sessionSagas } from './sessions';
 import { organizationSagas } from './organizations';
+import { okrPeriodSagas } from './okrPeriods';
 
 const sagas = [
   objectiveSagas,
@@ -11,6 +12,7 @@ const sagas = [
   userSagas,
   sessionSagas,
   organizationSagas,
+  okrPeriodSagas,
 ];
 
 export default function* rootSaga() {

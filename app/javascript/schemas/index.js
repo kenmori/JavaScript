@@ -39,31 +39,32 @@ function getKeyResult(keyResultId, entities) {
   return entities.keyResults.get(keyResultId);
 }
 
-function denormalizeObjective(objectiveId, entities) {
+function denormalizeObjective(objectiveId, entities, parentObjective) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return objective
-    .set('parentObjective', getObjective(objective.get('parentObjectiveId'), entities))
+    .set('parentObjective', parentObjective || denormalizeObjective(objective.get('parentObjectiveId'), entities))
     .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
-    .update('keyResults', ids => ids.map(id => getKeyResult(id, entities)))
-    .update('childObjectives', ids => ids.map(id => denormalizeObjective(id, entities)));
+    .update('keyResults', ids => denormalizeKeyResults(ids, entities, objective))
+    .set('childObjectives', denormalizeObjectives(objective.get('childObjectiveIds'), entities, objective).filter(value => !!value));
 }
 
-function denormalizeObjectives(objectiveIds, entities) {
-  return objectiveIds.map(id => denormalizeObjective(id, entities));
+function denormalizeObjectives(objectiveIds, entities, parentObjective) {
+  return objectiveIds.map(id => denormalizeObjective(id, entities, parentObjective));
 }
 
-function denormalizeKeyResult(keyResultId, entities) {
+function denormalizeKeyResult(keyResultId, entities, objective) {
   const keyResult = getKeyResult(keyResultId, entities);
   if (!keyResult) return null;
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return keyResult
-    .set('objective', denormalizeObjective(keyResult.get('objectiveId'), entities));
+    .set('objective', objective || denormalizeObjective(keyResult.get('objectiveId'), entities))
+    .set('childObjectives', keyResult.get('childObjectiveIds').map(id => getObjective(id, entities)).filter(value => !!value));
 }
 
-function denormalizeKeyResults(keyResultIds, entities) {
-  return keyResultIds.map(id => denormalizeKeyResult(id, entities));
+function denormalizeKeyResults(keyResultIds, entities, objective) {
+  return keyResultIds.map(id => denormalizeKeyResult(id, entities, objective));
 }
 
 export {

@@ -7,14 +7,16 @@ class KeyResultList extends Component {
 
   selectKeyResult = keyResult => {
     const objective = keyResult.get('objective')
+    const objectiveId = keyResult.get('objectiveId');
     if (objective) {
-      this.props.onClick(keyResult);
+      this.props.setMapObjective(objective);
     } else {
       // 他人の Objective の場合
-      this.props.fetchObjective(keyResult.get('objectiveId'));
+      this.props.setMapObjectiveId(objectiveId);
+      this.props.fetchObjective(objectiveId);
     }
     this.props.changeCurrentKeyResult(keyResult.get('id'));
-    this.props.changeCurrentObjective(keyResult.get('objectiveId'));
+    this.props.changeCurrentObjective(objectiveId);
   }
 
   render() {
@@ -52,7 +54,8 @@ class KeyResultList extends Component {
 
 KeyResultList.propTypes = {
   keyResults: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
+  setMapObjective: PropTypes.func.isRequired,
+  setMapObjectiveId: PropTypes.func.isRequired,
 };
 
 export default KeyResultList;
