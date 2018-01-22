@@ -85,9 +85,10 @@ class OkrPeriodSettingTab extends Component {
   }
 
   removeOkrPeriod(id, name){
-    if (confirm(`OKR期間 ${name} を削除しますか？`)) {
-      this.props.removeOkrPeriod({id});
-    }
+    this.props.confirm({
+      content: `OKR期間 ${name} を削除しますか？`,
+      onConfirm: () => this.props.removeOkrPeriod({ id }),
+    });
   };
 
   render() {
