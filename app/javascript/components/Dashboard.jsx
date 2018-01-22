@@ -34,7 +34,7 @@ export default class Dashboard extends Component {
       const objective = this.getNextMapObjective(this.props.objectives, nextProps.objectives);
       this.setMapObjective(objective);
       if (objective) {
-        this.props.changeCurrentObjective(objective.get('id'));
+        this.props.changeCurrentOkr(objective.get('id'));
       }
     } else if (this.props.entities !== nextProps.entities) {
       const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.keyResults);

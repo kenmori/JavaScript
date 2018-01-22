@@ -10,8 +10,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeCurrentObjective: id => {
-      dispatch(currentActions.changeCurrentObjective(id));
+    changeCurrentOkr: objectiveId => {
+      dispatch(currentActions.changeCurrentOkr(objectiveId));
     },
   };
 };
