@@ -30,14 +30,14 @@ class UsersTable extends Component {
   }
 
   changeEmail = (id, email) => {
-    if(confirm('メールアドレスを変更しますか？')) {
-      const notLogout = id !== this.props.loginUser.get('id');
-      this.props.onUpdateEmail({id, email, notLogout});
-    } else {
-      this.setState({
-        emails: this.state.emails
-      });
-    }
+    this.props.confirm({
+      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？',
+      onConfirm: () => {
+        const notLogout = id !== this.props.loginUser.get('id');
+        this.props.onUpdateEmail({ id, email, notLogout });
+      },
+      onCancel: () => this.setState({ emails: this.state.emails }),
+    });
   }
 
   getUsers = (users) => (
@@ -106,19 +106,22 @@ class UsersTable extends Component {
   };
 
   addUser = () => {
-    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？')) {
-      this.props.onAdd({
-        firstName: this.firstNameInputs[0].inputRef.value,
-        lastName: this.lastNameInputs[0].inputRef.value,
-        email: this.emailInputs[0].inputRef.value,
-        admin: this.isAdminInputs.inputRef.checked,
-        noPasswordRequired: true,
-      });
-      this.lastNameInputs[0].inputRef.value = '';
-      this.firstNameInputs[0].inputRef.value = '';
-      this.emailInputs[0].inputRef.value = '';
-      this.isAdminInputs.inputRef.checked = false;
-    }
+    this.props.confirm({
+      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？',
+      onConfirm: () => {
+        this.props.onAdd({
+          firstName: this.firstNameInputs[0].inputRef.value,
+          lastName: this.lastNameInputs[0].inputRef.value,
+          email: this.emailInputs[0].inputRef.value,
+          admin: this.isAdminInputs.inputRef.checked,
+          noPasswordRequired: true,
+        });
+        this.lastNameInputs[0].inputRef.value = '';
+        this.firstNameInputs[0].inputRef.value = '';
+        this.emailInputs[0].inputRef.value = '';
+        this.isAdminInputs.inputRef.checked = false;
+      },
+    });
   };
 
   removeUser = (id, name) => () => {
