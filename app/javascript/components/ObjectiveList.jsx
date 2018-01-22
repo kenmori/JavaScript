@@ -6,7 +6,7 @@ class ObjectiveList extends Component {
 
   selectObjective = objective => {
     this.props.setMapObjective(objective);
-    this.props.changeCurrentObjective(objective.get('id'));
+    this.props.changeCurrentOkr(objective.get('id'));
   }
 
   render() {

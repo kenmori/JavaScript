@@ -2,8 +2,8 @@ import { createActions } from 'redux-actions';
 import actionTypes from '../constants/actionTypes';
 
 const actions = createActions({
-  [actionTypes.SHOW_SUCCESS_MESSAGE]: (message) => ({ message }),
-  [actionTypes.CLEAR_SUCCESS_MESSAGE]: () => ({}),
+  [actionTypes.SHOW_TOAST]: (message, type = null) => ({ message, type }),
+  [actionTypes.CLEAR_TOAST]: () => { },
 });
 
 export default actions;

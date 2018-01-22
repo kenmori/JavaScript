@@ -33,8 +33,8 @@ const mapDispatchToProps = dispatch => {
     openObjectiveFormModal: () => {
       dispatch(dialogActions.openObjectiveFormModal());
     },
-    changeCurrentObjective: id => {
-      dispatch(currentActions.changeCurrentObjective(id));
+    changeCurrentOkr: objectiveId => {
+      dispatch(currentActions.changeCurrentOkr(objectiveId));
     },
   };
 };

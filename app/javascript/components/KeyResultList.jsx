@@ -15,8 +15,7 @@ class KeyResultList extends Component {
       this.props.setMapObjectiveId(objectiveId);
       this.props.fetchObjective(objectiveId);
     }
-    this.props.changeCurrentKeyResult(keyResult.get('id'));
-    this.props.changeCurrentObjective(objectiveId);
+    this.props.changeCurrentOkr(objectiveId, keyResult.get('id'));
   }
 
   render() {

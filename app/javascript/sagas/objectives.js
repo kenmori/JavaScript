@@ -21,17 +21,19 @@ function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
   yield put(objectiveActions.addedObjective(result.get('objective'), payload.currentUserId));
   yield put(dialogActions.closeObjectiveFormModal());
+  yield put(toastActions.showToast('Objective を作成しました'));
 }
 
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   yield put(objectiveActions.updatedObjective(result.get('objective'), payload.currentUserId));
-  yield put(toastActions.showSuccessMessage('Objective を変更しました'));
+  yield put(toastActions.showToast('Objective を更新しました'));
 }
 
 function* removeObjective({payload}) {
   yield call(API.delete, '/objectives/' + payload.id);
   yield put(objectiveActions.removedObjective(payload.id));
+  yield put(toastActions.showToast('Objective を削除しました'));
 }
 
 export function *objectiveSagas() {

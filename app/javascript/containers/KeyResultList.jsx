@@ -14,11 +14,8 @@ const mapDispatchToProps = dispatch => {
     fetchObjective: id => {
       dispatch(objectiveActions.fetchObjective(id));
     },
-    changeCurrentObjective: id => {
-      dispatch(currentActions.changeCurrentObjective(id));
-    },
-    changeCurrentKeyResult: id => {
-      dispatch(currentActions.changeCurrentKeyResult(id));
+    changeCurrentOkr: (objectiveId, keyResultId) => {
+      dispatch(currentActions.changeCurrentOkr(objectiveId, keyResultId));
     },
   };
 };

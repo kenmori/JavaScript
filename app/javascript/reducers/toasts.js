@@ -3,14 +3,17 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
-    [ActionTypes.SHOW_SUCCESS_MESSAGE]: (state, { payload }) => {
-      return state.set('successMessage', payload.message)
+    [ActionTypes.SHOW_TOAST]: (state, { payload }) => {
+      // 同じ文言のトースト連続表示時でも props 変更イベントを飛ばすため文字列を別インスタンスにする
+      // noinspection JSPrimitiveTypeWrapperUsage
+      return state.set('message', new String(payload.message)).set('type', payload.type);
     },
-    [ActionTypes.CLEAR_SUCCESS_MESSAGE]: (state) => (
-      state.set('successMessage', null)
-    ),
+    [ActionTypes.CLEAR_TOAST]: (state, { payload }) => {
+      return state.set('message', null).set('type', null);
+    },
   },
   fromJS({
-    successMessage: null
+    message: null,
+    type: null,
   })
 );

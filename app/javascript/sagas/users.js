@@ -1,11 +1,10 @@
-import { fromJS } from 'immutable';
 import { all, put, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
 import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
-
+import toastActions from '../actions/toasts';
 
 function* fetchUser({ payload }) {
   const result = yield call(API.get, '/users/' + payload.id);
@@ -25,6 +24,7 @@ function* addUser({ payload }) {
 function* updateUser({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
   yield put(userActions.updatedUser(result.get('user')));
+  yield put(toastActions.showToast('ユーザー情報を更新しました'));
 }
 
 function* removeUser({ payload }) {
@@ -35,6 +35,7 @@ function* removeUser({ payload }) {
 function* updatePassword({ payload }) {
   const result = yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
   yield put(userActions.updatedUser(result));
+  yield put(toastActions.showToast('パスワードを変更しました', 'success'));
 }
 
 function* recoverPassword({ payload }) {
@@ -49,7 +50,8 @@ function* editPassword({ payload }) {
 
 function* updateEmail({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result.get('user').merge(fromJS({notLogout: payload.user.notLogout}))));
+  yield put(userActions.updatedEmail(result.get('user').set('notLogout', payload.user.notLogout)));
+  yield put(toastActions.showToast('メールアドレスを変更しました', 'success'));
 }
 
 function* updateAvatar({ payload }) {

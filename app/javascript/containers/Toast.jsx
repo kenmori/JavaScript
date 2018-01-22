@@ -1,22 +1,23 @@
-import ToastMessage from '../components/ToastMessage';
+import Toast from '../components/Toast';
 import { connect } from 'react-redux';
 import toastActions from '../actions/toasts';
 
 const mapStateToProps = (state) => {
   return {
-    successMessage: state.toasts.get('successMessage'),
+    message: state.toasts.get('message'),
+    type: state.toasts.get('type'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearMessage: () => {
-      dispatch(toastActions.clearSuccessMessage());
-    }
+    clearToast: () => {
+      dispatch(toastActions.clearToast());
+    },
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ToastMessage);
+)(Toast);

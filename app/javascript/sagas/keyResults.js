@@ -16,18 +16,19 @@ function* addKeyResult({ payload }) {
   const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
   yield put(keyResultActions.addedKeyResult(result.get('keyResult'), payload.currentUserId));
   yield put(dialogActions.closeKeyResultFormModal());
+  yield put(toastActions.showToast('Key Result を作成しました'));
 }
 
 function* updateKeyResult({payload}) {
   const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
   yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), payload.currentUserId));
-  yield put(toastActions.showSuccessMessage('Key Result を変更しました'));
+  yield put(toastActions.showToast('Key Result を更新しました'));
 }
 
 function* removeKeyResult({payload}) {
   const result = yield call(API.delete, '/key_results/' + payload.id);
   yield put(keyResultActions.removedKeyResult(result.get('keyResult')));
-  yield put(toastActions.showSuccessMessage('Key Result を削除しました'));
+  yield put(toastActions.showToast('Key Result を削除しました'));
 }
 
 export function *keyResultSagas() {
