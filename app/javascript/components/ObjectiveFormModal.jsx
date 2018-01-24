@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
+import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import UserSelectBox from './UserSelectBox';
+import RenderField from './RenderField';
 import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
 
-  save() {
+  save(validData) {
     const objective = {
-      name: this.nameInput.inputRef.value,
       description: findDOMNode(this.descriptionArea).value,
       ownerId: this.ownerSelect.selectedValue,
       parentObjectiveId: this.props.parentObjective ? this.props.parentObjective.get('id') : null,
       parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
       okrPeriodId: this.props.okrPeriodId,
     };
-    this.props.addObjective(objective);
+    this.props.addObjective(Object.assign(objective, validData));
   }
 
   getInitialOwnerId() {
@@ -39,7 +40,7 @@ class ObjectiveFormModal extends Component {
 
   isEditing() {
     if (
-      this.nameInput.inputRef.value !== '' ||
+      this.props.dirty ||
       findDOMNode(this.descriptionArea).value !== '' ||
       this.ownerSelect.selectedValue !== this.getInitialOwnerId()
     ) {
@@ -53,9 +54,13 @@ class ObjectiveFormModal extends Component {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
-        onConfirm: () => this.props.closeModal(),
+        onConfirm: () => {
+          this.props.reset();
+          this.props.closeModal();
+        }
       });
     } else {
+      this.props.reset();
       this.props.closeModal();
     }
   }
@@ -63,6 +68,7 @@ class ObjectiveFormModal extends Component {
   render() {
     const objective = this.props.parentObjective;
     const keyResult = this.props.relatedKeyResult;
+    const { handleSubmit } = this.props;
     const hasObjective = !!objective;
     let modalSize = 'small';
     let wrapperClassName = 'objective-form-modal';
@@ -120,15 +126,20 @@ class ObjectiveFormModal extends Component {
               <Form>
                 <Form.Group widths='equal'>
                   <Form.Field>
-                    <label>Objective</label>
-                    <Input placeholder='Objective を入力してください' ref={(node) => { this.nameInput = node; }}/>
+                    <label>Objective名</label>
+                    <Field 
+                      name="name" 
+                      type="text"
+                      placeholder="Objective名を入力してください"
+                      component={RenderField} 
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>
                   <Form.Field>
                     <label>Objective の説明</label>
                     <TextArea autoHeight rows={3} placeholder={`Objective についての説明や補足を入力してください。
-説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }}/>
+  説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }}/>
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>
@@ -148,7 +159,9 @@ class ObjectiveFormModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
-            <Button positive onClick={this.save.bind(this)}>保存</Button>
+            <Button positive onClick={handleSubmit(data => {
+              this.save(data)
+            })}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
@@ -162,4 +175,13 @@ ObjectiveFormModal.propTypes = {
   relatedKeyResult: PropTypes.object,
 };
 
-export default ObjectiveFormModal;
+export default reduxForm({
+  form: 'objectiveFormModal',
+  validate: (values) => {
+    const errors = {}
+    if (!values.name) {
+      errors.name = 'Objective名は必須です。'
+    }
+    return errors
+  }
+})(ObjectiveFormModal)
