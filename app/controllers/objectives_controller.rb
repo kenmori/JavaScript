@@ -43,7 +43,7 @@ class ObjectivesController < ApplicationController
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
 
-    if @objective.destroy
+    if can_delete? && @objective.destroy
       head :no_content
     else
       unprocessable_entity_with_errors(@objective.errors)
@@ -51,6 +51,12 @@ class ObjectivesController < ApplicationController
   end
 
   private
+
+  def can_delete?
+    return true if @objective.key_results.empty?
+    @objective.errors[:error] << 'Key Result が紐付いているため削除できません'
+    return false
+  end
 
   def update_objective_members
     objective_member_data = params[:objective][:objective_member]

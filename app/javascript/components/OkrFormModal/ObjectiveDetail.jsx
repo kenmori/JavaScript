@@ -7,9 +7,6 @@ import EditableMultiLineText from '../utils/EditableMultiLineText'
 import UserSelectBox from '../UserSelectBox';
 
 class ObjectiveDetail extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   changeObjectiveOwner(value) {
     this.updateObjective({
@@ -22,10 +19,6 @@ class ObjectiveDetail extends Component {
   }
 
   removeObjective(objective) {
-    if (objective.get('keyResults') && !objective.get('keyResults').isEmpty()) {
-      alert('Key Result が紐付いているため削除できません。');
-      return;
-    }
     this.props.confirm({
       content: `Objective ${objective.get('name')} を削除しますか？`,
       onConfirm: () => this.props.removeObjective(objective.get('id')),
