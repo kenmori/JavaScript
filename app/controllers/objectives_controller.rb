@@ -29,6 +29,7 @@ class ObjectivesController < ApplicationController
   def update
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
+    forbidden('Objective 責任者または管理者のみ編集できます') and return unless valid_user?(@objective.owner.id)
 
     ActiveRecord::Base.transaction do
       @objective.update!(objective_update_params)
@@ -42,6 +43,7 @@ class ObjectivesController < ApplicationController
   def destroy
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
+    forbidden('Objective 責任者または管理者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
     if can_delete? && @objective.destroy
       head :no_content

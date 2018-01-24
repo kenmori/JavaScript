@@ -56,6 +56,11 @@ class ApplicationController < ActionController::Base
     current_organization.id == organization_id&.to_i
   end
 
+  # verify current user is owner or admin
+  def valid_user?(owner_id)
+    current_user.admin? || owner_id == current_user.id
+  end
+
   private
 
   # render_with_error is render json of error.

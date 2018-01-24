@@ -11,8 +11,10 @@ class KeyResultsController < ApplicationController
 
   def create
     @user = User.find(params[:key_result][:owner_id])
-    forbidden and return unless valid_permission?(Objective.find(params[:key_result][:objective_id]).owner.organization.id)
+    owner = Objective.find(params[:key_result][:objective_id]).owner
     forbidden and return unless valid_permission?(@user.organization.id)
+    forbidden and return unless valid_permission?(owner.organization.id)
+    forbidden('Objective 責任者または管理者のみ作成できます') and return unless valid_user?(owner.id)
 
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.create!(key_result_create_params)
@@ -43,6 +45,7 @@ class KeyResultsController < ApplicationController
   def destroy
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者または管理者のみ削除できます') and return unless valid_user?(@key_result.objective.owner.id)
 
     if @key_result.destroy
       render action: :create, status: :ok
