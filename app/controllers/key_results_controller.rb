@@ -31,6 +31,7 @@ class KeyResultsController < ApplicationController
   def update
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者、Key Result 責任者または管理者のみ編集できます') and return unless valid_user_to_update?
 
     ActiveRecord::Base.transaction do
       @key_result.update!(key_result_update_params)
@@ -55,6 +56,32 @@ class KeyResultsController < ApplicationController
   end
 
   private
+
+  def valid_user_to_update?
+    # Objective 責任者 or KR 責任者 or 管理者の場合は true
+    return true if valid_user?(@key_result.owner.id)
+    return true if valid_user?(@key_result.objective.owner.id)
+
+    # 関係者に自分を追加/削除の場合は true
+    key_result_member_data = params[:key_result][:key_result_member]
+    if key_result_member_data
+      user_id = key_result_member_data['user']
+      role = key_result_member_data['role'] == 'owner' ? :owner : :member
+      return true if user_id == current_user.id && role == :member
+    end
+
+    # 自分のコメントを追加/編集/削除の場合は true
+    comment_data = params[:key_result][:comment]
+    if comment_data
+      behavior = comment_data['behavior']
+      data = comment_data['data']
+      return true if behavior == 'add'
+      return true if behavior == 'edit' && @key_result.comments.find(data['id']).user_id == current_user.id
+      return true if behavior == 'remove' && @key_result.comments.find(data).user_id == current_user.id
+    end
+
+    return false
+  end
 
   def update_key_result_members
     key_result_member_data = params[:key_result][:key_result_member]
