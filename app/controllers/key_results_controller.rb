@@ -91,9 +91,13 @@ class KeyResultsController < ApplicationController
 
     if behavior == 'add'
       if role == :owner
-        # 責任者の変更 (前の owner を削除する)
+        # 責任者の変更
         owner = @key_result.key_result_members.find_by(role: :owner)
-        owner.destroy!
+        if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: owner.user_id, role: :owner }).exists?
+          owner.update!(role: :member) # 下位 Objective が紐付いている場合は関係者に変更する
+        else
+          owner.destroy! # 下位 Objective が紐付いていない場合は削除する
+        end
       end
       member = @key_result.key_result_members.find_by(user_id: user_id)
       if member.nil?
@@ -104,7 +108,7 @@ class KeyResultsController < ApplicationController
         member.update!(role: role)
       end
     elsif behavior == 'remove'
-      if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: user_id }).exists?
+      if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: user_id, role: :owner }).exists?
         @key_result.errors[:error] << '下位 Objective が紐付いているため削除できません'
         raise
       end
