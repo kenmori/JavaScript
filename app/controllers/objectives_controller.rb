@@ -89,6 +89,11 @@ class ObjectivesController < ApplicationController
       # 関係者から責任者に変更
       member.update!(role: :owner)
     end
+
+    # Objective 責任者が紐付く上位 KR の責任者および関係者でない場合は追加する
+    if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: user_id)
+      @objective.parent_key_result.key_result_members.create!(user_id: user_id, role: :member)
+    end
   end
 
   def objective_create_params

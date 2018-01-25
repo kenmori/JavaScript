@@ -38,5 +38,6 @@ export default handleActions({
     },
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
+    [ActionTypes.UPDATED_OBJECTIVE]: merge,
   }, Map()
 )
