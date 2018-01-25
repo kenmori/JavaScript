@@ -19,12 +19,18 @@ class ObjectivesController < ApplicationController
     forbidden and return unless valid_permission?(@user.organization.id)
     forbidden('Key Result 責任者、Key Result 関係者または管理者のみ作成できます') and return unless valid_user_to_create?
 
-    @objective = @user.objectives.new(objective_create_params)
-    if @user.save
-      render status: :created
-    else
-      unprocessable_entity_with_errors(@objective.errors)
+    ActiveRecord::Base.transaction do
+      @objective = @user.objectives.new(objective_create_params)
+      @user.save!
+
+      # Objective 責任者が紐付く上位 KR の責任者および関係者でない場合は追加する
+      if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: @user.id)
+        @objective.parent_key_result.key_result_members.create!(user_id: @user.id, role: :member)
+      end
     end
+    render status: :created
+  rescue
+    unprocessable_entity_with_errors(@objective.errors)
   end
 
   def update
