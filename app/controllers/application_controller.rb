@@ -15,22 +15,22 @@ class ApplicationController < ActionController::Base
   protected
 
   # render 400
-  def bad_request(message = '400 error')
+  def bad_request(message = '無効な操作です')
     render_with_error(:bad_request, message)
   end
 
   # render 403
-  def forbidden(message = '403 error')
+  def forbidden(message = '許可されていない操作です')
     render_with_error(:forbidden, message)
   end
 
   # render 404
-  def not_found(message = '404 error')
+  def not_found(message = '操作の対象が存在しません')
     render_with_error(:not_found, message)
   end
 
   # render 422
-  def unprocessable_entity(message = '422 error')
+  def unprocessable_entity(message = '正常に処理できません')
     render_with_error(:unprocessable_entity, message)
   end
 
