@@ -19,6 +19,7 @@ function* fetchUsers() {
 function* addUser({ payload }) {
   const result = yield call(API.post, '/users', { user: payload.user });
   yield put(userActions.addedUser(result.get('user')));
+  yield put(toastActions.showToast('ユーザーを追加しました'));
 }
 
 function* updateUser({ payload }) {
@@ -30,6 +31,7 @@ function* updateUser({ payload }) {
 function* removeUser({ payload }) {
   yield call(API.delete, '/users/' + payload.id);
   yield put(userActions.removedUser(payload.id));
+  yield put(toastActions.showToast('ユーザーを削除しました'));
 }
 
 function* updatePassword({ payload }) {

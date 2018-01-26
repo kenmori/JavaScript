@@ -9,6 +9,7 @@ import toastActions from '../actions/toasts';
 function* addOkrPeriod({ payload }) {
   const result = yield call(API.post, '/okr_periods', { okrPeriod: payload.okrPeriod });
   yield put(okrPeriodActions.addedOkrPeriod(result.get('okrPeriod')));
+  yield put(toastActions.showToast('OKR 期間を追加しました'));
 }
 
 function* updateOkrPeriod({ payload }) {
@@ -20,6 +21,7 @@ function* updateOkrPeriod({ payload }) {
 function* removeOkrPeriod({ payload }) {
   yield call(API.delete, '/okr_periods/' + payload.okrPeriod.id);
   yield put(okrPeriodActions.removedOkrPeriod({id: payload.okrPeriod.id}));
+  yield put(toastActions.showToast('OKR 期間を削除しました'));
 }
 
 export function* okrPeriodSagas() {
