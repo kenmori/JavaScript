@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    if @user.destroy
+    if can_delete? && @user.destroy
       head :no_content
     else
       unprocessable_entity_with_errors(@user.errors)
@@ -62,6 +62,12 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def can_delete?
+    return true if @user.objectives.empty? && @user.key_results.empty?
+    @user.errors[:error] << 'Objective または Key Result が紐付いているため削除できません'
+    return false
+  end
 
   def user_params
     params.require(:user)
