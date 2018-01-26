@@ -118,7 +118,7 @@ class KeyResultDetail extends Component {
       return (
         <div className="comments" key={item.get('id')}>
           <div className="comments__item">
-            {item.get('selfComment') ? (
+            {item.get('editable') ? (
                 <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.editComment(item.get('id'), text)}/>
               ) : (
                 <div className="comments__item-text is-others">{ br(item.get('text'))}</div>
@@ -128,7 +128,7 @@ class KeyResultDetail extends Component {
             <div className="comments__item-meta">
               <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/MM/DD HH:mm')}</div>
               <div className="comments__item-name">{item.get('fullName')}</div>
-              {item.get('selfComment') && <Icon name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
+              {item.get('editable') && <Icon name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
             </div>
           </div>
         </div>

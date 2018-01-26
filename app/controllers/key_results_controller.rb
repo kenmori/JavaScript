@@ -11,8 +11,10 @@ class KeyResultsController < ApplicationController
 
   def create
     @user = User.find(params[:key_result][:owner_id])
-    forbidden and return unless valid_permission?(Objective.find(params[:key_result][:objective_id]).owner.organization.id)
+    owner = Objective.find(params[:key_result][:objective_id]).owner
     forbidden and return unless valid_permission?(@user.organization.id)
+    forbidden and return unless valid_permission?(owner.organization.id)
+    forbidden('Objective 責任者または管理者のみ作成できます') and return unless valid_user?(owner.id)
 
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.create!(key_result_create_params)
@@ -29,6 +31,7 @@ class KeyResultsController < ApplicationController
   def update
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者、Key Result 責任者または管理者のみ編集できます') and return unless valid_user_to_update?
 
     ActiveRecord::Base.transaction do
       @key_result.update!(key_result_update_params)
@@ -43,6 +46,7 @@ class KeyResultsController < ApplicationController
   def destroy
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者または管理者のみ削除できます') and return unless valid_user?(@key_result.objective.owner.id)
 
     if @key_result.destroy
       render action: :create, status: :ok
@@ -53,6 +57,32 @@ class KeyResultsController < ApplicationController
 
   private
 
+  def valid_user_to_update?
+    # Objective 責任者 or KR 責任者 or 管理者の場合は true
+    return true if valid_user?(@key_result.owner.id)
+    return true if valid_user?(@key_result.objective.owner.id)
+
+    # 関係者に自分を追加/削除の場合は true
+    key_result_member_data = params[:key_result][:key_result_member]
+    if key_result_member_data
+      user_id = key_result_member_data['user']
+      role = key_result_member_data['role'] == 'owner' ? :owner : :member
+      return true if user_id == current_user.id && role == :member
+    end
+
+    # 自分のコメントを追加/編集/削除の場合は true
+    comment_data = params[:key_result][:comment]
+    if comment_data
+      behavior = comment_data['behavior']
+      data = comment_data['data']
+      return true if behavior == 'add'
+      return true if behavior == 'edit' && @key_result.comments.find(data['id']).user_id == current_user.id
+      return true if behavior == 'remove' && @key_result.comments.find(data).user_id == current_user.id
+    end
+
+    return false
+  end
+
   def update_key_result_members
     key_result_member_data = params[:key_result][:key_result_member]
     user_id = key_result_member_data['user']
@@ -61,9 +91,13 @@ class KeyResultsController < ApplicationController
 
     if behavior == 'add'
       if role == :owner
-        # 責任者の変更 (前の owner を削除する)
+        # 責任者の変更
         owner = @key_result.key_result_members.find_by(role: :owner)
-        owner.destroy!
+        if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: owner.user_id, role: :owner }).exists?
+          owner.update!(role: :member) # 下位 Objective が紐付いている場合は関係者に変更する
+        else
+          owner.destroy! # 下位 Objective が紐付いていない場合は削除する
+        end
       end
       member = @key_result.key_result_members.find_by(user_id: user_id)
       if member.nil?
@@ -74,6 +108,10 @@ class KeyResultsController < ApplicationController
         member.update!(role: role)
       end
     elsif behavior == 'remove'
+      if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: user_id, role: :owner }).exists?
+        @key_result.errors[:error] << '下位 Objective が紐付いているため削除できません'
+        raise
+      end
       # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       member = @key_result.key_result_members.find_by(user_id: user_id)
       member.destroy!
