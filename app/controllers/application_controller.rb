@@ -74,6 +74,6 @@ class ApplicationController < ActionController::Base
     # TODO: クライアントとどうエラーのやり取りを行うか考える
     # errors.messageを展開するだけであれば展開した文字列を引数として
     # 直接renderせずにrender_with_errorを呼び出す方式に変える
-    render json: errors, status: code
+    render json: {error: errors}, status: code
   end
 end

@@ -30,7 +30,7 @@ class ObjectivesController < ApplicationController
     end
     render status: :created
   rescue
-    unprocessable_entity_with_errors(@objective.errors)
+    unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
 
   def update
