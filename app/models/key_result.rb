@@ -7,12 +7,18 @@ class KeyResult < ApplicationRecord
   belongs_to :objective
 
   validates :name, :objective_id, :okr_period_id, presence: true
+  validates :target_value, numericality: {greater_than_or_equal_to: 0}
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
   before_validation do
     self.okr_period_id = objective.okr_period_id
+  end
+
+  def target_value=(value)
+    value.tr!('０-９', '0-9') if value.is_a?(String)
+    super(value)
   end
 
   def owner
