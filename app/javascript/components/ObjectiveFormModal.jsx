@@ -7,7 +7,6 @@ import RenderField from './RenderField';
 import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
-
   save(validData) {
     const objective = {
       description: findDOMNode(this.descriptionArea).value,
@@ -54,15 +53,16 @@ class ObjectiveFormModal extends Component {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
-        onConfirm: () => {
-          this.props.reset();
-          this.props.closeModal();
-        }
+        onConfirm: () => this.closeModal(),
       });
     } else {
-      this.props.reset();
-      this.props.closeModal();
+      this.closeModal();
     }
+  }
+
+  closeModal() {
+    this.props.reset();
+    this.props.closeModal();
   }
 
   render() {
@@ -180,8 +180,8 @@ export default reduxForm({
   validate: (values) => {
     const errors = {}
     if (!values.name) {
-      errors.name = 'Objective名は必須です。'
+      errors.name = 'Objective名を入力してください'
     }
     return errors
-  }
+  },
 })(ObjectiveFormModal)

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Icon, List } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import DatePicker from './DatePicker';
 import KeyResultMemberSelectBox from './KeyResultMemberSelectBox';
 import UserSelectBox from './UserSelectBox';
 import RenderField from './RenderField';
+import RenderDateField from './RenderDateField';
 import moment from 'moment';
 
 class KeyResultFormModal extends Component {
@@ -55,8 +55,6 @@ class KeyResultFormModal extends Component {
     const keyResult = {
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
-      targetValue: this.targetInput.inputRef.value,
-      valueUnit: this.unitInput.inputRef.value,
       expiredDate: this.state.expiredDate.format(),
       keyResultMembers: this.state.keyResultMembers
     };
@@ -89,9 +87,6 @@ class KeyResultFormModal extends Component {
   isEditing() {
     if (
       this.props.dirty ||
-      this.targetInput.inputRef.value !== '' ||
-      this.unitInput.inputRef.value !== '' ||
-      this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods) ||
       this.state.ownerId !== this.props.objective.get('owner').get('id') ||
       this.state.keyResultMembers.length
     ) {
@@ -113,7 +108,6 @@ class KeyResultFormModal extends Component {
   }
 
   closeModal() {
-    this.targetInput.inputRef.value = '';
     this.props.reset();
     this.props.closeModal();
   }
@@ -168,11 +162,23 @@ class KeyResultFormModal extends Component {
                     <div className="flex-center">
                       <div style={{marginRight: "10px"}}>
                         <label>目標値</label>
-                        <Input type="text" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
+                        <div style={{width: "177px"}} >
+                          <Field 
+                            name="targetValue" 
+                            type="text"
+                            placeholder="目標値を入力してください"
+                            component={RenderField} 
+                          />
+                        </div>
                       </div>
                       <div>
                         <label>単位</label>
-                        <Input type="text" placeholder='例：円、件、人' ref={node => {this.unitInput = node;}}/>
+                        <Field 
+                          name="valueUnit" 
+                          type="text"
+                          placeholder="例：円、件、人"
+                          component={RenderField} 
+                        />
                       </div>
                     </div>
                   </Form.Field>
@@ -180,7 +186,14 @@ class KeyResultFormModal extends Component {
                 <Form.Group>
                   <Form.Field>
                     <label>期限</label>
-                    <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+                    <Field 
+                      name="expiredDate" 
+                      dateFormat="YYYY/MM/DD" 
+                      locale="ja" 
+                      selected={this.state.expiredDate} 
+                      handleCalendar={this.handleCalendar.bind(this)}
+                      component={RenderDateField} 
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>
@@ -227,7 +240,21 @@ export default reduxForm({
   validate: (values) => {
     const errors = {}
     if (!values.name) {
-      errors.name = 'KeyResult名は必須です。'
+      errors.name = 'KeyResult名を入力してください'
+    }
+    if (values.valueUnit && !values.targetValue) {
+      errors.targetValue = "目標値を入力してください";
+    }
+    if (values.targetValue) {
+      const targetValue = Number(values.targetValue);
+      if (targetValue !== 0 && !targetValue ) {
+        errors.targetValue = "目標値は数値を入力してください";
+      } else if(targetValue < 0) {
+        errors.targetValue = "目標値は0以上の数値を入力してください";
+      }
+    }
+    if (!moment(values.expiredDate).isValid()) {
+      errors.expiredDate = '期限が不正です'
     }
     return errors
   }
