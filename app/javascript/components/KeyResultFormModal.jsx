@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Icon, List } from 'semantic-ui-react';
+import { Field, reduxForm } from 'redux-form';
 import DatePicker from './DatePicker';
 import KeyResultMemberSelectBox from './KeyResultMemberSelectBox';
 import UserSelectBox from './UserSelectBox';
+import RenderField from './RenderField';
 import moment from 'moment';
 
 class KeyResultFormModal extends Component {
@@ -49,9 +51,8 @@ class KeyResultFormModal extends Component {
     })
   }
 
-  add() {
+  add(validData) {
     const keyResult = {
-      name: this.nameInput.inputRef.value,
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
       targetValue: this.targetInput.inputRef.value,
@@ -59,7 +60,7 @@ class KeyResultFormModal extends Component {
       expiredDate: this.state.expiredDate.format(),
       keyResultMembers: this.state.keyResultMembers
     };
-    this.props.addKeyResult(keyResult);
+    this.props.addKeyResult(Object.assign(keyResult, validData));
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
@@ -87,7 +88,7 @@ class KeyResultFormModal extends Component {
 
   isEditing() {
     if (
-      this.nameInput.inputRef.value !== '' ||
+      this.props.dirty ||
       this.targetInput.inputRef.value !== '' ||
       this.unitInput.inputRef.value !== '' ||
       this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods) ||
@@ -112,13 +113,13 @@ class KeyResultFormModal extends Component {
   }
 
   closeModal() {
-    this.nameInput.inputRef.value = '';
     this.targetInput.inputRef.value = '';
+    this.props.reset();
     this.props.closeModal();
   }
   
   render() {
-    const objective = this.props.objective;
+    const { handleSubmit, objective } = this.props;
     return (
       <Modal
         closeIcon 
@@ -154,7 +155,12 @@ class KeyResultFormModal extends Component {
                 <Form.Group widths='equal'>
                   <Form.Field>
                     <label>Key Result</label>
-                    <Input placeholder='Key Result を入力してください' ref={node => {this.nameInput = node;}}/>
+                    <Field 
+                      name="name" 
+                      type="text"
+                      placeholder="Key Result を入力してください"
+                      component={RenderField} 
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>
@@ -206,7 +212,9 @@ class KeyResultFormModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
-            <Button positive onClick={this.add.bind(this)}>保存</Button>
+            <Button positive onClick={handleSubmit(data => {
+              this.add(data)
+            })}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
@@ -214,4 +222,13 @@ class KeyResultFormModal extends Component {
   }
 }
 
-export default KeyResultFormModal;
+export default reduxForm({
+  form: 'keyResultFormModal',
+  validate: (values) => {
+    const errors = {}
+    if (!values.name) {
+      errors.name = 'KeyResult名は必須です。'
+    }
+    return errors
+  }
+})(KeyResultFormModal)
