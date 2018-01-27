@@ -34,16 +34,16 @@ class OkrPeriodsController < ApplicationController
   private
 
   def can_delete?
-    return true if @okr_period.objectives.blank? && @okr_period.key_results.blank?
-    @okr_period.errors[:error] << "関連するObjective、またはKeyResultが存在するため削除できません。"
+    return true if @okr_period.objectives.empty? && @okr_period.key_results.empty?
+    @okr_period.errors[:error] << 'Objective または Key Result が紐付いているため削除できません'
     return false
-  end 
+  end
 
   def valid_month_start_and_month_end
     month_start = params[:okr_period][:month_start]
     month_end = params[:okr_period][:month_end]
     if month_start.present? && month_end.present? && month_start.to_date >= month_end.to_date
-      @okr_period.errors[:error] << "期間が不正です。"
+      @okr_period.errors[:error] << '無効な期間です'
       return false 
     end
 
@@ -55,7 +55,7 @@ class OkrPeriodsController < ApplicationController
       is_invalid_month_start = month_start.present? ? month_start.to_date.between?(period[0], period[1]) : false
       is_invalid_month_end = month_end.present? ? month_end.to_date.between?(period[0], period[1]) : false
       if is_invalid_month_start || is_invalid_month_end
-        @okr_period.errors[:error] << "期間が重複しています。"
+        @okr_period.errors[:error] << '期間が重複しています'
         return false
       end
     end
