@@ -17,7 +17,8 @@ class KeyResultsController < ApplicationController
     forbidden('Objective 責任者または管理者のみ作成できます') and return unless valid_user?(owner.id)
 
     ActiveRecord::Base.transaction do
-      @key_result = @user.key_results.create!(key_result_create_params)
+      @key_result = @user.key_results.new(key_result_create_params)
+      @user.save!
       params[:key_result][:key_result_members].each do |id|
         # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: id, role: :member)
@@ -25,7 +26,7 @@ class KeyResultsController < ApplicationController
     end
     render status: :created
   rescue
-    unprocessable_entity_with_errors(@key_result.errors)
+    unprocessable_entity_with_errors(@key_result.errors.full_messages)
   end
 
   def update
@@ -40,7 +41,7 @@ class KeyResultsController < ApplicationController
     end
     render action: :create, status: :ok
   rescue
-    unprocessable_entity_with_errors(@key_result.errors)
+    unprocessable_entity_with_errors(@key_result.errors.full_messages)
   end
 
   def destroy
@@ -51,7 +52,7 @@ class KeyResultsController < ApplicationController
     if @key_result.destroy
       render action: :create, status: :ok
     else
-      unprocessable_entity_with_errors(@key_result.errors)
+      unprocessable_entity_with_errors(@key_result.errors.full_messages)
     end
   end
 

@@ -6,6 +6,7 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective
 
+  validates :name, :objective_id, :okr_period_id, presence: true
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true

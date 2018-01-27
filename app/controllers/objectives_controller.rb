@@ -44,7 +44,7 @@ class ObjectivesController < ApplicationController
     end
     render action: :create, status: :ok
   rescue
-    unprocessable_entity_with_errors(@objective.errors)
+    unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
 
   def destroy
@@ -55,7 +55,7 @@ class ObjectivesController < ApplicationController
     if can_delete? && @objective.destroy
       head :no_content
     else
-      unprocessable_entity_with_errors(@objective.errors)
+      unprocessable_entity_with_errors(@objective.errors.full_messages)
     end
   end
 
