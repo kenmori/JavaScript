@@ -6,8 +6,9 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective
 
+  validate :target_value_required_if_value_unit_exists
   validates :name, :objective_id, :okr_period_id, presence: true
-  validates :target_value, numericality: {greater_than_or_equal_to: 0}
+  validates :target_value, numericality: {greater_than_or_equal_to: 0}, if: :target_value_present?
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
@@ -45,6 +46,16 @@ class KeyResult < ApplicationRecord
       linked_objectives(objectives, linkedObjective.parent_key_result.objective)
     else
       objectives
+    end
+  end
+
+  def target_value_present?
+    target_value.present?
+  end
+
+  def target_value_required_if_value_unit_exists
+    if value_unit.present? && target_value.blank?
+      errors.add(:target_value, "を入力してください")  
     end
   end
 end
