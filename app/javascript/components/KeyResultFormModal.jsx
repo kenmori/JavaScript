@@ -60,8 +60,6 @@ class KeyResultFormModal extends Component {
       keyResultMembers: this.state.keyResultMembers
     };
     this.props.addKeyResult(keyResult);
-    this.nameInput.inputRef.value = '';
-    this.targetInput.inputRef.value = '';
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
@@ -106,14 +104,18 @@ class KeyResultFormModal extends Component {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
-        onConfirm: () => this.props.closeModal(),
+        onConfirm: () => this.closeModal(),
       })
     } else {
-      this.props.closeModal();
+      this.closeModal();
     }
   }
 
-
+  closeModal() {
+    this.nameInput.inputRef.value = '';
+    this.targetInput.inputRef.value = '';
+    this.props.closeModal();
+  }
   
   render() {
     const objective = this.props.objective;

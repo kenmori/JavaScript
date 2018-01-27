@@ -5,8 +5,8 @@ import { Button, Modal } from 'semantic-ui-react';
 
 class ErrorModal extends Component {
   getErrorMessages(messages) {
-    return messages.toArray().map((message) => (
-      <p>{message}</p>
+    return messages.toArray().map((message, idx) => (
+      <p key={idx}>{message}</p>
     ))
   }
   render() {
