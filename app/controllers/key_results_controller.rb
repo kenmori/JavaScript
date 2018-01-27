@@ -109,7 +109,7 @@ class KeyResultsController < ApplicationController
       end
     elsif behavior == 'remove'
       if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: user_id, role: :owner }).exists?
-        @key_result.errors[:error] << '下位 Objective が紐付いているため削除できません'
+        @key_result.errors[:messages] << '下位 Objective が紐付いているため削除できません'
         raise
       end
       # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？

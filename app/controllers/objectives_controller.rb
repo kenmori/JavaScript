@@ -75,7 +75,7 @@ class ObjectivesController < ApplicationController
 
   def can_delete?
     return true if @objective.key_results.empty?
-    @objective.errors[:error] << 'Key Result が紐付いているため削除できません'
+    @objective.errors[:messages] << 'Key Result が紐付いているため削除できません'
     return false
   end
 
