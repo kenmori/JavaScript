@@ -6,7 +6,8 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective
 
-  validate :target_value_required_if_value_unit_exists
+  validate :target_value_required_if_value_unit_exists, 
+    :expired_date_can_be_converted_to_date
   validates :name, :objective_id, :okr_period_id, presence: true
   validates :target_value, numericality: {greater_than_or_equal_to: 0}, if: :target_value_present?
   validates :progress_rate,
@@ -56,6 +57,12 @@ class KeyResult < ApplicationRecord
   def target_value_required_if_value_unit_exists
     if value_unit.present? && target_value.blank?
       errors.add(:target_value, "を入力してください")  
+    end
+  end
+
+  def expired_date_can_be_converted_to_date
+    if expired_date&.to_date.blank?
+      errors.add(:expired_date, "の値が不正です")  
     end
   end
 end

@@ -34,6 +34,7 @@ ja:
     attributes:
       key_result:
         target_value: "目標値"
+        expired_date: "期限"
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
