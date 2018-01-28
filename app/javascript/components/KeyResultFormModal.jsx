@@ -77,7 +77,11 @@ class KeyResultFormModal extends Component {
 
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
-      this.props.reset();
+      this.props.initialize({
+        name: "",
+        targetValue: "",
+        valueUnit: "",
+      });
       this.setState({
         expiredDate: null,
         keyResultMembers: []
@@ -254,8 +258,9 @@ export default reduxForm({
       }
     }
     if (!moment(values.expiredDate).isValid()) {
-      errors.expiredDate = '期限が不正です'
+      errors.expiredDate = '期限が不正です' + values.expiredDate + "hoge"
     }
     return errors
-  }
+  },
+  shouldError: () => true,
 })(KeyResultFormModal)
