@@ -7,6 +7,12 @@ import RenderField from './RenderField';
 import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
+  componentWillReceiveProps(nexpProps) {
+    if (this.props.isOpen && !nexpProps.isOpen) {
+      this.props.reset();
+    }
+  }
+
   save(validData) {
     const objective = {
       description: findDOMNode(this.descriptionArea).value,
@@ -61,7 +67,6 @@ class ObjectiveFormModal extends Component {
   }
 
   closeModal() {
-    this.props.reset();
     this.props.closeModal();
   }
 
