@@ -7,8 +7,9 @@ import ObjectiveDetail from './ObjectiveDetail'
 import KeyResultDetail from './KeyResultDetail'
 
 class OkrFormModal extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    this.props.fetchAllKeyResults(this.props.okrPeriodId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,6 +23,9 @@ class OkrFormModal extends Component {
           targetId: nextProps.selectedOkr.get('targetId'),
         })
       });
+    }
+    if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
+      this.props.fetchAllKeyResults(nextProps.okrPeriodId);
     }
   }
 
