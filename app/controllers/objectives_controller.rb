@@ -40,6 +40,7 @@ class ObjectivesController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @objective.update!(objective_update_params)
+      update_parent_key_result if params[:objective][:parent_key_result_id]
       update_objective_members if params[:objective][:objective_member]
     end
     render action: :create, status: :ok
@@ -79,6 +80,27 @@ class ObjectivesController < ApplicationController
     return false
   end
 
+  def update_parent_key_result
+    parent_key_result_id = params[:objective][:parent_key_result_id]
+    if @objective.key_results.exists?(parent_key_result_id)
+      @objective.errors[:error] << 'Objective に紐付く Key Result は上位 Key Result に指定できません'
+      raise
+    end
+
+    objective_owner_id = @objective.owner.id
+    parent_key_result = KeyResult.find(parent_key_result_id)
+    unless parent_key_result.key_result_members.exists?(user_id: objective_owner_id)
+      # Objective 責任者が紐付ける上位 KR の責任者および関係者でない場合
+      if current_user.admin?
+        # 管理者の場合は上位 KR の関係者として追加する
+        parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member)
+      else
+        @objective.errors[:error] << '上位 Key Result の責任者および関係者でないため紐付けられません'
+        raise
+      end
+    end
+  end
+
   def update_objective_members
     objective_member_data = params[:objective][:objective_member]
     user_id = objective_member_data['user']
@@ -109,6 +131,6 @@ class ObjectivesController < ApplicationController
 
   def objective_update_params
     params.require(:objective)
-      .permit(:name, :description, :progress_rate)
+      .permit(:name, :description, :parent_key_result_id, :progress_rate)
   end
 end

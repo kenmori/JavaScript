@@ -19,6 +19,14 @@ class ObjectiveDetail extends Component {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
   }
 
+  updateParentKeyResultId(value) {
+    this.props.updateObjective({
+        id: this.props.objective.get('id'),
+        parentKeyResultId: value === -1 ? null : value,
+      },
+    );
+  }
+
   removeObjective(objective) {
     this.props.confirm({
       content: `Objective ${objective.get('name')} を削除しますか？`,
@@ -36,6 +44,7 @@ class ObjectiveDetail extends Component {
           <KeyResultSelect
             keyResults={this.props.keyResults}
             defaultValue={objective.get('parentKeyResultId')}
+            onChange={value => this.updateParentKeyResultId(value)}
           />
         </Form.Field>
 
