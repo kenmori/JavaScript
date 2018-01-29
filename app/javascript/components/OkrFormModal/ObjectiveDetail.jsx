@@ -24,6 +24,8 @@ class ObjectiveDetail extends Component {
         id: this.props.objective.get('id'),
         parentKeyResultId: value === -1 ? null : value,
       },
+      this.props.objective.get('parentObjectiveId'),
+      this.props.objective.get('parentKeyResultId'),
     );
   }
 

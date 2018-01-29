@@ -27,8 +27,9 @@ const mapDispatchToProps = dispatch => {
     openKeyResultFormModal: (objective) => {
       dispatch(dialogActions.openKeyResultFormModal(objective));
     },
-    updateObjective: (objective) => {
-      dispatch(objectiveActions.updateObjective(objective, this.currentUserId));
+    updateObjective: (objective, oldParentObjectiveId = null, oldParentKeyResultId = null) => {
+      const args = { currentUserId: this.currentUserId, oldParentObjectiveId, oldParentKeyResultId };
+      dispatch(objectiveActions.updateObjective(objective, args));
     },
     updateKeyResult: (keyResult) => {
       dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));

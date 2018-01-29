@@ -11,6 +11,7 @@ keyResultSchema.define({
 });
 
 objectiveSchema.define({
+  parentObjective: objectiveSchema,
   parentKeyResult: keyResultSchema,
   keyResults: keyResultListSchema,
   childObjectives: objectiveListSchema,
