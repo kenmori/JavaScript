@@ -17,7 +17,7 @@ class ObjectivesController < ApplicationController
   def create
     @user = User.find(params[:objective][:owner_id])
     forbidden and return unless valid_permission?(@user.organization.id)
-    forbidden('Key Result 責任者、Key Result 関係者または管理者のみ作成できます') and return unless valid_user_to_create?
+    forbidden('Key Result 責任者または関係者のみ作成できます') and return unless valid_user_to_create?
 
     ActiveRecord::Base.transaction do
       @objective = @user.objectives.new(objective_create_params)
@@ -36,7 +36,7 @@ class ObjectivesController < ApplicationController
   def update
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
-    forbidden('Objective 責任者または管理者のみ編集できます') and return unless valid_user?(@objective.owner.id)
+    forbidden('Objective 責任者のみ編集できます') and return unless valid_user?(@objective.owner.id)
 
     ActiveRecord::Base.transaction do
       @objective.update!(objective_update_params)
@@ -51,7 +51,7 @@ class ObjectivesController < ApplicationController
   def destroy
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
-    forbidden('Objective 責任者または管理者のみ削除できます') and return unless valid_user?(@objective.owner.id)
+    forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
     if can_delete? && @objective.destroy
       head :no_content
