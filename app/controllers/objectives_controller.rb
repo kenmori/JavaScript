@@ -22,11 +22,7 @@ class ObjectivesController < ApplicationController
     ActiveRecord::Base.transaction do
       @objective = @user.objectives.new(objective_create_params)
       @user.save!
-
-      # Objective 責任者が紐付く上位 KR の責任者および関係者でない場合は追加する
-      if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: @user.id)
-        @objective.parent_key_result.key_result_members.create!(user_id: @user.id, role: :member)
-      end
+      update_parent_key_result if params[:objective][:parent_key_result_id]
     end
     render status: :created
   rescue
@@ -89,10 +85,16 @@ class ObjectivesController < ApplicationController
 
     objective_owner_id = @objective.owner.id
     parent_key_result = KeyResult.find(parent_key_result_id)
-    unless parent_key_result.key_result_members.exists?(user_id: objective_owner_id)
-      # Objective 責任者が紐付ける上位 KR の責任者および関係者でない場合
-      if current_user.admin?
-        # 管理者の場合は上位 KR の関係者として追加する
+    if parent_key_result.key_result_members.exists?(user_id: objective_owner_id)
+      # Objective 責任者が紐付ける上位 KR の責任者および関係者の場合
+      is_member = parent_key_result.key_result_members.exists?(user_id: current_user.id, role: :member)
+      if !current_user.admin? && is_member && objective_owner_id != current_user.id
+        @objective.errors[:error] << '上位 Key Result の関係者は Objective 責任者に自分以外を指定できません'
+        raise
+      end
+    else
+      if current_user.admin? || parent_key_result.owner.id == current_user.id
+        # 管理者または上位 KR 責任者の場合は上位 KR の関係者として追加する
         parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member)
       else
         @objective.errors[:error] << '上位 Key Result の責任者および関係者でないため紐付けられません'
