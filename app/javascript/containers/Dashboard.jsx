@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
     userId: state.current.get('userId'),
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
-    keyResults: denormalizeKeyResults(state.keyResults, state.entities),
+    keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetched: state.objectives.get('isFetched'),
     fetchedObjectiveId: fetchedObjectiveId,
     fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),

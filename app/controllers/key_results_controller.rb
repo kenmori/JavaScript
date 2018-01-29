@@ -1,12 +1,19 @@
 class KeyResultsController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user.organization.id)
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+      forbidden and return unless valid_permission?(@user.organization.id)
 
-    @key_results = @user.key_results
-                     .includes(:child_objectives)
-                     .where(okr_period_id: params[:okr_period_id])
-                     .order(created_at: :desc)
+      @key_results = @user.key_results
+                         .where(okr_period_id: params[:okr_period_id])
+                         .order(created_at: :desc)
+    else
+      @key_results = current_organization
+                         .okr_periods
+                         .find(params[:okr_period_id])
+                         .key_results
+                         .order(created_at: :desc)
+    end
   end
 
   def create
