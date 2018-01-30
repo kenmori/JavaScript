@@ -91,8 +91,9 @@ class KeyResultDetail extends Component {
 
   removeKeyResult(id) {
     this.props.confirm({
-      content: "Key Result を削除しますか？",
-      onConfirm: () => this.props.removeKeyResult({id}),
+      content: this.props.keyResult.get('childObjectives').isEmpty()
+        ? 'Key Result を削除しますか？' : '下位 Objective が紐付いています。Key Result を削除しますか？',
+      onConfirm: () => this.props.removeKeyResult({ id }),
     });
   }
 

@@ -55,11 +55,15 @@ class KeyResultsController < ApplicationController
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
     forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@key_result.objective.owner.id)
 
-    if @key_result.destroy
-      render action: :create, status: :ok
-    else
-      unprocessable_entity_with_errors(@key_result.errors)
+    ActiveRecord::Base.transaction do
+      @key_result.child_objectives.each do |objective|
+        @key_result.objective.child_objectives.delete(objective)
+      end
+      @key_result.destroy!
     end
+    render action: :create, status: :ok
+  rescue => e
+    unprocessable_entity_with_errors(@key_result.errors)
   end
 
   private

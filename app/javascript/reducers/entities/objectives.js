@@ -72,6 +72,7 @@ export default handleActions({
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
+      state = merge(state, { payload });
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const objectiveId = keyResult.get('objectiveId');
