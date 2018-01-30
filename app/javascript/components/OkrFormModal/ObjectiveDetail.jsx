@@ -56,17 +56,19 @@ class ObjectiveDetail extends Component {
           <label>Objective</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
         </Form.Field>
-        <Form.Field className='values'>
+        <Form.Field className='flex-field'>
           <label>進捗</label>
-          <div className='progress-rate'>{objective.get('progressRate')}%</div>
+          <div className='flex-field__item progress-rate'>{objective.get('progressRate')}%</div>
         </Form.Field>
-        <Form.Field>
+        <Form.Field className='flex-field'>
           <label>責任者</label>
+          <div className='flex-field__item'>
           <UserSelectBox
             users={this.props.users}
             defaultValue={objective.get('owner').get('id')}
             onChange={(value) => this.changeObjectiveOwner(value)}
           />
+          </div>
         </Form.Field>
         <Form.Field>
           <label>説明</label>

@@ -2,38 +2,15 @@
   .content {
     .progress-rate {
       font-size: 1.1rem;
+      font-weight: bold;
       color: $PRIMARY_COLOR;
-      &.is-slider-screen {
-        display: inline-block;
-        cursor: pointer;
-        width: 60px;
-        height: 40px;
-        border: 1px #fff solid;
-        line-height: 40px;
-        text-align: center;
-        border-radius: 5px;
-        &:hover {
-          border: 1px #ccc solid;
-        }
+
+      .progress-rate__input input {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: $PRIMARY_COLOR;
       }
     }
-
-    .progress-rate-input {
-      width: 80px;
-      display: inline-block;
-      margin-right: 30px;
-      font-size: 1.1rem;
-      color: $PRIMARY_COLOR;
-      .progress-rate-input__inner {
-        display: flex;
-        align-items: center;
-        input {
-          font-size: 1.1rem;
-          color: $PRIMARY_COLOR;
-        }
-      }
-    }
-
 
     .slider {
       display: inline;
@@ -81,30 +58,20 @@
       }
     }
 
-    .progress-rate-field {
-      .linkify, .unlinkify {
-        margin-left: 8px;
-      }
-    }
-
     .ui.form .field {
       > label {
         margin: 0 0 .5rem;
       }
 
-      &.values {
+      &.flex-field {
         label {
-          display: inline;
-          margin-right: .5rem;
+          display: inline-flex;
+          min-width: 4rem;
         }
-      }
-    }
-
-    .field {
-      > .progress-rate {
-        display: inline-block;
-        min-width: 4rem;
-        margin: 0 1rem .5rem 0;
+        .flex-field__item {
+          display: inline-flex;
+          margin-left: .5rem;
+        }
       }
     }
   }

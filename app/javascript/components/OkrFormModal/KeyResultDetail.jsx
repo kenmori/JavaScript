@@ -28,7 +28,6 @@ class KeyResultDetail extends Component {
         isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
         sliderValue: props.keyResult.get('progressRate'),
         expiredDate: moment(props.keyResult.get('expiredDate')),
-        isDisplayedRateInputForm: false,
         keyResultMembers,
       };
     }
@@ -106,10 +105,6 @@ class KeyResultDetail extends Component {
   }
 
   handleRateViewClick() {
-    this.setState({
-      isDisplayedRateInputForm: true,
-    });
-    
     setTimeout(() => {
       findDOMNode(this.refs.progressRateView).focus();
     }, 0)
@@ -118,7 +113,6 @@ class KeyResultDetail extends Component {
   handleRateInputBlur(event) {
     this.updateKeyResult({ progressRate: Number(event.target.value) });
     this.setState({
-      isDisplayedRateInputForm: false,
       sliderValue: event.target.value,
     });
   }
@@ -191,7 +185,6 @@ class KeyResultDetail extends Component {
       isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
       sliderValue: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.sliderValue,
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
-      isDisplayedRateInputForm: false,
       keyResultMembers,
     });
   }
@@ -282,19 +275,30 @@ class KeyResultDetail extends Component {
     return (
       <Form>
         <Form.Field>
-          <label className="field-title">Key Result</label>
+          <label>Key Result</label>
           <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
         </Form.Field>
 
         {this.state.isDisplayedTargetValue && 
-          <Form.Field className='values'>
-            <label className="field-title">目標値</label>
-            <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
-            <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
-            <br />
-            <label className="field-title">実績値</label>
-            <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
-            {keyResult.get('actualValue') ? keyResult.get('valueUnit') : ''}
+          <Form.Field className='flex-field'>
+            <label>目標値</label>
+            <div className='flex-field__item'>
+              <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
+            </div>
+            <div className='flex-field__item'>
+              <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
+            </div>
+          </Form.Field>
+        }
+        {this.state.isDisplayedTargetValue &&
+          <Form.Field className='flex-field'>
+            <label>実績値</label>
+            <div className='flex-field__item'>
+              <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
+            </div>
+            <div className='flex-field__item'>
+              {keyResult.get('valueUnit')}
+            </div>
           </Form.Field>
         }
         {!this.state.isDisplayedTargetValue && 
@@ -303,68 +307,68 @@ class KeyResultDetail extends Component {
           </div>
         }
 
-        <Form.Field className='values progress-rate-field'>
-          <label className="field-title">進捗</label>
-          {this.state.isDisplayedRateInputForm && 
-            <div className="progress-rate-input">
-              <div className="progress-rate-input__inner">
-                <Input type="number" 
-                      defaultValue={keyResult.get('progressRate')} 
-                      onBlur={this.handleRateInputBlur.bind(this)} 
-                      max="100"
-                      min="0"
-                      ref="progressRateView"
-                /> %
-              </div>
+        <Form.Field className='flex-field progress-rate-field'>
+          <label>進捗</label>
+          <div className="flex-field__item progress-rate">
+            <div className='progress-rate__input'>
+              <Input type="number"
+                    defaultValue={keyResult.get('progressRate')}
+                    onBlur={this.handleRateInputBlur.bind(this)}
+                    max="100"
+                    min="0"
+                    ref="progressRateView"
+              />
             </div>
-          }
-          {!this.state.isDisplayedRateInputForm && 
-            <span>
-              <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
-              <div className='slider-box'>
-                <div className='slider-box__wrapper'>
-                  <div className='slider-box__content slider-box__icon'><Icon link name="minus square" onMouseDown={() => {this.handleProgressMouseDown('down')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
-                  <div className='slider slider-box__content'>
-                    <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                        data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
-                  </div>
-                  <div className='slider-box__content slider-box__icon'><Icon link name="plus square" onMouseDown={() => {this.handleProgressMouseDown('up')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
-                </div>
+          </div>
+          <div className='flex-field__item progress-rate'>
+            %
+          </div>
+          <div className='flex-field__item slider-box'>
+            <div className='slider-box__wrapper'>
+              <div className='slider-box__content slider-box__icon'><Icon link name="minus square" onMouseDown={() => {this.handleProgressMouseDown('down')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
+              <div className='slider slider-box__content'>
+                <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
+                    data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
               </div>
-            </span>
-          }
-          {keyResult.get('isProgressRateLinked')
-            ? <Popup trigger={<Icon name='linkify' />} content='下位 Objective の進捗率とリンクしています' />
-            : <Popup trigger={<Icon name='unlinkify' />} content='下位 Objective の進捗率とはリンクしていません' />
-          }
+              <div className='slider-box__content slider-box__icon'><Icon link name="plus square" onMouseDown={() => {this.handleProgressMouseDown('up')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
+            </div>
+          </div>
+          <div className='flex-field__item'>
+            {keyResult.get('isProgressRateLinked')
+              ? <Popup trigger={<Icon name='linkify' />} content='下位 Objective の進捗率とリンクしています' />
+              : <Popup trigger={<Icon name='unlinkify' />} content='下位 Objective の進捗率とはリンクしていません' />
+            }
+          </div>
         </Form.Field>
-        
-        <Form.Field className='values input-date-picker'>
-          <label className="field-title">期限</label>
-          <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+
+        <Form.Field className='flex-field input-date-picker'>
+          <label>期限</label>
+          <div className='flex-field__item'>
+            <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+          </div>
         </Form.Field>
-        <Form.Group>
-          <Form.Field>
-            <label className="field-title">責任者</label>
+        <Form.Field className='flex-field'>
+          <label>責任者</label>
+          <div className='flex-field__item'>
             <UserSelectBox
               users={this.props.users}
               defaultValue={keyResult.get('owner').get('id')}
               onChange={(value) => this.changeKeyResultOwner(value)}
             />
-          </Form.Field>
-        </Form.Group> 
-        <Form.Group>
-          <Form.Field>
-            <label className="field-title">関係者</label>
-            <KeyResultMemberSelectBox 
+          </div>
+        </Form.Field>
+        <Form.Field className='flex-field'>
+          <label>関係者</label>
+          <div className='flex-field__item'>
+            <KeyResultMemberSelectBox
               users={this.props.users}
               keyResultMembers={this.state.keyResultMembers}
               ownerId={keyResult.get('owner').get('id')}
               add={this.addKeyResultMembers.bind(this)}
               remove={this.removeKeyResultMembers.bind(this)}
             />
-          </Form.Field>
-        </Form.Group>
+          </div>
+        </Form.Field>
 
         <Divider hidden />
 
@@ -379,19 +383,17 @@ class KeyResultDetail extends Component {
 
         <Divider hidden />
 
-        <Form.Group>
-          <Form.Field className="wide-field">
-            <label className="field-title">コメント</label>
-            <div className="comments__text-box">
-              <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} placeholder='進捗状況や、次のアクションなどをメモしてください' ref="commentArea" />
-            </div>
-            <div>
-              <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />
-            </div>
-            <Divider hidden clearing />
-            {this.commentList(keyResult.get('comments'))}
-          </Form.Field>
-        </Form.Group>
+        <Form.Field className="wide-field">
+          <label>コメント</label>
+          <div className="comments__text-box">
+            <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} placeholder='進捗状況や、次のアクションなどをメモしてください' ref="commentArea" />
+          </div>
+          <div>
+            <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />
+          </div>
+          <Divider hidden clearing />
+          {this.commentList(keyResult.get('comments'))}
+        </Form.Field>
       </Form>
     );
   }
