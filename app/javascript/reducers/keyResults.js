@@ -3,20 +3,33 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
 function add(state, keyResultId) {
-  return state.includes(keyResultId) ? state : state.insert(0, keyResultId);
+  return state.update('ids', ids => ids.includes(keyResultId) ? ids : ids.insert(0, keyResultId));
 }
 
 function remove(state, keyResultId) {
-  return state.filter(id => id !== keyResultId);
+  return state.update('ids', ids => ids.filter(id => id !== keyResultId));
+}
+
+function addToAll(state, keyResultId) {
+  return state.update('allIds', ids => ids.insert(0, keyResultId));
+}
+
+function removeFromAll(state, keyResultId) {
+  return state.update('allIds', ids => ids.filter(id => id !== keyResultId));
 }
 
 export default handleActions({
     [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
-      return payload.get('result');
+      return state.set('ids', payload.get('result'));
+    },
+    [ActionTypes.FETCHED_ALL_KEY_RESULTS]: (state, { payload }) => {
+      return state.set('allIds', payload.get('result'));
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      const userId = payload.get('currentUserId');
       const keyResultId = payload.get('result').first();
+      state = addToAll(state, keyResultId);
+
+      const userId = payload.get('currentUserId');
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const isMine = userId === keyResult.get('owner').get('id')
         || keyResult.get('keyResultMembers').some(member => member.get('id') === userId);
@@ -32,8 +45,12 @@ export default handleActions({
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
+      state = removeFromAll(state, keyResultId);
       return remove(state, keyResultId);
     },
   },
-  fromJS([]),
+  fromJS({
+    ids: [],
+    allIds: [],
+  }),
 );

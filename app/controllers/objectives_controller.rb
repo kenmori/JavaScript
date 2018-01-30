@@ -17,16 +17,12 @@ class ObjectivesController < ApplicationController
   def create
     @user = User.find(params[:objective][:owner_id])
     forbidden and return unless valid_permission?(@user.organization.id)
-    forbidden('Key Result 責任者、Key Result 関係者または管理者のみ作成できます') and return unless valid_user_to_create?
+    forbidden('Key Result 責任者または関係者のみ作成できます') and return unless valid_user_to_create?
 
     ActiveRecord::Base.transaction do
       @objective = @user.objectives.new(objective_create_params)
       @user.save!
-
-      # Objective 責任者が紐付く上位 KR の責任者および関係者でない場合は追加する
-      if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: @user.id)
-        @objective.parent_key_result.key_result_members.create!(user_id: @user.id, role: :member)
-      end
+      update_parent_key_result if params[:objective][:parent_key_result_id]
     end
     render status: :created
   rescue
@@ -36,10 +32,11 @@ class ObjectivesController < ApplicationController
   def update
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
-    forbidden('Objective 責任者または管理者のみ編集できます') and return unless valid_user?(@objective.owner.id)
+    forbidden('Objective 責任者のみ編集できます') and return unless valid_user?(@objective.owner.id)
 
     ActiveRecord::Base.transaction do
       @objective.update!(objective_update_params)
+      update_parent_key_result if params[:objective][:parent_key_result_id]
       update_objective_members if params[:objective][:objective_member]
     end
     render action: :create, status: :ok
@@ -50,7 +47,7 @@ class ObjectivesController < ApplicationController
   def destroy
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
-    forbidden('Objective 責任者または管理者のみ削除できます') and return unless valid_user?(@objective.owner.id)
+    forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
     if can_delete? && @objective.destroy
       head :no_content
@@ -79,6 +76,33 @@ class ObjectivesController < ApplicationController
     return false
   end
 
+  def update_parent_key_result
+    parent_key_result_id = params[:objective][:parent_key_result_id]
+    if @objective.key_results.exists?(parent_key_result_id)
+      @objective.errors[:error] << 'Objective に紐付く Key Result は上位 Key Result に指定できません'
+      raise
+    end
+
+    objective_owner_id = @objective.owner.id
+    parent_key_result = KeyResult.find(parent_key_result_id)
+    if parent_key_result.key_result_members.exists?(user_id: objective_owner_id)
+      # Objective 責任者が紐付ける上位 KR の責任者および関係者の場合
+      is_member = parent_key_result.key_result_members.exists?(user_id: current_user.id, role: :member)
+      if !current_user.admin? && is_member && objective_owner_id != current_user.id
+        @objective.errors[:error] << '上位 Key Result の関係者は Objective 責任者に自分以外を指定できません'
+        raise
+      end
+    else
+      if current_user.admin? || parent_key_result.owner.id == current_user.id
+        # 管理者または上位 KR 責任者の場合は上位 KR の関係者として追加する
+        parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member)
+      else
+        @objective.errors[:error] << '上位 Key Result の責任者および関係者でないため紐付けられません'
+        raise
+      end
+    end
+  end
+
   def update_objective_members
     objective_member_data = params[:objective][:objective_member]
     user_id = objective_member_data['user']
@@ -104,11 +128,11 @@ class ObjectivesController < ApplicationController
 
   def objective_create_params
     params.require(:objective)
-      .permit(:name, :description, :parent_objective_id, :parent_key_result_id, :okr_period_id)
+      .permit(:name, :description, :parent_key_result_id, :okr_period_id)
   end
 
   def objective_update_params
     params.require(:objective)
-      .permit(:name, :description, :progress_rate)
+      .permit(:name, :description, :parent_key_result_id, :progress_rate)
   end
 end

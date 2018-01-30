@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Form, Button, Divider } from 'semantic-ui-react';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
 import UserSelectBox from '../UserSelectBox';
+import KeyResultSelect from '../utils/KeyResultSelect';
 
 class ObjectiveDetail extends Component {
 
@@ -16,6 +17,16 @@ class ObjectiveDetail extends Component {
 
   updateObjective(values) {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
+  }
+
+  updateParentKeyResultId(value) {
+    this.props.updateObjective({
+        id: this.props.objective.get('id'),
+        parentKeyResultId: value === -1 ? null : value,
+      },
+      this.props.objective.get('parentObjectiveId'),
+      this.props.objective.get('parentKeyResultId'),
+    );
   }
 
   removeObjective(objective) {
@@ -30,12 +41,17 @@ class ObjectiveDetail extends Component {
     if (!objective.size) { return null; }
     return (
       <Form>
-        {objective.get('parentKeyResult') &&
-          <div className="navi">
-            <Icon name="arrow up" />
-            <span>上位 KeyResult: {objective.get('parentKeyResult').get('name')}</span>
-          </div>
-        }
+        <Form.Field>
+          <label>上位 Key Result</label>
+          <KeyResultSelect
+            keyResults={this.props.keyResults}
+            defaultValue={objective.get('parentKeyResultId')}
+            onChange={value => this.updateParentKeyResultId(value)}
+          />
+        </Form.Field>
+
+        <Divider hidden />
+
         <Form.Field className='values'>
           <label>Objective</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
