@@ -41,9 +41,17 @@ class KeyResultDetail extends Component {
   }
 
   removeKeyResultMembers(value) {
-    this.updateKeyResult({
-      keyResultMember: {user: value, behavior: 'remove'}
+    const removeAction = () => this.updateKeyResult({
+      keyResultMember: { user: value, behavior: 'remove' }
     });
+    if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
+      this.props.confirm({
+        content: '下位 Objective が紐付いています。関係者を削除しますか？',
+        onConfirm: removeAction,
+      });
+    } else {
+      removeAction();
+    }
   }
 
   changeKeyResultOwner(value) {

@@ -62,7 +62,14 @@ export default handleActions({
       const objectiveId = keyResult.get('objectiveId');
       return state.updateIn([objectiveId, 'keyResults'], ids => ids.push(keyResultId));
     },
-    [ActionTypes.UPDATED_KEY_RESULT]: updateProgressRate,
+    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
+      state = updateProgressRate(state, { payload });
+      const keyResultId = payload.get('result').first();
+      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
+      const objectiveId = keyResult.get('objectiveId');
+      const newObjective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
+      return state.update(objectiveId, oldObjective => oldObjective.merge(newObjective));
+    },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
       const keyResultId = payload.get('result').first();

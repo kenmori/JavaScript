@@ -115,9 +115,13 @@ class KeyResultsController < ApplicationController
         member.update!(role: role)
       end
     elsif behavior == 'remove'
-      if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: user_id, role: :owner }).exists?
-        @key_result.errors[:error] << '下位 Objective が紐付いているため削除できません'
-        raise
+      # 関係者が所有する下位 Objective との紐付けを外す
+      @key_result.child_objectives
+          .joins(:objective_members)
+          .where(objective_members: { user_id: user_id, role: :owner })
+          .each do |objective|
+        @key_result.child_objectives.delete(objective)
+        @key_result.objective.child_objectives.delete(objective)
       end
       # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       member = @key_result.key_result_members.find_by(user_id: user_id)
