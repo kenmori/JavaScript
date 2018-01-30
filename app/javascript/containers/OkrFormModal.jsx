@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
-    okrPeriodId: state.current.get('okrPeriodId'),
     keyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities),
   };
 };
@@ -33,9 +32,6 @@ const mapDispatchToProps = dispatch => {
     },
     updateKeyResult: (keyResult) => {
       dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));
-    },
-    fetchAllKeyResults: okrPeriodId => {
-      dispatch(keyResultActions.fetchAllKeyResults(okrPeriodId));
     },
     closeModal: () => {
       dispatch(dialogActions.closeOkrFormModal());

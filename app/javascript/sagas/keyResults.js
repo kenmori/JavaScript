@@ -38,8 +38,8 @@ function* removeKeyResult({payload}) {
 
 export function *keyResultSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
-    takeLatest(actionTypes.FETCH_ALL_KEY_RESULTS, fetchAllKeyResults),
+    takeLatest(actionTypes.FETCH_KEY_RESULTS, withLoading(fetchKeyResults)),
+    takeLatest(actionTypes.FETCH_ALL_KEY_RESULTS, withLoading(fetchAllKeyResults)),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),

@@ -8,10 +8,6 @@ import KeyResultDetail from './KeyResultDetail'
 
 class OkrFormModal extends Component {
 
-  componentDidMount() {
-    this.props.fetchAllKeyResults(this.props.okrPeriodId);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
       if(nextProps.selectedOkr.get('targetId') !== -1 && this.isRemovedKeyResult(nextProps)) {
@@ -23,9 +19,6 @@ class OkrFormModal extends Component {
           targetId: nextProps.selectedOkr.get('targetId'),
         })
       });
-    }
-    if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
-      this.props.fetchAllKeyResults(nextProps.okrPeriodId);
     }
   }
 
