@@ -359,7 +359,7 @@ class KeyResultDetail extends Component {
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>関係者</label>
-          <div className='flex-field__item'>
+          <div className='flex-field__item key-result-members'>
             <KeyResultMemberSelectBox
               users={this.props.users}
               keyResultMembers={this.state.keyResultMembers}

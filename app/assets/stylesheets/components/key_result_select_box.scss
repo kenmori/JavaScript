@@ -1,18 +1,22 @@
 .key-result-members-select-box {
-  width: 196px;
   .key-result-members-select-box__item {
-    position: relative;
-    margin-top: 10px;
   }
   .key-result-members-select-box__name {
-    padding-left: 1rem;
   }
   .key-result-members-select-box__selected {
-    margin-bottom: 10px;
+    margin-top: 10px;
+
+    .content {
+      display: inline;
+      margin-left: 8px;
+    }
   }
   .key-result-members-select-box__close {
-    cursor: pointer;
-    position: absolute;
-    left: 100%;
+  }
+
+  .ui.horizontal.list > .item {
+    margin-left: 0;
+    margin-right: 1em;
+    margin-top: .5em;
   }
 }
