@@ -23,12 +23,10 @@ class KeyResultDetail extends Component {
     this.RECALC_INTERVAL_TIME = 600;
     this.REQUEST_INTERVAL_TIME = 1000;
     if (props.keyResult) {
-      const keyResultMembers = props.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
       this.state = {
         isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
         sliderValue: props.keyResult.get('progressRate'),
         expiredDate: moment(props.keyResult.get('expiredDate')),
-        keyResultMembers,
       };
     }
    
@@ -176,7 +174,6 @@ class KeyResultDetail extends Component {
     if (!nextProps.keyResult) {
       return;
     }
-    const keyResultMembers = nextProps.keyResult.get('keyResultMembers').map(item => item.get('id')).toArray();
     let isChangedProgressRate = true;
     if (this.props.keyResult) {
       isChangedProgressRate = nextProps.keyResult.get('progressRate') !== this.props.keyResult.get('progressRate');
@@ -185,7 +182,6 @@ class KeyResultDetail extends Component {
       isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
       sliderValue: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.sliderValue,
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
-      keyResultMembers,
     });
   }
 
@@ -271,7 +267,10 @@ class KeyResultDetail extends Component {
     if (!keyResult) {
       return null;
     }
-
+    const keyResultMembers = keyResult.get('keyResultMembers').map(member => member.get('id')).toArray();
+    const isPowerUser = this.props.loginUser.get('isAdmin')
+      || this.props.loginUser.get('id') === keyResult.get('owner').get('id')
+      || this.props.loginUser.get('id') === this.props.objective.get('owner').get('id');
     return (
       <Form>
         <Form.Field>
@@ -362,8 +361,9 @@ class KeyResultDetail extends Component {
           <div className='flex-field__item key-result-members'>
             <KeyResultMemberSelectBox
               users={this.props.users}
-              keyResultMembers={this.state.keyResultMembers}
-              ownerId={keyResult.get('owner').get('id')}
+              keyResultMembers={keyResultMembers}
+              includedId={isPowerUser ? null : this.props.loginUser.get('id')}
+              excludedId={keyResult.get('owner').get('id')}
               add={this.addKeyResultMembers.bind(this)}
               remove={this.removeKeyResultMembers.bind(this)}
             />
