@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Popup, Button, TextArea, List } from 'semantic-ui-react';
+import { Input, Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
@@ -137,7 +137,7 @@ class KeyResultDetail extends Component {
             <div className="comments__item-meta">
               <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/MM/DD HH:mm')}</div>
               <div className="comments__item-name">{item.get('fullName')}</div>
-              {item.get('editable') && <Icon name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
+              {item.get('editable') && <Icon link name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
             </div>
           </div>
         </div>
@@ -280,7 +280,7 @@ class KeyResultDetail extends Component {
 
     return (
       <Form>
-        <Form.Field className='values'>
+        <Form.Field>
           <label className="field-title">Key Result</label>
           <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
         </Form.Field>
@@ -297,15 +297,13 @@ class KeyResultDetail extends Component {
           </Form.Field>
         }
         {!this.state.isDisplayedTargetValue && 
-          <Form.Group>
-            <Form.Field>
-              <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} />
-            </Form.Field>
-          </Form.Group>
+          <div>
+            <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} floated='right' />
+          </div>
         }
 
         <Form.Field className='values progress-rate-field'>
-          <label className="field-title">Key Result の進捗</label>
+          <label className="field-title">進捗</label>
           {this.state.isDisplayedRateInputForm && 
             <div className="progress-rate-input">
               <div className="progress-rate-input__inner">
@@ -324,12 +322,12 @@ class KeyResultDetail extends Component {
               <div className='progress-rate is-slider-screen' onClick={this.handleRateViewClick.bind(this)}>{this.state.sliderValue}%</div>
               <div className='slider-box'>
                 <div className='slider-box__wrapper'>
-                  <div className='slider-box__content slider-box__icon'><Icon name="minus square" onMouseDown={() => {this.handleProgressMouseDown('down')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
+                  <div className='slider-box__content slider-box__icon'><Icon link name="minus square" onMouseDown={() => {this.handleProgressMouseDown('down')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
                   <div className='slider slider-box__content'>
                     <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
                         data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
                   </div>
-                  <div className='slider-box__content slider-box__icon'><Icon name="plus square" onMouseDown={() => {this.handleProgressMouseDown('up')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
+                  <div className='slider-box__content slider-box__icon'><Icon link name="plus square" onMouseDown={() => {this.handleProgressMouseDown('up')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
                 </div>
               </div>
             </span>
@@ -366,24 +364,33 @@ class KeyResultDetail extends Component {
             />
           </Form.Field>
         </Form.Group>
+
+        <Divider hidden />
+
+        <div>
+          <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative floated='right' />
+          <Button content="下位 OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive floated='right' />
+        </div>
+
+        <Divider hidden clearing />
+
+        {this.childObjectivesTag(keyResult.get('childObjectives'))}
+
+        <Divider hidden />
+
         <Form.Group>
           <Form.Field className="wide-field">
             <label className="field-title">コメント</label>
             <div className="comments__text-box">
               <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} placeholder='進捗状況や、次のアクションなどをメモしてください' ref="commentArea" />
             </div>
-            <Button content="投稿する" onClick={() => this.addComment()} as="div" />
+            <div>
+              <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />
+            </div>
+            <Divider hidden clearing />
             {this.commentList(keyResult.get('comments'))}
           </Form.Field>
         </Form.Group>
-        <Form.Group>
-          <Form.Field className="delete-button">
-            <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative />
-            <Button content="下位 OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive />
-          </Form.Field>
-        </Form.Group>
-
-        {this.childObjectivesTag(keyResult.get('childObjectives'))}
       </Form>
     );
   }

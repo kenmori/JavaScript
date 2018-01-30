@@ -128,6 +128,9 @@
         background: rgba(239, 8, 3, 0.11);
       }
     }
+    .sidebar__title {
+      font-weight: bold;
+    }
     .sidebar__avatar {
       position: absolute;
       top: 50%;
@@ -228,6 +231,11 @@
     font-size: larger;
     color: #767676;
     cursor: pointer;
+    margin: 0 4px;
+
+    i.icon {
+      margin-right: 0;
+    }
   }
 
   .navi {
