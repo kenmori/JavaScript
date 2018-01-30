@@ -7,6 +7,7 @@ import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
 import UserSelectBox from '../UserSelectBox';
 import KeyResultMemberSelectBox from '../KeyResultMemberSelectBox';
+import Avatar from '../Avatar';
 import br from '../../utils/br';
 import moment from 'moment';
 
@@ -256,19 +257,19 @@ class KeyResultDetail extends Component {
 
 
   childObjectivesTag(childObjectives) {
-    if(childObjectives.isEmpty()) {return null;}
-
-    const list = childObjectives.map(item => {
-      return <List.Item key={item.get('id')}>{item.get('name')}</List.Item>
-    })
-    
+    if (childObjectives.isEmpty()) return null;
     return (
-      <div className="navi is-down">
-        <div><Icon name="arrow down" />下位 Objective</div>
-        <List bulleted>
-          {list}
+      <Form.Field>
+        <label>下位 Objective 一覧</label>
+        <List className='child-objectives-list'>
+          {childObjectives.map(objective =>
+            <List.Item key={objective.get('id')}>
+              <Avatar user={objective.get('owner')} size='small' />
+              <List.Content>{objective.get('name')}</List.Content>
+            </List.Item>
+          )}
         </List>
-      </div>
+      </Form.Field>
     );
   }
 
