@@ -133,11 +133,10 @@ class ObjectiveFormModal extends Component {
               <Form>
                 <Form.Group widths='equal'>
                   <Form.Field>
-                    <label>Objective名</label>
+                    <label>Objective</label>
                     <Field 
                       name="name" 
                       type="text"
-                      placeholder="Objective名を入力してください"
                       component={RenderField} 
                     />
                   </Form.Field>
@@ -187,7 +186,7 @@ export default reduxForm({
   validate: (values) => {
     const errors = {}
     if (!values.name) {
-      errors.name = 'Objective名を入力してください'
+      errors.name = 'Objective を入力してください'
     }
     return errors
   },

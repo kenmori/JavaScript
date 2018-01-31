@@ -156,7 +156,6 @@ class KeyResultFormModal extends Component {
                     <Field 
                       name="name" 
                       type="text"
-                      placeholder="Key Result を入力してください"
                       component={RenderField} 
                     />
                   </Form.Field>
@@ -170,7 +169,6 @@ class KeyResultFormModal extends Component {
                           <Field 
                             name="targetValue" 
                             type="text"
-                            placeholder="目標値を入力してください"
                             component={RenderField} 
                           />
                         </div>
@@ -244,7 +242,7 @@ export default reduxForm({
   validate: (values) => {
     const errors = {}
     if (!values.name) {
-      errors.name = 'KeyResult名を入力してください'
+      errors.name = 'Key Result を入力してください'
     }
     if (values.valueUnit && !values.targetValue) {
       errors.targetValue = "目標値を入力してください";
