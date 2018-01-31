@@ -12,7 +12,7 @@ class KeyResultFormModal extends Component {
     super(props);
     this.defaultExpiredDate = null;
     this.state = {
-      expiredDate: null,
+      expiredDate: -1,
       keyResultMembers: [],
       ownerId: null,
     }
@@ -27,7 +27,7 @@ class KeyResultFormModal extends Component {
   }
 
   handleCalendar(date) {
-    this.setState({expiredDate: date})
+    this.setState({expiredDate: date});
   }
 
   changeKeyResultOwner(value) {
@@ -55,17 +55,20 @@ class KeyResultFormModal extends Component {
     const keyResult = {
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
-      expiredDate: this.state.expiredDate.format(),
       keyResultMembers: this.state.keyResultMembers
     };
     this.props.addKeyResult(Object.assign(keyResult, validData));
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
-    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === null;
+    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === -1;
     if (isFetchedPeriods) {
+      const expiredDate = this.getDefaultExpiredData(nextProps.okrPeriods);
       this.setState({
-        expiredDate: this.getDefaultExpiredData(nextProps.okrPeriods),
+        expiredDate
+      });
+      this.props.initialize({
+        expiredDate: expiredDate.format("YYYY/MM/DD")
       });
     }
 
@@ -83,7 +86,7 @@ class KeyResultFormModal extends Component {
         valueUnit: "",
       });
       this.setState({
-        expiredDate: null,
+        expiredDate: -1,
         keyResultMembers: []
       });
     }
@@ -192,6 +195,7 @@ class KeyResultFormModal extends Component {
                     <label>期限</label>
                     <Field 
                       name="expiredDate" 
+                      type="text"
                       dateFormat="YYYY/MM/DD" 
                       locale="ja" 
                       selected={this.state.expiredDate} 
@@ -257,8 +261,8 @@ export default reduxForm({
         errors.targetValue = "目標値は0以上の数値を入力してください";
       }
     }
-    if (!moment(values.expiredDate).isValid()) {
-      errors.expiredDate = '期限が不正です' + values.expiredDate + "hoge"
+    if (!moment(values.expiredDate, "YYYY/MM/DD", true).isValid()) {
+      errors.expiredDate = '期限が不正です';
     }
     return errors
   },

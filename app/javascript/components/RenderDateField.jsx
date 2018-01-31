@@ -2,12 +2,13 @@ import React from 'react';
 import DatePicker from './DatePicker';
 
 export default ({ input, type, dateFormat, locale, selected, handleCalendar, meta: { touched, error } }) => {
-  delete input.value
+  delete input.value;
+  const selectedValue = selected ? selected.format(dateFormat) : null;
   return (
     <div className="form-item">
       <DatePicker {...input}
                   type={type}
-                  value={selected.format(dateFormat)}
+                  defaultValue={selectedValue}
                   dateFormat={dateFormat}
                   locale={locale}
                   selected={selected}
