@@ -252,14 +252,13 @@ export default reduxForm({
       errors.targetValue = "目標値を入力してください";
     }
     if (values.targetValue) {
-      const targetValue = Number(values.targetValue);
-      if (Number.isNaN(targetValue)) {
+      if (!/^[０-９0-9\.．]+$/.test(values.targetValue)) {
         errors.targetValue = "目標値は数値を入力してください";
-      } else if(targetValue < 0) {
+      } else if(values.targetValue < 0) {
         errors.targetValue = "目標値は0以上の数値を入力してください";
       }
     }
-    if (!moment(values.expiredDate, "YYYY/MM/DD", true).isValid()) {
+    if (!moment(values.expiredDate, "YYYY/M/D", true).isValid()) {
       errors.expiredDate = '期限が不正です';
     }
     return errors

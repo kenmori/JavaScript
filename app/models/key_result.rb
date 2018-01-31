@@ -19,7 +19,7 @@ class KeyResult < ApplicationRecord
   end
 
   def target_value=(value)
-    value.tr!('０-９', '0-9') if value.is_a?(String)
+    value.tr!('０-９．', '0-9.') if value.is_a?(String)
     super(value)
   end
 
