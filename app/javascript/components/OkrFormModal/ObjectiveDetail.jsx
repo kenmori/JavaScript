@@ -52,33 +52,34 @@ class ObjectiveDetail extends Component {
 
         <Divider hidden />
 
-        <Form.Field className='values'>
+        <Form.Field>
           <label>Objective</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
         </Form.Field>
-        <Form.Field className='values'>
-          <label>Objective の進捗</label>
-          <div className='progress-rate'>{objective.get('progressRate')}%</div>
+        <Form.Field className='flex-field'>
+          <label>進捗</label>
+          <div className='flex-field__item progress-rate'>{objective.get('progressRate')}%</div>
         </Form.Field>
-        <Form.Field>
+        <Form.Field className='flex-field'>
           <label>責任者</label>
+          <div className='flex-field__item'>
           <UserSelectBox
             users={this.props.users}
             defaultValue={objective.get('owner').get('id')}
             onChange={(value) => this.changeObjectiveOwner(value)}
           />
+          </div>
         </Form.Field>
         <Form.Field>
-          <label>Objective の説明</label>
+          <label>説明</label>
           <EditableMultiLineText value={objective.get('description')} saveValue={(value) => this.updateObjective({ description: value })}/>
         </Form.Field>
 
-        <Form.Group>
-          <Form.Field className="delete-button">
-            <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative />
-          </Form.Field>
-        </Form.Group>
-        
+        <Divider hidden />
+
+        <div>
+          <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative floated='right' />
+        </div>
       </Form>
     );
   }

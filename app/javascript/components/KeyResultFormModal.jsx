@@ -191,7 +191,7 @@ class KeyResultFormModal extends Component {
                     <KeyResultMemberSelectBox 
                       users={this.props.users}
                       keyResultMembers={this.state.keyResultMembers}
-                      ownerId={this.state.ownerId}
+                      excludedId={this.state.ownerId}
                       add={this.addKeyResultMembers.bind(this)}
                       remove={this.removeKeyResultMembers.bind(this)}
                     />

@@ -14,6 +14,7 @@ const mapStateToProps = (state) => {
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
+    loginUser: state.loginUser,
     keyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities),
   };
 };

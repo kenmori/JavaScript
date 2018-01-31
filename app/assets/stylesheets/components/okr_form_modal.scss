@@ -2,38 +2,15 @@
   .content {
     .progress-rate {
       font-size: 1.1rem;
+      font-weight: bold;
       color: $PRIMARY_COLOR;
-      &.is-slider-screen {
-        display: inline-block;
-        cursor: pointer;
-        width: 60px;
-        height: 40px;
-        border: 1px #fff solid;
-        line-height: 40px;
-        text-align: center;
-        border-radius: 5px;
-        &:hover {
-          border: 1px #ccc solid;
-        }
+
+      .progress-rate__input input {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: $PRIMARY_COLOR;
       }
     }
-
-    .progress-rate-input {
-      width: 80px;
-      display: inline-block;
-      margin-right: 30px;
-      font-size: 1.1rem;
-      color: $PRIMARY_COLOR;
-      .progress-rate-input__inner {
-        display: flex;
-        align-items: center;
-        input {
-          font-size: 1.1rem;
-          color: $PRIMARY_COLOR;
-        }
-      }
-    }
-
 
     .slider {
       display: inline;
@@ -81,30 +58,23 @@
       }
     }
 
-    .progress-rate-field {
-      .linkify, .unlinkify {
-        margin-left: 8px;
-      }
-    }
-
     .ui.form .field {
       > label {
         margin: 0 0 .5rem;
       }
 
-      &.values {
+      &.flex-field {
         label {
-          display: inline;
-          margin-right: .5rem;
+          display: inline-flex;
+          min-width: 4rem;
         }
-      }
-    }
-
-    .field {
-      > .progress-rate {
-        display: inline-block;
-        min-width: 4rem;
-        margin: 0 1rem .5rem 0;
+        .flex-field__item {
+          display: inline-flex;
+          margin-left: .5rem;
+        }
+        .key-result-members {
+          width: calc(100% - 5rem);
+        }
       }
     }
   }
@@ -127,6 +97,9 @@
       &.is-current {
         background: rgba(239, 8, 3, 0.11);
       }
+    }
+    .sidebar__title {
+      font-weight: bold;
     }
     .sidebar__avatar {
       position: absolute;
@@ -186,13 +159,10 @@
   .comments {
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    margin-top: 10px;
   }
   .comments__item {
     width: 100%;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px dotted rgba(34,36,38,.15)
   }
   .comments__text-box {
     margin-bottom: 10px;
@@ -209,6 +179,7 @@
     justify-content: flex-end;
     color: #666;
     font-size: smaller;
+    margin-top: 4px;
   }
   .comments__item-name {
     padding-left: 10px;
@@ -216,6 +187,13 @@
   .comments__item-icon {
     margin-left: 10px;
     cursor: pointer;
+  }
+
+  .child-objectives-list {
+    .content {
+      display: inline;
+      margin-left: 8px;
+    }
   }
 
   .slider-box {
@@ -228,16 +206,10 @@
     font-size: larger;
     color: #767676;
     cursor: pointer;
-  }
+    margin: 0 4px;
 
-  .navi {
-    background: #E0E1E2;
-    padding: 5px 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    &.is-down {
-      margin: 20px 0 0 0;
-      padding: 10px;
+    i.icon {
+      margin-right: 0;
     }
   }
 }
