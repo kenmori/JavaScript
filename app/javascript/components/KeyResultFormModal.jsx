@@ -251,7 +251,7 @@ export default reduxForm({
     }
     if (values.targetValue) {
       const targetValue = Number(values.targetValue);
-      if (targetValue !== 0 && !targetValue ) {
+      if (Number.isNaN(targetValue)) {
         errors.targetValue = "目標値は数値を入力してください";
       } else if(targetValue < 0) {
         errors.targetValue = "目標値は0以上の数値を入力してください";
