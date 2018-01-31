@@ -146,7 +146,7 @@ class ObjectiveFormModal extends Component {
                   <Form.Field>
                     <label>Objective の説明</label>
                     <TextArea autoHeight rows={3} placeholder={`Objective についての説明や補足を入力してください。
-  説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }}/>
+説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }} />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>
