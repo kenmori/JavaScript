@@ -131,3 +131,9 @@ a.active {
 #console {
   height: 20px;
 }
+
+.form-item {
+}
+.form-item__validation-error {
+  color: $DANGER_COLOR;
+}

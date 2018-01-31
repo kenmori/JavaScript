@@ -7,6 +7,7 @@ class Objective < ApplicationRecord
   belongs_to :parent_objective, class_name: 'Objective', optional: true
   belongs_to :parent_key_result, class_name: 'KeyResult', optional: true
 
+  validates :name, :okr_period_id, presence: true
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true

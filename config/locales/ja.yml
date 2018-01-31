@@ -31,12 +31,21 @@
 
 ja:
   activerecord:
+    attributes:
+      objective:
+        name: "Objective名"
+      key_result:
+        name: "KeyResult名"
+        target_value: "目標値"
+        expired_date: "期限"
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+  attributes:
+    name: "名前"
   date:
     abbr_day_names:
     - 日

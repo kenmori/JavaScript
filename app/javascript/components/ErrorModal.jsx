@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import { List } from 'immutable';
 import PropTypes from 'prop-types';
 import { Button, Modal } from 'semantic-ui-react';
 
 class ErrorModal extends Component {
-  
+  getErrorMessages(messages) {
+    return messages.toArray().map((message, idx) => (
+      <p key={idx}>{message}</p>
+    ))
+  }
   render() {
-    const message = Array.isArray(this.props.message) ? this.props.message.join('<br />') : this.props.message;
+    let message = this.props.message;
+    if (List.isList(message)) {
+      message = this.getErrorMessages(message)
+    }
     return (
       <Modal
         closeIcon 
@@ -16,7 +24,7 @@ class ErrorModal extends Component {
         onClose={this.props.closeModal}
       >
         <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>
-          {this.props.message}
+          {message}
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>

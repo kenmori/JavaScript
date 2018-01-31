@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, Modal, Icon, List } from 'semantic-ui-react';
-import DatePicker from './DatePicker';
+import { Field, reduxForm } from 'redux-form';
 import KeyResultMemberSelectBox from './KeyResultMemberSelectBox';
 import UserSelectBox from './UserSelectBox';
+import RenderField from './RenderField';
+import RenderDateField from './RenderDateField';
 import moment from 'moment';
 
 class KeyResultFormModal extends Component {
@@ -10,7 +12,7 @@ class KeyResultFormModal extends Component {
     super(props);
     this.defaultExpiredDate = null;
     this.state = {
-      expiredDate: null,
+      expiredDate: -1,
       keyResultMembers: [],
       ownerId: null,
     }
@@ -25,7 +27,7 @@ class KeyResultFormModal extends Component {
   }
 
   handleCalendar(date) {
-    this.setState({expiredDate: date})
+    this.setState({expiredDate: date});
   }
 
   changeKeyResultOwner(value) {
@@ -49,26 +51,24 @@ class KeyResultFormModal extends Component {
     })
   }
 
-  add() {
+  add(validData) {
     const keyResult = {
-      name: this.nameInput.inputRef.value,
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
-      targetValue: this.targetInput.inputRef.value,
-      valueUnit: this.unitInput.inputRef.value,
-      expiredDate: this.state.expiredDate.format(),
       keyResultMembers: this.state.keyResultMembers
     };
-    this.props.addKeyResult(keyResult);
-    this.nameInput.inputRef.value = '';
-    this.targetInput.inputRef.value = '';
+    this.props.addKeyResult(Object.assign(keyResult, validData));
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
-    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === null;
+    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === -1;
     if (isFetchedPeriods) {
+      const expiredDate = this.getDefaultExpiredData(nextProps.okrPeriods);
       this.setState({
-        expiredDate: this.getDefaultExpiredData(nextProps.okrPeriods),
+        expiredDate
+      });
+      this.props.initialize({
+        expiredDate: expiredDate.format("YYYY/MM/DD")
       });
     }
 
@@ -80,8 +80,13 @@ class KeyResultFormModal extends Component {
 
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
+      this.props.initialize({
+        name: "",
+        targetValue: "",
+        valueUnit: "",
+      });
       this.setState({
-        expiredDate: null,
+        expiredDate: -1,
         keyResultMembers: []
       });
     }
@@ -89,10 +94,7 @@ class KeyResultFormModal extends Component {
 
   isEditing() {
     if (
-      this.nameInput.inputRef.value !== '' ||
-      this.targetInput.inputRef.value !== '' ||
-      this.unitInput.inputRef.value !== '' ||
-      this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods) ||
+      this.props.dirty ||
       this.state.ownerId !== this.props.objective.get('owner').get('id') ||
       this.state.keyResultMembers.length
     ) {
@@ -106,17 +108,19 @@ class KeyResultFormModal extends Component {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
-        onConfirm: () => this.props.closeModal(),
+        onConfirm: () => this.closeModal(),
       })
     } else {
-      this.props.closeModal();
+      this.closeModal();
     }
   }
 
-
+  closeModal() {
+    this.props.closeModal();
+  }
   
   render() {
-    const objective = this.props.objective;
+    const { handleSubmit, objective } = this.props;
     return (
       <Modal
         closeIcon 
@@ -152,7 +156,11 @@ class KeyResultFormModal extends Component {
                 <Form.Group widths='equal'>
                   <Form.Field>
                     <label>Key Result</label>
-                    <Input placeholder='Key Result を入力してください' ref={node => {this.nameInput = node;}}/>
+                    <Field 
+                      name="name" 
+                      type="text"
+                      component={RenderField} 
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>
@@ -160,11 +168,22 @@ class KeyResultFormModal extends Component {
                     <div className="flex-center">
                       <div style={{marginRight: "10px"}}>
                         <label>目標値</label>
-                        <Input type="text" placeholder='目標値を入力してください' ref={node => {this.targetInput = node;}}/>
+                        <div style={{width: "177px"}} >
+                          <Field 
+                            name="targetValue" 
+                            type="text"
+                            component={RenderField} 
+                          />
+                        </div>
                       </div>
                       <div>
                         <label>単位</label>
-                        <Input type="text" placeholder='例：円、件、人' ref={node => {this.unitInput = node;}}/>
+                        <Field 
+                          name="valueUnit" 
+                          type="text"
+                          placeholder="例：円、件、人"
+                          component={RenderField} 
+                        />
                       </div>
                     </div>
                   </Form.Field>
@@ -172,7 +191,15 @@ class KeyResultFormModal extends Component {
                 <Form.Group>
                   <Form.Field>
                     <label>期限</label>
-                    <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+                    <Field 
+                      name="expiredDate" 
+                      type="text"
+                      dateFormat="YYYY/MM/DD" 
+                      locale="ja" 
+                      selected={this.state.expiredDate} 
+                      handleCalendar={this.handleCalendar.bind(this)}
+                      component={RenderDateField} 
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>
@@ -204,7 +231,9 @@ class KeyResultFormModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
-            <Button positive onClick={this.add.bind(this)}>保存</Button>
+            <Button positive onClick={handleSubmit(data => {
+              this.add(data)
+            })}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
@@ -212,4 +241,27 @@ class KeyResultFormModal extends Component {
   }
 }
 
-export default KeyResultFormModal;
+export default reduxForm({
+  form: 'keyResultFormModal',
+  validate: (values) => {
+    const errors = {}
+    if (!values.name) {
+      errors.name = 'Key Result を入力してください'
+    }
+    if (values.valueUnit && !values.targetValue) {
+      errors.targetValue = "目標値を入力してください";
+    }
+    if (values.targetValue) {
+      if (!/^[０-９0-9\.．]+$/.test(values.targetValue)) {
+        errors.targetValue = "目標値は数値を入力してください";
+      } else if(values.targetValue < 0) {
+        errors.targetValue = "目標値は0以上の数値を入力してください";
+      }
+    }
+    if (!moment(values.expiredDate, "YYYY/M/D", true).isValid()) {
+      errors.expiredDate = '期限が不正です';
+    }
+    return errors
+  },
+  shouldError: () => true,
+})(KeyResultFormModal)

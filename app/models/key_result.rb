@@ -6,12 +6,21 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective
 
+  validate :target_value_required_if_value_unit_exists, 
+    :expired_date_can_be_converted_to_date
+  validates :name, :objective_id, :okr_period_id, presence: true
+  validates :target_value, numericality: {greater_than_or_equal_to: 0}, if: :target_value_present?
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
   before_validation do
     self.okr_period_id = objective.okr_period_id
+  end
+
+  def target_value=(value)
+    value.tr!('０-９．', '0-9.') if value.is_a?(String)
+    super(value)
   end
 
   def owner
@@ -38,6 +47,22 @@ class KeyResult < ApplicationRecord
       linked_objectives(objectives, linkedObjective.parent_key_result.objective)
     else
       objectives
+    end
+  end
+
+  def target_value_present?
+    target_value.present?
+  end
+
+  def target_value_required_if_value_unit_exists
+    if value_unit.present? && target_value.blank?
+      errors.add(:target_value, "を入力してください")  
+    end
+  end
+
+  def expired_date_can_be_converted_to_date
+    if expired_date&.to_date.blank?
+      errors.add(:expired_date, "の値が不正です")  
     end
   end
 end
