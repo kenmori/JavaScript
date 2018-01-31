@@ -1,12 +1,19 @@
 class KeyResultsController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user.organization.id)
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+      forbidden and return unless valid_permission?(@user.organization.id)
 
-    @key_results = @user.key_results
-                     .includes(:child_objectives)
-                     .where(okr_period_id: params[:okr_period_id])
-                     .order(created_at: :desc)
+      @key_results = @user.key_results
+                         .where(okr_period_id: params[:okr_period_id])
+                         .order(created_at: :desc)
+    else
+      @key_results = current_organization
+                         .okr_periods
+                         .find(params[:okr_period_id])
+                         .key_results
+                         .order(created_at: :desc)
+    end
   end
 
   def create
@@ -14,7 +21,7 @@ class KeyResultsController < ApplicationController
     owner = Objective.find(params[:key_result][:objective_id]).owner
     forbidden and return unless valid_permission?(@user.organization.id)
     forbidden and return unless valid_permission?(owner.organization.id)
-    forbidden('Objective 責任者または管理者のみ作成できます') and return unless valid_user?(owner.id)
+    forbidden('Objective 責任者のみ作成できます') and return unless valid_user?(owner.id)
 
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.new(key_result_create_params)
@@ -32,7 +39,7 @@ class KeyResultsController < ApplicationController
   def update
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
-    forbidden('Objective 責任者、Key Result 責任者または管理者のみ編集できます') and return unless valid_user_to_update?
+    forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
 
     ActiveRecord::Base.transaction do
       @key_result.update!(key_result_update_params)
@@ -47,13 +54,17 @@ class KeyResultsController < ApplicationController
   def destroy
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
-    forbidden('Objective 責任者または管理者のみ削除できます') and return unless valid_user?(@key_result.objective.owner.id)
+    forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@key_result.objective.owner.id)
 
-    if @key_result.destroy
-      render action: :create, status: :ok
-    else
-      unprocessable_entity_with_errors(@key_result.errors.full_messages)
+    ActiveRecord::Base.transaction do
+      @key_result.child_objectives.each do |objective|
+        @key_result.objective.child_objectives.delete(objective)
+      end
+      @key_result.destroy!
     end
+    render action: :create, status: :ok
+  rescue
+    unprocessable_entity_with_errors(@key_result.errors.full_messages)
   end
 
   private
@@ -109,9 +120,13 @@ class KeyResultsController < ApplicationController
         member.update!(role: role)
       end
     elsif behavior == 'remove'
-      if @key_result.child_objectives.joins(:objective_members).where(objective_members: { user_id: user_id, role: :owner }).exists?
-        @key_result.errors[:messages] << '下位 Objective が紐付いているため削除できません'
-        raise
+      # 関係者が所有する下位 Objective との紐付けを外す
+      @key_result.child_objectives
+          .joins(:objective_members)
+          .where(objective_members: { user_id: user_id, role: :owner })
+          .each do |objective|
+        @key_result.child_objectives.delete(objective)
+        @key_result.objective.child_objectives.delete(objective)
       end
       # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       member = @key_result.key_result_members.find_by(user_id: user_id)

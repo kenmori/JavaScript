@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Form, Button, Divider } from 'semantic-ui-react';
 import EditableText from '../utils/EditableText';
 import EditableMultiLineText from '../utils/EditableMultiLineText'
 import UserSelectBox from '../UserSelectBox';
+import KeyResultSelect from '../utils/KeyResultSelect';
 
 class ObjectiveDetail extends Component {
 
@@ -16,6 +17,16 @@ class ObjectiveDetail extends Component {
 
   updateObjective(values) {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
+  }
+
+  updateParentKeyResultId(value) {
+    this.props.updateObjective({
+        id: this.props.objective.get('id'),
+        parentKeyResultId: value === -1 ? null : value,
+      },
+      this.props.objective.get('parentObjectiveId'),
+      this.props.objective.get('parentKeyResultId'),
+    );
   }
 
   removeObjective(objective) {
@@ -30,39 +41,45 @@ class ObjectiveDetail extends Component {
     if (!objective.size) { return null; }
     return (
       <Form>
-        {objective.get('parentKeyResult') &&
-          <div className="navi">
-            <Icon name="arrow up" />
-            <span>上位 KeyResult: {objective.get('parentKeyResult').get('name')}</span>
-          </div>
-        }
-        <Form.Field className='values'>
+        <Form.Field>
+          <label>上位 Key Result</label>
+          <KeyResultSelect
+            keyResults={this.props.keyResults}
+            defaultValue={objective.get('parentKeyResultId')}
+            onChange={value => this.updateParentKeyResultId(value)}
+          />
+        </Form.Field>
+
+        <Divider hidden />
+
+        <Form.Field>
           <label>Objective</label>
           <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
         </Form.Field>
-        <Form.Field className='values'>
-          <label>Objective の進捗</label>
-          <div className='progress-rate'>{objective.get('progressRate')}%</div>
+        <Form.Field className='flex-field'>
+          <label>進捗</label>
+          <div className='flex-field__item progress-rate'>{objective.get('progressRate')}%</div>
         </Form.Field>
-        <Form.Field>
+        <Form.Field className='flex-field'>
           <label>責任者</label>
+          <div className='flex-field__item'>
           <UserSelectBox
             users={this.props.users}
             defaultValue={objective.get('owner').get('id')}
             onChange={(value) => this.changeObjectiveOwner(value)}
           />
+          </div>
         </Form.Field>
         <Form.Field>
-          <label>Objective の説明</label>
+          <label>説明</label>
           <EditableMultiLineText value={objective.get('description')} saveValue={(value) => this.updateObjective({ description: value })}/>
         </Form.Field>
 
-        <Form.Group>
-          <Form.Field className="delete-button">
-            <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative />
-          </Form.Field>
-        </Form.Group>
-        
+        <Divider hidden />
+
+        <div>
+          <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative floated='right' />
+        </div>
       </Form>
     );
   }

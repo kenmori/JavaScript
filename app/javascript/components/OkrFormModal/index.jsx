@@ -7,9 +7,6 @@ import ObjectiveDetail from './ObjectiveDetail'
 import KeyResultDetail from './KeyResultDetail'
 
 class OkrFormModal extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {

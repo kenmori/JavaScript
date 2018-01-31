@@ -7,10 +7,12 @@ const objectiveListSchema = [objectiveSchema];
 const keyResultListSchema = [keyResultSchema];
 
 keyResultSchema.define({
+  objective: objectiveSchema,
   linkedObjectives: objectiveListSchema,
 });
 
 objectiveSchema.define({
+  parentObjective: objectiveSchema,
   parentKeyResult: keyResultSchema,
   keyResults: keyResultListSchema,
   childObjectives: objectiveListSchema,
