@@ -1,43 +1,46 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
+import { Icon, List } from 'semantic-ui-react';
 import UserSelectBox from './UserSelectBox';
+import Avatar from './Avatar';
 
 class KeyResultMemberSelectBox extends Component {
   selectedMembersTag({users, keyResultMembers, add, remove}) {
-    const list = keyResultMembers.map((id, idx) => {
+    const list = keyResultMembers.map(id => {
       const user = users.find(item => item.get('id') === id);
       return (
-        <div key={idx} className="key-result-members-select-box__item">
-          <span className="key-result-members-select-box__name">{`${user.get('lastName')} ${user.get('firstName')}`}</span>
-          <Icon name="close" className="key-result-members-select-box__close" onClick={() => {remove(id)}} />
-        </div>
+        <List.Item key={id} className="key-result-members-select-box__item">
+          <Avatar user={user} size='small' />
+          <List.Content className="key-result-members-select-box__name">{`${user.get('lastName')} ${user.get('firstName')}`}</List.Content>
+          <List.Content><Icon link name="close" className="key-result-members-select-box__close" onClick={() => {remove(id)}} /></List.Content>
+        </List.Item>
       )
     });
-    return <div className="key-result-members-select-box__selected">{list}</div>;
+    return <List horizontal className="key-result-members-select-box__selected">{list}</List>;
   }
   render() {
     const {
       users,
       keyResultMembers,
-      ownerId,
+      includedId,
+      excludedId,
       add,
       remove,
     } = this.props;
 
     const selectableMembers = users.filter(user => {
       const userId = user.get('id');
-      return !keyResultMembers.includes(userId) && userId !== ownerId;
+      return !keyResultMembers.includes(userId) && (includedId ? userId === includedId : userId !== excludedId);
     });
     return (
       <div className="key-result-members-select-box">
-        {this.selectedMembersTag(this.props)}
         { selectableMembers.size > 0 && 
             <UserSelectBox
               users={selectableMembers} 
               onChange={(value) => {add(value)}}
             />
         }
+        {this.selectedMembersTag(this.props)}
       </div>
     )
   }
@@ -46,7 +49,8 @@ class KeyResultMemberSelectBox extends Component {
 KeyResultMemberSelectBox.propTypes = {
   users: PropTypes.object.isRequired,
   keyResultMembers: PropTypes.array.isRequired,
-  ownerId: PropTypes.number,
+  includedId: PropTypes.number,
+  excludedId: PropTypes.number,
   add: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 };

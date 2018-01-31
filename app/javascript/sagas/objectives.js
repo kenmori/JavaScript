@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import { all, put, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
@@ -26,7 +27,7 @@ function* addObjective({ payload }) {
 
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
-  yield put(objectiveActions.updatedObjective(result.get('objective'), payload.currentUserId));
+  yield put(objectiveActions.updatedObjective(result.get('objective'), fromJS(payload.args)));
   yield put(toastActions.showToast('Objective を更新しました'));
 }
 

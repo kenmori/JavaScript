@@ -4,7 +4,7 @@ import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import confirmActions from '../actions/confirm';
-import { denormalizeObjective } from '../schemas/index'
+import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index'
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -14,6 +14,8 @@ const mapStateToProps = (state) => {
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users,
+    loginUser: state.loginUser,
+    keyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities),
   };
 };
 
@@ -25,8 +27,9 @@ const mapDispatchToProps = dispatch => {
     openKeyResultFormModal: (objective) => {
       dispatch(dialogActions.openKeyResultFormModal(objective));
     },
-    updateObjective: (objective) => {
-      dispatch(objectiveActions.updateObjective(objective, this.currentUserId));
+    updateObjective: (objective, oldParentObjectiveId = null, oldParentKeyResultId = null) => {
+      const args = { currentUserId: this.currentUserId, oldParentObjectiveId, oldParentKeyResultId };
+      dispatch(objectiveActions.updateObjective(objective, args));
     },
     updateKeyResult: (keyResult) => {
       dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));

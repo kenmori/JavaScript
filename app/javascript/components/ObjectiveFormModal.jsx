@@ -19,7 +19,6 @@ class ObjectiveFormModal extends Component {
     const objective = {
       description: findDOMNode(this.descriptionArea).value,
       ownerId: this.ownerSelect.selectedValue,
-      parentObjectiveId: this.props.parentObjective ? this.props.parentObjective.get('id') : null,
       parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
       okrPeriodId: this.props.okrPeriodId,
     };
@@ -143,7 +142,7 @@ class ObjectiveFormModal extends Component {
                 </Form.Group>
                 <Form.Group widths='equal'>
                   <Form.Field>
-                    <label>Objective の説明</label>
+                    <label>説明</label>
                     <TextArea autoHeight rows={3} placeholder={`Objective についての説明や補足を入力してください。
 説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }} />
                   </Form.Field>

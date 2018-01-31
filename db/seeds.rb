@@ -99,7 +99,6 @@ ApplicationRecord.transaction do
       name: 'シニアエンジニアを採用する',
       description: '開発を加速するには、シニアエンジニア級のスキルを持ったエンジニアが必要。',
       okr_period_id: active_okr_period.id,
-      parent_objective_id: active_objective1.id,
       parent_key_result_id: active_key_result1.id,
   )
   login_user.key_results.create!(
@@ -125,7 +124,6 @@ ApplicationRecord.transaction do
       name: 'MVP の機能を開発する',
       description: '方針として MVP の機能にフォーカスすることで、確実に正式版のリリース日までに実装を完了する。',
       okr_period_id: active_okr_period.id,
-      parent_objective_id: active_objective1.id,
       parent_key_result_id: active_key_result2.id,
   )
   another.key_results.create!(
@@ -162,7 +160,6 @@ ApplicationRecord.transaction do
       name: 'アプリの外部仕様を策定する',
       description: 'プロトタイプを開発するために画面や機能に関する外部仕様が求められる。',
       okr_period_id: inactive_okr_period.id,
-      parent_objective_id: inactive_objective1.id,
       parent_key_result_id: inactive_key_result1.id,
   )
   login_user.key_results.create!(
@@ -200,7 +197,6 @@ ApplicationRecord.transaction do
       name: 'プロトアプリをサーバーにデプロイする',
       description: '開発環境以外でもアプリを触れるようにするためサーバー上でアプリを動かす。',
       okr_period_id: inactive_okr_period.id,
-      parent_objective_id: inactive_objective1.id,
       parent_key_result_id: inactive_key_result2.id,
   )
   login_user.key_results.create!(

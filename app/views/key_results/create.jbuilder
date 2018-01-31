@@ -1,6 +1,10 @@
 json.key_result do
   json.partial!(@key_result)
 
+  json.objective do
+    json.partial!(@key_result.objective)
+  end
+
   json.linked_objectives do
     json.array!(@key_result.linked_objectives) do |objective|
       json.extract! objective, :id, :progress_rate
