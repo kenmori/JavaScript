@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       render action: :create, status: :ok
     else
-      unprocessable_entity_with_errors(@user.errors)
+      unprocessable_entity_with_errors(@user.errors.full_messages)
     end
   end
 
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       bypass_sign_in(current_user)
       render json: current_user, status: :ok
     else
-      unprocessable_entity_with_errors(current_user.errors)
+      unprocessable_entity_with_errors(current_user.errors.full_messages)
     end
   end
 
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     if can_delete? && @user.destroy
       head :no_content
     else
-      unprocessable_entity_with_errors(@user.errors)
+      unprocessable_entity_with_errors(@user.errors.full_messages)
     end
   end
 
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     if @user.update(current_organization_id: params['user'][:organization_id])
       render action: :create, status: :ok
     else
-      unprocessable_entity_with_errors(@user.errors)
+      unprocessable_entity_with_errors(@user.errors.full_messages)
     end
   end
 

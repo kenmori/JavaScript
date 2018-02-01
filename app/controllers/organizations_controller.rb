@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
     if @organization.update(organization_params)
       render status: :ok
     else
-      unprocessable_entity_with_errors(@organization.errors)
+      unprocessable_entity_with_errors(@organization.errors.full_messages)
     end
   end
 

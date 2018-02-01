@@ -5,7 +5,7 @@ class OkrPeriodsController < ApplicationController
     if valid_month_start_and_month_end && @okr_period.save
       render status: :created
     else
-      unprocessable_entity_with_errors(@okr_period.errors)
+      unprocessable_entity_with_errors(@okr_period.errors.full_messages)
     end
   end
 
@@ -15,7 +15,7 @@ class OkrPeriodsController < ApplicationController
     if valid_month_start_and_month_end && @okr_period.update(okr_period_params)
       render action: :create, status: :ok
     else
-      unprocessable_entity_with_errors(@okr_period.errors)
+      unprocessable_entity_with_errors(@okr_period.errors.full_messages)
     end
   end
 
@@ -26,7 +26,7 @@ class OkrPeriodsController < ApplicationController
     if can_delete? && @okr_period.destroy
       head :no_content
     else
-      unprocessable_entity_with_errors(@okr_period.errors)
+      unprocessable_entity_with_errors(@okr_period.errors.full_messages)
     end
   
   end
