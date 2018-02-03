@@ -72,14 +72,14 @@ class ObjectivesController < ApplicationController
 
   def can_delete?
     return true if @objective.key_results.empty?
-    @objective.errors[:messages] << 'Key Result が紐付いているため削除できません'
+    @objective.errors[:base] << 'Key Result が紐付いているため削除できません'
     return false
   end
 
   def update_parent_key_result
     parent_key_result_id = params[:objective][:parent_key_result_id]
     if @objective.key_results.exists?(parent_key_result_id)
-      @objective.errors[:messages] << 'Objective に紐付く Key Result は上位 Key Result に指定できません'
+      @objective.errors[:base] << 'Objective に紐付く Key Result は上位 Key Result に指定できません'
       raise
     end
 
@@ -89,7 +89,7 @@ class ObjectivesController < ApplicationController
       # Objective 責任者が紐付ける上位 KR の責任者および関係者の場合
       is_member = parent_key_result.key_result_members.exists?(user_id: current_user.id, role: :member)
       if !current_user.admin? && is_member && objective_owner_id != current_user.id
-        @objective.errors[:messages] << '上位 Key Result の関係者は Objective 責任者に自分以外を指定できません'
+        @objective.errors[:base] << '上位 Key Result の関係者は Objective 責任者に自分以外を指定できません'
         raise
       end
     else
@@ -97,7 +97,7 @@ class ObjectivesController < ApplicationController
         # 管理者または上位 KR 責任者の場合は上位 KR の関係者として追加する
         parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member)
       else
-        @objective.errors[:messages] << '上位 Key Result の責任者および関係者でないため紐付けられません'
+        @objective.errors[:base] << '上位 Key Result の責任者および関係者でないため紐付けられません'
         raise
       end
     end

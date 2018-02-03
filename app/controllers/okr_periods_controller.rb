@@ -5,7 +5,7 @@ class OkrPeriodsController < ApplicationController
     if valid_month_start_and_month_end && @okr_period.save
       render status: :created
     else
-      unprocessable_entity_with_errors(@okr_period.errors)
+      unprocessable_entity_with_errors(@okr_period.errors.full_messages)
     end
   end
 
@@ -15,7 +15,7 @@ class OkrPeriodsController < ApplicationController
     if valid_month_start_and_month_end && @okr_period.update(okr_period_params)
       render action: :create, status: :ok
     else
-      unprocessable_entity_with_errors(@okr_period.errors)
+      unprocessable_entity_with_errors(@okr_period.errors.full_messages)
     end
   end
 
@@ -26,7 +26,7 @@ class OkrPeriodsController < ApplicationController
     if can_delete? && @okr_period.destroy
       head :no_content
     else
-      unprocessable_entity_with_errors(@okr_period.errors)
+      unprocessable_entity_with_errors(@okr_period.errors.full_messages)
     end
   
   end
@@ -35,7 +35,7 @@ class OkrPeriodsController < ApplicationController
 
   def can_delete?
     return true if @okr_period.objectives.empty? && @okr_period.key_results.empty?
-    @okr_period.errors[:messages] << 'Objective または Key Result が紐付いているため削除できません'
+    @okr_period.errors[:base] << 'Objective または Key Result が紐付いているため削除できません'
     return false
   end
 
@@ -43,7 +43,7 @@ class OkrPeriodsController < ApplicationController
     month_start = params[:okr_period][:month_start]
     month_end = params[:okr_period][:month_end]
     if month_start.present? && month_end.present? && month_start.to_date >= month_end.to_date
-      @okr_period.errors[:messages] << '無効な期間です'
+      @okr_period.errors[:base] << '無効な期間です'
       return false 
     end
 
@@ -55,7 +55,7 @@ class OkrPeriodsController < ApplicationController
       is_invalid_month_start = month_start.present? ? month_start.to_date.between?(period[0], period[1]) : false
       is_invalid_month_end = month_end.present? ? month_end.to_date.between?(period[0], period[1]) : false
       if is_invalid_month_start || is_invalid_month_end
-        @okr_period.errors[:messages] << '期間が重複しています'
+        @okr_period.errors[:base] << '期間が重複しています'
         return false
       end
     end
