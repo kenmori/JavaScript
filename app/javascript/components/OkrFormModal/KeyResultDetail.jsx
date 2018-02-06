@@ -16,7 +16,7 @@ class KeyResultDetail extends Component {
     super(props);
     if (props.keyResult) {
       this.state = {
-        isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
+        isTargetValueVisible: !!props.keyResult.get('targetValue'),
         progressRate: props.keyResult.get('progressRate'),
         expiredDate: moment(props.keyResult.get('expiredDate')),
       };
@@ -158,8 +158,10 @@ class KeyResultDetail extends Component {
     if (this.props.keyResult) {
       isChangedProgressRate = nextProps.keyResult.get('progressRate') !== this.props.keyResult.get('progressRate');
     }
+    const isTargetValueVisible = (this.props.keyResult && this.props.keyResult.get('id') === nextProps.keyResult.get('id'))
+      ? this.state.isTargetValueVisible : !!nextProps.keyResult.get('targetValue');
     this.setState({
-      isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
+      isTargetValueVisible: isTargetValueVisible,
       progressRate: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.progressRate,
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
     });
@@ -198,7 +200,7 @@ class KeyResultDetail extends Component {
           <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
         </Form.Field>
 
-        {this.state.isDisplayedTargetValue && 
+        {this.state.isTargetValueVisible &&
           <Form.Field className='flex-field'>
             <label>目標値</label>
             <div className='flex-field__item'>
@@ -209,7 +211,7 @@ class KeyResultDetail extends Component {
             </div>
           </Form.Field>
         }
-        {this.state.isDisplayedTargetValue &&
+        {this.state.isTargetValueVisible &&
           <Form.Field className='flex-field'>
             <label>実績値</label>
             <div className='flex-field__item'>
@@ -220,9 +222,9 @@ class KeyResultDetail extends Component {
             </div>
           </Form.Field>
         }
-        {!this.state.isDisplayedTargetValue && 
+        {!this.state.isTargetValueVisible &&
           <div>
-            <Button content="目標値を設定する" onClick={() => this.setState({isDisplayedTargetValue: true})} floated='right' />
+            <Button content="目標値を設定する" onClick={() => this.setState({isTargetValueVisible: true})} floated='right' />
           </div>
         }
 
