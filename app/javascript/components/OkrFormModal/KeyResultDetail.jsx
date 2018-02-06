@@ -14,14 +14,6 @@ import moment from 'moment';
 class KeyResultDetail extends Component {
   constructor(props) {
     super(props);
-
-    this.isMouseDown = false;
-    this.progressIntervalTimerId = null;
-    this.progressTimerId = null;
-    this.requestInterval = null;
-    this.REQUEST_DELAY_TIME = 200;
-    this.RECALC_INTERVAL_TIME = 600;
-    this.REQUEST_INTERVAL_TIME = 1000;
     if (props.keyResult) {
       this.state = {
         isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
@@ -182,66 +174,6 @@ class KeyResultDetail extends Component {
     });
   }
 
-  getNextProgressValue(upOrDown) {
-    let value = Math.min(this.state.sliderValue + 1, 100);
-    if (upOrDown === 'down'){
-      value = Math.max(this.state.sliderValue - 1, 0);
-    }
-    
-    return value;
-  }
-
-  handleProgressMouseDown(upOrDown) {
-    if (!upOrDown) {
-      return;
-    }
-    this.isMouseDown = true; 
-    const value = this.getNextProgressValue(upOrDown);
-    if (value === this.state.sliderValue) {
-      return;
-    }
-    this.changeSliderValue(value);
-    setTimeout(() => {
-      if(!this.isMouseDown) {return}
-      clearInterval(this.progressIntervalTimerId);
-      this.progressIntervalTimerId = setInterval(() => {
-        this.changeSliderValue(this.getNextProgressValue(upOrDown));
-      }, 30);
-    }, this.RECALC_INTERVAL_TIME);
-  }
-
-  handleProgressMouseUp() {
-    this.isMouseDown = false;
-    clearInterval(this.progressIntervalTimerId);
-    if (this.state.sliderValue === this.props.keyResult.get('progressRate')) {
-      return;
-    }
-    this.changeProgressRateThrottle(this.state.sliderValue);
-  }
-
-  changeSliderValue(value) {
-    this.setState({
-      sliderValue: value
-    });
-  }
-
-  changeProgressRateThrottle(value) {
-    const interval = new Date().getTime() - this.requestInterval;
-    if (interval <= this.REQUEST_INTERVAL_TIME) {
-      this.requestInterval = new Date().getTime();
-      clearTimeout(this.progressTimerId);
-      this.progressTimerId = setTimeout(() => {
-        this.updateKeyResult({ progressRate: value });
-      }, this.REQUEST_INTERVAL_TIME);
-      return;
-    }
-    this.requestInterval = new Date().getTime();
-    this.progressTimerId = setTimeout(() => {
-      this.updateKeyResult({ progressRate: value });
-    }, this.REQUEST_DELAY_TIME);
-  }
-
-
   childObjectivesTag(childObjectives) {
     if (childObjectives.isEmpty()) return null;
     return (
@@ -317,15 +249,12 @@ class KeyResultDetail extends Component {
           <div className='flex-field__item progress-rate'>
             %
           </div>
-          <div className='flex-field__item slider-box'>
-            <div className='slider-box__wrapper'>
-              <div className='slider-box__content slider-box__icon'><Icon link name="minus square" onMouseDown={() => {this.handleProgressMouseDown('down')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
-              <div className='slider slider-box__content'>
-                <input type='range' min='0' max='100' value={this.state.sliderValue} onChange={this.handleSliderChange.bind(this)} step='1'
-                    data-unit='%' onMouseUp={this.handleSliderValue.bind(this)}/>
-              </div>
-              <div className='slider-box__content slider-box__icon'><Icon link name="plus square" onMouseDown={() => {this.handleProgressMouseDown('up')}} onMouseUp={this.handleProgressMouseUp.bind(this)} /></div>
-            </div>
+          <div className='flex-field__item slider'>
+            <Input type='range' min='0' max='100' step='1'
+                   value={this.state.sliderValue}
+                   onChange={this.handleSliderChange.bind(this)}
+                   onMouseUp={this.handleSliderValue.bind(this)}
+            />
           </div>
           <div className='flex-field__item'>
             {keyResult.get('isProgressRateLinked')
