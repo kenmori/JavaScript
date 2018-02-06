@@ -102,14 +102,11 @@ class KeyResultDetail extends Component {
     this.updateKeyResult({ expiredDate: value.format() });
   }
 
-  handleRateViewClick() {
-    setTimeout(() => {
-      findDOMNode(this.refs.progressRateView).focus();
-    }, 0)
-  }
-
   handleRateInputBlur(event) {
     this.updateKeyResult({ progressRate: Number(event.target.value) });
+  }
+
+  handleRateInputChange(event) {
     this.setState({
       sliderValue: event.target.value,
     });
@@ -310,12 +307,10 @@ class KeyResultDetail extends Component {
           <label>進捗</label>
           <div className="flex-field__item progress-rate">
             <div className='progress-rate__input'>
-              <Input type="number"
-                    defaultValue={keyResult.get('progressRate')}
-                    onBlur={this.handleRateInputBlur.bind(this)}
-                    max="100"
-                    min="0"
-                    ref="progressRateView"
+              <Input type="number" min="0" max="100"
+                     value={this.state.sliderValue}
+                     onChange={this.handleRateInputChange.bind(this)}
+                     onBlur={this.handleRateInputBlur.bind(this)}
               />
             </div>
           </div>
