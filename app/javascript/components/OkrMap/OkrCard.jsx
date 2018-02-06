@@ -50,7 +50,7 @@ class OkrCard extends Component {
         </Card.Content>
         {this.generateKeyResultList(objective)}
         <Card.Content extra className='okr-card__meta'>
-          <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/MM/DD')} 更新</div>
+          <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/M/D')} 更新</div>
           <Icon link name='write' className='add-button' color='red' circular inverted
                 onClick={() => this.props.openOkrFormModal(objective.get('id'), { okrType: 'objective' })} />
         </Card.Content>

@@ -68,7 +68,7 @@ class KeyResultFormModal extends Component {
         expiredDate
       });
       this.props.initialize({
-        expiredDate: expiredDate.format("YYYY/MM/DD")
+        expiredDate: expiredDate.format("YYYY/M/D")
       });
     }
 
@@ -187,7 +187,7 @@ class KeyResultFormModal extends Component {
                     <Field 
                       name="expiredDate" 
                       type="text"
-                      dateFormat="YYYY/MM/DD" 
+                      dateFormat="YYYY/M/D" 
                       locale="ja" 
                       selected={this.state.expiredDate} 
                       handleCalendar={this.handleCalendar.bind(this)}

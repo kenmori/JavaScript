@@ -108,10 +108,10 @@ class OkrPeriodSettingTab extends Component {
                     <Input type="text" maxLength="255" ref={node => { this.name = node; }} placeholder="期間名"/>
                   </Table.Cell>
                   <Table.Cell>
-                    <Form.Field><DatePicker dateFormat="YYYY/MM/DD" selected={this.state.monthStart} locale="ja" onChange={date => this.setState({monthStart: date})} /></Form.Field>
+                    <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthStart} locale="ja" onChange={date => this.setState({monthStart: date})} /></Form.Field>
                   </Table.Cell>
                   <Table.Cell>
-                  <Form.Field><DatePicker dateFormat="YYYY/MM/DD" selected={this.state.monthEnd} locale="ja" onChange={date => this.setState({monthEnd: date})} /></Form.Field>
+                  <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={date => this.setState({monthEnd: date})} /></Form.Field>
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <Button icon="plus" content="追加する" onClick={this.addOkrPeriod.bind(this)}/>
@@ -151,9 +151,9 @@ class OkrPeriodSettingTab extends Component {
                         <Form.Group>
                           <Form.Field>
                             <div className="date-input">
-                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthStart)} onChange={date => this.props.updateOkrPeriod({id, monthStart: date.format()})} />
+                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={date => this.props.updateOkrPeriod({id, monthStart: date.format()})} />
                               <div className="date-input__between">〜</div>
-                              <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={moment(monthEnd)} onChange={date => this.props.updateOkrPeriod({id, monthEnd: date.format()})} />
+                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={date => this.props.updateOkrPeriod({id, monthEnd: date.format()})} />
                             </div>
                           </Form.Field>
                         </Form.Group>
