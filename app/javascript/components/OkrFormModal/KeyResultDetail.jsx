@@ -12,15 +12,22 @@ import br from '../../utils/br';
 import moment from 'moment';
 
 class KeyResultDetail extends Component {
+
   constructor(props) {
     super(props);
-    if (props.keyResult) {
-      this.state = {
-        isTargetValueVisible: !!props.keyResult.get('targetValue'),
-        progressRate: props.keyResult.get('progressRate'),
-        expiredDate: moment(props.keyResult.get('expiredDate')),
-      };
-    }
+    this.state = this.getState(props);
+  }
+
+  getState(props) {
+    return {
+      name: props.keyResult.get('name'),
+      targetValue: props.keyResult.get('targetValue') || '',
+      actualValue: props.keyResult.get('actualValue') || '',
+      valueUnit: props.keyResult.get('valueUnit') || '',
+      progressRate: props.keyResult.get('progressRate'),
+      expiredDate: props.keyResult.get('expiredDate'),
+      isTargetValueVisible: !!props.keyResult.get('targetValue'),
+    };
   }
 
   addKeyResultMembers(value) {
@@ -49,20 +56,15 @@ class KeyResultDetail extends Component {
     });
   }
 
-  changeProgressRate(event) {
-    this.setState({
-      progressRate: event.target.value,
-    });
-  }
-
-  updateProgressRate(event) {
-    this.updateKeyResult({
-      progressRate: Number(event.target.value),
-    });
-  }
-
   updateKeyResult(values) {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
+  }
+  
+  updateKeyResultWithState(name, value) {
+    if (this.state[name] !== value) {
+      this.setState({ [name]: value });
+      this.updateKeyResult({ [name]: value });
+    }
   }
 
   removeKeyResult(id) {
@@ -71,13 +73,6 @@ class KeyResultDetail extends Component {
         ? 'Key Result を削除しますか？' : '下位 Objective が紐付いています。Key Result を削除しますか？',
       onConfirm: () => this.props.removeKeyResult({ id }),
     });
-  }
-
-  handleCalendar(value) {
-    this.setState({
-      expiredDate: value
-    });
-    this.updateKeyResult({ expiredDate: value.format() });
   }
 
   commentList(comments) {
@@ -136,16 +131,13 @@ class KeyResultDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.keyResult) {
-      return;
+    if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
+      this.setState(this.getState(nextProps));
+    } else if (this.props.keyResult.get('progressRate') !== nextProps.keyResult.get('progressRate')) {
+      this.setState({
+        progressRate: nextProps.keyResult.get('progressRate'),
+      });
     }
-    const isTargetValueVisible = (this.props.keyResult && this.props.keyResult.get('id') === nextProps.keyResult.get('id'))
-      ? this.state.isTargetValueVisible : !!nextProps.keyResult.get('targetValue');
-    this.setState({
-      isTargetValueVisible: isTargetValueVisible,
-      progressRate: nextProps.keyResult.get('progressRate'),
-      expiredDate: moment(nextProps.keyResult.get('expiredDate')),
-    });
   }
 
   childObjectivesTag(childObjectives) {
@@ -178,19 +170,24 @@ class KeyResultDetail extends Component {
       <Form>
         <Form.Field>
           <label>Key Result</label>
-          <EditableText value={keyResult.get('name')} saveValue={value => this.updateKeyResult({ name: value })}/>
+          <EditableText value={this.state.name}
+                        saveValue={value => this.updateKeyResultWithState('name', value)}
+          />
         </Form.Field>
 
         {this.state.isTargetValueVisible &&
           <Form.Field className='flex-field'>
             <label>目標値</label>
             <div className='flex-field__item'>
-              <EditableText value={keyResult.get('targetValue') || ''}
-                            saveValue={value => this.updateKeyResult({ targetValue: value })}
+              <EditableText value={this.state.targetValue}
+                            saveValue={value => this.updateKeyResultWithState('targetValue', value)}
               />
             </div>
             <div className='flex-field__item'>
-              <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
+              <EditableText placeholder="単位"
+                            value={this.state.valueUnit}
+                            saveValue={value => this.updateKeyResultWithState('valueUnit', value)}
+              />
             </div>
           </Form.Field>
         }
@@ -198,12 +195,12 @@ class KeyResultDetail extends Component {
           <Form.Field className='flex-field'>
             <label>実績値</label>
             <div className='flex-field__item'>
-              <EditableText value={keyResult.get('actualValue') || ''}
-                            saveValue={value => this.updateKeyResult({ actualValue: value })}
+              <EditableText value={this.state.actualValue}
+                            saveValue={value => this.updateKeyResultWithState('actualValue', value)}
               />
             </div>
             <div className='flex-field__item'>
-              {keyResult.get('valueUnit')}
+              {this.state.valueUnit}
             </div>
           </Form.Field>
         }
@@ -219,8 +216,8 @@ class KeyResultDetail extends Component {
             <div className='progress-rate__input'>
               <Input type="number" min="0" max="100"
                      value={this.state.progressRate}
-                     onChange={this.changeProgressRate.bind(this)}
-                     onBlur={this.updateProgressRate.bind(this)}
+                     onChange={(event, { value }) => this.setState({ progressRate: value })}
+                     onBlur={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
               />
             </div>
           </div>
@@ -230,8 +227,8 @@ class KeyResultDetail extends Component {
           <div className='flex-field__item slider'>
             <Input type='range' min='0' max='100' step='1'
                    value={this.state.progressRate}
-                   onChange={this.changeProgressRate.bind(this)}
-                   onMouseUp={this.updateProgressRate.bind(this)}
+                   onChange={(event, { value }) => this.setState({ progressRate: value })}
+                   onMouseUp={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
             />
           </div>
           <div className='flex-field__item'>
@@ -245,7 +242,10 @@ class KeyResultDetail extends Component {
         <Form.Field className='flex-field input-date-picker'>
           <label>期限</label>
           <div className='flex-field__item'>
-            <DatePicker dateFormat="YYYY/MM/DD" locale="ja" selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+            <DatePicker dateFormat="YYYY/M/D" locale="ja"
+                        selected={moment(this.state.expiredDate)}
+                        onChange={value => this.updateKeyResultWithState('expiredDate', value.format('YYYY-MM-DD'))}
+            />
           </div>
         </Form.Field>
         <Form.Field className='flex-field'>

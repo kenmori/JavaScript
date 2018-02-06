@@ -9,6 +9,13 @@ import KeyResultSelect from '../utils/KeyResultSelect';
 
 class ObjectiveDetail extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: props.objective.get('name'),
+    };
+  }
+
   changeObjectiveOwner(value) {
     this.updateObjective({
       objectiveMember: {user: value}
@@ -17,6 +24,11 @@ class ObjectiveDetail extends Component {
 
   updateObjective(values) {
     this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
+  }
+
+  updateName(value) {
+    this.setState({ name: value });
+    this.updateObjective({ name: value });
   }
 
   updateParentKeyResultId(value) {
@@ -54,7 +66,7 @@ class ObjectiveDetail extends Component {
 
         <Form.Field>
           <label>Objective</label>
-          <EditableText value={objective.get('name')} saveValue={(value) => this.updateObjective({ name: value })}/>
+          <EditableText value={this.state.name} saveValue={value => this.updateName(value)} />
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
