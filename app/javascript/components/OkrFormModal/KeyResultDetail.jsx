@@ -17,11 +17,10 @@ class KeyResultDetail extends Component {
     if (props.keyResult) {
       this.state = {
         isDisplayedTargetValue: !!props.keyResult.get('targetValue'),
-        sliderValue: props.keyResult.get('progressRate'),
+        progressRate: props.keyResult.get('progressRate'),
         expiredDate: moment(props.keyResult.get('expiredDate')),
       };
     }
-   
   }
 
   addKeyResultMembers(value) {
@@ -50,14 +49,16 @@ class KeyResultDetail extends Component {
     });
   }
 
-  handleSliderChange(event) {
+  changeProgressRate(event) {
     this.setState({
-      sliderValue: event.target.value,
+      progressRate: event.target.value,
     });
   }
 
-  handleSliderValue(event) {
-    this.updateKeyResult({ progressRate: Number(event.target.value) });
+  updateProgressRate(event) {
+    this.updateKeyResult({
+      progressRate: Number(event.target.value),
+    });
   }
 
   updateValues(targetValue, actualValue) {
@@ -92,16 +93,6 @@ class KeyResultDetail extends Component {
       expiredDate: value
     });
     this.updateKeyResult({ expiredDate: value.format() });
-  }
-
-  handleRateInputBlur(event) {
-    this.updateKeyResult({ progressRate: Number(event.target.value) });
-  }
-
-  handleRateInputChange(event) {
-    this.setState({
-      sliderValue: event.target.value,
-    });
   }
 
   commentList(comments) {
@@ -169,7 +160,7 @@ class KeyResultDetail extends Component {
     }
     this.setState({
       isDisplayedTargetValue: !!nextProps.keyResult.get('targetValue'),
-      sliderValue: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.sliderValue,
+      progressRate: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.progressRate,
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
     });
   }
@@ -240,9 +231,9 @@ class KeyResultDetail extends Component {
           <div className="flex-field__item progress-rate">
             <div className='progress-rate__input'>
               <Input type="number" min="0" max="100"
-                     value={this.state.sliderValue}
-                     onChange={this.handleRateInputChange.bind(this)}
-                     onBlur={this.handleRateInputBlur.bind(this)}
+                     value={this.state.progressRate}
+                     onChange={this.changeProgressRate.bind(this)}
+                     onBlur={this.updateProgressRate.bind(this)}
               />
             </div>
           </div>
@@ -251,9 +242,9 @@ class KeyResultDetail extends Component {
           </div>
           <div className='flex-field__item slider'>
             <Input type='range' min='0' max='100' step='1'
-                   value={this.state.sliderValue}
-                   onChange={this.handleSliderChange.bind(this)}
-                   onMouseUp={this.handleSliderValue.bind(this)}
+                   value={this.state.progressRate}
+                   onChange={this.changeProgressRate.bind(this)}
+                   onMouseUp={this.updateProgressRate.bind(this)}
             />
           </div>
           <div className='flex-field__item'>
