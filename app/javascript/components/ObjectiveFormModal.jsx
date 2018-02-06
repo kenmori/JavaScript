@@ -7,10 +7,24 @@ import RenderField from './RenderField';
 import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveFormModal extends Component {
-  componentWillReceiveProps(nexpProps) {
-    if (this.props.isOpen && !nexpProps.isOpen) {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      ownerId: null,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isOpen && !nextProps.isOpen) {
       this.props.initialize({
         name: ""
+      });
+    }
+
+    if (!this.props.isOpen && nextProps.isOpen) {
+      this.setState({
+        ownerId: this.getInitialOwnerId(),
       });
     }
   }
@@ -18,7 +32,7 @@ class ObjectiveFormModal extends Component {
   save(validData) {
     const objective = {
       description: findDOMNode(this.descriptionArea).value,
-      ownerId: this.ownerSelect.selectedValue,
+      ownerId: this.state.ownerId,
       parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
       okrPeriodId: this.props.okrPeriodId,
     };
@@ -45,15 +59,8 @@ class ObjectiveFormModal extends Component {
   }
 
   isEditing() {
-    if (
-      this.props.dirty ||
-      findDOMNode(this.descriptionArea).value !== '' ||
-      this.ownerSelect.selectedValue !== this.getInitialOwnerId()
-    ) {
-      return true;
-    }
-
-    return false;
+    return this.state.ownerId !== this.getInitialOwnerId()
+      || findDOMNode(this.descriptionArea).value !== '';
   }
 
   handleClose() {
@@ -153,7 +160,7 @@ class ObjectiveFormModal extends Component {
                     <UserSelectBox
                       users={this.props.users} 
                       defaultValue={this.getInitialOwnerId()}
-                      ref={node => {this.ownerSelect = node;}}
+                      onChange={value => this.setState({ ownerId: value })}
                     />
                   </Form.Field>
                 </Form.Group>

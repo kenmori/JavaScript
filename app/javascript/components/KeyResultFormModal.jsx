@@ -93,15 +93,8 @@ class KeyResultFormModal extends Component {
   }
 
   isEditing() {
-    if (
-      this.props.dirty ||
-      this.state.ownerId !== this.props.objective.get('owner').get('id') ||
-      this.state.keyResultMembers.length
-    ) {
-      return true;
-    }
-
-    return false;
+    return this.state.ownerId !== this.props.objective.get('owner').get('id')
+      || this.state.keyResultMembers.length;
   }
 
   handleClose() {

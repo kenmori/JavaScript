@@ -1,48 +1,47 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Dropdown} from 'semantic-ui-react';
+import { Select } from 'semantic-ui-react';
 import avatar_image from '../images/avatar.png';
 
 class UserSelectBox extends Component {
 
   constructor(props) {
     super(props);
-    this.isCancel = false;
-    this.selectedValue = props.defaultValue;
-  }
-
-  usersOption(users) {
-    return users.map(user => {
-      const avatarUrl = user.get('avatarUrl') || avatar_image;
-      return {
-        key: user.get('id'),
-        value: user.get('id'),
-        text: `${user.get('lastName')} ${user.get('firstName')}`,
-        image: { avatar: true, src: avatarUrl },
-      }
-    }).toArray();
-  }
-
-  onHandleChange(event, {value}) {
-    if(this.isCancel) {
-      this.isCancel = false;
-      return;
+    this.state = {
+      defaultValue: props.defaultValue,
     }
-    this.selectedValue = value;
-    this.props.onChange(value);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ defaultValue: nextProps.defaultValue });
+  }
+
+  userOptions = () => {
+    return this.props.users.map(user => ({
+      key: user.get('id'),
+      value: user.get('id'),
+      text: `${user.get('lastName')} ${user.get('firstName')}`,
+      image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
+    })).toArray();
+  }
+
+  handleChange = (event, { value }) => {
+    if (value !== this.state.defaultValue) {
+      this.setState({ defaultValue: value });
+      this.props.onChange(value);
+    }
   }
 
   render() {
-    const value = this.props.defaultValue || null;
     return (
       <div>
-        <Dropdown 
-          search 
-          selection
-          options={this.usersOption(this.props.users)}
-          defaultValue={value}
-          onChange={this.onHandleChange.bind(this)}
-          onBlur={() => this.isCancel = true} 
+        <Select
+          key={this.props.id}
+          search
+          options={this.userOptions()}
+          defaultValue={this.state.defaultValue}
+          onChange={this.handleChange}
+          loading={this.props.users.isEmpty()}
         />
       </div>
     )
@@ -50,14 +49,10 @@ class UserSelectBox extends Component {
 }
 
 UserSelectBox.propTypes = {
+  id: PropTypes.number,
   users: PropTypes.object.isRequired,
-  value: PropTypes.number,
   defaultValue: PropTypes.number,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 };
-
-UserSelectBox.defaultProps = {
-  onChange: () => {},
-}
 
 export default UserSelectBox;

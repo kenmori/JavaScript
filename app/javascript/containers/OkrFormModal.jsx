@@ -47,10 +47,7 @@ const mapDispatchToProps = dispatch => {
       if (okrType === 'objective') {
         dispatch(dialogActions.showOkrDetail({ okrType }));
       } else {
-        dispatch(dialogActions.showOkrDetail({ okrType, targetId: -1 }));
-        setTimeout(() => {
-          dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
-        }, 0);
+        dispatch(dialogActions.showOkrDetail({ okrType, targetId }));
       }
     },
     confirm: (conformParams) => {

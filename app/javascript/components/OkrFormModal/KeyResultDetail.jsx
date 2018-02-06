@@ -159,9 +159,6 @@ class KeyResultDetail extends Component {
 
   render() {
     const keyResult = this.props.keyResult;
-    if (!keyResult) {
-      return null;
-    }
     const keyResultMembers = keyResult.get('keyResultMembers').map(member => member.get('id')).toArray();
     const isPowerUser = this.props.loginUser.get('isAdmin')
       || this.props.loginUser.get('id') === keyResult.get('owner').get('id')
@@ -252,6 +249,7 @@ class KeyResultDetail extends Component {
           <label>責任者</label>
           <div className='flex-field__item'>
             <UserSelectBox
+              id={keyResult.get('id')}
               users={this.props.users}
               defaultValue={keyResult.get('owner').get('id')}
               onChange={(value) => this.changeKeyResultOwner(value)}

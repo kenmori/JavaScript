@@ -27,10 +27,8 @@ class KeyResultSelect extends Component {
 
   handleChange = (event, { value }) => {
     if (value !== this.state.defaultValue) {
+      this.setState({ defaultValue: value });
       this.props.onChange(value);
-      this.setState({
-        defaultValue: value,
-      });
     }
   }
 
