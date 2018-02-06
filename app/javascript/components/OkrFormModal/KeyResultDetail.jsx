@@ -61,21 +61,6 @@ class KeyResultDetail extends Component {
     });
   }
 
-  updateValues(targetValue, actualValue) {
-    if (targetValue && actualValue) {
-      this.updateKeyResult({
-        targetValue: targetValue,
-        actualValue: actualValue,
-        progressRate: Math.round(actualValue / targetValue * 100),
-      });
-    } else {
-      this.updateKeyResult({
-        targetValue: targetValue,
-        actualValue: actualValue,
-      });
-    }
-  }
-
   updateKeyResult(values) {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
@@ -154,15 +139,11 @@ class KeyResultDetail extends Component {
     if (!nextProps.keyResult) {
       return;
     }
-    let isChangedProgressRate = true;
-    if (this.props.keyResult) {
-      isChangedProgressRate = nextProps.keyResult.get('progressRate') !== this.props.keyResult.get('progressRate');
-    }
     const isTargetValueVisible = (this.props.keyResult && this.props.keyResult.get('id') === nextProps.keyResult.get('id'))
       ? this.state.isTargetValueVisible : !!nextProps.keyResult.get('targetValue');
     this.setState({
       isTargetValueVisible: isTargetValueVisible,
-      progressRate: isChangedProgressRate ? nextProps.keyResult.get('progressRate'): this.state.progressRate,
+      progressRate: nextProps.keyResult.get('progressRate'),
       expiredDate: moment(nextProps.keyResult.get('expiredDate')),
     });
   }
@@ -204,7 +185,9 @@ class KeyResultDetail extends Component {
           <Form.Field className='flex-field'>
             <label>目標値</label>
             <div className='flex-field__item'>
-              <EditableText placeholder="目標値" value={keyResult.get('targetValue') || ''} saveValue={(value) => this.updateValues(value, keyResult.get('actualValue'))}/>
+              <EditableText value={keyResult.get('targetValue') || ''}
+                            saveValue={value => this.updateKeyResult({ targetValue: value })}
+              />
             </div>
             <div className='flex-field__item'>
               <EditableText placeholder="単位" value={keyResult.get('valueUnit') || ''} saveValue={(value) => this.updateKeyResult({ valueUnit: value })}/>
@@ -215,7 +198,9 @@ class KeyResultDetail extends Component {
           <Form.Field className='flex-field'>
             <label>実績値</label>
             <div className='flex-field__item'>
-              <EditableText placeholder="実績値"　value={keyResult.get('actualValue') || ''} saveValue={(value) => this.updateValues(keyResult.get('targetValue'), value)}/>
+              <EditableText value={keyResult.get('actualValue') || ''}
+                            saveValue={value => this.updateKeyResult({ actualValue: value })}
+              />
             </div>
             <div className='flex-field__item'>
               {keyResult.get('valueUnit')}
