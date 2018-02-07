@@ -8,7 +8,6 @@ import EditableMultiLineText from '../utils/EditableMultiLineText';
 import UserSelectBox from '../UserSelectBox';
 import KeyResultMemberSelectBox from '../KeyResultMemberSelectBox';
 import Avatar from '../Avatar';
-import br from '../../utils/br';
 import moment from 'moment';
 
 class KeyResultDetail extends Component {
@@ -80,13 +79,10 @@ class KeyResultDetail extends Component {
       return (
         <div className="comments" key={item.get('id')}>
           <div className="comments__item">
-            {item.get('editable') ? (
-                <EditableMultiLineText className="comments__item-text" value={item.get('text')} saveValue={(text) => this.editComment(item.get('id'), text)}/>
-              ) : (
-                <div className="comments__item-text is-others">{ br(item.get('text'))}</div>
-              )
-
-            }
+            <EditableMultiLineText value={item.get('text')}
+                                   saveValue={value => this.editComment(item.get('id'), value)}
+                                   readOnly={!item.get('editable')}
+            />
             <div className="comments__item-meta">
               <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/M/D H:m')}</div>
               <div className="comments__item-name">{item.get('fullName')}</div>
@@ -286,7 +282,9 @@ class KeyResultDetail extends Component {
         <Form.Field className="wide-field">
           <label>コメント</label>
           <div className="comments__text-box">
-            <TextArea autoHeight defaultValue="" style={{ minHeight: 80 }} placeholder='進捗状況や、次のアクションなどをメモしてください' ref="commentArea" />
+            <TextArea autoHeight rows={3} ref='commentArea'
+                      placeholder='進捗状況や、次のアクションなどをメモしてください'
+            />
           </div>
           <div>
             <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />

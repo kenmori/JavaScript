@@ -31,7 +31,7 @@ class ObjectiveFormModal extends Component {
 
   save(validData) {
     const objective = {
-      description: findDOMNode(this.descriptionArea).value,
+      description: findDOMNode(this.refs.descriptionArea).value,
       ownerId: this.state.ownerId,
       parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
       okrPeriodId: this.props.okrPeriodId,
@@ -60,7 +60,7 @@ class ObjectiveFormModal extends Component {
 
   isEditing() {
     return this.state.ownerId !== this.getInitialOwnerId()
-      || findDOMNode(this.descriptionArea).value !== '';
+      || findDOMNode(this.refs.descriptionArea).value !== '';
   }
 
   handleClose() {
@@ -150,8 +150,9 @@ class ObjectiveFormModal extends Component {
                 <Form.Group widths='equal'>
                   <Form.Field>
                     <label>説明</label>
-                    <TextArea autoHeight rows={3} placeholder={`Objective についての説明や補足を入力してください。
-説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`} ref={(node) => { this.descriptionArea = node; }} />
+                    <TextArea autoHeight rows={3} ref='descriptionArea'
+                              placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>

@@ -84,7 +84,9 @@ class ObjectiveDetail extends Component {
         </Form.Field>
         <Form.Field>
           <label>説明</label>
-          <EditableMultiLineText value={objective.get('description')} saveValue={(value) => this.updateObjective({ description: value })}/>
+          <EditableMultiLineText value={objective.get('description')}
+                                 saveValue={value => this.updateObjective({ description: value })}
+          />
         </Form.Field>
 
         <Divider hidden />

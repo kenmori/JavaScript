@@ -1,7 +1,5 @@
 .editable-multi-line-text {
   &[readonly] {
-    border-color: transparent !important;
-    background-color: transparent !important;
-    box-shadow: none !important;
+    cursor: not-allowed;
   }
 }
