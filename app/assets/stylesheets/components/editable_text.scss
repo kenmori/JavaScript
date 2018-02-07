@@ -4,12 +4,6 @@
   &.ui.input input {
     vertical-align: baseline;
   }
-
-  input {
-    &[readonly] {
-      cursor: not-allowed;
-    }
-  }
 }
 
 h1, h2, h3, h4, h5 {

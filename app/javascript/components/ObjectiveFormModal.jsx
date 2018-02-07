@@ -45,19 +45,6 @@ class ObjectiveFormModal extends Component {
       : this.props.currentUserId;
   }
 
-  getRelatedKeyResultForm(relatedKeyResult) {
-    if (relatedKeyResult) {
-      return (
-        <Form.Group widths='equal'>
-          <Form.Field>
-            <label>割り当てられた Key Result</label>
-            <Input value={relatedKeyResult.get('name')} readOnly/>
-          </Form.Field>
-        </Form.Group>
-      );
-    }
-  }
-
   isEditing() {
     return this.state.ownerId !== this.getInitialOwnerId()
       || findDOMNode(this.refs.descriptionArea).value !== '';

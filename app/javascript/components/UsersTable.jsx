@@ -124,10 +124,10 @@ class UsersTable extends Component {
     });
   };
 
-  removeUser = (id, name) => () => {
+  removeUser = user => () => {
     this.props.confirm({
-      content: `ユーザー ${name} を削除しますか？`,
-      onConfirm: () => this.props.onRemove(id),
+      content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を削除しますか？`,
+      onConfirm: () => this.props.onRemove(user.get('id')),
     });
   };
 
@@ -184,35 +184,32 @@ class UsersTable extends Component {
             {
               users.map(user => {
                 const id = user.get('id');
-                const index = user.get('index');
-                const readOnly = id !== this.state.editableId;
-                const className = readOnly ? 'readonly' : '';
-                const open = readOnly ? false : undefined;
-                const lastName = user.get('lastName');
-                const firstName = user.get('firstName');
-                const isAdmin = user.get('isAdmin');
-                const name = `${lastName} ${firstName}`;
                 return (
                   <Table.Row key={id}>
                     <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
-                    <Table.Cell>{index}</Table.Cell>
+                    <Table.Cell>{user.get('index')}</Table.Cell>
                     <Table.Cell>
                       <span style={{marginRight: '5px'}}>
-                        <EditableText value={lastName} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
+                        <EditableText value={user.get('lastName')} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
                       </span>
-                      <EditableText value={firstName} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
+                      <EditableText value={user.get('firstName')} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <EditableText value={this.state.emails[id]} placeholder='name@example.com' saveValue={(email) => this.changeEmail(id, email)}/>
+                      <EditableText value={this.state.emails[id]} placeholder='name@example.com' saveValue={email => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <div>
-                        {id !== this.props.loginUser.get('id') && <Checkbox label='管理者' defaultChecked={isAdmin} onChange={(event, {checked}) => this.props.onUpdateUser({id, admin: checked})} />}
-                      </div>
+                      <Checkbox label='管理者'
+                                defaultChecked={user.get('isAdmin')}
+                                onChange={(event, { checked }) => this.props.onUpdateUser({ id, admin: checked })}
+                                disabled={id === this.props.loginUser.get('id')}
+                      />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <div>
-                        {id !== this.props.loginUser.get('id') && <Button icon="trash" onClick={this.removeUser(id, name)} title="削除" negative/>}
+                      <div className='disabled-box'>
+                        <Button icon='trash' title='削除' negative
+                                onClick={this.removeUser(user)}
+                                disabled={id === this.props.loginUser.get('id')}
+                        />
                       </div>
                     </Table.Cell>
                   </Table.Row>

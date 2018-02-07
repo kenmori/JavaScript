@@ -1,9 +1,6 @@
 .objective-form-modal {
   .content {
     display: block;
-    input[readonly] {
-      opacity: .65;
-    }
   }
 
   &.is-keyresult {

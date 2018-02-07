@@ -100,34 +100,6 @@ a.active {
   align-items: center;
 }
 
-.user-setting-tab {
-  .search {
-    margin: 1em 0;
-  }
-
-  .ui.readonly {
-    @mixin transparent() {
-      border-color: transparent !important;
-      background-color: transparent !important;
-      padding-left: 0 !important;
-      box-shadow: none !important;
-      cursor: default !important;
-    }
-
-    &.input input {
-      @include transparent();
-    }
-
-    &.selection.dropdown {
-      @include transparent();
-
-      .dropdown.icon {
-        display: none;
-      }
-    }
-  }
-}
-
 #console {
   height: 20px;
 }
@@ -136,4 +108,15 @@ a.active {
 }
 .form-item__validation-error {
   color: $DANGER_COLOR;
+}
+
+input[readonly],
+textarea[readonly],
+.ui.disabled.checkbox label {
+  cursor: not-allowed !important;
+}
+
+.disabled-box {
+  display: inline-block;
+  cursor: not-allowed;
 }
