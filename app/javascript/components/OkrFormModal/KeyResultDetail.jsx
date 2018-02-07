@@ -177,8 +177,8 @@ class KeyResultDetail extends Component {
               />
             </div>
             <div className='flex-field__item'>
-              <EditableText placeholder="単位"
-                            value={this.state.valueUnit}
+              <EditableText value={this.state.valueUnit}
+                            placeholder='単位'
                             saveValue={value => this.updateKeyResultWithState('valueUnit', value)}
               />
             </div>

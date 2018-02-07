@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AutosizeInput from 'react-input-autosize';
 
-export default class EditableText extends Component {
+class EditableText extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -9,24 +11,25 @@ export default class EditableText extends Component {
     };
   }
 
-  onInputFocus = () => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+    }
   }
 
-  onInputBlur = () => {
-    if(this.props.value !== this.state.value) {
+  handleChange = event => {
+    this.setState({ value: event.target.value });
+  }
+
+  handleBlur = () => {
+    if (this.props.value !== this.state.value) {
       this.props.saveValue(this.state.value);
     }
   }
 
-  updateInputValue = event => {
-    this.setState({ value: event.target.value });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
-      this.setState({
-        value: nextProps.value
-      })   
+  handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      this.handleBlur();
     }
   }
 
@@ -35,10 +38,27 @@ export default class EditableText extends Component {
       <AutosizeInput className="ui input editable-text"
                      value={this.state.value}
                      placeholder={this.props.placeholder}
-                     onChange={this.updateInputValue}
-                     onFocus={this.onInputFocus}
-                     onBlur={this.onInputBlur}
-                     readOnly={this.props.readonly} />
+                     readOnly={this.props.readOnly}
+                     onChange={this.handleChange}
+                     onBlur={this.handleBlur}
+                     onKeyPress={this.handleKeyPress}
+      />
     );
   }
 }
+
+EditableText.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
+  saveValue: PropTypes.func,
+};
+
+EditableText.defaultProps = {
+  value: '',
+  placeholder: null,
+  readOnly: false,
+  saveValue: () => {},
+};
+
+export default EditableText;
