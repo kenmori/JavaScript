@@ -222,6 +222,7 @@ class KeyResultDetail extends Component {
                    value={this.state.progressRate}
                    onChange={(event, { value }) => this.setState({ progressRate: value })}
                    onMouseUp={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
+                   onTouchEnd={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
             />
           </div>
           <div className='flex-field__item'>
