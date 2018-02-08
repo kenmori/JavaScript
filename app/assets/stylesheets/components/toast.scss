@@ -4,4 +4,9 @@
   position: fixed;
   text-align: center;
   top: 90%;
+  pointer-events: none;
+
+  .message {
+    pointer-events: auto;
+  }
 }
