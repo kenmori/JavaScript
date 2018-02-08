@@ -14,6 +14,7 @@ class UsersTable extends Component {
       users: this.getUsers(props.users),
       direction: 'ascending',
       emails: this.getEmails(props.users),
+      keyword: null,
     };
     this.firstNameInputs = [];
     this.lastNameInputs = [];
@@ -86,14 +87,11 @@ class UsersTable extends Component {
     });
   };
 
-  filter = () => {
-    const keyword = this.searchInput.inputRef.value;
-    this.setState({
-      users: this.props.users.filter(user => (
-        user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
-      ))
-    })
-  };
+  getFilteredUsers = (users, keyword) => {
+    return keyword ? users.filter(user => (
+      user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
+    )) : users;
+  }
 
   addUser = () => {
     this.props.confirm({
@@ -149,8 +147,8 @@ class UsersTable extends Component {
             </Table.Row>
           </Table.Body>
         </Table>
-        <Input icon="search" placeholder="ユーザーを検索&#8230;" className="search" onChange={this.filter}
-               ref={node => { this.searchInput = node; }}/>
+
+        <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
 
         <Table singleLine sortable>
           <Table.Header>
@@ -172,7 +170,7 @@ class UsersTable extends Component {
 
           <Table.Body>
             {
-              users.map(user => {
+              this.getFilteredUsers(this.state.users, this.state.keyword).map(user => {
                 const id = user.get('id');
                 return (
                   <Table.Row key={id}>
