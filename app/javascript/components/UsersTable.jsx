@@ -10,10 +10,9 @@ class UsersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      column: null,
+      column: 'index',
       users: this.getUsers(props.users),
-      direction: null,
-      editableId: null,
+      direction: 'ascending',
       emails: this.getEmails(props.users),
     };
     this.firstNameInputs = [];
@@ -22,9 +21,8 @@ class UsersTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const users = this.getSortedUsers(this.getUsers(nextProps.users), this.state.column);
     this.setState({
-      users,
+      users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
       emails: this.getEmails(nextProps.users),
     });
   }
@@ -65,8 +63,8 @@ class UsersTable extends Component {
     return user.get('email');
   }
 
-  getSortedUsers = (users, column) => {
-    return users.sort((a, b) => {
+  getSortedUsers = (users, column, direction) => {
+    const sortedUsers = users.sort((a, b) => {
       if (typeof a.get(column) === 'string') {
         return a.get(column).localeCompare(b.get(column));
       } else {
@@ -75,26 +73,18 @@ class UsersTable extends Component {
         if (a.get(column) === b.get(column)) { return 0; }
       }
     });
+    return direction === 'ascending' ? sortedUsers : sortedUsers.reverse();
   }
 
   sort = (column) => {
-
-    if (this.state.column !== column) {
-      const sortedUsers = this.getSortedUsers(this.state.users, column);
-      this.setState({
-        column: column,
-        users: sortedUsers,
-        direction: 'ascending',
-      });
-      return;
-    }
-
+    const direction = this.state.column !== column ? 'ascending'
+      : this.state.direction === 'ascending' ? 'descending' : 'ascending';
     this.setState({
-      users: this.state.users.reverse(),
-      direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
+      column: column,
+      users: this.getSortedUsers(this.state.users, column, direction),
+      direction: direction,
     });
   };
-  
 
   filter = () => {
     const keyword = this.searchInput.inputRef.value;
@@ -166,14 +156,14 @@ class UsersTable extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell disabled/>
-              <Table.HeaderCell sorted={column === 'id' ? direction : null} onClick={(event) => this.sort('id')} />
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={(event) => this.sort('lastName')}>
+              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={() => this.sort('index')} />
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={() => this.sort('lastName')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={(event) => this.sort('email')}>
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={() => this.sort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={(event) => this.sort('isAdmin')}>
+              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={() => this.sort('isAdmin')}>
                 権限
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
