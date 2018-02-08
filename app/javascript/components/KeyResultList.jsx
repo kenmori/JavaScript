@@ -28,7 +28,7 @@ class KeyResultList extends Component {
               <Table.HeaderCell>Key Result</Table.HeaderCell>
               <Table.HeaderCell>目標値</Table.HeaderCell>
               <Table.HeaderCell>実績値</Table.HeaderCell>
-              <Table.HeaderCell>進捗率</Table.HeaderCell>
+              <Table.HeaderCell>進捗</Table.HeaderCell>
               <Table.HeaderCell>期限</Table.HeaderCell>
             </Table.Row>
           </Table.Header>

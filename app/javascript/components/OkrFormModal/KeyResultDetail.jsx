@@ -227,8 +227,8 @@ class KeyResultDetail extends Component {
           </div>
           <div className='flex-field__item'>
             {keyResult.get('isProgressRateLinked')
-              ? <Popup trigger={<Icon name='linkify' />} content='下位 Objective の進捗率とリンクしています' />
-              : <Popup trigger={<Icon name='unlinkify' />} content='下位 Objective の進捗率とはリンクしていません' />
+              ? <Popup trigger={<Icon name='linkify' />} content='下位 OKR の進捗とリンクしています' />
+              : <Popup trigger={<Icon name='unlinkify' />} content='下位 OKR の進捗とはリンクしていません' />
             }
           </div>
         </Form.Field>
