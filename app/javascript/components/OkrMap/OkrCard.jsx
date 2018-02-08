@@ -13,7 +13,7 @@ class OkrCard extends Component {
           {keyResults.map(keyResult => {
             const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
             return (
-              <List.Item className={`keyResults__item ${isSelected ? 'active' : ''}`} key={keyResult.get('id')}>
+              <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
                 <Avatar user={keyResult.get('owner')} size='small' />
                 <div className='name'>
                   <a onClick={() => this.props.openOkrFormModal(objective.get('id'), {
@@ -40,7 +40,7 @@ class OkrCard extends Component {
     const objective = this.props.objective;
     const isSelected = objective.get('id') === this.props.currentObjectiveId;
     return (
-      <Card className={`okr-card ${isSelected ? 'active' : ''}`}>
+      <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
         <Card.Content>
           <Card.Header>
             <Avatar user={objective.get('owner')} />
