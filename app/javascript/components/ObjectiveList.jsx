@@ -18,7 +18,7 @@ class ObjectiveList extends Component {
             return (
               <a className={`objective-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
                  href="javascript:void(0)" onClick={() => this.selectObjective(objective)}>
-                <div className='name'>{objective.get('name')}</div>
+                <div><div className='name'>{objective.get('name')}</div></div>
                 <OkrPieChart objective={objective} />
               </a>
             );
