@@ -177,9 +177,7 @@ class UsersTable extends Component {
                     <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
                     <Table.Cell>{user.get('index')}</Table.Cell>
                     <Table.Cell>
-                      <span style={{marginRight: '5px'}}>
-                        <EditableText value={user.get('lastName')} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
-                      </span>
+                      <EditableText value={user.get('lastName')} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
                       <EditableText value={user.get('firstName')} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>

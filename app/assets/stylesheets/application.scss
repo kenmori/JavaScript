@@ -120,3 +120,7 @@ textarea[readonly],
   display: inline-block;
   cursor: not-allowed;
 }
+
+.editable-text + .editable-text {
+  margin-left: .5em;
+}
