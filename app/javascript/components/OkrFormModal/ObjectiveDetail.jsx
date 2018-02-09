@@ -66,7 +66,7 @@ class ObjectiveDetail extends Component {
 
         <Form.Field>
           <label>Objective</label>
-          <EditableText value={this.state.name} saveValue={value => this.updateName(value)} />
+          <EditableText value={this.state.name} onCommit={value => this.updateName(value)} />
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
@@ -85,7 +85,7 @@ class ObjectiveDetail extends Component {
         <Form.Field>
           <label>説明</label>
           <EditableMultiLineText value={objective.get('description')}
-                                 saveValue={value => this.updateObjective({ description: value })}
+                                 onCommit={value => this.updateObjective({ description: value })}
           />
         </Form.Field>
 

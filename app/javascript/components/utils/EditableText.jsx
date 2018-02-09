@@ -7,7 +7,7 @@ class EditableText extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.value,
+      value: props.value,
     };
   }
 
@@ -18,18 +18,19 @@ class EditableText extends Component {
   }
 
   handleChange = event => {
+    // 幅を動的に伸縮させるため state を変更する 
     this.setState({ value: event.target.value });
   }
 
-  handleBlur = () => {
-    if (this.props.value !== this.state.value) {
-      this.props.saveValue(this.state.value);
+  handleCommit = event => {
+    if (this.props.value !== event.target.value) {
+      this.props.onCommit(event.target.value);
     }
   }
 
   handleKeyPress = event => {
     if (event.key === 'Enter') {
-      this.handleBlur();
+      this.handleCommit(event);
     }
   }
 
@@ -40,7 +41,7 @@ class EditableText extends Component {
                      placeholder={this.props.placeholder}
                      readOnly={this.props.readOnly}
                      onChange={this.handleChange}
-                     onBlur={this.handleBlur}
+                     onBlur={this.handleCommit}
                      onKeyPress={this.handleKeyPress}
       />
     );
@@ -51,14 +52,14 @@ EditableText.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
-  saveValue: PropTypes.func,
+  onCommit: PropTypes.func,
 };
 
 EditableText.defaultProps = {
   value: '',
   placeholder: null,
   readOnly: false,
-  saveValue: () => {},
+  onCommit: value => {},
 };
 
 export default EditableText;

@@ -177,11 +177,11 @@ class UsersTable extends Component {
                     <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
                     <Table.Cell>{user.get('index')}</Table.Cell>
                     <Table.Cell>
-                      <EditableText value={user.get('lastName')} saveValue={lastName => this.props.onUpdateUser({id, lastName})}/>
-                      <EditableText value={user.get('firstName')} saveValue={firstName => this.props.onUpdateUser({id, firstName})}/>
+                      <EditableText value={user.get('lastName')} onCommit={lastName => this.props.onUpdateUser({id, lastName})}/>
+                      <EditableText value={user.get('firstName')} onCommit={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <EditableText value={this.state.emails[id]} placeholder='name@example.com' saveValue={email => this.changeEmail(id, email)}/>
+                      <EditableText value={this.state.emails[id]} placeholder='name@example.com' onCommit={email => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Checkbox label='管理者'

@@ -4,26 +4,9 @@ import { TextArea } from 'semantic-ui-react';
 
 class EditableMultiLineText extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: this.props.value,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
-      this.setState({ value: nextProps.value });
-    }
-  }
-
-  handleChange = (event, { value }) => {
-    this.setState({ value: value });
-  }
-
-  handleBlur = () => {
-    if (this.props.value !== this.state.value) {
-      this.props.saveValue(this.state.value);
+  handleCommit = event => {
+    if (this.props.value !== event.target.value) {
+      this.props.onCommit(event.target.value);
     }
   }
 
@@ -35,8 +18,7 @@ class EditableMultiLineText extends Component {
                 rows={this.props.rows}
                 autoHeight={this.props.autoHeight}
                 readOnly={this.props.readOnly}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
+                onBlur={this.handleCommit}
       />
     );
   }
@@ -48,7 +30,7 @@ EditableMultiLineText.propTypes = {
   rows: PropTypes.number,
   autoHeight: PropTypes.bool,
   readOnly: PropTypes.bool,
-  saveValue: PropTypes.func,
+  onCommit: PropTypes.func,
 };
 
 EditableMultiLineText.defaultProps = {
@@ -57,7 +39,7 @@ EditableMultiLineText.defaultProps = {
   rows: 3,
   autoHeight: true,
   readOnly: false,
-  saveValue: () => {},
+  onCommit: value => {},
 };
 
 export default EditableMultiLineText;

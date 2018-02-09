@@ -144,7 +144,7 @@ class OkrPeriodSettingTab extends Component {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
-                      <EditableText value={okrPeriodName} saveValue={name => this.props.updateOkrPeriod({id, name})}/>
+                      <EditableText value={okrPeriodName} onCommit={name => this.props.updateOkrPeriod({id, name})}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Form>

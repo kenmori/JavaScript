@@ -81,7 +81,7 @@ class KeyResultDetail extends Component {
         <div className="comments" key={item.get('id')}>
           <div className="comments__item">
             <EditableMultiLineText value={item.get('text')}
-                                   saveValue={value => this.editComment(item.get('id'), value)}
+                                   onCommit={value => this.editComment(item.get('id'), value)}
                                    readOnly={!item.get('editable')}
             />
             <div className="comments__item-meta">
@@ -165,7 +165,7 @@ class KeyResultDetail extends Component {
         <Form.Field>
           <label>Key Result</label>
           <EditableText value={this.state.name}
-                        saveValue={value => this.updateKeyResultWithState('name', value)}
+                        onCommit={value => this.updateKeyResultWithState('name', value)}
           />
         </Form.Field>
 
@@ -174,11 +174,11 @@ class KeyResultDetail extends Component {
             <label>目標値</label>
             <div className='flex-field__item'>
               <EditableText value={this.state.targetValue}
-                            saveValue={value => this.updateKeyResultWithState('targetValue', value)}
+                            onCommit={value => this.updateKeyResultWithState('targetValue', value)}
               />
               <EditableText value={this.state.valueUnit}
                             placeholder='単位'
-                            saveValue={value => this.updateKeyResultWithState('valueUnit', value)}
+                            onCommit={value => this.updateKeyResultWithState('valueUnit', value)}
               />
             </div>
           </Form.Field>
@@ -188,7 +188,7 @@ class KeyResultDetail extends Component {
             <label>実績値</label>
             <div className='flex-field__item'>
               <EditableText value={this.state.actualValue}
-                            saveValue={value => this.updateKeyResultWithState('actualValue', value)}
+                            onCommit={value => this.updateKeyResultWithState('actualValue', value)}
               />
             </div>
             <div className='flex-field__item'>

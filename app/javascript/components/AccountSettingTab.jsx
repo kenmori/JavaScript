@@ -65,13 +65,13 @@ class AccountSettingTab extends Component {
           <dt>名前</dt>
           <dd>
             <span style={{marginRight: '5px'}}>
-              <EditableText value={user.get('lastName')} saveValue={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+              <EditableText value={user.get('lastName')} onCommit={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
             </span>
-            <EditableText value={user.get('firstName')} saveValue={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+            <EditableText value={user.get('firstName')} onCommit={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><EditableText value={this.state.email} placeholder='name@example.com' saveValue={(email) => this.changeEmail(user.get('id'), email)}/></dd>
+          <dd><EditableText value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(user.get('id'), email)}/></dd>
 
           <dt>アバター</dt>
           <dd><Avatar user={user} size="large" /></dd>
