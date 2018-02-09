@@ -1,4 +1,4 @@
-import SignInPage from '../components/SignInPage';
+import SignInPage from '../components/signin/SignInPage';
 import { connect } from 'react-redux';
 import sessionActions from '../actions/sessions';
 

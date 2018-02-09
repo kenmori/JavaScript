@@ -20,7 +20,7 @@ function* fetchAllKeyResults({ payload }) {
 function* addKeyResult({ payload }) {
   const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
   yield put(keyResultActions.addedKeyResult(result.get('keyResult'), payload.currentUserId));
-  yield put(dialogActions.closeKeyResultFormModal());
+  yield put(dialogActions.closeKeyResultModal());
   yield put(toastActions.showToast('Key Result を作成しました'));
 }
 

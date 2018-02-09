@@ -1,4 +1,4 @@
-import Dashboard from '../components/Dashboard';
+import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
 import okrActions from '../actions/okrs';
 import dialogActions from '../actions/dialogs';
@@ -26,8 +26,8 @@ const mapDispatchToProps = dispatch => {
     fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
       dispatch(okrActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
     },
-    openObjectiveFormModal: () => {
-      dispatch(dialogActions.openObjectiveFormModal());
+    openObjectiveModal: () => {
+      dispatch(dialogActions.openObjectiveModal());
     },
     changeCurrentOkr: objectiveId => {
       dispatch(currentActions.changeCurrentOkr(objectiveId));

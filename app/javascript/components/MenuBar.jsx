@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Dropdown, Menu} from 'semantic-ui-react';
-import UserSelectBox from './UserSelectBox';
+import UserSelect from './form/UserSelect';
 import Avatar from '../containers/Avatar';
-import Logo from './Logo';
+import Logo from './util/Logo';
 
 class MenuBar extends Component {
 
@@ -85,7 +85,7 @@ class MenuBar extends Component {
           }
         </Menu.Item>
         <Menu.Item>
-          {!this.props.users.isEmpty() && <UserSelectBox users={this.props.users} defaultValue={this.props.userId} onChange={(value) => this.props.changeCurrentUser(value)} /> }
+          {!this.props.users.isEmpty() && <UserSelect users={this.props.users} defaultValue={this.props.userId} onChange={(value) => this.props.changeCurrentUser(value)} /> }
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>

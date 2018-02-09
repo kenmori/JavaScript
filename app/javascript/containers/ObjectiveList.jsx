@@ -1,4 +1,4 @@
-import ObjectiveList from '../components/ObjectiveList';
+import ObjectiveList from '../components/dashboard/ObjectiveList';
 import { connect } from 'react-redux';
 import currentActions from '../actions/current';
 

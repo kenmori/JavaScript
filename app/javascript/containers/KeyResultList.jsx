@@ -1,4 +1,4 @@
-import KeyResultList from '../components/KeyResultList';
+import KeyResultList from '../components/dashboard/KeyResultList';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import currentActions from '../actions/current';

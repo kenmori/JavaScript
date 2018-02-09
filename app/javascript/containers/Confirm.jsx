@@ -1,4 +1,4 @@
-import Confirm from '../components/Confirm';
+import Confirm from '../components/modal/Confirm';
 import { connect } from 'react-redux';
 import confirmActions from '../actions/confirm';
 

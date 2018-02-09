@@ -1,4 +1,4 @@
-import SettingsPage from '../components/SettingsPage';
+import SettingsPage from '../components/setting/SettingsPage';
 import { connect } from 'react-redux';
 import history from '../utils/history';
 

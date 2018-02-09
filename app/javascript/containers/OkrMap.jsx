@@ -1,4 +1,4 @@
-import OkrMap from '../components/OkrMap';
+import OkrMap from '../components/map/OkrMap';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 
