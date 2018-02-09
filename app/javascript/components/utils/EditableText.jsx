@@ -31,6 +31,7 @@ class EditableText extends Component {
   handleKeyPress = event => {
     if (event.key === 'Enter') {
       this.handleCommit(event);
+      event.preventDefault();
     }
   }
 
