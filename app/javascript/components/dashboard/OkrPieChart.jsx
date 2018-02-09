@@ -31,7 +31,7 @@ class OkrPieChart extends Component {
   getPieChart = (objective) => {
     const { data, startAngle, endAngle, minAngle, label } = this.getPieChartProperties(objective);
     return (
-      <PieChart width={160} height={160}>
+      <PieChart width={145} height={145}>
         <Pie data={data}
              dataKey="value"
              startAngle={startAngle} // 時計回りのアニメーションにするため startAngle/endAngle の値を指定する
