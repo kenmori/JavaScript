@@ -5,10 +5,10 @@
       font-weight: bold;
       color: $PRIMARY_COLOR;
 
-      .progress-rate__input input {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: $PRIMARY_COLOR;
+      input {
+        font-size: 1.1rem !important;
+        font-weight: bold !important;
+        color: $PRIMARY_COLOR !important;
       }
     }
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Input, Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
+import { Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
 import EditableText from '../utils/EditableText';
+import NumberInput from '../utils/NumberInput';
 import EditableMultiLineText from '../utils/EditableMultiLineText';
 import UserSelectBox from '../UserSelectBox';
 import KeyResultMemberSelectBox from '../KeyResultMemberSelectBox';
@@ -204,23 +205,17 @@ class KeyResultDetail extends Component {
         <Form.Field className='flex-field progress-rate-field'>
           <label>進捗</label>
           <div className="flex-field__item progress-rate">
-            <div className='progress-rate__input'>
-              <Input type="number" min="0" max="100"
-                     value={this.state.progressRate}
-                     onChange={(event, { value }) => this.setState({ progressRate: value })}
-                     onBlur={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
-              />
-            </div>
-          </div>
-          <div className='flex-field__item progress-rate'>
-            %
+            <NumberInput label='%'
+                         value={this.state.progressRate}
+                         onChange={progressRate => this.setState({ progressRate })}
+                         onCommit={value => this.updateKeyResultWithState('progressRate', Number(value))}
+            />
           </div>
           <div className='flex-field__item slider'>
-            <Input type='range' min='0' max='100' step='1'
-                   value={this.state.progressRate}
-                   onChange={(event, { value }) => this.setState({ progressRate: value })}
-                   onMouseUp={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
-                   onTouchEnd={event => this.updateKeyResultWithState('progressRate', Number(event.target.value))}
+            <NumberInput type='range'
+                         value={this.state.progressRate}
+                         onChange={progressRate => this.setState({ progressRate })}
+                         onMouseUp={value => this.updateKeyResultWithState('progressRate', Number(value))}
             />
           </div>
           <div className='flex-field__item'>
