@@ -1,4 +1,4 @@
-import PasswordEditPage from '../components/PasswordEditPage';
+import PasswordEditPage from '../components/signin/PasswordEditPage';
 import { connect } from 'react-redux';
 import usersActions from '../actions/users';
 

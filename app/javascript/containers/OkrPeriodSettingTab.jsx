@@ -1,4 +1,4 @@
-import OkrPeriodSettingTab from '../components/OkrPeriodSettingTab';
+import OkrPeriodSettingTab from '../components/setting/OkrPeriodSettingTab';
 import { connect } from 'react-redux';
 import okrPeriodActions from '../actions/okrPeriods';
 import confirmActions from '../actions/confirm';

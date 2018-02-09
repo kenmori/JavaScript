@@ -1,4 +1,4 @@
-import Avatar from '../components/Avatar';
+import Avatar from '../components/util/Avatar';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 
@@ -9,8 +9,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openAvatarImageModal: (targetId, imageData) => {
-      dispatch(dialogActions.openAvatarImageModal(targetId, imageData));
+    openAvatarModal: (targetId, imageData) => {
+      dispatch(dialogActions.openAvatarModal(targetId, imageData));
     },
   };
 };

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import MenuBar from '../containers/MenuBar';
 import Dashboard from '../containers/Dashboard';
-import KeyResultFormModal from '../containers/KeyResultFormModal';
-import ObjectiveFormModal from '../containers/ObjectiveFormModal';
-import OkrFormModal from '../containers/OkrFormModal';
+import KeyResultModal from '../containers/KeyResultModal';
+import ObjectiveModal from '../containers/ObjectiveModal';
+import OkrModal from '../containers/OkrModal';
 
 class Home extends Component {
   render() {
@@ -12,9 +12,9 @@ class Home extends Component {
         <MenuBar />
         <main>
           <Dashboard />
-          <KeyResultFormModal/>
-          <ObjectiveFormModal/>
-          <OkrFormModal/>
+          <KeyResultModal/>
+          <ObjectiveModal/>
+          <OkrModal/>
         </main>
       </div>
     );

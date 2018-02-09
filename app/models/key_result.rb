@@ -10,6 +10,7 @@ class KeyResult < ApplicationRecord
     :expired_date_can_be_converted_to_date
   validates :name, :objective_id, :okr_period_id, presence: true
   validates :target_value, numericality: {greater_than_or_equal_to: 0}, if: :target_value_present?
+  validates :actual_value, numericality: {greater_than_or_equal_to: 0}, if: :actual_value_present?
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
@@ -21,6 +22,19 @@ class KeyResult < ApplicationRecord
   def target_value=(value)
     value.tr!('０-９．', '0-9.') if value.is_a?(String)
     super(value)
+    update_progress_rate
+  end
+
+  def actual_value=(value)
+    value.tr!('０-９．', '0-9.') if value.is_a?(String)
+    super(value)
+    update_progress_rate
+  end
+  
+  def update_progress_rate
+    if target_value.present? && actual_value.present? && target_value > 0
+      self.progress_rate = [(actual_value * 100 / target_value).round, 100].min
+    end
   end
 
   def owner
@@ -52,6 +66,10 @@ class KeyResult < ApplicationRecord
 
   def target_value_present?
     target_value.present?
+  end
+
+  def actual_value_present?
+    actual_value.present?
   end
 
   def target_value_required_if_value_unit_exists

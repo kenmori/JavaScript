@@ -3,7 +3,7 @@
     letter-spacing: .2rem;
     display: flex;
     align-items: center;
-    height: 160px;
+    height: 145px;
   }
 
   .progress-rate {
@@ -22,6 +22,11 @@
 
     .recharts-tooltip-item-value {
       color: indianred;
+    }
+
+    .recharts-tooltip-wrapper {
+      font-size: .9rem;
+      z-index: 1000;
     }
   }
 }

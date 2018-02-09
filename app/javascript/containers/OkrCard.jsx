@@ -1,4 +1,4 @@
-import OkrCard from '../components/OkrMap/OkrCard';
+import OkrCard from '../components/map/OkrCard';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 
@@ -11,11 +11,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openOkrFormModal: (objectiveId, selectedOkr) => {
-      dispatch(dialogActions.openOkrFormModal(objectiveId, selectedOkr));
+    openOkrModal: (objectiveId, selectedOkr) => {
+      dispatch(dialogActions.openOkrModal(objectiveId, selectedOkr));
     },
-    openKeyResultFormModal: (objective) => {
-      dispatch(dialogActions.openKeyResultFormModal(objective));
+    openKeyResultModal: (objective) => {
+      dispatch(dialogActions.openKeyResultModal(objective));
     }
   };
 };

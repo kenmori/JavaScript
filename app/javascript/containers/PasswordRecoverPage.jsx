@@ -1,4 +1,4 @@
-import PasswordRecoverPage from '../components/PasswordRecoverPage';
+import PasswordRecoverPage from '../components/signin/PasswordRecoverPage';
 import { connect } from 'react-redux';
 import usersActions from '../actions/users'
 

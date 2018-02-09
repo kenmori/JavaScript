@@ -1,7 +1,6 @@
-import AccountSettingTab from '../components/AccountSettingTab';
+import AccountSettingTab from '../components/setting/AccountSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
-import sessionActions from '../actions/sessions';
 import dialogActions from '../actions/dialogs';
 import confirmActions from '../actions/confirm';
 
@@ -22,8 +21,8 @@ const mapDispatchToProps = dispatch => {
     updatePassword: user => {
       dispatch(userActions.updatePassword(user));
     },
-    openAvatarImageModal: (targetId, imageData) => {
-      dispatch(dialogActions.openAvatarImageModal(targetId, imageData));
+    openAvatarModal: (targetId, imageData) => {
+      dispatch(dialogActions.openAvatarModal(targetId, imageData));
     },
     deleteAvatar: user => {
       dispatch(userActions.updateAvatar(user));

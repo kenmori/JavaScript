@@ -17,7 +17,6 @@
     border-radius: 4px;
     vertical-align: middle;
     text-align: center;
-    font-size: 0.8rem;
     font-weight: bold;
     color: #000000;
 
@@ -34,10 +33,22 @@
       margin-right: 0;
     }
 
+    $font-size: .9rem;
+    $line-height: 1.4;
+    $lines-to-show: 2;
+
     .name {
-      width: 100%;
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      max-width: 100%;
+      height: $font-size * $line-height * $lines-to-show; /* Fallback for non-webkit */
+      font-size: $font-size;
+      line-height: $line-height;
+      -webkit-line-clamp: $lines-to-show;
+      -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: normal;
     }
   }
 }

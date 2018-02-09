@@ -1,7 +1,6 @@
-import UserSettingTab from '../components/UserSettingTab';
+import UserSettingTab from '../components/setting/UserSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
-import organizationActions from '../actions/organizations';
 import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {

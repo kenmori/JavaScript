@@ -1,4 +1,4 @@
-import ErrorModal from '../components/ErrorModal';
+import ErrorModal from '../components/modal/ErrorModal';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 

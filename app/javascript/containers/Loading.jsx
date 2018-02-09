@@ -1,4 +1,4 @@
-import Loading from '../components/Loading';
+import Loading from '../components/util/Loading';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
