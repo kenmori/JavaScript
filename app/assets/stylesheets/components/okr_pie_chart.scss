@@ -23,5 +23,10 @@
     .recharts-tooltip-item-value {
       color: indianred;
     }
+
+    .recharts-tooltip-wrapper {
+      font-size: .9rem;
+      z-index: 1000;
+    }
   }
 }
