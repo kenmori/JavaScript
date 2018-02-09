@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Tab, Table, Form, Button, Input } from 'semantic-ui-react';
-import EditableText from './utils/EditableText';
+import AutoInput from './utils/AutoInput';
 import DatePicker from './DatePicker';
 
 class OkrPeriodSettingTab extends Component {
@@ -144,7 +144,7 @@ class OkrPeriodSettingTab extends Component {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
-                      <EditableText value={okrPeriodName} onCommit={name => this.props.updateOkrPeriod({id, name})}/>
+                      <AutoInput value={okrPeriodName} onCommit={name => this.props.updateOkrPeriod({id, name})}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Form>

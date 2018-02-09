@@ -121,6 +121,6 @@ textarea[readonly],
   cursor: not-allowed;
 }
 
-.editable-text + .editable-text {
+.auto-input + .auto-input {
   margin-left: .5em;
 }

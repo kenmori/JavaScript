@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Image, Input, Checkbox, Table } from 'semantic-ui-react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import EditableText from './utils/EditableText';
+import AutoInput from './utils/AutoInput';
 import Avatar from '../containers/Avatar';
 
 class UsersTable extends Component {
@@ -177,11 +177,11 @@ class UsersTable extends Component {
                     <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
                     <Table.Cell>{user.get('index')}</Table.Cell>
                     <Table.Cell>
-                      <EditableText value={user.get('lastName')} onCommit={lastName => this.props.onUpdateUser({id, lastName})}/>
-                      <EditableText value={user.get('firstName')} onCommit={firstName => this.props.onUpdateUser({id, firstName})}/>
+                      <AutoInput value={user.get('lastName')} onCommit={lastName => this.props.onUpdateUser({id, lastName})}/>
+                      <AutoInput value={user.get('firstName')} onCommit={firstName => this.props.onUpdateUser({id, firstName})}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <EditableText value={this.state.emails[id]} placeholder='name@example.com' onCommit={email => this.changeEmail(id, email)}/>
+                      <AutoInput value={this.state.emails[id]} placeholder='name@example.com' onCommit={email => this.changeEmail(id, email)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Checkbox label='管理者'

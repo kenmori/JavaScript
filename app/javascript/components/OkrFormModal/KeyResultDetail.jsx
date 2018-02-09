@@ -3,9 +3,9 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
 import DatePicker from '../DatePicker';
-import EditableText from '../utils/EditableText';
+import AutoInput from '../utils/AutoInput';
 import NumberInput from '../utils/NumberInput';
-import EditableMultiLineText from '../utils/EditableMultiLineText';
+import AutoTextArea from '../utils/AutoTextArea';
 import UserSelectBox from '../UserSelectBox';
 import KeyResultMemberSelectBox from '../KeyResultMemberSelectBox';
 import Avatar from '../Avatar';
@@ -80,9 +80,9 @@ class KeyResultDetail extends Component {
       return (
         <div className="comments" key={item.get('id')}>
           <div className="comments__item">
-            <EditableMultiLineText value={item.get('text')}
-                                   onCommit={value => this.editComment(item.get('id'), value)}
-                                   readOnly={!item.get('editable')}
+            <AutoTextArea value={item.get('text')}
+                          onCommit={value => this.editComment(item.get('id'), value)}
+                          readOnly={!item.get('editable')}
             />
             <div className="comments__item-meta">
               <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/M/D H:m')}</div>
@@ -164,8 +164,8 @@ class KeyResultDetail extends Component {
       <Form>
         <Form.Field>
           <label>Key Result</label>
-          <EditableText value={this.state.name}
-                        onCommit={value => this.updateKeyResultWithState('name', value)}
+          <AutoInput value={this.state.name}
+                     onCommit={value => this.updateKeyResultWithState('name', value)}
           />
         </Form.Field>
 
@@ -173,12 +173,12 @@ class KeyResultDetail extends Component {
           <Form.Field className='flex-field'>
             <label>目標値</label>
             <div className='flex-field__item'>
-              <EditableText value={this.state.targetValue}
-                            onCommit={value => this.updateKeyResultWithState('targetValue', value)}
+              <AutoInput value={this.state.targetValue}
+                         onCommit={value => this.updateKeyResultWithState('targetValue', value)}
               />
-              <EditableText value={this.state.valueUnit}
-                            placeholder='単位'
-                            onCommit={value => this.updateKeyResultWithState('valueUnit', value)}
+              <AutoInput value={this.state.valueUnit}
+                         placeholder='単位'
+                         onCommit={value => this.updateKeyResultWithState('valueUnit', value)}
               />
             </div>
           </Form.Field>
@@ -187,8 +187,8 @@ class KeyResultDetail extends Component {
           <Form.Field className='flex-field'>
             <label>実績値</label>
             <div className='flex-field__item'>
-              <EditableText value={this.state.actualValue}
-                            onCommit={value => this.updateKeyResultWithState('actualValue', value)}
+              <AutoInput value={this.state.actualValue}
+                         onCommit={value => this.updateKeyResultWithState('actualValue', value)}
               />
             </div>
             <div className='flex-field__item'>

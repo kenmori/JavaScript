@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Form, Button, Divider } from 'semantic-ui-react';
-import EditableText from '../utils/EditableText';
-import EditableMultiLineText from '../utils/EditableMultiLineText'
+import AutoInput from '../utils/AutoInput';
+import AutoTextArea from '../utils/AutoTextArea'
 import UserSelectBox from '../UserSelectBox';
 import KeyResultSelect from '../utils/KeyResultSelect';
 
@@ -66,7 +66,7 @@ class ObjectiveDetail extends Component {
 
         <Form.Field>
           <label>Objective</label>
-          <EditableText value={this.state.name} onCommit={value => this.updateName(value)} />
+          <AutoInput value={this.state.name} onCommit={value => this.updateName(value)} />
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
@@ -84,8 +84,8 @@ class ObjectiveDetail extends Component {
         </Form.Field>
         <Form.Field>
           <label>説明</label>
-          <EditableMultiLineText value={objective.get('description')}
-                                 onCommit={value => this.updateObjective({ description: value })}
+          <AutoTextArea value={objective.get('description')}
+                        onCommit={value => this.updateObjective({ description: value })}
           />
         </Form.Field>
 

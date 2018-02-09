@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button } from 'semantic-ui-react';
-import EditableText from './utils/EditableText';
+import AutoInput from './utils/AutoInput';
 import Logo from './Logo';
 
 class OrganizationSettingTab extends Component {
@@ -24,7 +24,7 @@ class OrganizationSettingTab extends Component {
       <Tab.Pane attached={false} className="organization-setting-tab">
         <dl>
           <dt>組織名</dt>
-          <dd><EditableText value={organization.get('name')} placeholder='会社名やチーム名など' onCommit={name => this.props.updateOrganization({id: organization.get('id'), name})}/></dd>
+          <dd><AutoInput value={organization.get('name')} placeholder='会社名やチーム名など' onCommit={name => this.props.updateOrganization({id: organization.get('id'), name})}/></dd>
           <dt>ロゴ</dt>
           <dd>
             <Logo path={path} />

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextArea } from 'semantic-ui-react';
 
-class EditableMultiLineText extends Component {
+class AutoTextArea extends Component {
 
   handleCommit = event => {
     if (this.props.value !== event.target.value) {
@@ -12,7 +12,7 @@ class EditableMultiLineText extends Component {
 
   render() {
     return (
-      <TextArea className='editable-multi-line-text'
+      <TextArea className='auto-text-area'
                 defaultValue={this.props.value}
                 placeholder={this.props.placeholder}
                 rows={this.props.rows}
@@ -24,7 +24,7 @@ class EditableMultiLineText extends Component {
   }
 }
 
-EditableMultiLineText.propTypes = {
+AutoTextArea.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
@@ -33,7 +33,7 @@ EditableMultiLineText.propTypes = {
   onCommit: PropTypes.func,
 };
 
-EditableMultiLineText.defaultProps = {
+AutoTextArea.defaultProps = {
   value: '',
   placeholder: null,
   rows: 3,
@@ -42,4 +42,4 @@ EditableMultiLineText.defaultProps = {
   onCommit: value => {},
 };
 
-export default EditableMultiLineText;
+export default AutoTextArea;

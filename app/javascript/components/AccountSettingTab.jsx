@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, Input } from 'semantic-ui-react';
 import Avatar from '../containers/Avatar';
-import EditableText from './utils/EditableText';
+import AutoInput from './utils/AutoInput';
 
 class AccountSettingTab extends Component {
   constructor(props) {
@@ -65,13 +65,13 @@ class AccountSettingTab extends Component {
           <dt>名前</dt>
           <dd>
             <span style={{marginRight: '5px'}}>
-              <EditableText value={user.get('lastName')} onCommit={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+              <AutoInput value={user.get('lastName')} onCommit={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
             </span>
-            <EditableText value={user.get('firstName')} onCommit={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+            <AutoInput value={user.get('firstName')} onCommit={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><EditableText value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(user.get('id'), email)}/></dd>
+          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(user.get('id'), email)}/></dd>
 
           <dt>アバター</dt>
           <dd><Avatar user={user} size="large" /></dd>

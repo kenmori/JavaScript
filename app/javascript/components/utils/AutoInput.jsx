@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AutosizeInput from 'react-input-autosize';
 
-class EditableText extends Component {
+class AutoInput extends Component {
 
   constructor(props) {
     super(props);
@@ -37,7 +37,7 @@ class EditableText extends Component {
 
   render() {
     return (
-      <AutosizeInput className="ui input editable-text"
+      <AutosizeInput className="ui input auto-input"
                      value={this.state.value}
                      placeholder={this.props.placeholder}
                      readOnly={this.props.readOnly}
@@ -49,18 +49,18 @@ class EditableText extends Component {
   }
 }
 
-EditableText.propTypes = {
+AutoInput.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
-EditableText.defaultProps = {
+AutoInput.defaultProps = {
   value: '',
   placeholder: null,
   readOnly: false,
   onCommit: value => {},
 };
 
-export default EditableText;
+export default AutoInput;
