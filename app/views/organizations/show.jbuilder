@@ -16,6 +16,7 @@ json.organization do
     json.organization_name user.organization.name
     json.unconfirmed_email user.unconfirmed_email
     json.confirmed_at user.confirmed_at
+    json.disabled user.disabled
     json.is_admin user.admin?
   end
   json.disabled_members @organization.disabled_members do |user|

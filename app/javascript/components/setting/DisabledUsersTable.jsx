@@ -87,7 +87,7 @@ class DisabledUsersTable extends Component {
   };
 
   render() {
-    const { column, users, disabledUsers, direction } = this.state;
+    const { column, users, direction } = this.state;
     return (
       <div className="users-table">
         <h3 className="users-table__title">無効化されたユーザー</h3>

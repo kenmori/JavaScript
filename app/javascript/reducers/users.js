@@ -26,13 +26,15 @@ export default handleActions({
       }), payload.user);
     },
     [ActionTypes.REMOVED_USER]: (state, { payload }) => {
-      return state.filter((user) => {
-        return user.get('id') !== payload.user.get('id');
-      });
+      return state.set(state.findIndex((user) => {
+        return user.get('id') === payload.user.get('id');
+      }), payload.user);
     },
-    [ActionTypes.RESTORED_USER]: (state, { payload }) => (
-      state.push(payload.user).sortBy(user => user.get('id'))
-    ),
+    [ActionTypes.RESTORED_USER]: (state, { payload }) => {
+      return state.set(state.findIndex((user) => {
+        return user.get('id') === payload.user.get('id');
+      }), payload.user).sortBy(user => user.get('id'));
+    },
     [ActionTypes.UPDATED_PASSWORD]: (state, { payload }) => {
       return state.set(state.findIndex((user) => {
         return user.get('id') === payload.user.get('id');

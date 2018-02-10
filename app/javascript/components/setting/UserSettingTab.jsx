@@ -11,6 +11,17 @@ class UserSettingTab extends Component {
     this.lastNameInputs = [];
     this.emailInputs = [];
   }
+
+  enabledUsers = users => (
+    users.filter(user => !user.get('disabled'))
+  )
+
+  disabledUsers = users => (
+    users.filter(user => {
+      return user.get('disabled');
+    })
+  )
+
   addUser = () => {
     this.props.confirm({
       content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？',
@@ -48,7 +59,6 @@ class UserSettingTab extends Component {
 
   render() {
     const users = Array.from(this.props.users);
-    const disabledUsers = Array.from(this.props.disabledUsers);
     if (users.length === 0) {
       return null;
     }
@@ -81,13 +91,13 @@ class UserSettingTab extends Component {
 
         <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
         
-        <EnabledUsersTable users={users} 
+        <EnabledUsersTable users={this.enabledUsers(users)} 
                     loginUser={this.props.loginUser} 
                     onUpdateUser={user => this.updateUser(user)}
                     onUpdateEmail={user => this.updateEmail(user)}
                     onRemove={id => this.removeUser(id)}
                     confirm={this.props.confirm}/>
-        <DisabledUsersTable users={disabledUsers} 
+        <DisabledUsersTable users={this.disabledUsers(users)} 
                     loginUser={this.props.loginUser} 
                     onRestore={id => this.restoreUser(id)}
                     confirm={this.props.confirm}/>
@@ -98,7 +108,6 @@ class UserSettingTab extends Component {
 
 UserSettingTab.propTypes = {
   users: PropTypes.object,
-  disabledUsers: PropTypes.object,
   organization: PropTypes.object,
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
