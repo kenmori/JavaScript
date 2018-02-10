@@ -37,6 +37,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       t.boolean :admin, default: false
       t.string :avatar
       t.integer :current_organization_id
+      t.boolean :disabled, default: false
     end
 
     add_index :users, :email,                unique: true
