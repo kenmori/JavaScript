@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    if can_delete? && @user.destroy
+    if can_delete? && @user.update_attribute(:disabled, true)
       head :no_content
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
