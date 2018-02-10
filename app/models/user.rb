@@ -8,6 +8,9 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { maximum: 255 }
   validates :last_name, presence: true, length: { maximum: 255 }
 
+  scope :enable, -> { where(disabled: false) }
+  scope :disabled, -> { where(disabled: true) }
+
   has_many :group_members
   has_many :groups, through: :group_members
   has_many :objective_members

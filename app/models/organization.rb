@@ -17,6 +17,14 @@ class Organization < ApplicationRecord
   end
 
   def members
-    self.organization_members.includes(:user).map(&:user)
+    self.organization_members.includes(:user)
+      .map(&:user)
+      .select { |item| !item.disabled }
+  end
+
+  def disabled_members
+    self.organization_members.includes(:user)
+      .map(&:user)
+      .select(&:disabled)
   end
 end
