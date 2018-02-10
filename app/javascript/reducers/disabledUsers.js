@@ -9,6 +9,11 @@ export default handleActions({
     [ActionTypes.REMOVED_USER]: (state, { payload }) => {
       return state.push(payload.user)
     },
+    [ActionTypes.RESTORED_USER]: (state, { payload }) => {
+      return state.filter((user) => {
+        return user.get('id') !== payload.user.get('id');
+      });
+    },
   },
   fromJS([])
 );

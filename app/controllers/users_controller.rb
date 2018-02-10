@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def restore
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update_attribute(:disabled, false)

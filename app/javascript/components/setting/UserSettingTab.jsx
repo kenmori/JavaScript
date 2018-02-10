@@ -103,6 +103,7 @@ UserSettingTab.propTypes = {
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,
+  restoreUser: PropTypes.func.isRequired,
 };
 
 export default UserSettingTab;

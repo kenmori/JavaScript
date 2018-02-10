@@ -30,6 +30,9 @@ export default handleActions({
         return user.get('id') !== payload.user.get('id');
       });
     },
+    [ActionTypes.RESTORED_USER]: (state, { payload }) => (
+      state.push(payload.user)
+    ),
     [ActionTypes.UPDATED_PASSWORD]: (state, { payload }) => {
       return state.set(state.findIndex((user) => {
         return user.get('id') === payload.user.get('id');
