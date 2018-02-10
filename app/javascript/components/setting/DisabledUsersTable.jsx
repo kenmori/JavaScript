@@ -14,7 +14,6 @@ class DisabledUsersTable extends Component {
       users: this.getUsers(props.users),
       direction: 'ascending',
       emails: this.getEmails(props.users),
-      keyword: null,
     };
   }
 
@@ -73,12 +72,6 @@ class DisabledUsersTable extends Component {
     });
   };
 
-  getFilteredUsers = (users, keyword) => {
-    return keyword ? users.filter(user => (
-      user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
-    )) : users;
-  }
-
   restoreUser = user => () => {
     this.props.confirm({
       content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を復元しますか？`,
@@ -111,7 +104,7 @@ class DisabledUsersTable extends Component {
 
           <Table.Body>
             {
-              this.getFilteredUsers(this.state.users, this.state.keyword).map(user => {
+              this.state.users.map(user => {
                 const id = user.get('id');
                 return (
                   <Table.Row key={id}>

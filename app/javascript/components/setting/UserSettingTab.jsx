@@ -10,6 +10,9 @@ class UserSettingTab extends Component {
     this.firstNameInputs = [];
     this.lastNameInputs = [];
     this.emailInputs = [];
+    this.state = {
+      keyword: ""
+    }
   }
 
   enabledUsers = users => (
@@ -96,7 +99,8 @@ class UserSettingTab extends Component {
                     onUpdateUser={user => this.updateUser(user)}
                     onUpdateEmail={user => this.updateEmail(user)}
                     onRemove={id => this.removeUser(id)}
-                    confirm={this.props.confirm}/>
+                    confirm={this.props.confirm}
+                    keyword={this.state.keyword}/>
         <DisabledUsersTable users={this.disabledUsers(users)} 
                     loginUser={this.props.loginUser} 
                     onRestore={id => this.restoreUser(id)}

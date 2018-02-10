@@ -14,7 +14,7 @@ class EnabledUsersTable extends Component {
       users: this.getUsers(props.users),
       direction: 'ascending',
       emails: this.getEmails(props.users),
-      keyword: null,
+      keyword: props.keyword,
     };
   }
 
@@ -22,6 +22,7 @@ class EnabledUsersTable extends Component {
     this.setState({
       users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
       emails: this.getEmails(nextProps.users),
+      keyword: nextProps.keyword
     });
   }
 
