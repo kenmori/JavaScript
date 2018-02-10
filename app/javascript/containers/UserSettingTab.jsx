@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
     loginUser: state.loginUser,
     organization: state.organizations.get('selected'),
     users: state.users,
+    disabledUsers: state.disabledUsers,
   };
 };
 

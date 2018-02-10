@@ -12,6 +12,7 @@ class UsersTable extends Component {
     this.state = {
       column: 'index',
       users: this.getUsers(props.users),
+      disabledUsers: this.getUsers(props.disabledUsers),
       direction: 'ascending',
       emails: this.getEmails(props.users),
       keyword: null,
@@ -120,7 +121,7 @@ class UsersTable extends Component {
   };
 
   render() {
-    const { column, users, direction } = this.state;
+    const { column, users, disabledUsers, direction } = this.state;
     return (
       <div className="users-table">
         <Table singleLine sortable>
@@ -212,6 +213,7 @@ class UsersTable extends Component {
 UsersTable.propTypes = {
   loginUser: PropTypes.object.isRequired,
   users: PropTypes.array.isRequired,
+  disabledUsers: PropTypes.array.isRequired,
   onAdd: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,
   onUpdateEmail: PropTypes.func.isRequired,

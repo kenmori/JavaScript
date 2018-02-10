@@ -22,12 +22,14 @@ class UserSettingTab extends Component {
 
   render() {
     const users = Array.from(this.props.users);
+    const disabledUsers = Array.from(this.props.disabledUsers);
     if (users.length === 0) {
       return null;
     }
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
         <UsersTable users={users} 
+                    disabledUsers={disabledUsers} 
                     loginUser={this.props.loginUser} 
                     onAdd={user => this.addUser(user)} 
                     onUpdateUser={user => this.updateUser(user)}
@@ -40,6 +42,8 @@ class UserSettingTab extends Component {
 }
 
 UserSettingTab.propTypes = {
+  users: PropTypes.object,
+  disabledUsers: PropTypes.object,
   organization: PropTypes.object,
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,

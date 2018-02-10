@@ -4,6 +4,7 @@ import entities from './entities';
 import objectives from './objectives';
 import keyResults from './keyResults';
 import users from './users';
+import disabledUsers from './disabledUsers';
 import dialogs from './dialogs';
 import loginUser from './loginUser';
 import current from './current';
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   objectives,
   keyResults,
   users,
+  disabledUsers,
   dialogs,
   loginUser,
   current,
