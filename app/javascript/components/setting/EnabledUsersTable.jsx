@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
 import Avatar from '../../containers/Avatar';
 
-class UsersTable extends Component {
+class EnabledUsersTable extends Component {
 
   constructor(props) {
     super(props);
@@ -17,9 +17,6 @@ class UsersTable extends Component {
       emails: this.getEmails(props.users),
       keyword: null,
     };
-    this.firstNameInputs = [];
-    this.lastNameInputs = [];
-    this.emailInputs = [];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,25 +91,6 @@ class UsersTable extends Component {
     )) : users;
   }
 
-  addUser = () => {
-    this.props.confirm({
-      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？',
-      onConfirm: () => {
-        this.props.onAdd({
-          firstName: this.firstNameInputs[0].inputRef.value,
-          lastName: this.lastNameInputs[0].inputRef.value,
-          email: this.emailInputs[0].inputRef.value,
-          admin: this.isAdminInputs.inputRef.checked,
-          noPasswordRequired: true,
-        });
-        this.lastNameInputs[0].inputRef.value = '';
-        this.firstNameInputs[0].inputRef.value = '';
-        this.emailInputs[0].inputRef.value = '';
-        this.isAdminInputs.inputRef.checked = false;
-      },
-    });
-  };
-
   removeUser = user => () => {
     this.props.confirm({
       content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を削除しますか？`,
@@ -124,33 +102,6 @@ class UsersTable extends Component {
     const { column, users, disabledUsers, direction } = this.state;
     return (
       <div className="users-table">
-        <Table singleLine sortable>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Input type="text" maxLength="255" required ref={node => { this.lastNameInputs[0] = node; }}
-                       placeholder="姓"/>
-              </Table.Cell>
-              <Table.Cell>
-                <Input type="text" maxLength="255" required ref={node => { this.firstNameInputs[0] = node; }}
-                       placeholder="名"/>
-              </Table.Cell>
-              <Table.Cell>
-                <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
-                       placeholder="メールアドレス"/>
-              </Table.Cell>
-              <Table.Cell>
-                <Checkbox label='管理者' defaultChecked={false} required ref={node => { this.isAdminInputs = node; }} />
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加する" onClick={this.addUser}/>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
-
-        <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
-
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
@@ -210,14 +161,13 @@ class UsersTable extends Component {
   }
 }
 
-UsersTable.propTypes = {
+EnabledUsersTable.propTypes = {
   loginUser: PropTypes.object.isRequired,
   users: PropTypes.array.isRequired,
   disabledUsers: PropTypes.array.isRequired,
-  onAdd: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,
   onUpdateEmail: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
 };
 
-export default UsersTable;
+export default EnabledUsersTable;

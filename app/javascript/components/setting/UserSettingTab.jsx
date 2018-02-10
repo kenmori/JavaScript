@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tab } from 'semantic-ui-react';
-import UsersTable from './UsersTable';
+import { Tab, Table, Input, Checkbox, Button } from 'semantic-ui-react';
+import EnabledUsersTable from './EnabledUsersTable';
 
 class UserSettingTab extends Component {
-  addUser = user => {
-    this.props.addUser(user);
+  constructor(props) {
+    super(props);
+    this.firstNameInputs = [];
+    this.lastNameInputs = [];
+    this.emailInputs = [];
+  }
+  addUser = () => {
+    this.props.confirm({
+      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？',
+      onConfirm: () => {
+        this.props.addUser({
+          firstName: this.firstNameInputs[0].inputRef.value,
+          lastName: this.lastNameInputs[0].inputRef.value,
+          email: this.emailInputs[0].inputRef.value,
+          admin: this.isAdminInputs.inputRef.checked,
+          noPasswordRequired: true,
+        });
+        this.lastNameInputs[0].inputRef.value = '';
+        this.firstNameInputs[0].inputRef.value = '';
+        this.emailInputs[0].inputRef.value = '';
+        this.isAdminInputs.inputRef.checked = false;
+      },
+    });
   };
 
   updateUser = user => {
@@ -28,10 +49,36 @@ class UserSettingTab extends Component {
     }
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
-        <UsersTable users={users} 
+        <Table singleLine sortable>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>
+                <Input type="text" maxLength="255" required ref={node => { this.lastNameInputs[0] = node; }}
+                       placeholder="姓"/>
+              </Table.Cell>
+              <Table.Cell>
+                <Input type="text" maxLength="255" required ref={node => { this.firstNameInputs[0] = node; }}
+                       placeholder="名"/>
+              </Table.Cell>
+              <Table.Cell>
+                <Input type="email" maxLength="255" required ref={node => { this.emailInputs[0] = node; }}
+                       placeholder="メールアドレス"/>
+              </Table.Cell>
+              <Table.Cell>
+                <Checkbox label='管理者' defaultChecked={false} required ref={node => { this.isAdminInputs = node; }} />
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                <Button icon="plus" content="追加する" onClick={this.addUser.bind(this)}/>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+
+        <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
+        
+        <EnabledUsersTable users={users} 
                     disabledUsers={disabledUsers} 
                     loginUser={this.props.loginUser} 
-                    onAdd={user => this.addUser(user)} 
                     onUpdateUser={user => this.updateUser(user)}
                     onUpdateEmail={user => this.updateEmail(user)}
                     onRemove={id => this.removeUser(id)}
