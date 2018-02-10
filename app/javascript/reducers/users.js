@@ -31,7 +31,7 @@ export default handleActions({
       });
     },
     [ActionTypes.RESTORED_USER]: (state, { payload }) => (
-      state.push(payload.user)
+      state.push(payload.user).sortBy(user => user.get('id'))
     ),
     [ActionTypes.UPDATED_PASSWORD]: (state, { payload }) => {
       return state.set(state.findIndex((user) => {
