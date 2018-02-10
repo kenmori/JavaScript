@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Table, Input, Checkbox, Button } from 'semantic-ui-react';
 import EnabledUsersTable from './EnabledUsersTable';
+import DisabledUsersTable from './DisabledUsersTable';
 
 class UserSettingTab extends Component {
   constructor(props) {
@@ -41,6 +42,10 @@ class UserSettingTab extends Component {
     this.props.removeUser(id);
   };
 
+  restoreUser = id => {
+    this.props.restoreUser(id);
+  };
+
   render() {
     const users = Array.from(this.props.users);
     const disabledUsers = Array.from(this.props.disabledUsers);
@@ -77,11 +82,14 @@ class UserSettingTab extends Component {
         <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
         
         <EnabledUsersTable users={users} 
-                    disabledUsers={disabledUsers} 
                     loginUser={this.props.loginUser} 
                     onUpdateUser={user => this.updateUser(user)}
                     onUpdateEmail={user => this.updateEmail(user)}
                     onRemove={id => this.removeUser(id)}
+                    confirm={this.props.confirm}/>
+        <DisabledUsersTable users={disabledUsers} 
+                    loginUser={this.props.loginUser} 
+                    onRestore={id => this.restoreUser(id)}
                     confirm={this.props.confirm}/>
       </Tab.Pane>
     );

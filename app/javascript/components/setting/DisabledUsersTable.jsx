@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
 import Avatar from '../../containers/Avatar';
 
-class EnabledUsersTable extends Component {
+class DisabledUsersTable extends Component {
 
   constructor(props) {
     super(props);
@@ -22,17 +22,6 @@ class EnabledUsersTable extends Component {
     this.setState({
       users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
       emails: this.getEmails(nextProps.users),
-    });
-  }
-
-  changeEmail = (id, email) => {
-    this.props.confirm({
-      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？',
-      onConfirm: () => {
-        const notLogout = id !== this.props.loginUser.get('id');
-        this.props.onUpdateEmail({ id, email, notLogout });
-      },
-      onCancel: () => this.setState({ emails: this.state.emails }),
     });
   }
 
@@ -90,17 +79,18 @@ class EnabledUsersTable extends Component {
     )) : users;
   }
 
-  removeUser = user => () => {
+  restoreUser = user => () => {
     this.props.confirm({
-      content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を削除しますか？`,
-      onConfirm: () => this.props.onRemove(user.get('id')),
+      content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を復元しますか？`,
+      onConfirm: () => this.props.onRestore(user.get('id')),
     });
   };
 
   render() {
-    const { column, users, direction } = this.state;
+    const { column, users, disabledUsers, direction } = this.state;
     return (
       <div className="users-table">
+        <h3 className="users-table__title">無効化されたユーザー</h3>
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
@@ -125,27 +115,21 @@ class EnabledUsersTable extends Component {
                 const id = user.get('id');
                 return (
                   <Table.Row key={id}>
-                    <Table.Cell><Avatar user={user} isChangeableImage={true} /></Table.Cell>
+                    <Table.Cell><Avatar user={user} isChangeableImage={false} /></Table.Cell>
                     <Table.Cell>{user.get('index')}</Table.Cell>
-                    <Table.Cell>
-                      <AutoInput value={user.get('lastName')} onCommit={lastName => this.props.onUpdateUser({id, lastName})}/>
-                      <AutoInput value={user.get('firstName')} onCommit={firstName => this.props.onUpdateUser({id, firstName})}/>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <AutoInput value={this.state.emails[id]} placeholder='name@example.com' onCommit={email => this.changeEmail(id, email)}/>
-                    </Table.Cell>
+                    <Table.Cell>{user.get('lastName')} {user.get('firstName')}</Table.Cell>
+                    <Table.Cell>{this.state.emails[id]}</Table.Cell>
                     <Table.Cell>
                       <Checkbox label='管理者'
                                 defaultChecked={user.get('isAdmin')}
-                                onChange={(event, { checked }) => this.props.onUpdateUser({ id, admin: checked })}
-                                disabled={id === this.props.loginUser.get('id')}
+                                disabled={true}
                       />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <div className='disabled-box'>
-                        <Button icon='trash' title='削除' negative
-                                onClick={this.removeUser(user)}
-                                disabled={id === this.props.loginUser.get('id')}
+                        <Button icon='recycle' title='復元' negative
+                                onClick={this.restoreUser(user)}
+                                disabled={false}
                         />
                       </div>
                     </Table.Cell>
@@ -160,12 +144,10 @@ class EnabledUsersTable extends Component {
   }
 }
 
-EnabledUsersTable.propTypes = {
-  loginUser: PropTypes.object.isRequired,
+DisabledUsersTable.propTypes = {
   users: PropTypes.array.isRequired,
-  onUpdateUser: PropTypes.func.isRequired,
-  onUpdateEmail: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  onRestore: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
 };
 
-export default EnabledUsersTable;
+export default DisabledUsersTable;
