@@ -44,7 +44,18 @@ class UsersController < ApplicationController
     forbidden and return unless valid_permission?(@user.organization.id)
 
     if can_delete? && @user.update_attribute(:disabled, true)
-      head :no_content
+      render json: @user
+    else
+      unprocessable_entity_with_errors(@user.errors.full_messages)
+    end
+  end
+
+  def restore
+    @user = User.find(params[:id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
+    if @user.update_attribute(:disabled, false)
+      render json: @user
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
     end

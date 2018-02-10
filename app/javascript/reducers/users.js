@@ -27,7 +27,7 @@ export default handleActions({
     },
     [ActionTypes.REMOVED_USER]: (state, { payload }) => {
       return state.filter((user) => {
-        return user.get('id') !== payload.id;
+        return user.get('id') !== payload.user.get('id');
       });
     },
     [ActionTypes.UPDATED_PASSWORD]: (state, { payload }) => {

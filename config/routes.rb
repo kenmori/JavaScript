@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :objectives, only: %i[index show create update destroy]
   resources :key_results, only: %i[index create update destroy]
   resources :users, only: %i[index show create update destroy] do
+    put 'restore', to: 'users#restore'
     put 'password', to: 'users#update_password'
     put 'current_organization_id', to: 'users#update_current_organization_id'
   end

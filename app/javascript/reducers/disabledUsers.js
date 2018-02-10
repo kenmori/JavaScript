@@ -7,7 +7,7 @@ export default handleActions({
       return payload.organization.get('disabledMembers');
     },
     [ActionTypes.REMOVED_USER]: (state, { payload }) => {
-      return state.push(payload)
+      return state.push(payload.user)
     },
   },
   fromJS([])

@@ -29,8 +29,8 @@ function* updateUser({ payload }) {
 }
 
 function* removeUser({ payload }) {
-  yield call(API.delete, '/users/' + payload.id);
-  yield put(userActions.removedUser(payload.id));
+  const result = yield call(API.delete, '/users/' + payload.id);
+  yield put(userActions.removedUser(result));
   yield put(toastActions.showToast('ユーザーを削除しました'));
 }
 
