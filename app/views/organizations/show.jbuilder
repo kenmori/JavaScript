@@ -24,5 +24,7 @@ json.organization do
     json.last_name user.last_name
     json.email user.email
     json.avatar_url user.avatar_url
+    json.unconfirmed_email user.unconfirmed_email
+    json.confirmed_at user.confirmed_at
   end
 end
