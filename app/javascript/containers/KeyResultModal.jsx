@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['keyResultForm', 'isOpen']),
     objective: state.dialogs.getIn(['keyResultForm', 'objective']),
-    users: state.users,
+    users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
     okrPeriods: state.okrPeriods,
   };
