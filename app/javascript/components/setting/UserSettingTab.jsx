@@ -65,6 +65,7 @@ class UserSettingTab extends Component {
     if (users.length === 0) {
       return null;
     }
+    const disabledUsers = this.disabledUsers(users);
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
         <Table singleLine sortable>
@@ -101,10 +102,12 @@ class UserSettingTab extends Component {
                     onRemove={id => this.removeUser(id)}
                     confirm={this.props.confirm}
                     keyword={this.state.keyword}/>
-        <DisabledUsersTable users={this.disabledUsers(users)} 
-                    loginUser={this.props.loginUser} 
-                    onRestore={id => this.restoreUser(id)}
-                    confirm={this.props.confirm}/>
+        {disabledUsers.length &&
+          <DisabledUsersTable users={disabledUsers} 
+                      loginUser={this.props.loginUser} 
+                      onRestore={id => this.restoreUser(id)}
+                      confirm={this.props.confirm}/>
+        }
       </Tab.Pane>
     );
   }
