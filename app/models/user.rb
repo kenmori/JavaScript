@@ -54,4 +54,12 @@ class User < ApplicationRecord
     !no_password_required
   end
 
+  def active_for_authentication?
+    super && !disabled
+  end
+
+  def inactive_message
+    :deleted_account
+  end
+
 end
