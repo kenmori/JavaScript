@@ -147,7 +147,7 @@ class ObjectiveModal extends Component {
                     <label>責任者</label>
                     <UserSelect
                       users={this.props.users} 
-                      defaultValue={this.getInitialOwnerId()}
+                      defaultValue={this.state.ownerId}
                       onChange={value => this.setState({ ownerId: value })}
                     />
                   </Form.Field>
