@@ -200,7 +200,7 @@ class KeyResultModal extends Component {
                     <label>責任者</label>
                     <UserSelect
                       users={this.props.users} 
-                      defaultValue={objective && objective.get('owner') && objective.get('owner').get('id')}
+                      defaultValue={this.state.ownerId}
                       onChange={value => this.changeKeyResultOwner(value)}
                     />
                   </Form.Field>

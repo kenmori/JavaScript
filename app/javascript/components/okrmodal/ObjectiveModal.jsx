@@ -24,7 +24,7 @@ class ObjectiveModal extends Component {
 
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
-        ownerId: this.getInitialOwnerId(),
+        ownerId: this.getInitialOwnerId(nextProps),
       });
     }
   }
@@ -39,10 +39,10 @@ class ObjectiveModal extends Component {
     this.props.addObjective(Object.assign(objective, validData));
   }
 
-  getInitialOwnerId() {
-    return this.props.relatedKeyResult
-      ? this.props.relatedKeyResult.get('owner').get('id')
-      : this.props.currentUserId;
+  getInitialOwnerId(props = this.props) {
+    return props.relatedKeyResult
+      ? props.relatedKeyResult.get('owner').get('id')
+      : props.currentUserId;
   }
 
   isEditing() {
@@ -147,7 +147,7 @@ class ObjectiveModal extends Component {
                     <label>責任者</label>
                     <UserSelect
                       users={this.props.users} 
-                      defaultValue={this.getInitialOwnerId()}
+                      defaultValue={this.state.ownerId}
                       onChange={value => this.setState({ ownerId: value })}
                     />
                   </Form.Field>
