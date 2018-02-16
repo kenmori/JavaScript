@@ -9,7 +9,10 @@ export default function configureStore() {
   const middlewares = [sagaMiddleware];
   if (process.env.NODE_ENV !== 'production') {
     const { createLogger } = require(`redux-logger`);
-    const logger = createLogger();
+    const logger = createLogger({
+      duration: true,
+      timestamp: false,
+    });
     middlewares.push(logger);
   }
 
