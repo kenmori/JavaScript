@@ -56,7 +56,6 @@ class OkrModal extends Component {
   } 
 
   selectableKeyResultMembers(users, keyResult) {
-
     if (this.isNotExistMember(users, keyResult.get('owner'))) {
       users = users.push(keyResult.get('owner'));
     }
@@ -75,6 +74,7 @@ class OkrModal extends Component {
       return <ObjectivePane {...this.props} users={users}/>
     } else {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'));
+      if(!keyResult) {return null;}
       const users = this.selectableKeyResultMembers(this.props.users, keyResult);
       return (
         <KeyResultPane

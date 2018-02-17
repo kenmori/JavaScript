@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Tab, Table, Input, Checkbox, Button } from 'semantic-ui-react';
 import EnabledUsersTable from './EnabledUsersTable';
 import DisabledUsersTable from './DisabledUsersTable';
+import UsersTable from './UsersTable';
 
 class UserSettingTab extends Component {
   constructor(props) {
@@ -94,20 +95,17 @@ class UserSettingTab extends Component {
         </Table>
 
         <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
-        
-        <EnabledUsersTable users={this.enabledUsers(users)} 
-                    loginUser={this.props.loginUser} 
-                    onUpdateUser={user => this.updateUser(user)}
-                    onUpdateEmail={user => this.updateEmail(user)}
-                    onRemove={id => this.removeUser(id)}
-                    confirm={this.props.confirm}
-                    keyword={this.state.keyword}/>
-        {disabledUsers.length &&
-          <DisabledUsersTable users={disabledUsers} 
-                      loginUser={this.props.loginUser} 
-                      onRestore={id => this.restoreUser(id)}
-                      confirm={this.props.confirm}/>
-        }
+        <UsersTable
+          users={this.enabledUsers(users)} 
+          disabledUsers={disabledUsers}
+          loginUser={this.props.loginUser} 
+          onUpdateUser={user => this.updateUser(user)}
+          onUpdateEmail={user => this.updateEmail(user)}
+          onRemove={id => this.removeUser(id)}
+          onRestore={id => this.restoreUser(id)}
+          confirm={this.props.confirm}
+          keyword={this.state.keyword}
+        />
       </Tab.Pane>
     );
   }
