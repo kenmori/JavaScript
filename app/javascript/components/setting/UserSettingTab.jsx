@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Table, Input, Checkbox, Button } from 'semantic-ui-react';
-import EnabledUsersTable from './EnabledUsersTable';
-import DisabledUsersTable from './DisabledUsersTable';
+import { Tab, Table, Input, Checkbox, Button, Divider } from 'semantic-ui-react';
 import UsersTable from './UsersTable';
 
 class UserSettingTab extends Component {
@@ -12,19 +10,10 @@ class UserSettingTab extends Component {
     this.lastNameInputs = [];
     this.emailInputs = [];
     this.state = {
-      keyword: ""
+      keyword: '',
+      showDisabledUsers: false,
     }
   }
-
-  enabledUsers = users => (
-    users.filter(user => !user.get('disabled'))
-  )
-
-  disabledUsers = users => (
-    users.filter(user => {
-      return user.get('disabled');
-    })
-  )
 
   addUser = () => {
     this.props.confirm({
@@ -66,7 +55,8 @@ class UserSettingTab extends Component {
     if (users.length === 0) {
       return null;
     }
-    const disabledUsers = this.disabledUsers(users);
+    const enabledUsers = users.filter(user => !user.get('disabled'))
+    const disabledUsers = users.filter(user => user.get('disabled'));
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
         <Table singleLine sortable>
@@ -95,17 +85,33 @@ class UserSettingTab extends Component {
         </Table>
 
         <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={(event, { value }) => this.setState({ keyword: value })} />
+
         <UsersTable
-          users={this.enabledUsers(users)} 
-          disabledUsers={disabledUsers}
-          loginUser={this.props.loginUser} 
+          users={enabledUsers}
+          loginUser={this.props.loginUser}
           onUpdateUser={user => this.updateUser(user)}
           onUpdateEmail={user => this.updateEmail(user)}
           onRemove={id => this.removeUser(id)}
-          onRestore={id => this.restoreUser(id)}
           confirm={this.props.confirm}
           keyword={this.state.keyword}
         />
+
+        <Divider />
+
+        {disabledUsers.length > 0 && (
+          this.state.showDisabledUsers ?
+            <div>
+              <h3>無効なユーザー</h3>
+              <UsersTable
+                users={disabledUsers}
+                onRestore={id => this.restoreUser(id)}
+                confirm={this.props.confirm}
+                keyword={this.state.keyword}
+              />
+            </div>
+            :
+            <Button content="無効なユーザーを表示する" onClick={() => this.setState({ showDisabledUsers: true })} />
+        )}
       </Tab.Pane>
     );
   }

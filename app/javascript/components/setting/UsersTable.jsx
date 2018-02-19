@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Input, Checkbox, Table } from 'semantic-ui-react';
+import { Button, Checkbox, Table } from 'semantic-ui-react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
 import Avatar from '../../containers/Avatar';
-import EnabledUsersTable from './EnabledUsersTable';
-import DisabledUsersTable from './DisabledUsersTable';
 
 class UsersTable extends Component {
 
@@ -14,19 +12,15 @@ class UsersTable extends Component {
     this.state = {
       column: 'index',
       users: this.getUsers(props.users),
-      disabledUsers: this.getUsers(props.disabledUsers),
       direction: 'ascending',
       emails: this.getEmails(props.users),
-      keyword: props.keyword,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
-      disabledUsers: this.getSortedUsers(this.getUsers(nextProps.disabledUsers), this.state.column, this.state.direction),
       emails: this.getEmails(nextProps.users),
-      keyword: nextProps.keyword
     });
   }
 
@@ -114,40 +108,83 @@ class UsersTable extends Component {
       user.set('email', this.state.emails[user.get('id')]);
       return user;
     });
-    const disabledUsers = this.state.disabledUsers.map((user) => {
-      user.set('email', this.state.emails[user.get('id')]);
-      return user;
-    });
+    const { column, direction } = this.state;
     return (
       <div className="users-table">
-        <EnabledUsersTable 
-          users={users}
-          column={this.state.column} 
-          direction={this.state.direction} 
-          loginUser={this.props.loginUser}
-          keyword={this.state.keyword}
-          removeUser={this.removeUser}
-          getFilteredUsers={this.getFilteredUsers}
-          onUpdateUser={this.props.onUpdateUser}
-          changeEmail={this.changeEmail}
-          sort={this.sort}
-        />
-        { !!disabledUsers.length && 
-          <DisabledUsersTable 
-            users={disabledUsers} 
-            column={this.state.column} 
-            direction={this.state.direction} 
-            restoreUser={this.restoreUser}
-          />
-        }
+        <Table singleLine sortable>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell disabled />
+              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={() => this.sort('index')} />
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={() => this.sort('lastName')}>
+                名前
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={() => this.sort('email')}>
+                メールアドレス
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={() => this.sort('isAdmin')}>
+                権限
+              </Table.HeaderCell>
+              <Table.HeaderCell disabled />
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {this.getFilteredUsers(users, this.props.keyword).map(user => {
+              const id = user.get('id');
+              return (
+                <Table.Row key={id}>
+                  <Table.Cell><Avatar user={user} isChangeableImage={!user.get('disabled')} /></Table.Cell>
+                  <Table.Cell>{user.get('index')}</Table.Cell>
+                  <Table.Cell>
+                    <AutoInput value={user.get('lastName')}
+                               placeholder='姓'
+                               readOnly={user.get('disabled')}
+                               onCommit={lastName => this.props.onUpdateUser({ id, lastName })} />
+                    <AutoInput value={user.get('firstName')}
+                               placeholder='名'
+                               readOnly={user.get('disabled')}
+                               onCommit={firstName => this.props.onUpdateUser({ id, firstName })} />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <AutoInput value={user.get('email')}
+                               placeholder='name@example.com'
+                               readOnly={user.get('disabled')}
+                               onCommit={email => this.changeEmail(id, email)} />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Checkbox label='管理者'
+                              defaultChecked={user.get('isAdmin')}
+                              onChange={(event, { checked }) => this.props.onUpdateUser({ id, admin: checked })}
+                              disabled={user.get('disabled') || id === this.props.loginUser.get('id')}
+                    />
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    <div className='disabled-box'>
+                      {user.get('disabled') ?
+                        <Button icon='recycle' title='復元'
+                                onClick={this.restoreUser(user)}
+                        />
+                        :
+                        <Button icon='trash' title='削除' negative
+                                onClick={this.removeUser(user)}
+                                disabled={id === this.props.loginUser.get('id')}
+                        />
+                      }
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
       </div>
     );
   }
 }
 
 UsersTable.propTypes = {
-  users: PropTypes.array,
-  disabledUsers: PropTypes.array,
+  users: PropTypes.array.isRequired,
   loginUser: PropTypes.object,
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
