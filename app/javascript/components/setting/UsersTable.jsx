@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Table } from 'semantic-ui-react';
-import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
 import Avatar from '../../containers/Avatar';
@@ -36,9 +35,7 @@ class UsersTable extends Component {
   }
 
   getUsers = (users) => (
-    users.map((item, index) => {
-      return item.merge(Map({index: index + 1}));
-    })
+    users.map((item, index) => item.set('index', index + 1))
   )
 
   getEmails = (users) => (
@@ -184,7 +181,7 @@ class UsersTable extends Component {
 }
 
 UsersTable.propTypes = {
-  users: PropTypes.array.isRequired,
+  users: PropTypes.object.isRequired,
   loginUser: PropTypes.object,
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
