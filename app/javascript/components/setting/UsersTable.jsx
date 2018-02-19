@@ -129,6 +129,7 @@ class UsersTable extends Component {
           <Table.Body>
             {this.getFilteredUsers(users, this.props.keyword).map(user => {
               const id = user.get('id');
+              const isLoginUser = this.props.loginUser && id === this.props.loginUser.get('id');
               return (
                 <Table.Row key={id}>
                   <Table.Cell><Avatar user={user} isChangeableImage={!user.get('disabled')} /></Table.Cell>
@@ -153,22 +154,22 @@ class UsersTable extends Component {
                     <Checkbox label='管理者'
                               defaultChecked={user.get('isAdmin')}
                               onChange={(event, { checked }) => this.props.onUpdateUser({ id, admin: checked })}
-                              disabled={user.get('disabled') || id === this.props.loginUser.get('id')}
+                              disabled={user.get('disabled') || isLoginUser}
                     />
                   </Table.Cell>
                   <Table.Cell textAlign="center">
-                    <div className='disabled-box'>
-                      {user.get('disabled') ?
-                        <Button icon='recycle' title='復元'
-                                onClick={this.restoreUser(user)}
-                        />
-                        :
-                        <Button icon='trash' title='削除' negative
+                    {user.get('disabled') ?
+                      <Button icon='recycle' title='有効化'
+                              onClick={this.restoreUser(user)}
+                      />
+                      :
+                      <div className={isLoginUser ? 'disabled-box' : ''}>
+                        <Button icon='trash' title='無効化' negative
                                 onClick={this.removeUser(user)}
-                                disabled={id === this.props.loginUser.get('id')}
+                                disabled={isLoginUser}
                         />
-                      }
-                    </div>
+                      </div>
+                    }
                   </Table.Cell>
                 </Table.Row>
               );
