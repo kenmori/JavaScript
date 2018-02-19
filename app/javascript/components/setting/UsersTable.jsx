@@ -88,14 +88,14 @@ class UsersTable extends Component {
 
   removeUser = user => () => {
     this.props.confirm({
-      content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を削除しますか？`,
+      content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を無効化しますか？`,
       onConfirm: () => this.props.onRemove(user.get('id')),
     });
   };
 
   restoreUser = user => () => {
     this.props.confirm({
-      content: `ユーザー ${user.get('lastName')} ${user.get('firstName')} を復元しますか？`,
+      content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を有効化しますか？`,
       onConfirm: () => this.props.onRestore(user.get('id')),
     });
   };

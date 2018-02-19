@@ -31,13 +31,13 @@ function* updateUser({ payload }) {
 function* removeUser({ payload }) {
   const result = yield call(API.delete, '/users/' + payload.id);
   yield put(userActions.removedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザーを削除しました'));
+  yield put(toastActions.showToast('ユーザーを無効化しました'));
 }
 
 function* restoreUser({ payload }) {
   const result = yield call(API.put, `/users/${payload.id}/restore`, {});
   yield put(userActions.restoredUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザーを復元しました'));
+  yield put(toastActions.showToast('ユーザーを有効化しました'));
 }
 
 function* updatePassword({ payload }) {
