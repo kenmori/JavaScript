@@ -1,5 +1,9 @@
 .avatar {
   display: inline-block;
+
+  &.changeable {
+    cursor: pointer;
+  }
 }
 .avatar__img {
   display: inline-block;
@@ -23,9 +27,6 @@
     line-height: 72px;
     font-size: larger;
   }
-}
-.avatar__changeable {
-  cursor: pointer;
 }
 .avatar__file {
   display: none;

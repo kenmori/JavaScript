@@ -132,7 +132,7 @@ class UsersTable extends Component {
               const isLoginUser = this.props.loginUser && id === this.props.loginUser.get('id');
               return (
                 <Table.Row key={id}>
-                  <Table.Cell><Avatar user={user} isChangeableImage={!user.get('disabled')} /></Table.Cell>
+                  <Table.Cell><Avatar user={user} readOnly={user.get('disabled')} /></Table.Cell>
                   <Table.Cell>{user.get('index')}</Table.Cell>
                   <Table.Cell>
                     <AutoInput value={user.get('lastName')}
