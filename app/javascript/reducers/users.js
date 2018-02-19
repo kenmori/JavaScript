@@ -26,9 +26,14 @@ export default handleActions({
       }), payload.user);
     },
     [ActionTypes.REMOVED_USER]: (state, { payload }) => {
-      return state.filter((user) => {
-        return user.get('id') !== payload.id;
-      });
+      return state.set(state.findIndex((user) => {
+        return user.get('id') === payload.user.get('id');
+      }), payload.user);
+    },
+    [ActionTypes.RESTORED_USER]: (state, { payload }) => {
+      return state.set(state.findIndex((user) => {
+        return user.get('id') === payload.user.get('id');
+      }), payload.user);
     },
     [ActionTypes.UPDATED_PASSWORD]: (state, { payload }) => {
       return state.set(state.findIndex((user) => {

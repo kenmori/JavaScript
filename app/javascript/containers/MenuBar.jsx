@@ -8,7 +8,7 @@ import history from '../utils/history';
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users,
+    users: state.users.filter(user => !user.get('disabled')),
     userId: state.current.get('userId'),
     okrPeriodId: state.current.get('okrPeriodId'),
     okrPeriods: state.okrPeriods,

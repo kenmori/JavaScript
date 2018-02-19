@@ -44,14 +44,42 @@ class OkrModal extends Component {
     this.props.openKeyResultModal(pbjectiv);
   }
 
+  isNotExistMember(users, targetUser) {
+    return !users.find(item => item.get('id') === targetUser.get('id'));
+  }
+
+  selectableObjectiveMembers(users, objective) {
+    if (this.isNotExistMember(users, objective.get('owner'))) {
+      users = users.push(objective.get('owner'));
+    }
+    return users;
+  } 
+
+  selectableKeyResultMembers(users, keyResult) {
+    if (this.isNotExistMember(users, keyResult.get('owner'))) {
+      users = users.push(keyResult.get('owner'));
+    }
+    keyResult.get('keyResultMembers').forEach((item) => {
+      if (this.isNotExistMember(users, item)) {
+        users = users.push(item);
+      }
+    })
+
+    return users;
+  }  
+
   modalContentTag(objective, selectedOkr) {
     if(selectedOkr.get('okrType') === 'objective') {
-      return <ObjectivePane {...this.props}/>
+      const users = this.selectableObjectiveMembers(this.props.users, this.props.objective);
+      return <ObjectivePane {...this.props} users={users}/>
     } else {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === selectedOkr.get('targetId'));
+      if(!keyResult) {return null;}
+      const users = this.selectableKeyResultMembers(this.props.users, keyResult);
       return (
         <KeyResultPane
           {...this.props}
+          users={users}
           keyResult={keyResult}
           changeToObjectiveModal={(parentKeyResult) => this.changeToObjectiveModal(objective, parentKeyResult)}
         />

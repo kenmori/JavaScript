@@ -25,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     removeUser: id => {
       dispatch(userActions.removeUser(id));
     },
+    restoreUser: id => {
+      dispatch(userActions.restoreUser(id));
+    },
     confirm: confirmParams => {
       dispatch(confirmActions.openConfirm(confirmParams));
     }

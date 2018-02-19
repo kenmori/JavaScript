@@ -29,9 +29,15 @@ function* updateUser({ payload }) {
 }
 
 function* removeUser({ payload }) {
-  yield call(API.delete, '/users/' + payload.id);
-  yield put(userActions.removedUser(payload.id));
+  const result = yield call(API.delete, '/users/' + payload.id);
+  yield put(userActions.removedUser(result.get('user')));
   yield put(toastActions.showToast('ユーザーを削除しました'));
+}
+
+function* restoreUser({ payload }) {
+  const result = yield call(API.put, `/users/${payload.id}/restore`, {});
+  yield put(userActions.restoredUser(result.get('user')));
+  yield put(toastActions.showToast('ユーザーを復元しました'));
 }
 
 function* updatePassword({ payload }) {
@@ -73,6 +79,7 @@ export function* userSagas() {
     takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
     takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
+    takeLatest(actionTypes.RESTORE_USER, withLoading(restoreUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
     takeLatest(actionTypes.RECOVER_PASSWORD, withLoading(recoverPassword)),
     takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),

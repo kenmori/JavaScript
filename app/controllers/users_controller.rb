@@ -43,8 +43,19 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    if can_delete? && @user.destroy
-      head :no_content
+    if @user.update_attribute(:disabled, true)
+      render action: :show, status: :ok
+    else
+      unprocessable_entity_with_errors(@user.errors.full_messages)
+    end
+  end
+
+  def restore
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
+    if @user.update_attribute(:disabled, false)
+      render action: :show, status: :ok
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
     end

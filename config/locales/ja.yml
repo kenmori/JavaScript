@@ -30,6 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 ja:
+  devise:
+    failure:
+      user:
+        deleted_account: あなたのアカウントは退会されています。
   activerecord:
     attributes:
       objective:

@@ -1,4 +1,5 @@
 import OkrModal from '../components/okrmodal/OkrModal';
+import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
@@ -13,9 +14,9 @@ const mapStateToProps = (state) => {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
-    users: state.users,
+    users: state.users.filter(user => !user.get('disabled')),
     loginUser: state.loginUser,
-    keyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities),
+    keyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities)
   };
 };
 
