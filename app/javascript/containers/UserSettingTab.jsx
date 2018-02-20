@@ -28,6 +28,9 @@ const mapDispatchToProps = dispatch => {
     restoreUser: id => {
       dispatch(userActions.restoreUser(id));
     },
+    resendEmail: id => {
+      dispatch(userActions.resendEmail(id));
+    },
     confirm: confirmParams => {
       dispatch(confirmActions.openConfirm(confirmParams));
     }

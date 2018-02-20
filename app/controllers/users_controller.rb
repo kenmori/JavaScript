@@ -2,13 +2,6 @@ class UsersController < ApplicationController
   before_action :valid_operatable_user?, except: [:create]
   skip_before_action :authenticate_user!, only: [:create]
 
-  def show
-    user = User.find(params[:id])
-    forbidden and return unless valid_permission?(user.organization.id)
-
-    render json: user
-  end
-
   def create
     @user = User.create_user_with_organization!(current_user,
                                                user_params, 
@@ -67,6 +60,16 @@ class UsersController < ApplicationController
 
     if @user.update(current_organization_id: params['user'][:organization_id])
       render action: :create, status: :ok
+    else
+      unprocessable_entity_with_errors(@user.errors.full_messages)
+    end
+  end
+
+  def resend
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+    if @user.resend_confirmation_instructions
+      head :no_content
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
     end

@@ -2,10 +2,6 @@ import { createActions } from 'redux-actions';
 import actionTypes from '../constants/actionTypes';
 
 const actions = createActions({
-  [actionTypes.FETCH_USER]: id => ({ id }),
-  [actionTypes.FETCHED_USER]: user => ({ user }),
-  [actionTypes.FETCH_USERS]: () => {},
-  [actionTypes.FETCHED_USERS]: users => ({ users }),
   [actionTypes.ADD_USER]: user => ({ user }),
   [actionTypes.ADDED_USER]: user => ({ user }),
   [actionTypes.UPDATE_USER]: user => ({ user }),
@@ -26,6 +22,7 @@ const actions = createActions({
   [actionTypes.UPDATED_EMAIL]: user => ({ user }),
   [actionTypes.UPDATE_CURRENT_ORGANIZATION_ID]: user => ({ user }),
   [actionTypes.UPDATED_CURRENT_ORGANIZATION_ID]: user => ({ user }),
+  [actionTypes.RESEND_EMAIL]: id => ({ id }),
 });
 
 export default actions;

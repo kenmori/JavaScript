@@ -6,16 +6,6 @@ import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
 
-function* fetchUser({ payload }) {
-  const result = yield call(API.get, '/users/' + payload.id);
-  yield put(userActions.fetchedUser(result));
-}
-
-function* fetchUsers() {
-  const result = yield call(API.get, '/users');
-  yield put(userActions.fetchedUsers(result.get('users')));
-}
-
 function* addUser({ payload }) {
   const result = yield call(API.post, '/users', { user: payload.user });
   yield put(userActions.addedUser(result.get('user')));
@@ -72,10 +62,13 @@ function* updateCurrentOrganizationId({ payload }) {
   yield put(userActions.updatedCurrentOrganizationId(result.get('user')));
 }
 
+function* resendEmail({ payload }) {
+  yield call(API.put, `/users/${payload.id}/resend`, {});
+  yield put(toastActions.showToast('確認メールを再送信しました', 'success'));
+}
+
 export function* userSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_USER, withLoading(fetchUser)),
-    takeLatest(actionTypes.FETCH_USERS, withLoading(fetchUsers)),
     takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
     takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
@@ -86,5 +79,6 @@ export function* userSagas() {
     takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
     takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
+    takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),
   ]);
 }
