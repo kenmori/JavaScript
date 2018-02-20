@@ -33,7 +33,7 @@ ja:
   devise:
     failure:
       user:
-        deleted_account: あなたのアカウントは退会されています。
+        deleted_account: あなたのアカウントは無効化されたためご利用いただけません。管理者にお問い合わせください。
   activerecord:
     attributes:
       objective:
