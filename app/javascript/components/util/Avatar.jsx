@@ -17,6 +17,7 @@ class Avatar extends Component {
             <div className={cls}>{name}</div>
   }
   openAvatarModal() {
+    if (this.props.readOnly) return;
     ReactDOM.findDOMNode(this.refs.avatarIcon).click();
   }
   changeAvatarImage(event) {
@@ -28,31 +29,27 @@ class Avatar extends Component {
     const lastName = this.props.user.get('lastName');
     const name = `${lastName} ${this.props.user.get('firstName')}`;
     const path = this.props.user.get('avatarUrl');
-    const popupAvaterTag = () => <Popup trigger={this.avatarTag(path, lastName, this.props.size)} content={name} size='tiny'/>;
     return (
-      <div className="avatar">
-        { this.props.isChangeableImage ? 
-            <div className="avatar__changeable">
-              <input type="file" ref="avatarIcon" className="avatar__file" onChange={this.changeAvatarImage.bind(this)} /> 
-              <div onClick={this.openAvatarModal.bind(this)}>{popupAvaterTag()}</div>
-            </div> :
-            popupAvaterTag()
-        }
+      <div className={`avatar ${this.props.readOnly ? 'readonly' : 'changeable'}`}>
+        <input type="file" ref="avatarIcon" className="avatar__file" onChange={this.changeAvatarImage.bind(this)} /> 
+        <div onClick={this.openAvatarModal.bind(this)}>
+          <Popup trigger={this.avatarTag(path, lastName, this.props.size)} content={name} size='tiny' />
+        </div>
       </div>
-    )
+    );
   }
 }
 
 Avatar.propTypes = {
   user: PropTypes.object,
   size: PropTypes.string,
-  isChangeableImage: PropTypes.bool,
+  readOnly: PropTypes.bool,
   openAvatarModal: PropTypes.func
 };
 Avatar.defaultProps = {
   user: null,
   size: 'normal',
-  isChangeableImage: false
+  readOnly: true,
 };
 
 export default Avatar;

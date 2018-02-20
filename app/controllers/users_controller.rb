@@ -74,12 +74,6 @@ class UsersController < ApplicationController
 
   private
 
-  def can_delete?
-    return true if @user.objectives.empty? && @user.key_results.empty?
-    @user.errors[:base] << 'Objective または Key Result が紐付いているため削除できません'
-    return false
-  end
-
   def user_params
     params.require(:user)
         .permit(:id, 
