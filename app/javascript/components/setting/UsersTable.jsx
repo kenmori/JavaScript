@@ -50,10 +50,6 @@ class UsersTable extends Component {
       return `${user.get('unconfirmedEmail')}（確認中）`;
     }
 
-    if (!user.get('confirmedAt')) {
-      return `${user.get('email')}（確認中）`;
-    }
-
     return user.get('email');
   }
 
