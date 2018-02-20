@@ -20,6 +20,11 @@ export default handleActions({
         return user.get('id') === payload.user.get('id');
       }), payload.user);
     },
+    [ActionTypes.UPDATED_EMAIL]: (state, { payload }) => {
+      return state.set(state.findIndex((user) => {
+        return user.get('id') === payload.user.get('id');
+      }), payload.user);
+    },
     [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => {
       return state.set(state.findIndex((user) => {
         return user.get('id') === payload.user.get('id');
