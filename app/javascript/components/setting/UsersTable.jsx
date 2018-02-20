@@ -102,8 +102,7 @@ class UsersTable extends Component {
 
   render() {
     const users = this.state.users.map((user) => {
-      user.set('email', this.state.emails[user.get('id')]);
-      return user;
+      return user.set('email', this.state.emails[user.get('id')]);
     });
     const { column, direction } = this.state;
     return (
