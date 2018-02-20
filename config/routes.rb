@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     put 'restore', to: 'users#restore'
     put 'password', to: 'users#update_password'
     put 'current_organization_id', to: 'users#update_current_organization_id'
+    put 'resend', to: 'users#resend'
   end
   resources :organizations, only: %i[show update]
   resources :okr_periods, only: %i[index create update destroy]

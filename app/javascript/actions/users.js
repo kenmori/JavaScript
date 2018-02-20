@@ -22,6 +22,7 @@ const actions = createActions({
   [actionTypes.UPDATED_EMAIL]: user => ({ user }),
   [actionTypes.UPDATE_CURRENT_ORGANIZATION_ID]: user => ({ user }),
   [actionTypes.UPDATED_CURRENT_ORGANIZATION_ID]: user => ({ user }),
+  [actionTypes.RESEND_EMAIL]: id => ({ id }),
 });
 
 export default actions;

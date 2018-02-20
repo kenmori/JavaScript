@@ -65,6 +65,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def resend
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+    if @user.resend_confirmation_instructions
+      head :no_content
+    else
+      unprocessable_entity_with_errors(@user.errors.full_messages)
+    end
+  end
+
   private
 
   def user_params

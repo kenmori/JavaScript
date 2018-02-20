@@ -62,6 +62,11 @@ function* updateCurrentOrganizationId({ payload }) {
   yield put(userActions.updatedCurrentOrganizationId(result.get('user')));
 }
 
+function* resendEmail({ payload }) {
+  yield call(API.put, `/users/${payload.id}/resend`, {});
+  yield put(toastActions.showToast('確認メールを再送信しました', 'success'));
+}
+
 export function* userSagas() {
   yield all([
     takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
@@ -74,5 +79,6 @@ export function* userSagas() {
     takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
     takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
+    takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),
   ]);
 }
