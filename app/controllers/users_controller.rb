@@ -2,13 +2,6 @@ class UsersController < ApplicationController
   before_action :valid_operatable_user?, except: [:create]
   skip_before_action :authenticate_user!, only: [:create]
 
-  def show
-    user = User.find(params[:id])
-    forbidden and return unless valid_permission?(user.organization.id)
-
-    render json: user
-  end
-
   def create
     @user = User.create_user_with_organization!(current_user,
                                                user_params, 

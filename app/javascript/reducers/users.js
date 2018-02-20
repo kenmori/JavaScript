@@ -11,12 +11,6 @@ export default handleActions({
     [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
       return payload.organization.get('members');
     },
-    [ActionTypes.FETCHED_USER]: (state, { payload }) => {
-      return payload.user;
-    },
-    [ActionTypes.FETCHED_USERS]: (state, { payload }) => {
-      return state.merge(payload.users);
-    },
     [ActionTypes.ADDED_USER]: (state, { payload }) => (
       state.push(payload.user)
     ),

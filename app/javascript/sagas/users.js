@@ -6,16 +6,6 @@ import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
 
-function* fetchUser({ payload }) {
-  const result = yield call(API.get, '/users/' + payload.id);
-  yield put(userActions.fetchedUser(result));
-}
-
-function* fetchUsers() {
-  const result = yield call(API.get, '/users');
-  yield put(userActions.fetchedUsers(result.get('users')));
-}
-
 function* addUser({ payload }) {
   const result = yield call(API.post, '/users', { user: payload.user });
   yield put(userActions.addedUser(result.get('user')));
@@ -74,8 +64,6 @@ function* updateCurrentOrganizationId({ payload }) {
 
 export function* userSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_USER, withLoading(fetchUser)),
-    takeLatest(actionTypes.FETCH_USERS, withLoading(fetchUsers)),
     takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
     takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),

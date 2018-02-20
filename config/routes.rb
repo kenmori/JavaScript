@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get 'users/password(/*path)' => 'home#non_login'
   resources :objectives, only: %i[index show create update destroy]
   resources :key_results, only: %i[index create update destroy]
-  resources :users, only: %i[index show create update destroy] do
+  resources :users, only: %i[create update destroy] do
     put 'restore', to: 'users#restore'
     put 'password', to: 'users#update_password'
     put 'current_organization_id', to: 'users#update_current_organization_id'
