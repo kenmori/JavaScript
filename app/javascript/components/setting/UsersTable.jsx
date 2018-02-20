@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Table } from 'semantic-ui-react';
+import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
 import Avatar from '../../containers/Avatar';
@@ -12,14 +12,12 @@ class UsersTable extends Component {
       column: 'index',
       users: this.getUsers(props.users),
       direction: 'ascending',
-      emails: this.getEmails(props.users),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
-      emails: this.getEmails(nextProps.users),
     });
   }
 
@@ -30,28 +28,16 @@ class UsersTable extends Component {
         const notLogout = id !== this.props.loginUser.get('id');
         this.props.onUpdateEmail({ id, email, notLogout });
       },
-      onCancel: () => this.setState({ emails: this.state.emails }),
+      onCancel: () => this.forceUpdate(), // 入力内容を破棄する
     });
   }
 
   getUsers = (users) => (
-    users.map((item, index) => item.set('index', index + 1))
+    users.map((user, index) => 
+      user.set('index', index + 1)
+        .set('email', user.get('unconfirmedEmail') || user.get('email'))
+    )
   )
-
-  getEmails = (users) => (
-    users.reduce((prev, next) => { 
-      prev[next.get('id')] = this.getEmail(next);
-      return prev;
-    }, {})
-  )
-
-  getEmail =(user) => {
-    if (user.get('unconfirmedEmail')) {
-      return `${user.get('unconfirmedEmail')}（確認中）`;
-    }
-
-    return user.get('email');
-  }
 
   getSortedUsers = (users, column, direction) => {
     const sortedUsers = users.sort((a, b) => {
@@ -97,9 +83,6 @@ class UsersTable extends Component {
   };
 
   render() {
-    const users = this.state.users.map((user) => {
-      return user.set('email', this.state.emails[user.get('id')]);
-    });
     const { column, direction } = this.state;
     return (
       <div className="users-table">
@@ -122,7 +105,7 @@ class UsersTable extends Component {
           </Table.Header>
 
           <Table.Body>
-            {this.getFilteredUsers(users, this.props.keyword).map(user => {
+            {this.getFilteredUsers(this.state.users, this.props.keyword).map(user => {
               const id = user.get('id');
               const isLoginUser = this.props.loginUser && id === this.props.loginUser.get('id');
               return (
@@ -144,6 +127,7 @@ class UsersTable extends Component {
                                placeholder='name@example.com'
                                readOnly={user.get('disabled')}
                                onCommit={email => this.changeEmail(id, email)} />
+                    {user.get('unconfirmedEmail') && <Label pointing='left'>確認中</Label>}
                   </Table.Cell>
                   <Table.Cell>
                     <Checkbox label='管理者'
