@@ -69,6 +69,7 @@ class UserSettingTab extends Component {
           loginUser={this.props.loginUser}
           onUpdateUser={this.props.updateUser}
           onUpdateEmail={this.props.updateEmail}
+          onResendEmail={this.props.resendEmail}
           onRemove={this.props.removeUser}
           confirm={this.props.confirm}
           keyword={this.state.keyword}

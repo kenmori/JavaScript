@@ -23,7 +23,7 @@ class UsersTable extends Component {
 
   changeEmail = (id, email) => {
     this.props.confirm({
-      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？',
+      content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
       onConfirm: () => {
         const notLogout = id !== this.props.loginUser.get('id');
         this.props.onUpdateEmail({ id, email, notLogout });
@@ -32,8 +32,15 @@ class UsersTable extends Component {
     });
   }
 
+  resendEmail = user => {
+    this.props.confirm({
+      content: `${user.get('email')} に確認メールを再送信しますか？`,
+      onConfirm: () => this.props.onResendEmail(user.get('id')),
+    });
+  }
+
   getUsers = (users) => (
-    users.map((user, index) => 
+    users.map((user, index) =>
       user.set('index', index + 1)
         .set('email', user.get('unconfirmedEmail') || user.get('email'))
     )
@@ -127,7 +134,12 @@ class UsersTable extends Component {
                                placeholder='name@example.com'
                                readOnly={user.get('disabled')}
                                onCommit={email => this.changeEmail(id, email)} />
-                    {user.get('unconfirmedEmail') && <Label pointing='left'>確認中</Label>}
+                    {user.get('unconfirmedEmail') && (
+                      user.get('disabled')
+                        ? <Label pointing='left' icon='mail' content='確認中' />
+                        : <Label pointing='left' icon='mail' content='確認中' as='a'
+                                 onClick={() => this.resendEmail(user)} />
+                    )}
                   </Table.Cell>
                   <Table.Cell>
                     <Checkbox label='管理者'
@@ -165,6 +177,7 @@ UsersTable.propTypes = {
   loginUser: PropTypes.object,
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
+  onResendEmail: PropTypes.func,
   onRemove: PropTypes.func,
   onRestore: PropTypes.func,
   confirm: PropTypes.func,
