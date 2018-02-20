@@ -83,4 +83,9 @@ class KeyResult < ApplicationRecord
       errors.add(:expired_date, "の値が不正です")  
     end
   end
+
+  def correct_updated_at
+    comment_updated_at = comments.reduce(nil) {|prev, comment| [prev, comment.updated_at].compact.max}
+    [updated_at, comment_updated_at].compact.max
+  end
 end
