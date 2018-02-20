@@ -4,7 +4,7 @@ class KeyResult < ApplicationRecord
   has_many :users, through: :key_result_members
   has_many :child_objectives, class_name: 'Objective', foreign_key: :parent_key_result_id, dependent: :nullify
   belongs_to :okr_period
-  belongs_to :objective
+  belongs_to :objective, touch: true
 
   validate :target_value_required_if_value_unit_exists, 
     :expired_date_can_be_converted_to_date

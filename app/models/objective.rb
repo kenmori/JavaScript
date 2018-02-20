@@ -28,6 +28,6 @@ class Objective < ApplicationRecord
 
   def correct_updated_at
     key_result_updated_at = key_results.reduce(nil) {|prev, kr| [prev, kr.correct_updated_at].compact.max}
-    [updated_at, key_result_updated_at].max
+    [updated_at, key_result_updated_at].compact.max
   end
 end
