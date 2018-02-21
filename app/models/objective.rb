@@ -25,4 +25,9 @@ class Objective < ApplicationRecord
     progress_rate_in_database || (key_results.size == 0 ? 0
         : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.size)
   end
+
+  def correct_updated_at
+    key_result_updated_at = key_results.reduce(nil) {|prev, kr| [prev, kr.correct_updated_at].compact.max}
+    [updated_at, key_result_updated_at].compact.max
+  end
 end
