@@ -22,6 +22,7 @@ class UserSelect extends Component {
       value: user.get('id'),
       text: `${user.get('lastName')} ${user.get('firstName')}`,
       image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
+      email: user.get('email'),
     })).toArray();
   }
 
@@ -32,12 +33,16 @@ class UserSelect extends Component {
     }
   }
 
+  search = (options, query) => {
+    return options.filter(option => option.text.includes(query) || option.email.includes(query))
+  }
+
   render() {
     return (
       <div>
         <Select
           key={this.props.id}
-          search
+          search={this.search}
           options={this.userOptions()}
           defaultValue={this.state.defaultValue}
           onChange={this.handleChange}
