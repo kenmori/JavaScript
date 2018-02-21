@@ -1,5 +1,4 @@
-json.extract! objective, :id, :name, :description, :okr_period_id, :progress_rate, :parent_objective_id, :parent_key_result_id
-json.updated_at objective.correct_updated_at
+json.extract! objective, :id, :name, :description, :okr_period_id, :progress_rate, :parent_objective_id, :parent_key_result_id, :updated_at
 json.is_full true
 json.child_objective_ids objective.child_objective_ids
 
