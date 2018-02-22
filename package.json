@@ -28,7 +28,7 @@
     "redux-form": "^7.2.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.3",
-    "semantic-ui-react": "^0.74.2"
+    "semantic-ui-react": "^0.78.2"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.9.3"
