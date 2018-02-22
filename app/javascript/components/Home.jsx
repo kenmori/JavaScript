@@ -9,13 +9,15 @@ class Home extends Component {
   constructor(props) {
     super(props);
     if (props.objectiveId && props.okrType) {
-      props.openOkrModal(props.objectiveId, { okrType: props.okrType })
+      props.openOkrModal(Number(props.objectiveId), { okrType: props.okrType, targetId: Number(props.keyResultId) })
     }
   }
   componentWillReceiveProps(nextProps) {
-    const isChangedURL = nextProps.okrType !== this.props.okrType || nextProps.objectiveId !== this.props.objectiveId;
+    const isChangedURL = nextProps.okrType !== this.props.okrType || 
+                          nextProps.objectiveId !== this.props.objectiveId ||
+                          nextProps.keyResultId !== this.props.keyResultId;
     if (isChangedURL) {
-      this.props.openOkrModal(nextProps.objectiveId, { okrType: nextProps.okrType })
+      this.props.openOkrModal(Number(nextProps.objectiveId), { okrType: nextProps.okrType, targetId: Number(nextProps.keyResultId) })
     }
   }
   render() {

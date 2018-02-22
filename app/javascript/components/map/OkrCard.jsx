@@ -17,7 +17,7 @@ class OkrCard extends Component {
               <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
                 <Avatar user={keyResult.get('owner')} size='small' />
                 <div className='name'>
-                  <a onClick={() => history.push(`/okr/keyResults/${keyResult.get('id')}`)}>{keyResult.get('name')}</a>
+                  <a onClick={() => history.push(`/okr/objectives/${objective.get('id')}/keyResults/${keyResult.get('id')}`)}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
               </List.Item>
