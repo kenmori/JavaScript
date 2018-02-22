@@ -10,8 +10,8 @@ const mapStateToProps = (state, { match: { params } }) => {
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   const okrType = params.type && params.type.slice(-1) === "s" && params.type.slice(0, -1);
   return {
-    okrType,
-    okrId: params.id,
+    okrType: "objective",
+    objectiveId: params.objectiveId,
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     objectiveIds: objectiveIds,
@@ -29,8 +29,8 @@ const mapDispatchToProps = dispatch => {
     fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
       dispatch(okrActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
     },
-    openOkrModal: (okrId, okrType) => {
-      dispatch(dialogActions.openOkrModal(okrId, okrType));
+    openOkrModal: (objectiveId, okrType) => {
+      dispatch(dialogActions.openOkrModal(Number(objectiveId), okrType));
     },
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());

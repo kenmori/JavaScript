@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <Route exact path='/users/sign_in' component={SignInPage}/>
             <Route exact path='/settings' component={SettingsPage}/>
             <Route exact path='/settings/:name' component={SettingsPage}/>
-            <Route exact path='/okr/:type/:id' component={Home}/>
+            <Route exact path='/okr/objectives/:objectiveId' component={Home}/>
             <Route path='/' component={Home}/>
           </Switch>
         </Router>

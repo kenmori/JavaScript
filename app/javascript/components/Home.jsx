@@ -8,14 +8,14 @@ import OkrModal from '../containers/OkrModal';
 class Home extends Component {
   constructor(props) {
     super(props);
-    if (props.okrType && props.okrId) {
-      props.openOkrModal(Number(props.okrId), { okrType: props.okrType })
+    if (props.objectiveId && props.okrType) {
+      props.openOkrModal(props.objectiveId, { okrType: props.okrType })
     }
   }
   componentWillReceiveProps(nextProps) {
-    const isChangedURL = nextProps.okrType !== this.props.okrType || nextProps.okrId !== this.props.okrId;
+    const isChangedURL = nextProps.okrType !== this.props.okrType || nextProps.objectiveId !== this.props.objectiveId;
     if (isChangedURL) {
-      this.props.openOkrModal(Number(nextProps.okrId), { okrType: nextProps.okrType })
+      this.props.openOkrModal(nextProps.objectiveId, { okrType: nextProps.okrType })
     }
   }
   render() {
