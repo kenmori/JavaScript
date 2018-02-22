@@ -3,10 +3,19 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
+import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
+
+function* fetchOkrs({ payload }) {
+  yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
+  yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
+  if (payload.withAllKeyResults) {
+    yield put(keyResultActions.fetchAllKeyResults(payload.okrPeriodId)); // without loading
+  }
+}
 
 function* fetchObjective({payload}) {
   const result = yield call(API.get, '/objectives/' + payload.id);
@@ -39,6 +48,7 @@ function* removeObjective({payload}) {
 
 export function *objectiveSagas() {
   yield all([
+    takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),

@@ -1,6 +1,6 @@
 import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
-import okrActions from '../actions/okrs';
+import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
-      dispatch(okrActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
     },
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());
