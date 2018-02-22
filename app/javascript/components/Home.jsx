@@ -6,6 +6,18 @@ import ObjectiveModal from '../containers/ObjectiveModal';
 import OkrModal from '../containers/OkrModal';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    if (props.okrType && props.okrId) {
+      props.openOkrModal(Number(props.okrId), { okrType: props.okrType })
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    const isChangedURL = nextProps.okrType !== this.props.okrType || nextProps.okrId !== this.props.okrId;
+    if (isChangedURL) {
+      this.props.openOkrModal(Number(nextProps.okrId), { okrType: nextProps.okrType })
+    }
+  }
   render() {
     return (
       <div className='home'>

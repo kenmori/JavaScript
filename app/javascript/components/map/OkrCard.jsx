@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Icon, List } from 'semantic-ui-react';
 import Avatar from '../../containers/Avatar';
+import history from '../../utils/history';
 import moment from 'moment';
 
 class OkrCard extends Component {
@@ -16,10 +17,7 @@ class OkrCard extends Component {
               <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
                 <Avatar user={keyResult.get('owner')} size='small' />
                 <div className='name'>
-                  <a onClick={() => this.props.openOkrModal(objective.get('id'), {
-                    okrType: 'keyResult',
-                    targetId: keyResult.get('id')
-                  })}>{keyResult.get('name')}</a>
+                  <a onClick={() => history.push(`/okr/keyResults/${keyResult.get('id')}`)}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
               </List.Item>
@@ -52,7 +50,7 @@ class OkrCard extends Component {
         <Card.Content extra className='okr-card__meta'>
           <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/M/D')} 更新</div>
           <Icon link name='write' className='add-button' color='red' circular inverted
-                onClick={() => this.props.openOkrModal(objective.get('id'), { okrType: 'objective' })} />
+                onClick={() => history.push(`/okr/objectives/${objective.get('id')}`)} />
         </Card.Content>
       </Card>
     );
