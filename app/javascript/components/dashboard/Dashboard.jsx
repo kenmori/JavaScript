@@ -7,6 +7,9 @@ import OkrMap from '../../containers/OkrMap';
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
+    if (props.okrType && props.okrId) {
+      props.openOkrModal(Number(props.okrId), { okrType: props.okrType })
+    }
     this.state = {
       mapObjective: null,
       mapObjectiveId: null,
