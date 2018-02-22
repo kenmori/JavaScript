@@ -102,7 +102,7 @@ class OkrModal extends Component {
         closeOnRootNodeClick={true} 
         onClose={this.props.closeModal}
       >
-        <Modal.Content>
+        <Modal.Content scrolling>
           <div className="okr-body">
             <Sidebar 
               objective={objective} 
