@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Segment, Button } from 'semantic-ui-react';
+import history from '../../utils/history';
 import Avatar from '../util/Avatar';
 
 class Sidebar extends Component {
-  keyResultListTag(keyResults, selectedOkr) {
+  keyResultListTag(objectiveId, keyResults, selectedOkr) {
     return keyResults.map(item => {
       const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
                     'sidebar__item is-current' : 'sidebar__item';
       return (
-        <Segment className={cls} key={item.get('id')} onClick={() => this.props.showOkrPane('keyResult', item.get('id'))}>
+        <Segment className={cls} key={item.get('id')} onClick={() => history.push(`/okr/objectives/${objectiveId}/keyResults/${item.get('id')}`)}>
           <span className="sidebar__avatar"><Avatar user={item.get('owner')} size='small' /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
@@ -30,7 +31,7 @@ class Sidebar extends Component {
       <div className="sidebar">
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
-          <Segment className={objectiveCls} onClick={() => showOkrPane('objective')}>
+          <Segment className={objectiveCls} onClick={() => history.push(`/okr/objectives/${objective.get('id')}`)}>
             <span className="sidebar__avatar"><Avatar user={objective.get('owner')} size='small' /></span>
             <span className="sidebar__val">{objective.get('name')}</span>
             <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
@@ -40,7 +41,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
-            { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
+            { this.keyResultListTag(objective.get('id'), objective.get('keyResults'), selectedOkr) }
           </Segment.Group>
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
