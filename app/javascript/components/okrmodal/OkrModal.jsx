@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
+import history from '../../utils/history';
 import Sidebar from './Sidebar'
 import ObjectivePane from './ObjectivePane'
 import KeyResultPane from './KeyResultPane'
@@ -35,12 +36,12 @@ class OkrModal extends Component {
   }
 
   changeToObjectiveModal(parentObjective, relatedKeyResult) {
-    this.props.closeModal();
+    this.closeModal();
     this.props.openObjectiveModal(parentObjective, relatedKeyResult);
   }
 
   changeToKeyResultModal(pbjectiv) {
-    this.props.closeModal();
+    this.closeModal();
     this.props.openKeyResultModal(pbjectiv);
   }
 
@@ -87,6 +88,11 @@ class OkrModal extends Component {
     }
   }
 
+  closeModal() {
+    history.push('/');
+    this.props.closeModal()
+  }
+
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
@@ -100,7 +106,7 @@ class OkrModal extends Component {
         className='okr-modal' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={this.props.closeModal}
+        onClose={this.closeModal.bind(this)}
       >
         <Modal.Content>
           <div className="okr-body">
