@@ -44,13 +44,6 @@ const mapDispatchToProps = dispatch => {
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));
     },
-    showOkrPane: (okrType, targetId) => {
-      if (okrType === 'objective') {
-        dispatch(dialogActions.showOkrPane({ okrType }));
-      } else {
-        dispatch(dialogActions.showOkrPane({ okrType, targetId }));
-      }
-    },
     confirm: (conformParams) => {
       dispatch(confirmActions.openConfirm(conformParams));
     }

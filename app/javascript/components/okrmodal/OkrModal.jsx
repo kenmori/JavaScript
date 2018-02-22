@@ -12,7 +12,7 @@ class OkrModal extends Component {
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
       if (this.isRemovedKeyResult(nextProps)) {
-        this.showOkrPane('objective');
+        history.push(`/okr/objectives/${nextProps.objective.get('id')}`);
       }
       this.setState({ 
         selectedOkr: Map({
@@ -29,10 +29,6 @@ class OkrModal extends Component {
     const selectedOkr = props.selectedOkr;
     return selectedOkr.get('okrType') === 'keyResult' && 
             !(keyResult && keyResult.find(item => item.get('id') === selectedOkr.get('targetId')))
-  }
-
-  showOkrPane(okrType, targetId) {
-    this.props.showOkrPane(okrType, targetId)
   }
 
   changeToObjectiveModal(parentObjective, relatedKeyResult) {
@@ -112,7 +108,6 @@ class OkrModal extends Component {
           <div className="okr-body">
             <Sidebar 
               objective={objective} 
-              showOkrPane={this.showOkrPane.bind(this)} 
               selectedOkr={this.props.selectedOkr} 
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
             />

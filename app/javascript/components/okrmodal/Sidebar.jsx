@@ -24,7 +24,6 @@ class Sidebar extends Component {
     const { 
       objective, 
       selectedOkr,
-      showOkrPane,
     } = this.props;
     const objectiveCls = selectedOkr.get('okrType') === 'objective' ? 'sidebar__item is-current' : 'sidebar__item';
     return (
@@ -53,7 +52,6 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
   selectedOkr: PropTypes.object.isRequired,
-  showOkrPane: PropTypes.func.isRequired,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };
 
