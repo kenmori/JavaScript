@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, put, take, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
@@ -11,9 +11,12 @@ import toastActions from '../actions/toasts';
 
 function* fetchOkrs({ payload }) {
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
+  yield take(actionTypes.FETCHED_OBJECTIVES)
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
+  yield take(actionTypes.FETCHED_KEY_RESULTS)
   if (payload.withAllKeyResults) {
     yield put(keyResultActions.fetchAllKeyResults(payload.okrPeriodId)); // without loading
+    yield take(actionTypes.FETCHED_ALL_KEY_RESULTS)
   }
 }
 
