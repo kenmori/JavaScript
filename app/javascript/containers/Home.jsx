@@ -1,6 +1,6 @@
 import Home from '../components/Home';
 import { connect } from 'react-redux';
-import okrActions from '../actions/okrs';
+import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
@@ -31,7 +31,7 @@ const mapStateToProps = (state, { match: { params } }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
-      dispatch(okrActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
     },
     openOkrModal: (objectiveId, okrType) => {
       dispatch(dialogActions.openOkrModal(objectiveId, okrType));
