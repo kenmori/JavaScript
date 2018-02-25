@@ -13,6 +13,7 @@ class OkrModal extends Component {
     if (!props.objective) {
       this.props.openErrorModal('指定された Objective は存在しません');
       setTimeout(() => this.closeModal(), 0);
+      return;
     }
     if (props.selectedOkr.get('targetId')) {
       const keyResult = props.objective.get('keyResults').find(item => item.get('id') === props.selectedOkr.get('targetId'));
