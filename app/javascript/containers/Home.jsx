@@ -24,6 +24,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     fetchedObjectiveId: fetchedObjectiveId,
     fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
     entities: state.entities,
+    isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
   };
 };
 

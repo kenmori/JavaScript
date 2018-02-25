@@ -28,7 +28,7 @@ class Home extends Component {
           <Dashboard {...this.props} />
           <KeyResultModal/>
           <ObjectiveModal/>
-          <OkrModal/>
+          {this.props.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal/>}
         </main>
       </div>
     );
