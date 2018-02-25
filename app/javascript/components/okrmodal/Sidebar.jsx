@@ -11,7 +11,7 @@ class Sidebar extends Component {
       const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
                     'sidebar__item is-current' : 'sidebar__item';
       return (
-        <Segment className={cls} key={item.get('id')} onClick={() => history.push(`/okr/objectives/${objectiveId}/keyResults/${item.get('id')}`)}>
+        <Segment className={cls} key={item.get('id')} onClick={() => history.push(`/okr/objectives/${objectiveId}/key_results/${item.get('id')}`)}>
           <span className="sidebar__avatar"><Avatar user={item.get('owner')} size='small' /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
