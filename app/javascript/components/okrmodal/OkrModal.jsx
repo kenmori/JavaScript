@@ -2,32 +2,18 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
+import hashids from '../../utils/hashids';
 import history from '../../utils/history';
-import Sidebar from './Sidebar'
-import ObjectivePane from './ObjectivePane'
-import KeyResultPane from './KeyResultPane'
+import Sidebar from './Sidebar';
+import ObjectivePane from './ObjectivePane';
+import KeyResultPane from './KeyResultPane';
 
 class OkrModal extends Component {
-  constructor(props) {
-    super(props);
-    if (!props.objective) {
-      this.props.openErrorModal('指定された Objective は存在しません');
-      setTimeout(() => this.closeModal(), 0);
-      return;
-    }
-    if (props.selectedOkr.get('targetId')) {
-      const keyResult = props.objective.get('keyResults').find(item => item.get('id') === props.selectedOkr.get('targetId'));
-      if (!keyResult) {
-        this.props.openErrorModal('指定された Key Result は存在しません');
-        setTimeout(() => this.closeModal(), 0);
-      }  
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
       if (this.isRemovedKeyResult(nextProps)) {
-        history.push(`/okr/objectives/${nextProps.objective.get('id')}`);
+        const okrHash = hashids.encode(nextProps.objective.get('id'));
+        history.push(`/okr/${okrHash}`);
       }
       this.setState({ 
         selectedOkr: Map({

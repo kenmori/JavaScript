@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import hashids from '../../utils/hashids';
 import { Card, Icon, List } from 'semantic-ui-react';
 import Avatar from '../../containers/Avatar';
 import history from '../../utils/history';
@@ -12,12 +13,13 @@ class OkrCard extends Component {
       <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult => {
+            const okrHash = hashids.encode(objective.get('id'), keyResult.get('id'));
             const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
             return (
               <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
                 <Avatar user={keyResult.get('owner')} size='small' />
                 <div className='name'>
-                  <a onClick={() => history.push(`/okr/objectives/${objective.get('id')}/key_results/${keyResult.get('id')}`)}>{keyResult.get('name')}</a>
+                  <a onClick={() => history.push(`/okr/${okrHash}`)}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
               </List.Item>
@@ -36,6 +38,7 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
+    const okrHash = hashids.encode(objective.get('id'));
     const isSelected = objective.get('id') === this.props.currentObjectiveId;
     return (
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
@@ -50,7 +53,7 @@ class OkrCard extends Component {
         <Card.Content extra className='okr-card__meta'>
           <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/M/D')} 更新</div>
           <Icon link name='write' className='add-button' color='red' circular inverted
-                onClick={() => history.push(`/okr/objectives/${objective.get('id')}`)} />
+                onClick={() => history.push(`/okr/${okrHash}`) } />
         </Card.Content>
       </Card>
     );

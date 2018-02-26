@@ -1,5 +1,6 @@
 import Home from '../components/Home';
 import { connect } from 'react-redux';
+import hashids from '../utils/hashids';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
@@ -8,13 +9,13 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
-  const objectiveId = params.objectiveId;
-  const keyResultId = params.keyResultId;
+  const [objectiveId, keyResultId] = hashids.decode(params.okrHash);
   const okrType = objectiveId && keyResultId ? "keyResult" : objectiveId ? "objective" : "";
   return {
     okrType,
     objectiveId,
     keyResultId,
+    hasOkrHashId: params.okrHash,
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     objectiveIds: objectiveIds,
@@ -32,6 +33,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
+    },
+    openErrorModal: (messages) => {
+      dispatch(dialogActions.openErrorModal(messages))
     },
     openOkrModal: (objectiveId, okrType) => {
       dispatch(dialogActions.openOkrModal(objectiveId, okrType));
