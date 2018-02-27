@@ -30,7 +30,7 @@ class MenuBar extends Component {
   userTrigger = (loginUser) => {
     return (
       <span>
-        <Avatar user={loginUser} size="tiny" /> {loginUser.get('lastName')}
+        <Avatar user={loginUser} size="tiny" useDefault={true} /> {loginUser.get('lastName')}
       </span>
     )
   }

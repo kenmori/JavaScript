@@ -16,11 +16,14 @@ const sizeToNum = {
 };
 
 class Avatar extends Component {
-  avatarTag(path, name, size) {
+  avatarTag(path, name, size, useDefault) {
     let cls = `avatar__img is-${size}`;
 
     if (size === 'tiny' || size === 'mini') {
-      path = path || avatar_image;
+      name = [...name][0]; // 先頭1文字のみを表示する (サロゲートペア考慮済み)
+    }
+    if (useDefault) {
+      path = path || avatar_image; // デフォルト画像を指定する (イニシャルアイコンとして表示されない)
     }
 
     return <UserAvatar className={cls} src={path} name={name} size={sizeToNum[size]} color='transparent' />;
@@ -42,7 +45,7 @@ class Avatar extends Component {
       <div className={`avatar ${this.props.readOnly ? 'readonly' : 'changeable'}`}>
         <input type="file" ref="avatarIcon" className="avatar__file" onChange={this.changeAvatarImage.bind(this)} /> 
         <div onClick={this.openAvatarModal.bind(this)}>
-          <Popup trigger={this.avatarTag(path, lastName, this.props.size)} content={name} size='tiny' />
+          <Popup trigger={this.avatarTag(path, lastName, this.props.size, this.props.useDefault)} content={name} size='tiny' />
         </div>
       </div>
     );
@@ -52,12 +55,14 @@ class Avatar extends Component {
 Avatar.propTypes = {
   user: PropTypes.object,
   size: PropTypes.string,
+  useDefault: PropTypes.bool,
   readOnly: PropTypes.bool,
   openAvatarModal: PropTypes.func
 };
 Avatar.defaultProps = {
   user: null,
   size: 'small',
+  useDefault: false,
   readOnly: true,
 };
 
