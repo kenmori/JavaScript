@@ -46,7 +46,7 @@
   .okr-body {
     display: flex;
     justify-content: space-between;
-    min-height: 620px;
+    min-height: 606px;
   }
 
   .sidebar {
@@ -151,5 +151,9 @@
       display: inline;
       margin-left: 8px;
     }
+  }
+  
+  &.ui.modal .scrolling.content {
+    overflow-y: scroll;
   }
 }
