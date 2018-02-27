@@ -2,19 +2,28 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Popup } from 'semantic-ui-react';
+import UserAvatar from 'react-user-avatar';
 import avatar_image from '../../images/avatar.png';
+
+const sizeToNum = {
+  mini: 18,
+  tiny: 24,
+  small: 36,
+  large: 48,
+  big: 60,
+  huge: 72,
+  massive: 128,
+};
 
 class Avatar extends Component {
   avatarTag(path, name, size) {
     let cls = `avatar__img is-${size}`;
 
-    if (size === 'small') {
+    if (size === 'tiny' || size === 'mini') {
       path = path || avatar_image;
     }
 
-    return path ?
-            <img src={path} className={cls} /> :
-            <div className={cls}>{name}</div>
+    return <UserAvatar className={cls} src={path} name={name} size={sizeToNum[size]} color='transparent' />;
   }
   openAvatarModal() {
     if (this.props.readOnly) return;
@@ -48,7 +57,7 @@ Avatar.propTypes = {
 };
 Avatar.defaultProps = {
   user: null,
-  size: 'normal',
+  size: 'small',
   readOnly: true,
 };
 

@@ -11,7 +11,7 @@ class Sidebar extends Component {
                     'sidebar__item is-current' : 'sidebar__item';
       return (
         <Segment className={cls} key={item.get('id')} onClick={() => this.props.showOkrPane('keyResult', item.get('id'))}>
-          <span className="sidebar__avatar"><Avatar user={item.get('owner')} size='small' /></span>
+          <span className="sidebar__avatar"><Avatar user={item.get('owner')} /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
         </Segment>
@@ -31,7 +31,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={() => showOkrPane('objective')}>
-            <span className="sidebar__avatar"><Avatar user={objective.get('owner')} size='small' /></span>
+            <span className="sidebar__avatar"><Avatar user={objective.get('owner')} /></span>
             <span className="sidebar__val">{objective.get('name')}</span>
             <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
           </Segment>

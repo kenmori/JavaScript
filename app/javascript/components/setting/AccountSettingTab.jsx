@@ -74,7 +74,7 @@ class AccountSettingTab extends Component {
           <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(user.get('id'), email)}/></dd>
 
           <dt>アバター</dt>
-          <dd><Avatar user={user} size="large" /></dd>
+          <dd><Avatar user={user} size="huge" /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">

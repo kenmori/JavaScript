@@ -145,7 +145,7 @@ class KeyResultPane extends Component {
         <List className='child-objectives-list'>
           {childObjectives.map(objective =>
             <List.Item key={objective.get('id')}>
-              <Avatar user={objective.get('owner')} size='small' />
+              <Avatar user={objective.get('owner')} />
               <List.Content>{objective.get('name')}</List.Content>
             </List.Item>
           )}

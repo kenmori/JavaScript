@@ -14,7 +14,7 @@ class OkrCard extends Component {
             const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
             return (
               <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
-                <Avatar user={keyResult.get('owner')} size='small' />
+                <Avatar user={keyResult.get('owner')} />
                 <div className='name'>
                   <a onClick={() => this.props.openOkrModal(objective.get('id'), {
                     okrType: 'keyResult',
@@ -43,7 +43,7 @@ class OkrCard extends Component {
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
         <Card.Content>
           <Card.Header>
-            <Avatar user={objective.get('owner')} />
+            <Avatar user={objective.get('owner')} size='large' />
             <div className="name">{objective.get('name')}</div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>

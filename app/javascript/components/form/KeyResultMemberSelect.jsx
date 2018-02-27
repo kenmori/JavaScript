@@ -10,7 +10,7 @@ class KeyResultMemberSelect extends Component {
       const user = users.find(item => item.get('id') === id);
       return (
         <List.Item key={id} className="key-result-members-select-box__item">
-          <Avatar user={user} size='small' />
+          <Avatar user={user} size='tiny' />
           <List.Content className="key-result-members-select-box__name">{`${user.get('lastName')} ${user.get('firstName')}`}</List.Content>
           <List.Content><Icon link name="close" className="key-result-members-select-box__close" onClick={() => {remove(id)}} /></List.Content>
         </List.Item>
