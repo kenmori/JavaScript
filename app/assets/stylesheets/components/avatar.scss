@@ -1,4 +1,6 @@
 .avatar {
+  position: relative;
+
   .avatar__inner {
     display: inline-block;
     border: 2px rgba(34, 36, 38, 0.15) solid;
@@ -12,6 +14,18 @@
 
   .avatar__name {
     margin-left: .5rem;
+  }
+
+  &.disabled {
+    opacity: .38;
+
+    i.icon {
+      visibility: visible;
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-right: 0;
+    }
   }
 }
 
