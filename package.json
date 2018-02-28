@@ -22,6 +22,7 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^3.0.2",
+    "react-user-avatar": "^1.10.0",
     "recharts": "^1.0.0-beta.6",
     "redux": "^3.7.0",
     "redux-actions": "^2.0.3",

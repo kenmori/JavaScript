@@ -3,7 +3,7 @@ json.is_full true
 json.child_objective_ids objective.child_objective_ids
 
 json.owner do
-  json.extract! objective.owner, :id, :first_name, :last_name, :avatar_url
+  json.extract! objective.owner, :id, :first_name, :last_name, :avatar_url, :disabled
 end
 
 json.key_results do

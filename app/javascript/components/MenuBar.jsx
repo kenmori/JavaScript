@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Dropdown, Menu} from 'semantic-ui-react';
 import UserSelect from './form/UserSelect';
-import Avatar from '../containers/Avatar';
+import UserAvatar from '../containers/UserAvatar';
 import Logo from './util/Logo';
 
 class MenuBar extends Component {
@@ -27,12 +27,8 @@ class MenuBar extends Component {
     }).toArray();
   }
 
-  userTrigger = (loginUser) => {
-    return (
-      <span>
-        <Avatar user={loginUser} size="small" /> {loginUser.get('lastName')}
-      </span>
-    )
+  userTrigger = user => {
+    return <UserAvatar user={user} size='tiny' withInitial={false} withName={true} />;
   }
 
   handleOkrPeriodChange(event, { value }) {

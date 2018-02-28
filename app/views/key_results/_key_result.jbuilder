@@ -4,12 +4,12 @@ json.is_progress_rate_linked key_result.progress_rate_linked?
 json.child_objective_ids key_result.child_objective_ids
 
 json.owner do
-  json.extract! key_result.owner, :id, :first_name, :last_name, :avatar_url if key_result.owner
+  json.extract! key_result.owner, :id, :first_name, :last_name, :avatar_url, :disabled if key_result.owner
 end
 
 json.key_result_members do
   json.array!(key_result.members) do |user|
-    json.extract! user, :id, :first_name, :last_name, :avatar_url
+    json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled
   end
 end
 
