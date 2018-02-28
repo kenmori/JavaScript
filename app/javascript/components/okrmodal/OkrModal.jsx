@@ -12,7 +12,7 @@ class OkrModal extends Component {
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
       if (this.isRemovedKeyResult(nextProps)) {
-        const okrHash = hashids.encode(nextProps.objective.get('id'));
+        const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objective.get('id'));
         history.push(`/okr/${okrHash}`);
       }
       this.setState({ 

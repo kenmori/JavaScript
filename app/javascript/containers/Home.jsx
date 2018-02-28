@@ -9,11 +9,16 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
+  const allKeyResults = denormalizeKeyResults(state.keyResults.get('allIds'), state.entities);
   const [okrTypeId, okrId] = hashids.decode(params.okrHash);
-  const objectiveId = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : 0;
+  let objectiveId = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : 0;
   const keyResultId = okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null;
   const okrType = objectiveId && keyResultId ? "keyResult" : objectiveId ? "objective" : "";
-  console.log(1, denormalizeKeyResults(state.keyResults.get('ids'), state.entities))
+  
+  if (!allKeyResults.isEmpty() && !!keyResultId) {
+    objectiveId = allKeyResults.find(item => item.get('id') === keyResultId).get('objectiveId');
+  }
+
   return {
     okrType,
     objectiveId,

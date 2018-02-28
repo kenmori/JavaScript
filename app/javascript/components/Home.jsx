@@ -14,7 +14,7 @@ class Home extends Component {
       return;
     }
 
-    if (props.hasOkrHashId) {
+    if (props.hasOkrHashId && !props.keyResultId) {
       props.openErrorModal("指定された OKR は存在しません");
       setTimeout(() => history.push('/'), 0);
     }

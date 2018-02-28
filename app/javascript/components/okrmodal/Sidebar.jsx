@@ -9,7 +9,7 @@ import Avatar from '../util/Avatar';
 class Sidebar extends Component {
   keyResultListTag(objectiveId, keyResults, selectedOkr) {
     return keyResults.map(item => {
-      const okrHash = hashids.encode(objectiveId, item.get('id'));
+      const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, item.get('id'));
       const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
                     'sidebar__item is-current' : 'sidebar__item';
       return (
@@ -27,7 +27,7 @@ class Sidebar extends Component {
       objective, 
       selectedOkr,
     } = this.props;
-    const okrHash = hashids.encode(objective.get('id'));
+    const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, objective.get('id'));
     const objectiveCls = selectedOkr.get('okrType') === 'objective' ? 'sidebar__item is-current' : 'sidebar__item';
     return (
       <div className="sidebar">
