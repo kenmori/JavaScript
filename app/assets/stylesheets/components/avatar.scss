@@ -11,6 +11,19 @@
 
 .user_avatar {
   display: inline-block;
+  position: relative;
+
+  i.icon {
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 0;
+  }
+
+  &:hover i.icon {
+    visibility: visible;
+  }
 
   &.changeable {
     cursor: pointer;
