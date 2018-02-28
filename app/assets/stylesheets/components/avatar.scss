@@ -20,3 +20,15 @@
     display: none;
   }
 }
+
+.owner_avatar {
+  display: inline-block;
+}
+
+.owner_avatar__popup {
+  td {
+    .avatar {
+      margin: 1px 4px;
+    }
+  }
+}
