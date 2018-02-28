@@ -42,7 +42,7 @@ class UserAvatar extends Component {
 
   render() {
     return (
-      <Popup size='tiny' trigger={this.trigger()}>
+      <Popup size='tiny' trigger={this.trigger()} open={this.props.withPopup ? undefined : false}>
         <Popup.Content>{this.popupContent()}</Popup.Content>
       </Popup>
     );
@@ -54,6 +54,7 @@ UserAvatar.propTypes = {
   size: PropTypes.string,
   withInitial: PropTypes.bool,
   withName: PropTypes.bool,
+  withPopup: PropTypes.bool,
   readOnly: PropTypes.bool,
   openAvatarModal: PropTypes.func
 };
@@ -62,6 +63,7 @@ UserAvatar.defaultProps = {
   size: 'small',
   withInitial: true,
   withName: false,
+  withPopup: false,
   readOnly: true,
 };
 
