@@ -21,7 +21,7 @@ class KeyResultList extends Component {
   render() {
     return (
       <div className="key-result-list">
-        <Table basic='very' selectable>
+        <Table basic='very' compact='very' selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell />
