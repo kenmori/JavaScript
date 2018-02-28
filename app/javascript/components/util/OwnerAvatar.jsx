@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popup } from 'semantic-ui-react';
+import { Popup, Icon } from 'semantic-ui-react';
 import Avatar from './Avatar';
+
+const sizeToIconSize = {
+  mini: 'small',
+  tiny: 'small',
+  small: null,
+  large: 'large',
+  big: 'large',
+  huge: 'big',
+  massive: 'huge',
+};
 
 class OwnerAvatar extends Component {
 
+  trigger = () => {
+    const hasMembers = this.props.members && this.props.members.size > 0;
+    return (
+      <div className={`owner_avatar`}>
+        <Avatar user={this.props.owner} size={this.props.size} />
+        {hasMembers && <Icon name='plus' size={sizeToIconSize[this.props.size]} color='grey' />}
+      </div>
+    );
+  }
+
   popupContent = () => {
+    const hasMembers = this.props.members && this.props.members.size > 0;
     return (
       <table className='owner_avatar__popup'>
         <tbody>
@@ -17,7 +38,7 @@ class OwnerAvatar extends Component {
           </td>
         </tr>
 
-        {this.props.members && this.props.members.size > 0 && this.props.members.map((member, index) =>
+        {hasMembers && this.props.members.map((member, index) =>
           <tr key={member.get('id')}>
             <th>{index === 0 && '関係者'}</th>
             <td>
@@ -33,11 +54,9 @@ class OwnerAvatar extends Component {
 
   render() {
     return (
-      <div className={`owner_avatar`}>
-        <Popup size='tiny' trigger={<div><Avatar user={this.props.owner} size={this.props.size} /></div>}>
-          <Popup.Content>{this.popupContent()}</Popup.Content>
-        </Popup>
-      </div>
+      <Popup size='tiny' trigger={this.trigger()}>
+        <Popup.Content>{this.popupContent()}</Popup.Content>
+      </Popup>
     );
   }
 }
