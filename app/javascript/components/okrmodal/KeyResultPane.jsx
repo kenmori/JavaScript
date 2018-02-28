@@ -8,7 +8,7 @@ import NumberInput from '../form/NumberInput';
 import AutoTextArea from '../form/AutoTextArea';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
-import Avatar from '../util/Avatar';
+import UserAvatar from '../../containers/UserAvatar';
 import moment from 'moment';
 
 class KeyResultPane extends Component {
@@ -145,7 +145,7 @@ class KeyResultPane extends Component {
         <List className='child-objectives-list'>
           {childObjectives.map(objective =>
             <List.Item key={objective.get('id')}>
-              <Avatar user={objective.get('owner')} />
+              <UserAvatar user={objective.get('owner')} />
               <List.Content>{objective.get('name')}</List.Content>
             </List.Item>
           )}

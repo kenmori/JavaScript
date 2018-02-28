@@ -1,12 +1,5 @@
 .avatar {
   display: inline-block;
-
-  &.changeable {
-    cursor: pointer;
-  }
-}
-.avatar__img {
-  display: inline-block;
   border: 2px rgba(34, 36, 38, 0.15) solid;
   border-radius: 50%;
   vertical-align: middle;
@@ -15,6 +8,15 @@
     border-width: 1px;
   }
 }
-.avatar__file {
-  display: none;
+
+.user_avatar {
+  display: inline-block;
+
+  &.changeable {
+    cursor: pointer;
+  }
+
+  input[type=file] {
+    display: none;
+  }
 }

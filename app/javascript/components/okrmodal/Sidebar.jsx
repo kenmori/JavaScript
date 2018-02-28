@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Segment, Button } from 'semantic-ui-react';
-import Avatar from '../util/Avatar';
+import UserAvatar from '../../containers/UserAvatar';
 
 class Sidebar extends Component {
   keyResultListTag(keyResults, selectedOkr) {
@@ -11,7 +11,7 @@ class Sidebar extends Component {
                     'sidebar__item is-current' : 'sidebar__item';
       return (
         <Segment className={cls} key={item.get('id')} onClick={() => this.props.showOkrPane('keyResult', item.get('id'))}>
-          <span className="sidebar__avatar"><Avatar user={item.get('owner')} /></span>
+          <span className="sidebar__avatar"><UserAvatar user={item.get('owner')} /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
         </Segment>
@@ -31,7 +31,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={() => showOkrPane('objective')}>
-            <span className="sidebar__avatar"><Avatar user={objective.get('owner')} /></span>
+            <span className="sidebar__avatar"><UserAvatar user={objective.get('owner')} /></span>
             <span className="sidebar__val">{objective.get('name')}</span>
             <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
           </Segment>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, Input } from 'semantic-ui-react';
-import Avatar from '../../containers/Avatar';
+import UserAvatar from '../../containers/UserAvatar';
 import AutoInput from '../form/AutoInput';
 
 class AccountSettingTab extends Component {
@@ -74,7 +74,7 @@ class AccountSettingTab extends Component {
           <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(user.get('id'), email)}/></dd>
 
           <dt>アバター</dt>
-          <dd><Avatar user={user} size="huge" useDefault={true} /></dd>
+          <dd><UserAvatar user={user} size="huge" useDefault={true} /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">

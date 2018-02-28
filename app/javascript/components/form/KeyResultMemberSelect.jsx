@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, List } from 'semantic-ui-react';
 import UserSelect from './UserSelect';
-import Avatar from '../util/Avatar';
+import UserAvatar from '../../containers/UserAvatar';
 
 class KeyResultMemberSelect extends Component {
   selectedMembersTag({users, keyResultMembers, add, remove}) {
@@ -10,7 +10,7 @@ class KeyResultMemberSelect extends Component {
       const user = users.find(item => item.get('id') === id);
       return (
         <List.Item key={id} className="key-result-members-select-box__item">
-          <Avatar user={user} size='tiny' useDefault={true} />
+          <UserAvatar user={user} size='tiny' useDefault={true} />
           <List.Content className="key-result-members-select-box__name">{`${user.get('lastName')} ${user.get('firstName')}`}</List.Content>
           <List.Content><Icon link name="close" className="key-result-members-select-box__close" onClick={() => {remove(id)}} /></List.Content>
         </List.Item>
