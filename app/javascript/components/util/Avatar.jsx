@@ -18,21 +18,25 @@ class Avatar extends Component {
     let name = this.props.user.get('lastName');
     let path = this.props.user.get('avatarUrl');
     const size = this.props.size;
+    const fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
 
     if (size === 'tiny' || size === 'mini') {
       name = [...name][0]; // 先頭1文字のみを表示する (サロゲートペア考慮済み)
     }
-    if (this.props.useDefault) {
-      path = path || avatar_image; // デフォルト画像を指定する (イニシャルアイコンとして表示されない)
+    if (!this.props.withInitial) {
+      path = path || avatar_image; // イニシャルを非表示にするためデフォルト画像を指定する
     }
 
     return (
-      <UserAvatar className={`avatar is-${size}`}
-                  src={path}
-                  name={name}
-                  size={sizeToNum[size]}
-                  color='transparent'
-      />
+      <div className='avatar'>
+        <UserAvatar className={`avatar__inner is-${size}`}
+                    src={path}
+                    name={name}
+                    size={sizeToNum[size]}
+                    color='transparent'
+        />
+        {this.props.withName && <span className='avatar__name'>{fullName}</span>}
+      </div>
     );
   }
 }
@@ -40,12 +44,14 @@ class Avatar extends Component {
 Avatar.propTypes = {
   user: PropTypes.object,
   size: PropTypes.string,
-  useDefault: PropTypes.bool,
+  withInitial: PropTypes.bool,
+  withName: PropTypes.bool,
 };
 Avatar.defaultProps = {
   user: null,
   size: 'small',
-  useDefault: false,
+  withInitial: true,
+  withName: false,
 };
 
 export default Avatar;

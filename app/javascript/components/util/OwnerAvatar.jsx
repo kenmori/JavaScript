@@ -32,19 +32,13 @@ class OwnerAvatar extends Component {
         <tbody>
         <tr>
           <th>責任者</th>
-          <td>
-            <Avatar user={this.props.owner} size='tiny' useDefault={true} />
-            {`${this.props.owner.get('lastName')} ${this.props.owner.get('firstName')}`}
-          </td>
+          <td><Avatar user={this.props.owner} size='tiny' withInitial={false} withName={true} /></td>
         </tr>
 
         {hasMembers && this.props.members.map((member, index) =>
           <tr key={member.get('id')}>
             <th>{index === 0 && '関係者'}</th>
-            <td>
-              <Avatar user={member} size='tiny' useDefault={true} />
-              {`${member.get('lastName')} ${member.get('firstName')}`}
-            </td>
+            <td><Avatar user={member} size='tiny' withInitial={false} withName={true} /></td>
           </tr>
         )}
         </tbody>

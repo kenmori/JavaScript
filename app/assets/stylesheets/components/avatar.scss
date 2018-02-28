@@ -1,11 +1,17 @@
 .avatar {
-  display: inline-block;
-  border: 2px rgba(34, 36, 38, 0.15) solid;
-  border-radius: 50%;
-  vertical-align: middle;
+  .avatar__inner {
+    display: inline-block;
+    border: 2px rgba(34, 36, 38, 0.15) solid;
+    border-radius: 50%;
+    vertical-align: middle;
 
-  &.is-tiny, &.is-mini {
-    border-width: 1px;
+    &.is-tiny, &.is-mini {
+      border-width: 1px;
+    }
+  }
+
+  .avatar__name {
+    margin-left: .5rem;
   }
 }
 
@@ -48,8 +54,6 @@
 
 .owner_avatar__popup {
   td {
-    .avatar {
-      margin: 1px 4px;
-    }
+    padding-left: .5rem;
   }
 }

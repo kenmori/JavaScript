@@ -52,14 +52,16 @@ class UserAvatar extends Component {
 UserAvatar.propTypes = {
   user: PropTypes.object,
   size: PropTypes.string,
-  useDefault: PropTypes.bool,
+  withInitial: PropTypes.bool,
+  withName: PropTypes.bool,
   readOnly: PropTypes.bool,
   openAvatarModal: PropTypes.func
 };
 UserAvatar.defaultProps = {
   user: null,
   size: 'small',
-  useDefault: false,
+  withInitial: true,
+  withName: false,
   readOnly: true,
 };
 
