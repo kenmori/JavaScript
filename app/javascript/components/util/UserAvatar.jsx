@@ -16,8 +16,9 @@ const sizeToIconSize = {
 class UserAvatar extends Component {
 
   clickFileInput = () => {
-    if (this.props.readOnly) return;
-    this.refs.fileInput.click();
+    if (this.props.editable) {
+      this.refs.fileInput.click();
+    }
   }
 
   openAvatarModal = event => {
@@ -28,10 +29,10 @@ class UserAvatar extends Component {
 
   trigger = () => {
     return (
-      <div className={`user_avatar ${this.props.readOnly ? 'readonly' : 'changeable'}`} onClick={this.clickFileInput}>
+      <div className={`user_avatar ${this.props.editable ? 'editable' : ''}`} onClick={this.clickFileInput}>
         <Avatar {...this.props} />
         <input type='file' ref='fileInput' onChange={this.openAvatarModal} />
-        {!this.props.readOnly && <Icon name='pencil' size={sizeToIconSize[this.props.size]} color='grey' />}
+        {this.props.editable && <Icon name='pencil' size={sizeToIconSize[this.props.size]} color='grey' />}
       </div>
     );
   }
@@ -55,7 +56,7 @@ UserAvatar.propTypes = {
   withInitial: PropTypes.bool,
   withName: PropTypes.bool,
   withPopup: PropTypes.bool,
-  readOnly: PropTypes.bool,
+  editable: PropTypes.bool,
   openAvatarModal: PropTypes.func
 };
 UserAvatar.defaultProps = {
@@ -64,7 +65,7 @@ UserAvatar.defaultProps = {
   withInitial: true,
   withName: false,
   withPopup: false,
-  readOnly: true,
+  editable: false,
 };
 
 export default UserAvatar;
