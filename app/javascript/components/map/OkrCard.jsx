@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import hashids from '../../utils/hashids';
+import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import { Card, Icon, List } from 'semantic-ui-react';
 import Avatar from '../../containers/Avatar';
 import history from '../../utils/history';
@@ -13,7 +13,7 @@ class OkrCard extends Component {
       <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult => {
-            const okrHash = hashids.encode(objective.get('id'), keyResult.get('id'));
+            const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, keyResult.get('id'));
             const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
             return (
               <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
@@ -38,7 +38,7 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
-    const okrHash = hashids.encode(objective.get('id'));
+    const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, objective.get('id'));
     const isSelected = objective.get('id') === this.props.currentObjectiveId;
     return (
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>

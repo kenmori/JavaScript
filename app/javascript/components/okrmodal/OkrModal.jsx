@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
-import hashids from '../../utils/hashids';
+import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import history from '../../utils/history';
 import Sidebar from './Sidebar';
 import ObjectivePane from './ObjectivePane';

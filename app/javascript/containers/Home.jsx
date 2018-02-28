@@ -1,6 +1,6 @@
 import Home from '../components/Home';
 import { connect } from 'react-redux';
-import hashids from '../utils/hashids';
+import { hashids, OKR_TYPE_ID } from '../utils/hashids';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
@@ -9,8 +9,11 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
-  const [objectiveId, keyResultId] = hashids.decode(params.okrHash);
+  const [okrTypeId, okrId] = hashids.decode(params.okrHash);
+  const objectiveId = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : 0;
+  const keyResultId = okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null;
   const okrType = objectiveId && keyResultId ? "keyResult" : objectiveId ? "objective" : "";
+  console.log(1, denormalizeKeyResults(state.keyResults.get('ids'), state.entities))
   return {
     okrType,
     objectiveId,
