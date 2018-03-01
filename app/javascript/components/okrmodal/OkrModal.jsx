@@ -10,10 +10,13 @@ import KeyResultPane from './KeyResultPane';
 
 class OkrModal extends Component {
   componentWillReceiveProps(nextProps) {
+    
     if (!!nextProps.selectedOkr) {
       if (nextProps.objectiveIdOfRemovedKeyResult) {
         const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objectiveIdOfRemovedKeyResult);
         history.push(`/okr/${okrHash}`);
+      } else if (!nextProps.objective) { 
+        return history.push(`/`); 
       }
       this.setState({ 
         selectedOkr: Map({
