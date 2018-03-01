@@ -4,7 +4,7 @@ class ObjectivesController < ApplicationController
     forbidden and return unless valid_permission?(@user.organization.id)
 
     @objectives = @user.objectives
-                    .includes(key_results: [:comments, :child_objectives], child_objectives: { key_results: [:comments, :child_objectives] })
+                    .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
                     .where(okr_period_id: params[:okr_period_id])
                     .order(created_at: :desc)
   end

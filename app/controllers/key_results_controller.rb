@@ -5,6 +5,7 @@ class KeyResultsController < ApplicationController
       forbidden and return unless valid_permission?(@user.organization.id)
 
       @key_results = @user.key_results
+                         .includes(:child_objectives)
                          .where(okr_period_id: params[:okr_period_id])
                          .order(created_at: :desc)
     else
@@ -12,6 +13,7 @@ class KeyResultsController < ApplicationController
                          .okr_periods
                          .find(params[:okr_period_id])
                          .key_results
+                         .includes(:child_objectives)
                          .order(created_at: :desc)
     end
   end

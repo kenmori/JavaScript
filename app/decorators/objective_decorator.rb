@@ -8,10 +8,10 @@ module ObjectiveDecorator
   end
 
   def child_objective_ids
-    key_results.flat_map { |key_result| key_result.child_objective_ids }
+    key_results.includes(:child_objectives).flat_map { |key_result| key_result.child_objective_ids }
   end
 
   def child_objectives
-    key_results.flat_map { |key_result| key_result.child_objectives }
+    key_results.includes(:child_objectives).flat_map { |key_result| key_result.child_objectives }
   end
 end
