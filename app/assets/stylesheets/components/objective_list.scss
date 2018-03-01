@@ -1,8 +1,9 @@
 .objective-list {
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
-  margin: 16px 16px 16px 24px;
-  height: 195px;
+  margin: 16px 16px 0 24px;
+  height: 195px + 16px; /* with scrollbar */
 
   .objective-box {
     display: inline-flex;

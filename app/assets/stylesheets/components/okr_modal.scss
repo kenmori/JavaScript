@@ -46,7 +46,7 @@
   .okr-body {
     display: flex;
     justify-content: space-between;
-    min-height: 620px;
+    min-height: 606px;
   }
 
   .sidebar {
@@ -68,12 +68,12 @@
     .sidebar__avatar {
       position: absolute;
       top: 50%;
-      left: 7px;
-      margin-top: -10px;
+      left: 4px;
+      margin-top: -18px;
     }
     .sidebar__val {
       display: block;
-      padding-left: 18px;
+      padding-left: 36px;
     }
     .sidebar__rate {
       position: absolute;
@@ -151,5 +151,9 @@
       display: inline;
       margin-left: 8px;
     }
+  }
+  
+  &.ui.modal .scrolling.content {
+    overflow-y: scroll;
   }
 }

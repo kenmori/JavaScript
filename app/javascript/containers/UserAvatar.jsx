@@ -1,10 +1,9 @@
-import Avatar from '../components/util/Avatar';
+import UserAvatar from '../components/util/UserAvatar';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
-  return {
-  };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -18,4 +17,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Avatar);
+)(UserAvatar);

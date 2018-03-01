@@ -1,40 +1,57 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Popup } from 'semantic-ui-react';
+import UserAvatar from 'react-user-avatar';
+import { Icon } from 'semantic-ui-react';
 import avatar_image from '../../images/avatar.png';
 
-class Avatar extends Component {
-  avatarTag(path, name, size) {
-    let cls = `avatar__img is-${size}`;
+const sizeToNum = {
+  mini: 18,
+  tiny: 24,
+  small: 36,
+  large: 48,
+  big: 60,
+  huge: 72,
+  massive: 128,
+};
 
-    if (size === 'small') {
-      path = path || avatar_image;
+const sizeToIconSize = {
+  mini: 'small',
+  tiny: 'small',
+  small: null,
+  large: 'large',
+  big: 'large',
+  huge: 'big',
+  massive: 'huge',
+};
+
+class Avatar extends Component {
+  render() {
+    let name = this.props.user.get('lastName');
+    let path = this.props.user.get('avatarUrl');
+    const size = this.props.size;
+    let fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
+    const disabled = this.props.user.get('disabled');
+
+    if (size === 'tiny' || size === 'mini') {
+      name = [...name][0]; // 先頭1文字のみを表示する (サロゲートペア考慮済み)
+    }
+    if (!this.props.withInitial) {
+      path = path || avatar_image; // イニシャルを非表示にするためデフォルト画像を指定する
+    }
+    if (disabled) {
+      fullName = `${fullName} (無効)`
     }
 
-    return path ?
-            <img src={path} className={cls} /> :
-            <div className={cls}>{name}</div>
-  }
-  openAvatarModal() {
-    if (this.props.readOnly) return;
-    ReactDOM.findDOMNode(this.refs.avatarIcon).click();
-  }
-  changeAvatarImage(event) {
-    if (!event.target.files.length) { return; }
-    this.props.openAvatarModal(this.props.user.get('id'), event.target.files[0]);
-    event.target.value = null;
-  }
-  render() {
-    const lastName = this.props.user.get('lastName');
-    const name = `${lastName} ${this.props.user.get('firstName')}`;
-    const path = this.props.user.get('avatarUrl');
     return (
-      <div className={`avatar ${this.props.readOnly ? 'readonly' : 'changeable'}`}>
-        <input type="file" ref="avatarIcon" className="avatar__file" onChange={this.changeAvatarImage.bind(this)} /> 
-        <div onClick={this.openAvatarModal.bind(this)}>
-          <Popup trigger={this.avatarTag(path, lastName, this.props.size)} content={name} size='tiny' />
-        </div>
+      <div className={`avatar ${disabled ? 'disabled' : ''}`}>
+        <UserAvatar className={`avatar__inner is-${size}`}
+                    src={path}
+                    name={name}
+                    size={sizeToNum[size]}
+                    color='transparent'
+        />
+        {disabled && <Icon disabled name='dont' size={sizeToIconSize[this.props.size]} />}
+        {this.props.withName && <span className='avatar__name'>{fullName}</span>}
       </div>
     );
   }
@@ -43,13 +60,14 @@ class Avatar extends Component {
 Avatar.propTypes = {
   user: PropTypes.object,
   size: PropTypes.string,
-  readOnly: PropTypes.bool,
-  openAvatarModal: PropTypes.func
+  withInitial: PropTypes.bool,
+  withName: PropTypes.bool,
 };
 Avatar.defaultProps = {
   user: null,
-  size: 'normal',
-  readOnly: true,
+  size: 'small',
+  withInitial: true,
+  withName: false,
 };
 
 export default Avatar;

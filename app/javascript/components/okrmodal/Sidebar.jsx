@@ -5,6 +5,7 @@ import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import { Segment, Button } from 'semantic-ui-react';
 import history from '../../utils/history';
 import Avatar from '../util/Avatar';
+import OwnerAvatar from '../util/OwnerAvatar';
 
 class Sidebar extends Component {
   keyResultListTag(objectiveId, keyResults, selectedOkr) {
@@ -14,7 +15,7 @@ class Sidebar extends Component {
                     'sidebar__item is-current' : 'sidebar__item';
       return (
         <Segment className={cls} key={item.get('id')} onClick={() => history.push(`/okr/${okrHash}`)}>
-          <span className="sidebar__avatar"><Avatar user={item.get('owner')} size='small' /></span>
+          <span className="sidebar__avatar"><OwnerAvatar owner={item.get('owner')} members={item.get('keyResultMembers')} /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
         </Segment>
@@ -34,7 +35,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={() => history.push(`/okr/${okrHash}`)}>
-            <span className="sidebar__avatar"><Avatar user={objective.get('owner')} size='small' /></span>
+            <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
             <span className="sidebar__val">{objective.get('name')}</span>
             <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
           </Segment>

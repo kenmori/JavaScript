@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import { Card, Icon, List } from 'semantic-ui-react';
-import Avatar from '../../containers/Avatar';
 import history from '../../utils/history';
+import OwnerAvatar from '../util/OwnerAvatar';
 import moment from 'moment';
 
 class OkrCard extends Component {
@@ -17,7 +17,7 @@ class OkrCard extends Component {
             const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
             return (
               <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
-                <Avatar user={keyResult.get('owner')} size='small' />
+                <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')}/>
                 <div className='name'>
                   <a onClick={() => history.push(`/okr/${okrHash}`)}>{keyResult.get('name')}</a>
                 </div>
@@ -44,7 +44,7 @@ class OkrCard extends Component {
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
         <Card.Content>
           <Card.Header>
-            <Avatar user={objective.get('owner')} />
+            <OwnerAvatar owner={objective.get('owner')} size='large' />
             <div className="name">{objective.get('name')}</div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
-import Avatar from '../../containers/Avatar';
+import UserAvatar from '../../containers/UserAvatar';
 
 class UsersTable extends Component {
 
@@ -96,8 +96,8 @@ class UsersTable extends Component {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
+              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={() => this.sort('index')} textAlign='center' />
               <Table.HeaderCell disabled />
-              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={() => this.sort('index')} />
               <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={() => this.sort('lastName')}>
                 名前
               </Table.HeaderCell>
@@ -117,8 +117,10 @@ class UsersTable extends Component {
               const isLoginUser = this.props.loginUser && id === this.props.loginUser.get('id');
               return (
                 <Table.Row key={id}>
-                  <Table.Cell><Avatar user={user} readOnly={user.get('disabled')} /></Table.Cell>
-                  <Table.Cell>{user.get('index')}</Table.Cell>
+                  <Table.Cell textAlign='center'>{user.get('index')}</Table.Cell>
+                  <Table.Cell textAlign='center'>
+                    <UserAvatar user={user} size='large' withInitial={false} editable={!user.get('disabled')} />
+                  </Table.Cell>
                   <Table.Cell>
                     <AutoInput value={user.get('lastName')}
                                placeholder='姓'
