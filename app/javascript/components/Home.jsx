@@ -34,7 +34,7 @@ class Home extends Component {
           <Dashboard {...this.props} />
           <KeyResultModal/>
           <ObjectiveModal/>
-          {this.props.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal/>}
+          {this.props.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal objectiveIdOfRemovedKeyResult={this.props.objectiveIdOfRemovedKeyResult} />}
         </main>
       </div>
     );

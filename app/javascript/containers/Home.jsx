@@ -1,7 +1,6 @@
 import Home from '../components/Home';
 import { connect } from 'react-redux';
 import { hashids, OKR_TYPE_ID } from '../utils/hashids';
-import history from '../utils/history';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
@@ -15,13 +14,13 @@ const mapStateToProps = (state, { match: { params } }) => {
   let objectiveId = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : null;
   const keyResultId = okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null;
   const okrType = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? 'objective' : okrTypeId === OKR_TYPE_ID.KEY_RESULT ? 'keyResult' : null;
-  
+  let objectiveIdOfRemovedKeyResult = false;
   if (!allKeyResults.isEmpty() && !!keyResultId) {
     const targetKeyResults = allKeyResults.find(item => item.get('id') === keyResultId);
     if(targetKeyResults) {
       objectiveId = targetKeyResults.get('objectiveId')
     } else {
-      history.push('/');
+      objectiveIdOfRemovedKeyResult = state.dialogs.getIn(['okrForm', 'objectiveId']);
     }
   }
 
@@ -29,6 +28,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     okrType,
     objectiveId,
     keyResultId,
+    objectiveIdOfRemovedKeyResult,
     hasOkrHashId: params.okrHash,
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),

@@ -11,8 +11,8 @@ import KeyResultPane from './KeyResultPane';
 class OkrModal extends Component {
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
-      if (this.isRemovedKeyResult(nextProps)) {
-        const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objective.get('id'));
+      if (nextProps.objectiveIdOfRemovedKeyResult) {
+        const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objectiveIdOfRemovedKeyResult);
         history.push(`/okr/${okrHash}`);
       }
       this.setState({ 
@@ -22,14 +22,6 @@ class OkrModal extends Component {
         })
       });
     }
-  }
-
-  isRemovedKeyResult(props) {
-    if (!props.objective) return false;
-    const keyResult = props.objective.get('keyResults');
-    const selectedOkr = props.selectedOkr;
-    return selectedOkr.get('okrType') === 'keyResult' && 
-            !(keyResult && keyResult.find(item => item.get('id') === selectedOkr.get('targetId')))
   }
 
   changeToObjectiveModal(parentObjective, relatedKeyResult) {
