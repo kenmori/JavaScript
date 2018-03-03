@@ -6,26 +6,27 @@ import KeyResultModal from '../containers/KeyResultModal';
 import ObjectiveModal from '../containers/ObjectiveModal';
 import OkrModal from '../containers/OkrModal';
 
+
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    if (props.objectiveId) {
-      props.openOkrModal(Number(props.objectiveId), { okrType: props.okrType, targetId: Number(props.keyResultId) });
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.hasOkrModalResource) {
       return;
     }
 
-    const notExistOkr = props.hasOkrHashId && !props.keyResultId;
-    if (notExistOkr) {
-      props.openErrorModal("指定された OKR は存在しません");
+    if (nextProps.cannotDisplayOkrModal && !nextProps.isOpenErrorModal) {
+      this.props.openErrorModal("指定された OKR は存在しません");
       setTimeout(() => history.push('/'), 0);
+      return;
     }
-  }
-  componentWillReceiveProps(nextProps) {
+
     const isChangedURL = nextProps.objectiveId !== this.props.objectiveId ||
                           nextProps.keyResultId !== this.props.keyResultId;
-    if (isChangedURL) {
-      this.props.openOkrModal(Number(nextProps.objectiveId), { okrType: nextProps.okrType, targetId: Number(nextProps.keyResultId) })
+    if (!nextProps.isOpenOkrModal || isChangedURL) {
+      this.displayModal(nextProps); 
     }
+  }
+  displayModal(props) {
+    this.props.openOkrModal(Number(props.objectiveId), { okrType: props.okrType, targetId: Number(props.keyResultId) });
   }
   render() {
     return (
