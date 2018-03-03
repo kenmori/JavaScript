@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
-import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import history from '../../utils/history';
 import Sidebar from './Sidebar';
 import ObjectivePane from './ObjectivePane';
@@ -12,10 +11,6 @@ class OkrModal extends Component {
   componentWillReceiveProps(nextProps) {
     
     if (!!nextProps.selectedOkr) {
-      if (nextProps.objectiveIdOfRemovedKeyResult) {
-        const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objectiveIdOfRemovedKeyResult);
-        history.push(`/okr/${okrHash}`);
-      }
       this.setState({ 
         selectedOkr: Map({
           okrType: nextProps.selectedOkr.get('okrType'),

@@ -16,24 +16,27 @@ const mapStateToProps = (state, { match: { params } }) => {
   const keyResultId = okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null;
   const okrType = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? 'objective' : okrTypeId === OKR_TYPE_ID.KEY_RESULT ? 'keyResult' : null;
   let objectiveIdOfRemovedKeyResult = false;
+  let isRemovedObjective = false;
 
   const hasOkrModalResource = params.okrHash && !allObjectives.isEmpty() && !allKeyResults.isEmpty();
   let cannotDisplayOkrModal;
   if(hasOkrModalResource) {
+    const currentObjectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
     let targetObjective = null;
     let targetKeyResults = null;
-    if (objectiveId) {
-      targetObjective = allObjectives.find(item => item.get('id') === objectiveId);
-    }
     if (keyResultId) {
       targetKeyResults = allKeyResults.find(item => item.get('id') === keyResultId);
       if(targetKeyResults) {
         objectiveId = targetKeyResults.get('objectiveId')
       } else {
-        objectiveIdOfRemovedKeyResult = state.dialogs.getIn(['okrForm', 'objectiveId']);
+        objectiveIdOfRemovedKeyResult = currentObjectiveId
       }
     }
-    
+
+    if (objectiveId) {
+      targetObjective = allObjectives.find(item => item.get('id') === objectiveId);
+    }
+    isRemovedObjective = objectiveId && objectiveId === currentObjectiveId && !targetObjective;
     cannotDisplayOkrModal = !targetObjective || (keyResultId && !targetKeyResults);
   }
 
@@ -44,6 +47,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     keyResultId,
     hasOkrModalResource,
     cannotDisplayOkrModal,
+    isRemovedObjective,
     objectiveIdOfRemovedKeyResult,
     hasOkrHashId: params.okrHash,
     okrPeriodId: state.current.get('okrPeriodId'),

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { hashids, OKR_TYPE_ID } from '../utils/hashids';
 import history from '../utils/history';
 import MenuBar from '../containers/MenuBar';
 import Dashboard from './dashboard/Dashboard';
@@ -10,6 +11,17 @@ import OkrModal from '../containers/OkrModal';
 class Home extends Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.hasOkrModalResource) {
+      return;
+    }
+
+    if (nextProps.isRemovedObjective) {
+      history.push('/');
+      return;
+    }
+
+    if (nextProps.objectiveIdOfRemovedKeyResult) {
+      const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objectiveIdOfRemovedKeyResult);
+      history.push(`/okr/${okrHash}`);
       return;
     }
 
