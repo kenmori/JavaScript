@@ -28,9 +28,10 @@ export default handleActions({
       const objectiveId = payload.get('result').first();
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
       const parentObjectiveId = objective.get('parentObjectiveId');
+      const parentObjective = payload.getIn(['entities', 'objectives', `${parentObjectiveId}`]);
       const newState = state.set(objectiveId, objective);
       return parentObjectiveId
-        ? newState.updateIn([parentObjectiveId, 'childObjectiveIds'], ids => ids.push(objectiveId))
+        ? newState.setIn([parentObjectiveId, 'childObjectiveIds'], parentObjective.get('childObjectiveIds'))
         : newState;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {

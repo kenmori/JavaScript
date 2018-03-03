@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119095346) do
+ActiveRecord::Schema.define(version: 20180301080435) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -73,7 +73,6 @@ ActiveRecord::Schema.define(version: 20180119095346) do
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
     t.text "description"
-    t.integer "parent_objective_id"
     t.integer "parent_key_result_id"
     t.integer "okr_period_id", null: false
     t.integer "progress_rate"
@@ -81,7 +80,6 @@ ActiveRecord::Schema.define(version: 20180119095346) do
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_objectives_on_created_at"
     t.index ["parent_key_result_id"], name: "index_objectives_on_parent_key_result_id"
-    t.index ["parent_objective_id"], name: "index_objectives_on_parent_objective_id"
   end
 
   create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
