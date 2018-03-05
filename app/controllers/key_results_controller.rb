@@ -16,6 +16,11 @@ class KeyResultsController < ApplicationController
     end
   end
 
+  def show
+    @key_result = KeyResult.find(params[:id])
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+  end
+
   def create
     @user = User.find(params[:key_result][:owner_id])
     owner = Objective.find(params[:key_result][:objective_id]).owner
