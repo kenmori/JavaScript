@@ -10,40 +10,41 @@ import OkrModal from '../containers/OkrModal';
 
 class Home extends Component {
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.hasOkrModalResource) {
+    const status = nextProps.okrModalStatus;
+    if (!status.hasOkrModalResource) {
       return;
     }
 
-    if (nextProps.needFetchKeyResult) {
-      this.props.fetchKeyResult(nextProps.keyResultId);
+    if (status.needFetchKeyResult) {
+      this.props.fetchKeyResult(status.keyResultId);
       return;
     }
 
-    if (nextProps.needFetchObjective) {
-      this.props.fetchObjective(nextProps.objectiveId);
+    if (status.needFetchObjective) {
+      this.props.fetchObjective(status.objectiveId);
       return;
     }
 
-    if (nextProps.isRemovedObjective) {
+    if (status.isRemovedObjective) {
       history.push('/');
       return;
     }
 
-    if (nextProps.objectiveIdOfRemovedKeyResult) {
-      const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, nextProps.objectiveIdOfRemovedKeyResult);
+    if (status.objectiveIdOfRemovedKeyResult) {
+      const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, status.objectiveIdOfRemovedKeyResult);
       history.push(`/okr/${okrHash}`);
       return;
     }
-    // if (nextProps.cannotDisplayOkrModal && !nextProps.isOpenErrorModal) {
+    // if (status.cannotDisplayOkrModal && !status.isOpenErrorModal) {
     //   this.props.openErrorModal("指定された OKR は存在しません");
     //   setTimeout(() => history.push('/'), 0);
     //   return;
     // }
 
-    const isChangedURL = nextProps.objectiveId !== this.props.objectiveId ||
-                          nextProps.keyResultId !== this.props.keyResultId;
-    if (nextProps.canDisplayOkrModal && (!nextProps.isOpenOkrModal || isChangedURL)) {
-      this.displayModal(nextProps);
+    const isChangedURL = status.objectiveId !== this.props.okrModalStatus.objectiveId ||
+                          status.keyResultId !== this.props.okrModalStatus.keyResultId;
+    if (status.canDisplayOkrModal && (!status.isOpenOkrModal || isChangedURL)) {
+      this.displayModal(status);
       this.props.resetKeyResult();
     }
   }
@@ -58,7 +59,7 @@ class Home extends Component {
           <Dashboard {...this.props} />
           <KeyResultModal/>
           <ObjectiveModal/>
-          {this.props.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal objectiveIdOfRemovedKeyResult={this.props.objectiveIdOfRemovedKeyResult} />}
+          {this.props.okrModalStatus.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal objectiveIdOfRemovedKeyResult={this.props.objectiveIdOfRemovedKeyResult} />}
         </main>
       </div>
     );
