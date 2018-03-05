@@ -7,7 +7,7 @@ import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
 
-const getOkrModalStatus = (params) => {
+const getOkrModalStatuses = (params) => {
   const {
     okrType,
     keyResultId,
@@ -75,13 +75,13 @@ const mapStateToProps = (state, { match: { params } }) => {
   const fetchedObjective = fetchedObjectiveId > 0 && denormalizeObjective(fetchedObjectiveId, state.entities);
   const [okrTypeId, okrId] = hashids.decode(params.okrHash);
   
-  const okrModalStatus = getOkrModalStatus({
+  const okrModalStatuses = getOkrModalStatuses({
     okrType: okrTypeId === OKR_TYPE_ID.OBJECTIVE ? 'objective' : okrTypeId === OKR_TYPE_ID.KEY_RESULT ? 'keyResult' : null,
     keyResultId: okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null,
     objectiveId: okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : null,
     fetchedObjectiveId,
     okrHash: params.okrHash,
-    allObjectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
+    allObjectives: denormalizeObjectives(state.objectives.get('allIds'), state.entities),
     allKeyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities),
     fetchedKeyResultId: state.keyResults.get('fetchedKeyResult'),
     isFetchingKeyResult: state.keyResults.get('isFetchingKeyResult'),
@@ -92,7 +92,7 @@ const mapStateToProps = (state, { match: { params } }) => {
   });
 
   return {
-    okrModalStatus,
+    okrModalStatuses,
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     objectiveIds: objectiveIds,

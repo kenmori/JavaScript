@@ -10,7 +10,7 @@ import OkrModal from '../containers/OkrModal';
 
 class Home extends Component {
   componentWillReceiveProps(nextProps) {
-    const status = nextProps.okrModalStatus;
+    const status = nextProps.okrModalStatuses;
     if (!status.hasOkrModalResource) {
       return;
     }
@@ -41,8 +41,8 @@ class Home extends Component {
     //   return;
     // }
 
-    const isChangedURL = status.objectiveId !== this.props.okrModalStatus.objectiveId ||
-                          status.keyResultId !== this.props.okrModalStatus.keyResultId;
+    const isChangedURL = status.objectiveId !== this.props.okrModalStatuses.objectiveId ||
+                          status.keyResultId !== this.props.okrModalStatuses.keyResultId;
     if (status.canDisplayOkrModal && (!status.isOpenOkrModal || isChangedURL)) {
       this.displayModal(status);
       this.props.resetKeyResult();
@@ -59,7 +59,7 @@ class Home extends Component {
           <Dashboard {...this.props} />
           <KeyResultModal/>
           <ObjectiveModal/>
-          {this.props.okrModalStatus.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal objectiveIdOfRemovedKeyResult={this.props.objectiveIdOfRemovedKeyResult} />}
+          {this.props.okrModalStatuses.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal />}
         </main>
       </div>
     );
