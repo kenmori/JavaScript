@@ -14,6 +14,11 @@ class Home extends Component {
       return;
     }
 
+    if (nextProps.needFetchObjective) {
+      nextProps.fetchObjective(nextProps.objectiveId);
+      return;
+    }
+
     if (nextProps.isRemovedObjective) {
       history.push('/');
       return;

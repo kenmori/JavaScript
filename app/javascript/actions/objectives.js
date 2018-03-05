@@ -6,6 +6,7 @@ const actions = createActions({
   [actionTypes.FETCH_OKRS]: (okrPeriodId, userId, withAllKeyResults) => ({ okrPeriodId, userId, withAllKeyResults }),
   [actionTypes.FETCH_OBJECTIVE]: (id) => ({ id }),
   [actionTypes.FETCHED_OBJECTIVE]: (objective) => normalizeObjective(objective),
+  [actionTypes.FETCHED_OBJECTIVE_ERROR]: (id) => ({ id }),
   [actionTypes.FETCH_OBJECTIVES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_OBJECTIVES]: (objectives) => normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),

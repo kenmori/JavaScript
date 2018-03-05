@@ -8,7 +8,9 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 
 const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
+  const isFetchingObjective = state.objectives.get('isFetchingObjective');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
+  const fetchedObjective = fetchedObjectiveId > 0 && denormalizeObjective(fetchedObjectiveId, state.entities);
   const allObjectives = denormalizeObjectives(state.objectives.get('ids'), state.entities);
   const allKeyResults = denormalizeKeyResults(state.keyResults.get('allIds'), state.entities);
   const [okrTypeId, okrId] = hashids.decode(params.okrHash);
@@ -17,27 +19,35 @@ const mapStateToProps = (state, { match: { params } }) => {
   const okrType = okrTypeId === OKR_TYPE_ID.OBJECTIVE ? 'objective' : okrTypeId === OKR_TYPE_ID.KEY_RESULT ? 'keyResult' : null;
   let objectiveIdOfRemovedKeyResult = false;
   let isRemovedObjective = false;
+  
+  allObjectives.forEach((item) => {
+    console.log(item.toJS())
+  })
 
   const hasOkrModalResource = params.okrHash && !allObjectives.isEmpty() && !allKeyResults.isEmpty();
   let cannotDisplayOkrModal;
+  let needFetchObjective;
   if(hasOkrModalResource) {
     const currentObjectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
     let targetObjective = null;
     let targetKeyResults = null;
-    if (keyResultId) {
-      targetKeyResults = allKeyResults.find(item => item.get('id') === keyResultId);
-      if(targetKeyResults) {
-        objectiveId = targetKeyResults.get('objectiveId')
-      } else {
-        objectiveIdOfRemovedKeyResult = currentObjectiveId
-      }
-    }
+    // if (keyResultId) {
+    //   targetKeyResults = allKeyResults.find(item => item.get('id') === keyResultId);
+    //   if(targetKeyResults) {
+    //     objectiveId = targetKeyResults.get('objectiveId')
+    //   } else {
+    //     objectiveIdOfRemovedKeyResult = currentObjectiveId
+    //   }
+    // }
 
     if (objectiveId) {
       targetObjective = allObjectives.find(item => item.get('id') === objectiveId);
+      console.log(targetObjective, fetchedObjectiveId)
+      needFetchObjective = !targetObjective && !fetchedObjectiveId && !isFetchingObjective;
     }
-    isRemovedObjective = objectiveId && objectiveId === currentObjectiveId && !targetObjective;
-    cannotDisplayOkrModal = !targetObjective || (keyResultId && !targetKeyResults);
+    // isRemovedObjective = objectiveId && objectiveId === currentObjectiveId && !fetchedObjective;
+    // cannotDisplayOkrModal = !targetObjective || (keyResultId && !targetKeyResults);
+    cannotDisplayOkrModal = !targetObjective && fetchedObjectiveId;
   }
 
 
@@ -48,6 +58,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     hasOkrModalResource,
     cannotDisplayOkrModal,
     isRemovedObjective,
+    needFetchObjective,
     objectiveIdOfRemovedKeyResult,
     hasOkrHashId: params.okrHash,
     okrPeriodId: state.current.get('okrPeriodId'),
@@ -56,8 +67,8 @@ const mapStateToProps = (state, { match: { params } }) => {
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetched: state.objectives.get('isFetched'),
-    fetchedObjectiveId: fetchedObjectiveId,
-    fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
+    fetchedObjectiveId,
+    fetchedObjective,
     entities: state.entities,
     isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
     isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
@@ -68,6 +79,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
+    },
+    fetchObjective: (objectiveId) => {
+      dispatch(objectiveActions.fetchObjective(objectiveId));
     },
     openErrorModal: (messages) => {
       dispatch(dialogActions.openErrorModal(messages))
