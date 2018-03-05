@@ -14,8 +14,13 @@ class Home extends Component {
       return;
     }
 
+    if (nextProps.needFetchKeyResult) {
+      this.props.fetchKeyResult(nextProps.keyResultId);
+      return;
+    }
+
     if (nextProps.needFetchObjective) {
-      nextProps.fetchObjective(nextProps.objectiveId);
+      this.props.fetchObjective(nextProps.objectiveId);
       return;
     }
 
@@ -29,17 +34,17 @@ class Home extends Component {
       history.push(`/okr/${okrHash}`);
       return;
     }
-
-    if (nextProps.cannotDisplayOkrModal && !nextProps.isOpenErrorModal) {
-      this.props.openErrorModal("指定された OKR は存在しません");
-      setTimeout(() => history.push('/'), 0);
-      return;
-    }
+    // if (nextProps.cannotDisplayOkrModal && !nextProps.isOpenErrorModal) {
+    //   this.props.openErrorModal("指定された OKR は存在しません");
+    //   setTimeout(() => history.push('/'), 0);
+    //   return;
+    // }
 
     const isChangedURL = nextProps.objectiveId !== this.props.objectiveId ||
                           nextProps.keyResultId !== this.props.keyResultId;
-    if (!nextProps.isOpenOkrModal || isChangedURL) {
-      this.displayModal(nextProps); 
+    if (nextProps.canDisplayOkrModal && (!nextProps.isOpenOkrModal || isChangedURL)) {
+      this.displayModal(nextProps);
+      this.props.resetKeyResult();
     }
   }
   displayModal(props) {

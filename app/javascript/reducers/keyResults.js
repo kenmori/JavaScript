@@ -24,10 +24,13 @@ export default handleActions({
     },
     [ActionTypes.FETCHED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
-      return add(state, keyResultId).set('fetchedKeyResult', keyResultId).set('isFetchingKeyResult', false);
+      return addToAll(state, keyResultId).set('fetchedKeyResult', keyResultId).set('isFetchingKeyResult', false);
     },
     [ActionTypes.FETCHED_KEY_RESULT_ERROR]: (state, { payload }) => {
       return state.set('fetchedKeyResult', -1).set('isFetchingKeyResult', false);
+    },
+    [ActionTypes.RESET_KEY_RESULT]: (state, { payload }) => {
+      return state.set('fetchedKeyResult', null);
     },
     [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
       return state.set('ids', payload.get('result'));

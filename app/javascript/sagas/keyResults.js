@@ -15,10 +15,10 @@ function* fetchKeyResult({payload}) {
   if (result.error) {
     yield put(loadingActions.forceCloseLoadingOn());
     yield put(loadingActions.closeLoading());
-    yield put(objectiveActions.fetchedKeyResultError(payload.id));
+    yield put(keyResultActions.fetchedKeyResultError(payload.id));
   } else {
     yield put(loadingActions.closeLoading());
-    yield put(objectiveActions.fetchedKeyResult(result.get('keyResult')));
+    yield put(keyResultActions.fetchedKeyResult(result.get('keyResult')));
   }
 }
 
