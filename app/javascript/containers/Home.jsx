@@ -9,7 +9,7 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 
 const getOkrModalStatuses = (params) => {
   const {
-    okrType,
+    okrId,
     keyResultId,
     fetchedObjectiveId,
     okrHash,
@@ -57,9 +57,12 @@ const getOkrModalStatuses = (params) => {
   // cannotDisplayOkrModal = !targetObjective || (keyResultId && !targetKeyResults);
   canDisplayOkrModal = !!(targetObjective || (keyResultId && targetKeyResults));
 
+  const isInvalidOkr = !okrId || fetchedObjectiveId === -1 || fetchedKeyResultId === -1;
+
   return { 
     ...params,
     objectiveId,
+    isInvalidOkr,
     hasOkrModalResource,
     needFetchKeyResult,
     needFetchObjective,
@@ -76,6 +79,7 @@ const mapStateToProps = (state, { match: { params } }) => {
   const [okrTypeId, okrId] = hashids.decode(params.okrHash);
   
   const okrModalStatuses = getOkrModalStatuses({
+    okrId,
     okrType: okrTypeId === OKR_TYPE_ID.OBJECTIVE ? 'objective' : okrTypeId === OKR_TYPE_ID.KEY_RESULT ? 'keyResult' : null,
     keyResultId: okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null,
     objectiveId: okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : null,
@@ -118,6 +122,9 @@ const mapDispatchToProps = dispatch => {
     },
     resetKeyResult: () => {
       dispatch(keyResultActions.resetKeyResult());
+    },
+    resetObjective: () => {
+      dispatch(objectiveActions.resetObjective());
     },
     openErrorModal: (messages) => {
       dispatch(dialogActions.openErrorModal(messages))

@@ -29,6 +29,9 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state, { payload }) => {
       return state.set('fetchedObjective', -1).set('isFetchingObjective', false);
     },
+    [ActionTypes.RESET_OBJECTIVE]: (state, { payload }) => {
+      return state.set('fetchedObjective', null);
+    },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetched', false).set('isFetching', true);
     },
