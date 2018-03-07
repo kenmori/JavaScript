@@ -85,6 +85,7 @@ class ObjectivePane extends Component {
         <Form.Field>
           <label>説明</label>
           <AutoTextArea value={objective.get('description')}
+                        placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
                         onCommit={value => this.updateObjective({ description: value })}
           />
         </Form.Field>
