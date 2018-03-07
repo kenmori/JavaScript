@@ -106,7 +106,7 @@ class ObjectiveModal extends Component {
                     </div>
                   </div>
                   <div className="sidebar__item">
-                    <div className="sidebar__title">割り当てる Key Result</div>
+                    <div className="sidebar__title">上位 Key Result</div>
                     <div className="sidebar__content">
                       <List>
                         <List.Item>
