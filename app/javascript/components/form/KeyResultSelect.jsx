@@ -34,13 +34,17 @@ class KeyResultSelect extends Component {
 
   render() {
     return (
-      <Select
-        search
-        options={this.keyResultOptions()}
-        defaultValue={this.state.defaultValue}
-        onChange={this.handleChange}
-        loading={this.props.keyResults.isEmpty()}
-      />
+      <div className={`key-result-select ${this.props.disabled ? 'disabled' : ''}`}>
+        <Select
+          search
+          fluid
+          options={this.keyResultOptions()}
+          defaultValue={this.state.defaultValue}
+          disabled={this.props.disabled}
+          onChange={this.handleChange}
+          loading={this.props.keyResults.isEmpty()}
+        />
+      </div>
     );
   }
 }
@@ -48,7 +52,13 @@ class KeyResultSelect extends Component {
 KeyResultSelect.propTypes = {
   keyResults: PropTypes.object.isRequired,
   defaultValue: PropTypes.number,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+};
+
+KeyResultSelect.defaultProps = {
+  defaultValue: null,
+  disabled: false,
 };
 
 export default KeyResultSelect;

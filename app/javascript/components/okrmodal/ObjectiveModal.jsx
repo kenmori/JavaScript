@@ -137,6 +137,7 @@ class ObjectiveModal extends Component {
                   <KeyResultSelect
                     keyResults={this.props.keyResults}
                     defaultValue={this.state.parentKeyResultId}
+                    disabled={hasParentKeyResult}
                     onChange={value => this.setState({ parentKeyResultId: value })}
                   />
                 </Form.Field>
