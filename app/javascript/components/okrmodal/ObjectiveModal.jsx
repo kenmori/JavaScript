@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
 import KeyResultSelect from '../form/KeyResultSelect';
 import RenderField from '../form/RenderField';
-import { Button, Form, Modal, TextArea, List, Divider } from 'semantic-ui-react';
+import { Button, Form, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveModal extends Component {
 
@@ -133,18 +133,6 @@ class ObjectiveModal extends Component {
             <div className="objective-modal__main">
               <Form>
                 <Form.Field>
-                  <label>上位 Key Result</label>
-                  <KeyResultSelect
-                    keyResults={this.props.keyResults}
-                    defaultValue={this.state.parentKeyResultId}
-                    disabled={hasParentKeyResult}
-                    onChange={value => this.setState({ parentKeyResultId: value })}
-                  />
-                </Form.Field>
-
-                <Divider hidden />
-
-                <Form.Field>
                   <label>Objective</label>
                   <Field
                     name="name"
@@ -164,6 +152,15 @@ class ObjectiveModal extends Component {
                     users={this.props.users}
                     defaultValue={this.state.ownerId}
                     onChange={value => this.setState({ ownerId: value })}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>上位 Key Result</label>
+                  <KeyResultSelect
+                    keyResults={this.props.keyResults}
+                    defaultValue={this.state.parentKeyResultId}
+                    disabled={hasParentKeyResult}
+                    onChange={value => this.setState({ parentKeyResultId: value })}
                   />
                 </Form.Field>
               </Form>
