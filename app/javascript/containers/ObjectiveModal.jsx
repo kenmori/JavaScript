@@ -8,8 +8,7 @@ const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
   return {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
-    parentObjective: state.dialogs.getIn(['objectiveForm', 'parentObjective']),
-    relatedKeyResult: state.dialogs.getIn(['objectiveForm', 'relatedKeyResult']),
+    parentKeyResult: state.dialogs.getIn(['objectiveForm', 'parentKeyResult']),
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),

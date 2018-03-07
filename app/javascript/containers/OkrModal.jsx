@@ -22,8 +22,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openObjectiveModal: (parentObjective, relatedKeyResult) => {
-      dispatch(dialogActions.openObjectiveModal(parentObjective, relatedKeyResult));
+    openObjectiveModal: parentKeyResult => {
+      dispatch(dialogActions.openObjectiveModal(parentKeyResult));
     },
     openKeyResultModal: (objective) => {
       dispatch(dialogActions.openKeyResultModal(objective));

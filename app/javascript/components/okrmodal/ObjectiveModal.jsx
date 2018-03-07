@@ -33,15 +33,15 @@ class ObjectiveModal extends Component {
     const objective = {
       description: findDOMNode(this.refs.descriptionArea).value,
       ownerId: this.state.ownerId,
-      parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
+      parentKeyResultId: this.props.parentKeyResult ? this.props.parentKeyResult.get('id') : null,
       okrPeriodId: this.props.okrPeriodId,
     };
     this.props.addObjective(Object.assign(objective, validData));
   }
 
   getInitialOwnerId(props = this.props) {
-    return props.relatedKeyResult
-      ? props.relatedKeyResult.get('owner').get('id')
+    return props.parentKeyResult
+      ? props.parentKeyResult.get('owner').get('id')
       : props.currentUserId;
   }
 
@@ -66,13 +66,11 @@ class ObjectiveModal extends Component {
   }
 
   render() {
-    const objective = this.props.parentObjective;
-    const keyResult = this.props.relatedKeyResult;
-    const { handleSubmit } = this.props;
-    const hasObjective = !!objective;
+    const { parentKeyResult, handleSubmit } = this.props;
+    const hasParentKeyResult = !!parentKeyResult;
     let modalSize = 'small';
     let wrapperClassName = 'objective-modal';
-    if (hasObjective) {
+    if (hasParentKeyResult) {
       modalSize = 'large';
       wrapperClassName += ' is-keyresult';
     }
@@ -92,7 +90,7 @@ class ObjectiveModal extends Component {
         <Modal.Content>
           <div className="objective-modal__body">
             {
-              hasObjective && (
+              hasParentKeyResult && (
                 <div className="objective-modal__sidebar sidebar">
                   <div className="sidebar__item">
                     <div className="sidebar__title">上位 Objective</div>
@@ -100,8 +98,8 @@ class ObjectiveModal extends Component {
                       <List>
                         <List.Item>
                           <List.Content>
-                            <List.Header>{objective.get('name')}</List.Header>
-                            <List.Description>{objective.get('description')}</List.Description>
+                            <List.Header>{parentKeyResult.getIn(['objective', 'name'])}</List.Header>
+                            <List.Description>{parentKeyResult.getIn(['objective', 'description'])}</List.Description>
                           </List.Content>
                         </List.Item>
                       </List>
@@ -113,7 +111,7 @@ class ObjectiveModal extends Component {
                       <List>
                         <List.Item>
                           <List.Content>
-                            <List.Header>{keyResult.get('name')}</List.Header>
+                            <List.Header>{parentKeyResult.get('name')}</List.Header>
                           </List.Content>
                         </List.Item>
                       </List>
@@ -171,8 +169,7 @@ class ObjectiveModal extends Component {
 
 ObjectiveModal.propTypes = {
   addObjective: PropTypes.func.isRequired,
-  parentObjective: PropTypes.object,
-  relatedKeyResult: PropTypes.object,
+  parentKeyResult: PropTypes.object,
 };
 
 export default reduxForm({
