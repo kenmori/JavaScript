@@ -15,12 +15,12 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId, true);
+    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId, this.props.isAdmin);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, true);
+      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, this.props.isAdmin);
     } else if (this.props.userId !== nextProps.userId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
     } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {

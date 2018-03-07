@@ -18,6 +18,7 @@ const mapStateToProps = (state) => {
     fetchedObjectiveId: fetchedObjectiveId,
     fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
     entities: state.entities,
+    isAdmin: state.loginUser.get('isAdmin'),
   };
 };
 
