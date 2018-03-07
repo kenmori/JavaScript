@@ -23,18 +23,18 @@ const getOkrModalState = (params) => {
     isOpenOkrModal,
     isOpenErrorModal,
   } = params;
-  let objectiveIdOfRemovedKeyResult = false;
-  let isRemovedObjective = false;
   let objectiveId = params.objectiveId;
-  let canDisplayOkrModal;
-  let needFetchObjective;
-  let needFetchKeyResult;
+  let isRemovedObjective = false;
+  let objectiveIdOfRemovedKeyResult = null;
+  let needFetchingObjective = false
+  let needFetchingKeyResult = false;
   let targetObjective = null;
   let targetKeyResults = null;
   
   const hasOkrModalResource = okrHash && !allObjectives.isEmpty() && !allKeyResults.isEmpty();
-  const isFetchingResource = hasOkrModalResource && (isFetchingKeyResult || isFetchingObjective)
-  if (!hasOkrModalResource || isFetchingResource) {
+  const isFetchingResources = hasOkrModalResource && (isFetchingKeyResult || isFetchingObjective);
+
+  if (!hasOkrModalResource || isFetchingResources) {
     return {
       isVoid: true
     }
@@ -42,32 +42,29 @@ const getOkrModalState = (params) => {
 
   if (keyResultId) {
     targetKeyResults = allKeyResults.find(item => item.get('id') === keyResultId);
-    needFetchKeyResult = !targetKeyResults && !fetchedKeyResultId && !isFetchingKeyResult;
     if(targetKeyResults) {
       objectiveId = targetKeyResults.get('objectiveId')
     } else {
+      needFetchingKeyResult = !fetchedKeyResultId && !isFetchingKeyResult;
       objectiveIdOfRemovedKeyResult = keyResultId === currentKeyResultId ? currentObjectiveId : null;
     }
   }
 
   if (objectiveId) {
     targetObjective = allObjectives.find(item => item.get('id') === objectiveId);
-    needFetchObjective = !targetObjective && !fetchedObjectiveId && !isFetchingObjective;
+    needFetchingObjective = !targetObjective && !fetchedObjectiveId && !isFetchingObjective;
     isRemovedObjective = objectiveId === currentObjectiveId && !targetObjective;
   }
-  canDisplayOkrModal = !!(targetObjective || (keyResultId && targetKeyResults));
-
-  const isInvalidOkr = !okrId || fetchedObjectiveId === -1 || fetchedKeyResultId === -1;
 
   return { 
     ...params,
     objectiveId,
-    isInvalidOkr,
-    needFetchObjective,
-    needFetchKeyResult,
-    canDisplayOkrModal,
+    needFetchingObjective,
+    needFetchingKeyResult,
     isRemovedObjective,
     objectiveIdOfRemovedKeyResult,
+    canDisplayOkrModal: !!(targetObjective || (keyResultId && targetKeyResults)),
+    isInvalidOkr: !okrId || fetchedObjectiveId === -1 || fetchedKeyResultId === -1,
   }
 }
 
@@ -120,17 +117,17 @@ const mapDispatchToProps = dispatch => {
     fetchKeyResult: (keyResultId) => {
       dispatch(keyResultActions.fetchKeyResult(keyResultId));
     },
-    resetKeyResult: () => {
-      dispatch(keyResultActions.resetKeyResult());
-    },
     resetObjective: () => {
       dispatch(objectiveActions.resetObjective());
     },
-    openErrorModal: (messages) => {
-      dispatch(dialogActions.openErrorModal(messages))
+    resetKeyResult: () => {
+      dispatch(keyResultActions.resetKeyResult());
     },
     openOkrModal: (objectiveId, okrType) => {
       dispatch(dialogActions.openOkrModal(objectiveId, okrType));
+    },
+    openErrorModal: (messages) => {
+      dispatch(dialogActions.openErrorModal(messages))
     },
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());

@@ -13,13 +13,11 @@ function* fetchKeyResult({payload}) {
   yield put(loadingActions.openLoading());
   const result = yield orgCall(API.get, '/key_results/' + payload.id);
   if (result.error) {
-    yield put(loadingActions.forceCloseLoadingOn());
-    yield put(loadingActions.closeLoading());
     yield put(keyResultActions.fetchedKeyResultError(payload.id));
   } else {
-    yield put(loadingActions.closeLoading());
     yield put(keyResultActions.fetchedKeyResult(result.get('keyResult')));
   }
+  yield put(loadingActions.closeLoading());
 }
 
 function* fetchKeyResults({payload}) {

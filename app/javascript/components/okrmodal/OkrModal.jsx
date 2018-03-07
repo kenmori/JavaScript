@@ -9,7 +9,6 @@ import KeyResultPane from './KeyResultPane';
 
 class OkrModal extends Component {
   componentWillReceiveProps(nextProps) {
-    
     if (!!nextProps.selectedOkr) {
       this.setState({ 
         selectedOkr: Map({

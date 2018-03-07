@@ -11,7 +11,7 @@ import OkrModal from '../containers/OkrModal';
 class Home extends Component {
   componentWillReceiveProps(nextProps) {
     const state = nextProps.okrModalState;
-    if (state.isAvoid) {
+    if (state.isVoid) {
       return;
     }
 
@@ -33,15 +33,17 @@ class Home extends Component {
       return;
     }
 
-    if (state.needFetchKeyResult) {
+    if (state.needFetchingKeyResult) {
       this.props.fetchKeyResult(state.keyResultId);
-      return;
     }
 
-    if (state.needFetchObjective) {
+    if (state.needFetchingObjective) {
       this.props.fetchObjective(state.objectiveId);
-      return;
     }
+
+    if (state.needFetchingKeyResult || state.needFetchingObjective) {
+      return;
+    }    
 
     const isChangedURL = state.objectiveId !== this.props.okrModalState.objectiveId ||
                           state.keyResultId !== this.props.okrModalState.keyResultId;
@@ -51,8 +53,8 @@ class Home extends Component {
     }
   }
   resetFetchedOkr() {
-    this.props.resetKeyResult();
     this.props.resetObjective();
+    this.props.resetKeyResult();
   }
   displayModal(props) {
     this.props.openOkrModal(Number(props.objectiveId), { okrType: props.okrType, targetId: Number(props.keyResultId) });
@@ -65,7 +67,7 @@ class Home extends Component {
           <Dashboard {...this.props} />
           <KeyResultModal/>
           <ObjectiveModal/>
-          <OkrModal />
+          <OkrModal/>
         </main>
       </div>
     );

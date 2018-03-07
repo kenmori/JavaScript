@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import { Segment, Button } from 'semantic-ui-react';
 import history from '../../utils/history';
-import Avatar from '../util/Avatar';
 import OwnerAvatar from '../util/OwnerAvatar';
 
 class Sidebar extends Component {
-  keyResultListTag(objectiveId, keyResults, selectedOkr) {
+  keyResultListTag(keyResults, selectedOkr) {
     return keyResults.map(item => {
       const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, item.get('id'));
       const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
@@ -44,7 +43,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
-            { this.keyResultListTag(objective.get('id'), objective.get('keyResults'), selectedOkr) }
+            { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
           </Segment.Group>
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>

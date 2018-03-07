@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
   const objectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
-    objective: objectiveId ? denormalizeObjective(objectiveId, state.entities) : null,
+    objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users.filter(user => !user.get('disabled')),
     loginUser: state.loginUser,
@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => {
     },
     confirm: (conformParams) => {
       dispatch(confirmActions.openConfirm(conformParams));
-    },
+    }
   };
 };
 

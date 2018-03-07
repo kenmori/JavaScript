@@ -25,13 +25,11 @@ function* fetchObjective({payload}) {
   yield put(loadingActions.openLoading());
   const result = yield orgCall(API.get, '/objectives/' + payload.id);
   if (result.error) {
-    yield put(loadingActions.forceCloseLoadingOn());
-    yield put(loadingActions.closeLoading());
     yield put(objectiveActions.fetchedObjectiveError(payload.id));
   } else {
-    yield put(loadingActions.closeLoading());
     yield put(objectiveActions.fetchedObjective(result.get('objective')));
   }
+  yield put(loadingActions.closeLoading());
 }
 
 function* fetchObjectives({payload}) {
