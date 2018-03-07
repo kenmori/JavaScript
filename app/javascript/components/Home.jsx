@@ -10,45 +10,49 @@ import OkrModal from '../containers/OkrModal';
 
 class Home extends Component {
   componentWillReceiveProps(nextProps) {
-    const status = nextProps.okrModalStatuses;
-    if (!status.hasOkrModalResource) {
+    const state = nextProps.okrModalState;
+    if (state.isAvoid) {
       return;
     }
 
-     if (status.isInvalidOkr) {
+    if (state.isInvalidOkr) {
       this.props.openErrorModal("指定された OKR は存在しません");
+      this.resetFetchedOkr();
       history.push('/');
       return;
     }
 
-    if (status.needFetchKeyResult) {
-      this.props.fetchKeyResult(status.keyResultId);
-      return;
-    }
-
-    if (status.needFetchObjective) {
-      this.props.fetchObjective(status.objectiveId);
-      return;
-    }
-
-    if (status.isRemovedObjective) {
-      history.push('/');
-      return;
-    }
-
-    if (status.objectiveIdOfRemovedKeyResult) {
-      const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, status.objectiveIdOfRemovedKeyResult);
+    if (state.objectiveIdOfRemovedKeyResult) {
+      const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, state.objectiveIdOfRemovedKeyResult);
       history.push(`/okr/${okrHash}`);
       return;
     }
 
-    const isChangedURL = status.objectiveId !== this.props.okrModalStatuses.objectiveId ||
-                          status.keyResultId !== this.props.okrModalStatuses.keyResultId;
-    if (status.canDisplayOkrModal && (!status.isOpenOkrModal || isChangedURL)) {
-      this.displayModal(status);
-      this.props.resetKeyResult();
-      this.props.resetObjective();
+    if (state.isRemovedObjective) {
+      history.push('/');
+      return;
     }
+
+    if (state.needFetchKeyResult) {
+      this.props.fetchKeyResult(state.keyResultId);
+      return;
+    }
+
+    if (state.needFetchObjective) {
+      this.props.fetchObjective(state.objectiveId);
+      return;
+    }
+
+    const isChangedURL = state.objectiveId !== this.props.okrModalState.objectiveId ||
+                          state.keyResultId !== this.props.okrModalState.keyResultId;
+    if (state.canDisplayOkrModal && (!state.isOpenOkrModal || isChangedURL)) {
+      this.displayModal(state);
+      this.resetFetchedOkr();
+    }
+  }
+  resetFetchedOkr() {
+    this.props.resetKeyResult();
+    this.props.resetObjective();
   }
   displayModal(props) {
     this.props.openOkrModal(Number(props.objectiveId), { okrType: props.okrType, targetId: Number(props.keyResultId) });
@@ -61,7 +65,7 @@ class Home extends Component {
           <Dashboard {...this.props} />
           <KeyResultModal/>
           <ObjectiveModal/>
-          {this.props.okrModalStatuses.isOpenOkrModal && !this.props.objectives.isEmpty() && <OkrModal />}
+          <OkrModal />
         </main>
       </div>
     );
