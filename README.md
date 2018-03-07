@@ -1,6 +1,6 @@
 ## JavaScript練習問題集
 
-**2017/12/15更新**
+**2018/3/7更新**
 scss問題集をリンク
 https://github.com/kenmori/scss_exercise
 
@@ -16,7 +16,12 @@ https://github.com/kenmori/scss_exercise
 
 ※ECMAScript2015の観点からは非奨励な書き方も載せています。
 現場でまだまだよく見る書き方(varやfor-inなど)、環境に因って使用せざるを得ないなどがその理由です。
+また答えがあなたの考えた答えより冗長な書き方かもしれません。
 置き換えていただけたらと思います。
+・途中似ているような問題が出てくるかもしれませんが気にしないでください。
+・プルリク歓迎です。
+・答えが見えてしまっているのは都度操作させないためです。
+
 
 *★を押していただけたら今後もやる気出ます。よろしくお願いします。
 
@@ -41,8 +46,15 @@ e.g```{a:'a',b:'b'}```
 ```js
 const a = {a: 'a'};
 const b = {b:'b'};
-const c = Object.assign(a, b);
+const c = Object.assign({}, a, b);
 c //{a: 'a', b: 'b'}
+
+//Object.assign(target, ...sources)
+・戻り値はtargetオブジェクト
+・sroucesオブジェクトの挙可能で自分が所有するプロパティのみtargetにコピーされる
+・prototypeに定義し直したい場合、Object.getOwnPropertyDescriptorとObject.definePropertyを使う
+・プロパティが書き込み不可の場合TypeErrorが発生。targetオブジェクトは変更されない
+・Object.assignはsources値がnull、undefinedの場合例外を投げない
 ```
 
 **問2**
@@ -56,11 +68,12 @@ const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 const newArry = arry.slice(-4,-1);
 //or
 const newArry = arry.slice(3,-1);
+//
 ```
 
 **問3**
 
-const arry = ['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
+['a','b’] の要素をconsole出力してください e.g ```'a'```と```'b'```
 
 ```js
 const arry = ['a','b'];
@@ -73,12 +86,12 @@ arry.forEach(function(elem,i){
 
 **問4**
 
-```const arry = ['a', 'b']```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
+```['a', 'b']```の各要素にindex値を足した文字列を出力してください```e.g 'a0'```と```'b1'```
 
 ```js
 const arry = ['a','b'];
-arry.forEach(function(key,i){
- console.log(key + i)
+arry.forEach(function(ele,i){
+ console.log(ele + i)
 })
 //'a0'
 //'b1'
@@ -86,7 +99,7 @@ arry.forEach(function(key,i){
 
 **問5**
 
-```const arry = [1,2]```と定義して配列かどうかを評価してください
+```任意の変数名の[1,2]```を定義して配列かどうかを評価してください
 e.g true
 
 ```js
@@ -4507,7 +4520,7 @@ function withLogging(wrappedFunction){
     return result;
   };
  }
- 
+
 var addAndLog = withLogging(add);
 addAndLog(1, 2)
 //result 3
@@ -4823,7 +4836,7 @@ hash - #test
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
 セッションハイジャック : サーバーから渡されるセッションIDを盗み正規ユーザーになりすますこと
- 
+
 
 ```
 
@@ -4929,7 +4942,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 
 **問243**
-let n = '124';を数値に変換してください。 
+let n = '124';を数値に変換してください。
 
 ```js
 let n = '124';
@@ -4985,7 +4998,7 @@ o && o.f && o.f();
 **問246**
 ```var v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
- 
+
 ```js
 var n = +v || 0;
 ```
@@ -5644,37 +5657,37 @@ const foo = (name, callback) => {
         callback(name);
     }, 100);
 };
- 
+
 const curry = (method, ...args) => {
     return (callback) => {
         args.push(callback);
         return method.apply({}, args);
     };
 };
- 
+
 const controller = (generator) => {
     const iterator = generator();
- 
+
     const advancer = (response) => {
         var state;
- 
+
         state = iterator.next(response);
- 
+
         if (!state.done) {
             state.value(advancer);
         }
     }
- 
+
     advancer();
 };
- 
+
 controller(function* () {
     const a = yield curry(foo, 'a');
     const b = yield curry(foo, 'b');
     const c = yield curry(foo, 'c');
     console.log(a, b, c);
 });
- 
+
 // a
 // b
 // c
@@ -6408,7 +6421,7 @@ el.setAttribute('tabindex', 3);
 ```
 </details>
 <details><summary>問301〜問350</summary>
-	
+
 **問301**
 
 こちら
@@ -7932,7 +7945,7 @@ let b = new A('JavaScript');
 ```
 </details>
 <details><summary>問351〜問400</summary>
-	
+
 **問351**
 
 問352を参照にして、自身にyプロパティをもつFクラスのインスタンスfがFのprototypeオブジェクトを参照していることを証明してください。尚、Fはclass構文とする
@@ -7991,30 +8004,72 @@ http://exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters
 
 **問353**
 
-function-bind
+こちらはmaxからminまでのランダム値を返す関数です。
 ```js
+function randam({max=180, min=1}){
+ return Math.floor(Math.random() * (max - min) + min);
+}
+
+randam({max:20});//20までの値を返す
+randam({});//1~180の値を返す
+```
+こちらの関数に{}を渡さないでも返してくれるようにしてください eg: randam();//1~180までを返す
+
+```js
+function randam({max=180, min=1} = {}){//defaultをもたせます
+ return Math.floor(Math.random() * (max - min) + min);
+}
+
+randam()
 
 ```
 
+
 **問354**
 
+下記のようなオブジェクト
 ```js
+{ foo: { bar: 'baz' } }
+```
+barの値をdeepとして割り当ててください
 
+```js
+const {foo: {bar: deep}};
+console.log(deep)//'baz'
 ```
 
 **問355**
 
+下記
 ```js
-
+[...$('div')]
 ```
+を実行すると例外が発生する(Symbol.iteratorがまだ実装されていないため)。任意の数のdivが持つid値を配列の要素になるような関数を定義してください
+
+```js
+Array.from($('div'), el => el.id)
+//Array.from メソッドはiteratebleなオブジェクトもArraylikeなオブジェクトもサポートする
+//Array.fromは3つの引数をとる
+//・input -キャストしたいarraylike or iteratable object
+//.map - 各inputのitemに対して実行されるmapping function
+//.context - mapが呼ばれる際に使われるthis
+```
+
 
 **問356**
 
-```js
+引数としてnull,[], NaNを渡した際にぞれぞれをtypeofで評価した配列['object', 'object', 'number']を返す関数を作ってください
 
+```js
+function typeOf(){
+  return Array.from(arguments, val => typeof val);
+}
+typeOf(null, [], NaN);
+//['object', 'object', 'number']
 ```
 
 **問357**
+
 
 ```js
 
@@ -8107,4 +8162,5 @@ http://www.jstips.co/en/javascript/
 http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037
 https://www.sitepoint.com/currying-in-functional-javascript/
 https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
+https://ponyfoo.com/articles/es6-array-extensions-in-depth
 </details>
