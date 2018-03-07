@@ -122,34 +122,28 @@ class ObjectiveModal extends Component {
             }
             <div className="objective-modal__main">
               <Form>
-                <Form.Group widths='equal'>
-                  <Form.Field>
-                    <label>Objective</label>
-                    <Field 
-                      name="name" 
-                      type="text"
-                      component={RenderField} 
-                    />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Group widths='equal'>
-                  <Form.Field>
-                    <label>説明</label>
-                    <TextArea autoHeight rows={3} ref='descriptionArea'
-                              placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                    />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Group widths='equal'>
-                  <Form.Field>
-                    <label>責任者</label>
-                    <UserSelect
-                      users={this.props.users} 
-                      defaultValue={this.state.ownerId}
-                      onChange={value => this.setState({ ownerId: value })}
-                    />
-                  </Form.Field>
-                </Form.Group>
+                <Form.Field>
+                  <label>Objective</label>
+                  <Field
+                    name="name"
+                    type="text"
+                    component={RenderField}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>説明</label>
+                  <TextArea autoHeight rows={3} ref='descriptionArea'
+                            placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>責任者</label>
+                  <UserSelect
+                    users={this.props.users}
+                    defaultValue={this.state.ownerId}
+                    onChange={value => this.setState({ ownerId: value })}
+                  />
+                </Form.Field>
               </Form>
             </div>
           </div>
