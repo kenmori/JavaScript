@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import confirmActions from '../actions/confirm';
+import { denormalizeKeyResults } from '../schemas/index';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -12,6 +13,7 @@ const mapStateToProps = (state) => {
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
+    keyResults: denormalizeKeyResults(state.keyResults.get('allIds'), state.entities),
   };
 };
 

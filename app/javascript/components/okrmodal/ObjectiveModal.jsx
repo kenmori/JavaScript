@@ -3,8 +3,9 @@ import { findDOMNode } from 'react-dom';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
+import KeyResultSelect from '../form/KeyResultSelect';
 import RenderField from '../form/RenderField';
-import { Button, Form, Modal, TextArea, List } from 'semantic-ui-react';
+import { Button, Form, Modal, TextArea, List, Divider } from 'semantic-ui-react';
 
 class ObjectiveModal extends Component {
 
@@ -12,6 +13,7 @@ class ObjectiveModal extends Component {
     super(props);
     this.state = {
       ownerId: null,
+      parentKeyResultId: null,
     }
   }
 
@@ -25,6 +27,7 @@ class ObjectiveModal extends Component {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
+        parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
       });
     }
   }
@@ -33,7 +36,7 @@ class ObjectiveModal extends Component {
     const objective = {
       description: findDOMNode(this.refs.descriptionArea).value,
       ownerId: this.state.ownerId,
-      parentKeyResultId: this.props.parentKeyResult ? this.props.parentKeyResult.get('id') : null,
+      parentKeyResultId: this.state.parentKeyResultId,
       okrPeriodId: this.props.okrPeriodId,
     };
     this.props.addObjective(Object.assign(objective, validData));
@@ -44,9 +47,16 @@ class ObjectiveModal extends Component {
       ? props.parentKeyResult.get('owner').get('id')
       : props.currentUserId;
   }
+  
+  getInitialParentKeyResultId(props = this.props) {
+    return props.parentKeyResult
+      ? props.parentKeyResult.get('id')
+      : null;
+  }
 
   isEditing() {
     return this.state.ownerId !== this.getInitialOwnerId()
+      || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
       || findDOMNode(this.refs.descriptionArea).value !== '';
   }
 
@@ -122,6 +132,17 @@ class ObjectiveModal extends Component {
             }
             <div className="objective-modal__main">
               <Form>
+                <Form.Field>
+                  <label>上位 Key Result</label>
+                  <KeyResultSelect
+                    keyResults={this.props.keyResults}
+                    defaultValue={this.state.parentKeyResultId}
+                    onChange={value => this.setState({ parentKeyResultId: value })}
+                  />
+                </Form.Field>
+
+                <Divider hidden />
+
                 <Form.Field>
                   <label>Objective</label>
                   <Field
