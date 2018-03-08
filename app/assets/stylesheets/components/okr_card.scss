@@ -77,22 +77,9 @@
     }
   }
   .okr-card__meta {
-    display: flex;
-    align-items: center;
-
     .update-time {
+      width: 100%;
       font-size: small;
-      margin-right: .5rem;
-      flex-grow: 1;
-    }
-
-    .add-button {
-      visibility: hidden;
-    }
-  }
-  &:hover {
-    .okr-card__meta .add-button{
-      visibility: visible;
     }
   }
 }

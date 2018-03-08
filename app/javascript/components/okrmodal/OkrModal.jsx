@@ -34,9 +34,9 @@ class OkrModal extends Component {
     this.props.showOkrPane(okrType, targetId)
   }
 
-  changeToObjectiveModal(parentObjective, relatedKeyResult) {
+  changeToObjectiveModal(parentKeyResult) {
     this.props.closeModal();
-    this.props.openObjectiveModal(parentObjective, relatedKeyResult);
+    this.props.openObjectiveModal(parentKeyResult);
   }
 
   changeToKeyResultModal(pbjectiv) {
@@ -81,7 +81,7 @@ class OkrModal extends Component {
           {...this.props}
           users={users}
           keyResult={keyResult}
-          changeToObjectiveModal={(parentKeyResult) => this.changeToObjectiveModal(objective, parentKeyResult)}
+          changeToObjectiveModal={parentKeyResult => this.changeToObjectiveModal(parentKeyResult)}
         />
       )
     }

@@ -54,17 +54,6 @@ class ObjectivePane extends Component {
     return (
       <Form>
         <Form.Field>
-          <label>上位 Key Result</label>
-          <KeyResultSelect
-            keyResults={this.props.keyResults}
-            defaultValue={objective.get('parentKeyResultId')}
-            onChange={value => this.updateParentKeyResultId(value)}
-          />
-        </Form.Field>
-
-        <Divider hidden />
-
-        <Form.Field>
           <label>Objective</label>
           <AutoInput value={this.state.name} onCommit={value => this.updateName(value)} />
         </Form.Field>
@@ -85,7 +74,16 @@ class ObjectivePane extends Component {
         <Form.Field>
           <label>説明</label>
           <AutoTextArea value={objective.get('description')}
+                        placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
                         onCommit={value => this.updateObjective({ description: value })}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>上位 Key Result</label>
+          <KeyResultSelect
+            keyResults={this.props.keyResults}
+            defaultValue={objective.get('parentKeyResultId')}
+            onChange={value => this.updateParentKeyResultId(value)}
           />
         </Form.Field>
 
