@@ -100,6 +100,7 @@ class OkrMap extends Component {
           result = result.push({
             fromId: parentId,
             toIds: objectives.map(objective => objective.get('id')),
+            parentKeyResultId: objectives.first().get('parentKeyResultId'),
           });
         }
       }
@@ -110,7 +111,8 @@ class OkrMap extends Component {
         if (!childObjectiveIds.isEmpty()) {
           result = result.push({
             fromId: objective.get('id'),
-            toIds: childObjectiveIds
+            toIds: childObjectiveIds,
+            keyResultIds: objective.get('keyResults').map(keyResult => keyResult.get('id')),
           });
         }
       });
@@ -154,7 +156,9 @@ class OkrMap extends Component {
         toPoints: toPoints,
         toAncestor: collapsedParent,
         isExpanded: !collapsedParent && !collapsedChild,
-        targetId: link.fromId,
+        fromId: link.fromId,
+        parentKeyResultId: link.parentKeyResultId,
+        keyResultIds: link.keyResultIds,
       };
     });
 
@@ -180,28 +184,34 @@ class OkrMap extends Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  updateObjectivesList({ toAncestor, isExpanded, targetId }) {
+  toggleObjective = ({ toAncestor, isExpanded, fromId, parentKeyResultId, keyResultIds }) => {
     let visibleIds;
     if (isExpanded) {
-      const index = this.state.visibleIds.indexOf(targetId);
+      // Objective が展開されている → 折り畳む
+      const index = this.state.visibleIds.keySeq().findIndex(id => id === fromId);
       if (toAncestor) {
         visibleIds = this.state.visibleIds.skip(index + 1);
       } else {
         visibleIds = this.state.visibleIds.take(index);
       }
     } else {
+      // Objective が折り畳まれている → 展開する
       if (toAncestor) {
-        visibleIds = this.state.visibleIds.unshift(targetId);
+        visibleIds = OrderedMap([[fromId, Set.of(parentKeyResultId)]]).merge(this.state.visibleIds);
       } else {
-        // 表示系統を切り替えるため親の ID を検索する
-        const parentId = this.state.objectivesList.find(objectives =>
-          objectives.some(objective => objective.get('id') === targetId))
-          .first().get('parentObjectiveId');
-        const index = this.state.visibleIds.indexOf(parentId);
-        visibleIds = this.state.visibleIds.take(index + 1).push(targetId);
+        visibleIds = this.getSwitchedVisibleIds(fromId, keyResultIds.toSet());
       }
     }
     this.createObjectivesList(this.state.rootObjective, visibleIds);
+  }
+
+  getSwitchedVisibleIds = (objectiveId, keyResultIds) => {
+    // 表示系統を切り替えるため親の ID を検索する
+    const parentId = this.state.objectivesList
+      .find(objectives => objectives.some(objective => objective.get('id') === objectiveId))
+      .first().get('parentObjectiveId');
+    const index = this.state.visibleIds.keySeq().findIndex(id => id === parentId);
+    return this.state.visibleIds.take(index + 1).set(objectiveId, keyResultIds);
   }
 
   render() {
@@ -220,7 +230,7 @@ class OkrMap extends Component {
           </Card.Group>
         ))}
         {this.state.okrPathPropsList && this.state.okrPathPropsList.map((okrPathProps, key) => (
-          <OkrPath key={key} {...okrPathProps} onClick={this.updateObjectivesList.bind(this, okrPathProps)} />
+          <OkrPath key={key} {...okrPathProps} onToggleObjective={this.toggleObjective} />
         ))}
       </div>
     );

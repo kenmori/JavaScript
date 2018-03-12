@@ -98,7 +98,7 @@ class OkrPath extends Component {
           ))}
         </svg>
         <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon'
-              style={this.getIconStyle()} onClick={() => this.props.onClick()} />
+              style={this.getIconStyle()} onClick={() => this.props.onToggleObjective(this.props)} />
       </div>
     );
   }
@@ -111,8 +111,10 @@ OkrPath.propTypes = {
   toPoints: PropTypes.object.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
-  targetId: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
+  fromId: PropTypes.number.isRequired,
+  onToggleObjective: PropTypes.func.isRequired,
+  parentKeyResultId: PropTypes.number,
+  keyResultIds: PropTypes.object,
 };
 
 export default OkrPath;
