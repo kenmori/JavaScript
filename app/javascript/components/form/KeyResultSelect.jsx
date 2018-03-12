@@ -42,7 +42,7 @@ class KeyResultSelect extends Component {
           defaultValue={this.state.defaultValue}
           disabled={this.props.disabled}
           onChange={this.handleChange}
-          loading={this.props.keyResults.isEmpty()}
+          loading={this.props.loading}
         />
       </div>
     );
@@ -53,12 +53,14 @@ KeyResultSelect.propTypes = {
   keyResults: PropTypes.object.isRequired,
   defaultValue: PropTypes.number,
   disabled: PropTypes.bool,
+  loading: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };
 
 KeyResultSelect.defaultProps = {
   defaultValue: null,
   disabled: false,
+  loading: false,
 };
 
 export default KeyResultSelect;

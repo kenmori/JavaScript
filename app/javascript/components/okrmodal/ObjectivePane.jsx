@@ -83,6 +83,7 @@ class ObjectivePane extends Component {
           <KeyResultSelect
             keyResults={this.props.keyResults}
             defaultValue={objective.get('parentKeyResultId')}
+            loading={!this.props.isFetchedKeyResults}
             onChange={value => this.updateParentKeyResultId(value)}
           />
         </Form.Field>

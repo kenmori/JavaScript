@@ -7,14 +7,15 @@ import { denormalizeKeyResults } from '../schemas/index';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
-  const keyResults = state.keyResults.get(state.loginUser.get('isAdmin') ? 'allIds' : 'ids');
+  const isAdmin = state.loginUser.get('isAdmin');
   return {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
     parentKeyResult: state.dialogs.getIn(['objectiveForm', 'parentKeyResult']),
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
-    keyResults: denormalizeKeyResults(keyResults, state.entities),
+    keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
+    isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
   };
 };
 
