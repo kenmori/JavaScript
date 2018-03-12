@@ -2,6 +2,7 @@
   &.ui.card {
     margin-top: 24px;
     margin-bottom: 48px;
+    width: 315px; /* 4 cards in a row within 1366px */
 
     &:hover {
       transform: translateY(-3px);
@@ -27,16 +28,12 @@
 
       .name {
         flex-grow: 1;
-        margin: 0 4px;
+        margin: 0 .5rem;
       }
 
       .progress {
         color: indianred;
         text-align: right;
-      }
-
-      .icon {
-        margin-left: 4px;
       }
     }
 
@@ -49,7 +46,7 @@
 
       .name {
         flex-grow: 1;
-        margin: 0 8px;
+        margin: 0 .5rem;
         font-size: smaller;
         text-align: center;
       }
