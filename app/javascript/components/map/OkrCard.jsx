@@ -7,6 +7,7 @@ import moment from 'moment';
 class OkrCard extends Component {
 
   generateKeyResultList(objective) {
+    const objectiveId = objective.get('id');
     const keyResults = objective.get('keyResults');
     const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
     return (
@@ -20,7 +21,7 @@ class OkrCard extends Component {
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')}/>
                 <div className='name'>
-                  <a onClick={() => this.props.openOkrModal(objective.get('id'), {
+                  <a onClick={() => this.props.openOkrModal(objectiveId, {
                     okrType: 'keyResult',
                     targetId: keyResultId
                   })}>{keyResult.get('name')}</a>
@@ -31,6 +32,7 @@ class OkrCard extends Component {
                   <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
                     <Button circular basic compact icon='sitemap' size='small'
                             active={isToggleOn}
+                            onClick={() => this.props.onToggleKeyResult(objectiveId, keyResultId, isToggleOn)}
                     />
                   </div>
                 }
@@ -79,6 +81,7 @@ class OkrCard extends Component {
 OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
   visibleKeyResultIds: PropTypes.object,
+  onToggleKeyResult: PropTypes.func.isRequired,
 };
 
 export default OkrCard;

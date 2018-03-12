@@ -57,8 +57,11 @@ class OkrMap extends Component {
     const collectDescendants = (result, objective) => {
       const childObjectiveIds = objective.get('childObjectiveIds');
       if (!childObjectiveIds.isEmpty()) {
-        const childObjectives = objective.get('childObjectives');
+        let childObjectives = objective.get('childObjectives');
         if (childObjectiveIds.size === childObjectives.size) {
+          // 親 KR が展開されている子 Objective のみに絞り込む
+          const visibleKeyResultIds = visibleIds.get(objective.get('id')) || Set();
+          childObjectives = childObjectives.filter(objective => visibleKeyResultIds.includes(objective.get('parentKeyResultId')));
           result = result.push(childObjectives);
           // 子 Objective をさらに展開するかどうかチェックする
           const child = childObjectives.find(objective => visibleIds.has(objective.get('id')));
@@ -123,7 +126,7 @@ class OkrMap extends Component {
     // リンク情報からパス情報を作成
     const okrPathPropsList = links.map(link => {
       let collapsedParent = false;
-      let collapsedChild = false;
+      let expandedChild = false;
 
       let fromPoint;
       const fromRef = this.refs[`objective_${link.fromId}`];
@@ -136,17 +139,19 @@ class OkrMap extends Component {
         fromPoint = { x: 0, y: 0 };
       }
 
-      const toPoints = link.toIds.map(toId => {
+      let toPoints = link.toIds.reduce((result, toId) => {
         const toRef = this.refs[`objective_${toId}`];
         if (toRef) {
           const element = findDOMNode(toRef);
           const x = element.offsetLeft + (element.offsetWidth / 2);
-          return { x: x, y: element.offsetTop };
-        } else {
-          collapsedChild = true;
-          return { x: 0, y: 0 };
+          expandedChild = true;
+          result = result.push({ x: x, y: element.offsetTop });
         }
-      });
+        return result;
+      }, List());
+      if (toPoints.isEmpty()) {
+        toPoints = toPoints.push({ x: 0, y: 0 });
+      }
 
       const mapElement = findDOMNode(this.refs.map);
       return {
@@ -155,7 +160,7 @@ class OkrMap extends Component {
         fromPoint: fromPoint,
         toPoints: toPoints,
         toAncestor: collapsedParent,
-        isExpanded: !collapsedParent && !collapsedChild,
+        isExpanded: !collapsedParent && expandedChild,
         fromId: link.fromId,
         parentKeyResultId: link.parentKeyResultId,
         keyResultIds: link.keyResultIds,
@@ -205,6 +210,28 @@ class OkrMap extends Component {
     this.createObjectivesList(this.state.rootObjective, visibleIds);
   }
 
+  toggleKeyResult = (objectiveId, keyResultId, isToggleOn) => {
+    let visibleIds;
+    if (isToggleOn) {
+      // KR が展開されている → 折り畳む
+      visibleIds = this.state.visibleIds.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId));
+      if (visibleIds.get(objectiveId).isEmpty()) {
+        // 全ての KR を折り畳んだ場合は Objective も折り畳む
+        const index = visibleIds.keySeq().findIndex(id => id === objectiveId);
+        visibleIds = visibleIds.take(index);
+      }
+    } else {
+      // KR が折り畳まれている → 展開する
+      if (this.state.visibleIds.has(objectiveId)) {
+        visibleIds = this.state.visibleIds.update(objectiveId, keyResultIds => keyResultIds.add(keyResultId));
+      } else {
+        // 最初の KR を展開した場合は Objective も展開する 
+        visibleIds = this.getSwitchedVisibleIds(objectiveId, Set.of(keyResultId));
+      }
+    }
+    this.createObjectivesList(this.state.rootObjective, visibleIds);
+  }
+
   getSwitchedVisibleIds = (objectiveId, keyResultIds) => {
     // 表示系統を切り替えるため親の ID を検索する
     const parentId = this.state.objectivesList
@@ -225,6 +252,7 @@ class OkrMap extends Component {
                 objective={objective}
                 ref={`objective_${objective.get('id')}`}
                 visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
+                onToggleKeyResult={this.toggleKeyResult}
               />
             ))}
           </Card.Group>
