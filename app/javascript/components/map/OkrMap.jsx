@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
-import { List } from 'immutable'
+import { List, Set, OrderedMap } from 'immutable'
 
 class OkrMap extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      visibleIds: null,
+      visibleIds: null, // OrderedMap<ObjectiveId, Set<KeyResultId>>
       okrPathPropsList: null,
       objectivesList: null,
       rootObjective: null,
@@ -31,7 +32,13 @@ class OkrMap extends Component {
     }
   }
 
-  createObjectivesList(objective, visibleIds = List.of(objective.get('id'))) {
+  getInitialVisibleIds(objective) {
+    return OrderedMap([[
+      objective.get('id'), objective.get('keyResults').map(keyResult => keyResult.get('id')).toSet()
+    ]]);
+  }
+
+  createObjectivesList(objective, visibleIds = this.getInitialVisibleIds(objective)) {
     const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
@@ -53,7 +60,8 @@ class OkrMap extends Component {
         const childObjectives = objective.get('childObjectives');
         if (childObjectiveIds.size === childObjectives.size) {
           result = result.push(childObjectives);
-          const child = childObjectives.find(objective => visibleIds.includes(objective.get('id')));
+          // 子 Objective をさらに展開するかどうかチェックする
+          const child = childObjectives.find(objective => visibleIds.has(objective.get('id')));
           if (child) {
             result = collectDescendants(result, child);
           }
@@ -72,7 +80,7 @@ class OkrMap extends Component {
       rootObjective = this.state.rootObjective;
       objectivesList = List.of(List.of(rootObjective));
     } else {
-      rootObjective = findRoot(objective, visibleIds.first());
+      rootObjective = findRoot(objective, visibleIds.keySeq().first());
       objectivesList = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
     }
     this.setState({
@@ -206,6 +214,7 @@ class OkrMap extends Component {
                 key={key}
                 objective={objective}
                 ref={`objective_${objective.get('id')}`}
+                visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
               />
             ))}
           </Card.Group>

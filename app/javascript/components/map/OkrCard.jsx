@@ -13,14 +13,16 @@ class OkrCard extends Component {
       <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult => {
-            const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
+            const keyResultId = keyResult.get('id');
+            const isSelected = keyResultId === this.props.currentKeyResultId;
+            const isToggleOn = this.props.visibleKeyResultIds && this.props.visibleKeyResultIds.includes(keyResultId);
             return (
-              <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
+              <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')}/>
                 <div className='name'>
                   <a onClick={() => this.props.openOkrModal(objective.get('id'), {
                     okrType: 'keyResult',
-                    targetId: keyResult.get('id')
+                    targetId: keyResultId
                   })}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
@@ -28,6 +30,7 @@ class OkrCard extends Component {
                   showToggle &&
                   <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
                     <Button circular basic compact icon='sitemap' size='small'
+                            active={isToggleOn}
                     />
                   </div>
                 }
@@ -75,6 +78,7 @@ class OkrCard extends Component {
 
 OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
+  visibleKeyResultIds: PropTypes.object,
 };
 
 export default OkrCard;
