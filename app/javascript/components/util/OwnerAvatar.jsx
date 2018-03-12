@@ -48,7 +48,7 @@ class OwnerAvatar extends Component {
 
   render() {
     return (
-      <Popup size='tiny' trigger={this.trigger()}>
+      <Popup hoverable size='tiny' trigger={this.trigger()}>
         <Popup.Content>{this.popupContent()}</Popup.Content>
       </Popup>
     );
