@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Icon, List } from 'semantic-ui-react';
+import { Card, Icon, List, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import moment from 'moment';
 
 class OkrCard extends Component {
+
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
+    const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
     return (
       <Card.Content className="keyResults">
         <List>
@@ -22,6 +24,13 @@ class OkrCard extends Component {
                   })}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
+                {
+                  showToggle &&
+                  <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
+                    <Button circular basic compact icon='sitemap' size='small'
+                    />
+                  </div>
+                }
               </List.Item>
             );
           })}
