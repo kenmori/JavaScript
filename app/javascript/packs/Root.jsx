@@ -22,6 +22,9 @@ import Confirm from '../containers/Confirm';
 const store = configureStore();
 
 document.addEventListener('DOMContentLoaded', () => {
+  const bodyElement = document.createElement('div');
+  bodyElement.setAttribute('id', 'body');
+
   ReactDOM.render(
     <Provider store={store}>
       <div id='root'>
@@ -45,6 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <Confirm />
       </div>
     </Provider>,
-    document.body.appendChild(document.createElement('div')),
+    document.body.appendChild(bodyElement),
   );
 });
