@@ -6,7 +6,7 @@ import { Icon } from 'semantic-ui-react';
 class OkrPath extends Component {
   static STEP_HEIGHT = 24; // 折れ線の段差の高さ
   static LINE_LENGTH = 24; // 折り畳まれた線分の長さ
-  static BYPASS_WIDTH = 290 / 2 + 16; // 迂回路の幅
+  static BYPASS_WIDTH = 315 / 2 + 16; // 迂回路の幅
 
   constructor(props) {
     super(props);
@@ -98,7 +98,7 @@ class OkrPath extends Component {
           ))}
         </svg>
         <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon'
-              style={this.getIconStyle()} onClick={() => this.props.onClick()} />
+              style={this.getIconStyle()} onClick={() => this.props.onToggleObjective(this.props)} />
       </div>
     );
   }
@@ -111,8 +111,10 @@ OkrPath.propTypes = {
   toPoints: PropTypes.object.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
-  targetId: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
+  fromId: PropTypes.number.isRequired,
+  onToggleObjective: PropTypes.func.isRequired,
+  parentKeyResultId: PropTypes.number,
+  keyResultIds: PropTypes.object,
 };
 
 export default OkrPath;
