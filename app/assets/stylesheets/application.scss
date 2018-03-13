@@ -24,10 +24,10 @@
 body {
   margin: 0;
   font-family: 'M+ Type-1 (general-j) Regular', sans-serif;
-  > div {
+  > div#body {
     height: 100%;
 
-    > #root {
+    > div#root {
       height: 100%;
     }
   }

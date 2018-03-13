@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
-import { Card, Icon, List } from 'semantic-ui-react';
+import { Card, Icon, List, Button } from 'semantic-ui-react';
 import history from '../../utils/history';
 import OwnerAvatar from '../util/OwnerAvatar';
 import moment from 'moment';
 
 class OkrCard extends Component {
+
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
+    const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
     return (
       <Card.Content className="keyResults">
         <List>
           {keyResults.map(keyResult => {
-            const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, keyResult.get('id'));
-            const isSelected = keyResult.get('id') === this.props.currentKeyResultId;
+            const keyResultId = keyResult.get('id');
+            const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, keyResultId);
+            const isSelected = keyResultId === this.props.currentKeyResultId;
+            const isToggleOn = this.props.visibleKeyResultIds && this.props.visibleKeyResultIds.includes(keyResultId);
             return (
-              <List.Item className='keyResults__item' key={keyResult.get('id')} active={isSelected}>
+              <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')}/>
                 <div className='name'>
                   <a onClick={() => history.push(`/okr/${okrHash}`)}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
+                {
+                  showToggle &&
+                  <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
+                    <Button circular basic compact icon='sitemap' size='small'
+                            active={isToggleOn}
+                            onClick={() => this.props.onToggleKeyResult(objective.get('id'), keyResultId, isToggleOn)}
+                    />
+                  </div>
+                }
               </List.Item>
             );
           })}
@@ -65,6 +78,8 @@ class OkrCard extends Component {
 
 OkrCard.propTypes = {
   objective: PropTypes.object.isRequired,
+  visibleKeyResultIds: PropTypes.object,
+  onToggleKeyResult: PropTypes.func.isRequired,
 };
 
 export default OkrCard;

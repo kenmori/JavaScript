@@ -2,6 +2,7 @@
   &.ui.card {
     margin-top: 24px;
     margin-bottom: 48px;
+    width: 315px; /* 4 cards in a row within 1366px */
 
     &:hover {
       transform: translateY(-3px);
@@ -27,16 +28,12 @@
 
       .name {
         flex-grow: 1;
-        margin: 0 4px;
+        margin: 0 .5rem;
       }
 
       .progress {
         color: indianred;
         text-align: right;
-      }
-
-      .icon {
-        margin-left: 4px;
       }
     }
 
@@ -49,7 +46,7 @@
 
       .name {
         flex-grow: 1;
-        margin: 0 8px;
+        margin: 0 .5rem;
         font-size: smaller;
         text-align: center;
       }
@@ -69,6 +66,29 @@
     &.active {
       background: rgba(236, 95, 0, 0.3);
       font-weight: bold;
+    }
+
+    .toggle {
+      margin-left: .5rem;
+
+      .ui.basic.button {
+        margin-right: 0;
+        color: rgba(0, 0, 0, .8) !important;
+
+        &:focus, &:hover {
+          background-color: transparent !important;
+        }
+        &:focus:not(:hover) {
+          box-shadow: 0 0 0 1px rgba(34, 36, 38, .15) inset;
+        }
+        &.active {
+          background-color: rgba(0, 0, 0, .05) !important;
+        }
+      }
+
+      &.no-child {
+        visibility: hidden;
+      }
     }
   }
   .keyResults__item--add {

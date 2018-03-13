@@ -43,7 +43,7 @@ class UserAvatar extends Component {
 
   render() {
     return (
-      <Popup size='tiny' trigger={this.trigger()} open={this.props.withPopup ? undefined : false}>
+      <Popup hoverable size='tiny' trigger={this.trigger()} open={this.props.withPopup ? undefined : false}>
         <Popup.Content>{this.popupContent()}</Popup.Content>
       </Popup>
     );

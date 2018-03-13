@@ -32,11 +32,17 @@ export default handleActions({
     [ActionTypes.RESET_KEY_RESULT]: (state, { payload }) => {
       return state.set('fetchedKeyResult', null);
     },
+    [ActionTypes.FETCH_KEY_RESULTS]: (state, { payload }) => {
+      return state.set('isFetchedKeyResults', false);
+    },
     [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
-      return state.set('ids', payload.get('result'));
+      return state.set('ids', payload.get('result')).set('isFetchedKeyResults', true);
+    },
+    [ActionTypes.FETCH_ALL_KEY_RESULTS]: (state, { payload }) => {
+      return state.set('isFetchedAllKeyResults', false);
     },
     [ActionTypes.FETCHED_ALL_KEY_RESULTS]: (state, { payload }) => {
-      return state.set('allIds', payload.get('result'));
+      return state.set('allIds', payload.get('result')).set('isFetchedAllKeyResults', true);
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
@@ -67,5 +73,7 @@ export default handleActions({
     fetchedKeyResult: null,
     isFetchingKeyResult: false,
     allIds: [],
+    isFetchedKeyResults: false,
+    isFetchedAllKeyResults: false,
   }),
 );

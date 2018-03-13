@@ -10,14 +10,15 @@ import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index'
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
   const objectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
-  const keyResults = state.keyResults.get(state.loginUser.get('isAdmin') ? 'allIds' : 'ids');
+  const isAdmin = state.loginUser.get('isAdmin');
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
     users: state.users.filter(user => !user.get('disabled')),
     loginUser: state.loginUser,
-    keyResults: denormalizeKeyResults(keyResults, state.entities)
+    keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
+    isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
   };
 };
 
