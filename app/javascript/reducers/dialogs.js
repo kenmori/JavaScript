@@ -6,8 +6,7 @@ export default handleActions({
     [ActionTypes.OPEN_OBJECTIVE_MODAL]: (state, { payload }) => (
       state.set('objectiveForm', fromJS({
         isOpen: true,
-        parentObjective: payload.parentObjective,
-        relatedKeyResult: payload.relatedKeyResult,
+        parentKeyResult: payload.parentKeyResult,
       }))
     ),
     [ActionTypes.CLOSE_OBJECTIVE_MODAL]: (state) => (

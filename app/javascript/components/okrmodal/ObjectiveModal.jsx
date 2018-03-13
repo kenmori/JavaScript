@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
+import KeyResultSelect from '../form/KeyResultSelect';
 import RenderField from '../form/RenderField';
 import { Button, Form, Modal, TextArea, List } from 'semantic-ui-react';
 
@@ -12,6 +13,7 @@ class ObjectiveModal extends Component {
     super(props);
     this.state = {
       ownerId: null,
+      parentKeyResultId: null,
     }
   }
 
@@ -25,6 +27,7 @@ class ObjectiveModal extends Component {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
+        parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
       });
     }
   }
@@ -33,20 +36,27 @@ class ObjectiveModal extends Component {
     const objective = {
       description: findDOMNode(this.refs.descriptionArea).value,
       ownerId: this.state.ownerId,
-      parentKeyResultId: this.props.relatedKeyResult ? this.props.relatedKeyResult.get('id') : null,
+      parentKeyResultId: this.state.parentKeyResultId,
       okrPeriodId: this.props.okrPeriodId,
     };
     this.props.addObjective(Object.assign(objective, validData));
   }
 
   getInitialOwnerId(props = this.props) {
-    return props.relatedKeyResult
-      ? props.relatedKeyResult.get('owner').get('id')
+    return props.parentKeyResult
+      ? props.parentKeyResult.get('owner').get('id')
       : props.currentUserId;
+  }
+  
+  getInitialParentKeyResultId(props = this.props) {
+    return props.parentKeyResult
+      ? props.parentKeyResult.get('id')
+      : null;
   }
 
   isEditing() {
     return this.state.ownerId !== this.getInitialOwnerId()
+      || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
       || findDOMNode(this.refs.descriptionArea).value !== '';
   }
 
@@ -66,13 +76,11 @@ class ObjectiveModal extends Component {
   }
 
   render() {
-    const objective = this.props.parentObjective;
-    const keyResult = this.props.relatedKeyResult;
-    const { handleSubmit } = this.props;
-    const hasObjective = !!objective;
+    const { parentKeyResult, handleSubmit } = this.props;
+    const hasParentKeyResult = !!parentKeyResult;
     let modalSize = 'small';
     let wrapperClassName = 'objective-modal';
-    if (hasObjective) {
+    if (hasParentKeyResult) {
       modalSize = 'large';
       wrapperClassName += ' is-keyresult';
     }
@@ -92,7 +100,7 @@ class ObjectiveModal extends Component {
         <Modal.Content>
           <div className="objective-modal__body">
             {
-              hasObjective && (
+              hasParentKeyResult && (
                 <div className="objective-modal__sidebar sidebar">
                   <div className="sidebar__item">
                     <div className="sidebar__title">上位 Objective</div>
@@ -100,20 +108,20 @@ class ObjectiveModal extends Component {
                       <List>
                         <List.Item>
                           <List.Content>
-                            <List.Header>{objective.get('name')}</List.Header>
-                            <List.Description>{objective.get('description')}</List.Description>
+                            <List.Header>{parentKeyResult.getIn(['objective', 'name'])}</List.Header>
+                            <List.Description>{parentKeyResult.getIn(['objective', 'description'])}</List.Description>
                           </List.Content>
                         </List.Item>
                       </List>
                     </div>
                   </div>
                   <div className="sidebar__item">
-                    <div className="sidebar__title">割り当てる Key Result</div>
+                    <div className="sidebar__title">上位 Key Result</div>
                     <div className="sidebar__content">
                       <List>
                         <List.Item>
                           <List.Content>
-                            <List.Header>{keyResult.get('name')}</List.Header>
+                            <List.Header>{parentKeyResult.get('name')}</List.Header>
                           </List.Content>
                         </List.Item>
                       </List>
@@ -124,34 +132,37 @@ class ObjectiveModal extends Component {
             }
             <div className="objective-modal__main">
               <Form>
-                <Form.Group widths='equal'>
-                  <Form.Field>
-                    <label>Objective</label>
-                    <Field 
-                      name="name" 
-                      type="text"
-                      component={RenderField} 
-                    />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Group widths='equal'>
-                  <Form.Field>
-                    <label>説明</label>
-                    <TextArea autoHeight rows={3} ref='descriptionArea'
-                              placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                    />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Group widths='equal'>
-                  <Form.Field>
-                    <label>責任者</label>
-                    <UserSelect
-                      users={this.props.users} 
-                      defaultValue={this.state.ownerId}
-                      onChange={value => this.setState({ ownerId: value })}
-                    />
-                  </Form.Field>
-                </Form.Group>
+                <Form.Field>
+                  <label>Objective</label>
+                  <Field
+                    name="name"
+                    type="text"
+                    component={RenderField}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>説明</label>
+                  <TextArea autoHeight rows={3} ref='descriptionArea'
+                            placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>責任者</label>
+                  <UserSelect
+                    users={this.props.users}
+                    defaultValue={this.state.ownerId}
+                    onChange={value => this.setState({ ownerId: value })}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>上位 Key Result</label>
+                  <KeyResultSelect
+                    keyResults={this.props.keyResults}
+                    defaultValue={this.state.parentKeyResultId}
+                    disabled={hasParentKeyResult}
+                    onChange={value => this.setState({ parentKeyResultId: value })}
+                  />
+                </Form.Field>
               </Form>
             </div>
           </div>
@@ -171,8 +182,7 @@ class ObjectiveModal extends Component {
 
 ObjectiveModal.propTypes = {
   addObjective: PropTypes.func.isRequired,
-  parentObjective: PropTypes.object,
-  relatedKeyResult: PropTypes.object,
+  parentKeyResult: PropTypes.object,
 };
 
 export default reduxForm({

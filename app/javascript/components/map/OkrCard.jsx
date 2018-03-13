@@ -45,15 +45,18 @@ class OkrCard extends Component {
         <Card.Content>
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
-            <div className="name">{objective.get('name')}</div>
+            <div className="name">
+              <a onClick={() => history.push(`/okr/${okrHash}`)}>{objective.get('name')}</a>
+            </div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>
         </Card.Content>
         {this.generateKeyResultList(objective)}
-        <Card.Content extra className='okr-card__meta'>
-          <div className='update-time'>{moment(objective.get('updatedAt')).format('YYYY/M/D')} 更新</div>
-          <Icon link name='write' className='add-button' color='red' circular inverted
-                onClick={() => history.push(`/okr/${okrHash}`) } />
+        <Card.Content extra className='okr-card__meta' textAlign='right'>
+          <div className='update-time'>
+            <Icon name='time' />
+            {moment(objective.get('updatedAt')).format('YYYY/M/D')} 更新
+          </div>
         </Card.Content>
       </Card>
     );

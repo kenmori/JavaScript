@@ -24,15 +24,7 @@ function updateProgressRate(state, { payload }) {
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
-    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const parentObjectiveId = objective.get('parentObjectiveId');
-      const newState = state.set(objectiveId, objective);
-      return parentObjectiveId
-        ? newState.updateIn([parentObjectiveId, 'childObjectiveIds'], ids => ids.push(objectiveId))
-        : newState;
-    },
+    [ActionTypes.ADDED_OBJECTIVE]: merge,
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       state = merge(state, { payload });
 

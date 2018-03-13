@@ -15,12 +15,12 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId, true);
+    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId, this.props.isAdmin);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, true);
+      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, this.props.isAdmin);
     } else if (this.props.userId !== nextProps.userId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
     } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {
@@ -54,8 +54,14 @@ export default class Dashboard extends Component {
       return nextObjective; // 前回の選択 Objective が存在しない場合
     }
     if (prevObjectives.size < nextObjectives.size) {
-      if (!nextObjective.get('parentObjectiveId')) {
-        return nextObjective; // 追加された Objective が親を持たない場合 (新規作成)
+      const findParent = (objective, parentId) => {
+        const parent = objective.get('parentObjective');
+        return parent
+          ? parent.get('id') === parentId ? true : findParent(parent, parentId)
+          : false;
+      }
+      if (!findParent(nextObjective, prevObjectiveId)) {
+        return nextObjective; // 追加された Objective の祖先に選択中の Objective がいない場合 (新規作成)
       }
     }
     return prevObjective; // 選択状態は変えない (別インスタンス)

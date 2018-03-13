@@ -264,7 +264,7 @@ class KeyResultPane extends Component {
 
         <div>
           <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative floated='right' />
-          <Button content="下位 OKR を作成する" onClick={() => {this.props.changeToObjectiveModal(keyResult)}} as="span" positive floated='right' />
+          <Button content="下位 OKR を作成する" onClick={() => this.props.changeToObjectiveModal(keyResult)} as="span" positive floated='right' />
         </div>
 
         <Divider hidden clearing />

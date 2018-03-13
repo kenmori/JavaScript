@@ -4,10 +4,7 @@ import actionTypes from '../constants/actionTypes';
 const actions = createActions({
   [actionTypes.OPEN_KEY_RESULT_MODAL]: (objective) => ({ objective }),
   [actionTypes.CLOSE_KEY_RESULT_MODAL]: () => {},
-  [actionTypes.OPEN_OBJECTIVE_MODAL]: (parentObjective, relatedKeyResult) => ({
-    parentObjective,
-    relatedKeyResult
-  }),
+  [actionTypes.OPEN_OBJECTIVE_MODAL]: parentKeyResult => ({ parentKeyResult }),
   [actionTypes.CLOSE_OBJECTIVE_MODAL]: () => {},
   [actionTypes.OPEN_OKR_MODAL]: (objectiveId, selectedOkr) => ({ objectiveId, selectedOkr }),
   [actionTypes.CLOSE_OKR_MODAL]: () => {},

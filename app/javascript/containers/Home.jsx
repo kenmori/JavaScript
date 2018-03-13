@@ -103,6 +103,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     fetchedObjectiveId,
     fetchedObjective,
     entities: state.entities,
+    isAdmin: state.loginUser.get('isAdmin'),
   };
 };
 

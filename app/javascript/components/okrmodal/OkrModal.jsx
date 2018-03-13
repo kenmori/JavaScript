@@ -19,14 +19,14 @@ class OkrModal extends Component {
     }
   }
 
-  changeToObjectiveModal(parentObjective, relatedKeyResult) {
+  changeToObjectiveModal(parentKeyResult) {
     this.closeModal();
-    this.props.openObjectiveModal(parentObjective, relatedKeyResult);
+    this.props.openObjectiveModal(parentKeyResult);
   }
 
-  changeToKeyResultModal(pbjectiv) {
+  changeToKeyResultModal(objective) {
     this.closeModal();
-    this.props.openKeyResultModal(pbjectiv);
+    this.props.openKeyResultModal(objective);
   }
 
   isNotExistMember(users, targetUser) {
@@ -66,7 +66,7 @@ class OkrModal extends Component {
           {...this.props}
           users={users}
           keyResult={keyResult}
-          changeToObjectiveModal={(parentKeyResult) => this.changeToObjectiveModal(objective, parentKeyResult)}
+          changeToObjectiveModal={parentKeyResult => this.changeToObjectiveModal(parentKeyResult)}
         />
       )
     }
