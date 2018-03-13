@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable';
-import { all, put, take, takeLatest } from 'redux-saga/effects';
+import { all, put, take, takeLatest, call as orgCall } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
+import loadingActions from '../actions/loading';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
@@ -21,8 +22,14 @@ function* fetchOkrs({ payload }) {
 }
 
 function* fetchObjective({payload}) {
-  const result = yield call(API.get, '/objectives/' + payload.id);
-  yield put(objectiveActions.fetchedObjective(result.get('objective')));
+  yield put(loadingActions.openLoading());
+  const result = yield orgCall(API.get, '/objectives/' + payload.id);
+  if (result.error) {
+    yield put(objectiveActions.fetchedObjectiveError(payload.id));
+  } else {
+    yield put(objectiveActions.fetchedObjective(result.get('objective')));
+  }
+  yield put(loadingActions.closeLoading());
 }
 
 function* fetchObjectives({payload}) {
@@ -52,7 +59,7 @@ function* removeObjective({payload}) {
 export function *objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
-    takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
+    takeLatest(actionTypes.FETCH_OBJECTIVE, fetchObjective),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),

@@ -1,11 +1,24 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest, call as orgCall } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
+import loadingActions from '../actions/loading';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
+
+
+function* fetchKeyResult({payload}) {
+  yield put(loadingActions.openLoading());
+  const result = yield orgCall(API.get, '/key_results/' + payload.id);
+  if (result.error) {
+    yield put(keyResultActions.fetchedKeyResultError(payload.id));
+  } else {
+    yield put(keyResultActions.fetchedKeyResult(result.get('keyResult')));
+  }
+  yield put(loadingActions.closeLoading());
+}
 
 function* fetchKeyResults({payload}) {
   const result = yield call(API.get, '/key_results', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
@@ -38,6 +51,7 @@ function* removeKeyResult({payload}) {
 
 export function *keyResultSagas() {
   yield all([
+    takeLatest(actionTypes.FETCH_KEY_RESULT, fetchKeyResult),
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
     takeLatest(actionTypes.FETCH_ALL_KEY_RESULTS, fetchAllKeyResults),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),

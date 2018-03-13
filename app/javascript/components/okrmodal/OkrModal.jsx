@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
-import Sidebar from './Sidebar'
-import ObjectivePane from './ObjectivePane'
-import KeyResultPane from './KeyResultPane'
+import history from '../../utils/history';
+import Sidebar from './Sidebar';
+import ObjectivePane from './ObjectivePane';
+import KeyResultPane from './KeyResultPane';
 
 class OkrModal extends Component {
-
   componentWillReceiveProps(nextProps) {
     if (!!nextProps.selectedOkr) {
-      if (this.isRemovedKeyResult(nextProps)) {
-        this.showOkrPane('objective');
-      }
       this.setState({ 
         selectedOkr: Map({
           okrType: nextProps.selectedOkr.get('okrType'),
@@ -22,26 +19,14 @@ class OkrModal extends Component {
     }
   }
 
-  isRemovedKeyResult(props) {
-    if (!props.objective) return false;
-    const keyResult = props.objective.get('keyResults');
-    const selectedOkr = props.selectedOkr;
-    return selectedOkr.get('okrType') === 'keyResult' && 
-            !(keyResult && keyResult.find(item => item.get('id') === selectedOkr.get('targetId')))
-  }
-
-  showOkrPane(okrType, targetId) {
-    this.props.showOkrPane(okrType, targetId)
-  }
-
   changeToObjectiveModal(parentKeyResult) {
-    this.props.closeModal();
+    this.closeModal();
     this.props.openObjectiveModal(parentKeyResult);
   }
 
-  changeToKeyResultModal(pbjectiv) {
-    this.props.closeModal();
-    this.props.openKeyResultModal(pbjectiv);
+  changeToKeyResultModal(objective) {
+    this.closeModal();
+    this.props.openKeyResultModal(objective);
   }
 
   isNotExistMember(users, targetUser) {
@@ -87,6 +72,11 @@ class OkrModal extends Component {
     }
   }
 
+  closeModal() {
+    history.push('/');
+    this.props.closeModal()
+  }
+
   render() {
     const objective = this.props.objective;
     const selectedOkr = this.props.selectedOkr;
@@ -100,13 +90,12 @@ class OkrModal extends Component {
         className='okr-modal' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={this.props.closeModal}
+        onClose={this.closeModal.bind(this)}
       >
         <Modal.Content scrolling>
           <div className="okr-body">
             <Sidebar 
               objective={objective} 
-              showOkrPane={this.showOkrPane.bind(this)} 
               selectedOkr={this.props.selectedOkr} 
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
             />

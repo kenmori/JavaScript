@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
 import { Card, Icon, List, Button } from 'semantic-ui-react';
+import history from '../../utils/history';
 import OwnerAvatar from '../util/OwnerAvatar';
 import moment from 'moment';
 
 class OkrCard extends Component {
 
   generateKeyResultList(objective) {
-    const objectiveId = objective.get('id');
     const keyResults = objective.get('keyResults');
     const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
     return (
@@ -15,16 +16,14 @@ class OkrCard extends Component {
         <List>
           {keyResults.map(keyResult => {
             const keyResultId = keyResult.get('id');
+            const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, keyResultId);
             const isSelected = keyResultId === this.props.currentKeyResultId;
             const isToggleOn = this.props.visibleKeyResultIds && this.props.visibleKeyResultIds.includes(keyResultId);
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')}/>
                 <div className='name'>
-                  <a onClick={() => this.props.openOkrModal(objectiveId, {
-                    okrType: 'keyResult',
-                    targetId: keyResultId
-                  })}>{keyResult.get('name')}</a>
+                  <a onClick={() => history.push(`/okr/${okrHash}`)}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
                 {
@@ -32,7 +31,7 @@ class OkrCard extends Component {
                   <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
                     <Button circular basic compact icon='sitemap' size='small'
                             active={isToggleOn}
-                            onClick={() => this.props.onToggleKeyResult(objectiveId, keyResultId, isToggleOn)}
+                            onClick={() => this.props.onToggleKeyResult(objective.get('id'), keyResultId, isToggleOn)}
                     />
                   </div>
                 }
@@ -52,6 +51,7 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
+    const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, objective.get('id'));
     const isSelected = objective.get('id') === this.props.currentObjectiveId;
     return (
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
@@ -59,9 +59,7 @@ class OkrCard extends Component {
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
             <div className="name">
-              <a onClick={() => this.props.openOkrModal(objective.get('id'), { okrType: 'objective' })}>
-                {objective.get('name')}
-              </a>
+              <a onClick={() => history.push(`/okr/${okrHash}`)}>{objective.get('name')}</a>
             </div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>

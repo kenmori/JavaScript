@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import Home from '../components/Home';
+import Home from '../containers/Home';
 import configureStore from '../stores/index';
 import { Router, Switch, Route } from 'react-router-dom';
 import history from '../utils/history';
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <Route exact path='/users/sign_in' component={SignInPage}/>
             <Route exact path='/settings' component={SettingsPage}/>
             <Route exact path='/settings/:name' component={SettingsPage}/>
+            <Route exact path='/okr/:okrHash' component={Home}/>
             <Route path='/' component={Home}/>
           </Switch>
         </Router>
