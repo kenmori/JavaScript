@@ -1,6 +1,6 @@
 import Home from '../components/Home';
 import { connect } from 'react-redux';
-import { hashids, OKR_TYPE_ID } from '../utils/hashids';
+import { getOkrId } from '../utils/linker';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
@@ -9,7 +9,6 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 
 const getOkrModalState = (params) => {
   const {
-    okrId,
     okrHash,
     keyResultId,
     fetchedObjectiveId,
@@ -64,7 +63,7 @@ const getOkrModalState = (params) => {
     isRemovedObjective,
     objectiveIdOfRemovedKeyResult,
     canDisplayOkrModal: !!(targetObjective || (keyResultId && targetKeyResults)),
-    isInvalidOkr: !okrId || fetchedObjectiveId === -1 || fetchedKeyResultId === -1,
+    isInvalidOkr: (!objectiveId && !keyResultId) || fetchedObjectiveId === -1 || fetchedKeyResultId === -1,
   }
 }
 
@@ -72,13 +71,12 @@ const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   const fetchedObjective = fetchedObjectiveId > 0 && denormalizeObjective(fetchedObjectiveId, state.entities);
-  const [okrTypeId, okrId] = hashids.decode(params.okrHash);
+  const { objectiveId, keyResultId } = getOkrId(params.okrHash);
   
   const okrModalState = getOkrModalState({
-    okrId,
-    okrType: okrTypeId === OKR_TYPE_ID.OBJECTIVE ? 'objective' : okrTypeId === OKR_TYPE_ID.KEY_RESULT ? 'keyResult' : null,
-    keyResultId: okrTypeId === OKR_TYPE_ID.KEY_RESULT ? okrId : null,
-    objectiveId: okrTypeId === OKR_TYPE_ID.OBJECTIVE ? okrId : null,
+    okrType: objectiveId ? 'objective' : (keyResultId ? 'keyResult' : null),
+    objectiveId,
+    keyResultId,
     fetchedObjectiveId,
     okrHash: params.okrHash,
     allObjectives: denormalizeObjectives(state.objectives.get('allIds'), state.entities),

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { hashids, OKR_TYPE_ID } from '../utils/hashids';
-import history from '../utils/history';
+import { openObjective, goToRoot } from '../utils/linker';
 import MenuBar from '../containers/MenuBar';
 import Dashboard from './dashboard/Dashboard';
 import KeyResultModal from '../containers/KeyResultModal';
@@ -18,18 +17,17 @@ class Home extends Component {
     if (state.isInvalidOkr) {
       this.props.openErrorModal("指定された OKR は存在しません");
       this.resetFetchedOkr();
-      history.push('/');
+      goToRoot();
       return;
     }
 
     if (state.objectiveIdOfRemovedKeyResult) {
-      const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, state.objectiveIdOfRemovedKeyResult);
-      history.push(`/okr/${okrHash}`);
+      openObjective(state.objectiveIdOfRemovedKeyResult);
       return;
     }
 
     if (state.isRemovedObjective) {
-      history.push('/');
+      goToRoot();
       return;
     }
 
