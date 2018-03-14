@@ -2,12 +2,20 @@ import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
-import history from '../../utils/history';
+import { openObjective, goToRoot } from "../../utils/linker";
 import Sidebar from './Sidebar';
 import ObjectivePane from './ObjectivePane';
 import KeyResultPane from './KeyResultPane';
 
 class OkrModal extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.removedObjectiveId === this.props.objectiveId) {
+      goToRoot();
+    } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
+      openObjective(this.props.objectiveId);
+    }
+  }
 
   changeToObjectiveModal(parentKeyResult) {
     this.closeModal();
@@ -63,8 +71,8 @@ class OkrModal extends Component {
   }
 
   closeModal() {
-    history.push('/');
-    this.props.closeModal()
+    goToRoot();
+    this.props.closeModal();
   }
 
   render() {

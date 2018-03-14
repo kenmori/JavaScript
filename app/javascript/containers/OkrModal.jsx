@@ -13,12 +13,15 @@ const mapStateToProps = (state) => {
   const isAdmin = state.loginUser.get('isAdmin');
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
+    objectiveId,
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     keyResultId: state.dialogs.getIn(['okrForm', 'keyResultId']),
     users: state.users.filter(user => !user.get('disabled')),
     loginUser: state.loginUser,
     keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
+    removedObjectiveId: state.dialogs.getIn(['okrForm', 'removedObjectiveId']),
+    removedKeyResultId: state.dialogs.getIn(['okrForm', 'removedKeyResultId']),
   };
 };
 

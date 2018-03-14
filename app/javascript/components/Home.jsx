@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { openObjective, goToRoot } from '../utils/linker';
+import { goToRoot } from '../utils/linker';
 import MenuBar from '../containers/MenuBar';
 import Dashboard from './dashboard/Dashboard';
 import KeyResultModal from '../containers/KeyResultModal';
 import ObjectiveModal from '../containers/ObjectiveModal';
 import OkrModal from '../containers/OkrModal';
-
 
 class Home extends Component {
   componentWillReceiveProps(nextProps) {
@@ -17,16 +16,6 @@ class Home extends Component {
     if (state.isInvalidOkr) {
       this.props.openErrorModal("指定された OKR は存在しません");
       this.resetFetchedOkr();
-      goToRoot();
-      return;
-    }
-
-    if (state.objectiveIdOfRemovedKeyResult) {
-      openObjective(state.objectiveIdOfRemovedKeyResult);
-      return;
-    }
-
-    if (state.isRemovedObjective) {
       goToRoot();
       return;
     }

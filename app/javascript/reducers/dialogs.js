@@ -24,6 +24,13 @@ export default handleActions({
     [ActionTypes.CLOSE_OKR_MODAL]: (state) => (
       state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, keyResultId: null }))
     ),
+    [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
+      return state.setIn(['okrForm', 'removedObjectiveId'], payload.id);
+    },
+    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+      const keyResultId = payload.get('result').first();
+      return state.setIn(['okrForm', 'removedKeyResultId'], keyResultId);
+    },
     [ActionTypes.OPEN_AVATAR_MODAL]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
     ),

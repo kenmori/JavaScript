@@ -16,14 +16,10 @@ const getOkrModalState = (params) => {
     entities,
     isFetchingObjective,
     isFetchingKeyResult,
-    currentObjectiveId,
-    currentKeyResultId,
     isOpenOkrModal,
     isOpenErrorModal,
   } = params;
   let objectiveId = params.objectiveId;
-  let isRemovedObjective = false;
-  let objectiveIdOfRemovedKeyResult = null;
   let needFetchingObjective = false
   let needFetchingKeyResult = false;
   let hasObjectiveToOpen = false;
@@ -42,14 +38,12 @@ const getOkrModalState = (params) => {
       objectiveId = entities.keyResults.getIn([keyResultId, 'objectiveId']);
     } else {
       needFetchingKeyResult = !fetchedKeyResultId && !isFetchingKeyResult;
-      objectiveIdOfRemovedKeyResult = keyResultId === currentKeyResultId ? currentObjectiveId : null;
     }
   }
 
   if (objectiveId) {
     hasObjectiveToOpen = entities.objectives.has(objectiveId);
     needFetchingObjective = !hasObjectiveToOpen && !fetchedObjectiveId && !isFetchingObjective;
-    isRemovedObjective = objectiveId === currentObjectiveId && !hasObjectiveToOpen;
   }
 
   return { 
@@ -57,8 +51,6 @@ const getOkrModalState = (params) => {
     objectiveId,
     needFetchingObjective,
     needFetchingKeyResult,
-    isRemovedObjective,
-    objectiveIdOfRemovedKeyResult,
     canDisplayOkrModal: hasObjectiveToOpen || hasKeyResultToOpen,
     isInvalidOkr: (!objectiveId && !keyResultId) || fetchedObjectiveId === -1 || fetchedKeyResultId === -1,
   }
@@ -80,8 +72,6 @@ const mapStateToProps = (state, { match: { params } }) => {
     fetchedKeyResultId: state.keyResults.get('fetchedKeyResult'),
     isFetchingObjective: state.objectives.get('isFetchingObjective'),
     isFetchingKeyResult: state.keyResults.get('isFetchingKeyResult'),
-    currentObjectiveId: state.dialogs.getIn(['okrForm', 'objectiveId']),
-    currentKeyResultId: state.dialogs.getIn(['okrForm', 'keyResultId']),
     isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
     isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
   });
