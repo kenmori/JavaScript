@@ -55,7 +55,7 @@ class Home extends Component {
     this.props.resetKeyResult();
   }
   displayModal(props) {
-    this.props.openOkrModal(Number(props.objectiveId), { okrType: props.okrType, targetId: Number(props.keyResultId) });
+    this.props.openOkrModal(Number(props.objectiveId), Number(props.keyResultId));
   }
   render() {
     return (

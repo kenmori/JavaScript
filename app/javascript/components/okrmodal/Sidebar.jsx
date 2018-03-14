@@ -6,10 +6,10 @@ import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 
 class Sidebar extends Component {
-  keyResultListTag(keyResults, selectedOkr) {
+
+  keyResultListTag(keyResults, keyResultId) {
     return keyResults.map(item => {
-      const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
-                    'sidebar__item is-current' : 'sidebar__item';
+      const cls = keyResultId === item.get('id') ? 'sidebar__item is-current' : 'sidebar__item';
       return (
         <Segment className={cls} key={item.get('id')} onClick={() => openKeyResult(item.get('id'))}>
           <span className="sidebar__avatar"><OwnerAvatar owner={item.get('owner')} members={item.get('keyResultMembers')} /></span>
@@ -21,11 +21,8 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { 
-      objective, 
-      selectedOkr,
-    } = this.props;
-    const objectiveCls = selectedOkr.get('okrType') === 'objective' ? 'sidebar__item is-current' : 'sidebar__item';
+    const objective = this.props.objective;
+    const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
     return (
       <div className="sidebar">
         <div className="sidebar__items">
@@ -40,7 +37,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
-            { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
+            { this.keyResultListTag(objective.get('keyResults'), this.props.keyResultId) }
           </Segment.Group>
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
@@ -51,7 +48,7 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
-  selectedOkr: PropTypes.object.isRequired,
+  keyResultId: PropTypes.number.isRequired,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };
 

@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
-    selectedOkr: state.dialogs.getIn(['okrForm', 'selectedOkr']),
+    keyResultId: state.dialogs.getIn(['okrForm', 'keyResultId']),
     users: state.users.filter(user => !user.get('disabled')),
     loginUser: state.loginUser,
     keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),

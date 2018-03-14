@@ -19,13 +19,10 @@ export default handleActions({
       state.set('keyResultForm', fromJS({ isOpen: false }))
     ),
     [ActionTypes.OPEN_OKR_MODAL]: (state, { payload }) => (
-      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, selectedOkr: payload.selectedOkr }))
+      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, keyResultId: payload.keyResultId }))
     ),
     [ActionTypes.CLOSE_OKR_MODAL]: (state) => (
-      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, selectedOkr: null }))
-    ),
-    [ActionTypes.SHOW_OKR_PANE]: (state, { payload }) => (
-      state.set('okrForm', state.get('okrForm').set('selectedOkr', fromJS(payload.selectedOkr)))
+      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, keyResultId: null }))
     ),
     [ActionTypes.OPEN_AVATAR_MODAL]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
@@ -64,7 +61,7 @@ export default handleActions({
     okrForm: {
       isOpen: false,
       objectiveId: null,
-      selectedOkr: Map(),
+      keyResultId: null,
     },
     avatarImage: {
       isOpen: false,

@@ -85,7 +85,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     isFetchingObjective: state.objectives.get('isFetchingObjective'),
     isFetchingKeyResult: state.keyResults.get('isFetchingKeyResult'),
     currentObjectiveId: state.dialogs.getIn(['okrForm', 'objectiveId']),
-    currentKeyResultId: state.dialogs.getIn(['okrForm', 'selectedOkr', 'targetId']),
+    currentKeyResultId: state.dialogs.getIn(['okrForm', 'keyResultId']),
     isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
     isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
   });
@@ -122,8 +122,8 @@ const mapDispatchToProps = dispatch => {
     resetKeyResult: () => {
       dispatch(keyResultActions.resetKeyResult());
     },
-    openOkrModal: (objectiveId, okrType) => {
-      dispatch(dialogActions.openOkrModal(objectiveId, okrType));
+    openOkrModal: (objectiveId, keyResultId) => {
+      dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));
     },
     openErrorModal: (messages) => {
       dispatch(dialogActions.openErrorModal(messages))
