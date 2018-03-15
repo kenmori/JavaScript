@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import OkrPieChart from './OkrPieChart';
+import Objective from './Objective';
 
 class ObjectiveList extends Component {
 
@@ -15,13 +15,11 @@ class ObjectiveList extends Component {
         {
           this.props.objectives.map((objective) => {
             const isSelected = objective.get('id') === this.props.currentObjectiveId;
-            return (
-              <a className={`objective-box ${isSelected ? 'active' : ''}`} key={objective.get('id')}
-                 href="javascript:void(0)" onClick={() => this.selectObjective(objective)}>
-                <div><div className='name'>{objective.get('name')}</div></div>
-                <OkrPieChart objective={objective} />
-              </a>
-            );
+            return <Objective
+                    key={objective.get('id')}
+                    objective={objective}
+                    isSelected={isSelected}
+                    selectObjective={this.selectObjective} />
           })}
       </div>
     );
