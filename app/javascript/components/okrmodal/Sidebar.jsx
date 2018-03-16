@@ -48,7 +48,7 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
-  keyResultId: PropTypes.number.isRequired,
+  keyResultId: PropTypes.number,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };
 

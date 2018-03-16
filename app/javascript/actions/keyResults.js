@@ -6,7 +6,6 @@ const actions = createActions({
   [actionTypes.FETCH_KEY_RESULT]: id => ({ id }),
   [actionTypes.FETCHED_KEY_RESULT]: keyResult => normalizeKeyResult(keyResult),
   [actionTypes.FETCHED_KEY_RESULT_ERROR]: id => ({ id }),
-  [actionTypes.RESET_KEY_RESULT]: () => ({}),
   [actionTypes.FETCH_KEY_RESULTS]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_KEY_RESULTS]: keyResults => normalizeKeyResults(keyResults),
   [actionTypes.FETCH_ALL_KEY_RESULTS]: okrPeriodId => ({ okrPeriodId }),

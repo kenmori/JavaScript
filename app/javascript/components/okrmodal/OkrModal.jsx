@@ -14,6 +14,10 @@ class OkrModal extends Component {
       goToRoot();
     } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
       openObjective(this.props.objectiveId);
+    } else if (nextProps.shouldFetchObjective) {
+      this.props.fetchObjective(nextProps.objectiveId);
+    } else if (nextProps.shouldFetchKeyResult) {
+      this.props.fetchKeyResult(nextProps.keyResultId);
     }
   }
 

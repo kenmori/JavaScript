@@ -10,16 +10,19 @@ import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index'
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
   const objectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
+  const keyResultId = state.dialogs.getIn(['okrForm', 'keyResultId']);
   const isAdmin = state.loginUser.get('isAdmin');
   return {
     isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
     objectiveId,
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
-    keyResultId: state.dialogs.getIn(['okrForm', 'keyResultId']),
+    keyResultId,
     users: state.users.filter(user => !user.get('disabled')),
     loginUser: state.loginUser,
     keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
+    shouldFetchObjective: objectiveId && !state.entities.objectives.has(objectiveId) && !state.dialogs.getIn(['okrForm', 'isFetching']),
+    shouldFetchKeyResult: keyResultId && !state.entities.keyResults.has(keyResultId) && !state.dialogs.getIn(['okrForm', 'isFetching']),
     removedObjectiveId: state.dialogs.getIn(['okrForm', 'removedObjectiveId']),
     removedKeyResultId: state.dialogs.getIn(['okrForm', 'removedKeyResultId']),
   };
@@ -51,7 +54,13 @@ const mapDispatchToProps = dispatch => {
     },
     confirm: (conformParams) => {
       dispatch(confirmActions.openConfirm(conformParams));
-    }
+    },
+    fetchObjective: (objectiveId) => {
+      dispatch(objectiveActions.fetchObjective(objectiveId));
+    },
+    fetchKeyResult: (keyResultId) => {
+      dispatch(keyResultActions.fetchKeyResult(keyResultId));
+    },
   };
 };
 

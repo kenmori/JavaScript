@@ -11,26 +11,15 @@ function remove(state, objectiveId) {
 }
 
 export default handleActions({
-    [ActionTypes.FETCH_OBJECTIVE]: (state, { payload }) => {
-      return state.set('isFetchingObjective', true);
-    },
     [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
-      return add(state, objectiveId).set('fetchedObjective', objectiveId).set('isFetchingObjective', false);
-    },
-    [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state, { payload }) => {
-      return state.set('fetchedObjective', -1).set('isFetchingObjective', false);
-    },
-    [ActionTypes.RESET_OBJECTIVE]: (state, { payload }) => {
-      return state.set('fetchedObjective', null);
+      return state.set('fetchedObjective', objectiveId);
     },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
-      return state.set('isFetched', false).set('isFetching', true);
+      return state.set('isFetched', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return state.set('ids', payload.get('result'))
-              .set('isFetched', true)
-              .set('isFetching', false);
+      return state.set('ids', payload.get('result')).set('isFetched', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const userId = payload.get('currentUserId');
@@ -54,6 +43,5 @@ export default handleActions({
     ids: [],
     fetchedObjective: null,
     isFetched: false,
-    isFetchingObjective: false,
   }),
 );
