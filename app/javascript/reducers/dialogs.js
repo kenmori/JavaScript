@@ -4,10 +4,7 @@ import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
     [ActionTypes.OPEN_OBJECTIVE_MODAL]: (state, { payload }) => (
-      state.set('objectiveForm', fromJS({
-        isOpen: true,
-        parentKeyResult: payload.parentKeyResult,
-      }))
+      state.set('objectiveForm', fromJS({ isOpen: true, parentKeyResult: payload.parentKeyResult }))
     ),
     [ActionTypes.CLOSE_OBJECTIVE_MODAL]: (state) => (
       state.set('objectiveForm', fromJS({ isOpen: false }))
@@ -76,14 +73,13 @@ export default handleActions({
     [ActionTypes.OPEN_CONFIRM_MODAL]: (state, { payload }) => {
       return state.set('confirm', fromJS(payload.params).merge({ isOpen: true }));
     },
-    [ActionTypes.CLOSE_CONFIRM_MODAL]: (state, { payload }) => {
+    [ActionTypes.CLOSE_CONFIRM_MODAL]: (state) => {
       return state.setIn(['confirm', 'isOpen'], false);
     },
   },
   fromJS({
     objectiveForm: {
       isOpen: false,
-      objective: Map(),
     },
     keyResultForm: {
       isOpen: false,
@@ -104,7 +100,6 @@ export default handleActions({
     },
     error: {
       isOpen: false,
-      message: '',
     },
     confirm: {
       isOpen: false,
