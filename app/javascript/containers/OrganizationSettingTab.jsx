@@ -2,7 +2,6 @@ import OrganizationSettingTab from '../components/setting/OrganizationSettingTab
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 import organizationActions from '../actions/organizations';
-import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   return {
@@ -21,8 +20,8 @@ const mapDispatchToProps = dispatch => {
     deleteLogo: (organization) => {
       dispatch(organizationActions.updateLogo(organization));
     },
-    confirm: confirmParams => {
-      dispatch(confirmActions.openConfirm(confirmParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     }
   };
 };

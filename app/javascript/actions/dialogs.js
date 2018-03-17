@@ -14,6 +14,8 @@ const actions = createActions({
   [actionTypes.CLOSE_LOGO_MODAL]: () => {},
   [actionTypes.OPEN_ERROR_MODAL]: (message) => ({message}),
   [actionTypes.CLOSE_ERROR_MODAL]: () => {},
+  [actionTypes.OPEN_CONFIRM_MODAL]: params => ({ params }),
+  [actionTypes.CLOSE_CONFIRM_MODAL]: () => {},
 });
 
 export default actions;

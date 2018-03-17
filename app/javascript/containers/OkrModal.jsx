@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import confirmActions from '../actions/confirm';
 import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index'
 
 const mapStateToProps = (state) => {
@@ -62,8 +61,8 @@ const mapDispatchToProps = dispatch => {
     openErrorModal: (messages) => {
       dispatch(dialogActions.openErrorModal(messages))
     },
-    confirm: (conformParams) => {
-      dispatch(confirmActions.openConfirm(conformParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     },
     fetchObjective: (objectiveId) => {
       dispatch(objectiveActions.fetchObjective(objectiveId));

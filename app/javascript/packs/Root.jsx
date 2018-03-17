@@ -17,7 +17,7 @@ import SettingsPage from '../containers/SettingsPage';
 import Loading from '../containers/Loading';
 import Toast from '../containers/Toast';
 import ErrorModal from '../containers/ErrorModal';
-import Confirm from '../containers/Confirm';
+import ConfirmModal from '../containers/ConfirmModal';
 
 const store = configureStore();
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <Loading />
         <Toast />
         <ErrorModal />
-        <Confirm />
+        <ConfirmModal />
       </div>
     </Provider>,
     document.body.appendChild(bodyElement),

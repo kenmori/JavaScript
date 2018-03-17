@@ -13,8 +13,6 @@ import signUp from './signUp';
 import password from './password';
 import loading from './loading';
 import toasts from './toasts';
-import confirm from './confirm';
-
 
 const reducers = combineReducers({
   form: formReducer,
@@ -31,7 +29,6 @@ const reducers = combineReducers({
   password,
   loading,
   toasts,
-  confirm,
 });
 
 export default reducers;

@@ -73,6 +73,12 @@ export default handleActions({
     [ActionTypes.CLOSE_ERROR_MODAL]: (state) => (
       state.set('error', fromJS({ isOpen: false, message: '' }))
     ),
+    [ActionTypes.OPEN_CONFIRM_MODAL]: (state, { payload }) => {
+      return state.set('confirm', fromJS(payload.params).merge({ isOpen: true }));
+    },
+    [ActionTypes.CLOSE_CONFIRM_MODAL]: (state, { payload }) => {
+      return state.setIn(['confirm', 'isOpen'], false);
+    },
   },
   fromJS({
     objectiveForm: {
@@ -99,6 +105,9 @@ export default handleActions({
     error: {
       isOpen: false,
       message: '',
-    }
+    },
+    confirm: {
+      isOpen: false,
+    },
   }),
 );

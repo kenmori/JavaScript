@@ -2,7 +2,6 @@ import ObjectiveModal from '../components/okrmodal/ObjectiveModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
-import confirmActions from '../actions/confirm';
 import { denormalizeKeyResults } from '../schemas/index';
 
 const mapStateToProps = (state) => {
@@ -27,8 +26,8 @@ const mapDispatchToProps = dispatch => {
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveModal());
     },
-    confirm: confirmParams => {
-      dispatch(confirmActions.openConfirm(confirmParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     }
   };
 };
