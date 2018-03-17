@@ -47,6 +47,7 @@ export default class Dashboard extends Component {
   }
 
   getObjectives = (objectives) => {
+    console.log(1, this.props.objectiveOrder)
     return objectives;
   }
 
@@ -61,6 +62,13 @@ export default class Dashboard extends Component {
     this.setState({
       objectives: newObjectives
     })
+  }
+
+  updateUserObjectiveOrder = () => {
+    this.props.updateUserObjectiveOrder({
+      id: this.props.userId,
+      objectiveOrder: JSON.stringify(this.state.objectives.map(c => c.get('id')).toArray())
+    });
   }
 
   getNextMapObjective = (prevObjectives, nextObjectives) => {
@@ -158,7 +166,7 @@ export default class Dashboard extends Component {
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.state.objectives}
                              setMapObjective={this.setMapObjective}
-                             updateUserObjectiveOrder={(orderData) => this.props.updateUserObjectiveOrder(this.props.userId, orderData)}
+                             updateUserObjectiveOrder={this.updateUserObjectiveOrder.bind(this)}
                              replaceObjectives={this.replaceObjectives} />
             : <KeyResultList keyResults={this.props.keyResults}
                              setMapObjective={this.setMapObjective}

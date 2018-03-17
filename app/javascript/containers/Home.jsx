@@ -5,6 +5,7 @@ import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
+import userActions from '../actions/users';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
 
 const getOkrModalState = (params) => {
@@ -96,6 +97,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     okrModalState,
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
+    objectiveOrder: state.loginUser.get('objectiveOrder'),
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
@@ -136,8 +138,8 @@ const mapDispatchToProps = dispatch => {
     changeCurrentOkr: objectiveId => {
       dispatch(currentActions.changeCurrentOkr(objectiveId));
     },
-    updateUserObjectiveOrder: (userId, orderData) => {
-      console.log(userId, orderData)
+    updateUserObjectiveOrder: (user) => {
+      dispatch(userActions.updateUser(user))
     }
   };
 };

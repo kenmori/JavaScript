@@ -13,12 +13,7 @@ const cardSource = {
 	},
 
 	endDrag(props, monitor) {
-    const { id: droppedId } = monitor.getItem()
-		const didDrop = monitor.didDrop()
-		props.updateUserObjectiveOrder({
-      id: droppedId,
-      index: props.findCard(droppedId).index,
-    })
+		props.updateUserObjectiveOrder();
 	},
 }
 
