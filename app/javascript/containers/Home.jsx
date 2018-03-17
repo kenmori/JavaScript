@@ -32,9 +32,6 @@ const mapDispatchToProps = dispatch => {
     openOkrModal: (objectiveId, keyResultId) => {
       dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));
     },
-    openErrorModal: (messages) => {
-      dispatch(dialogActions.openErrorModal(messages))
-    },
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());
     },

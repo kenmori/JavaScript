@@ -10,7 +10,9 @@ import KeyResultPane from './KeyResultPane';
 class OkrModal extends Component {
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.removedObjectiveId === this.props.objectiveId) {
+    if (nextProps.isOpen && !nextProps.objectiveId && !nextProps.keyResultId) {
+      this.openErrorModal();
+    } else if (nextProps.removedObjectiveId === this.props.objectiveId) {
       goToRoot();
     } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
       openObjective(this.props.objectiveId);
@@ -84,7 +86,6 @@ class OkrModal extends Component {
   openErrorModal() {
     if (!this.props.isOpenErrorModal) {
       this.props.openErrorModal('指定された OKR は存在しません');
-      goToRoot();
     }
   }
 
