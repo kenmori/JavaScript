@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { fromJS } from 'immutable';
 import { Menu, Button, Segment, Header } from 'semantic-ui-react';
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
@@ -47,8 +48,13 @@ export default class Dashboard extends Component {
   }
 
   getObjectives = (objectives) => {
-    console.log(1, this.props.objectiveOrder)
-    return objectives;
+    if (objectives.isEmpty()) {
+      return objectives;
+    }
+    const order = fromJS(JSON.parse(this.props.objectiveOrder));
+    return order.map(id => {
+      return objectives.find(o => o.get('id') === id);
+    });
   }
 
   replaceObjectives = (originalIndex, overIndex) => {
