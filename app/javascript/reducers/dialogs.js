@@ -68,10 +68,10 @@ export default handleActions({
       state.set('logoImage', fromJS({ isOpen: false, imageData: null }))
     ),
     [ActionTypes.OPEN_ERROR_MODAL]: (state, { payload }) => (
-      state.set('error', fromJS({ isOpen: true, message: payload.message }))
+      state.set('error', fromJS(payload.params).merge({ isOpen: true }))
     ),
     [ActionTypes.CLOSE_ERROR_MODAL]: (state) => (
-      state.set('error', fromJS({ isOpen: false, message: '' }))
+      state.setIn(['error', 'isOpen'], false)
     ),
     [ActionTypes.OPEN_CONFIRM_MODAL]: (state, { payload }) => {
       return state.set('confirm', fromJS(payload.params).merge({ isOpen: true }));

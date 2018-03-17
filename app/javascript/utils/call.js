@@ -5,10 +5,10 @@ import loadingActions from '../actions/loading';
 function* callWithArgs(silent, ...args) {
   const response = yield call(...args);
   if (response.error && !silent) {
-    const messages = yield call(() => response.error.response.json().then((item) => item.error));
+    const message = yield call(() => response.error.response.json().then((item) => item.error));
     yield put(loadingActions.forceCloseLoadingOn());
     yield put(loadingActions.closeLoading());
-    yield put(dialogActions.openErrorModal(messages));
+    yield put(dialogActions.openErrorModal({ message }));
     yield cancel();
   }
   return response;

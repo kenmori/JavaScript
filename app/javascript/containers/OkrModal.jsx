@@ -58,8 +58,8 @@ const mapDispatchToProps = dispatch => {
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));
     },
-    openErrorModal: (messages) => {
-      dispatch(dialogActions.openErrorModal(messages))
+    error: params => {
+      dispatch(dialogActions.openErrorModal(params))
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));
