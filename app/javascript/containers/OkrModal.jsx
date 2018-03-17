@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
   const objectiveId = keyResultId
     ? state.entities.keyResults.getIn([keyResultId, 'objectiveId'], null)
     : okrForm.get('objectiveId');
-  const shouldFetchObjective = objectiveId && !state.entities.objectives.has(objectiveId);
-  const shouldFetchKeyResult = keyResultId && !state.entities.keyResults.has(keyResultId);
+  const hasObjectiveId = objectiveId && !state.entities.objectives.has(objectiveId);
+  const hasKeyResultId = keyResultId && !state.entities.keyResults.has(keyResultId);
   const isAdmin = state.loginUser.get('isAdmin');
   return {
     isOpen: okrForm.get('isOpen'),
@@ -25,10 +25,10 @@ const mapStateToProps = (state) => {
     loginUser: state.loginUser,
     keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
-    shouldFetchObjective,
-    shouldFetchKeyResult,
-    notFoundObjective: shouldFetchObjective && okrForm.get('isFetched'),
-    notFoundKeyResult: shouldFetchKeyResult && okrForm.get('isFetched'),
+    shouldFetchObjective: hasObjectiveId && !okrForm.get('isFetching'),
+    shouldFetchKeyResult: hasKeyResultId && !okrForm.get('isFetching'),
+    notFoundObjective: hasObjectiveId && okrForm.get('isFetched'),
+    notFoundKeyResult: hasKeyResultId && okrForm.get('isFetched'),
     removedObjectiveId: okrForm.get('removedObjectiveId'),
     removedKeyResultId: okrForm.get('removedKeyResultId'),
     isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
