@@ -5,16 +5,32 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import Objective from './Objective';
 
 const cardTarget = {
-	drop() {},
+	drop() {
+    console.log('container: drop');
+  },
 }
 
 function collect(connect) {
+  console.log('container: connect', connect);
   return {
     connectDropTarget: connect.dropTarget(),
   };
 }
 
 class ObjectiveList extends Component {
+  moveCard(id, atIndex) {
+		const { card, index } = this.findCard(id)
+	}
+
+	findCard(id) {
+		const { objectives } = this.props
+		const objective = objectives.find(c => c.get('id') === id)
+    console.log(objectives.indexOf(objective))
+		return {
+			card: objective,
+			index: objectives.indexOf(objective),
+		}
+	}
 
   selectObjective = objective => {
     this.props.setMapObjective(objective);
@@ -31,7 +47,9 @@ class ObjectiveList extends Component {
                     key={objective.get('id')}
                     objective={objective}
                     isSelected={isSelected}
-                    selectObjective={this.selectObjective} />
+                    moveCard={this.moveCard.bind(this)}
+                    findCard={this.findCard.bind(this)}
+                    selectObjective={this.selectObjective.bind(this)} />
           })}
       </div>
     );
