@@ -16,7 +16,7 @@ class Home extends Component {
         return;
       }
 
-      if (!nextProps.isOpenOkrModal) {
+      if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
         this.props.openOkrModal(objectiveId, keyResultId);
       }
     }
