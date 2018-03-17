@@ -14,6 +14,8 @@ class OkrModal extends Component {
       goToRoot();
     } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
       openObjective(this.props.objectiveId);
+    } else if (nextProps.notFoundObjective || nextProps.notFoundKeyResult) {
+      this.openErrorModal();
     } else if (nextProps.shouldFetchObjective) {
       this.props.fetchObjective(nextProps.objectiveId);
     } else if (nextProps.shouldFetchKeyResult) {
@@ -79,9 +81,16 @@ class OkrModal extends Component {
     this.props.closeModal();
   }
 
+  openErrorModal() {
+    if (!this.props.isOpenErrorModal) {
+      this.props.openErrorModal('指定された OKR は存在しません');
+      goToRoot();
+    }
+  }
+
   render() {
     const objective = this.props.objective;
-    if (!objective) { return null; }
+    if (!objective) return null;
     return (
       <Modal
         closeIcon 

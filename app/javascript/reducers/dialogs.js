@@ -25,22 +25,22 @@ export default handleActions({
       state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, keyResultId: null }))
     ),
     [ActionTypes.FETCH_OBJECTIVE]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'isFetching'], true);
+      return state.setIn(['okrForm', 'isFetched'], false);
     },
     [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'isFetching'], false);
+      return state.setIn(['okrForm', 'isFetched'], true);
     },
     [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'isFetching'], false);
+      return state.setIn(['okrForm', 'isFetched'], true);
     },
     [ActionTypes.FETCH_KEY_RESULT]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'isFetching'], true);
+      return state.setIn(['okrForm', 'isFetched'], false);
     },
     [ActionTypes.FETCHED_KEY_RESULT]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'isFetching'], false);
+      return state.setIn(['okrForm', 'isFetched'], true);
     },
     [ActionTypes.FETCHED_KEY_RESULT_ERROR]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'isFetching'], false);
+      return state.setIn(['okrForm', 'isFetched'], true);
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       return state.setIn(['okrForm', 'removedObjectiveId'], payload.id);

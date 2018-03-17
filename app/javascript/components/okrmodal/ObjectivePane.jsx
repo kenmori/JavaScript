@@ -50,7 +50,7 @@ class ObjectivePane extends Component {
 
   render() {
     const objective = this.props.objective;
-    if (!objective.size) { return null; }
+    if (!objective) return null;
     return (
       <Form>
         <Form.Field>

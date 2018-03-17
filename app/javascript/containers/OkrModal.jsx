@@ -1,5 +1,4 @@
 import OkrModal from '../components/okrmodal/OkrModal';
-import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
@@ -9,11 +8,16 @@ import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index'
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
-  const objectiveId = state.dialogs.getIn(['okrForm', 'objectiveId']);
-  const keyResultId = state.dialogs.getIn(['okrForm', 'keyResultId']);
+  const okrForm = state.dialogs.get('okrForm');
+  const keyResultId = okrForm.get('keyResultId');
+  const objectiveId = keyResultId
+    ? state.entities.keyResults.getIn([keyResultId, 'objectiveId'], null)
+    : okrForm.get('objectiveId');
+  const shouldFetchObjective = objectiveId && !state.entities.objectives.has(objectiveId);
+  const shouldFetchKeyResult = keyResultId && !state.entities.keyResults.has(keyResultId);
   const isAdmin = state.loginUser.get('isAdmin');
   return {
-    isOpen: state.dialogs.getIn(['okrForm', 'isOpen']),
+    isOpen: okrForm.get('isOpen'),
     objectiveId,
     objective: objectiveId && denormalizeObjective(objectiveId, state.entities),
     keyResultId,
@@ -21,10 +25,13 @@ const mapStateToProps = (state) => {
     loginUser: state.loginUser,
     keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
-    shouldFetchObjective: objectiveId && !state.entities.objectives.has(objectiveId) && !state.dialogs.getIn(['okrForm', 'isFetching']),
-    shouldFetchKeyResult: keyResultId && !state.entities.keyResults.has(keyResultId) && !state.dialogs.getIn(['okrForm', 'isFetching']),
-    removedObjectiveId: state.dialogs.getIn(['okrForm', 'removedObjectiveId']),
-    removedKeyResultId: state.dialogs.getIn(['okrForm', 'removedKeyResultId']),
+    shouldFetchObjective,
+    shouldFetchKeyResult,
+    notFoundObjective: shouldFetchObjective && okrForm.get('isFetched'),
+    notFoundKeyResult: shouldFetchKeyResult && okrForm.get('isFetched'),
+    removedObjectiveId: okrForm.get('removedObjectiveId'),
+    removedKeyResultId: okrForm.get('removedKeyResultId'),
+    isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
   };
 };
 
@@ -51,6 +58,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));
+    },
+    openErrorModal: (messages) => {
+      dispatch(dialogActions.openErrorModal(messages))
     },
     confirm: (conformParams) => {
       dispatch(confirmActions.openConfirm(conformParams));
