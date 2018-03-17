@@ -11,6 +11,7 @@ export default class Dashboard extends Component {
       mapObjective: null,
       mapObjectiveId: null,
       activeItem: 'objective',
+      objectives: props.objectives,
     };
   }
 
@@ -40,6 +41,26 @@ export default class Dashboard extends Component {
         this.setMapObjective(objective);
       }
     }
+    this.setState({
+      objectives: this.getObjectives(nextProps.objectives)
+    })
+  }
+
+  getObjectives = (objectives) => {
+    return objectives;
+  }
+
+  replaceObjectives = (originalIndex, overIndex) => {
+    console.log(originalIndex, overIndex)
+    console.log('from', this.state.objectives.map(c => c.get('id')).toArray());
+    const objective = this.state.objectives.get(originalIndex);
+    const replacementTarget = this.state.objectives.get(overIndex);
+    let newObjectives = this.state.objectives.set(overIndex, objective);
+    newObjectives = newObjectives.set(originalIndex, replacementTarget);
+    console.log('to', newObjectives.map(c => c.get('id')).toArray());
+    this.setState({
+      objectives: newObjectives
+    })
   }
 
   getNextMapObjective = (prevObjectives, nextObjectives) => {
@@ -135,8 +156,10 @@ export default class Dashboard extends Component {
             </Menu>
           </div>
           {activeItem === 'objective'
-            ? <ObjectiveList objectives={this.props.objectives}
-                             setMapObjective={this.setMapObjective} />
+            ? <ObjectiveList objectives={this.state.objectives}
+                             setMapObjective={this.setMapObjective}
+                             updateUserObjectiveOrder={(orderData) => this.props.updateUserObjectiveOrder(this.props.userId, orderData)}
+                             replaceObjectives={this.replaceObjectives} />
             : <KeyResultList keyResults={this.props.keyResults}
                              setMapObjective={this.setMapObjective}
                              setMapObjectiveId={this.setMapObjectiveId} />

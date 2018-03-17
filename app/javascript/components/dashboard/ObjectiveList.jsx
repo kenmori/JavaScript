@@ -18,14 +18,9 @@ function collect(connect) {
 }
 
 class ObjectiveList extends Component {
-  moveCard(id, atIndex) {
-		const { card, index } = this.findCard(id)
-	}
-
 	findCard(id) {
 		const { objectives } = this.props
 		const objective = objectives.find(c => c.get('id') === id)
-    console.log(objectives.indexOf(objective))
 		return {
 			card: objective,
 			index: objectives.indexOf(objective),
@@ -47,7 +42,8 @@ class ObjectiveList extends Component {
                     key={objective.get('id')}
                     objective={objective}
                     isSelected={isSelected}
-                    moveCard={this.moveCard.bind(this)}
+                    moveCard={this.props.replaceObjectives}
+                    updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
                     findCard={this.findCard.bind(this)}
                     selectObjective={this.selectObjective.bind(this)} />
           })}

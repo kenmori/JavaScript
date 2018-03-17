@@ -5,20 +5,20 @@ import OkrPieChart from './OkrPieChart';
 
 const cardSource = {
 	beginDrag(props) {
-    console.log("beginDrag", props.objective.get('id'), props.findCard(props.objective.get('id')).index)
+    const id = props.objective.get('id');
     return {
-			id: props.objective.get('id'),
-			originalIndex: props.findCard(props.id).index,
+			id,
+			originalIndex: props.findCard(id).index,
 		}
 	},
 
 	endDrag(props, monitor) {
-    const { id: droppedId, originalIndex } = monitor.getItem()
+    const { id: droppedId } = monitor.getItem()
 		const didDrop = monitor.didDrop()
-    console.log("endDrag", droppedId, didDrop);
-		if (!didDrop) {
-			props.moveCard(droppedId, originalIndex)
-		}
+		props.updateUserObjectiveOrder({
+      id: droppedId,
+      index: props.findCard(droppedId).index,
+    })
 	},
 }
 
@@ -30,18 +30,14 @@ const collectSource = (connect, monitor) => {
 }
 
 const cardTarget = {
-	canDrop() {
-    console.log("canDrop");
-		return false
-	},
-
 	hover(props, monitor) {
 		const { id: draggedId } = monitor.getItem();
     const overId = props.objective.get('id');
-    
+
 		if (draggedId !== overId) {
+      const { index: originalIndex } = props.findCard(draggedId)
 			const { index: overIndex } = props.findCard(overId)
-			props.moveCard(draggedId, overIndex)
+			props.moveCard(originalIndex, overIndex)
 		}
 	},
 }
@@ -82,6 +78,7 @@ Objective.propTypes = {
   isDragging: PropTypes.bool.isRequired,
   moveCard: PropTypes.func.isRequired,
   findCard: PropTypes.func.isRequired,
+  updateUserObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 };
