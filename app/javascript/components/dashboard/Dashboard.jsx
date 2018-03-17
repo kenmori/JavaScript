@@ -51,20 +51,34 @@ export default class Dashboard extends Component {
     if (objectives.isEmpty()) {
       return objectives;
     }
-    const order = fromJS(JSON.parse(this.props.objectiveOrder));
-    return order.map(id => {
-      return objectives.find(o => o.get('id') === id);
+
+    if (objectives.size === this.state.objectives.size) {
+      return this.state.objectives;
+    }
+
+    const diff = objectives.filter((item) => {
+      return !this.state.objectives.find(o => o.get('id') === item.get('id'));
     });
+
+    const isInitialAddition = !diff.isEmpty() && this.state.objectives.isEmpty();
+    if (isInitialAddition) {
+      const order = fromJS(JSON.parse(this.props.objectiveOrder));
+      const newObjectives = order.map(id => {
+        return objectives.find(o => o.get('id') === id);
+      });
+      return newObjectives;
+    }
+
+    if (!diff.isEmpty()) {
+      return diff.concat(this.state.objectives);
+    }
   }
 
   replaceObjectives = (originalIndex, overIndex) => {
-    console.log(originalIndex, overIndex)
-    console.log('from', this.state.objectives.map(c => c.get('id')).toArray());
     const objective = this.state.objectives.get(originalIndex);
     const replacementTarget = this.state.objectives.get(overIndex);
     let newObjectives = this.state.objectives.set(overIndex, objective);
     newObjectives = newObjectives.set(originalIndex, replacementTarget);
-    console.log('to', newObjectives.map(c => c.get('id')).toArray());
     this.setState({
       objectives: newObjectives
     })

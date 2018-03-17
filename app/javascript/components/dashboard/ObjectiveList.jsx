@@ -6,12 +6,10 @@ import Objective from './Objective';
 
 const cardTarget = {
 	drop() {
-    console.log('container: drop');
   },
 }
 
 function collect(connect) {
-  console.log('container: connect', connect);
   return {
     connectDropTarget: connect.dropTarget(),
   };
