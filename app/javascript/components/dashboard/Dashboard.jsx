@@ -56,22 +56,34 @@ export default class Dashboard extends Component {
       return this.state.objectives;
     }
 
-    const diff = objectives.filter((item) => {
+    const addList = objectives.filter((item) => {
       return !this.state.objectives.find(o => o.get('id') === item.get('id'));
-    });
+    })
 
-    const isInitialAddition = !diff.isEmpty() && this.state.objectives.isEmpty();
+    const removeList = this.state.objectives.filter((item) => {
+      return !objectives.find(o => o.get('id') === item.get('id'));
+    })
+
+    const isInitialAddition = !addList.isEmpty() && this.state.objectives.isEmpty();
     if (isInitialAddition) {
       const order = fromJS(JSON.parse(this.props.objectiveOrder));
       const newObjectives = order.map(id => {
         return objectives.find(o => o.get('id') === id);
       });
-      return newObjectives;
+      return newObjectives.filter(Boolean);
     }
 
-    if (!diff.isEmpty()) {
-      return diff.concat(this.state.objectives);
+    if (!addList.isEmpty()) {
+      return addList.concat(this.state.objectives);
     }
+
+    if (!removeList.isEmpty()) {
+      return this.state.objectives.filter((item) => {
+        return !removeList.find(o => o.get('id') === item.get('id'));
+      });
+    }
+
+    return this.state.objectives;
   }
 
   replaceObjectives = (originalIndex, overIndex) => {
