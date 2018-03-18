@@ -14,6 +14,7 @@
   }
 
   .objective-box {
+    position: relative;
     display: inline-flex;
     flex-direction: column;
     margin-right: 30px;
@@ -59,6 +60,26 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
+    }
+
+    .sort-navi {
+      width: 100%;
+      position: absolute;
+      bottom: 25px;
+
+      .sort-left {
+        position: absolute;
+        top: 0;
+        left: 4px;
+      }
+      .sort-right {
+        position: absolute;
+        top: 0;
+        right: 4px;
+      }
+      i {
+        color: rgba(0,0,0,.6);
+      }
     }
   }
 }

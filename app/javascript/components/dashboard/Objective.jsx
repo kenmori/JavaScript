@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DragSource, DropTarget } from 'react-dnd'
+import { DragSource, DropTarget } from 'react-dnd';
+import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
+
+const MOVE_LEFT = 'left';
+const MOVE_RIGHT = 'right';
 
 const cardSource = {
 	beginDrag(props) {
@@ -46,17 +50,59 @@ const collectTarget = (connect) => {
 
 
 class Objective extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isHover: false,
+      canMoveToleft: false,
+      canMoveToRight: true,
+    };
+  }
+  moveObjective(evt, direction) {
+    const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
+    const nextIndex = direction === MOVE_LEFT ? currentIndex - 1 :
+                        direction === MOVE_RIGHT ? currentIndex + 1 : -1;
+    if (nextIndex >= 0) {
+      this.props.moveCard(currentIndex, nextIndex);
+      this.props.updateUserObjectiveOrder();
+    }
+    evt.stopPropagation();
+  }
+  handleMouseHover(isHover) {
+    const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
+    this.setState({
+      isHover,
+      canMoveToleft: currentIndex !== 0,
+      canMoveToRight: currentIndex !== this.props.objectivesLength - 1,
+    });
+  }
   objectiveHtml() {
     const {
       objective,
       isSelected,
       selectObjective,
     } = this.props;
+    const canDisplayedNavi = this.state.isHover && this.props.isSelectedLoginUser;
     return (
-      <span className={`objective-box ${isSelected ? 'active' : ''}`} onClick={() => selectObjective(objective)}>
+      <div 
+        className={`objective-box ${isSelected ? 'active' : ''}`} 
+        onClick={() => selectObjective(objective)}
+        onMouseOver={() => this.handleMouseHover(true)}
+        onMouseLeave={() => this.handleMouseHover(false)}
+      >
         <div><div className='name'>{objective.get('name')}</div></div>
         <OkrPieChart objective={objective} />
-      </span>
+        { canDisplayedNavi &&
+          <div className="sort-navi">
+            { this.state.canMoveToleft &&
+              <span className="sort-left"><Icon name="arrow circle left" size='large' onClick={(evt) => this.moveObjective(evt, MOVE_LEFT)} /></span>
+            }
+            { this.state.canMoveToRight &&
+              <span className="sort-right"><Icon name="arrow circle right" size='large' onClick={(evt) => this.moveObjective(evt, MOVE_RIGHT)} /></span>
+            }
+          </div>
+        }
+      </div>
     )
   }
   render(props) {
@@ -73,6 +119,7 @@ class Objective extends Component {
 Objective.propTypes = {
   objective: PropTypes.object.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  objectivesLength: PropTypes.number.isRequired,
   selectObjective: PropTypes.func.isRequired,
   isSelectedLoginUser: PropTypes.bool.isRequired,
   moveCard: PropTypes.func.isRequired,
