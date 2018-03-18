@@ -53,35 +53,50 @@ export default class Dashboard extends Component {
     }
 
     const isSwitchedUser = objectives.every(item => !this.state.objectives.find(o => o.get('id') === item.get('id')))
+    const order = fromJS(JSON.parse(this.props.objectiveOrder));
 
-    const addList = objectives.filter((item) => {
-      return !this.state.objectives.find(o => o.get('id') === item.get('id'));
-    })
-
-    const removeList = this.state.objectives.filter((item) => {
-      return !objectives.find(o => o.get('id') === item.get('id'));
-    })
-
-    const isInitialAddition = isSwitchedUser && this.props.isSelectedLoginUser;
-    if (isInitialAddition) {
-      const order = fromJS(JSON.parse(this.props.objectiveOrder));
-      const newObjectives = order.map(id => {
-        return objectives.find(o => o.get('id') === id);
-      });
-      return newObjectives.filter(Boolean);
+    // initial
+    if (isSwitchedUser || this.state.objectives.size === 0) {
+      return this.getInitialObjectivesState(order, objectives);
     }
 
-    if (!addList.isEmpty()) {
-      return addList.concat(this.state.objectives);
+    // added objective
+    if (objectives.size > this.state.objectives.size) {
+      return this.addObjectivesState(objectives);
     }
 
-    if (!removeList.isEmpty()) {
-      return this.state.objectives.filter((item) => {
-        return !removeList.find(o => o.get('id') === item.get('id'));
-      });
+    // removed objective
+    if (objectives.size < this.state.objectives.size) {
+      return this.removeObjectivesState(objectives);
     }
 
     return this.state.objectives;
+  }
+
+  getInitialObjectivesState = (order, objectives) => {
+    const sortedList = order.map(id => (
+      objectives.find(o => o.get('id') === id)
+    )).filter(Boolean);
+    const addList = objectives.filter((item) => {
+      return !sortedList.find(o => o.get('id') === item.get('id'));
+    });
+    return addList.concat(sortedList);
+  }
+
+  addObjectivesState = (objectives) => {
+    const addList = objectives.filter((item) => {
+      return !this.state.objectives.find(o => o.get('id') === item.get('id'));
+    });
+    return addList.concat(this.state.objectives);
+  }
+
+  removeObjectivesState = (objectives) => {
+    const removeList = this.state.objectives.filter((item) => (
+      !objectives.find(o => o.get('id') === item.get('id'))
+    ))
+    return this.state.objectives.filter((item) => (
+      !removeList.find(o => o.get('id') === item.get('id'))
+    ));
   }
 
   replaceObjectives = (originalIndex, overIndex) => {
