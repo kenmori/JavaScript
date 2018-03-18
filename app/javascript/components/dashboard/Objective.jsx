@@ -64,7 +64,9 @@ class Objective extends Component {
                         direction === MOVE_RIGHT ? currentIndex + 1 : -1;
     if (nextIndex >= 0) {
       this.props.moveCard(currentIndex, nextIndex);
-      this.props.updateUserObjectiveOrder();
+      setTimeout(() => {
+        this.props.updateUserObjectiveOrder();
+      }, 0);
     }
     evt.stopPropagation();
   }
