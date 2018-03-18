@@ -177,7 +177,6 @@ export default class Dashboard extends Component {
     } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetched) {
       activeItem = 'keyResult';
     }
-    console.log('this.state.objectives', this.state.objectives.map(c => c.get('id')).toArray())
     return (
       <div className="dashboard">
         <section className="okr-list-section">

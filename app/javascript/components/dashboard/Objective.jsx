@@ -6,6 +6,7 @@ import OkrPieChart from './OkrPieChart';
 const cardSource = {
 	beginDrag(props) {
     const id = props.objective.get('id');
+    props.changeDragStyle(true);
     return {
 			id,
 			originalIndex: props.findCard(id).index,
@@ -13,6 +14,7 @@ const cardSource = {
 	},
 
 	endDrag(props, monitor) {
+    props.changeDragStyle(false);
 		props.updateUserObjectiveOrder();
 	},
 }
@@ -20,7 +22,6 @@ const cardSource = {
 const collectSource = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
-	  isDragging: monitor.isDragging(),
   }
 }
 
@@ -50,14 +51,12 @@ class Objective extends Component {
       objective,
       isSelected,
       selectObjective,
-      isDragging, 
     } = this.props;
     return (
-      <a className={`objective-box ${isSelected ? 'active' : ''}`}
-          href="javascript:void(0)" onClick={() => selectObjective(objective)}>
+      <span className={`objective-box ${isSelected ? 'active' : ''}`} onClick={() => selectObjective(objective)}>
         <div><div className='name'>{objective.get('name')}</div></div>
         <OkrPieChart objective={objective} />
-      </a>
+      </span>
     )
   }
   render(props) {
@@ -75,10 +74,10 @@ Objective.propTypes = {
   objective: PropTypes.object.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectObjective: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired,
   isSelectedLoginUser: PropTypes.bool.isRequired,
   moveCard: PropTypes.func.isRequired,
   findCard: PropTypes.func.isRequired,
+  changeDragStyle: PropTypes.func.isRequired,
   updateUserObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,

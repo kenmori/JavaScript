@@ -4,11 +4,6 @@ import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Objective from './Objective';
 
-const cardTarget = {
-	drop() {
-  },
-}
-
 function collect(connect) {
   return {
     connectDropTarget: connect.dropTarget(),
@@ -16,6 +11,19 @@ function collect(connect) {
 }
 
 class ObjectiveList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isDragging: false
+    }
+  }
+
+  changeDragStyle(isDragging) {
+    this.setState({
+      isDragging
+    })
+  }
+
 	findCard(id) {
 		const { objectives } = this.props
 		const objective = objectives.find(c => c.get('id') === id)
@@ -26,7 +34,7 @@ class ObjectiveList extends Component {
   }
   
   objectiveListHTML = () => (
-    <div className="objective-list">
+    <div className={`objective-list ${this.state.isDragging ? 'is-dragging' : ''}`}>
       {
         this.props.objectives.map((objective) => {
           const isSelected = objective.get('id') === this.props.currentObjectiveId;
@@ -37,6 +45,7 @@ class ObjectiveList extends Component {
                   moveCard={this.props.replaceObjectives}
                   updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
                   findCard={this.findCard.bind(this)}
+                  changeDragStyle={this.changeDragStyle.bind(this)}
                   isSelectedLoginUser={this.props.isSelectedLoginUser}
                   selectObjective={this.selectObjective.bind(this)} />
         })}
@@ -64,4 +73,4 @@ ObjectiveList.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 };
 
-export default DragDropContext(HTML5Backend)(DropTarget('card', cardTarget, collect)(ObjectiveList));
+export default DragDropContext(HTML5Backend)(DropTarget('card', {}, collect)(ObjectiveList));
