@@ -74,6 +74,7 @@ const mapStateToProps = (state, { match: { params } }) => {
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   const fetchedObjective = fetchedObjectiveId > 0 && denormalizeObjective(fetchedObjectiveId, state.entities);
   const [okrTypeId, okrId] = hashids.decode(params.okrHash);
+  const currentUser = state.users.find((u) => u.get('id') === state.current.get('userId'));
   
   const okrModalState = getOkrModalState({
     okrId,
@@ -98,7 +99,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     isSelectedLoginUser: state.current.get('userId') === state.loginUser.get('id'),
-    objectiveOrder: state.loginUser.get('objectiveOrder'),
+    objectiveOrder: currentUser ? currentUser.get('objectiveOrder') : [],
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
