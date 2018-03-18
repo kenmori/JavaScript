@@ -106,7 +106,7 @@ export default class Dashboard extends Component {
   getNextMapObjective = (prevObjectives, nextObjectives) => {
     // Objective 一覧取得時や追加/削除時に選択する Objective を返す
     const prevObjectiveId = this.state.mapObjectiveId;
-    const nextObjective = nextObjectives.first();
+    const nextObjective = this.getObjectives(nextObjectives).first();
     if (!prevObjectiveId) {
       return nextObjective; // 未選択の場合
     }
