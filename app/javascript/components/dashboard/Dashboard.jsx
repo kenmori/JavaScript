@@ -53,7 +53,7 @@ export default class Dashboard extends Component {
     }
 
     const isSwitchedUser = objectives.every(item => !this.state.objectives.find(o => o.get('id') === item.get('id')))
-    const order = fromJS(JSON.parse(this.props.objectiveOrder));
+    const order = fromJS(JSON.parse(this.props.objectiveOrder) || []);
 
     // initial
     if (isSwitchedUser || this.state.objectives.size === 0) {
