@@ -97,6 +97,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     okrModalState,
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
+    isSelectedLoginUser: state.current.get('userId') === state.loginUser.get('id'),
     objectiveOrder: state.loginUser.get('objectiveOrder'),
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),

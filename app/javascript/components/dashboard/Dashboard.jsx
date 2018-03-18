@@ -199,7 +199,8 @@ export default class Dashboard extends Component {
             ? <ObjectiveList objectives={this.state.objectives}
                              setMapObjective={this.setMapObjective}
                              updateUserObjectiveOrder={this.updateUserObjectiveOrder.bind(this)}
-                             replaceObjectives={this.replaceObjectives} />
+                             replaceObjectives={this.replaceObjectives}
+                             isSelectedLoginUser={this.props.isSelectedLoginUser} />
             : <KeyResultList keyResults={this.props.keyResults}
                              setMapObjective={this.setMapObjective}
                              setMapObjectiveId={this.setMapObjectiveId} />

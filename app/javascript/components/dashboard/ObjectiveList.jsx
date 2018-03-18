@@ -23,7 +23,25 @@ class ObjectiveList extends Component {
 			card: objective,
 			index: objectives.indexOf(objective),
 		}
-	}
+  }
+  
+  objectiveListHTML = () => (
+    <div className="objective-list">
+      {
+        this.props.objectives.map((objective) => {
+          const isSelected = objective.get('id') === this.props.currentObjectiveId;
+          return <Objective
+                  key={objective.get('id')}
+                  objective={objective}
+                  isSelected={isSelected}
+                  moveCard={this.props.replaceObjectives}
+                  updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
+                  findCard={this.findCard.bind(this)}
+                  isSelectedLoginUser={this.props.isSelectedLoginUser}
+                  selectObjective={this.selectObjective.bind(this)} />
+        })}
+    </div>
+  )
 
   selectObjective = objective => {
     this.props.setMapObjective(objective);
@@ -31,27 +49,17 @@ class ObjectiveList extends Component {
   }
 
   render() {
-    return this.props.connectDropTarget(
-      <div className="objective-list">
-        {
-          this.props.objectives.map((objective) => {
-            const isSelected = objective.get('id') === this.props.currentObjectiveId;
-            return <Objective
-                    key={objective.get('id')}
-                    objective={objective}
-                    isSelected={isSelected}
-                    moveCard={this.props.replaceObjectives}
-                    updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
-                    findCard={this.findCard.bind(this)}
-                    selectObjective={this.selectObjective.bind(this)} />
-          })}
-      </div>
-    );
+    return this.props.isSelectedLoginUser ? 
+      this.props.connectDropTarget(
+        this.objectiveListHTML()
+      ) :
+      this.objectiveListHTML();
   }
 }
 
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
+  isSelectedLoginUser: PropTypes.bool.isRequired,
   setMapObjective: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 };

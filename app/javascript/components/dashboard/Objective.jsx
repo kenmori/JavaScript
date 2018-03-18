@@ -45,24 +45,29 @@ const collectTarget = (connect) => {
 
 
 class Objective extends Component {
-  render(props) {
+  objectiveHtml() {
     const {
       objective,
       isSelected,
       selectObjective,
       isDragging, 
+    } = this.props;
+    return (
+      <a className={`objective-box ${isSelected ? 'active' : ''}`}
+          href="javascript:void(0)" onClick={() => selectObjective(objective)}>
+        <div><div className='name'>{objective.get('name')}</div></div>
+        <OkrPieChart objective={objective} />
+      </a>
+    )
+  }
+  render(props) {
+    const { 
       connectDragSource,
       connectDropTarget,
     } = this.props;
-    return connectDragSource(
-      connectDropTarget(
-        <a className={`objective-box ${isSelected ? 'active' : ''}`}
-            href="javascript:void(0)" onClick={() => selectObjective(objective)}>
-          <div><div className='name'>{objective.get('name')}</div></div>
-          <OkrPieChart objective={objective} />
-        </a>
-      )
-    );
+    return this.props.isSelectedLoginUser ?
+            connectDragSource(connectDropTarget(this.objectiveHtml())) :
+            this.objectiveHtml();
   }
 }
 
@@ -71,6 +76,7 @@ Objective.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   selectObjective: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  isSelectedLoginUser: PropTypes.bool.isRequired,
   moveCard: PropTypes.func.isRequired,
   findCard: PropTypes.func.isRequired,
   updateUserObjectiveOrder: PropTypes.func.isRequired,
