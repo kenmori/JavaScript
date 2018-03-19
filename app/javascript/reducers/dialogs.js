@@ -4,10 +4,7 @@ import ActionTypes from '../constants/actionTypes';
 
 export default handleActions({
     [ActionTypes.OPEN_OBJECTIVE_MODAL]: (state, { payload }) => (
-      state.set('objectiveForm', fromJS({
-        isOpen: true,
-        parentKeyResult: payload.parentKeyResult,
-      }))
+      state.set('objectiveForm', fromJS({ isOpen: true, parentKeyResult: payload.parentKeyResult }))
     ),
     [ActionTypes.CLOSE_OBJECTIVE_MODAL]: (state) => (
       state.set('objectiveForm', fromJS({ isOpen: false }))
@@ -19,14 +16,36 @@ export default handleActions({
       state.set('keyResultForm', fromJS({ isOpen: false }))
     ),
     [ActionTypes.OPEN_OKR_MODAL]: (state, { payload }) => (
-      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, selectedOkr: payload.selectedOkr }))
+      state.set('okrForm', fromJS({ isOpen: true, objectiveId: payload.objectiveId, keyResultId: payload.keyResultId }))
     ),
     [ActionTypes.CLOSE_OKR_MODAL]: (state) => (
-      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, selectedOkr: null }))
+      state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, keyResultId: null }))
     ),
-    [ActionTypes.SHOW_OKR_PANE]: (state, { payload }) => (
-      state.set('okrForm', state.get('okrForm').set('selectedOkr', fromJS(payload.selectedOkr)))
-    ),
+    [ActionTypes.FETCH_OBJECTIVE]: (state, { payload }) => {
+      return state.mergeIn(['okrForm'], { isFetched: false, isFetching: true });
+    },
+    [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
+      return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
+    },
+    [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state, { payload }) => {
+      return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
+    },
+    [ActionTypes.FETCH_KEY_RESULT]: (state, { payload }) => {
+      return state.mergeIn(['okrForm'], { isFetched: false, isFetching: true });
+    },
+    [ActionTypes.FETCHED_KEY_RESULT]: (state, { payload }) => {
+      return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
+    },
+    [ActionTypes.FETCHED_KEY_RESULT_ERROR]: (state, { payload }) => {
+      return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
+    },
+    [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
+      return state.setIn(['okrForm', 'removedObjectiveId'], payload.id);
+    },
+    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+      const keyResultId = payload.get('result').first();
+      return state.setIn(['okrForm', 'removedKeyResultId'], keyResultId);
+    },
     [ActionTypes.OPEN_AVATAR_MODAL]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
     ),
@@ -46,16 +65,21 @@ export default handleActions({
       state.set('logoImage', fromJS({ isOpen: false, imageData: null }))
     ),
     [ActionTypes.OPEN_ERROR_MODAL]: (state, { payload }) => (
-      state.set('error', fromJS({ isOpen: true, message: payload.message }))
+      state.set('error', fromJS(payload.params).merge({ isOpen: true }))
     ),
     [ActionTypes.CLOSE_ERROR_MODAL]: (state) => (
-      state.set('error', fromJS({ isOpen: false, message: '' }))
+      state.setIn(['error', 'isOpen'], false)
     ),
+    [ActionTypes.OPEN_CONFIRM_MODAL]: (state, { payload }) => {
+      return state.set('confirm', fromJS(payload.params).merge({ isOpen: true }));
+    },
+    [ActionTypes.CLOSE_CONFIRM_MODAL]: (state) => {
+      return state.setIn(['confirm', 'isOpen'], false);
+    },
   },
   fromJS({
     objectiveForm: {
       isOpen: false,
-      objective: Map(),
     },
     keyResultForm: {
       isOpen: false,
@@ -64,7 +88,7 @@ export default handleActions({
     okrForm: {
       isOpen: false,
       objectiveId: null,
-      selectedOkr: Map(),
+      keyResultId: null,
     },
     avatarImage: {
       isOpen: false,
@@ -76,7 +100,9 @@ export default handleActions({
     },
     error: {
       isOpen: false,
-      message: '',
-    }
+    },
+    confirm: {
+      isOpen: false,
+    },
   }),
 );

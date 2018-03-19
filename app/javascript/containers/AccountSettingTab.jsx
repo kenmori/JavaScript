@@ -2,7 +2,6 @@ import AccountSettingTab from '../components/setting/AccountSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
 import dialogActions from '../actions/dialogs';
-import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   return {
@@ -27,8 +26,8 @@ const mapDispatchToProps = dispatch => {
     deleteAvatar: user => {
       dispatch(userActions.updateAvatar(user));
     },
-    confirm: confirmParams => {
-      dispatch(confirmActions.openConfirm(confirmParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     }
   };
 };
