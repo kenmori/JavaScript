@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
-import OkrList from './OkrList';
+import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import NumberInput from '../form/NumberInput';
