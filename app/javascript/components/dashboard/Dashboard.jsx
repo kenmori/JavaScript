@@ -113,10 +113,13 @@ export default class Dashboard extends Component {
   }
 
   updateUserObjectiveOrder = () => {
-    this.props.updateUserObjectiveOrder({
-      id: this.props.userId,
-      objectiveOrder: JSON.stringify(this.state.objectives.map(c => c.get('id')).toArray())
-    });
+    const nextOrder = JSON.stringify(this.state.objectives.map(c => c.get('id')).toArray());
+    if(nextOrder !== this.props.objectiveOrder) {
+      this.props.updateUserObjectiveOrder({
+        id: this.props.userId,
+        objectiveOrder: nextOrder
+      });
+    }
   }
 
   getNextMapObjective = (prevObjectives, nextObjectives) => {
