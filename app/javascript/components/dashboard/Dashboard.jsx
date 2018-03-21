@@ -57,7 +57,7 @@ export default class Dashboard extends Component {
 
     // initial
     if (isSwitchedUser || this.state.objectives.size === 0) {
-      return this.getInitialObjectivesState(order, objectives);
+      return this.initialObjectivesState(order, objectives);
     }
 
     // added objective
@@ -70,10 +70,13 @@ export default class Dashboard extends Component {
       return this.removeObjectivesState(objectives);
     }
 
-    return this.state.objectives;
+    // update objective
+    return this.state.objectives.map((item) => {
+      return objectives.find(o => o.get('id') === item.get('id'));
+    });
   }
 
-  getInitialObjectivesState = (order, objectives) => {
+  initialObjectivesState = (order, objectives) => {
     const sortedList = order.map(id => (
       objectives.find(o => o.get('id') === id)
     )).filter(Boolean);
