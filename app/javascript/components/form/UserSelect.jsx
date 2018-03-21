@@ -47,6 +47,7 @@ class UserSelect extends Component {
           defaultValue={this.state.defaultValue}
           onChange={this.handleChange}
           loading={this.props.users.isEmpty()}
+          selectOnNavigation={false}
         />
       </div>
     )

@@ -61,6 +61,7 @@ class MenuBar extends Component {
                 options={options(props.organizations)}
                 defaultValue={props.organization.get('id')}
                 onChange={this.handleChangeOrganization.bind(this)} 
+                selectOnNavigation={false}
             />
       }
   }
@@ -77,7 +78,9 @@ class MenuBar extends Component {
             <Dropdown scrolling pointing='top'
                       options={this.okrPeriodsOption(this.props.okrPeriods)}
                       defaultValue={this.props.okrPeriodId}
-                      onChange={this.handleOkrPeriodChange.bind(this)} />
+                      onChange={this.handleOkrPeriodChange.bind(this)}
+                      selectOnNavigation={false}
+            />
           }
         </Menu.Item>
         <Menu.Item>

@@ -63,6 +63,7 @@ class KeyResultSelect extends Component {
             loading={this.props.loading}
             onChange={this.handleChange}
             onBlur={() => this.setState({ readOnly: this.props.readOnly || false })}
+            selectOnNavigation={false}
           />
         )}
       </div>
