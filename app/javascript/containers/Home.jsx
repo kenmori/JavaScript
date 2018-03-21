@@ -141,7 +141,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(currentActions.changeCurrentOkr(objectiveId));
     },
     updateUserObjectiveOrder: (user) => {
-      dispatch(userActions.updateUser(user))
+      dispatch(userActions.updateUser(user, false))
     }
   };
 };

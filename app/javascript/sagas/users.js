@@ -15,7 +15,9 @@ function* addUser({ payload }) {
 function* updateUser({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
   yield put(userActions.updatedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザー情報を更新しました'));
+  if (payload.isToast) {
+    yield put(toastActions.showToast('ユーザー情報を更新しました'));  
+  }
 }
 
 function* removeUser({ payload }) {
