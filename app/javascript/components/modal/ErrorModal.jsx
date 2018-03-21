@@ -9,6 +9,13 @@ class ErrorModal extends Component {
       <p key={idx}>{message}</p>
     ))
   }
+
+  handleClose = () => {
+    this.props.onCloseBefore();
+    this.props.closeModal();
+    this.props.onClose();
+  }
+
   render() {
     let message = this.props.message;
     if (List.isList(message)) {
@@ -21,29 +28,33 @@ class ErrorModal extends Component {
         size='small' 
         closeOnEscape={true} 
         closeOnRootNodeClick={true} 
-        onClose={this.props.closeModal}
+        onClose={this.handleClose}
       >
         <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>
           {message}
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button positive onClick={() => {this.props.closeModal()}}>OK</Button>
+            <Button positive onClick={this.handleClose}>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >
     );
   }
-};
+}
 
 ErrorModal.propTypes = {
   isOpen: PropTypes.bool,
   message: PropTypes.any,
+  onClose: PropTypes.func,
+  onCloseBefore: PropTypes.func,
   closeModal: PropTypes.func,
 };
 
 ErrorModal.defaultProps = {
-  message: 'エラーが発生しました。',
+  message: 'エラーが発生しました',
+  onClose: () => {},
+  onCloseBefore: () => {},
 };
 
 export default ErrorModal;

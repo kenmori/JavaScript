@@ -47,6 +47,7 @@ export default handleActions({
         objective.update('childObjectiveIds', ids => ids.filter(id => id !== payload.id))
       );
     },
+    [ActionTypes.FETCHED_KEY_RESULT]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
       const keyResultId = payload.get('result').first();

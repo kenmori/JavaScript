@@ -11,9 +11,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openOkrModal: (objectiveId, selectedOkr) => {
-      dispatch(dialogActions.openOkrModal(objectiveId, selectedOkr));
-    },
     openKeyResultModal: (objective) => {
       dispatch(dialogActions.openKeyResultModal(objective));
     }

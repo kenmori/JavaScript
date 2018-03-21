@@ -2,7 +2,6 @@ import KeyResultModal from '../components/okrmodal/KeyResultModal';
 import { connect } from 'react-redux';
 import actions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import confirmActions from '../actions/confirm';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -23,8 +22,8 @@ const mapDispatchToProps = dispatch => {
     closeModal: () => {
       dispatch(dialogActions.closeKeyResultModal());
     },
-    confirm: confirmParams => {
-      dispatch(confirmActions.openConfirm(confirmParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     }
   };
 };

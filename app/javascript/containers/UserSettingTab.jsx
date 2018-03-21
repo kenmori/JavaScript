@@ -1,7 +1,7 @@
 import UserSettingTab from '../components/setting/UserSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
-import confirmActions from '../actions/confirm';
+import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
@@ -31,8 +31,8 @@ const mapDispatchToProps = dispatch => {
     resendEmail: id => {
       dispatch(userActions.resendEmail(id));
     },
-    confirm: confirmParams => {
-      dispatch(confirmActions.openConfirm(confirmParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     }
   };
 };

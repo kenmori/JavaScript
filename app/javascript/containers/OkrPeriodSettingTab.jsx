@@ -1,7 +1,7 @@
 import OkrPeriodSettingTab from '../components/setting/OkrPeriodSettingTab';
 import { connect } from 'react-redux';
 import okrPeriodActions from '../actions/okrPeriods';
-import confirmActions from '../actions/confirm';
+import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
@@ -22,8 +22,8 @@ const mapDispatchToProps = dispatch => {
     removeOkrPeriod: okrPeriod => {
       dispatch(okrPeriodActions.removeOkrPeriod(okrPeriod));
     },
-    confirm: confirmParams => {
-      dispatch(confirmActions.openConfirm(confirmParams));
+    confirm: params => {
+      dispatch(dialogActions.openConfirmModal(params));
     },
   };
 };

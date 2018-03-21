@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { hashids, OKR_TYPE_ID } from '../../utils/hashids';
+import { openObjective, openKeyResult } from '../../utils/linker';
 import { Segment, Button } from 'semantic-ui-react';
-import history from '../../utils/history';
 import OwnerAvatar from '../util/OwnerAvatar';
 
 class Sidebar extends Component {
-  keyResultListTag(keyResults, selectedOkr) {
+
+  keyResultListTag(keyResults, keyResultId) {
     return keyResults.map(item => {
-      const okrHash = hashids.encode(OKR_TYPE_ID.KEY_RESULT, item.get('id'));
-      const cls = selectedOkr.get('okrType') === 'keyResult' && selectedOkr.get('targetId') === item.get('id') ?
-                    'sidebar__item is-current' : 'sidebar__item';
+      const cls = keyResultId === item.get('id') ? 'sidebar__item is-current' : 'sidebar__item';
       return (
-        <Segment className={cls} key={item.get('id')} onClick={() => history.push(`/okr/${okrHash}`)}>
+        <Segment className={cls} key={item.get('id')} onClick={() => openKeyResult(item.get('id'))}>
           <span className="sidebar__avatar"><OwnerAvatar owner={item.get('owner')} members={item.get('keyResultMembers')} /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
@@ -23,17 +21,13 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { 
-      objective, 
-      selectedOkr,
-    } = this.props;
-    const okrHash = hashids.encode(OKR_TYPE_ID.OBJECTIVE, objective.get('id'));
-    const objectiveCls = selectedOkr.get('okrType') === 'objective' ? 'sidebar__item is-current' : 'sidebar__item';
+    const objective = this.props.objective;
+    const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
     return (
       <div className="sidebar">
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
-          <Segment className={objectiveCls} onClick={() => history.push(`/okr/${okrHash}`)}>
+          <Segment className={objectiveCls} onClick={() => openObjective(objective.get('id'))}>
             <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
             <span className="sidebar__val">{objective.get('name')}</span>
             <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
@@ -43,7 +37,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
-            { this.keyResultListTag(objective.get('keyResults'), selectedOkr) }
+            { this.keyResultListTag(objective.get('keyResults'), this.props.keyResultId) }
           </Segment.Group>
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
@@ -54,7 +48,7 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
-  selectedOkr: PropTypes.object.isRequired,
+  keyResultId: PropTypes.number,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };
 

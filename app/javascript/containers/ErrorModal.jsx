@@ -3,9 +3,12 @@ import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
+  const error = state.dialogs.get('error');
   return {
-    isOpen: state.dialogs.getIn(['error', 'isOpen']),
-    message: state.dialogs.getIn(['error', 'message']),
+    isOpen: error.get('isOpen'),
+    message: error.get('message'),
+    onClose: error.get('onClose'),
+    onCloseBefore: error.get('onCloseBefore'),
   };
 };
 
