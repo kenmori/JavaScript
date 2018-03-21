@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
+import OkrList from './OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import NumberInput from '../form/NumberInput';
 import AutoTextArea from '../form/AutoTextArea';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
-import OwnerAvatar from '../util/OwnerAvatar';
 import moment from 'moment';
 
 class KeyResultPane extends Component {
@@ -142,14 +142,7 @@ class KeyResultPane extends Component {
     return (
       <Form.Field>
         <label>下位 Objective 一覧</label>
-        <List className='child-objectives-list'>
-          {childObjectives.map(objective =>
-            <List.Item key={objective.get('id')}>
-              <OwnerAvatar owner={objective.get('owner')} />
-              <List.Content>{objective.get('name')}</List.Content>
-            </List.Item>
-          )}
-        </List>
+        <OkrList okrs={childObjectives} />
       </Form.Field>
     );
   }
