@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Objective from './Objective';
@@ -74,4 +75,7 @@ ObjectiveList.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 };
 
-export default DragDropContext(HTML5Backend)(DropTarget('card', {}, collect)(ObjectiveList));
+const isTouchOnly = 'ontouchstart' in window && !('onmousedown' in window)
+const backend = isTouchOnly ? TouchBackend : HTML5Backend;
+
+export default DragDropContext(backend)(DropTarget('card', {}, collect)(ObjectiveList));
