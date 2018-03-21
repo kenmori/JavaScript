@@ -12,6 +12,13 @@ class KeyResultSelect extends Component {
     this.state = this.getState(value, props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const nextValue = nextProps.defaultValue || -1;
+    if (this.props.defaultValue !== nextValue) {
+      this.setState(this.getState(nextValue, nextProps));
+    }
+  }
+
   getState = (value, props) => {
     return {
       defaultValue: value,
@@ -34,7 +41,6 @@ class KeyResultSelect extends Component {
 
   handleChange = (event, { value }) => {
     if (value !== this.state.defaultValue) {
-      this.setState(this.getState(value, this.props));
       this.props.onChange(value);
     }
   }
