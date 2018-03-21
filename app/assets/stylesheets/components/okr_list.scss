@@ -1,6 +1,17 @@
 .okr-list {
-  .content {
-    display: inline;
-    margin-left: 8px;
+  &.ui.list > .item {
+    display: flex;
+    align-items: center;
+  }
+
+  .name {
+    flex-grow: 1;
+    margin: 0 .5rem;
+  }
+
+  .progress-rate {
+    display: inline-block;
+    min-width: 50px;
+    text-align: right;
   }
 }
