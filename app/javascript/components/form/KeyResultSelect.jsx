@@ -9,21 +9,24 @@ class KeyResultSelect extends Component {
   constructor(props) {
     super(props);
     const value = props.value || -1;
-    this.state = this.getState(value, props);
+    this.state = {
+      value,
+      readOnly: this.isReadOnly(props, value),
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     const nextValue = nextProps.value || -1;
     if (this.props.value !== nextValue) {
-      this.setState(this.getState(nextValue, nextProps));
+      this.setState({
+        value: nextValue,
+        readOnly: this.isReadOnly(nextProps, nextValue),
+      });
     }
   }
 
-  getState = (value, props) => {
-    return {
-      value,
-      readOnly: props.readOnly && value !== -1,
-    };
+  isReadOnly = (props, value) => {
+    return props.readOnly && value !== -1; // 上位 KR なしの場合は常に Select 表示
   }
 
   keyResultOptions = () => {
@@ -68,7 +71,7 @@ class KeyResultSelect extends Component {
             disabled={this.props.disabled}
             loading={this.props.loading}
             onChange={this.handleChange}
-            onBlur={() => this.setState({ readOnly: this.props.readOnly || false })}
+            onBlur={() => this.setState({ readOnly: this.isReadOnly(this.props, this.state.value) })}
             selectOnNavigation={false}
           />
         )}
