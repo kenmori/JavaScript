@@ -5,17 +5,6 @@ import avatar_image from '../../images/avatar.png';
 
 class UserSelect extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      defaultValue: props.defaultValue,
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ defaultValue: nextProps.defaultValue });
-  }
-
   userOptions = () => {
     return this.props.users.map(user => ({
       key: user.get('id'),
@@ -28,10 +17,9 @@ class UserSelect extends Component {
 
   handleChange = (event, { value }) => {
     const isChanged = typeof value === 'number'
-      ? value !== this.state.defaultValue
-      : JSON.stringify(value) !== JSON.stringify(this.state.defaultValue);
+      ? value !== this.props.value
+      : JSON.stringify(value) !== JSON.stringify(this.props.value);
     if (isChanged) {
-      this.setState({ defaultValue: value });
       this.props.onChange(value);
     }
   }
@@ -44,24 +32,22 @@ class UserSelect extends Component {
     return (
       <div>
         <Select
-          key={this.props.id}
           search={this.search}
           options={this.userOptions()}
-          defaultValue={this.state.defaultValue}
+          value={this.props.value}
           multiple={this.props.multiple}
           onChange={this.handleChange}
           loading={this.props.users.isEmpty()}
           selectOnNavigation={false}
         />
       </div>
-    )
+    );
   }
 }
 
 UserSelect.propTypes = {
-  id: PropTypes.number,
   users: PropTypes.object.isRequired,
-  defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
   multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };

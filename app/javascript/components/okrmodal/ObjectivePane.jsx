@@ -66,7 +66,7 @@ class ObjectivePane extends Component {
           <div className='flex-field__item'>
           <UserSelect
             users={this.props.users}
-            defaultValue={objective.get('owner').get('id')}
+            value={objective.get('owner').get('id')}
             onChange={(value) => this.changeObjectiveOwner(value)}
           />
           </div>

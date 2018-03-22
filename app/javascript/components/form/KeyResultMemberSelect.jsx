@@ -44,7 +44,7 @@ class KeyResultMemberSelect extends Component {
       <div className="key-result-member-select">
         <UserSelect
           users={selectableUsers}
-          defaultValue={members}
+          value={members}
           multiple={true}
           onChange={this.handleChange}
         />

@@ -232,9 +232,8 @@ class KeyResultPane extends Component {
           <label>責任者</label>
           <div className='flex-field__item'>
             <UserSelect
-              id={keyResult.get('id')}
               users={this.props.users}
-              defaultValue={keyResult.get('owner').get('id')}
+              value={keyResult.get('owner').get('id')}
               onChange={(value) => this.changeKeyResultOwner(value)}
             />
           </div>

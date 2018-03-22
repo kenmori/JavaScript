@@ -84,7 +84,13 @@ class MenuBar extends Component {
           }
         </Menu.Item>
         <Menu.Item>
-          {!this.props.users.isEmpty() && <UserSelect users={this.props.users} defaultValue={this.props.userId} onChange={(value) => this.props.changeCurrentUser(value)} /> }
+          {!this.props.users.isEmpty() && (
+            <UserSelect
+              users={this.props.users}
+              value={this.props.userId}
+              onChange={value => this.props.changeCurrentUser(value)}
+            />
+          )}
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
