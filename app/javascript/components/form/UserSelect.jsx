@@ -27,7 +27,10 @@ class UserSelect extends Component {
   }
 
   handleChange = (event, { value }) => {
-    if (value !== this.state.defaultValue) {
+    const isChanged = typeof value === 'number'
+      ? value !== this.state.defaultValue
+      : JSON.stringify(value) !== JSON.stringify(this.state.defaultValue);
+    if (isChanged) {
       this.setState({ defaultValue: value });
       this.props.onChange(value);
     }
@@ -45,6 +48,7 @@ class UserSelect extends Component {
           search={this.search}
           options={this.userOptions()}
           defaultValue={this.state.defaultValue}
+          multiple={this.props.multiple}
           onChange={this.handleChange}
           loading={this.props.users.isEmpty()}
           selectOnNavigation={false}
@@ -57,8 +61,13 @@ class UserSelect extends Component {
 UserSelect.propTypes = {
   id: PropTypes.number,
   users: PropTypes.object.isRequired,
-  defaultValue: PropTypes.number,
+  defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
+  multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+};
+
+UserSelect.defaultProps = {
+  multiple: false,
 };
 
 export default UserSelect;
