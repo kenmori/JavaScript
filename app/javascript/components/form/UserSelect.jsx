@@ -39,6 +39,7 @@ class UserSelect extends Component {
           onChange={this.handleChange}
           loading={this.props.users.isEmpty()}
           selectOnNavigation={false}
+          noResultsMessage={null}
         />
       </div>
     );

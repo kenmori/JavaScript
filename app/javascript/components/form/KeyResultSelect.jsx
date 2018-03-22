@@ -73,6 +73,7 @@ class KeyResultSelect extends Component {
             onChange={this.handleChange}
             onBlur={() => this.setState({ readOnly: this.isReadOnly(this.props, this.state.value) })}
             selectOnNavigation={false}
+            noResultsMessage={null}
           />
         )}
       </div>
