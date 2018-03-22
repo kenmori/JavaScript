@@ -13,7 +13,7 @@ class KeyResultModal extends Component {
     this.defaultExpiredDate = null;
     this.state = {
       expiredDate: -1,
-      keyResultMembers: [],
+      members: [],
       ownerId: null,
     }
   }
@@ -34,28 +34,26 @@ class KeyResultModal extends Component {
     this.setState({
       ownerId: value,
     });
-    this.removeKeyResultMembers(value);
+    this.removeMember(value);
   }
 
-  addKeyResultMembers(value) {
-    const keyResultMembers = this.state.keyResultMembers;
-    keyResultMembers.push(value);
-    this.setState({
-      keyResultMembers: keyResultMembers
-    })
+  addMember(value) {
+    const members = this.state.members;
+    members.push(value);
+    this.setState({ members });
   }
 
-  removeKeyResultMembers(clickedId) {
-    this.setState({
-      keyResultMembers: this.state.keyResultMembers.filter( id => id !== clickedId)
-    })
+  removeMember(value) {
+    const members = this.state.members;
+    members.splice(members.indexOf(value), 1);
+    this.setState({ members });
   }
 
   add(validData) {
     const keyResult = {
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
-      keyResultMembers: this.state.keyResultMembers
+      members: this.state.members,
     };
     this.props.addKeyResult(Object.assign(keyResult, validData));
   }
@@ -87,14 +85,14 @@ class KeyResultModal extends Component {
       });
       this.setState({
         expiredDate: -1,
-        keyResultMembers: []
+        members: [],
       });
     }
   }
 
   isEditing() {
     return this.state.ownerId !== this.props.objective.get('owner').get('id')
-      || this.state.keyResultMembers.length;
+      || this.state.members.length;
   }
 
   handleClose() {
@@ -210,10 +208,10 @@ class KeyResultModal extends Component {
                     <label>関係者</label>
                     <KeyResultMemberSelect
                       users={this.props.users}
-                      keyResultMembers={this.state.keyResultMembers}
+                      members={this.state.members}
                       excludedId={this.state.ownerId}
-                      add={this.addKeyResultMembers.bind(this)}
-                      remove={this.removeKeyResultMembers.bind(this)}
+                      add={this.addMember.bind(this)}
+                      remove={this.removeMember.bind(this)}
                     />
                   </Form.Field>
                 </Form.Group>

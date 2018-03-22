@@ -30,15 +30,15 @@ class KeyResultPane extends Component {
     };
   }
 
-  addKeyResultMembers(value) {
+  addMember(value) {
     this.updateKeyResult({
-      keyResultMember: {user: value, behavior: 'add', role: 'member'}
+      member: {user: value, behavior: 'add', role: 'member'}
     });
   }
 
-  removeKeyResultMembers(value) {
+  removeMember(value) {
     const removeAction = () => this.updateKeyResult({
-      keyResultMember: { user: value, behavior: 'remove' }
+      member: { user: value, behavior: 'remove' }
     });
     if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
       this.props.confirm({
@@ -52,7 +52,7 @@ class KeyResultPane extends Component {
 
   changeKeyResultOwner(value) {
     this.updateKeyResult({
-      keyResultMember: {user: value, behavior: 'add', role: 'owner'}
+      member: {user: value, behavior: 'add', role: 'owner'}
     });
   }
 
@@ -149,7 +149,7 @@ class KeyResultPane extends Component {
 
   render() {
     const keyResult = this.props.keyResult;
-    const keyResultMembers = keyResult.get('keyResultMembers').map(member => member.get('id')).toArray();
+    const members = keyResult.get('members').map(member => member.get('id')).toArray();
     const isPowerUser = this.props.loginUser.get('isAdmin')
       || this.props.loginUser.get('id') === keyResult.get('owner').get('id')
       || this.props.loginUser.get('id') === this.props.objective.get('owner').get('id');
@@ -244,11 +244,11 @@ class KeyResultPane extends Component {
           <div className='flex-field__item key-result-members'>
             <KeyResultMemberSelect
               users={this.props.users}
-              keyResultMembers={keyResultMembers}
+              members={members}
               includedId={isPowerUser ? null : this.props.loginUser.get('id')}
               excludedId={keyResult.get('owner').get('id')}
-              add={this.addKeyResultMembers.bind(this)}
-              remove={this.removeKeyResultMembers.bind(this)}
+              add={this.addMember.bind(this)}
+              remove={this.removeMember.bind(this)}
             />
           </div>
         </Form.Field>

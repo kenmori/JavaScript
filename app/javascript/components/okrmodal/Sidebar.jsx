@@ -12,7 +12,7 @@ class Sidebar extends Component {
       const cls = keyResultId === item.get('id') ? 'sidebar__item is-current' : 'sidebar__item';
       return (
         <Segment className={cls} key={item.get('id')} onClick={() => openKeyResult(item.get('id'))}>
-          <span className="sidebar__avatar"><OwnerAvatar owner={item.get('owner')} members={item.get('keyResultMembers')} /></span>
+          <span className="sidebar__avatar"><OwnerAvatar owner={item.get('owner')} members={item.get('members')} /></span>
           <span className="sidebar__val">{item.get('name')}</span>
           <span className="progress-rate sidebar__rate">{item.get('progressRate')}%</span>
         </Segment>

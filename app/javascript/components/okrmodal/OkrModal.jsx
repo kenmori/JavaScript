@@ -50,7 +50,7 @@ class OkrModal extends Component {
     if (this.isNotExistMember(users, keyResult.get('owner'))) {
       users = users.push(keyResult.get('owner'));
     }
-    keyResult.get('keyResultMembers').forEach((item) => {
+    keyResult.get('members').forEach((item) => {
       if (this.isNotExistMember(users, item)) {
         users = users.push(item);
       }

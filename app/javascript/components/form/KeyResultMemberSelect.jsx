@@ -7,13 +7,13 @@ class KeyResultMemberSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultValue: props.keyResultMembers,
+      defaultValue: props.members,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.keyResultMembers !== nextProps.keyResultMembers) {
-      this.setState({ defaultValue: nextProps.keyResultMembers });
+    if (this.props.members !== nextProps.members) {
+      this.setState({ defaultValue: nextProps.members });
     }
   }
 
@@ -30,20 +30,21 @@ class KeyResultMemberSelect extends Component {
   render() {
     const {
       users,
-      keyResultMembers,
+      members,
       includedId,
       excludedId,
     } = this.props;
 
-    const selectableMembers = users.filter(user => {
+    const selectableUsers = users.filter(user => {
       const userId = user.get('id');
       return includedId ? userId === includedId : userId !== excludedId;
     });
+
     return (
       <div className="key-result-member-select">
         <UserSelect
-          users={selectableMembers}
-          defaultValue={keyResultMembers}
+          users={selectableUsers}
+          defaultValue={members}
           multiple={true}
           onChange={this.handleChange}
         />
@@ -54,7 +55,7 @@ class KeyResultMemberSelect extends Component {
 
 KeyResultMemberSelect.propTypes = {
   users: PropTypes.object.isRequired,
-  keyResultMembers: PropTypes.array.isRequired,
+  members: PropTypes.array.isRequired,
   includedId: PropTypes.number,
   excludedId: PropTypes.number,
   add: PropTypes.func.isRequired,
