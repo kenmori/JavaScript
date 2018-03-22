@@ -19,6 +19,7 @@ class ConfirmModal extends Component {
         content={this.props.content}
         onCancel={this.handleCancel.bind(this)}
         onConfirm={this.handleConfirm.bind(this)}
+        cancelButton='キャンセル'
       />
     )
   }
