@@ -8,20 +8,20 @@ class KeyResultSelect extends Component {
 
   constructor(props) {
     super(props);
-    const value = props.defaultValue || -1;
+    const value = props.value || -1;
     this.state = this.getState(value, props);
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextValue = nextProps.defaultValue || -1;
-    if (this.props.defaultValue !== nextValue) {
+    const nextValue = nextProps.value || -1;
+    if (this.props.value !== nextValue) {
       this.setState(this.getState(nextValue, nextProps));
     }
   }
 
   getState = (value, props) => {
     return {
-      defaultValue: value,
+      value,
       readOnly: props.readOnly && value !== -1,
     };
   }
@@ -40,7 +40,7 @@ class KeyResultSelect extends Component {
   }
 
   handleChange = (event, { value }) => {
-    if (value !== this.state.defaultValue) {
+    if (value !== this.state.value) {
       this.props.onChange(value);
     }
   }
@@ -52,7 +52,7 @@ class KeyResultSelect extends Component {
       <div className={`key-result-select ${disabledClass} ${readonlyClass}`}>
         {this.state.readOnly && (
           <OkrList
-            okrs={this.props.keyResults.filter(keyResult => keyResult.get('id') === this.state.defaultValue)}
+            okrs={this.props.keyResults.filter(keyResult => keyResult.get('id') === this.state.value)}
             isObjective={false}
           />
         )}
@@ -64,7 +64,7 @@ class KeyResultSelect extends Component {
             search
             fluid
             options={this.keyResultOptions()}
-            defaultValue={this.state.defaultValue}
+            value={this.state.value}
             disabled={this.props.disabled}
             loading={this.props.loading}
             onChange={this.handleChange}
@@ -79,7 +79,7 @@ class KeyResultSelect extends Component {
 
 KeyResultSelect.propTypes = {
   keyResults: PropTypes.object.isRequired,
-  defaultValue: PropTypes.number,
+  value: PropTypes.number,
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -87,7 +87,7 @@ KeyResultSelect.propTypes = {
 };
 
 KeyResultSelect.defaultProps = {
-  defaultValue: null,
+  value: null,
   readOnly: false,
   disabled: false,
   loading: false,

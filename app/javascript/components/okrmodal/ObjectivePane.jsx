@@ -82,7 +82,7 @@ class ObjectivePane extends Component {
           <label>上位 Key Result</label>
           <KeyResultSelect
             keyResults={this.props.keyResults}
-            defaultValue={objective.get('parentKeyResultId')}
+            value={objective.get('parentKeyResultId')}
             readOnly={true}
             loading={!this.props.isFetchedKeyResults}
             onChange={value => this.updateParentKeyResultId(value)}
