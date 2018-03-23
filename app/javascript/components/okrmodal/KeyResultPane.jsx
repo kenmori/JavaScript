@@ -150,9 +150,7 @@ class KeyResultPane extends Component {
   render() {
     const keyResult = this.props.keyResult;
     const members = keyResult.get('members').map(member => member.get('id')).toArray();
-    const isPowerUser = this.props.loginUser.get('isAdmin')
-      || this.props.loginUser.get('id') === keyResult.get('owner').get('id')
-      || this.props.loginUser.get('id') === this.props.objective.get('owner').get('id');
+    const isOwner = this.props.isObjectiveOwner || keyResult.get('owner').get('id') === this.props.loginUserId;
     return (
       <Form>
         <Form.Field>
@@ -244,7 +242,7 @@ class KeyResultPane extends Component {
             <KeyResultMemberSelect
               users={this.props.users}
               members={members}
-              includedId={isPowerUser ? null : this.props.loginUser.get('id')}
+              includedId={isOwner ? null : this.props.loginUserId}
               excludedId={keyResult.get('owner').get('id')}
               add={this.addMember.bind(this)}
               remove={this.removeMember.bind(this)}

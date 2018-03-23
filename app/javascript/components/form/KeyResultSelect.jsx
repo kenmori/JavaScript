@@ -59,7 +59,7 @@ class KeyResultSelect extends Component {
             isObjective={false}
           />
         )}
-        {this.state.preview && (
+        {this.state.preview && !this.props.readOnly && (
           <Button content="変更する" size='small' onClick={() => this.setState({ preview: false })} />
         )}
         {!this.state.preview && (
@@ -68,7 +68,7 @@ class KeyResultSelect extends Component {
             fluid
             options={this.keyResultOptions()}
             value={this.state.value}
-            disabled={this.props.disabled}
+            disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}
             onChange={this.handleChange}
             onBlur={() => this.setState({ preview: this.isPreview(this.props, this.state.value) })}
@@ -84,6 +84,7 @@ KeyResultSelect.propTypes = {
   keyResults: PropTypes.object.isRequired,
   value: PropTypes.number,
   preview: PropTypes.bool,
+  readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -92,6 +93,7 @@ KeyResultSelect.propTypes = {
 KeyResultSelect.defaultProps = {
   value: null,
   preview: true,
+  readOnly: false,
   disabled: false,
   loading: false,
 };
