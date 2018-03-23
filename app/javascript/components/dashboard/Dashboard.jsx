@@ -115,7 +115,7 @@ export default class Dashboard extends Component {
     let activeItem = this.state.activeItem;
     if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
       activeItem = 'objective';
-    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetched) {
+    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetchedObjectives) {
       activeItem = 'keyResult';
     }
     return (
@@ -150,7 +150,7 @@ export default class Dashboard extends Component {
           </div>
           {this.state.mapObjective
             ? <OkrMap objective={this.state.mapObjective} />
-            : this.props.isFetched && this.emptyViewHtml()
+            : this.props.isFetchedObjectives && this.emptyViewHtml()
           }
         </section>
       </div>
