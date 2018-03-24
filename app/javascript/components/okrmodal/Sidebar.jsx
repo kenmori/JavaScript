@@ -15,15 +15,35 @@ function collect(connect) {
 }
 
 class Sidebar extends Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
+      keyResults: this.getKeyResults(props.objective.get('keyResults')),
       isDragging: false
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      keyResults: this.getKeyResults(nextProps.objective.get('keyResults')),
+    });
+  }
+
+  getKeyResults(keyResults) {
+    if (keyResults.isEmpty()) {
+      return keyResults;
+    }
+    return keyResults;
+  }
+
   replaceKeyResults = (originalIndex, overIndex) => {
-    console.log('replace');
+    const keyResult = this.state.keyResults.get(originalIndex);
+    const replacementTarget = this.state.keyResults.get(overIndex);
+    let newKeyResults = this.state.keyResults.set(overIndex, keyResult);
+    newKeyResults = newKeyResults.set(originalIndex, replacementTarget);
+    this.setState({
+      keyResults: newKeyResults
+    })
   }
 
   changeDragStyle(isDragging) {
@@ -57,7 +77,7 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
-            { objective.get('keyResults').map(item => { 
+            { this.state.keyResults.map(item => { 
               return <KeyResult 
                         key={item.get('id')} 
                         currentKeyResultId={this.props.keyResultId} 
