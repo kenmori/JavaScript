@@ -75,7 +75,7 @@ ObjectiveList.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 };
 
-const isTouchOnly = 'ontouchstart' in window && !('onmousedown' in window)
-const backend = isTouchOnly ? TouchBackend : HTML5Backend;
+const isTouchSupport = 'ontouchstart' in window;
+const backend = isTouchSupport ? TouchBackend : HTML5Backend;
 
 export default DragDropContext(backend)(DropTarget('card', {}, collect)(ObjectiveList));
