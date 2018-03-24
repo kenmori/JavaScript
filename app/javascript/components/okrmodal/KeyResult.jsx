@@ -32,7 +32,6 @@ const keyResultTarget = {
 	hover(props, monitor) {
 		const { id: draggedId } = monitor.getItem();
     const overId = props.keyResult.get('id');
-
 		if (draggedId !== overId) {
       const { index: originalIndex } = props.findKeyResult(draggedId)
 			const { index: overIndex } = props.findKeyResult(overId)

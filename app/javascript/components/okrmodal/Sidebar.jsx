@@ -53,7 +53,7 @@ class Sidebar extends Component {
   }
 
 	findKeyResult(id) {
-    const keyResults = this.props.objective.get('keyResults')
+    const keyResults = this.state.keyResults;
 		const keyResult = keyResults.find(item => item.get('id') === id)
 		return {
 			keyResult,
