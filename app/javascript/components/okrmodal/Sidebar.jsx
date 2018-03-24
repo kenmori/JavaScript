@@ -1,18 +1,50 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-
+import { DropTarget, DragDropContext } from 'react-dnd'
+import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
 
+function collect(connect) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+  };
+}
+
 class Sidebar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isDragging: false
+    }
+  }
+
+  replaceKeyResults = (originalIndex, overIndex) => {
+    console.log('replace');
+  }
+
+  changeDragStyle(isDragging) {
+    this.setState({
+      isDragging
+    })
+  }
+
+	findKeyResult(id) {
+    const keyResults = this.props.objective.get('keyResults')
+		const keyResult = keyResults.find(item => item.get('id') === id)
+		return {
+			keyResult,
+			index: keyResults.indexOf(keyResult),
+		}
+  }
   render() {
     const objective = this.props.objective;
     const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
     return (
-      <div className="sidebar">
+      <div className={`sidebar ${this.state.isDragging ? 'is-dragging' : ''}`}>
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={() => openObjective(objective.get('id'))}>
@@ -25,7 +57,16 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           <Segment.Group>
-            { objective.get('keyResults').map(item => <KeyResult key={item.get('id')} keyResultId={this.props.keyResultId} data={item} />).toArray() }
+            { objective.get('keyResults').map(item => { 
+              return <KeyResult 
+                        key={item.get('id')} 
+                        currentKeyResultId={this.props.keyResultId} 
+                        keyResult={item} 
+                        replaceKeyResults={this.replaceKeyResults.bind(this)}
+                        findKeyResult={this.findKeyResult.bind(this)}
+                        changeDragStyle={this.changeDragStyle.bind(this)}
+                      />
+            }).toArray() }
           </Segment.Group>
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
@@ -44,4 +85,4 @@ Sidebar.defaultProps = {
   objective: Map(),
 };
 
-export default Sidebar;
+export default Backend(DropTarget('keyResult', {}, collect)(Sidebar));
