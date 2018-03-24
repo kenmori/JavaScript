@@ -50,6 +50,12 @@
   }
 
   .sidebar {
+    &.is-dragging {
+      cursor: move !important;
+      .sidebar__item {
+        cursor: move !important;
+      }
+    }
     width: 30%;
     .sidebar__items {
       margin-bottom: 20px;
