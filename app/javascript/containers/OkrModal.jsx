@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index'
+import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index';
+import { getParentKeyResultCandidates } from '../utils/okr';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -17,6 +18,9 @@ const mapStateToProps = (state) => {
   const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
   const loginUserId = state.loginUser.get('id');
   const isAdmin = state.loginUser.get('isAdmin');
+  const objectiveOwnerId = objective && objective.get('owner').get('id');
+  const parentKeyResults = getParentKeyResultCandidates(state,
+    objective && objective.get('parentKeyResultId'), objectiveOwnerId);
   return {
     isOpen: okrForm.get('isOpen'),
     objectiveId,
@@ -24,7 +28,7 @@ const mapStateToProps = (state) => {
     keyResultId,
     users: state.users.filter(user => !user.get('disabled')),
     loginUserId,
-    keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
+    keyResults: denormalizeKeyResults(parentKeyResults, state.entities),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
     shouldFetchObjective: hasObjectiveId && !okrForm.get('isFetching'),
     shouldFetchKeyResult: hasKeyResultId && !okrForm.get('isFetching'),
@@ -33,7 +37,7 @@ const mapStateToProps = (state) => {
     removedObjectiveId: okrForm.get('removedObjectiveId'),
     removedKeyResultId: okrForm.get('removedKeyResultId'),
     isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
-    isObjectiveOwner: isAdmin || (objective && objective.get('owner').get('id') === loginUserId),
+    isObjectiveOwner: isAdmin || objectiveOwnerId === loginUserId,
   };
 };
 

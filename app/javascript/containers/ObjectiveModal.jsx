@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import { denormalizeKeyResults } from '../schemas/index';
+import { getParentKeyResultCandidates } from "../utils/okr";
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
-  const isAdmin = state.loginUser.get('isAdmin');
+  const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
+  const parentKeyResults = getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id'));
   return {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
-    parentKeyResult: state.dialogs.getIn(['objectiveForm', 'parentKeyResult']),
+    parentKeyResult,
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
-    keyResults: denormalizeKeyResults(state.keyResults.get(isAdmin ? 'allIds' : 'ids'), state.entities),
-    isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
+    keyResults: denormalizeKeyResults(parentKeyResults, state.entities),
+    isFetchedKeyResults: state.keyResults.get(state.loginUser.get('isAdmin') ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
   };
 };
 
