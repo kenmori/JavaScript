@@ -66,7 +66,7 @@ class ObjectivePane extends Component {
           <div className='flex-field__item'>
           <UserSelect
             users={this.props.users}
-            defaultValue={objective.get('owner').get('id')}
+            value={objective.get('owner').get('id')}
             onChange={(value) => this.changeObjectiveOwner(value)}
           />
           </div>
@@ -82,7 +82,8 @@ class ObjectivePane extends Component {
           <label>上位 Key Result</label>
           <KeyResultSelect
             keyResults={this.props.keyResults}
-            defaultValue={objective.get('parentKeyResultId')}
+            value={objective.get('parentKeyResultId')}
+            readOnly={true}
             loading={!this.props.isFetchedKeyResults}
             onChange={value => this.updateParentKeyResultId(value)}
           />

@@ -150,7 +150,7 @@ class ObjectiveModal extends Component {
                   <label>責任者</label>
                   <UserSelect
                     users={this.props.users}
-                    defaultValue={this.state.ownerId}
+                    value={this.state.ownerId}
                     onChange={value => this.setState({ ownerId: value })}
                   />
                 </Form.Field>
@@ -158,7 +158,7 @@ class ObjectiveModal extends Component {
                   <label>上位 Key Result</label>
                   <KeyResultSelect
                     keyResults={this.props.keyResults}
-                    defaultValue={this.state.parentKeyResultId}
+                    value={this.state.parentKeyResultId}
                     disabled={hasParentKeyResult}
                     loading={!this.props.isFetchedKeyResults}
                     onChange={value => this.setState({ parentKeyResultId: value })}

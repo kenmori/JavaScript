@@ -1,53 +1,61 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, List } from 'semantic-ui-react';
 import UserSelect from './UserSelect';
-import UserAvatar from '../../containers/UserAvatar';
 
 class KeyResultMemberSelect extends Component {
-  selectedMembersTag({users, keyResultMembers, add, remove}) {
-    const list = keyResultMembers.map(id => {
-      const user = users.find(item => item.get('id') === id);
-      return (
-        <List.Item key={id} className="key-result-members-select-box__item">
-          <UserAvatar user={user} size='tiny' withInitial={false} withName={true} />
-          <List.Content><Icon link name="close" className="key-result-members-select-box__close" onClick={() => {remove(id)}} /></List.Content>
-        </List.Item>
-      )
-    });
-    return <List horizontal className="key-result-members-select-box__selected">{list}</List>;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      defaultValue: props.members,
+    };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.members !== nextProps.members) {
+      this.setState({ defaultValue: nextProps.members });
+    }
+  }
+
+  handleChange = value => {
+    if (value.length > this.state.defaultValue.length) {
+      const addedId = value.find(id => !this.state.defaultValue.includes(id));
+      this.props.add(addedId);
+    } else if (value.length < this.state.defaultValue.length) {
+      const removedId = this.state.defaultValue.find(id => !value.includes(id));
+      this.props.remove(removedId);
+    }
+  }
+
   render() {
     const {
       users,
-      keyResultMembers,
+      members,
       includedId,
       excludedId,
-      add,
-      remove,
     } = this.props;
 
-    const selectableMembers = users.filter(user => {
+    const selectableUsers = users.filter(user => {
       const userId = user.get('id');
-      return !keyResultMembers.includes(userId) && (includedId ? userId === includedId : userId !== excludedId);
+      return includedId ? userId === includedId : userId !== excludedId;
     });
+
     return (
-      <div className="key-result-members-select-box">
-        { selectableMembers.size > 0 && 
-            <UserSelect
-              users={selectableMembers} 
-              onChange={(value) => {add(value)}}
-            />
-        }
-        {this.selectedMembersTag(this.props)}
+      <div className="key-result-member-select">
+        <UserSelect
+          users={selectableUsers}
+          value={members}
+          multiple={true}
+          onChange={this.handleChange}
+        />
       </div>
-    )
+    );
   }
 }
 
 KeyResultMemberSelect.propTypes = {
   users: PropTypes.object.isRequired,
-  keyResultMembers: PropTypes.array.isRequired,
+  members: PropTypes.array.isRequired,
   includedId: PropTypes.number,
   excludedId: PropTypes.number,
   add: PropTypes.func.isRequired,

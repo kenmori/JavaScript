@@ -36,7 +36,7 @@ class KeyResultList extends Component {
             {this.props.keyResults.map((keyResult, key) =>
               <Table.Row key={key} active={keyResult.get('id') === this.props.currentKeyResultId}
                          onClick={() => this.selectKeyResult(keyResult)}>
-                <Table.Cell textAlign='center'><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} /></Table.Cell>
+                <Table.Cell textAlign='center'><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} /></Table.Cell>
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell>{keyResult.get('actualValue')} {keyResult.get('valueUnit')}</Table.Cell>

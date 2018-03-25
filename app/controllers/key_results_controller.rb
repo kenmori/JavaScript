@@ -33,7 +33,7 @@ class KeyResultsController < ApplicationController
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.new(key_result_create_params)
       @user.save!
-      params[:key_result][:key_result_members].each do |id|
+      params[:key_result][:members].each do |id|
         # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: id, role: :member)
       end
@@ -50,7 +50,7 @@ class KeyResultsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @key_result.update!(key_result_update_params)
-      update_key_result_members if params[:key_result][:key_result_member]
+      update_key_result_members if params[:key_result][:member]
       update_comment if params[:key_result][:comment]
     end
     render action: :create, status: :ok
@@ -78,7 +78,7 @@ class KeyResultsController < ApplicationController
     return true if valid_user?(@key_result.objective.owner.id)
 
     # 関係者に自分を追加/削除の場合は true
-    key_result_member_data = params[:key_result][:key_result_member]
+    key_result_member_data = params[:key_result][:member]
     if key_result_member_data
       user_id = key_result_member_data['user']
       role = key_result_member_data['role'] == 'owner' ? :owner : :member
@@ -99,7 +99,7 @@ class KeyResultsController < ApplicationController
   end
 
   def update_key_result_members
-    key_result_member_data = params[:key_result][:key_result_member]
+    key_result_member_data = params[:key_result][:member]
     user_id = key_result_member_data['user']
     behavior = key_result_member_data['behavior']
     role = key_result_member_data['role'] == 'owner' ? :owner : :member

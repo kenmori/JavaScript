@@ -38,7 +38,7 @@ export default handleActions({
       const userId = payload.get('currentUserId');
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const isMine = userId === keyResult.get('owner').get('id')
-        || keyResult.get('keyResultMembers').some(member => member.get('id') === userId);
+        || keyResult.get('members').some(member => member.get('id') === userId);
       return isMine ? add(state, keyResultId) : state;
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
@@ -46,7 +46,7 @@ export default handleActions({
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const isMine = userId === keyResult.get('owner').get('id')
-        || keyResult.get('keyResultMembers').some(member => member.get('id') === userId);
+        || keyResult.get('members').some(member => member.get('id') === userId);
       return isMine ? add(state, keyResultId) : remove(state, keyResultId);
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {

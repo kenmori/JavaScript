@@ -19,7 +19,7 @@ class OkrCard extends Component {
             const isToggleOn = this.props.visibleKeyResultIds && this.props.visibleKeyResultIds.includes(keyResultId);
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
-                <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')}/>
+                <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
                 <div className='name'>
                   <a onClick={() => openKeyResult(keyResultId)}>{keyResult.get('name')}</a>
                 </div>
