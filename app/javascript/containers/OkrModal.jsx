@@ -5,6 +5,7 @@ import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index';
 import { getParentKeyResultCandidates } from '../utils/okr';
+import { sortKeyResult } from "../utils/sorter";
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -15,7 +16,7 @@ const mapStateToProps = (state) => {
     : okrForm.get('objectiveId');
   const hasObjectiveId = objectiveId && !state.entities.objectives.has(objectiveId);
   const hasKeyResultId = keyResultId && !state.entities.keyResults.has(keyResultId);
-  const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
+  const objective = objectiveId && sortKeyResult(denormalizeObjective(objectiveId, state.entities));
   const loginUserId = state.loginUser.get('id');
   const isAdmin = state.loginUser.get('isAdmin');
   const objectiveOwnerId = objective && objective.get('owner').get('id');
