@@ -4,6 +4,7 @@ import { Menu, Button, Segment, Header } from 'semantic-ui-react';
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
+import { sortObjectives } from '../../utils/sorter';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -43,63 +44,8 @@ export default class Dashboard extends Component {
       }
     }
     this.setState({
-      objectives: this.getObjectives(nextProps.objectives)
+      objectives: sortObjectives(nextProps.objectives, this.props.objectiveOrder)
     })
-  }
-
-  getObjectives = (objectives) => {
-    if (objectives.isEmpty()) {
-      return objectives;
-    }
-
-    const isSwitchedUser = objectives.every(item => !this.state.objectives.find(o => o.get('id') === item.get('id')))
-
-    // initial
-    if (isSwitchedUser || this.state.objectives.size === 0) {
-      return this.initialObjectivesState(objectives);
-    }
-
-    // added objective
-    if (objectives.size > this.state.objectives.size) {
-      return this.addObjectivesState(objectives);
-    }
-
-    // removed objective
-    if (objectives.size < this.state.objectives.size) {
-      return this.removeObjectivesState(objectives);
-    }
-
-    // update objective
-    return this.state.objectives.map((item) => {
-      return objectives.find(o => o.get('id') === item.get('id'));
-    });
-  }
-
-  initialObjectivesState = (objectives) => {
-    const order = fromJS(JSON.parse(this.props.objectiveOrder) || []);
-    const sortedList = order.map(id => (
-      objectives.find(o => o.get('id') === id)
-    )).filter(Boolean);
-    const addList = objectives.filter((item) => {
-      return !sortedList.find(o => o.get('id') === item.get('id'));
-    });
-    return addList.concat(sortedList);
-  }
-
-  addObjectivesState = (objectives) => {
-    const addList = objectives.filter((item) => {
-      return !this.state.objectives.find(o => o.get('id') === item.get('id'));
-    });
-    return addList.concat(this.state.objectives);
-  }
-
-  removeObjectivesState = (objectives) => {
-    const removeList = this.state.objectives.filter((item) => (
-      !objectives.find(o => o.get('id') === item.get('id'))
-    ))
-    return this.state.objectives.filter((item) => (
-      !removeList.find(o => o.get('id') === item.get('id'))
-    ));
   }
 
   replaceObjectives = (originalIndex, overIndex) => {
@@ -125,7 +71,7 @@ export default class Dashboard extends Component {
   getNextMapObjective = (prevObjectives, nextObjectives) => {
     // Objective 一覧取得時や追加/削除時に選択する Objective を返す
     const prevObjectiveId = this.state.mapObjectiveId;
-    const nextObjective = this.getObjectives(nextObjectives).first();
+    const nextObjective = sortObjectives(nextObjectives, this.props.objectiveOrder).first();
     if (!prevObjectiveId) {
       return nextObjective; // 未選択の場合
     }
