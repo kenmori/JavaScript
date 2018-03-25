@@ -7,14 +7,13 @@ export const sortChildKeyResults = (objective, order = null) => {
   })
 }
 
+export const sortChildObjectives = (objectives, order) => {
+  order = order || "[]";
+  return objectives.sortBy((o) => JSON.parse(order).indexOf(o.get('parentKeyResultId')));
+}
+
 export const createOrderData = (list) => JSON.stringify(list.map(c => c.get('id')).toArray());
 
 const getSortedKeyResults = (keyResults, order) => {
-  const sortedList = order.map(id => (
-    keyResults.find(o => o.get('id') === id)
-  )).filter(Boolean);
-  const addList = keyResults.filter((item) => {
-    return !sortedList.find(o => o.get('id') === item.get('id'));
-  });
-  return addList.concat(sortedList);
+  return keyResults.sortBy((o) => order.indexOf(o.get('id')));
 }

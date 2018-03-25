@@ -5,7 +5,7 @@ import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List, Set, OrderedMap } from 'immutable';
-import { sortChildKeyResults } from "../../utils/sorter";
+import { sortChildKeyResults, sortChildObjectives } from "../../utils/sorter";
 
 class OkrMap extends Component {
 
@@ -58,7 +58,7 @@ class OkrMap extends Component {
     const collectDescendants = (result, objective) => {
       const childObjectiveIds = objective.get('childObjectiveIds');
       if (!childObjectiveIds.isEmpty()) {
-        let childObjectives = objective.get('childObjectives');
+        let childObjectives = sortChildObjectives(objective.get('childObjectives'), objective.get('keyResultOrder'));
         if (childObjectiveIds.size === childObjectives.size) {
           // 親 KR が展開されている子 Objective のみに絞り込む
           const visibleKeyResultIds = visibleIds.get(objective.get('id')) || Set();
