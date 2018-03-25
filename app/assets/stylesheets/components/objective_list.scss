@@ -5,7 +5,16 @@
   margin: 16px 16px 0 24px;
   height: 195px + 16px; /* with scrollbar */
 
+  &.is-dragging {
+    cursor: move !important;
+    .recharts-wrapper,
+    .objective-box {
+      cursor: move !important;
+    }
+  }
+
   .objective-box {
+    position: relative;
     display: inline-flex;
     flex-direction: column;
     margin-right: 30px;
@@ -20,6 +29,7 @@
     text-align: center;
     font-weight: bold;
     color: #000000;
+    cursor: pointer;
 
     &.active {
       border: 2px $ASSIST_COLOR solid;
@@ -50,6 +60,26 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
+    }
+
+    .sort-navi {
+      width: 100%;
+      position: absolute;
+      bottom: 25px;
+
+      .sort-left {
+        position: absolute;
+        top: 0;
+        left: 4px;
+      }
+      .sort-right {
+        position: absolute;
+        top: 0;
+        right: 4px;
+      }
+      i {
+        color: rgba(0,0,0,.6);
+      }
     }
   }
 }

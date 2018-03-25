@@ -3,16 +3,20 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
+import userActions from '../actions/users';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
+  const currentUser = state.users.find((u) => u.get('id') === state.current.get('userId'));
   return {
     okrHash: params.okrHash,
     isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
+    isSelectedLoginUser: state.current.get('userId') === state.loginUser.get('id'),
+    objectiveOrder: currentUser ? currentUser.get('objectiveOrder') : null,
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
@@ -41,6 +45,9 @@ const mapDispatchToProps = dispatch => {
     changeCurrentOkr: objectiveId => {
       dispatch(currentActions.changeCurrentOkr(objectiveId));
     },
+    updateUserObjectiveOrder: (user) => {
+      dispatch(userActions.updateUser(user, false))
+    }
   };
 };
 

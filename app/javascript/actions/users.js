@@ -4,7 +4,7 @@ import actionTypes from '../constants/actionTypes';
 const actions = createActions({
   [actionTypes.ADD_USER]: user => ({ user }),
   [actionTypes.ADDED_USER]: user => ({ user }),
-  [actionTypes.UPDATE_USER]: user => ({ user }),
+  [actionTypes.UPDATE_USER]: (user, isToast = true) => ({ user, isToast }),
   [actionTypes.UPDATED_USER]: user => ({ user }),
   [actionTypes.REMOVE_USER]: id => ({ id }),
   [actionTypes.REMOVED_USER]: user => ({ user }),
