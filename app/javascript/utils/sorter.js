@@ -1,6 +1,7 @@
-export const sortKeyResult = (objective) => {
+export const sortKeyResult = (objective, order = null) => {
   const keyResults = objective.get('keyResults');
-  const keyResultOrder = JSON.parse(objective.get('keyResultOrder') || "[]");
+  order = Array.isArray(order) ? order : order ? JSON.parse(order) : null;
+  const keyResultOrder = order || JSON.parse(objective.get('keyResultOrder') || "[]");
   return objective.merge({
     keyResults: getSortedKeyResults(keyResults, keyResultOrder)
   })

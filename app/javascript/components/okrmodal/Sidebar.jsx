@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { DropTarget, DragDropContext } from 'react-dnd'
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
-import { createOrderData } from '../../utils/sorter';
+import { sortKeyResult, createOrderData } from '../../utils/sorter';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
@@ -18,23 +18,17 @@ function collect(connect) {
 class Sidebar extends Component {
   constructor(props) {
     super();
+    this.nextOrder = null;
     this.state = {
-      keyResults: this.getKeyResults(props.objective.get('keyResults')),
+      keyResults: props.objective.get('keyResults'),
       isDragging: false
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      keyResults: this.getKeyResults(nextProps.objective.get('keyResults')),
+      keyResults: sortKeyResult(nextProps.objective, this.nextOrder).get('keyResults'),
     });
-  }
-
-  getKeyResults(keyResults) {
-    if (keyResults.isEmpty()) {
-      return keyResults;
-    }
-    return keyResults;
   }
 
   replaceKeyResults = (originalIndex, overIndex) => {
@@ -63,11 +57,11 @@ class Sidebar extends Component {
   }
 
   updateKeyResultOrder() {
-    const nextOrder = createOrderData(this.state.keyResults);
-    if(nextOrder !== this.props.objectiveOrder) {
+    this.nextOrder = createOrderData(this.state.keyResults);
+    if(this.nextOrder !== this.props.objectiveOrder) {
       this.props.updateKeyResultOrder({
         id: this.props.objective.get('id'),
-        keyResultOrder: nextOrder
+        keyResultOrder: this.nextOrder
       });
     }
   }
