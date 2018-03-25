@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { DropTarget, DragDropContext } from 'react-dnd'
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
+import { createOrderData } from '../../utils/sorter';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
@@ -60,6 +61,17 @@ class Sidebar extends Component {
 			index: keyResults.indexOf(keyResult),
 		}
   }
+
+  updateKeyResultOrder() {
+    const nextOrder = createOrderData(this.state.keyResults);
+    if(nextOrder !== this.props.objectiveOrder) {
+      this.props.updateKeyResultOrder({
+        id: this.props.objective.get('id'),
+        keyResultOrder: nextOrder
+      });
+    }
+  }
+
   render() {
     const objective = this.props.objective;
     const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
@@ -85,6 +97,7 @@ class Sidebar extends Component {
                         replaceKeyResults={this.replaceKeyResults.bind(this)}
                         findKeyResult={this.findKeyResult.bind(this)}
                         changeDragStyle={this.changeDragStyle.bind(this)}
+                        updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
                       />
             }).toArray() }
           </Segment.Group>

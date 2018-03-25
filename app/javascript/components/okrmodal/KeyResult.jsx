@@ -18,7 +18,7 @@ const keyResultSource = {
 
 	endDrag(props, monitor) {
     props.changeDragStyle(false);
-		
+    props.updateKeyResultOrder();
 	},
 }
 
@@ -85,6 +85,7 @@ KeyResult.propTypes = {
   replaceKeyResults: PropTypes.func,
   findKeyResult: PropTypes.func,
   changeDragStyle: PropTypes.func,
+  updateKeyResultOrder: PropTypes.func,
 };
 
 export default DropTarget('keyResult', keyResultTarget, collectTarget)(DragSource('keyResult', keyResultSource, collectSource)(KeyResult));

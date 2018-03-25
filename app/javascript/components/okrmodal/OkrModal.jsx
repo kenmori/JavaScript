@@ -111,6 +111,7 @@ class OkrModal extends Component {
               objective={objective}
               keyResultId={this.props.keyResultId} 
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
+              updateKeyResultOrder={this.props.updateObjective}
             />
             <div className="okr-main">
               {this.modalContentTag(objective, this.props.keyResultId)}

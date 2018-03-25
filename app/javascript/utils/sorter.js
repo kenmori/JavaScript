@@ -1,14 +1,16 @@
-const sortKeyResult = (objective) => {
+export const sortKeyResult = (objective) => {
   const keyResults = objective.get('keyResults');
-  const keyResultOrder = [1, 17, 2];
+  const keyResultOrder = JSON.parse(objective.get('keyResultOrder') || "[]");
   return objective.merge({
     keyResults: getSortedKeyResults(keyResults, keyResultOrder)
   })
 }
 
-const sortKeyResultAll = (objectives) => {
+export const sortKeyResultAll = (objectives) => {
   return objectives.map(objective => sortKeyResult(objective))
 }
+
+export const createOrderData = (list) => JSON.stringify(list.map(c => c.get('id')).toArray());
 
 const getSortedKeyResults = (keyResults, order) => {
   const sortedList = order.map(id => (
@@ -18,9 +20,4 @@ const getSortedKeyResults = (keyResults, order) => {
     return !sortedList.find(o => o.get('id') === item.get('id'));
   });
   return addList.concat(sortedList);
-}
-
-export {
-  sortKeyResultAll,
-  sortKeyResult
 }
