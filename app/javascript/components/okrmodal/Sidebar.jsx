@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { DropTarget, DragDropContext } from 'react-dnd'
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
-import { sortKeyResult, createOrderData } from '../../utils/sorter';
+import { sortChildKeyResults, createOrderData } from '../../utils/sorter';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
@@ -20,14 +20,14 @@ class Sidebar extends Component {
     super();
     this.nextOrder = null;
     this.state = {
-      keyResults: props.objective.get('keyResults'),
+      keyResults: sortChildKeyResults(props.objective, this.nextOrder).get('keyResults'),
       isDragging: false
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      keyResults: sortKeyResult(nextProps.objective, this.nextOrder).get('keyResults'),
+      keyResults: sortChildKeyResults(nextProps.objective, this.nextOrder).get('keyResults'),
     });
   }
 
