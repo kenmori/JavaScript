@@ -11,7 +11,7 @@ class KeyResultSelect extends Component {
     const value = props.value || -1;
     this.state = {
       value,
-      readOnly: this.isReadOnly(props, value),
+      preview: this.isPreview(props, value),
     };
   }
 
@@ -20,13 +20,13 @@ class KeyResultSelect extends Component {
     if (this.props.value !== nextValue) {
       this.setState({
         value: nextValue,
-        readOnly: this.isReadOnly(nextProps, nextValue),
+        preview: this.isPreview(nextProps, nextValue),
       });
     }
   }
 
-  isReadOnly = (props, value) => {
-    return props.readOnly && value !== -1; // 上位 KR なしの場合は常に Select 表示
+  isPreview = (props, value) => {
+    return props.preview && value !== -1; // 上位 KR なしの場合は常に Select 表示
   }
 
   keyResultOptions = () => {
@@ -50,28 +50,28 @@ class KeyResultSelect extends Component {
 
   render() {
     const disabledClass = this.props.disabled ? 'disabled' : '';
-    const readonlyClass = this.state.readOnly ? 'readonly' : '';
+    const previewClass = this.state.preview ? 'preview' : '';
     return (
-      <div className={`key-result-select ${disabledClass} ${readonlyClass}`}>
-        {this.state.readOnly && (
+      <div className={`key-result-select ${disabledClass} ${previewClass}`}>
+        {this.state.preview && (
           <OkrList
             okrs={this.props.keyResults.filter(keyResult => keyResult.get('id') === this.state.value)}
             isObjective={false}
           />
         )}
-        {this.state.readOnly && (
-          <Button content="変更する" size='small' onClick={() => this.setState({ readOnly: false })} />
+        {this.state.preview && !this.props.readOnly && (
+          <Button content="変更する" size='small' onClick={() => this.setState({ preview: false })} />
         )}
-        {!this.state.readOnly && (
+        {!this.state.preview && (
           <Select
             search
             fluid
             options={this.keyResultOptions()}
             value={this.state.value}
-            disabled={this.props.disabled}
+            disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}
             onChange={this.handleChange}
-            onBlur={() => this.setState({ readOnly: this.isReadOnly(this.props, this.state.value) })}
+            onBlur={() => this.setState({ preview: this.isPreview(this.props, this.state.value) })}
             selectOnNavigation={false}
           />
         )}
@@ -83,6 +83,7 @@ class KeyResultSelect extends Component {
 KeyResultSelect.propTypes = {
   keyResults: PropTypes.object.isRequired,
   value: PropTypes.number,
+  preview: PropTypes.bool,
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -91,6 +92,7 @@ KeyResultSelect.propTypes = {
 
 KeyResultSelect.defaultProps = {
   value: null,
+  preview: true,
   readOnly: false,
   disabled: false,
   loading: false,

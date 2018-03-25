@@ -159,6 +159,7 @@ class ObjectiveModal extends Component {
                   <KeyResultSelect
                     keyResults={this.props.keyResults}
                     value={this.state.parentKeyResultId}
+                    preview={false}
                     disabled={hasParentKeyResult}
                     loading={!this.props.isFetchedKeyResults}
                     onChange={value => this.setState({ parentKeyResultId: value })}

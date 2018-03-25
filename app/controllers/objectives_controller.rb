@@ -78,8 +78,8 @@ class ObjectivesController < ApplicationController
 
   def update_parent_key_result
     parent_key_result_id = params[:objective][:parent_key_result_id]
-    if @objective.key_results.exists?(parent_key_result_id)
-      @objective.errors[:base] << 'Objective に紐付く Key Result は上位 Key Result に指定できません'
+    unless can_update_parent_key_result?(KeyResult.find(parent_key_result_id))
+      @objective.errors[:base] << 'この Objective または下位 Objective に紐付く Key Result は上位 Key Result に指定できません'
       raise
     end
 
@@ -101,6 +101,13 @@ class ObjectivesController < ApplicationController
         raise
       end
     end
+  end
+
+  def can_update_parent_key_result?(parent_key_result)
+    return true unless parent_key_result
+    parent_objective = parent_key_result.objective
+    return false if parent_objective.id == @objective.id # 親 Objective が自分の場合は循環参照になるため false
+    return can_update_parent_key_result?(parent_objective.parent_key_result)
   end
 
   def update_objective_members
