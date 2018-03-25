@@ -140,6 +140,6 @@ class ObjectivesController < ApplicationController
 
   def objective_update_params
     params.require(:objective)
-      .permit(:name, :description, :parent_key_result_id, :progress_rate)
+      .permit(:name, :description, :parent_key_result_id, :progress_rate, :key_result_order)
   end
 end
