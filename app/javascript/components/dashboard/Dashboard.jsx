@@ -53,11 +53,10 @@ export default class Dashboard extends Component {
     }
 
     const isSwitchedUser = objectives.every(item => !this.state.objectives.find(o => o.get('id') === item.get('id')))
-    const order = fromJS(JSON.parse(this.props.objectiveOrder) || []);
 
     // initial
     if (isSwitchedUser || this.state.objectives.size === 0) {
-      return this.initialObjectivesState(order, objectives);
+      return this.initialObjectivesState(objectives);
     }
 
     // added objective
@@ -76,7 +75,8 @@ export default class Dashboard extends Component {
     });
   }
 
-  initialObjectivesState = (order, objectives) => {
+  initialObjectivesState = (objectives) => {
+    const order = fromJS(JSON.parse(this.props.objectiveOrder) || []);
     const sortedList = order.map(id => (
       objectives.find(o => o.get('id') === id)
     )).filter(Boolean);
