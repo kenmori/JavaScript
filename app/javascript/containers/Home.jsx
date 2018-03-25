@@ -5,7 +5,6 @@ import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
 import userActions from '../actions/users';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
-import { sortKeyResultAll } from "../utils/sorter";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const objectiveIds = state.objectives.get('ids');
@@ -19,7 +18,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     isSelectedLoginUser: state.current.get('userId') === state.loginUser.get('id'),
     objectiveOrder: currentUser ? currentUser.get('objectiveOrder') : null,
     objectiveIds: objectiveIds,
-    objectives: sortKeyResultAll(denormalizeObjectives(objectiveIds, state.entities)),
+    objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetchedObjectives: state.objectives.get('isFetched'),
     fetchedObjectiveId,

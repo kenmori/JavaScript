@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
-import { List, Set, OrderedMap } from 'immutable'
+import { List, Set, OrderedMap } from 'immutable';
+import { sortKeyResult } from "../../utils/sorter";
 
 class OkrMap extends Component {
 
@@ -249,7 +250,7 @@ class OkrMap extends Component {
             {objectives.map((objective, key) => (
               <OkrCard
                 key={key}
-                objective={objective}
+                objective={sortKeyResult(objective)}
                 ref={`objective_${objective.get('id')}`}
                 visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
                 onToggleKeyResult={this.toggleKeyResult}
