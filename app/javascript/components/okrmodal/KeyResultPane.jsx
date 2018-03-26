@@ -85,7 +85,7 @@ class KeyResultPane extends Component {
                           readOnly={!item.get('editable')}
             />
             <div className="comments__item-meta">
-              <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/M/D H:m')}</div>
+              <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/M/D H:mm')}</div>
               <div className="comments__item-name">{item.get('fullName')}</div>
               {item.get('editable') && <Icon link name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
             </div>
