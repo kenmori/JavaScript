@@ -5,7 +5,7 @@ import { Form, Button, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import UserSelect from '../form/UserSelect';
-import KeyResultSelect from '../form/KeyResultSelect';
+import OkrSelect from '../form/OkrSelect';
 
 class ObjectivePane extends Component {
 
@@ -80,7 +80,7 @@ class ObjectivePane extends Component {
         </Form.Field>
         <Form.Field>
           <label>上位 Key Result</label>
-          <KeyResultSelect
+          <OkrSelect
             keyResults={this.props.keyResults}
             value={objective.get('parentKeyResultId')}
             readOnly={!this.props.isObjectiveOwner}

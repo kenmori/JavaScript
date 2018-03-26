@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
-import KeyResultSelect from '../form/KeyResultSelect';
+import OkrSelect from '../form/OkrSelect';
 import RenderField from '../form/RenderField';
 import { Button, Form, Modal, TextArea, List } from 'semantic-ui-react';
 
@@ -156,7 +156,7 @@ class ObjectiveModal extends Component {
                 </Form.Field>
                 <Form.Field>
                   <label>上位 Key Result</label>
-                  <KeyResultSelect
+                  <OkrSelect
                     keyResults={this.props.keyResults}
                     value={this.state.parentKeyResultId}
                     preview={false}

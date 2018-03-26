@@ -4,7 +4,7 @@ import { Select, Button } from 'semantic-ui-react';
 import OkrList from './OkrList';
 import avatar_image from '../../images/avatar.png';
 
-class KeyResultSelect extends Component {
+class OkrSelect extends Component {
 
   constructor(props) {
     super(props);
@@ -52,7 +52,7 @@ class KeyResultSelect extends Component {
     const disabledClass = this.props.disabled ? 'disabled' : '';
     const previewClass = this.state.preview ? 'preview' : '';
     return (
-      <div className={`key-result-select ${disabledClass} ${previewClass}`}>
+      <div className={`okr-select ${disabledClass} ${previewClass}`}>
         {this.state.preview && (
           <OkrList
             okrs={this.props.keyResults.filter(keyResult => keyResult.get('id') === this.state.value)}
@@ -80,7 +80,7 @@ class KeyResultSelect extends Component {
   }
 }
 
-KeyResultSelect.propTypes = {
+OkrSelect.propTypes = {
   keyResults: PropTypes.object.isRequired,
   value: PropTypes.number,
   preview: PropTypes.bool,
@@ -90,7 +90,7 @@ KeyResultSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-KeyResultSelect.defaultProps = {
+OkrSelect.defaultProps = {
   value: null,
   preview: true,
   readOnly: false,
@@ -98,4 +98,4 @@ KeyResultSelect.defaultProps = {
   loading: false,
 };
 
-export default KeyResultSelect;
+export default OkrSelect;
