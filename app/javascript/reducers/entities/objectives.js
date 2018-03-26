@@ -50,10 +50,7 @@ export default handleActions({
     [ActionTypes.FETCHED_KEY_RESULT]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
-      const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
-      const objectiveId = keyResult.get('objectiveId');
-      return state.updateIn([objectiveId, 'keyResults'], ids => ids.push(keyResultId));
+      return merge(state, { payload });
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
       state = updateProgressRate(state, { payload });
