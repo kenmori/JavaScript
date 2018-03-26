@@ -36,7 +36,6 @@ export default handleActions({
         if (oldParentKeyResult) {
           state = state.set(oldParentKeyResultId,
             oldParentKeyResult
-              .update('childObjectives', ids => ids && ids.filter(id => id !== objectiveId))
               .update('childObjectiveIds', ids => ids.filter(id => id !== objectiveId)));
         }
       }
