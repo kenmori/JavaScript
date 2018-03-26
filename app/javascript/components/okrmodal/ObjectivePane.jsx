@@ -81,7 +81,8 @@ class ObjectivePane extends Component {
         <Form.Field>
           <label>上位 Key Result</label>
           <OkrSelect
-            keyResults={this.props.keyResults}
+            okrs={this.props.keyResults}
+            isObjective={false}
             value={objective.get('parentKeyResultId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedKeyResults}

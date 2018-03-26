@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
+import { Form, Icon, Popup, Button, TextArea, Divider } from 'semantic-ui-react';
 import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
@@ -9,6 +9,7 @@ import NumberInput from '../form/NumberInput';
 import AutoTextArea from '../form/AutoTextArea';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
+import OkrSelect from '../form/OkrSelect';
 import moment from 'moment';
 
 class KeyResultPane extends Component {
@@ -259,6 +260,16 @@ class KeyResultPane extends Component {
 
         <Divider hidden clearing />
 
+        <Form.Field>
+          <label>紐付く Objective</label>
+          <OkrSelect
+            okrs={this.props.objectives}
+            value={keyResult.get('objectiveId')}
+            readOnly={!this.props.isObjectiveOwner}
+            loading={!this.props.isFetchedObjectives}
+            onChange={value => {}}
+          />
+        </Form.Field>
         {this.childObjectivesTag(keyResult.get('childObjectives'))}
 
         <Divider hidden />

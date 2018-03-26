@@ -157,7 +157,8 @@ class ObjectiveModal extends Component {
                 <Form.Field>
                   <label>上位 Key Result</label>
                   <OkrSelect
-                    keyResults={this.props.keyResults}
+                    okrs={this.props.keyResults}
+                    isObjective={false}
                     value={this.state.parentKeyResultId}
                     preview={false}
                     disabled={hasParentKeyResult}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import { denormalizeObjective, denormalizeKeyResults } from '../schemas/index';
+import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from '../schemas/index';
 import { getParentKeyResultCandidates } from '../utils/okr';
 
 const mapStateToProps = (state) => {
@@ -28,7 +28,9 @@ const mapStateToProps = (state) => {
     keyResultId,
     users: state.users.filter(user => !user.get('disabled')),
     loginUserId,
+    objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
     keyResults: denormalizeKeyResults(parentKeyResults, state.entities),
+    isFetchedObjectives: state.objectives.get('isFetched'),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
     shouldFetchObjective: hasObjectiveId && !okrForm.get('isFetching'),
     shouldFetchKeyResult: hasKeyResultId && !okrForm.get('isFetching'),
