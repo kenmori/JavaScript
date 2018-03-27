@@ -33,6 +33,7 @@ class KeyResultsController < ApplicationController
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.new(key_result_create_params)
       @user.save!
+      update_objective if params[:key_result][:objective_id]
       params[:key_result][:members].each do |id|
         # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: id, role: :member)
@@ -50,6 +51,7 @@ class KeyResultsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @key_result.update!(key_result_update_params)
+      update_objective if params[:key_result][:objective_id]
       update_key_result_members if params[:key_result][:member]
       update_comment if params[:key_result][:comment]
     end
@@ -96,6 +98,28 @@ class KeyResultsController < ApplicationController
     end
 
     return false
+  end
+
+  def update_objective
+    objective = Objective.find(params[:key_result][:objective_id])
+    unless can_update_objective?(objective)
+      @key_result.errors[:base] << 'この Key Result の下位 Objective には紐付けられません'
+      raise
+    end
+
+    before_objective_owner_id = @key_result.objective.owner.id
+    after_objective_owner_id = objective.owner.id
+    if !current_user.admin? && before_objective_owner_id != current_user.id && after_objective_owner_id != current_user.id
+      @key_result.errors[:base] << '変更前または変更後の Objective 責任者でないため紐付けを変更できません'
+      raise
+    end
+  end
+
+  def can_update_objective?(objective)
+    parent_key_result = objective.parent_key_result
+    return true unless parent_key_result
+    return false if parent_key_result.id == @key_result.id # 親 KR が自分の場合は循環参照になるため false
+    return can_update_objective?(parent_key_result.objective)
   end
 
   def update_key_result_members
@@ -157,6 +181,6 @@ class KeyResultsController < ApplicationController
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:name, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date)
+      .permit(:id, :name, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id)
   end
 end

@@ -267,7 +267,7 @@ class KeyResultPane extends Component {
             value={keyResult.get('objectiveId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedObjectives}
-            onChange={value => {}}
+            onChange={value => this.updateKeyResult({ objectiveId: value })}
           />
         </Form.Field>
         {this.childObjectivesTag(keyResult.get('childObjectives'))}
