@@ -77,14 +77,13 @@ class ObjectivesController < ApplicationController
   end
 
   def update_parent_key_result
-    parent_key_result_id = params[:objective][:parent_key_result_id]
-    unless can_update_parent_key_result?(KeyResult.find(parent_key_result_id))
+    parent_key_result = KeyResult.find(params[:objective][:parent_key_result_id])
+    unless can_update_parent_key_result?(parent_key_result)
       @objective.errors[:base] << 'この Objective または下位 Objective に紐付く Key Result は上位 Key Result に指定できません'
       raise
     end
 
     objective_owner_id = @objective.owner.id
-    parent_key_result = KeyResult.find(parent_key_result_id)
     if parent_key_result.key_result_members.exists?(user_id: objective_owner_id)
       # Objective 責任者が紐付ける上位 KR の責任者または関係者の場合
       is_member = parent_key_result.key_result_members.exists?(user_id: current_user.id, role: :member)
