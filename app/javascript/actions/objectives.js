@@ -11,8 +11,8 @@ const actions = createActions({
   [actionTypes.FETCHED_OBJECTIVES]: (objectives) => normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),
   [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
-  [actionTypes.UPDATE_OBJECTIVE]: (objective, args) => ({ objective, args }),
-  [actionTypes.UPDATED_OBJECTIVE]: (objective, args) => normalizeObjective(objective).set('args', args),
+  [actionTypes.UPDATE_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),
+  [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
   [actionTypes.REMOVE_OBJECTIVE]: (id) => ({ id }),
   [actionTypes.REMOVED_OBJECTIVE]: (id) => ({ id }),
 });

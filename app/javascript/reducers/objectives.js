@@ -29,7 +29,7 @@ export default handleActions({
       return isMine ? add(state, objectiveId) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      const userId = payload.getIn(['args', 'currentUserId']);
+      const userId = payload.get('currentUserId');
       const objectiveId = payload.get('result').first();
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
       const isMine = userId === objective.get('owner').get('id');
