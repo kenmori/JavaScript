@@ -10,6 +10,7 @@ keyResultSchema.define({
   objective: objectiveSchema,
   childObjectives: objectiveListSchema,
   linkedObjectives: objectiveListSchema,
+  detachedObjective: objectiveSchema,
 });
 
 objectiveSchema.define({

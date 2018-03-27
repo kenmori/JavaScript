@@ -16,4 +16,9 @@ json.key_result do
       end
     end
   end
+
+  json.detached_objective do
+    detached_objective = @key_result.detached_objective
+    json.partial!(detached_objective) if detached_objective
+  end
 end
