@@ -25,21 +25,6 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
     [ActionTypes.ADDED_OBJECTIVE]: merge,
-    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      state = merge(state, { payload });
-
-      const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const oldParentKeyResultId = payload.getIn(['args', 'oldParentKeyResultId']);
-      if (oldParentKeyResultId !== objective.get('parentKeyResultId')) {
-        const oldParentKeyResult = state.get(oldParentKeyResultId);
-        if (oldParentKeyResult) {
-          state = state.set(oldParentKeyResultId,
-            oldParentKeyResult
-              .update('childObjectiveIds', ids => ids.filter(id => id !== objectiveId)));
-        }
-      }
-      return state;
-    }
+    [ActionTypes.UPDATED_OBJECTIVE]: merge,
   }, Map()
 )

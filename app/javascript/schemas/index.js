@@ -18,6 +18,7 @@ objectiveSchema.define({
   parentKeyResult: keyResultSchema,
   keyResults: keyResultListSchema,
   childObjectives: objectiveListSchema,
+  detachedParentKeyResult: keyResultSchema,
 });
 
 function normalizeObjective(objective) {
