@@ -1,17 +1,15 @@
 json.key_result do
   json.partial!(@key_result)
 
+  objective = @key_result.objective
   json.objective do
-    json.partial!(@key_result.objective)
-  end
+    json.partial!(objective)
 
-  json.connected_objectives do
-    json.array!(@key_result.connected_objectives) do |objective|
-      json.extract! objective, :id, :progress_rate
-
-      json.key_results do
-        json.array!(objective.key_results) do |key_result|
-          json.extract! key_result, :id, :progress_rate
+    json.connected_key_results do
+      json.array!(objective.connected_key_results) do |key_result|
+        json.extract! key_result, :id, :progress_rate
+        json.objective do
+          json.extract! key_result.objective, :id, :progress_rate
         end
       end
     end
