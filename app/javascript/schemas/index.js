@@ -49,12 +49,14 @@ function getKeyResult(keyResultId, entities) {
 function denormalizeObjective(objectiveId, entities, parentObjective) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
+  // KR 経由で子の Objective ID を取得する
+  const childObjectiveIds = objective.get('keyResults').flatMap(id => getKeyResult(id, entities).get('childObjectiveIds'));
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return objective
     .set('parentObjective', parentObjective || denormalizeObjective(objective.get('parentObjectiveId'), entities))
     .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
     .update('keyResults', ids => denormalizeKeyResults(ids, entities, objective))
-    .set('childObjectives', denormalizeObjectives(objective.get('childObjectiveIds'), entities, objective).filter(value => !!value));
+    .set('childObjectives', denormalizeObjectives(childObjectiveIds, entities, objective).filter(value => !!value));
 }
 
 function denormalizeObjectives(objectiveIds, entities, parentObjective) {
