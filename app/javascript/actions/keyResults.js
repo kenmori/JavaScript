@@ -14,7 +14,7 @@ const actions = createActions({
   [actionTypes.ADDED_KEY_RESULT]: (keyResult, currentUserId) => normalizeKeyResult(keyResult).set('currentUserId', currentUserId),
   [actionTypes.UPDATE_KEY_RESULT]: (keyResult, currentUserId) => ({ keyResult, currentUserId }),
   [actionTypes.UPDATED_KEY_RESULT]: (keyResult, currentUserId) => normalizeKeyResult(keyResult).set('currentUserId', currentUserId),
-  [actionTypes.REMOVE_KEY_RESULT]: id => id,
+  [actionTypes.REMOVE_KEY_RESULT]: id => ({ id }),
   [actionTypes.REMOVED_KEY_RESULT]: keyResult => normalizeKeyResult(keyResult),
 });
 

@@ -36,7 +36,8 @@ export default handleActions({
       return isMine ? add(state, objectiveId) : remove(state, objectiveId);
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return remove(state, payload.id);
+      const objectiveId = payload.get('result').first();
+      return remove(state, objectiveId);
     },
   },
   fromJS({

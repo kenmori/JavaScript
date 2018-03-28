@@ -47,8 +47,8 @@ function* updateObjective({payload}) {
 }
 
 function* removeObjective({payload}) {
-  yield call(API.delete, '/objectives/' + payload.id);
-  yield put(objectiveActions.removedObjective(payload.id));
+  const result = yield call(API.delete, '/objectives/' + payload.id);
+  yield put(objectiveActions.removedObjective(result.get('objective')));
   yield put(toastActions.showToast('Objective を削除しました'));
 }
 

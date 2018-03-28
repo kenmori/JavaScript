@@ -17,9 +17,9 @@ export default handleActions({
     [ActionTypes.ADDED_OBJECTIVE]: merge,
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return state.delete(payload.id).map(objective =>
-        objective.update('childObjectiveIds', ids => ids.filter(id => id !== payload.id))
-      );
+      state = merge(state, { payload });
+      const objectiveId = payload.get('result').first();
+      return state.delete(objectiveId);
     },
     [ActionTypes.FETCHED_KEY_RESULT]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: merge,

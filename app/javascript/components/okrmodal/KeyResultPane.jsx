@@ -72,7 +72,7 @@ class KeyResultPane extends Component {
     this.props.confirm({
       content: this.props.keyResult.get('childObjectives').isEmpty()
         ? 'Key Result を削除しますか？' : '下位 Objective が紐付いています。Key Result を削除しますか？',
-      onConfirm: () => this.props.removeKeyResult({ id }),
+      onConfirm: () => this.props.removeKeyResult(id),
     });
   }
 

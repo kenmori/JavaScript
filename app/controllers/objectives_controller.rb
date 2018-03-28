@@ -50,7 +50,7 @@ class ObjectivesController < ApplicationController
     forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
     if can_delete? && @objective.destroy
-      head :no_content
+      render action: :create, status: :ok
     else
       unprocessable_entity_with_errors(@objective.errors.full_messages)
     end
