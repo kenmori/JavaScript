@@ -21,8 +21,19 @@ json.objective do
     end
   end
 
-  json.detached_parent_key_result do
-    detached_parent_key_result = @objective.detached_parent_key_result
-    json.partial!(detached_parent_key_result) if detached_parent_key_result
+  detached_parent_key_result = @objective.detached_parent_key_result
+  if detached_parent_key_result
+    json.detached_parent_key_result do
+      json.partial!(detached_parent_key_result)
+
+      json.connected_objectives do
+        json.array!(detached_parent_key_result.connected_objectives) do |objective|
+          json.extract! objective, :id, :progress_rate
+          json.parent_key_result do
+            json.extract! objective.parent_key_result, :id, :progress_rate if objective.parent_key_result
+          end
+        end
+      end
+    end
   end
 end
