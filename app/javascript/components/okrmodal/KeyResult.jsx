@@ -87,7 +87,7 @@ class KeyResult extends Component {
     } = this.props;
 
     const cls = currentKeyResultId === keyResult.get('id') ? 'sidebar__item is-current' : 'sidebar__item';
-
+    const canDisplayedNavi = this.state.isHover && this.props.isObjectiveOwner;
     return (
       <div 
         className="sidebar__item-wrapper"
@@ -98,7 +98,7 @@ class KeyResult extends Component {
           <span className="sidebar__avatar"><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} /></span>
           <span className="sidebar__val">{keyResult.get('name')}</span>
           <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
-          { this.state.isHover &&
+          { canDisplayedNavi &&
             <div className="sidebar__item-nav">
               { this.state.canMoveToleft &&
                 <span className="sort-up"><Icon name="arrow circle up" size='large' onClick={(evt) => this.moveKeyResult(evt, MOVE_UP)} /></span>
@@ -120,9 +120,9 @@ class KeyResult extends Component {
       connectDropTarget,
     } = this.props;
     
-    return (
-      connectDragSource(connectDropTarget(this.keyResultHtml()))
-    )
+    return this.props.isObjectiveOwner ?
+            connectDragSource(connectDropTarget(this.keyResultHtml())) :
+            this.keyResultHtml();
   }
 }
 

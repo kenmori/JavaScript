@@ -66,6 +66,28 @@ class Sidebar extends Component {
     }
   }
 
+  keyResultListHTML() {
+    return (
+      <div>
+        <Segment.Group>
+          { this.state.keyResults.map(item => { 
+            return <KeyResult 
+                      key={item.get('id')} 
+                      currentKeyResultId={this.props.keyResultId} 
+                      keyResult={item} 
+                      replaceKeyResults={this.replaceKeyResults.bind(this)}
+                      findKeyResult={this.findKeyResult.bind(this)}
+                      changeDragStyle={this.changeDragStyle.bind(this)}
+                      updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
+                      keyResultsLength={this.state.keyResults.size}
+                      isObjectiveOwner={this.props.isObjectiveOwner}
+                    />
+          }).toArray() }
+        </Segment.Group>
+      </div>
+    )
+  }
+
   render() {
     const objective = this.props.objective;
     const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
@@ -82,20 +104,11 @@ class Sidebar extends Component {
 
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
-          <Segment.Group>
-            { this.state.keyResults.map(item => { 
-              return <KeyResult 
-                        key={item.get('id')} 
-                        currentKeyResultId={this.props.keyResultId} 
-                        keyResult={item} 
-                        replaceKeyResults={this.replaceKeyResults.bind(this)}
-                        findKeyResult={this.findKeyResult.bind(this)}
-                        changeDragStyle={this.changeDragStyle.bind(this)}
-                        updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
-                        keyResultsLength={this.state.keyResults.size}
-                      />
-            }).toArray() }
-          </Segment.Group>
+          {this.props.isObjectiveOwner ? 
+            this.props.connectDropTarget(
+              this.keyResultListHTML()
+            ) :
+            this.keyResultListHTML()}
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
       </div>
@@ -106,6 +119,7 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
   keyResultId: PropTypes.number,
+  isObjectiveOwner: PropTypes.bool.isRequired,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };
 
