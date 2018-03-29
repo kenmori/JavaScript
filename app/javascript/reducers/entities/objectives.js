@@ -3,21 +3,11 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../../constants/actionTypes';
 
 function merge(state, { payload }) {
-  if (!payload.getIn(['entities', 'objectives'])) return state;
-  // normalizeした結果ではidがstringになっているためintへ変換する
-  return state.merge(
-    payload.getIn(['entities', 'objectives'])
-      .filter(objective => objective.get('isFull'))
-      .mapKeys(key => parseInt(key))
-  );
-}
-
-function updateProgressRate(state, { payload }) {
   const objectives = payload.getIn(['entities', 'objectives']);
-  return state.map((objective, objectiveId) =>
-    objective.update('progressRate', progressRate =>
-      objectives.getIn([`${objectiveId}`, 'progressRate']) || progressRate
-    )
+  if (!objectives) return state;
+  return state.mergeWith(
+    (oldVal, newVal) => oldVal.merge(newVal),
+    objectives.mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
   );
 }
 
@@ -36,7 +26,6 @@ export default handleActions({
         if (oldParentObjective) {
           state = state.set(oldParentObjectiveId,
             oldParentObjective
-              .update('childObjectives', ids => ids && ids.filter(id => id !== objectiveId))
               .update('childObjectiveIds', ids => ids.filter(id => id !== objectiveId)));
         }
       }
@@ -48,29 +37,9 @@ export default handleActions({
       );
     },
     [ActionTypes.FETCHED_KEY_RESULT]: merge,
-    [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      state = updateProgressRate(state, { payload });
-      const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
-      const objectiveId = keyResult.get('objectiveId');
-      return state.updateIn([objectiveId, 'keyResults'], ids => ids.push(keyResultId));
-    },
-    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      state = updateProgressRate(state, { payload });
-      const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
-      const objectiveId = keyResult.get('objectiveId');
-      const newObjective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      return state.update(objectiveId, oldObjective => oldObjective.merge(newObjective));
-    },
-    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      state = updateProgressRate(state, { payload });
-      state = merge(state, { payload });
-      const keyResultId = payload.get('result').first();
-      const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
-      const objectiveId = keyResult.get('objectiveId');
-      return state.updateIn([objectiveId, 'keyResults'], ids => ids.filter(id => id !== keyResultId));
-    },
+    [ActionTypes.ADDED_KEY_RESULT]: merge,
+    [ActionTypes.UPDATED_KEY_RESULT]: merge,
+    [ActionTypes.REMOVED_KEY_RESULT]: merge,
   },
   Map()
 );

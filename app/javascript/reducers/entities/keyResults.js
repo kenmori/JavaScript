@@ -3,38 +3,22 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../../constants/actionTypes';
 
 function merge(state, { payload }) {
-  if (!payload.getIn(['entities', 'keyResults'])) return state;
-  // normalizeした結果ではidがstringになっているためintへ変換する
-  return state.merge(
-    payload.getIn(['entities', 'keyResults'])
-      .filter(keyResult => keyResult.get('isFull'))
-      .mapKeys(key => parseInt(key))
-  );
-}
-
-function updateProgressRate(state, { payload }) {
   const keyResults = payload.getIn(['entities', 'keyResults']);
-  return state.map((keyResult, keyResultId) =>
-    keyResult.update('progressRate', progressRate =>
-      keyResults.getIn([`${keyResultId}`, 'progressRate']) || progressRate
-    )
+  if (!keyResults) return state;
+  return state.mergeWith(
+    (oldVal, newVal) => oldVal.merge(newVal),
+    keyResults.mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
   );
 }
 
 export default handleActions({
-    [ActionTypes.FETCHED_KEY_RESULT]: merge,    
+    [ActionTypes.FETCHED_KEY_RESULT]: merge,
     [ActionTypes.FETCHED_KEY_RESULTS]: merge,
     [ActionTypes.FETCHED_ALL_KEY_RESULTS]: merge,
-    [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      state = updateProgressRate(state, { payload });
-      return merge(state, { payload });
-    },
-    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      state = updateProgressRate(state, { payload });
-      return merge(state, { payload });
-    },
+    [ActionTypes.ADDED_KEY_RESULT]: merge,
+    [ActionTypes.UPDATED_KEY_RESULT]: merge,
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      state = updateProgressRate(state, { payload });
+      state = merge(state, { payload });
       const keyResultId = payload.get('result').first();
       return state.delete(keyResultId);
     },
@@ -52,7 +36,6 @@ export default handleActions({
         if (oldParentKeyResult) {
           state = state.set(oldParentKeyResultId,
             oldParentKeyResult
-              .update('childObjectives', ids => ids && ids.filter(id => id !== objectiveId))
               .update('childObjectiveIds', ids => ids.filter(id => id !== objectiveId)));
         }
       }
