@@ -25,12 +25,7 @@ class OkrMap extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.objective.get('id') !== nextProps.objective.get('id')
-      || this.props.objective.get('parentObjectiveId') !== nextProps.objective.get('parentObjectiveId')) {
-      this.createObjectivesList(nextProps.objective);
-    } else if (this.props.objective !== nextProps.objective) {
-      this.createObjectivesList(nextProps.objective, this.state.visibleIds);
-    }
+    this.createObjectivesList(nextProps.objective);
   }
 
   getInitialVisibleIds(objective) {
