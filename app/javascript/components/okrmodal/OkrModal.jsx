@@ -92,6 +92,10 @@ class OkrModal extends Component {
     }
   }
 
+  updateKeyResultOrder(objective, oldParentObjectiveId, oldParentKeyResultId) {
+    this.props.updateObjective(objective, oldParentObjectiveId, oldParentKeyResultId, false);
+  }
+
   render() {
     const objective = this.props.objective;
     if (!objective) return null;
@@ -111,7 +115,7 @@ class OkrModal extends Component {
               objective={objective}
               keyResultId={this.props.keyResultId} 
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
-              updateKeyResultOrder={this.props.updateObjective}
+              updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
               isObjectiveOwner={this.props.isObjectiveOwner}
             />
             <div className="okr-main">

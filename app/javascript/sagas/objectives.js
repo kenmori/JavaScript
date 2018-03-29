@@ -44,7 +44,9 @@ function* addObjective({ payload }) {
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   yield put(objectiveActions.updatedObjective(result.get('objective'), fromJS(payload.args)));
-  yield put(toastActions.showToast('Objective を更新しました'));
+  if (payload.isToast) {
+    yield put(toastActions.showToast('Objective を更新しました'));
+  }
 }
 
 function* removeObjective({payload}) {

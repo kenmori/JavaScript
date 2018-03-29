@@ -11,7 +11,7 @@ const actions = createActions({
   [actionTypes.FETCHED_OBJECTIVES]: (objectives) => normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, currentUserId) => ({ objective, currentUserId }),
   [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
-  [actionTypes.UPDATE_OBJECTIVE]: (objective, args) => ({ objective, args }),
+  [actionTypes.UPDATE_OBJECTIVE]: (objective, args, isToast = true) => ({ objective, args, isToast }),
   [actionTypes.UPDATED_OBJECTIVE]: (objective, args) => normalizeObjective(objective).set('args', args),
   [actionTypes.REMOVE_OBJECTIVE]: (id) => ({ id }),
   [actionTypes.REMOVED_OBJECTIVE]: (id) => ({ id }),
