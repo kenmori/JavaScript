@@ -92,8 +92,8 @@ class OkrModal extends Component {
     }
   }
 
-  updateKeyResultOrder(objective, oldParentObjectiveId, oldParentKeyResultId) {
-    this.props.updateObjective(objective, oldParentObjectiveId, oldParentKeyResultId, false);
+  updateKeyResultOrder(objective) {
+    this.props.updateObjective(objective, null, null, false);
   }
 
   render() {
