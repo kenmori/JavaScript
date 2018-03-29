@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
     loginUserId,
     objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
     keyResults: denormalizeKeyResults(parentKeyResults, state.entities),
-    isFetchedObjectives: state.objectives.get('isFetched'),
+    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
     shouldFetchObjective: hasObjectiveId && !okrForm.get('isFetching'),
     shouldFetchKeyResult: hasKeyResultId && !okrForm.get('isFetching'),

@@ -1,12 +1,20 @@
 class ObjectivesController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user.organization.id)
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+      forbidden and return unless valid_permission?(@user.organization.id)
 
-    @objectives = @user.objectives
-                    .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
-                    .where(okr_period_id: params[:okr_period_id])
-                    .order(created_at: :desc)
+      @objectives = @user.objectives
+                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
+                        .where(okr_period_id: params[:okr_period_id])
+                        .order(created_at: :desc)
+    else
+      @objectives = current_organization
+                        .okr_periods
+                        .find(params[:okr_period_id])
+                        .objectives
+                        .order(created_at: :desc)
+    end
   end
 
   def show

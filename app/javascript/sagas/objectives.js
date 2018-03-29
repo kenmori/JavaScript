@@ -33,6 +33,11 @@ function* fetchObjectives({payload}) {
   yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
 }
 
+function* fetchAllObjectives({ payload }) {
+  const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId });
+  yield put(objectiveActions.fetchedAllObjectives(result.get('objectives')));
+}
+
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
   yield put(objectiveActions.addedObjective(result.get('objective'), payload.currentUserId));
@@ -57,6 +62,7 @@ export function *objectiveSagas() {
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
+    takeLatest(actionTypes.FETCH_ALL_OBJECTIVES, fetchAllObjectives),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
