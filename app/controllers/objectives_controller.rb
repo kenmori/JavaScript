@@ -13,6 +13,7 @@ class ObjectivesController < ApplicationController
                         .okr_periods
                         .find(params[:okr_period_id])
                         .objectives
+                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
                         .order(created_at: :desc)
     end
   end
