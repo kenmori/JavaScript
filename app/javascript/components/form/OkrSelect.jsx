@@ -54,20 +54,19 @@ class OkrSelect extends Component {
   }
 
   render() {
-    const disabledClass = this.props.disabled ? 'disabled' : '';
-    const previewClass = this.state.preview ? 'preview' : '';
+    const showPreview = this.state.preview && !this.props.loading;
     return (
-      <div className={`okr-select ${disabledClass} ${previewClass}`}>
-        {this.state.preview && (
+      <div className={`okr-select ${this.props.disabled ? 'disabled' : ''} ${showPreview ? 'preview' : ''}`}>
+        {showPreview && (
           <OkrList
             okrs={this.props.okrs.filter(okr => okr.get('id') === this.state.value)}
             isObjective={this.props.isObjective}
           />
         )}
-        {this.state.preview && !this.props.readOnly && (
+        {showPreview && !this.props.readOnly && (
           <Button content="変更する" size='small' onClick={() => this.setState({ preview: false })} />
         )}
-        {!this.state.preview && (
+        {!showPreview && (
           <Select
             search
             fluid
