@@ -8070,6 +8070,8 @@ typeOf(null, [], NaN);
 
 **問357**
 
+Array.of fill. copyWithinなどを書く
+
 
 ```js
 
