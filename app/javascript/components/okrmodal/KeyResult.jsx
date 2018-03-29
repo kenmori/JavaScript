@@ -3,8 +3,11 @@ import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import { openKeyResult } from '../../utils/linker';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+
+const MOVE_UP = 'up';
+const MOVE_DOWN = 'down';
 
 const keyResultSource = {
 	beginDrag(props) {
@@ -49,6 +52,34 @@ const collectTarget = (connect) => {
 
 
 class KeyResult extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isHover: false,
+      canMoveToleft: false,
+      canMoveToRight: true,
+    };
+  }
+  handleMouseHover(isHover) {
+    const currentIndex = this.props.findKeyResult(this.props.keyResult.get('id')).index;
+    this.setState({
+      isHover,
+      canMoveToleft: currentIndex !== 0,
+      canMoveToRight: currentIndex !== this.props.keyResultsLength - 1,
+    });
+  }
+  moveKeyResult(evt, direction) {
+    const currentIndex = this.props.findKeyResult(this.props.keyResult.get('id')).index;
+    const nextIndex = direction === MOVE_UP ? currentIndex - 1 :
+                        direction === MOVE_DOWN ? currentIndex + 1 : -1;
+    if (nextIndex >= 0) {
+      this.props.replaceKeyResults(currentIndex, nextIndex);
+      setTimeout(() => {
+        this.props.updateKeyResultOrder();
+      }, 0);
+    }
+    evt.stopPropagation();
+  }
   keyResultHtml() {
     const {
       keyResult,
@@ -58,12 +89,28 @@ class KeyResult extends Component {
     const cls = currentKeyResultId === keyResult.get('id') ? 'sidebar__item is-current' : 'sidebar__item';
 
     return (
-      <div>
+      <div 
+        className="sidebar__item-wrapper"
+        onMouseOver={() => this.handleMouseHover(true)}
+        onMouseLeave={() => this.handleMouseHover(false)}
+      >
         <Segment className={cls} key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}>
           <span className="sidebar__avatar"><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} /></span>
           <span className="sidebar__val">{keyResult.get('name')}</span>
           <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
+          { this.state.isHover &&
+            <div className="sidebar__item-nav">
+              { this.state.canMoveToleft &&
+                <span className="sort-up"><Icon name="arrow circle up" size='large' onClick={(evt) => this.moveKeyResult(evt, MOVE_UP)} /></span>
+              }
+              { this.state.canMoveToRight &&
+                <span className="sort-down"><Icon name="arrow circle down" size='large' onClick={(evt) => this.moveKeyResult(evt, MOVE_DOWN)} /></span>
+              }
+            </div>
+          }
         </Segment>
+        
+        
       </div>
     )
   }
@@ -82,6 +129,7 @@ class KeyResult extends Component {
 KeyResult.propTypes = {
   keyResult: PropTypes.object.isRequired,
   currentKeyResultId: PropTypes.number,
+  keyResultsLength: PropTypes.number,
   replaceKeyResults: PropTypes.func,
   findKeyResult: PropTypes.func,
   changeDragStyle: PropTypes.func,

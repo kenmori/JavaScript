@@ -60,6 +60,28 @@
     .sidebar__items {
       margin-bottom: 20px;
     }
+    .sidebar__item-wrapper {
+      position: relative;
+    }
+    .sidebar__item-nav {
+      position: absolute;
+      top: 0;
+      left: -24px;
+      height: 50px;
+      .sort-up {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .sort-down {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      i {
+        color: rgba(0,0,0,.6);
+      }
+    }
     .sidebar__item {
       position: relative;
       cursor: pointer;
