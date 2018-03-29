@@ -1,4 +1,6 @@
 .okr-select {
+  min-height: 40px; /* equals to okr-list */
+
   &.disabled {
     cursor: not-allowed;
   }
@@ -9,7 +11,10 @@
 
     .okr-list {
       flex-grow: 1;
-      margin-right: 1rem;
+    }
+
+    .button {
+      margin-left: 1rem;
     }
   }
 }
