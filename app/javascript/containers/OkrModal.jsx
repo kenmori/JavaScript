@@ -4,7 +4,7 @@ import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from '../schemas/index';
-import { getParentKeyResultCandidates } from '../utils/okr';
+import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/okr';
 
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
@@ -19,7 +19,8 @@ const mapStateToProps = (state) => {
   const loginUserId = state.loginUser.get('id');
   const isAdmin = state.loginUser.get('isAdmin');
   const objectiveOwnerId = objective && objective.get('owner').get('id');
-  const parentKeyResults = getParentKeyResultCandidates(state,
+  const objectiveCandidates = getObjectiveCandidates(state, objectiveId, objectiveOwnerId);
+  const parentKeyResultCandidates = getParentKeyResultCandidates(state,
     objective && objective.get('parentKeyResultId'), objectiveOwnerId);
   return {
     isOpen: okrForm.get('isOpen'),
@@ -28,9 +29,9 @@ const mapStateToProps = (state) => {
     keyResultId,
     users: state.users.filter(user => !user.get('disabled')),
     loginUserId,
-    objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
-    keyResults: denormalizeKeyResults(parentKeyResults, state.entities),
-    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
+    objectives: denormalizeObjectives(objectiveCandidates, state.entities),
+    keyResults: denormalizeKeyResults(parentKeyResultCandidates, state.entities),
+    isFetchedObjectives: state.objectives.get(isAdmin ? 'isFetchedAllObjectives' : 'isFetchedObjectives'),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
     shouldFetchObjective: hasObjectiveId && !okrForm.get('isFetching'),
     shouldFetchKeyResult: hasKeyResultId && !okrForm.get('isFetching'),

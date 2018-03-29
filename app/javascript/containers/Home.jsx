@@ -30,8 +30,8 @@ const mapStateToProps = (state, { match: { params } }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
-      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
+    fetchOkrs: (okrPeriodId, userId, withAll) => {
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAll));
     },
     openOkrModal: (objectiveId, keyResultId) => {
       dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));

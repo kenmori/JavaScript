@@ -13,9 +13,11 @@ function* fetchOkrs({ payload }) {
   yield take(actionTypes.FETCHED_OBJECTIVES)
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
-  if (payload.withAllKeyResults) {
+  if (payload.withAll) {
     yield put(keyResultActions.fetchAllKeyResults(payload.okrPeriodId)); // without loading
     yield take(actionTypes.FETCHED_ALL_KEY_RESULTS)
+    yield put(objectiveActions.fetchAllObjectives(payload.okrPeriodId)); // without loading
+    yield take(actionTypes.FETCHED_ALL_OBJECTIVES)
   }
 }
 
