@@ -20,7 +20,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
-    isFetchedObjectives: state.objectives.get('isFetched'),
+    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
     fetchedObjectiveId,
     fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
     entities: state.entities,
@@ -30,8 +30,8 @@ const mapStateToProps = (state, { match: { params } }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOkrs: (okrPeriodId, userId, withAllKeyResults) => {
-      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAllKeyResults));
+    fetchOkrs: (okrPeriodId, userId, withAll) => {
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAll));
     },
     openOkrModal: (objectiveId, keyResultId) => {
       dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));

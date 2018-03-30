@@ -7,7 +7,9 @@ function merge(state, { payload }) {
   if (!keyResults) return state;
   return state.mergeWith(
     (oldVal, newVal) => oldVal.merge(newVal),
-    keyResults.mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
+    keyResults
+      .filter(keyResult => keyResult.get('isFull') || state.has(keyResult.get('id')))
+      .mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
   );
 }
 
@@ -24,22 +26,9 @@ export default handleActions({
     },
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
+    [ActionTypes.FETCHED_ALL_OBJECTIVES]: merge,
     [ActionTypes.ADDED_OBJECTIVE]: merge,
-    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      state = merge(state, { payload });
-
-      const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const oldParentKeyResultId = payload.getIn(['args', 'oldParentKeyResultId']);
-      if (oldParentKeyResultId !== objective.get('parentKeyResultId')) {
-        const oldParentKeyResult = state.get(oldParentKeyResultId);
-        if (oldParentKeyResult) {
-          state = state.set(oldParentKeyResultId,
-            oldParentKeyResult
-              .update('childObjectiveIds', ids => ids.filter(id => id !== objectiveId)));
-        }
-      }
-      return state;
-    }
+    [ActionTypes.UPDATED_OBJECTIVE]: merge,
+    [ActionTypes.REMOVED_OBJECTIVE]: merge,
   }, Map()
 )

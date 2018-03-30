@@ -4,7 +4,7 @@ import { Select, Button } from 'semantic-ui-react';
 import OkrList from './OkrList';
 import avatar_image from '../../images/avatar.png';
 
-class KeyResultSelect extends Component {
+class OkrSelect extends Component {
 
   constructor(props) {
     super(props);
@@ -29,17 +29,22 @@ class KeyResultSelect extends Component {
     return props.preview && value !== -1; // 上位 KR なしの場合は常に Select 表示
   }
 
-  keyResultOptions = () => {
-    return this.props.keyResults.map(keyResult => ({
-      key: keyResult.get('id'),
-      value: keyResult.get('id'),
-      text: keyResult.get('name'),
-      image: { avatar: true, src: keyResult.get('owner').get('avatarUrl') || avatar_image },
-    })).insert(0, ({
-      key: -1,
-      value: -1,
-      text: 'なし',
-    })).toArray();
+  okrOptions = () => {
+    let options = this.props.okrs.map(okr => ({
+      key: okr.get('id'),
+      value: okr.get('id'),
+      text: okr.get('name'),
+      image: { avatar: true, src: okr.get('owner').get('avatarUrl') || avatar_image },
+    }));
+    if (!this.props.isObjective) {
+      // 上位 KR なしの選択肢を追加 (紐付く Objective なしは選ばせない)
+      options = options.insert(0, ({
+        key: -1,
+        value: -1,
+        text: 'なし',
+      }));
+    }
+    return options.toArray();
   }
 
   handleChange = (event, { value }) => {
@@ -49,24 +54,23 @@ class KeyResultSelect extends Component {
   }
 
   render() {
-    const disabledClass = this.props.disabled ? 'disabled' : '';
-    const previewClass = this.state.preview ? 'preview' : '';
+    const showPreview = this.state.preview && !this.props.loading;
     return (
-      <div className={`key-result-select ${disabledClass} ${previewClass}`}>
-        {this.state.preview && (
+      <div className={`okr-select ${this.props.disabled ? 'disabled' : ''} ${showPreview ? 'preview' : ''}`}>
+        {showPreview && (
           <OkrList
-            okrs={this.props.keyResults.filter(keyResult => keyResult.get('id') === this.state.value)}
-            isObjective={false}
+            okrs={this.props.okrs.filter(okr => okr.get('id') === this.state.value)}
+            isObjective={this.props.isObjective}
           />
         )}
-        {this.state.preview && !this.props.readOnly && (
+        {showPreview && !this.props.readOnly && (
           <Button content="変更する" size='small' onClick={() => this.setState({ preview: false })} />
         )}
-        {!this.state.preview && (
+        {!showPreview && (
           <Select
             search
             fluid
-            options={this.keyResultOptions()}
+            options={this.okrOptions()}
             value={this.state.value}
             disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}
@@ -80,8 +84,9 @@ class KeyResultSelect extends Component {
   }
 }
 
-KeyResultSelect.propTypes = {
-  keyResults: PropTypes.object.isRequired,
+OkrSelect.propTypes = {
+  okrs: PropTypes.object.isRequired,
+  isObjective: PropTypes.bool,
   value: PropTypes.number,
   preview: PropTypes.bool,
   readOnly: PropTypes.bool,
@@ -90,7 +95,8 @@ KeyResultSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-KeyResultSelect.defaultProps = {
+OkrSelect.defaultProps = {
+  isObjective: true,
   value: null,
   preview: true,
   readOnly: false,
@@ -98,4 +104,4 @@ KeyResultSelect.defaultProps = {
   loading: false,
 };
 
-export default KeyResultSelect;
+export default OkrSelect;

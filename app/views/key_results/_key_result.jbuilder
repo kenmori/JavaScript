@@ -1,5 +1,6 @@
 json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_value, :value_unit, :expired_date, :progress_rate
-json.is_progress_rate_linked key_result.progress_rate_linked?
+json.is_full true
+json.is_progress_rate_connected key_result.progress_rate_connected?
 json.child_objective_ids key_result.child_objective_ids
 
 json.owner do
