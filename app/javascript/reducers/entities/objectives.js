@@ -7,7 +7,9 @@ function merge(state, { payload }) {
   if (!objectives) return state;
   return state.mergeWith(
     (oldVal, newVal) => oldVal.merge(newVal),
-    objectives.mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
+    objectives
+      .filter(objective => objective.get('isFull') || state.has(objective.get('id')))
+      .mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
   );
 }
 

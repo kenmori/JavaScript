@@ -7,7 +7,9 @@ function merge(state, { payload }) {
   if (!keyResults) return state;
   return state.mergeWith(
     (oldVal, newVal) => oldVal.merge(newVal),
-    keyResults.mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
+    keyResults
+      .filter(keyResult => keyResult.get('isFull') || state.has(keyResult.get('id')))
+      .mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
   );
 }
 
