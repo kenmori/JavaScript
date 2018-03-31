@@ -77,6 +77,7 @@ class OkrSelect extends Component {
             onChange={this.handleChange}
             onBlur={() => this.setState({ preview: this.isPreview(this.props, this.state.value) })}
             selectOnNavigation={false}
+            noResultsMessage='結果が見つかりません'
           />
         )}
       </div>
