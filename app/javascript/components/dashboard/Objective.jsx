@@ -50,14 +50,6 @@ const collectTarget = (connect) => {
 
 
 class Objective extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isHover: false,
-      canMoveToleft: false,
-      canMoveToRight: true,
-    };
-  }
   moveObjective(evt, direction) {
     const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
     const nextIndex = direction === MOVE_LEFT ? currentIndex - 1 :
@@ -70,40 +62,28 @@ class Objective extends Component {
     }
     evt.stopPropagation();
   }
-  handleMouseHover(isHover) {
-    const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
-    this.setState({
-      isHover,
-      canMoveToleft: currentIndex !== 0,
-      canMoveToRight: currentIndex !== this.props.objectivesLength - 1,
-    });
-  }
   objectiveHtml() {
     const {
       objective,
       isSelected,
       selectObjective,
     } = this.props;
-    const canDisplayedNavi = this.state.isHover && this.props.isSelectedLoginUser;
+    const canDisplayedNavi = this.props.isSelectedLoginUser;
     return (
       <div 
         className={`objective-box ${isSelected ? 'active' : ''}`} 
         onClick={() => selectObjective(objective)}
-        onMouseOver={() => this.handleMouseHover(true)}
-        onMouseLeave={() => this.handleMouseHover(false)}
       >
         <div><div className='name'>{objective.get('name')}</div></div>
         <OkrPieChart objective={objective} />
-        { canDisplayedNavi &&
-          <div className="sort-navi">
-            { this.state.canMoveToleft &&
-              <span className="sort-left"><Icon name="arrow circle left" size='large' onClick={(evt) => this.moveObjective(evt, MOVE_LEFT)} /></span>
-            }
-            { this.state.canMoveToRight &&
-              <span className="sort-right"><Icon name="arrow circle right" size='large' onClick={(evt) => this.moveObjective(evt, MOVE_RIGHT)} /></span>
-            }
+        {canDisplayedNavi && (
+          <div className='sort-navi'>
+            <Icon name='arrow circle left' size='large' color='grey' className='sort-left'
+                  onClick={(evt) => this.moveObjective(evt, MOVE_LEFT)} />
+            <Icon name='arrow circle right' size='large' color='grey' className='sort-right'
+                  onClick={(evt) => this.moveObjective(evt, MOVE_RIGHT)} />
           </div>
-        }
+        )}
       </div>
     )
   }
