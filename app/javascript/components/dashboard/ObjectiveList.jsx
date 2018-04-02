@@ -60,11 +60,7 @@ class ObjectiveList extends Component {
   }
 
   render() {
-    return this.props.isSelectedLoginUser ? 
-      this.props.connectDropTarget(
-        this.objectiveListHTML()
-      ) :
-      this.objectiveListHTML();
+    return this.props.connectDropTarget(this.objectiveListHTML());
   }
 }
 

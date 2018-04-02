@@ -8,6 +8,10 @@ const MOVE_LEFT = 'left';
 const MOVE_RIGHT = 'right';
 
 const cardSource = {
+  canDrag(props, monitor) {
+    return props.isSelectedLoginUser;
+  },
+
 	beginDrag(props) {
     const id = props.objective.get('id');
     props.changeDragStyle(true);
@@ -92,9 +96,7 @@ class Objective extends Component {
       connectDragSource,
       connectDropTarget,
     } = this.props;
-    return this.props.isSelectedLoginUser ?
-            connectDragSource(connectDropTarget(this.objectiveHtml())) :
-            this.objectiveHtml();
+    return connectDragSource(connectDropTarget(this.objectiveHtml()));
   }
 }
 
