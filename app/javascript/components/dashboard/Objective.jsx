@@ -30,6 +30,7 @@ const cardSource = {
 const collectSource = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging(),
   }
 }
 
@@ -46,9 +47,10 @@ const cardTarget = {
 	},
 }
 
-const collectTarget = (connect) => {
+const collectTarget = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
+    canDrop: monitor.canDrop(),
   }
 }
 
@@ -71,11 +73,13 @@ class Objective extends Component {
       objective,
       isSelected,
       selectObjective,
+      isDragging,
+      canDrop
     } = this.props;
     const canDisplayedNavi = this.props.isSelectedLoginUser;
     return (
       <div 
-        className={`objective-box ${isSelected ? 'active' : ''}`} 
+        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''}`} 
         onClick={() => selectObjective(objective)}
       >
         <div><div className='name'>{objective.get('name')}</div></div>

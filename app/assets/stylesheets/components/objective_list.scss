@@ -36,12 +36,16 @@
       background: rgba(239, 8, 3, 0.11);
     }
 
-    &:hover {
+    &:hover:not(.drop) {
       border-color: $ASSIST_COLOR;
 
       .sort-navi {
         display: block;
       }
+    }
+
+    &.drag {
+      visibility: hidden;
     }
 
     &:last-child {
