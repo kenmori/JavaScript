@@ -4,7 +4,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
 
-const cardSource = {
+const boxSource = {
   canDrag(props) {
     return props.isSelectedLoginUser;
   },
@@ -14,7 +14,7 @@ const cardSource = {
     props.setDragging(true);
     return {
       id,
-      originalIndex: props.findCard(id).index,
+      originalIndex: props.findBox(id).index,
     }
   },
 
@@ -31,15 +31,15 @@ const collectSource = (connect, monitor) => {
   }
 }
 
-const cardTarget = {
+const boxTarget = {
   hover(props, monitor) {
     const { id: draggedId } = monitor.getItem();
     const overId = props.objective.get('id');
 
     if (draggedId !== overId) {
-      const { index: originalIndex } = props.findCard(draggedId)
-      const { index: overIndex } = props.findCard(overId)
-      props.moveCard(originalIndex, overIndex)
+      const { index: originalIndex } = props.findBox(draggedId)
+      const { index: overIndex } = props.findBox(overId)
+      props.moveBox(originalIndex, overIndex)
     }
   },
 }
@@ -53,9 +53,9 @@ const collectTarget = (connect, monitor) => {
 
 class Objective extends Component {
   moveObjective(event, toLeft) {
-    const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
+    const currentIndex = this.props.findBox(this.props.objective.get('id')).index;
     const nextIndex = toLeft ? currentIndex - 1 : currentIndex + 1;
-    this.props.moveCard(currentIndex, nextIndex);
+    this.props.moveBox(currentIndex, nextIndex);
     setTimeout(() => this.props.updateUserObjectiveOrder(), 0);
     event.stopPropagation();
   }
@@ -103,12 +103,12 @@ Objective.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   selectObjective: PropTypes.func.isRequired,
   isSelectedLoginUser: PropTypes.bool.isRequired,
-  moveCard: PropTypes.func.isRequired,
-  findCard: PropTypes.func.isRequired,
+  moveBox: PropTypes.func.isRequired,
+  findBox: PropTypes.func.isRequired,
   setDragging: PropTypes.func.isRequired,
   updateUserObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 };
 
-export default DropTarget('card', cardTarget, collectTarget)(DragSource('card', cardSource, collectSource)(Objective));
+export default DropTarget('box', boxTarget, collectTarget)(DragSource('box', boxSource, collectSource)(Objective));

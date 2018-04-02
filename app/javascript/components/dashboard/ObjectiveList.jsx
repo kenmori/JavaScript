@@ -11,11 +11,11 @@ class ObjectiveList extends Component {
     this.state = { isDragging: false };
   }
 
-  findCard(id) {
+  findBox(id) {
     const { objectives } = this.props
     const objective = objectives.find(c => c.get('id') === id)
     return {
-      card: objective,
+      box: objective,
       index: objectives.indexOf(objective),
     }
   }
@@ -34,9 +34,9 @@ class ObjectiveList extends Component {
             key={objective.get('id')}
             objective={objective}
             isSelected={isSelected}
-            moveCard={this.props.replaceObjectives}
+            moveBox={this.props.replaceObjectives}
             updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
-            findCard={this.findCard.bind(this)}
+            findBox={this.findBox.bind(this)}
             setDragging={isDragging => this.setState({ isDragging })}
             isSelectedLoginUser={this.props.isSelectedLoginUser}
             selectObjective={this.selectObjective.bind(this)} />
