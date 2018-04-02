@@ -8,24 +8,16 @@ import Objective from './Objective';
 class ObjectiveList extends Component {
   constructor() {
     super();
-    this.state = {
-      isDragging: false
+    this.state = { isDragging: false };
+  }
+
+  findCard(id) {
+    const { objectives } = this.props
+    const objective = objectives.find(c => c.get('id') === id)
+    return {
+      card: objective,
+      index: objectives.indexOf(objective),
     }
-  }
-
-  changeDragStyle(isDragging) {
-    this.setState({
-      isDragging
-    })
-  }
-
-	findCard(id) {
-		const { objectives } = this.props
-		const objective = objectives.find(c => c.get('id') === id)
-		return {
-			card: objective,
-			index: objectives.indexOf(objective),
-		}
   }
 
   selectObjective = objective => {
@@ -46,7 +38,7 @@ class ObjectiveList extends Component {
             objectivesLength={this.props.objectives.size}
             updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
             findCard={this.findCard.bind(this)}
-            changeDragStyle={this.changeDragStyle.bind(this)}
+            setDragging={isDragging => this.setState({ isDragging })}
             isSelectedLoginUser={this.props.isSelectedLoginUser}
             selectObjective={this.selectObjective.bind(this)} />
         })}

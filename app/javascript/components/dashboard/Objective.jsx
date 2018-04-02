@@ -4,27 +4,24 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
 
-const MOVE_LEFT = 'left';
-const MOVE_RIGHT = 'right';
-
 const cardSource = {
-  canDrag(props, monitor) {
+  canDrag(props) {
     return props.isSelectedLoginUser;
   },
 
-	beginDrag(props) {
+  beginDrag(props) {
     const id = props.objective.get('id');
-    props.changeDragStyle(true);
+    props.setDragging(true);
     return {
-			id,
-			originalIndex: props.findCard(id).index,
-		}
-	},
+      id,
+      originalIndex: props.findCard(id).index,
+    }
+  },
 
-	endDrag(props, monitor) {
-    props.changeDragStyle(false);
-		props.updateUserObjectiveOrder();
-	},
+  endDrag(props) {
+    props.setDragging(false);
+    props.updateUserObjectiveOrder();
+  },
 }
 
 const collectSource = (connect, monitor) => {
@@ -35,16 +32,16 @@ const collectSource = (connect, monitor) => {
 }
 
 const cardTarget = {
-	hover(props, monitor) {
-		const { id: draggedId } = monitor.getItem();
+  hover(props, monitor) {
+    const { id: draggedId } = monitor.getItem();
     const overId = props.objective.get('id');
 
-		if (draggedId !== overId) {
+    if (draggedId !== overId) {
       const { index: originalIndex } = props.findCard(draggedId)
-			const { index: overIndex } = props.findCard(overId)
-			props.moveCard(originalIndex, overIndex)
-		}
-	},
+      const { index: overIndex } = props.findCard(overId)
+      props.moveCard(originalIndex, overIndex)
+    }
+  },
 }
 
 const collectTarget = (connect, monitor) => {
@@ -54,20 +51,17 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-
 class Objective extends Component {
-  moveObjective(evt, direction) {
+  moveObjective(event, toLeft) {
     const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
-    const nextIndex = direction === MOVE_LEFT ? currentIndex - 1 :
-                        direction === MOVE_RIGHT ? currentIndex + 1 : -1;
+    const nextIndex = toLeft ? currentIndex - 1 : currentIndex + 1;
     if (nextIndex >= 0) {
       this.props.moveCard(currentIndex, nextIndex);
-      setTimeout(() => {
-        this.props.updateUserObjectiveOrder();
-      }, 0);
+      setTimeout(() => this.props.updateUserObjectiveOrder(), 0);
     }
-    evt.stopPropagation();
+    event.stopPropagation();
   }
+
   objectiveHtml() {
     const {
       objective,
@@ -76,27 +70,29 @@ class Objective extends Component {
       isDragging,
       canDrop
     } = this.props;
-    const canDisplayedNavi = this.props.isSelectedLoginUser;
     return (
-      <div 
-        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''}`} 
+      <div
+        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''}`}
         onClick={() => selectObjective(objective)}
       >
-        <div><div className='name'>{objective.get('name')}</div></div>
+        <div>
+          <div className='name'>{objective.get('name')}</div>
+        </div>
         <OkrPieChart objective={objective} />
-        {canDisplayedNavi && (
+        {this.props.isSelectedLoginUser && (
           <div className='sort-navi'>
             <Icon name='arrow circle left' size='large' color='grey' className='sort-left'
-                  onClick={(evt) => this.moveObjective(evt, MOVE_LEFT)} />
+                  onClick={event => this.moveObjective(event, true)} />
             <Icon name='arrow circle right' size='large' color='grey' className='sort-right'
-                  onClick={(evt) => this.moveObjective(evt, MOVE_RIGHT)} />
+                  onClick={event => this.moveObjective(event, false)} />
           </div>
         )}
       </div>
     )
   }
-  render(props) {
-    const { 
+
+  render() {
+    const {
       connectDragSource,
       connectDropTarget,
     } = this.props;
@@ -112,7 +108,7 @@ Objective.propTypes = {
   isSelectedLoginUser: PropTypes.bool.isRequired,
   moveCard: PropTypes.func.isRequired,
   findCard: PropTypes.func.isRequired,
-  changeDragStyle: PropTypes.func.isRequired,
+  setDragging: PropTypes.func.isRequired,
   updateUserObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
