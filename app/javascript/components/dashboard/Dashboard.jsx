@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { fromJS } from 'immutable';
 import { Menu, Button, Segment, Header } from 'semantic-ui-react';
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
-import { sortObjectives } from '../../utils/sorter';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -13,7 +11,6 @@ export default class Dashboard extends Component {
       mapObjective: null,
       mapObjectiveId: null,
       activeItem: 'objective',
-      objectives: props.objectives,
     };
   }
 
@@ -43,38 +40,12 @@ export default class Dashboard extends Component {
         this.setMapObjective(objective);
       }
     }
-    this.setState({
-      objectives: sortObjectives(nextProps.objectives, this.props.objectiveOrder)
-    })
-  }
-
-  replaceObjectives = (originalIndex, overIndex) => {
-    if (overIndex < 0 || this.state.objectives.size <= overIndex) {
-      return;
-    }
-    const objective = this.state.objectives.get(originalIndex);
-    const replacementTarget = this.state.objectives.get(overIndex);
-    let newObjectives = this.state.objectives.set(overIndex, objective);
-    newObjectives = newObjectives.set(originalIndex, replacementTarget);
-    this.setState({
-      objectives: newObjectives
-    })
-  }
-
-  updateUserObjectiveOrder = () => {
-    const nextOrder = JSON.stringify(this.state.objectives.map(c => c.get('id')).toArray());
-    if(nextOrder !== this.props.objectiveOrder) {
-      this.props.updateUserObjectiveOrder({
-        id: this.props.userId,
-        objectiveOrder: nextOrder
-      });
-    }
   }
 
   getNextMapObjective = (prevObjectives, nextObjectives) => {
     // Objective 一覧取得時や追加/削除時に選択する Objective を返す
     const prevObjectiveId = this.state.mapObjectiveId;
-    const nextObjective = sortObjectives(nextObjectives, this.props.objectiveOrder).first();
+    const nextObjective = nextObjectives.first();
     if (!prevObjectiveId) {
       return nextObjective; // 未選択の場合
     }
@@ -164,10 +135,11 @@ export default class Dashboard extends Component {
             </Menu>
           </div>
           {activeItem === 'objective'
-            ? <ObjectiveList objectives={this.state.objectives}
+            ? <ObjectiveList objectives={this.props.objectives}
                              setMapObjective={this.setMapObjective}
-                             updateUserObjectiveOrder={this.updateUserObjectiveOrder.bind(this)}
-                             replaceObjectives={this.replaceObjectives}
+                             userId={this.props.userId}
+                             objectiveOrder={this.props.objectiveOrder}
+                             updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
                              isSelectedLoginUser={this.props.isSelectedLoginUser} />
             : <KeyResultList keyResults={this.props.keyResults}
                              setMapObjective={this.setMapObjective}

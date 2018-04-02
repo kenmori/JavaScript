@@ -10,11 +10,10 @@ const boxSource = {
   },
 
   beginDrag(props) {
-    const id = props.objective.get('id');
     props.setDragging(true);
     return {
-      id,
-      originalIndex: props.findBox(id).index,
+      id: props.id,
+      index: props.index,
     }
   },
 
@@ -33,13 +32,13 @@ const collectSource = (connect, monitor) => {
 
 const boxTarget = {
   hover(props, monitor) {
-    const { id: draggedId } = monitor.getItem();
-    const overId = props.objective.get('id');
+    const { index: originalIndex } = monitor.getItem();
+    const { index: overIndex } = props;
+    if (originalIndex !== overIndex) {
+      props.moveBox(originalIndex, overIndex);
 
-    if (draggedId !== overId) {
-      const { index: originalIndex } = props.findBox(draggedId)
-      const { index: overIndex } = props.findBox(overId)
-      props.moveBox(originalIndex, overIndex)
+      // https://github.com/react-dnd/react-dnd/blob/master/packages/documentation/examples/04%20Sortable/Simple/Card.js#L63
+      monitor.getItem().index = overIndex;
     }
   },
 }
@@ -53,7 +52,7 @@ const collectTarget = (connect, monitor) => {
 
 class Objective extends Component {
   moveObjective(event, toLeft) {
-    const currentIndex = this.props.findBox(this.props.objective.get('id')).index;
+    const currentIndex = this.props.index;
     const nextIndex = toLeft ? currentIndex - 1 : currentIndex + 1;
     this.props.moveBox(currentIndex, nextIndex);
     setTimeout(() => this.props.updateUserObjectiveOrder(), 0);
@@ -104,7 +103,6 @@ Objective.propTypes = {
   selectObjective: PropTypes.func.isRequired,
   isSelectedLoginUser: PropTypes.bool.isRequired,
   moveBox: PropTypes.func.isRequired,
-  findBox: PropTypes.func.isRequired,
   setDragging: PropTypes.func.isRequired,
   updateUserObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
