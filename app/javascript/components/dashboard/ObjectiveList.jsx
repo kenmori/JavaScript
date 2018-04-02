@@ -20,21 +20,21 @@ class ObjectiveList extends Component {
     }
   }
 
-  moveBox = (originalIndex, overIndex) => {
-    if (overIndex < 0 || this.state.objectiveOrder.length <= overIndex) {
+  moveBox = (dragIndex, hoverIndex) => {
+    if (hoverIndex < 0 || this.state.objectiveOrder.length <= hoverIndex) {
       return;
     }
     const objectiveOrder = this.state.objectiveOrder;
-    const originalId = objectiveOrder[originalIndex];
-    objectiveOrder.splice(originalIndex, 1);
-    objectiveOrder.splice(overIndex, 0, originalId)
+    const dragId = objectiveOrder[dragIndex];
+    objectiveOrder.splice(dragIndex, 1);
+    objectiveOrder.splice(hoverIndex, 0, dragId)
     this.setState({ objectiveOrder });
   }
 
-  updateUserObjectiveOrder = () => {
+  updateObjectiveOrder = () => {
     const nextObjectiveOrder = JSON.stringify(this.state.objectiveOrder);
     if (this.props.objectiveOrder !== nextObjectiveOrder) {
-      this.props.updateUserObjectiveOrder({
+      this.props.updateObjectiveOrder({
         id: this.props.userId,
         objectiveOrder: nextObjectiveOrder,
       });
@@ -52,15 +52,16 @@ class ObjectiveList extends Component {
         {this.props.objectives
           .sortBy(objective => this.state.objectiveOrder.indexOf(objective.get('id')))
           .map((objective, index) => {
-            const isSelected = objective.get('id') === this.props.currentObjectiveId;
+            const objectiveId = objective.get('id');
+            const isSelected = objectiveId === this.props.currentObjectiveId;
             return <Objective
-              key={objective.get('id')}
+              key={objectiveId}
               index={index}
-              id={objective.get('id')}
+              id={objectiveId}
               objective={objective}
               isSelected={isSelected}
               moveBox={this.moveBox}
-              updateUserObjectiveOrder={this.updateUserObjectiveOrder}
+              updateObjectiveOrder={this.updateObjectiveOrder}
               setDragging={isDragging => this.setState({ isDragging })}
               isSelectedLoginUser={this.props.isSelectedLoginUser}
               selectObjective={this.selectObjective.bind(this)} />

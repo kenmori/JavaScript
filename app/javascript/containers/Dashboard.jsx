@@ -9,11 +9,12 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 const mapStateToProps = state => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
-  const currentUser = state.users.find((u) => u.get('id') === state.current.get('userId'));
+  const userId = state.current.get('userId');
+  const currentUser = state.users.find((u) => u.get('id') === userId);
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
-    userId: state.current.get('userId'),
-    isSelectedLoginUser: state.current.get('userId') === state.loginUser.get('id'),
+    userId,
+    isSelectedLoginUser: userId === state.loginUser.get('id'),
     objectiveOrder: currentUser ? currentUser.get('objectiveOrder') : null,
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
@@ -37,7 +38,7 @@ const mapDispatchToProps = dispatch => {
     changeCurrentOkr: objectiveId => {
       dispatch(currentActions.changeCurrentOkr(objectiveId));
     },
-    updateUserObjectiveOrder: (user) => {
+    updateObjectiveOrder: (user) => {
       dispatch(userActions.updateUser(user, false))
     },
   };

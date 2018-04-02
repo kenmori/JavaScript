@@ -19,7 +19,7 @@ const boxSource = {
 
   endDrag(props) {
     props.setDragging(false);
-    props.updateUserObjectiveOrder();
+    props.updateObjectiveOrder();
   },
 }
 
@@ -32,13 +32,13 @@ const collectSource = (connect, monitor) => {
 
 const boxTarget = {
   hover(props, monitor) {
-    const { index: originalIndex } = monitor.getItem();
-    const { index: overIndex } = props;
-    if (originalIndex !== overIndex) {
-      props.moveBox(originalIndex, overIndex);
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+    if (dragIndex !== hoverIndex) {
+      props.moveBox(dragIndex, hoverIndex);
 
       // https://github.com/react-dnd/react-dnd/blob/master/packages/documentation/examples/04%20Sortable/Simple/Card.js#L63
-      monitor.getItem().index = overIndex;
+      monitor.getItem().index = hoverIndex;
     }
   },
 }
@@ -55,7 +55,7 @@ class Objective extends Component {
     const currentIndex = this.props.index;
     const nextIndex = toLeft ? currentIndex - 1 : currentIndex + 1;
     this.props.moveBox(currentIndex, nextIndex);
-    setTimeout(() => this.props.updateUserObjectiveOrder(), 0);
+    setTimeout(() => this.props.updateObjectiveOrder(), 0);
     event.stopPropagation();
   }
 
@@ -64,6 +64,7 @@ class Objective extends Component {
       objective,
       isSelected,
       selectObjective,
+      isSelectedLoginUser,
       isDragging,
       canDrop
     } = this.props;
@@ -76,7 +77,7 @@ class Objective extends Component {
           <div className='name'>{objective.get('name')}</div>
         </div>
         <OkrPieChart objective={objective} />
-        {this.props.isSelectedLoginUser && (
+        {isSelectedLoginUser && (
           <div className='swap-icons'>
             <Icon name='arrow circle left' size='large' color='grey' fitted className='swap-left'
                   onClick={event => this.moveObjective(event, true)} />
@@ -104,7 +105,7 @@ Objective.propTypes = {
   isSelectedLoginUser: PropTypes.bool.isRequired,
   moveBox: PropTypes.func.isRequired,
   setDragging: PropTypes.func.isRequired,
-  updateUserObjectiveOrder: PropTypes.func.isRequired,
+  updateObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 };
