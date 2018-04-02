@@ -55,10 +55,8 @@ class Objective extends Component {
   moveObjective(event, toLeft) {
     const currentIndex = this.props.findCard(this.props.objective.get('id')).index;
     const nextIndex = toLeft ? currentIndex - 1 : currentIndex + 1;
-    if (nextIndex >= 0) {
-      this.props.moveCard(currentIndex, nextIndex);
-      setTimeout(() => this.props.updateUserObjectiveOrder(), 0);
-    }
+    this.props.moveCard(currentIndex, nextIndex);
+    setTimeout(() => this.props.updateUserObjectiveOrder(), 0);
     event.stopPropagation();
   }
 
@@ -103,7 +101,6 @@ class Objective extends Component {
 Objective.propTypes = {
   objective: PropTypes.object.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  objectivesLength: PropTypes.number.isRequired,
   selectObjective: PropTypes.func.isRequired,
   isSelectedLoginUser: PropTypes.bool.isRequired,
   moveCard: PropTypes.func.isRequired,

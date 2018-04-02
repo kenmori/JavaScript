@@ -49,6 +49,9 @@ export default class Dashboard extends Component {
   }
 
   replaceObjectives = (originalIndex, overIndex) => {
+    if (overIndex < 0 || this.state.objectives.size <= overIndex) {
+      return;
+    }
     const objective = this.state.objectives.get(originalIndex);
     const replacementTarget = this.state.objectives.get(overIndex);
     let newObjectives = this.state.objectives.set(overIndex, objective);

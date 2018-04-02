@@ -35,7 +35,6 @@ class ObjectiveList extends Component {
             objective={objective}
             isSelected={isSelected}
             moveCard={this.props.replaceObjectives}
-            objectivesLength={this.props.objectives.size}
             updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
             findCard={this.findCard.bind(this)}
             setDragging={isDragging => this.setState({ isDragging })}
