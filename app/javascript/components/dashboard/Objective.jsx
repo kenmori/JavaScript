@@ -78,10 +78,10 @@ class Objective extends Component {
         </div>
         <OkrPieChart objective={objective} />
         {this.props.isSelectedLoginUser && (
-          <div className='sort-navi'>
-            <Icon name='arrow circle left' size='large' color='grey' className='sort-left'
+          <div className='swap-icons'>
+            <Icon name='arrow circle left' size='large' color='grey' fitted className='swap-left'
                   onClick={event => this.moveObjective(event, true)} />
-            <Icon name='arrow circle right' size='large' color='grey' className='sort-right'
+            <Icon name='arrow circle right' size='large' color='grey' fitted className='swap-right'
                   onClick={event => this.moveObjective(event, false)} />
           </div>
         )}

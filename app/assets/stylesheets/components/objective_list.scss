@@ -39,8 +39,8 @@
     &:hover:not(.drop) {
       border-color: $ASSIST_COLOR;
 
-      .sort-navi {
-        display: block;
+      .swap-icons {
+        display: flex;
       }
     }
 
@@ -70,26 +70,21 @@
       white-space: normal;
     }
 
-    .sort-navi {
+    .swap-icons {
       width: 100%;
       position: absolute;
-      bottom: 25px;
+      bottom: 4px;
       display: none;
+      justify-content: space-between;
 
-      .sort-left {
-        position: absolute;
-        top: 0;
-        left: 4px;
-      }
-      .sort-right {
-        position: absolute;
-        top: 0;
-        right: 4px;
+      .swap-left,
+      .swap-right {
+        margin: 0 4px;
       }
     }
-    &:first-child .sort-left,
-    &:last-child .sort-right {
-      display: none;
+    &:first-child .swap-left,
+    &:last-child .swap-right {
+      visibility: hidden;
     }
   }
 }
