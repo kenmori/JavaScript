@@ -9,7 +9,6 @@ class ObjectiveList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDragging: false,
       objectiveOrder: props.objectiveOrder,
     };
   }
@@ -52,7 +51,7 @@ class ObjectiveList extends Component {
 
   render() {
     return (
-      <div className={`objective-list ${this.state.isDragging ? 'is-dragging' : ''}`}>
+      <div className='objective-list'>
         {this.props.objectives
           .sortBy(objective => this.state.objectiveOrder.indexOf(objective.get('id')))
           .map((objective, index) => {
@@ -65,7 +64,6 @@ class ObjectiveList extends Component {
               isSelected={isSelected}
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
-              setDragging={isDragging => this.setState({ isDragging })}
               canMoveObjective={this.props.canMoveObjective}
               selectObjective={this.selectObjective.bind(this)} />
           })}

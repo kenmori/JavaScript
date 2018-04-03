@@ -5,14 +5,6 @@
   margin: 16px 16px 0 24px;
   height: 195px + 16px; /* with scrollbar */
 
-  &.is-dragging {
-    cursor: move !important;
-    .recharts-wrapper,
-    .objective-box {
-      cursor: move !important;
-    }
-  }
-
   .objective-box {
     position: relative;
     display: inline-flex;
@@ -46,6 +38,13 @@
 
     &.drag:not(.touch) {
       visibility: hidden;
+    }
+
+    &.drop {
+      cursor: default !important;
+      .recharts-wrapper {
+        cursor: default !important;
+      }
     }
 
     &:last-child {

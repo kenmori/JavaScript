@@ -12,7 +12,6 @@ const boxSource = {
   },
 
   beginDrag(props) {
-    props.setDragging(true);
     return {
       id: props.objective.get('id'),
       index: props.index,
@@ -20,7 +19,6 @@ const boxSource = {
   },
 
   endDrag(props) {
-    props.setDragging(false);
     props.updateObjectiveOrder();
   },
 }
@@ -106,7 +104,6 @@ Objective.propTypes = {
   selectObjective: PropTypes.func.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,
   moveObjective: PropTypes.func.isRequired,
-  setDragging: PropTypes.func.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
