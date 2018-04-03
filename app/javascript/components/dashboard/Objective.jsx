@@ -6,13 +6,13 @@ import OkrPieChart from './OkrPieChart';
 
 const boxSource = {
   canDrag(props) {
-    return props.isSelectedLoginUser;
+    return props.canMoveObjective;
   },
 
   beginDrag(props) {
     props.setDragging(true);
     return {
-      id: props.id,
+      id: props.objective.get('id'),
       index: props.index,
     }
   },
@@ -35,7 +35,7 @@ const boxTarget = {
     const dragIndex = monitor.getItem().index;
     const hoverIndex = props.index;
     if (dragIndex !== hoverIndex) {
-      props.moveBox(dragIndex, hoverIndex);
+      props.moveObjective(dragIndex, hoverIndex);
 
       // https://github.com/react-dnd/react-dnd/blob/master/packages/documentation/examples/04%20Sortable/Simple/Card.js#L63
       monitor.getItem().index = hoverIndex;
@@ -63,7 +63,7 @@ class Objective extends Component {
       objective,
       isSelected,
       selectObjective,
-      isSelectedLoginUser,
+      canMoveObjective,
       isDragging,
       canDrop
     } = this.props;
@@ -76,7 +76,7 @@ class Objective extends Component {
           <div className='name'>{objective.get('name')}</div>
         </div>
         <OkrPieChart objective={objective} />
-        {isSelectedLoginUser && (
+        {canMoveObjective && (
           <div className='swap-icons'>
             <Icon name='arrow circle left' size='large' color='grey' fitted className='swap-left'
                   onClick={event => this.swapObjective(event, true)} />
@@ -98,11 +98,12 @@ class Objective extends Component {
 }
 
 Objective.propTypes = {
+  index: PropTypes.number.isRequired,
   objective: PropTypes.object.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectObjective: PropTypes.func.isRequired,
-  isSelectedLoginUser: PropTypes.bool.isRequired,
-  moveBox: PropTypes.func.isRequired,
+  canMoveObjective: PropTypes.bool.isRequired,
+  moveObjective: PropTypes.func.isRequired,
   setDragging: PropTypes.func.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,

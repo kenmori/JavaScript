@@ -20,7 +20,7 @@ class ObjectiveList extends Component {
     }
   }
 
-  moveBox = (fromIndex, toIndex) => {
+  moveObjective = (fromIndex, toIndex) => {
     if (0 <= toIndex && toIndex < this.state.objectiveOrder.size) {
       this.setState({ objectiveOrder: this.getNewObjectiveOrder(fromIndex, toIndex) });
     }
@@ -61,13 +61,12 @@ class ObjectiveList extends Component {
             return <Objective
               key={objectiveId}
               index={index}
-              id={objectiveId}
               objective={objective}
               isSelected={isSelected}
-              moveBox={this.moveBox}
+              moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
               setDragging={isDragging => this.setState({ isDragging })}
-              isSelectedLoginUser={this.props.isSelectedLoginUser}
+              canMoveObjective={this.props.canMoveObjective}
               selectObjective={this.selectObjective.bind(this)} />
           })}
       </div>
@@ -77,9 +76,10 @@ class ObjectiveList extends Component {
 
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
-  isSelectedLoginUser: PropTypes.bool.isRequired,
+  canMoveObjective: PropTypes.bool.isRequired,
   setMapObjective: PropTypes.func.isRequired,
   objectiveOrder: PropTypes.object.isRequired,
+  updateObjectiveOrder: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
 };
 

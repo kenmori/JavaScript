@@ -13,7 +13,7 @@ const mapStateToProps = state => {
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId,
-    isSelectedLoginUser: userId === state.loginUser.get('id'),
+    canMoveObjective: userId === state.loginUser.get('id'),
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
