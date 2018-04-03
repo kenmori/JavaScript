@@ -20,21 +20,28 @@ class ObjectiveList extends Component {
     }
   }
 
-  moveBox = (dragIndex, hoverIndex) => {
-    if (hoverIndex < 0 || this.state.objectiveOrder.size <= hoverIndex) {
-      return;
+  moveBox = (fromIndex, toIndex) => {
+    if (0 <= toIndex && toIndex < this.state.objectiveOrder.size) {
+      this.setState({ objectiveOrder: this.getNewObjectiveOrder(fromIndex, toIndex) });
     }
-    const dragId = this.state.objectiveOrder.get(dragIndex);
-    const objectiveOrder = this.state.objectiveOrder.delete(dragIndex).insert(hoverIndex, dragId);
-    this.setState({ objectiveOrder });
   }
 
-  updateObjectiveOrder = () => {
-    if (!this.state.objectiveOrder.equals(this.props.objectiveOrder)) {
+  updateObjectiveOrder = (fromIndex, toIndex) => {
+    const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex);
+    if (!newObjectiveOrder.equals(this.props.objectiveOrder)) {
       this.props.updateObjectiveOrder({
         id: this.props.userId,
-        objectiveOrder: JSON.stringify(this.state.objectiveOrder),
+        objectiveOrder: JSON.stringify(newObjectiveOrder),
       });
+    }
+  }
+
+  getNewObjectiveOrder = (fromIndex, toIndex) => {
+    if (fromIndex >= 0 && toIndex >= 0) {
+      const fromId = this.state.objectiveOrder.get(fromIndex);
+      return this.state.objectiveOrder.delete(fromIndex).insert(toIndex, fromId);
+    } else {
+      return this.state.objectiveOrder;
     }
   }
 

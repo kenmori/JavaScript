@@ -51,11 +51,10 @@ const collectTarget = (connect, monitor) => {
 }
 
 class Objective extends Component {
-  moveObjective(event, toLeft) {
-    const currentIndex = this.props.index;
-    const nextIndex = toLeft ? currentIndex - 1 : currentIndex + 1;
-    this.props.moveBox(currentIndex, nextIndex);
-    setTimeout(() => this.props.updateObjectiveOrder(), 0);
+  swapObjective(event, toLeft) {
+    const fromIndex = this.props.index;
+    const toIndex = toLeft ? fromIndex - 1 : fromIndex + 1;
+    this.props.updateObjectiveOrder(fromIndex, toIndex);
     event.stopPropagation();
   }
 
@@ -80,9 +79,9 @@ class Objective extends Component {
         {isSelectedLoginUser && (
           <div className='swap-icons'>
             <Icon name='arrow circle left' size='large' color='grey' fitted className='swap-left'
-                  onClick={event => this.moveObjective(event, true)} />
+                  onClick={event => this.swapObjective(event, true)} />
             <Icon name='arrow circle right' size='large' color='grey' fitted className='swap-right'
-                  onClick={event => this.moveObjective(event, false)} />
+                  onClick={event => this.swapObjective(event, false)} />
           </div>
         )}
       </div>
