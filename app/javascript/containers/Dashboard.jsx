@@ -5,15 +5,15 @@ import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current';
 import userActions from '../actions/users';
 import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
+import { canMoveObjective } from "../utils/okr";
 
 const mapStateToProps = state => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
-  const userId = state.current.get('userId');
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
-    userId,
-    canMoveObjective: userId === state.loginUser.get('id'),
+    userId: state.current.get('userId'),
+    canMoveObjective: canMoveObjective(state),
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
