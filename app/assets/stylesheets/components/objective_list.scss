@@ -44,7 +44,7 @@
       }
     }
 
-    &.drag {
+    &.drag:not(.touch) {
       visibility: hidden;
     }
 
