@@ -18,6 +18,10 @@ function removeFromAll(state, objectiveId) {
   return state.update('allIds', ids => ids.filter(id => id !== objectiveId));
 }
 
+function sortIds(ids, objectiveOrder) {
+  return objectiveOrder ? ids.sortBy(id => objectiveOrder.indexOf(id)) : ids;
+}
+
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
@@ -27,7 +31,9 @@ export default handleActions({
       return state.set('isFetchedObjectives', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return state.set('ids', payload.get('result')).set('isFetchedObjectives', true);
+      const ids = payload.get('result');
+      const objectiveOrder = payload.get('objectiveOrder');
+      return state.set('ids', sortIds(ids, objectiveOrder)).set('isFetchedObjectives', true);
     },
     [ActionTypes.FETCH_ALL_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetchedAllObjectives', false);
@@ -55,6 +61,10 @@ export default handleActions({
       const objectiveId = payload.get('result').first();
       state = removeFromAll(state, objectiveId);
       return remove(state, objectiveId);
+    },
+    [ActionTypes.UPDATED_USER]: (state, { payload }) => {
+      const objectiveOrder = payload.user.get('objectiveOrder');
+      return state.update('ids', ids => sortIds(ids, objectiveOrder));
     },
   },
   fromJS({

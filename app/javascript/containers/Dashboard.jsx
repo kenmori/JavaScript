@@ -10,12 +10,10 @@ const mapStateToProps = state => {
   const objectiveIds = state.objectives.get('ids');
   const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   const userId = state.current.get('userId');
-  const currentUser = state.users.find((u) => u.get('id') === userId);
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId,
     isSelectedLoginUser: userId === state.loginUser.get('id'),
-    objectiveOrder: currentUser ? currentUser.get('objectiveOrder') : null,
     objectiveIds: objectiveIds,
     objectives: denormalizeObjectives(objectiveIds, state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),

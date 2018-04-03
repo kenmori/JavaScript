@@ -10,33 +10,30 @@ class ObjectiveList extends Component {
     super(props);
     this.state = {
       isDragging: false,
-      objectiveOrder: JSON.parse(props.objectiveOrder || '[]'), // JSON Array to Array
+      objectiveOrder: props.objectiveOrder,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.objectiveOrder !== nextProps.objectiveOrder) {
-      this.setState({ objectiveOrder: JSON.parse(nextProps.objectiveOrder) });
+    if (!nextProps.objectiveOrder.equals(this.props.objectiveOrder)) {
+      this.setState({ objectiveOrder: nextProps.objectiveOrder });
     }
   }
 
   moveBox = (dragIndex, hoverIndex) => {
-    if (hoverIndex < 0 || this.state.objectiveOrder.length <= hoverIndex) {
+    if (hoverIndex < 0 || this.state.objectiveOrder.size <= hoverIndex) {
       return;
     }
-    const objectiveOrder = this.state.objectiveOrder;
-    const dragId = objectiveOrder[dragIndex];
-    objectiveOrder.splice(dragIndex, 1);
-    objectiveOrder.splice(hoverIndex, 0, dragId)
+    const dragId = this.state.objectiveOrder.get(dragIndex);
+    const objectiveOrder = this.state.objectiveOrder.delete(dragIndex).insert(hoverIndex, dragId);
     this.setState({ objectiveOrder });
   }
 
   updateObjectiveOrder = () => {
-    const nextObjectiveOrder = JSON.stringify(this.state.objectiveOrder);
-    if (this.props.objectiveOrder !== nextObjectiveOrder) {
+    if (!this.state.objectiveOrder.equals(this.props.objectiveOrder)) {
       this.props.updateObjectiveOrder({
         id: this.props.userId,
-        objectiveOrder: nextObjectiveOrder,
+        objectiveOrder: JSON.stringify(this.state.objectiveOrder),
       });
     }
   }
@@ -75,7 +72,7 @@ ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
   isSelectedLoginUser: PropTypes.bool.isRequired,
   setMapObjective: PropTypes.func.isRequired,
-  objectiveOrder: PropTypes.string.isRequired,
+  objectiveOrder: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
 };
 

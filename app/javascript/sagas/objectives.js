@@ -32,7 +32,7 @@ function* fetchObjective({payload}) {
 
 function* fetchObjectives({payload}) {
   const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
-  yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
+  yield put(objectiveActions.fetchedObjectives(result.get('objectives'), result.get('objectiveOrder')));
 }
 
 function* fetchAllObjectives({ payload }) {
