@@ -1,58 +1,48 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { default as TouchBackend } from 'react-dnd-touch-backend';
-import { DropTarget, DragDropContext } from 'react-dnd'
+import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Objective from './Objective';
 
-function collect(connect) {
-  return {
-    connectDropTarget: connect.dropTarget(),
-  };
-}
-
 class ObjectiveList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      isDragging: false
+      objectiveOrder: props.objectiveOrder,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.objectiveOrder.equals(this.props.objectiveOrder)) {
+      this.setState({ objectiveOrder: nextProps.objectiveOrder });
     }
   }
 
-  changeDragStyle(isDragging) {
-    this.setState({
-      isDragging
-    })
+  moveObjective = (fromIndex, toIndex) => {
+    if (0 <= toIndex && toIndex < this.state.objectiveOrder.size) {
+      this.setState({ objectiveOrder: this.getNewObjectiveOrder(fromIndex, toIndex) });
+    }
   }
 
-	findCard(id) {
-		const { objectives } = this.props
-		const objective = objectives.find(c => c.get('id') === id)
-		return {
-			card: objective,
-			index: objectives.indexOf(objective),
-		}
+  updateObjectiveOrder = (fromIndex, toIndex) => {
+    const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex);
+    if (!newObjectiveOrder.equals(this.props.objectiveOrder)) {
+      this.props.updateObjectiveOrder({
+        id: this.props.userId,
+        objectiveOrder: JSON.stringify(newObjectiveOrder),
+      });
+    }
   }
-  
-  objectiveListHTML = () => (
-    <div className={`objective-list ${this.state.isDragging ? 'is-dragging' : ''}`}>
-      {
-        this.props.objectives.map((objective) => {
-          const isSelected = objective.get('id') === this.props.currentObjectiveId;
-          return <Objective
-                  key={objective.get('id')}
-                  objective={objective}
-                  isSelected={isSelected}
-                  moveCard={this.props.replaceObjectives}
-                  objectivesLength={this.props.objectives.size}
-                  updateUserObjectiveOrder={this.props.updateUserObjectiveOrder}
-                  findCard={this.findCard.bind(this)}
-                  changeDragStyle={this.changeDragStyle.bind(this)}
-                  isSelectedLoginUser={this.props.isSelectedLoginUser}
-                  selectObjective={this.selectObjective.bind(this)} />
-        })}
-    </div>
-  )
+
+  getNewObjectiveOrder = (fromIndex, toIndex) => {
+    if (fromIndex >= 0 && toIndex >= 0) {
+      const fromId = this.state.objectiveOrder.get(fromIndex);
+      return this.state.objectiveOrder.delete(fromIndex).insert(toIndex, fromId);
+    } else {
+      return this.state.objectiveOrder;
+    }
+  }
 
   selectObjective = objective => {
     this.props.setMapObjective(objective);
@@ -60,22 +50,38 @@ class ObjectiveList extends Component {
   }
 
   render() {
-    return this.props.isSelectedLoginUser ? 
-      this.props.connectDropTarget(
-        this.objectiveListHTML()
-      ) :
-      this.objectiveListHTML();
+    return (
+      <div className='objective-list'>
+        {this.props.objectives
+          .sortBy(objective => this.state.objectiveOrder.indexOf(objective.get('id')))
+          .map((objective, index) => {
+            const objectiveId = objective.get('id');
+            const isSelected = objectiveId === this.props.currentObjectiveId;
+            return <Objective
+              key={objectiveId}
+              index={index}
+              objective={objective}
+              isSelected={isSelected}
+              moveObjective={this.moveObjective}
+              updateObjectiveOrder={this.updateObjectiveOrder}
+              canMoveObjective={this.props.canMoveObjective}
+              selectObjective={this.selectObjective.bind(this)} />
+          })}
+      </div>
+    );
   }
 }
 
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
-  isSelectedLoginUser: PropTypes.bool.isRequired,
+  canMoveObjective: PropTypes.bool.isRequired,
   setMapObjective: PropTypes.func.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
+  objectiveOrder: PropTypes.object.isRequired,
+  updateObjectiveOrder: PropTypes.func.isRequired,
+  userId: PropTypes.number.isRequired,
 };
 
 const isTouchSupport = 'ontouchstart' in window;
 const backend = isTouchSupport ? TouchBackend : HTML5Backend;
 
-export default DragDropContext(backend)(DropTarget('card', {}, collect)(ObjectiveList));
+export default DragDropContext(backend)(ObjectiveList);
