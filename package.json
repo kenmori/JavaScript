@@ -2,7 +2,7 @@
   "name": "resily",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "3.4.1",
+    "@rails/webpacker": "3.4.3",
     "babel-preset-react": "6.24.1",
     "coffeescript": "1.12.7",
     "hashids": "1.1.4",
@@ -37,7 +37,7 @@
     "semantic-ui-react": "0.78.3"
   },
   "devDependencies": {
-    "webpack-dev-server": "2.9.3"
+    "webpack-dev-server": "2.11.1"
   },
   "optionalDependencies": {
     "fsevents": "1.1.3"
