@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import Home from '../containers/Home';
 import configureStore from '../stores/index';
@@ -18,6 +19,12 @@ import Loading from '../containers/Loading';
 import Toast from '../containers/Toast';
 import ErrorModal from '../containers/ErrorModal';
 import ConfirmModal from '../containers/ConfirmModal';
+
+if (process.env.NODE_ENV !== 'production') {
+  ReactGA.initialize('UA-111410984-4');
+} else {
+  ReactGA.initialize('UA-111410984-3');
+}
 
 const store = configureStore();
 
