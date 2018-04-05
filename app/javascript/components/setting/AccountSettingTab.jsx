@@ -24,7 +24,7 @@ class AccountSettingTab extends Component {
 
   changePassword = () => {
     this.props.updatePassword({
-      id: this.props.user.id,
+      id: this.props.user.get('id'),
       currentPassword: this.currentPasswordInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       passwordConfirmation: this.passwordConfirmationInput.inputRef.value,
