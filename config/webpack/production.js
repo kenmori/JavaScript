@@ -1,5 +1,5 @@
+const environment = require('./environment');
 const webpack = require('webpack');
-const environment = require('./environment')
 
 environment.plugins.append("UglifyJs", new webpack.optimize.UglifyJsPlugin({
   parallel:   true,
@@ -14,8 +14,13 @@ environment.plugins.append("UglifyJs", new webpack.optimize.UglifyJsPlugin({
   output: {
     comments: false
   }
-}))
+}));
 
-const config = environment.toWebpackConfig()
+environment.plugins.insert("Define", new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify('production'),
+  'process.env.GA_TRACKING_CODE': JSON.stringify('UA-111410984-3'),
+}));
+
+const config = environment.toWebpackConfig();
 config.devtool = 'eval';
-module.exports = config
+module.exports = config;
