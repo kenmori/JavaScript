@@ -20,12 +20,7 @@ import Toast from '../containers/Toast';
 import ErrorModal from '../containers/ErrorModal';
 import ConfirmModal from '../containers/ConfirmModal';
 
-if (process.env.NODE_ENV !== 'production') {
-  ReactGA.initialize('UA-111410984-4');
-} else {
-  ReactGA.initialize('UA-111410984-3');
-}
-
+ReactGA.initialize(process.env.GA_TRACKING_CODE);
 const store = configureStore();
 
 document.addEventListener('DOMContentLoaded', () => {
