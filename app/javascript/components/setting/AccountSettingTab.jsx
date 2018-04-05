@@ -17,14 +17,14 @@ class AccountSettingTab extends Component {
       this.props.updateEmail({id, email});
     } else {
       this.setState({
-        email: this.props.user.get('email'),
+        email: this.props.loginUser.get('email'),
       });
     }
   }
 
   changePassword = () => {
     this.props.updatePassword({
-      id: this.props.user.get('id'),
+      id: this.props.loginUser.get('id'),
       currentPassword: this.currentPasswordInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       passwordConfirmation: this.passwordConfirmationInput.inputRef.value,
@@ -37,26 +37,26 @@ class AccountSettingTab extends Component {
 
   changeAvatarImage = (event) => {
     if (!event.target.files.length) { return; }
-    this.props.openAvatarModal(this.props.user.get('id'), event.target.files[0]);
+    this.props.openAvatarModal(this.props.loginUser.get('id'), event.target.files[0]);
     event.target.value = null;
   }
 
   deleteAvatar = (event) => {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
-      onConfirm: () => this.props.deleteAvatar({id: this.props.user.get('id'), removeAvatar: true}),
+      onConfirm: () => this.props.deleteAvatar({id: this.props.loginUser.get('id'), removeAvatar: true}),
     });
   }
 
   componentDidMount() {
     this.setState({
-      email: this.props.user.get('email'),
+      email: this.props.loginUser.get('email'),
     });
   }
 
   render() {
-    const user = this.props.user;
-    if (!user || !this.state.email) {
+    const loginUser = this.props.loginUser;
+    if (!loginUser || !this.state.email) {
       return null;
     }
     return (
@@ -65,23 +65,23 @@ class AccountSettingTab extends Component {
           <dt>名前</dt>
           <dd>
             <span style={{marginRight: '5px'}}>
-              <AutoInput value={user.get('lastName')} onCommit={lastName => this.props.updateUser({id: user.get('id'), lastName})}/>
+              <AutoInput value={loginUser.get('lastName')} onCommit={lastName => this.props.updateUser({id: loginUser.get('id'), lastName})}/>
             </span>
-            <AutoInput value={user.get('firstName')} onCommit={firstName => this.props.updateUser({id: user.get('id'), firstName})}/>
+            <AutoInput value={loginUser.get('firstName')} onCommit={firstName => this.props.updateUser({id: loginUser.get('id'), firstName})}/>
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(user.get('id'), email)}/></dd>
+          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(loginUser.get('id'), email)}/></dd>
 
           <dt>アバター</dt>
-          <dd><UserAvatar user={user} size='huge' withInitial={false} editable={true} /></dd>
+          <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
           <dd>
             <div className="avatar-img-button">
               <label className="file-button">
                 <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
               </label>
               <Button className="change-button" content="変更する" positive />
-              {user.get('avatarUrl') && <Button className="change-button" content="削除する" negative onClick={this.deleteAvatar} />}
+              {loginUser.get('avatarUrl') && <Button className="change-button" content="削除する" negative onClick={this.deleteAvatar} />}
             </div>
           </dd>
           <dd>

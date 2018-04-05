@@ -27,8 +27,8 @@ class MenuBar extends Component {
     }).toArray();
   }
 
-  userTrigger = user => {
-    return <UserAvatar user={user} size='tiny' withInitial={false} withName={true} />;
+  userTrigger = loginUser => {
+    return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
   }
 
   handleOkrPeriodChange(event, { value }) {
