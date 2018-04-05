@@ -3,14 +3,15 @@ import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
-const initialState = fromJS({
-  isAdmin: gon.get('isAdmin'),
-  id: gon.getIn(['loginUser', 'id']),
-  lastName: gon.getIn(['loginUser', 'lastName']),
-  firstName: gon.getIn(['loginUser', 'firstName']),
-  email: gon.getIn(['loginUser', 'email']),
-  avatarUrl: gon.get('loginUserAvatarUrl'),
-});
+const loginUser = gon.get('loginUser');
+const initialState = fromJS(loginUser ? {
+  isAdmin: loginUser.get('admin'),
+  id: loginUser.get('id'),
+  lastName: loginUser.get('lastName'),
+  firstName: loginUser.get('firstName'),
+  email: loginUser.get('email'),
+  avatarUrl: loginUser.getIn(['avatar', 'url']),
+} : {});
 
 export default handleActions({
   [ActionTypes.UPDATED_USER]: (state, { payload }) => (
