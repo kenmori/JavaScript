@@ -30,6 +30,7 @@ gem 'devise'
 gem 'gon'
 
 gem 'carrierwave'
+gem 'carrierwave-i18n'
 gem 'rmagick'
 gem 'fog'
 gem 'foreman', '~> 0.82.0'

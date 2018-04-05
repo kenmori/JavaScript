@@ -5,7 +5,7 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    user: state.loginUser,
+    loginUser: state.loginUser,
   };
 };
 

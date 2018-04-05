@@ -33,7 +33,7 @@ ja:
   devise:
     failure:
       user:
-        deleted_account: あなたのアカウントは無効化されたためご利用いただけません。管理者にお問い合わせください。
+        deleted_account: あなたのアカウントは有効化されていないか管理者によって無効化されています。有効化されていない場合は確認メールのリンクからアカウントを有効化してください。詳しくは管理者にお問い合わせください。
   activerecord:
     attributes:
       objective:
