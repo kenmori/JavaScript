@@ -8,17 +8,28 @@ import OkrModal from '../containers/OkrModal';
 
 class Home extends Component {
 
+  constructor(props) {
+    super(props);
+    if (props.okrHash) {
+      this.openOkrModal(props.okrHash);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.okrHash) {
-      const { objectiveId, keyResultId } = getOkrId(nextProps.okrHash);
       if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
-        this.props.openOkrModal(objectiveId, keyResultId);
+        this.openOkrModal(nextProps.okrHash);
       }
     } else {
       if (nextProps.isOpenOkrModal) {
         this.props.closeOkrModal();
       }
     }
+  }
+
+  openOkrModal(okrHash) {
+    const { objectiveId, keyResultId } = getOkrId(okrHash);
+    this.props.openOkrModal(objectiveId, keyResultId);
   }
 
   render() {
