@@ -54,7 +54,7 @@ class LogoUploader < CarrierWave::Uploader::Base
   end
 
   def size_range
-    1..1.megabytes
+    1..5.megabytes
   end
 
   protected
