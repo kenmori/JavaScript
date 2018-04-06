@@ -39,26 +39,26 @@ ja:
     failure:
       already_authenticated: "すでにログインしています。"
       inactive: "アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントを有効化してください。"
-      invalid: "メールアドレスまたはパスワードが違います。"
+      invalid: "メールアドレスまたはパスワードが違います"
       last_attempt: "連続してログインに失敗しています。もう1回失敗するとあなたのアカウントはロックされます。"
       locked: "アカウントがロックされています。送付されたメール内のリンクからロックを解除してください。"
-      not_found_in_database: "メールアドレスまたはパスワードが違います。"
+      not_found_in_database: "メールアドレスまたはパスワードが違います"
       timeout: "セッションがタイムアウトしました。もう一度ログインしてください。"
       unauthenticated: "アカウント登録もしくはログインしてください。"
       unconfirmed: "メールアドレスの本人確認が必要です。"
     mailer:
       confirmation_instructions:
         action: "アカウントを確認する"
-        greeting: "ようこそ、%{recipient} さん!"
+        greeting: "ようこそ %{recipient} さん"
         instruction: "次のリンクをクリックするとメールアドレスの確認が完了します。"
         subject: "Resily アカウントを有効化してください"
       password_change:
-        greeting: "こんにちは、%{recipient}さん!"
+        greeting: "こんにちは %{recipient}さん"
         message: "あなたのパスワードが再設定されたことを通知します。"
-        subject: "パスワードの変更について"
+        subject: "Resily パスワードの変更について"
       reset_password_instructions:
         action: "パスワードを変更する"
-        greeting: "こんにちは、%{recipient} さん!"
+        greeting: "こんにちは %{recipient} さん"
         instruction: "あなたのパスワードの再設定がリクエストされました。次のリンクをクリックするとパスワードを再設定できます。"
         instruction_2: "このメールに心当たりがない場合は、このメールを無視してください。"
         instruction_3: "上のリンクにアクセスして新しいパスワードを設定するまで、パスワードは変更されません。"
