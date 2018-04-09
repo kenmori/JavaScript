@@ -9,6 +9,12 @@ module KeyResultDecorator
         : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
   end
 
+  def achievement_rate
+    if target_value.present? && actual_value.present? && target_value > 0
+      (actual_value * 100 / target_value).round
+    end
+  end
+
   def progress_rate_connected?
     !child_objectives.empty? && progress_rate_in_database.nil? # 子 Objective を持ち進捗率が未設定の場合は true
   end

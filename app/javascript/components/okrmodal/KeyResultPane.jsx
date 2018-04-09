@@ -227,6 +227,11 @@ class KeyResultPane extends Component {
             />
           </div>
           {this.childObjectiveProgressRateHtml(keyResult)}
+          {keyResult.get('achievementRate') >= 100 && (
+            <div className='flex-field__item--block'>
+              <Label pointing='above' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+            </div>
+          )}
         </Form.Field>
 
         <Form.Field className='flex-field input-date-picker'>

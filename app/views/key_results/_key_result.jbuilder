@@ -2,6 +2,7 @@ json.extract! key_result, :id, :name, :objective_id, :target_value, :actual_valu
 json.is_full true
 json.child_objective_ids key_result.child_objective_ids
 json.child_progress_rate key_result.child_progress_rate
+json.achievement_rate key_result.achievement_rate
 
 json.owner do
   json.extract! key_result.owner, :id, :first_name, :last_name, :avatar_url, :disabled if key_result.owner
