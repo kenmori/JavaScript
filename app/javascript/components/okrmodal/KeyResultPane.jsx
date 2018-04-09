@@ -153,7 +153,7 @@ class KeyResultPane extends Component {
     const childProgressRate = keyResult.get('childProgressRate');
     return progressRate !== childProgressRate && typeof childProgressRate === 'number' && (
       <div className='flex-field__item'>
-        <Popup trigger={<Label pointing='left' as='a'
+        <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
                                content={`下位 OKR の進捗は ${childProgressRate}% です`}
                                onClick={() => this.updateKeyResult({ 'progressRate': null })} />}
                position='bottom left'
