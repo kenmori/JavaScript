@@ -13,10 +13,4 @@ class Objective < ApplicationRecord
   def owner
     objective_members.find_by(role: :owner)&.user
   end
-
-  def progress_rate
-    # 進捗率が未設定の場合は紐付く Key Result の進捗率から算出する
-    progress_rate_in_database || (key_results.size == 0 ? 0
-        : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.size)
-  end
 end

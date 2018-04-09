@@ -15,6 +15,16 @@ module ObjectiveDecorator
     key_results.includes(:child_objectives).flat_map { |key_result| key_result.child_objectives }
   end
 
+  def progress_rate
+    # 進捗率が未設定の場合は紐付く Key Result の進捗率から算出する
+    progress_rate_in_database || key_result_progress_rate || 0
+  end
+
+  def key_result_progress_rate
+    key_results.size == 0 ? nil
+        : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.size
+  end
+
   def progress_rate_connected?
     !key_results.empty? && progress_rate_in_database.nil? # KR を持ち進捗率が未設定の場合は true
   end
