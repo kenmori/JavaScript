@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Form, Button, Divider } from 'semantic-ui-react';
+import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import UserSelect from '../form/UserSelect';
@@ -46,6 +46,17 @@ class ObjectivePane extends Component {
     });
   }
 
+  parentKeyResultProgressRateHtml(parentKeyResult) {
+    if (!parentKeyResult) return null;
+    const progressRate = parentKeyResult.get('progressRate');
+    const childProgressRate = parentKeyResult.get('childProgressRate');
+    return progressRate !== childProgressRate && (
+      <div className='flex-field__item'>
+        <Label pointing='left' content={`上位 Key Result の進捗は ${childProgressRate}% から ${progressRate}% に変更されています`} />
+      </div>
+    );
+  }
+
   render() {
     const objective = this.props.objective;
     if (!objective) return null;
@@ -58,6 +69,7 @@ class ObjectivePane extends Component {
         <Form.Field className='flex-field'>
           <label>進捗</label>
           <div className='flex-field__item progress-rate'>{objective.get('progressRate')}%</div>
+          {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>責任者</label>
