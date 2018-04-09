@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Form, Icon, Popup, Button, TextArea, Divider } from 'semantic-ui-react';
+import { Form, Icon, Label, Popup, Button, TextArea, Divider } from 'semantic-ui-react';
 import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
@@ -147,6 +147,22 @@ class KeyResultPane extends Component {
       </Form.Field>
     );
   }
+  
+  childObjectiveProgressRateHtml(keyResult) {
+    const progressRate = keyResult.get('progressRate');
+    const childProgressRate = keyResult.get('childProgressRate');
+    return progressRate !== childProgressRate && typeof childProgressRate === 'number' && (
+      <div className='flex-field__item'>
+        <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
+                               content={`下位 OKR の進捗は ${childProgressRate}% です`}
+                               onClick={() => this.updateKeyResult({ 'progressRate': null })} />}
+               position='bottom left'
+               size='tiny'
+               content='クリックすると下位 OKR の進捗が設定されます'
+        />
+      </div>
+    );
+  }
 
   render() {
     const keyResult = this.props.keyResult;
@@ -210,12 +226,12 @@ class KeyResultPane extends Component {
                          onMouseUp={value => this.updateKeyResultWithState('progressRate', Number(value))}
             />
           </div>
-          <div className='flex-field__item'>
-            {keyResult.get('isProgressRateConnected')
-              ? <Popup trigger={<Icon name='linkify' />} content='下位 OKR の進捗とリンクしています' />
-              : <Popup trigger={<Icon name='unlinkify' />} content='下位 OKR の進捗とはリンクしていません' />
-            }
-          </div>
+          {this.childObjectiveProgressRateHtml(keyResult)}
+          {keyResult.get('achievementRate') >= 100 && (
+            <div className='flex-field__item--block'>
+              <Label pointing='above' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+            </div>
+          )}
         </Form.Field>
 
         <Form.Field className='flex-field input-date-picker'>

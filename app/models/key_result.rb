@@ -45,12 +45,6 @@ class KeyResult < ApplicationRecord
     key_result_members.where(role: :member).map(&:user)
   end
 
-  def progress_rate
-    # 進捗率が未設定の場合は子 Objective の進捗率から算出する
-    progress_rate_in_database || (child_objectives.size == 0 ? 0
-        : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size)
-  end
-
   def target_value_present?
     target_value.present?
   end
