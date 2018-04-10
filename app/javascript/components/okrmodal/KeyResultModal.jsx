@@ -27,7 +27,9 @@ class KeyResultModal extends Component {
   }
 
   handleCalendar(date) {
-    this.setState({expiredDate: date});
+    if (date) {
+      this.setState({expiredDate: date});
+    }
   }
 
   changeKeyResultOwner(value) {
