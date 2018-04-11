@@ -66,6 +66,7 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-i18n (0.2.0)
     choice (0.2.0)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
@@ -511,6 +512,7 @@ DEPENDENCIES
   bullet
   byebug
   carrierwave
+  carrierwave-i18n
   database_rewinder
   devise
   factory_bot_rails

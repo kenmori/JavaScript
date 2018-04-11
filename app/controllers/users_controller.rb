@@ -98,7 +98,8 @@ class UsersController < ApplicationController
   end
 
   def valid_operatable_user?
-    forbidden and return unless current_user.id == params[:id].to_i || current_user.admin?
+    user_id = params[:id] || params[:user_id]
+    forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
   end
   
 end

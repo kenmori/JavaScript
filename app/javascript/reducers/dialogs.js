@@ -40,7 +40,8 @@ export default handleActions({
       return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      return state.setIn(['okrForm', 'removedObjectiveId'], payload.id);
+      const objectiveId = payload.get('result').first();
+      return state.setIn(['okrForm', 'removedObjectiveId'], objectiveId);
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();

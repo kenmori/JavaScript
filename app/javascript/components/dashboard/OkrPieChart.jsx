@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 
 class OkrPieChart extends Component {
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.objective.get('updatedAt') !== this.props.objective.get('updatedAt');
-  }
-
   getPieChartProperties(objective) {
     const startAngle = 90;
     let endAngle = startAngle;

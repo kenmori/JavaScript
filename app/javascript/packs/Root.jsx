@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import Home from '../containers/Home';
 import configureStore from '../stores/index';
@@ -19,6 +20,7 @@ import Toast from '../containers/Toast';
 import ErrorModal from '../containers/ErrorModal';
 import ConfirmModal from '../containers/ConfirmModal';
 
+ReactGA.initialize(process.env.GA_TRACKING_CODE);
 const store = configureStore();
 
 document.addEventListener('DOMContentLoaded', () => {

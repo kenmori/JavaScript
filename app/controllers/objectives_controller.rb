@@ -1,12 +1,21 @@
 class ObjectivesController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user.organization.id)
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+      forbidden and return unless valid_permission?(@user.organization.id)
 
-    @objectives = @user.objectives
-                    .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
-                    .where(okr_period_id: params[:okr_period_id])
-                    .order(created_at: :desc)
+      @objectives = @user.objectives
+                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
+                        .where(okr_period_id: params[:okr_period_id])
+                        .order(created_at: :desc)
+    else
+      @objectives = current_organization
+                        .okr_periods
+                        .find(params[:okr_period_id])
+                        .objectives
+                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
+                        .order(created_at: :desc)
+    end
   end
 
   def show
@@ -50,7 +59,7 @@ class ObjectivesController < ApplicationController
     forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
     if can_delete? && @objective.destroy
-      head :no_content
+      render action: :create, status: :ok
     else
       unprocessable_entity_with_errors(@objective.errors.full_messages)
     end
@@ -77,14 +86,13 @@ class ObjectivesController < ApplicationController
   end
 
   def update_parent_key_result
-    parent_key_result_id = params[:objective][:parent_key_result_id]
-    unless can_update_parent_key_result?(KeyResult.find(parent_key_result_id))
+    parent_key_result = KeyResult.find(params[:objective][:parent_key_result_id])
+    unless can_update_parent_key_result?(parent_key_result)
       @objective.errors[:base] << 'この Objective または下位 Objective に紐付く Key Result は上位 Key Result に指定できません'
       raise
     end
 
     objective_owner_id = @objective.owner.id
-    parent_key_result = KeyResult.find(parent_key_result_id)
     if parent_key_result.key_result_members.exists?(user_id: objective_owner_id)
       # Objective 責任者が紐付ける上位 KR の責任者または関係者の場合
       is_member = parent_key_result.key_result_members.exists?(user_id: current_user.id, role: :member)

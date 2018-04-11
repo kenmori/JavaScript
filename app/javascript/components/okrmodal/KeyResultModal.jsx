@@ -5,7 +5,9 @@ import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import UserSelect from '../form/UserSelect';
 import RenderField from '../form/RenderField';
 import RenderDateField from '../form/RenderDateField';
+import OkrSelect from '../form/OkrSelect';
 import moment from 'moment';
+import { fromJS } from 'immutable';
 
 class KeyResultModal extends Component {
   constructor(props) {
@@ -215,6 +217,18 @@ class KeyResultModal extends Component {
                     />
                   </Form.Field>
                 </Form.Group>
+                {objective && (
+                  <Form.Field>
+                    <label>紐付く Objective</label>
+                    <OkrSelect
+                      okrs={fromJS([objective])}
+                      value={objective.get('id')}
+                      preview={false}
+                      disabled={!!objective}
+                      onChange={value => {}}
+                    />
+                  </Form.Field>
+                )}
               </Form>
             </div>
           </div>

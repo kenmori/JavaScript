@@ -17,6 +17,5 @@ json.organization do
     json.unconfirmed_email user.unconfirmed_email
     json.disabled user.disabled
     json.is_admin user.admin?
-    json.objective_order user.objective_order
   end
 end

@@ -53,6 +53,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     end
   end
 
+  def size_range
+    1..5.megabytes
+  end
+
   protected
   def secure_token
     var = :"@#{mounted_as}_secure_token"

@@ -39,6 +39,7 @@ class UserSelect extends Component {
           onChange={this.handleChange}
           loading={this.props.users.isEmpty()}
           selectOnNavigation={false}
+          noResultsMessage='結果が見つかりません'
         />
       </div>
     );

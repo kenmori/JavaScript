@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Form, Icon, Popup, Button, TextArea, List, Divider } from 'semantic-ui-react';
+import { Form, Icon, Label, Popup, Button, TextArea, Divider } from 'semantic-ui-react';
 import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
@@ -9,6 +9,7 @@ import NumberInput from '../form/NumberInput';
 import AutoTextArea from '../form/AutoTextArea';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
+import OkrSelect from '../form/OkrSelect';
 import moment from 'moment';
 
 class KeyResultPane extends Component {
@@ -71,7 +72,7 @@ class KeyResultPane extends Component {
     this.props.confirm({
       content: this.props.keyResult.get('childObjectives').isEmpty()
         ? 'Key Result を削除しますか？' : '下位 Objective が紐付いています。Key Result を削除しますか？',
-      onConfirm: () => this.props.removeKeyResult({ id }),
+      onConfirm: () => this.props.removeKeyResult(id),
     });
   }
 
@@ -146,6 +147,22 @@ class KeyResultPane extends Component {
       </Form.Field>
     );
   }
+  
+  childObjectiveProgressRateHtml(keyResult) {
+    const progressRate = keyResult.get('progressRate');
+    const childProgressRate = keyResult.get('childProgressRate');
+    return progressRate !== childProgressRate && typeof childProgressRate === 'number' && (
+      <div className='flex-field__item'>
+        <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
+                               content={`下位 OKR の進捗は ${childProgressRate}% です`}
+                               onClick={() => this.updateKeyResult({ 'progressRate': null })} />}
+               position='bottom left'
+               size='tiny'
+               content='クリックすると下位 OKR の進捗が設定されます'
+        />
+      </div>
+    );
+  }
 
   render() {
     const keyResult = this.props.keyResult;
@@ -209,12 +226,12 @@ class KeyResultPane extends Component {
                          onMouseUp={value => this.updateKeyResultWithState('progressRate', Number(value))}
             />
           </div>
-          <div className='flex-field__item'>
-            {keyResult.get('isProgressRateLinked')
-              ? <Popup trigger={<Icon name='linkify' />} content='下位 OKR の進捗とリンクしています' />
-              : <Popup trigger={<Icon name='unlinkify' />} content='下位 OKR の進捗とはリンクしていません' />
-            }
-          </div>
+          {this.childObjectiveProgressRateHtml(keyResult)}
+          {keyResult.get('achievementRate') >= 100 && (
+            <div className='flex-field__item--block'>
+              <Label pointing='above' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+            </div>
+          )}
         </Form.Field>
 
         <Form.Field className='flex-field input-date-picker'>
@@ -259,6 +276,16 @@ class KeyResultPane extends Component {
 
         <Divider hidden clearing />
 
+        <Form.Field>
+          <label>紐付く Objective</label>
+          <OkrSelect
+            okrs={this.props.objectives}
+            value={keyResult.get('objectiveId')}
+            readOnly={!this.props.isObjectiveOwner}
+            loading={!this.props.isFetchedObjectives}
+            onChange={value => this.updateKeyResult({ objectiveId: value })}
+          />
+        </Form.Field>
         {this.childObjectivesTag(keyResult.get('childObjectives'))}
 
         <Divider hidden />
