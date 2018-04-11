@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { DropTarget, DragDropContext } from 'react-dnd'
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
 import { sortChildKeyResults, createOrderData } from '../../utils/sorter';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
-
-function collect(connect) {
-  return {
-    connectDropTarget: connect.dropTarget(),
-  };
-}
 
 class Sidebar extends Component {
   constructor(props) {
@@ -104,7 +97,7 @@ class Sidebar extends Component {
 
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
-          {this.props.connectDropTarget(this.keyResultListHTML())}
+          {this.keyResultListHTML()}
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
       </div>
@@ -123,4 +116,4 @@ Sidebar.defaultProps = {
   objective: Map(),
 };
 
-export default Backend(DropTarget('keyResult', {}, collect)(Sidebar));
+export default Backend(Sidebar);
