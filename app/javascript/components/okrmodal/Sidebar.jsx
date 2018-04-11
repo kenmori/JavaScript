@@ -79,7 +79,6 @@ class Sidebar extends Component {
                       findKeyResult={this.findKeyResult.bind(this)}
                       changeDragStyle={this.changeDragStyle.bind(this)}
                       updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
-                      keyResultsLength={this.state.keyResults.size}
                       isObjectiveOwner={this.props.isObjectiveOwner}
                     />
           }).toArray() }
