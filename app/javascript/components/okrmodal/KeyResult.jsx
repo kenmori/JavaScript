@@ -9,6 +9,10 @@ const MOVE_UP = 'up';
 const MOVE_DOWN = 'down';
 
 const keyResultSource = {
+  canDrag(props) {
+    return props.isObjectiveOwner;
+  },
+
 	beginDrag(props) {
     const id = props.keyResult.get('id');
     props.changeDragStyle(true);
@@ -96,10 +100,7 @@ class KeyResult extends Component {
       connectDragSource,
       connectDropTarget,
     } = this.props;
-    
-    return this.props.isObjectiveOwner ?
-            connectDragSource(connectDropTarget(this.keyResultHtml())) :
-            this.keyResultHtml();
+    return connectDragSource(connectDropTarget(this.keyResultHtml()));
   }
 }
 

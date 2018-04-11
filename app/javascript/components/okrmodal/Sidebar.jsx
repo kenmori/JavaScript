@@ -103,11 +103,7 @@ class Sidebar extends Component {
 
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
-          {this.props.isObjectiveOwner ? 
-            this.props.connectDropTarget(
-              this.keyResultListHTML()
-            ) :
-            this.keyResultListHTML()}
+          {this.props.connectDropTarget(this.keyResultListHTML())}
           <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
         </div>
       </div>
