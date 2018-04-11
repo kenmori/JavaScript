@@ -55,12 +55,11 @@ class ObjectiveList extends Component {
           .sortBy(objective => this.state.objectiveOrder.indexOf(objective.get('id')))
           .map((objective, index) => {
             const objectiveId = objective.get('id');
-            const isSelected = objectiveId === this.props.currentObjectiveId;
             return <Objective
               key={objectiveId}
               index={index}
               objective={objective}
-              isSelected={isSelected}
+              isSelected={objectiveId === this.props.currentObjectiveId}
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
               canMoveObjective={this.props.canMoveObjective}

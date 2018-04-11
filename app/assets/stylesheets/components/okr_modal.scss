@@ -67,9 +67,15 @@
     .sidebar__item-wrapper {
       position: relative;
 
-      &:hover {
-        .sidebar__item-nav {
-          display: block;
+      .sidebar__item {
+        &:hover:not(.drop) {
+          .sidebar__item-nav {
+            display: block;
+          }
+        }
+
+        &.drag:not(.touch) {
+          visibility: hidden;
         }
       }
 

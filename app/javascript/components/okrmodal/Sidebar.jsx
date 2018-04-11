@@ -71,9 +71,10 @@ class Sidebar extends Component {
       <div>
         <Segment.Group>
           { this.state.keyResults.map(item => { 
+            const keyResultId = item.get('id');
             return <KeyResult 
-                      key={item.get('id')} 
-                      currentKeyResultId={this.props.keyResultId} 
+                      key={keyResultId}
+                      isSelected={keyResultId === this.props.keyResultId}
                       keyResult={item} 
                       replaceKeyResults={this.replaceKeyResults.bind(this)}
                       findKeyResult={this.findKeyResult.bind(this)}

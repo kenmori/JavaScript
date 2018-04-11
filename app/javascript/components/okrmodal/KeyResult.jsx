@@ -4,6 +4,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import { onTouch } from '../../utils/backend';
 
 const MOVE_UP = 'up';
 const MOVE_DOWN = 'down';
@@ -31,6 +32,7 @@ const keyResultSource = {
 const collectSource = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging(),
   }
 }
 
@@ -46,9 +48,10 @@ const keyResultTarget = {
 	},
 }
 
-const collectTarget = (connect) => {
+const collectTarget = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
+    canDrop: monitor.canDrop(),
   }
 }
 
@@ -70,16 +73,17 @@ class KeyResult extends Component {
   keyResultHtml() {
     const {
       keyResult,
-      currentKeyResultId
+      isSelected,
+      isDragging,
+      canDrop,
     } = this.props;
-
-    const cls = currentKeyResultId === keyResult.get('id') ? 'sidebar__item is-current' : 'sidebar__item';
     const canDisplayedNavi = this.props.isObjectiveOwner;
     return (
       <div 
         className="sidebar__item-wrapper"
       >
-        <Segment className={cls} key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}>
+        <Segment className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
+                 key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}>
           <span className="sidebar__avatar"><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} /></span>
           <span className="sidebar__val">{keyResult.get('name')}</span>
           <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
@@ -106,7 +110,7 @@ class KeyResult extends Component {
 
 KeyResult.propTypes = {
   keyResult: PropTypes.object.isRequired,
-  currentKeyResultId: PropTypes.number,
+  isSelected: PropTypes.bool.isRequired,
   replaceKeyResults: PropTypes.func,
   findKeyResult: PropTypes.func,
   changeDragStyle: PropTypes.func,
