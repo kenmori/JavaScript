@@ -6,25 +6,22 @@ import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import { onTouch } from '../../utils/backend';
 
-const MOVE_UP = 'up';
-const MOVE_DOWN = 'down';
-
-const keyResultSource = {
+const itemSource = {
   canDrag(props) {
-    return props.isObjectiveOwner;
+    return props.canMoveKeyResult;
   },
 
 	beginDrag(props) {
     const id = props.keyResult.get('id');
-    props.changeDragStyle(true);
+    props.setDragging(true);
     return {
 			id,
 			originalIndex: props.findKeyResult(id).index,
 		}
 	},
 
-	endDrag(props, monitor) {
-    props.changeDragStyle(false);
+	endDrag(props) {
+    props.setDragging(false);
     props.updateKeyResultOrder();
 	},
 }
@@ -36,14 +33,14 @@ const collectSource = (connect, monitor) => {
   }
 }
 
-const keyResultTarget = {
+const itemTarget = {
 	hover(props, monitor) {
-		const { id: draggedId } = monitor.getItem();
-    const overId = props.keyResult.get('id');
-		if (draggedId !== overId) {
-      const { index: originalIndex } = props.findKeyResult(draggedId)
-			const { index: overIndex } = props.findKeyResult(overId)
-			props.replaceKeyResults(originalIndex, overIndex)
+		const dragId = monitor.getItem().id;
+    const hoverId = props.keyResult.get('id');
+		if (dragId !== hoverId) {
+      const dragIndex = props.findKeyResult(dragId).index;
+			const hoverIndex = props.findKeyResult(hoverId).index;
+			props.replaceKeyResults(dragIndex, hoverIndex);
 		}
 	},
 }
@@ -55,29 +52,22 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-
-
 class KeyResult extends Component {
-  moveKeyResult(evt, direction) {
+  moveKeyResult(event, toUp) {
     const currentIndex = this.props.findKeyResult(this.props.keyResult.get('id')).index;
-    const nextIndex = direction === MOVE_UP ? currentIndex - 1 :
-                        direction === MOVE_DOWN ? currentIndex + 1 : -1;
-    if (nextIndex >= 0) {
-      this.props.replaceKeyResults(currentIndex, nextIndex);
-      setTimeout(() => {
-        this.props.updateKeyResultOrder();
-      }, 0);
-    }
-    evt.stopPropagation();
+    const nextIndex = toUp ? currentIndex - 1 : currentIndex + 1;
+    this.props.replaceKeyResults(currentIndex, nextIndex);
+    setTimeout(() => this.props.updateKeyResultOrder(), 0);
+    event.stopPropagation();
   }
   keyResultHtml() {
     const {
       keyResult,
       isSelected,
+      canMoveKeyResult,
       isDragging,
       canDrop,
     } = this.props;
-    const canDisplayedNavi = this.props.isObjectiveOwner;
     return (
       <div 
         className="sidebar__item-wrapper"
@@ -87,12 +77,12 @@ class KeyResult extends Component {
           <span className="sidebar__avatar"><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} /></span>
           <span className="sidebar__val">{keyResult.get('name')}</span>
           <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
-          {canDisplayedNavi && (
+          {canMoveKeyResult && (
             <div className="sidebar__item-nav">
               <Icon name='arrow circle up' size='large' color='grey' className='sort-up'
-                    onClick={(evt) => this.moveKeyResult(evt, MOVE_UP)} />
+                    onClick={event => this.moveKeyResult(event, true)} />
               <Icon name='arrow circle down' size='large' color='grey' className='sort-down'
-                    onClick={(evt) => this.moveKeyResult(evt, MOVE_DOWN)} />
+                    onClick={event => this.moveKeyResult(event, false)} />
             </div>
           )}
         </Segment>
@@ -113,8 +103,9 @@ KeyResult.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   replaceKeyResults: PropTypes.func,
   findKeyResult: PropTypes.func,
-  changeDragStyle: PropTypes.func,
+  setDragging: PropTypes.func,
+  canMoveKeyResult: PropTypes.bool.isRequired,
   updateKeyResultOrder: PropTypes.func,
 };
 
-export default DropTarget('keyResult', keyResultTarget, collectTarget)(DragSource('keyResult', keyResultSource, collectSource)(KeyResult));
+export default DropTarget('item', itemTarget, collectTarget)(DragSource('item', itemSource, collectSource)(KeyResult));

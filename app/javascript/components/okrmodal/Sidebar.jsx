@@ -10,11 +10,11 @@ import KeyResult from './KeyResult';
 
 class Sidebar extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.nextOrder = null;
     this.state = {
       keyResults: sortChildKeyResults(props.objective, this.nextOrder).get('keyResults'),
-      isDragging: false
+      isDragging: false,
     }
   }
 
@@ -24,19 +24,16 @@ class Sidebar extends Component {
     });
   }
 
-  replaceKeyResults = (originalIndex, overIndex) => {
-    const keyResult = this.state.keyResults.get(originalIndex);
-    const replacementTarget = this.state.keyResults.get(overIndex);
-    let newKeyResults = this.state.keyResults.set(overIndex, keyResult);
-    newKeyResults = newKeyResults.set(originalIndex, replacementTarget);
+  replaceKeyResults = (dragIndex, hoverIndex) => {
+    if (hoverIndex < 0 || this.state.keyResults.size <= hoverIndex) {
+      return;
+    }
+    const keyResult = this.state.keyResults.get(dragIndex);
+    const replacementTarget = this.state.keyResults.get(hoverIndex);
+    let newKeyResults = this.state.keyResults.set(hoverIndex, keyResult);
+    newKeyResults = newKeyResults.set(dragIndex, replacementTarget);
     this.setState({
       keyResults: newKeyResults
-    })
-  }
-
-  changeDragStyle(isDragging) {
-    this.setState({
-      isDragging
     })
   }
 
@@ -71,11 +68,11 @@ class Sidebar extends Component {
                       keyResult={item} 
                       replaceKeyResults={this.replaceKeyResults.bind(this)}
                       findKeyResult={this.findKeyResult.bind(this)}
-                      changeDragStyle={this.changeDragStyle.bind(this)}
+                      setDragging={isDragging => this.setState({ isDragging })}
                       updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
-                      isObjectiveOwner={this.props.isObjectiveOwner}
+                      canMoveKeyResult={this.props.canMoveKeyResult}
                     />
-          }).toArray() }
+          }) }
         </Segment.Group>
       </div>
     )
@@ -108,7 +105,8 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
   keyResultId: PropTypes.number,
-  isObjectiveOwner: PropTypes.bool.isRequired,
+  canMoveKeyResult: PropTypes.bool.isRequired,
+  updateKeyResultOrder: PropTypes.func.isRequired,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };
 
