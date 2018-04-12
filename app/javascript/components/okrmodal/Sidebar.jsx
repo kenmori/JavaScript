@@ -87,8 +87,8 @@ class Sidebar extends Component {
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={() => openObjective(objective.get('id'))}>
             <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
-            <span className="sidebar__val">{objective.get('name')}</span>
-            <span className="progress-rate sidebar__rate">{objective.get('progressRate')}%</span>
+            <span className="sidebar__name">{objective.get('name')}</span>
+            <span className="progress-rate sidebar__progress">{objective.get('progressRate')}%</span>
           </Segment>
         </div>
 

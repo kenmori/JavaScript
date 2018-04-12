@@ -69,6 +69,7 @@ class KeyResult extends Component {
       isDragging,
       canDrop,
     } = this.props;
+    // Wrap Segment by div because only native element nodes can now be passed to React DnD connectors
     return (
       <div className="sidebar__item-wrapper">
         <Segment
@@ -78,13 +79,13 @@ class KeyResult extends Component {
           <span className="sidebar__avatar">
             <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} />
           </span>
-          <span className="sidebar__val">{keyResult.get('name')}</span>
-          <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
+          <span className="sidebar__name">{keyResult.get('name')}</span>
+          <span className="progress-rate sidebar__progress">{keyResult.get('progressRate')}%</span>
           {canMoveKeyResult && (
-            <div className="sidebar__item-nav">
-              <Icon name='arrow circle up' size='large' color='grey' className='sort-up'
+            <div className="sidebar__swap-icons">
+              <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'
                     onClick={event => this.moveKeyResult(event, true)} />
-              <Icon name='arrow circle down' size='large' color='grey' className='sort-down'
+              <Icon name='arrow circle down' size='large' color='grey' fitted className='swap-down'
                     onClick={event => this.moveKeyResult(event, false)} />
             </div>
           )}
