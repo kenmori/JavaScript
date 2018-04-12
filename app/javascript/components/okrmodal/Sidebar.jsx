@@ -3,7 +3,6 @@ import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
-import { sortChildKeyResults, createOrderData } from '../../utils/sorter';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
@@ -11,71 +10,63 @@ import KeyResult from './KeyResult';
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    this.nextOrder = null;
     this.state = {
-      keyResults: sortChildKeyResults(props.objective, this.nextOrder).get('keyResults'),
       isDragging: false,
+      keyResultOrder: props.keyResultOrder,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      keyResults: sortChildKeyResults(nextProps.objective, this.nextOrder).get('keyResults'),
-    });
-  }
-
-  replaceKeyResults = (dragIndex, hoverIndex) => {
-    if (hoverIndex < 0 || this.state.keyResults.size <= hoverIndex) {
-      return;
-    }
-    const keyResult = this.state.keyResults.get(dragIndex);
-    const replacementTarget = this.state.keyResults.get(hoverIndex);
-    let newKeyResults = this.state.keyResults.set(hoverIndex, keyResult);
-    newKeyResults = newKeyResults.set(dragIndex, replacementTarget);
-    this.setState({
-      keyResults: newKeyResults
-    })
-  }
-
-  findKeyResult(id) {
-    const keyResults = this.state.keyResults;
-    const keyResult = keyResults.find(item => item.get('id') === id)
-    return {
-      keyResult,
-      index: keyResults.indexOf(keyResult),
+    if (!nextProps.keyResultOrder.equals(this.props.keyResultOrder)) {
+      this.setState({ keyResultOrder: nextProps.keyResultOrder });
     }
   }
 
-  updateKeyResultOrder() {
-    this.nextOrder = createOrderData(this.state.keyResults);
-    if (this.nextOrder !== this.props.objectiveOrder) {
+  moveKeyResult = (fromIndex, toIndex) => {
+    if (0 <= toIndex && toIndex < this.state.keyResultOrder.size) {
+      this.setState({ keyResultOrder: this.getNewKeyResultOrder(fromIndex, toIndex) });
+    }
+  }
+
+  updateKeyResultOrder = (fromIndex, toIndex) => {
+    const newKeyResultOrder = this.getNewKeyResultOrder(fromIndex, toIndex);
+    if (!newKeyResultOrder.equals(this.props.keyResultOrder)) {
       this.props.updateKeyResultOrder({
         id: this.props.objective.get('id'),
-        keyResultOrder: this.nextOrder
+        keyResultOrder: JSON.stringify(newKeyResultOrder),
       });
     }
   }
 
   keyResultListHTML() {
     return (
-      <div>
-        <Segment.Group>
-          {this.state.keyResults.map(item => {
-            const keyResultId = item.get('id');
+      <Segment.Group>
+        {this.props.objective.get('keyResults')
+          .sortBy(keyResult => this.state.keyResultOrder.indexOf(keyResult.get('id')))
+          .map((keyResult, index) => {
+            const keyResultId = keyResult.get('id');
             return <KeyResult
               key={keyResultId}
+              index={index}
               isSelected={keyResultId === this.props.keyResultId}
-              keyResult={item}
-              replaceKeyResults={this.replaceKeyResults.bind(this)}
-              findKeyResult={this.findKeyResult.bind(this)}
+              keyResult={keyResult}
+              moveKeyResult={this.moveKeyResult}
               setDragging={isDragging => this.setState({ isDragging })}
-              updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
+              updateKeyResultOrder={this.updateKeyResultOrder}
               canMoveKeyResult={this.props.canMoveKeyResult}
             />
           })}
-        </Segment.Group>
-      </div>
+      </Segment.Group>
     )
+  }
+
+  getNewKeyResultOrder = (fromIndex, toIndex) => {
+    if (fromIndex >= 0 && toIndex >= 0) {
+      const fromId = this.state.keyResultOrder.get(fromIndex);
+      return this.state.keyResultOrder.delete(fromIndex).insert(toIndex, fromId);
+    } else {
+      return this.state.keyResultOrder;
+    }
   }
 
   render() {
@@ -107,6 +98,7 @@ Sidebar.propTypes = {
   objective: PropTypes.object.isRequired,
   keyResultId: PropTypes.number,
   canMoveKeyResult: PropTypes.bool.isRequired,
+  keyResultOrder: PropTypes.object.isRequired,
   updateKeyResultOrder: PropTypes.func.isRequired,
   changeToKeyResultModal: PropTypes.func.isRequired,
 };

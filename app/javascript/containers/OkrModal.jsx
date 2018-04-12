@@ -52,8 +52,11 @@ const mapDispatchToProps = dispatch => {
     openKeyResultModal: (objective) => {
       dispatch(dialogActions.openKeyResultModal(objective));
     },
-    updateObjective: (objective, isToast) => {
-      dispatch(objectiveActions.updateObjective(objective, this.currentUserId, isToast));
+    updateObjective: objective => {
+      dispatch(objectiveActions.updateObjective(objective, this.currentUserId));
+    },
+    updateKeyResultOrder: objective => {
+      dispatch(objectiveActions.updateObjective(objective, this.currentUserId, false));
     },
     updateKeyResult: (keyResult) => {
       dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));

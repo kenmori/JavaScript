@@ -12,11 +12,10 @@ const itemSource = {
   },
 
   beginDrag(props) {
-    const id = props.keyResult.get('id');
     props.setDragging(true);
     return {
-      id,
-      originalIndex: props.findKeyResult(id).index,
+      id: props.keyResult.get('id'),
+      index: props.index,
     }
   },
 
@@ -35,12 +34,13 @@ const collectSource = (connect, monitor) => {
 
 const itemTarget = {
   hover(props, monitor) {
-    const dragId = monitor.getItem().id;
-    const hoverId = props.keyResult.get('id');
-    if (dragId !== hoverId) {
-      const dragIndex = props.findKeyResult(dragId).index;
-      const hoverIndex = props.findKeyResult(hoverId).index;
-      props.replaceKeyResults(dragIndex, hoverIndex);
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+    if (dragIndex !== hoverIndex) {
+      props.moveKeyResult(dragIndex, hoverIndex);
+
+      // https://github.com/react-dnd/react-dnd/blob/master/packages/documentation/examples/04%20Sortable/Simple/Card.js#L63
+      monitor.getItem().index = hoverIndex;
     }
   },
 }
@@ -54,7 +54,7 @@ const collectTarget = (connect, monitor) => {
 
 class KeyResult extends Component {
   moveKeyResult(event, toUp) {
-    const currentIndex = this.props.findKeyResult(this.props.keyResult.get('id')).index;
+    const currentIndex = props.index;
     const nextIndex = toUp ? currentIndex - 1 : currentIndex + 1;
     this.props.replaceKeyResults(currentIndex, nextIndex);
     setTimeout(() => this.props.updateKeyResultOrder(), 0);
@@ -104,13 +104,15 @@ class KeyResult extends Component {
 }
 
 KeyResult.propTypes = {
+  index: PropTypes.number.isRequired,
   keyResult: PropTypes.object.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  replaceKeyResults: PropTypes.func,
-  findKeyResult: PropTypes.func,
   setDragging: PropTypes.func,
   canMoveKeyResult: PropTypes.bool.isRequired,
-  updateKeyResultOrder: PropTypes.func,
+  moveKeyResult: PropTypes.func.isRequired,
+  updateKeyResultOrder: PropTypes.func.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  connectDropTarget: PropTypes.func.isRequired,
 };
 
 export default DropTarget('item', itemTarget, collectTarget)(DragSource('item', itemSource, collectSource)(KeyResult));

@@ -45,4 +45,12 @@ module ObjectiveDecorator
       KeyResult.find(parent_key_result_id_before_last_save)
     end
   end
+
+  def sorted_key_results
+    return key_results unless key_result_order
+    order = JSON.parse(key_result_order)
+    index = order.size
+    # KR 一覧を key_result_order 順に並べる (順番のない KR は後ろに並べていく)
+    key_results.sort_by { |key_result| order.index(key_result.id) || index + 1 }
+  end
 end

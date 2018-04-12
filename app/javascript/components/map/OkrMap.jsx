@@ -5,7 +5,6 @@ import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List, Set, OrderedMap } from 'immutable';
-import { sortChildKeyResults, sortChildObjectives } from "../../utils/sorter";
 
 class OkrMap extends Component {
 
@@ -25,7 +24,12 @@ class OkrMap extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.createObjectivesList(nextProps.objective);
+    if (this.props.objective.get('id') !== nextProps.objective.get('id')
+      || this.props.objective.get('parentObjectiveId') !== nextProps.objective.get('parentObjectiveId')) {
+      this.createObjectivesList(nextProps.objective);
+    } else if (this.props.objective !== nextProps.objective) {
+      this.createObjectivesList(nextProps.objective, this.state.visibleIds);
+    }
   }
 
   getInitialVisibleIds(objective) {
@@ -53,7 +57,7 @@ class OkrMap extends Component {
     const collectDescendants = (result, objective) => {
       const childObjectiveIds = objective.get('childObjectiveIds');
       if (!childObjectiveIds.isEmpty()) {
-        let childObjectives = sortChildObjectives(objective.get('childObjectives'), objective.get('keyResultOrder'));
+        let childObjectives = objective.get('childObjectives');
         if (childObjectiveIds.size === childObjectives.size) {
           // 親 KR が展開されている子 Objective のみに絞り込む
           const visibleKeyResultIds = visibleIds.get(objective.get('id')) || Set();
@@ -245,7 +249,7 @@ class OkrMap extends Component {
             {objectives.map((objective, key) => (
               <OkrCard
                 key={key}
-                objective={sortChildKeyResults(objective)}
+                objective={objective}
                 ref={`objective_${objective.get('id')}`}
                 visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
                 onToggleKeyResult={this.toggleKeyResult}
