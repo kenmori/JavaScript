@@ -4,10 +4,18 @@ class ObjectivesController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
-      @objectives = @user.objectives
+      objectives = @user.objectives
                         .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
                         .where(okr_period_id: params[:okr_period_id])
                         .order(created_at: :desc)
+      if @user.objective_order
+        order = JSON.parse(@user.objective_order)
+        index = order.size
+        # Objective 一覧を objective_order 順に並べる (順番のない O は後ろに並べていく)
+        @objectives =  objectives.sort_by { |objective| order.index(objective.id) || index + 1 }
+      else
+        @objectives =  objectives
+      end
     else
       @objectives = current_organization
                         .okr_periods
