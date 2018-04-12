@@ -12,7 +12,6 @@ const itemSource = {
   },
 
   beginDrag(props) {
-    props.setDragging(true);
     return {
       id: props.keyResult.get('id'),
       index: props.index,
@@ -20,7 +19,6 @@ const itemSource = {
   },
 
   endDrag(props) {
-    props.setDragging(false);
     props.updateKeyResultOrder();
   },
 }
@@ -106,7 +104,6 @@ KeyResult.propTypes = {
   index: PropTypes.number.isRequired,
   keyResult: PropTypes.object.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  setDragging: PropTypes.func,
   canMoveKeyResult: PropTypes.bool.isRequired,
   moveKeyResult: PropTypes.func.isRequired,
   updateKeyResultOrder: PropTypes.func.isRequired,

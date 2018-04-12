@@ -54,12 +54,6 @@
   }
 
   .sidebar {
-    &.is-dragging {
-      cursor: move !important;
-      .sidebar__item {
-        cursor: move !important;
-      }
-    }
     width: 30%;
     padding-right: 26px; /* for swap-icons */
     .sidebar__items {
@@ -77,6 +71,10 @@
 
         &.drag:not(.touch) {
           visibility: hidden;
+        }
+
+        &.drop {
+          cursor: default !important;
         }
       }
 

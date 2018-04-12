@@ -11,7 +11,6 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDragging: false,
       keyResultOrder: props.keyResultOrder,
     }
   }
@@ -51,7 +50,6 @@ class Sidebar extends Component {
               isSelected={keyResultId === this.props.keyResultId}
               keyResult={keyResult}
               moveKeyResult={this.moveKeyResult}
-              setDragging={isDragging => this.setState({ isDragging })}
               updateKeyResultOrder={this.updateKeyResultOrder}
               canMoveKeyResult={this.props.canMoveKeyResult}
             />
@@ -73,7 +71,7 @@ class Sidebar extends Component {
     const objective = this.props.objective;
     const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
     return (
-      <div className={`sidebar ${this.state.isDragging ? 'is-dragging' : ''}`}>
+      <div className='sidebar'>
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={() => openObjective(objective.get('id'))}>
