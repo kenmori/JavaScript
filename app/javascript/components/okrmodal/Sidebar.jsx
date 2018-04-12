@@ -37,18 +37,18 @@ class Sidebar extends Component {
     })
   }
 
-	findKeyResult(id) {
+  findKeyResult(id) {
     const keyResults = this.state.keyResults;
-		const keyResult = keyResults.find(item => item.get('id') === id)
-		return {
-			keyResult,
-			index: keyResults.indexOf(keyResult),
-		}
+    const keyResult = keyResults.find(item => item.get('id') === id)
+    return {
+      keyResult,
+      index: keyResults.indexOf(keyResult),
+    }
   }
 
   updateKeyResultOrder() {
     this.nextOrder = createOrderData(this.state.keyResults);
-    if(this.nextOrder !== this.props.objectiveOrder) {
+    if (this.nextOrder !== this.props.objectiveOrder) {
       this.props.updateKeyResultOrder({
         id: this.props.objective.get('id'),
         keyResultOrder: this.nextOrder
@@ -60,19 +60,19 @@ class Sidebar extends Component {
     return (
       <div>
         <Segment.Group>
-          { this.state.keyResults.map(item => { 
+          {this.state.keyResults.map(item => {
             const keyResultId = item.get('id');
-            return <KeyResult 
-                      key={keyResultId}
-                      isSelected={keyResultId === this.props.keyResultId}
-                      keyResult={item} 
-                      replaceKeyResults={this.replaceKeyResults.bind(this)}
-                      findKeyResult={this.findKeyResult.bind(this)}
-                      setDragging={isDragging => this.setState({ isDragging })}
-                      updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
-                      canMoveKeyResult={this.props.canMoveKeyResult}
-                    />
-          }) }
+            return <KeyResult
+              key={keyResultId}
+              isSelected={keyResultId === this.props.keyResultId}
+              keyResult={item}
+              replaceKeyResults={this.replaceKeyResults.bind(this)}
+              findKeyResult={this.findKeyResult.bind(this)}
+              setDragging={isDragging => this.setState({ isDragging })}
+              updateKeyResultOrder={this.updateKeyResultOrder.bind(this)}
+              canMoveKeyResult={this.props.canMoveKeyResult}
+            />
+          })}
         </Segment.Group>
       </div>
     )
@@ -95,7 +95,8 @@ class Sidebar extends Component {
         <div className="sidebar__items">
           <div className="sidebar__title">Key Result 一覧</div>
           {this.keyResultListHTML()}
-          <Button className="sidebar__add-keyresult" onClick={() => this.props.changeToKeyResultModal(objective)} content="Key Result を追加する" positive />
+          <Button className="sidebar__add-keyresult" content="Key Result を追加する" positive
+                  onClick={() => this.props.changeToKeyResultModal(objective)} />
         </div>
       </div>
     )

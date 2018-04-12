@@ -11,19 +11,19 @@ const itemSource = {
     return props.canMoveKeyResult;
   },
 
-	beginDrag(props) {
+  beginDrag(props) {
     const id = props.keyResult.get('id');
     props.setDragging(true);
     return {
-			id,
-			originalIndex: props.findKeyResult(id).index,
-		}
-	},
+      id,
+      originalIndex: props.findKeyResult(id).index,
+    }
+  },
 
-	endDrag(props) {
+  endDrag(props) {
     props.setDragging(false);
     props.updateKeyResultOrder();
-	},
+  },
 }
 
 const collectSource = (connect, monitor) => {
@@ -34,15 +34,15 @@ const collectSource = (connect, monitor) => {
 }
 
 const itemTarget = {
-	hover(props, monitor) {
-		const dragId = monitor.getItem().id;
+  hover(props, monitor) {
+    const dragId = monitor.getItem().id;
     const hoverId = props.keyResult.get('id');
-		if (dragId !== hoverId) {
+    if (dragId !== hoverId) {
       const dragIndex = props.findKeyResult(dragId).index;
-			const hoverIndex = props.findKeyResult(hoverId).index;
-			props.replaceKeyResults(dragIndex, hoverIndex);
-		}
-	},
+      const hoverIndex = props.findKeyResult(hoverId).index;
+      props.replaceKeyResults(dragIndex, hoverIndex);
+    }
+  },
 }
 
 const collectTarget = (connect, monitor) => {
@@ -60,6 +60,7 @@ class KeyResult extends Component {
     setTimeout(() => this.props.updateKeyResultOrder(), 0);
     event.stopPropagation();
   }
+
   keyResultHtml() {
     const {
       keyResult,
@@ -69,12 +70,14 @@ class KeyResult extends Component {
       canDrop,
     } = this.props;
     return (
-      <div 
-        className="sidebar__item-wrapper"
-      >
-        <Segment className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
-                 key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}>
-          <span className="sidebar__avatar"><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} /></span>
+      <div className="sidebar__item-wrapper">
+        <Segment
+          className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
+          key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}
+        >
+          <span className="sidebar__avatar">
+            <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} />
+          </span>
           <span className="sidebar__val">{keyResult.get('name')}</span>
           <span className="progress-rate sidebar__rate">{keyResult.get('progressRate')}%</span>
           {canMoveKeyResult && (
@@ -89,8 +92,9 @@ class KeyResult extends Component {
       </div>
     )
   }
+
   render() {
-    const { 
+    const {
       connectDragSource,
       connectDropTarget,
     } = this.props;
