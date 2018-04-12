@@ -53,11 +53,10 @@ const collectTarget = (connect, monitor) => {
 }
 
 class KeyResult extends Component {
-  moveKeyResult(event, toUp) {
-    const currentIndex = props.index;
-    const nextIndex = toUp ? currentIndex - 1 : currentIndex + 1;
-    this.props.replaceKeyResults(currentIndex, nextIndex);
-    setTimeout(() => this.props.updateKeyResultOrder(), 0);
+  swapKeyResult(event, toUp) {
+    const fromIndex = this.props.index;
+    const toIndex = toUp ? fromIndex - 1 : fromIndex + 1;
+    this.props.updateKeyResultOrder(fromIndex, toIndex);
     event.stopPropagation();
   }
 
@@ -84,9 +83,9 @@ class KeyResult extends Component {
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
               <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'
-                    onClick={event => this.moveKeyResult(event, true)} />
+                    onClick={event => this.swapKeyResult(event, true)} />
               <Icon name='arrow circle down' size='large' color='grey' fitted className='swap-down'
-                    onClick={event => this.moveKeyResult(event, false)} />
+                    onClick={event => this.swapKeyResult(event, false)} />
             </div>
           )}
         </Segment>
