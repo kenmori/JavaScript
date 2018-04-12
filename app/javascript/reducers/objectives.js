@@ -19,7 +19,7 @@ function removeFromAll(state, objectiveId) {
 }
 
 function sortIds(ids, objectiveOrder) {
-  return objectiveOrder ? ids.sortBy(id => objectiveOrder.indexOf(id)) : ids;
+  return objectiveOrder ? ids.sortBy(id => JSON.parse(objectiveOrder).indexOf(id)) : ids;
 }
 
 export default handleActions({
