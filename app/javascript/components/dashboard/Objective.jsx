@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
-
-const isTouchSupport = 'ontouchstart' in window;
+import { onTouch } from '../../utils/backend';
 
 const boxSource = {
   canDrag(props) {
@@ -69,7 +68,7 @@ class Objective extends Component {
     } = this.props;
     return (
       <div
-        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${isTouchSupport ? 'touch' : ''}`}
+        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
         onClick={() => selectObjective(objective)}
       >
         <div>

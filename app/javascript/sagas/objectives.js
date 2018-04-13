@@ -32,7 +32,7 @@ function* fetchObjective({payload}) {
 
 function* fetchObjectives({payload}) {
   const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
-  yield put(objectiveActions.fetchedObjectives(result.get('objectives'), result.get('objectiveOrder')));
+  yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
 }
 
 function* fetchAllObjectives({ payload }) {
@@ -50,7 +50,9 @@ function* addObjective({ payload }) {
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   yield put(objectiveActions.updatedObjective(result.get('objective'), payload.currentUserId));
-  yield put(toastActions.showToast('Objective を更新しました'));
+  if (payload.isToast) {
+    yield put(toastActions.showToast('Objective を更新しました'));
+  }
 }
 
 function* removeObjective({payload}) {

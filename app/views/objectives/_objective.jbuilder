@@ -1,4 +1,4 @@
-json.extract! objective, :id, :name, :description, :okr_period_id, :progress_rate, :parent_key_result_id, :updated_at
+json.extract! objective, :id, :name, :description, :okr_period_id, :progress_rate, :parent_key_result_id, :updated_at, :key_result_order
 json.is_full true
 json.parent_objective_id objective.parent_objective_id
 json.child_objective_ids objective.child_objective_ids
@@ -8,5 +8,5 @@ json.owner do
 end
 
 json.key_results do
-  json.partial! 'key_results/key_result', collection: objective.key_results, as: :key_result
+  json.partial! 'key_results/key_result', collection: objective.sorted_key_results, as: :key_result
 end

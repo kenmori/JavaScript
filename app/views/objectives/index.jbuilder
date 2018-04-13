@@ -7,5 +7,3 @@ json.objectives do
     end
   end
 end
-
-json.objective_order @user&.objective_order

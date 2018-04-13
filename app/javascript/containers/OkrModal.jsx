@@ -55,6 +55,9 @@ const mapDispatchToProps = dispatch => {
     updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective, this.currentUserId));
     },
+    updateKeyResultOrder: objective => {
+      dispatch(objectiveActions.updateObjective(objective, this.currentUserId, false));
+    },
     updateKeyResult: (keyResult) => {
       dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));
     },

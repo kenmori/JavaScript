@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
-import { List, Set, OrderedMap } from 'immutable'
+import { List, Set, OrderedMap } from 'immutable';
 
 class OkrMap extends Component {
 
