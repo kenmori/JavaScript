@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
-import RenderField from '../form/RenderField';
-import { Button, Form, Modal, TextArea, List } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
 
 class ObjectiveModal extends Component {
 
@@ -18,12 +16,6 @@ class ObjectiveModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.isOpen && !nextProps.isOpen) {
-      this.props.initialize({
-        name: ""
-      });
-    }
-
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
@@ -32,14 +24,15 @@ class ObjectiveModal extends Component {
     }
   }
 
-  save(validData) {
+  save() {
     const objective = {
+      name: this.nameInput.inputRef.value,
       description: findDOMNode(this.refs.descriptionArea).value,
       ownerId: this.state.ownerId,
       parentKeyResultId: this.state.parentKeyResultId,
       okrPeriodId: this.props.okrPeriodId,
     };
-    this.props.addObjective(Object.assign(objective, validData));
+    this.props.addObjective(objective);
   }
 
   getInitialOwnerId(props = this.props) {
@@ -55,7 +48,8 @@ class ObjectiveModal extends Component {
   }
 
   isEditing() {
-    return this.state.ownerId !== this.getInitialOwnerId()
+    return this.nameInput.inputRef.value !== ''
+      || this.state.ownerId !== this.getInitialOwnerId()
       || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
       || findDOMNode(this.refs.descriptionArea).value !== '';
   }
@@ -76,7 +70,7 @@ class ObjectiveModal extends Component {
   }
 
   render() {
-    const { parentKeyResult, handleSubmit } = this.props;
+    const { parentKeyResult } = this.props;
     const hasParentKeyResult = !!parentKeyResult;
     let modalSize = 'small';
     let wrapperClassName = 'objective-modal';
@@ -134,11 +128,7 @@ class ObjectiveModal extends Component {
               <Form>
                 <Form.Field>
                   <label>Objective</label>
-                  <Field
-                    name="name"
-                    type="text"
-                    component={RenderField}
-                  />
+                  <Input ref={node => this.nameInput = node} />
                 </Form.Field>
                 <Form.Field>
                   <label>説明</label>
@@ -173,9 +163,7 @@ class ObjectiveModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
-            <Button positive onClick={handleSubmit(data => {
-              this.save(data)
-            })}>保存</Button>
+            <Button positive onClick={this.save.bind(this)}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
@@ -188,14 +176,4 @@ ObjectiveModal.propTypes = {
   parentKeyResult: PropTypes.object,
 };
 
-export default reduxForm({
-  form: 'objectiveModal',
-  validate: (values) => {
-    const errors = {}
-    if (!values.name) {
-      errors.name = 'Objective を入力してください'
-    }
-    return errors
-  },
-  shouldError: () => true,
-})(ObjectiveModal)
+export default  ObjectiveModal;
