@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Tab, Menu, Label } from 'semantic-ui-react';
 import { openObjective, goToRoot } from "../../utils/linker";
 import Sidebar from './Sidebar';
 import ObjectivePane from './ObjectivePane';
 import KeyResultPane from './KeyResultPane';
+import CommentPane from './CommentPane';
 
 class OkrModal extends Component {
 
@@ -68,13 +69,24 @@ class OkrModal extends Component {
       if(!keyResult) {return null;}
       const users = this.selectableKeyResultMembers(this.props.users, keyResult);
       return (
-        <KeyResultPane
-          {...this.props}
-          users={users}
-          keyResult={keyResult}
-          changeToObjectiveModal={parentKeyResult => this.changeToObjectiveModal(parentKeyResult)}
-        />
-      )
+        <Tab panes={[
+          {
+            menuItem: <Menu.Item key='keyResult'>Key Result</Menu.Item>,
+            render: () =>
+              <Tab.Pane>
+                <KeyResultPane {...this.props} keyResult={keyResult} users={users}
+                              changeToObjectiveModal={parentKeyResult => this.changeToObjectiveModal(parentKeyResult)} />
+              </Tab.Pane>
+          },
+          {
+            menuItem: <Menu.Item key='comments'>コメント<Label>{keyResult.get('comments').size}</Label></Menu.Item>,
+            render: () =>
+              <Tab.Pane>
+                <CommentPane {...this.props} keyResult={keyResult} />
+              </Tab.Pane>
+          },
+        ]} />
+      );
     }
   }
 

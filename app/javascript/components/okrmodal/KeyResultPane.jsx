@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Form, Icon, Label, Popup, Button, TextArea, Divider } from 'semantic-ui-react';
+import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
 import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import NumberInput from '../form/NumberInput';
-import AutoTextArea from '../form/AutoTextArea';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import OkrSelect from '../form/OkrSelect';
@@ -76,58 +75,6 @@ class KeyResultPane extends Component {
     });
   }
 
-  commentList(comments) {
-    const commentTags = comments.map((item) => {
-      return (
-        <div className="comments" key={item.get('id')}>
-          <div className="comments__item">
-            <AutoTextArea value={item.get('text')}
-                          onCommit={value => this.editComment(item.get('id'), value)}
-                          readOnly={!item.get('editable')}
-            />
-            <div className="comments__item-meta">
-              <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/M/D H:mm')}</div>
-              <div className="comments__item-name">{item.get('fullName')}</div>
-              {item.get('editable') && <Icon link name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
-            </div>
-          </div>
-        </div>
-      )
-    });
-    return <div>{commentTags}</div>;
-  }
-
-  addComment() {
-    const value = findDOMNode(this.refs.commentArea).value;
-    if (!value) {
-      return;
-    }
-    this.updateKeyResult({
-      comment: {data: value, behavior: 'add'}
-    });
-    findDOMNode(this.refs.commentArea).value = '';
-  }
-
-  editComment(id, text) {
-    if (!text) {
-      return;
-    }
-    this.updateKeyResult({
-      comment: {data: {id, text}, behavior: 'edit'}
-    });
-  }
-
-  removeComment(id) {
-    this.props.confirm({
-      content: 'コメントを削除しますか？',
-      onConfirm: () => {
-        this.updateKeyResult({
-          comment: { data: id, behavior: 'remove' }
-        });
-      },
-    })
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
       this.setState(this.getState(nextProps));
@@ -171,7 +118,6 @@ class KeyResultPane extends Component {
     return (
       <Form>
         <Form.Field>
-          <label>Key Result</label>
           <AutoInput value={this.state.name}
                      onCommit={value => this.updateKeyResultWithState('name', value)}
           />
@@ -287,22 +233,6 @@ class KeyResultPane extends Component {
           />
         </Form.Field>
         {this.childObjectivesTag(keyResult.get('childObjectives'))}
-
-        <Divider hidden />
-
-        <Form.Field className="wide-field">
-          <label>コメント</label>
-          <div className="comments__text-box">
-            <TextArea autoHeight rows={3} ref='commentArea'
-                      placeholder='進捗状況や、次のアクションなどをメモしてください'
-            />
-          </div>
-          <div>
-            <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />
-          </div>
-          <Divider hidden clearing />
-          {this.commentList(keyResult.get('comments'))}
-        </Form.Field>
       </Form>
     );
   }
