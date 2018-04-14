@@ -63,7 +63,17 @@ class OkrModal extends Component {
   modalContentTag(objective, keyResultId) {
     if(!keyResultId) {
       const users = this.selectableObjectiveMembers(this.props.users, this.props.objective);
-      return <ObjectivePane {...this.props} users={users}/>
+      return (
+        <Tab panes={[
+          {
+            menuItem: <Menu.Item key='objective'>Objective</Menu.Item>,
+            render: () =>
+              <Tab.Pane>
+                <ObjectivePane {...this.props} users={users} />
+              </Tab.Pane>
+          },
+        ]} />
+      );
     } else {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId);
       if(!keyResult) {return null;}

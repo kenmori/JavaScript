@@ -63,7 +63,6 @@ class ObjectivePane extends Component {
     return (
       <Form>
         <Form.Field>
-          <label>Objective</label>
           <AutoInput value={this.state.name} onCommit={value => this.updateName(value)} />
         </Form.Field>
         <Form.Field className='flex-field'>
@@ -105,6 +104,8 @@ class ObjectivePane extends Component {
         <div>
           <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative floated='right' />
         </div>
+
+        <Divider hidden clearing />
       </Form>
     );
   }
