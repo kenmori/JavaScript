@@ -13,7 +13,7 @@ json.organization do
     json.last_name user.last_name
     json.email user.email
     json.avatar_url user.avatar_url
-    json.organization_name user.organization.name
+    json.organization_name @organization.name
     json.unconfirmed_email user.unconfirmed_email
     json.disabled user.disabled
     json.is_admin user.admin?
