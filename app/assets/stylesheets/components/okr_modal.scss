@@ -137,6 +137,15 @@
     .field {
       margin-bottom: 10px;
     }
+
+    .ui.menu .item > .label {
+      &.zero-width {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 0;
+      }
+    }
   }
 
   .input-date-picker {

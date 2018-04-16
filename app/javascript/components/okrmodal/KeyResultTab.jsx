@@ -7,11 +7,12 @@ import CommentPane from './CommentPane';
 class KeyResultTab extends Component {
 
   render() {
+    const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
     const count = this.props.keyResult.get('comments').size;
     return (
       <Tab panes={[
         {
-          menuItem: <Menu.Item key='keyResult'>Key Result</Menu.Item>,
+          menuItem: <Menu.Item key='keyResult'>Key Result{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane><KeyResultPane {...this.props} /></Tab.Pane>
         },
         {
