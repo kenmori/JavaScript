@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
-import { Modal, Tab, Menu, Label } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import { openObjective, goToRoot } from "../../utils/linker";
 import Sidebar from './Sidebar';
-import ObjectivePane from './ObjectivePane';
-import KeyResultPane from './KeyResultPane';
-import CommentPane from './CommentPane';
+import ObjectiveTab from "./ObjectiveTab";
+import KeyResultTab from "./KeyResultTab";
 
 class OkrModal extends Component {
 
@@ -26,7 +25,7 @@ class OkrModal extends Component {
     }
   }
 
-  changeToObjectiveModal(parentKeyResult) {
+  changeToObjectiveModal = parentKeyResult => {
     this.closeModal();
     this.props.openObjectiveModal(parentKeyResult);
   }
@@ -63,40 +62,13 @@ class OkrModal extends Component {
   modalContentTag(objective, keyResultId) {
     if(!keyResultId) {
       const users = this.selectableObjectiveMembers(this.props.users, this.props.objective);
-      return (
-        <Tab panes={[
-          {
-            menuItem: <Menu.Item key='objective'>Objective</Menu.Item>,
-            render: () =>
-              <Tab.Pane>
-                <ObjectivePane {...this.props} users={users} />
-              </Tab.Pane>
-          },
-        ]} />
-      );
+      return <ObjectiveTab {...this.props} users={users} />;
     } else {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId);
       if(!keyResult) {return null;}
       const users = this.selectableKeyResultMembers(this.props.users, keyResult);
-      return (
-        <Tab panes={[
-          {
-            menuItem: <Menu.Item key='keyResult'>Key Result</Menu.Item>,
-            render: () =>
-              <Tab.Pane>
-                <KeyResultPane {...this.props} keyResult={keyResult} users={users}
-                              changeToObjectiveModal={parentKeyResult => this.changeToObjectiveModal(parentKeyResult)} />
-              </Tab.Pane>
-          },
-          {
-            menuItem: <Menu.Item key='comments'>コメント<Label>{keyResult.get('comments').size}</Label></Menu.Item>,
-            render: () =>
-              <Tab.Pane>
-                <CommentPane {...this.props} keyResult={keyResult} />
-              </Tab.Pane>
-          },
-        ]} />
-      );
+      return <KeyResultTab {...this.props} keyResult={keyResult} users={users}
+                           changeToObjectiveModal={this.changeToObjectiveModal} />;
     }
   }
 
