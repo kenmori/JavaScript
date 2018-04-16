@@ -112,10 +112,14 @@ class ObjectivePane extends Component {
 }
 
 ObjectivePane.propTypes = {
-  removeObjective: PropTypes.func.isRequired,
+  objective: PropTypes.object.isRequired,
+  keyResults: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  isObjectiveOwner: PropTypes.bool.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
-  objective: PropTypes.object,
-  users: PropTypes.object,
+  removeObjective: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
 };
 
 ObjectivePane.defaultProps = {

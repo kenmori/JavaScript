@@ -239,11 +239,16 @@ class KeyResultPane extends Component {
 }
 
 KeyResultPane.propTypes = {
-  users: PropTypes.object,
-  keyResult: PropTypes.object,
-  updateKeyResult: PropTypes.func,
-  removeKeyResult: PropTypes.func,
-  changeToObjectiveModal: PropTypes.func,
+  keyResult: PropTypes.object.isRequired,
+  objectives: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  loginUserId: PropTypes.number.isRequired,
+  isObjectiveOwner: PropTypes.bool.isRequired,
+  isFetchedObjectives: PropTypes.bool.isRequired,
+  updateKeyResult: PropTypes.func.isRequired,
+  removeKeyResult: PropTypes.func.isRequired,
+  changeToObjectiveModal: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
 };
 
 export default KeyResultPane;

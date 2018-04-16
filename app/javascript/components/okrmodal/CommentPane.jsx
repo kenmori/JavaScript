@@ -85,8 +85,9 @@ class CommentPane extends Component {
 }
 
 CommentPane.propTypes = {
-  keyResult: PropTypes.object,
-  updateKeyResult: PropTypes.func,
+  keyResult: PropTypes.object.isRequired,
+  updateKeyResult: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
 };
 
 export default CommentPane;
