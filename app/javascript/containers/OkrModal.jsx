@@ -76,11 +76,11 @@ const mapDispatchToProps = dispatch => {
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));
     },
-    fetchObjective: (objectiveId) => {
+    fetchObjective: objectiveId => {
       dispatch(objectiveActions.fetchObjective(objectiveId));
     },
-    fetchObjectiveByKeyResult: (keyResultId) => {
-      dispatch(objectiveActions.fetchObjectiveByKeyResult(keyResultId));
+    fetchObjectiveByKeyResult: keyResultId => {
+      dispatch(objectiveActions.fetchObjective(null, keyResultId));
     },
   };
 };

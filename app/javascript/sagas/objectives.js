@@ -21,19 +21,15 @@ function* fetchOkrs({ payload }) {
   }
 }
 
-function* fetchObjective({payload}) {
-  const result = yield callInSilent(API.get, '/objectives/' + payload.id);
-  if (result.error) {
-    yield put(objectiveActions.fetchedObjectiveError(payload.id));
-  } else {
-    yield put(objectiveActions.fetchedObjective(result.get('objective')));
+function* fetchObjective({ payload }) {
+  const { objectiveId, keyResultId } = payload;
+  if (!objectiveId && !keyResultId) {
+    yield put(objectiveActions.fetchedObjectiveError(objectiveId));
+    return;
   }
-}
-
-function* fetchObjectiveByKeyResult({ payload }) {
-  const result = yield callInSilent(API.get, `/key_results/${payload.id}/objective`);
+  const result = yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`);
   if (result.error) {
-    yield put(objectiveActions.fetchedObjectiveError(payload.id));
+    yield put(objectiveActions.fetchedObjectiveError(objectiveId));
   } else {
     yield put(objectiveActions.fetchedObjective(result.get('objective')));
   }
@@ -74,7 +70,6 @@ export function *objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
-    takeLatest(actionTypes.FETCH_OBJECTIVE_BY_KEY_RESULT, withLoading(fetchObjectiveByKeyResult)),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
     takeLatest(actionTypes.FETCH_ALL_OBJECTIVES, fetchAllObjectives),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),

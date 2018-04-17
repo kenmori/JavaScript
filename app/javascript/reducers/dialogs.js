@@ -30,9 +30,6 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state, { payload }) => {
       return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
     },
-    [ActionTypes.FETCH_OBJECTIVE_BY_KEY_RESULT]: (state, { payload }) => {
-      return state.mergeIn(['okrForm'], { isFetched: false, isFetching: true });
-    },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
       return state.setIn(['okrForm', 'removedObjectiveId'], objectiveId);
