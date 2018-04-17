@@ -13,8 +13,6 @@ const mapStateToProps = (state) => {
   const objectiveId = keyResultId
     ? state.entities.keyResults.getIn([keyResultId, 'objectiveId'], null)
     : okrForm.get('objectiveId');
-  const hasObjectiveId = objectiveId && !state.entities.objectives.has(objectiveId);
-  const hasKeyResultId = keyResultId && !state.entities.keyResults.has(keyResultId);
   const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
   const loginUserId = state.loginUser.get('id');
   const isAdmin = state.loginUser.get('isAdmin');
@@ -33,13 +31,8 @@ const mapStateToProps = (state) => {
     keyResults: denormalizeKeyResults(parentKeyResultCandidates, state.entities),
     isFetchedObjectives: state.objectives.get(isAdmin ? 'isFetchedAllObjectives' : 'isFetchedObjectives'),
     isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
-    shouldFetchObjective: hasObjectiveId && !okrForm.get('isFetching'),
-    shouldFetchKeyResult: hasKeyResultId && !okrForm.get('isFetching'),
-    notFoundObjective: hasObjectiveId && okrForm.get('isFetched'),
-    notFoundKeyResult: hasKeyResultId && okrForm.get('isFetched'),
     removedObjectiveId: okrForm.get('removedObjectiveId'),
     removedKeyResultId: okrForm.get('removedKeyResultId'),
-    isOpenErrorModal: state.dialogs.getIn(['error', 'isOpen']),
     isObjectiveOwner: isAdmin || objectiveOwnerId === loginUserId,
   };
 };
@@ -70,17 +63,8 @@ const mapDispatchToProps = dispatch => {
     removeObjective: (id) => {
       dispatch(objectiveActions.removeObjective(id));
     },
-    error: params => {
-      dispatch(dialogActions.openErrorModal(params))
-    },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));
-    },
-    fetchObjective: objectiveId => {
-      dispatch(objectiveActions.fetchObjective(objectiveId));
-    },
-    fetchObjectiveByKeyResult: keyResultId => {
-      dispatch(objectiveActions.fetchObjective(null, keyResultId));
     },
   };
 };

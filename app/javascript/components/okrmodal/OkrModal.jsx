@@ -10,18 +10,10 @@ import KeyResultTab from "./KeyResultTab";
 class OkrModal extends Component {
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpen && !nextProps.objectiveId && !nextProps.keyResultId) {
-      this.showNotFoundError(nextProps);
-    } else if (nextProps.removedObjectiveId === this.props.objectiveId) {
+    if (nextProps.removedObjectiveId === this.props.objectiveId) {
       goToRoot();
     } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
       openObjective(this.props.objectiveId);
-    } else if (nextProps.notFoundObjective || nextProps.notFoundKeyResult) {
-      this.showNotFoundError(nextProps);
-    } else if (nextProps.shouldFetchObjective) {
-      this.props.fetchObjective(nextProps.objectiveId);
-    } else if (nextProps.shouldFetchKeyResult) {
-      this.props.fetchObjectiveByKeyResult(nextProps.keyResultId);
     }
   }
 
@@ -75,15 +67,6 @@ class OkrModal extends Component {
   closeModal() {
     goToRoot();
     this.props.closeModal();
-  }
-
-  showNotFoundError(props) {
-    if (!props.isOpenErrorModal) {
-      this.props.error({
-        message: '指定された OKR は存在しません',
-        onCloseBefore: () => goToRoot(),
-      });
-    }
   }
 
   render() {

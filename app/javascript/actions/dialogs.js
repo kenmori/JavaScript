@@ -6,7 +6,10 @@ const actions = createActions({
   [actionTypes.CLOSE_KEY_RESULT_MODAL]: () => {},
   [actionTypes.OPEN_OBJECTIVE_MODAL]: parentKeyResult => ({ parentKeyResult }),
   [actionTypes.CLOSE_OBJECTIVE_MODAL]: () => {},
-  [actionTypes.OPEN_OKR_MODAL]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
+  [actionTypes.OPEN_OKR_MODAL]: (objectiveId, keyResultId, hasObjectiveId, hasKeyResultId) => ({
+    objectiveId, keyResultId, hasObjectiveId, hasKeyResultId,
+  }),
+  [actionTypes.OPENED_OKR_MODAL]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.CLOSE_OKR_MODAL]: () => {},
   [actionTypes.OPEN_AVATAR_MODAL]: (targetId, imageData) => ({ targetId, imageData }),
   [actionTypes.CLOSE_AVATAR_MODAL]: () => {},
