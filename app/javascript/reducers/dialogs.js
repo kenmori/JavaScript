@@ -27,7 +27,7 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
       return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
     },
-    [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state, { payload }) => {
+    [ActionTypes.FETCHED_OBJECTIVE_ERROR]: (state) => {
       return state.mergeIn(['okrForm'], { isFetched: true, isFetching: false });
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
