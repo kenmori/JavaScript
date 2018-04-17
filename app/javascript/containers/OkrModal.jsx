@@ -79,8 +79,8 @@ const mapDispatchToProps = dispatch => {
     fetchObjective: (objectiveId) => {
       dispatch(objectiveActions.fetchObjective(objectiveId));
     },
-    fetchKeyResult: (keyResultId) => {
-      dispatch(keyResultActions.fetchKeyResult(keyResultId));
+    fetchObjectiveByKeyResult: (keyResultId) => {
+      dispatch(objectiveActions.fetchObjectiveByKeyResult(keyResultId));
     },
   };
 };

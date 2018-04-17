@@ -21,7 +21,7 @@ class OkrModal extends Component {
     } else if (nextProps.shouldFetchObjective) {
       this.props.fetchObjective(nextProps.objectiveId);
     } else if (nextProps.shouldFetchKeyResult) {
-      this.props.fetchKeyResult(nextProps.keyResultId);
+      this.props.fetchObjectiveByKeyResult(nextProps.keyResultId);
     }
   }
 

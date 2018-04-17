@@ -1,21 +1,11 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import call, { callInSilent } from '../utils/call';
+import call from '../utils/call';
 import API from '../utils/api';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
-
-
-function* fetchKeyResult({payload}) {
-  const result = yield callInSilent(API.get, '/key_results/' + payload.id);
-  if (result.error) {
-    yield put(keyResultActions.fetchedKeyResultError(payload.id));
-  } else {
-    yield put(keyResultActions.fetchedKeyResult(result.get('keyResult')));
-  }
-}
 
 function* fetchKeyResults({payload}) {
   const result = yield call(API.get, '/key_results', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
@@ -48,7 +38,6 @@ function* removeKeyResult({payload}) {
 
 export function *keyResultSagas() {
   yield all([
-    takeLatest(actionTypes.FETCH_KEY_RESULT, withLoading(fetchKeyResult)),
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
     takeLatest(actionTypes.FETCH_ALL_KEY_RESULTS, fetchAllKeyResults),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),

@@ -18,9 +18,11 @@ class KeyResultsController < ApplicationController
     end
   end
 
-  def show
-    @key_result = KeyResult.find(params[:id])
-    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+  def show_objective
+    key_result = KeyResult.find(params[:key_result_id])
+    forbidden and return unless valid_permission?(key_result.owner.organization.id)
+    @objective = key_result.objective
+    render 'objectives/show'
   end
 
   def create
