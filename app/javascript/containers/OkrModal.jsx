@@ -7,7 +7,6 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/okr';
 
 const mapStateToProps = (state) => {
-  this.currentUserId = state.current.get('userId');
   const okrForm = state.dialogs.get('okrForm');
   const objectiveId = okrForm.get('objectiveId');
   const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
@@ -43,13 +42,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(dialogActions.openKeyResultModal(objective));
     },
     updateObjective: objective => {
-      dispatch(objectiveActions.updateObjective(objective, this.currentUserId));
+      dispatch(objectiveActions.updateObjective(objective));
     },
     updateKeyResultOrder: objective => {
-      dispatch(objectiveActions.updateObjective(objective, this.currentUserId, false));
+      dispatch(objectiveActions.updateObjective(objective, false));
     },
-    updateKeyResult: (keyResult) => {
-      dispatch(keyResultActions.updateKeyResult(keyResult, this.currentUserId));
+    updateKeyResult: keyResult => {
+      dispatch(keyResultActions.updateKeyResult(keyResult));
     },
     closeModal: () => {
       dispatch(dialogActions.closeOkrModal());

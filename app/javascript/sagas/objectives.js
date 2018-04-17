@@ -1,4 +1,4 @@
-import { all, put, take, takeLatest } from 'redux-saga/effects';
+import { all, put, take, takeLatest, select } from 'redux-saga/effects';
 import call, { callInSilent } from '../utils/call';
 import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
@@ -43,14 +43,16 @@ function* fetchAllObjectives({ payload }) {
 
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
-  yield put(objectiveActions.addedObjective(result.get('objective'), payload.currentUserId));
+  const currentUserId = yield select(state => state.current.get('userId'));
+  yield put(objectiveActions.addedObjective(result.get('objective'), currentUserId));
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
 }
 
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
-  yield put(objectiveActions.updatedObjective(result.get('objective'), payload.currentUserId));
+  const currentUserId = yield select(state => state.current.get('userId'));
+  yield put(objectiveActions.updatedObjective(result.get('objective'), currentUserId));
   if (payload.isToast) {
     yield put(toastActions.showToast('Objective を更新しました'));
   }

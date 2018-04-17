@@ -6,7 +6,6 @@ import { denormalizeKeyResults } from '../schemas/index';
 import { getParentKeyResultCandidates } from "../utils/okr";
 
 const mapStateToProps = (state) => {
-  this.currentUserId = state.current.get('userId');
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
   const parentKeyResults = getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id'));
   return {
@@ -22,8 +21,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addObjective: (objective) => {
-      dispatch(objectiveActions.addObjective(objective, this.currentUserId));
+    addObjective: objective => {
+      dispatch(objectiveActions.addObjective(objective));
     },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveModal());

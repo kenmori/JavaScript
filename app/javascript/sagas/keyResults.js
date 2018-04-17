@@ -1,4 +1,4 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest, select } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import keyResultActions from '../actions/keyResults';
@@ -19,14 +19,16 @@ function* fetchAllKeyResults({ payload }) {
 
 function* addKeyResult({ payload }) {
   const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
-  yield put(keyResultActions.addedKeyResult(result.get('keyResult'), payload.currentUserId));
+  const currentUserId = yield select(state => state.current.get('userId'));
+  yield put(keyResultActions.addedKeyResult(result.get('keyResult'), currentUserId));
   yield put(dialogActions.closeKeyResultModal());
   yield put(toastActions.showToast('Key Result を作成しました'));
 }
 
 function* updateKeyResult({payload}) {
   const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
-  yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), payload.currentUserId));
+  const currentUserId = yield select(state => state.current.get('userId'));
+  yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), currentUserId));
   yield put(toastActions.showToast('Key Result を更新しました'));
 }
 
