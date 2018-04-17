@@ -23,10 +23,6 @@ function* fetchOkrs({ payload }) {
 
 function* fetchObjective({ payload }) {
   const { objectiveId, keyResultId } = payload;
-  if (!objectiveId && !keyResultId) {
-    yield put(objectiveActions.fetchedObjectiveError());
-    return;
-  }
   const result = yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`);
   if (result.error) {
     yield put(objectiveActions.fetchedObjectiveError());

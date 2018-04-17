@@ -9,10 +9,7 @@ import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/o
 const mapStateToProps = (state) => {
   this.currentUserId = state.current.get('userId');
   const okrForm = state.dialogs.get('okrForm');
-  const keyResultId = okrForm.get('keyResultId');
-  const objectiveId = keyResultId
-    ? state.entities.keyResults.getIn([keyResultId, 'objectiveId'], null)
-    : okrForm.get('objectiveId');
+  const objectiveId = okrForm.get('objectiveId');
   const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
   const loginUserId = state.loginUser.get('id');
   const isAdmin = state.loginUser.get('isAdmin');
@@ -24,7 +21,7 @@ const mapStateToProps = (state) => {
     isOpen: okrForm.get('isOpen'),
     objectiveId,
     objective,
-    keyResultId,
+    keyResultId: okrForm.get('keyResultId'),
     users: state.users.filter(user => !user.get('disabled')),
     loginUserId,
     objectives: denormalizeObjectives(objectiveCandidates, state.entities),

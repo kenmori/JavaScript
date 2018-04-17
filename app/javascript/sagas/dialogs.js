@@ -1,4 +1,4 @@
-import { all, put, take, takeLatest } from 'redux-saga/effects';
+import { all, put, take, takeLatest, select } from 'redux-saga/effects';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
@@ -6,12 +6,15 @@ import withLoading from '../utils/withLoading';
 import history from '../utils/history';
 
 function* openOkrModal({ payload }) {
-  const { objectiveId, keyResultId, hasObjectiveId, hasKeyResultId } = payload;
 
-  function* fetchObjective() {
+  function* fetchObjective(objectiveId, keyResultId) {
     yield put(objectiveActions.fetchObjective(objectiveId, keyResultId));
     const action = yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
     if (action.type === actionTypes.FETCHED_OBJECTIVE) {
+      if (keyResultId) {
+        const entities = yield select(state => state.entities);
+        objectiveId = entities.keyResults.getIn([keyResultId, 'objectiveId']);
+      }
       yield put(dialogActions.openedOkrModal(objectiveId, keyResultId));
     } else {
       yield openErrorModal();
@@ -25,14 +28,19 @@ function* openOkrModal({ payload }) {
     }));
   }
 
+  const entities = yield select(state => state.entities);
+  const keyResultId = payload.keyResultId;
+  const objectiveId = keyResultId ? entities.keyResults.getIn([keyResultId, 'objectiveId'], null) : payload.objectiveId;
   if (objectiveId) {
+    const hasObjectiveId = entities.objectives.has(objectiveId);
+    const hasKeyResultId = entities.keyResults.has(keyResultId);
     if (hasObjectiveId && (!keyResultId || hasKeyResultId)) {
       yield put(dialogActions.openedOkrModal(objectiveId, keyResultId));
     } else {
-      yield fetchObjective();
+      yield fetchObjective(objectiveId, keyResultId);
     }
   } else if (keyResultId) {
-    yield fetchObjective();
+    yield fetchObjective(null, keyResultId);
   } else {
     yield openErrorModal();
   }
