@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Button, Segment, Header } from 'semantic-ui-react';
+import { Menu, Button, Segment, Header, Label } from 'semantic-ui-react';
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
@@ -124,10 +124,10 @@ export default class Dashboard extends Component {
           <div className='okr-list-section__menu'>
             <Menu tabular>
               <Menu.Item name='objective' active={activeItem === 'objective'} onClick={this.handleMenuItemClick}>
-                Objective ({this.props.objectives.size})
+                Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
               <Menu.Item name='keyResult' active={activeItem === 'keyResult'} onClick={this.handleMenuItemClick}>
-                Key Result ({this.props.keyResults.size})
+                Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
               <Menu.Item>
                 <Button compact icon="plus" content='OKR を作成する' onClick={this.props.openObjectiveModal} />
