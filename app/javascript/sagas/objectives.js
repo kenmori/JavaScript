@@ -22,6 +22,11 @@ function* fetchOkrs({ payload }) {
 }
 
 function* fetchObjective({ payload }) {
+  yield put(objectiveActions.fetchObjectiveAsync(payload.objectiveId, payload.keyResultId));
+  yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
+}
+
+function* fetchObjectiveAsync({ payload }) {
   const { objectiveId, keyResultId } = payload;
   const result = yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`);
   if (result.error) {
@@ -68,6 +73,7 @@ export function *objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
+    takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
     takeLatest(actionTypes.FETCH_ALL_OBJECTIVES, fetchAllObjectives),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
