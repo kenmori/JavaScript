@@ -27,7 +27,11 @@ export default handleActions({
       return state.set('isFetchedObjectives', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      return state.set('ids', payload.get('result')).set('isFetchedObjectives', true);
+      const objectiveIds = payload.get('result');
+      return state
+        .set('ids', objectiveIds)
+        .set('selectedId', objectiveIds.first())
+        .set('isFetchedObjectives', true);
     },
     [ActionTypes.FETCH_ALL_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetchedAllObjectives', false);
@@ -62,10 +66,14 @@ export default handleActions({
       objectiveOrder = JSON.parse(objectiveOrder);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
+    [ActionTypes.CHANGE_CURRENT_OKR]: (state, { payload }) => {
+      return state.set('selectedId', payload.objectiveId);
+    },
   },
   fromJS({
     ids: [],
     allIds: [],
+    selectedId: null,
     fetchedObjective: null,
     isFetchedObjectives: false,
     isFetchedAllObjectives: false,

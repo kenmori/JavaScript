@@ -28,43 +28,15 @@ export default class Dashboard extends Component {
       if (objective) {
         this.setMapObjective(objective);
       }
-    } else if (!this.props.objectiveIds.equals(nextProps.objectiveIds)) {
-      const objective = this.getNextMapObjective(this.props.objectives, nextProps.objectives);
+    } else if (this.props.selectedObjectiveId !== nextProps.selectedObjectiveId) {
+      const objective = nextProps.objectives.find(objective => objective.get('id') === nextProps.selectedObjectiveId);
       this.setMapObjective(objective);
-      if (objective) {
-        this.props.changeCurrentOkr(objective.get('id'));
-      }
     } else if (this.props.entities !== nextProps.entities) {
       const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.keyResults);
       if (objective) {
         this.setMapObjective(objective);
       }
     }
-  }
-
-  getNextMapObjective = (prevObjectives, nextObjectives) => {
-    // Objective 一覧取得時や追加/削除時に選択する Objective を返す
-    const prevObjectiveId = this.state.mapObjectiveId;
-    const nextObjective = nextObjectives.first();
-    if (!prevObjectiveId) {
-      return nextObjective; // 未選択の場合
-    }
-    const prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
-    if (!prevObjective) {
-      return nextObjective; // 前回の選択 Objective が存在しない場合
-    }
-    if (prevObjectives.size < nextObjectives.size) {
-      const findParent = (objective, parentId) => {
-        const parent = objective.get('parentObjective');
-        return parent
-          ? parent.get('id') === parentId ? true : findParent(parent, parentId)
-          : false;
-      }
-      if (!findParent(nextObjective, prevObjectiveId)) {
-        return nextObjective; // 追加された Objective の祖先に選択中の Objective がいない場合 (新規作成)
-      }
-    }
-    return prevObjective; // 選択状態は変えない (別インスタンス)
   }
 
   getCurrentMapObjective = (nextObjectives, nextKeyResults, nextFetchedObjective = null) => {
