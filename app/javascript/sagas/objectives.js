@@ -49,7 +49,7 @@ function* fetchAllObjectives({ payload }) {
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
   const currentUserId = yield select(state => state.current.get('userId'));
-  yield put(objectiveActions.addedObjective(result.get('objective'), currentUserId));
+  yield put(objectiveActions.addedObjective(result.get('objective'), payload.isNew, currentUserId));
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
 }

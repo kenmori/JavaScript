@@ -21,8 +21,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addObjective: objective => {
-      dispatch(objectiveActions.addObjective(objective));
+    addObjective: (objective, isNew) => {
+      dispatch(objectiveActions.addObjective(objective, isNew));
     },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveModal());

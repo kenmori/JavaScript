@@ -2,8 +2,10 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
-function add(state, objectiveId) {
-  return state.update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId));
+function add(state, objectiveId, isNew) {
+  return state
+    .update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
+    .update('selectedId', id => isNew ? objectiveId : id);
 }
 
 function remove(state, objectiveId) {
@@ -46,7 +48,7 @@ export default handleActions({
       const userId = payload.get('currentUserId');
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
       const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId) : state;
+      return isMine ? add(state, objectiveId, payload.get('isNew')) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       const userId = payload.get('currentUserId');

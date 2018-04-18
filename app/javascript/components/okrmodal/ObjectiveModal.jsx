@@ -32,7 +32,8 @@ class ObjectiveModal extends Component {
       parentKeyResultId: this.state.parentKeyResultId,
       okrPeriodId: this.props.okrPeriodId,
     };
-    this.props.addObjective(objective);
+    const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
+    this.props.addObjective(objective, isNew);
   }
 
   getInitialOwnerId(props = this.props) {
