@@ -9,7 +9,11 @@ function add(state, objectiveId, isNew) {
 }
 
 function remove(state, objectiveId) {
-  return state.update('ids', ids => ids.filter(id => id !== objectiveId));
+  const objectiveIds = state.get('ids').filter(id => id !== objectiveId);
+  const index = state.get('ids').indexOf(objectiveId);
+  return state
+    .set('ids', objectiveIds)
+    .update('selectedId', id => id === objectiveId ? objectiveIds.get(index, objectiveIds.last()) : id);
 }
 
 function addToAll(state, objectiveId) {
