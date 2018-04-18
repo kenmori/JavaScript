@@ -68,11 +68,7 @@ export default class Dashboard extends Component {
             </Menu>
           </div>
           {activeItem === 'objective'
-            ? <ObjectiveList objectives={this.props.objectives}
-                             userId={this.props.userId}
-                             objectiveOrder={this.props.objectives.map(objective => objective.get('id'))}
-                             updateObjectiveOrder={this.props.updateObjectiveOrder}
-                             canMoveObjective={this.props.canMoveObjective} />
+            ? <ObjectiveList objectives={this.props.objectives} userId={this.props.userId} />
             : <KeyResultList keyResults={this.props.keyResults} />
           }
         </section>

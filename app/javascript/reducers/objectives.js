@@ -82,7 +82,7 @@ export default handleActions({
     ids: [],
     allIds: [],
     selectedId: null,
-    isFetchedObjective: false,
+    isFetchedObjective: true,
     isFetchedObjectives: false,
     isFetchedAllObjectives: false,
   }),
