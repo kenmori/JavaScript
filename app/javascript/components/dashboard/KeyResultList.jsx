@@ -6,13 +6,9 @@ import OwnerAvatar from '../util/OwnerAvatar';
 class KeyResultList extends Component {
 
   selectKeyResult = keyResult => {
-    const objective = keyResult.get('objective')
     const objectiveId = keyResult.get('objectiveId');
-    if (objective) {
-      this.props.setMapObjective(objective);
-    } else {
-      // 他人の Objective の場合
-      this.props.setMapObjectiveId(objectiveId);
+    if (!keyResult.get('objective')) {
+      // 他人の Objective の場合 (未 fetch)
       this.props.fetchObjective(objectiveId);
     }
     this.props.changeCurrentOkr(objectiveId, keyResult.get('id'));
@@ -53,8 +49,6 @@ class KeyResultList extends Component {
 
 KeyResultList.propTypes = {
   keyResults: PropTypes.object.isRequired,
-  setMapObjective: PropTypes.func.isRequired,
-  setMapObjectiveId: PropTypes.func.isRequired,
 };
 
 export default KeyResultList;

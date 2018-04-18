@@ -25,9 +25,11 @@ function removeFromAll(state, objectiveId) {
 }
 
 export default handleActions({
-    [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      return state.set('fetchedObjective', objectiveId);
+    [ActionTypes.FETCH_OBJECTIVE]: state => {
+      return state.set('isFetchedObjective', false);
+    },
+    [ActionTypes.FETCHED_OBJECTIVE]: state => {
+      return state.set('isFetchedObjective', true);
     },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetchedObjectives', false);
@@ -80,7 +82,7 @@ export default handleActions({
     ids: [],
     allIds: [],
     selectedId: null,
-    fetchedObjective: null,
+    isFetchedObjective: false,
     isFetchedObjectives: false,
     isFetchedAllObjectives: false,
   }),

@@ -7,18 +7,15 @@ import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } fr
 import { canMoveObjective } from "../utils/okr";
 
 const mapStateToProps = state => {
-  const fetchedObjectiveId = state.objectives.get('fetchedObjective');
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     canMoveObjective: canMoveObjective(state),
-    selectedObjectiveId: state.objectives.get('selectedId'),
+    mapObjective: denormalizeObjective(state.objectives.get('selectedId'), state.entities),
     objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
+    isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
-    fetchedObjectiveId,
-    fetchedObjective: fetchedObjectiveId && denormalizeObjective(fetchedObjectiveId, state.entities),
-    entities: state.entities,
     isAdmin: state.loginUser.get('isAdmin'),
   };
 };

@@ -8,8 +8,7 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapObjective: null,
-      mapObjectiveId: null,
+      mapObjective: props.mapObjective,
       activeItem: 'objective',
     };
   }
@@ -23,49 +22,11 @@ export default class Dashboard extends Component {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, this.props.isAdmin);
     } else if (this.props.userId !== nextProps.userId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
-    } else if (this.props.fetchedObjectiveId !== nextProps.fetchedObjectiveId) {
-      const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.keyResults, nextProps.fetchedObjective);
-      if (objective) {
-        this.setMapObjective(objective);
-      }
-    } else if (this.props.selectedObjectiveId !== nextProps.selectedObjectiveId) {
-      const objective = nextProps.objectives.find(objective => objective.get('id') === nextProps.selectedObjectiveId);
-      this.setMapObjective(objective);
-    } else if (this.props.entities !== nextProps.entities) {
-      const objective = this.getCurrentMapObjective(nextProps.objectives, nextProps.keyResults);
-      if (objective) {
-        this.setMapObjective(objective);
-      }
+    } else if (nextProps.mapObjective && (!this.state.mapObjective || nextProps.isFetchedObjective)) {
+      this.setState({
+        mapObjective: nextProps.mapObjective,
+      });
     }
-  }
-
-  getCurrentMapObjective = (nextObjectives, nextKeyResults, nextFetchedObjective = null) => {
-    // 現在選択中の Objective を nextProps の中から探して返す
-    const prevObjectiveId = this.state.mapObjectiveId;
-    if (nextFetchedObjective && nextFetchedObjective.get('id') === prevObjectiveId) {
-      return nextFetchedObjective; // 選択 Objective を fetch した場合
-    }
-    let prevObjective = nextObjectives.find(objective => objective.get('id') === prevObjectiveId);
-    if (!prevObjective) {
-      const prevKeyResult = nextKeyResults.find(keyResult => keyResult.get('objectiveId') === prevObjectiveId);
-      if (prevKeyResult) {
-        prevObjective = prevKeyResult.get('objective');
-      }
-    }
-    return prevObjective;
-  }
-
-  setMapObjective = objective => {
-    this.setState({
-      mapObjective: objective,
-      mapObjectiveId: objective && objective.get('id'),
-    });
-  }
-
-  setMapObjectiveId = objectiveId => {
-    this.setState({
-      mapObjectiveId: objectiveId,
-    });
   }
 
   handleMenuItemClick = (e, { name }) => {
@@ -108,14 +69,11 @@ export default class Dashboard extends Component {
           </div>
           {activeItem === 'objective'
             ? <ObjectiveList objectives={this.props.objectives}
-                             setMapObjective={this.setMapObjective}
                              userId={this.props.userId}
                              objectiveOrder={this.props.objectives.map(objective => objective.get('id'))}
                              updateObjectiveOrder={this.props.updateObjectiveOrder}
                              canMoveObjective={this.props.canMoveObjective} />
-            : <KeyResultList keyResults={this.props.keyResults}
-                             setMapObjective={this.setMapObjective}
-                             setMapObjectiveId={this.setMapObjectiveId} />
+            : <KeyResultList keyResults={this.props.keyResults} />
           }
         </section>
         <section className='okr-map-section'>
