@@ -12,6 +12,14 @@ json.objective do
       json.child_objectives do
         json.partial! 'objectives/with_key_result', collection: key_result.child_objectives, as: :objective
       end
+
+      json.comments do
+        json.array!(key_result.comments) do |comment|
+          json.extract! comment, :id, :text, :updated_at
+          json.editable comment.editable?
+          json.full_name comment.user.full_name
+        end
+      end
     end
   end
 end

@@ -12,6 +12,7 @@ class CommentPane extends Component {
   }
 
   commentList(comments) {
+    if (!comments) return null;
     const commentTags = comments.map((item) => {
       return (
         <div className="comments" key={item.get('id')}>

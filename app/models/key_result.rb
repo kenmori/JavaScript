@@ -1,5 +1,5 @@
 class KeyResult < ApplicationRecord
-  has_many :comments, dependent: :destroy
+  has_many :comments, -> { order('created_at DESC') }, dependent: :destroy
   has_many :key_result_members, dependent: :destroy
   has_many :users, through: :key_result_members
   has_many :child_objectives, class_name: 'Objective', foreign_key: :parent_key_result_id, dependent: :nullify

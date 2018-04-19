@@ -8,7 +8,7 @@ class KeyResultTab extends Component {
 
   render() {
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
-    const count = this.props.keyResult.get('comments').size;
+    const comments = this.props.keyResult.get('comments');
     return (
       <Tab panes={[
         {
@@ -16,8 +16,8 @@ class KeyResultTab extends Component {
           render: () => <Tab.Pane><KeyResultPane {...this.props} /></Tab.Pane>
         },
         {
-          menuItem: <Menu.Item key='comments'>コメント<Label>{count}</Label></Menu.Item>,
-          render: () => <Tab.Pane><CommentPane {...this.props} /></Tab.Pane>
+          menuItem: <Menu.Item key='comments'>コメント<Label>{comments ? comments.size : 0}</Label></Menu.Item>,
+          render: () => <Tab.Pane loading={!comments}><CommentPane {...this.props} /></Tab.Pane>
         },
       ]} />
     );
