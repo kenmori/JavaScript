@@ -51,14 +51,14 @@ function denormalizeObjective(objectiveId, entities) {
   if (!objective) return null;
   return objective
     .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
-    .update('keyResults', ids => ids.map(id => denormalizeKeyResult(id, entities, objective)));
+    .set('keyResults', objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value));
 }
 
 function denormalizeObjectives(objectiveIds, entities) {
   return objectiveIds.map(objectiveId => {
     const objective = getObjective(objectiveId, entities);
     return objective
-      .update('keyResults', ids => ids.map(id => getKeyResult(id, entities)));
+      .set('keyResults', objective.get('keyResultIds').map(id => getKeyResult(id, entities)).filter(value => !!value));
   });
 }
 
@@ -78,21 +78,17 @@ function denormalizeKeyResults(keyResultIds, entities) {
   });
 }
 
-function denormalizeDeepObjective(objectiveId, entities, parentObjective) {
+function denormalizeDeepObjective(objectiveId, entities, parentKeyResult) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
-  // KR 経由で子の Objective ID を取得する
-  const childObjectiveIds = objective.get('keyResults').flatMap(id => getKeyResult(id, entities).get('childObjectiveIds'));
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return objective
-    .set('parentObjective', parentObjective || denormalizeDeepObjective(objective.get('parentObjectiveId'), entities))
-    .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
-    .update('keyResults', ids => denormalizeDeepKeyResults(ids, entities, objective))
-    .set('childObjectives', denormalizeDeepObjectives(childObjectiveIds, entities, objective).filter(value => !!value));
+    .set('parentKeyResult', parentKeyResult || denormalizeDeepKeyResult(objective.get('parentKeyResultId'), entities))
+    .set('keyResults', denormalizeDeepKeyResults(objective.get('keyResultIds'), entities, objective).filter(value => !!value));
 }
 
-function denormalizeDeepObjectives(objectiveIds, entities, parentObjective) {
-  return objectiveIds.map(id => denormalizeDeepObjective(id, entities, parentObjective));
+function denormalizeDeepObjectives(objectiveIds, entities, parentKeyResult) {
+  return objectiveIds.map(id => denormalizeDeepObjective(id, entities, parentKeyResult));
 }
 
 function denormalizeDeepKeyResult(keyResultId, entities, objective) {
@@ -101,7 +97,7 @@ function denormalizeDeepKeyResult(keyResultId, entities, objective) {
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return keyResult
     .set('objective', objective || denormalizeDeepObjective(keyResult.get('objectiveId'), entities))
-    .set('childObjectives', keyResult.get('childObjectiveIds').map(id => getObjective(id, entities)).filter(value => !!value));
+    .set('childObjectives', denormalizeDeepObjectives(keyResult.get('childObjectiveIds'), entities, keyResult).filter(value => !!value));
 }
 
 function denormalizeDeepKeyResults(keyResultIds, entities, objective) {
