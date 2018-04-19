@@ -35,7 +35,7 @@ class OkrMap extends Component {
   // 初期表示リスト (基点 Objective とその KR)
   getInitialVisibleIds(objective) {
     return OrderedMap([[
-      objective.get('id'), objective.get('keyResults').map(keyResult => keyResult.get('id')).toSet()
+      objective.get('id'), objective.get('keyResultIds').toSet()
     ]]);
   }
 
@@ -122,13 +122,12 @@ class OkrMap extends Component {
 
       // 子がいる場合は子とのリンクを追加する
       objectives.forEach(objective => {
-        const keyResults = objective.get('keyResults');
-        const childObjectiveIds = keyResults.flatMap(keyResult => keyResult.get('childObjectiveIds'));
+        const childObjectiveIds = objective.get('keyResults').flatMap(keyResult => keyResult.get('childObjectiveIds'));
         if (!childObjectiveIds.isEmpty()) {
           result = result.push({
             fromId: objective.get('id'),
             toIds: childObjectiveIds,
-            keyResultIds: keyResults.map(keyResult => keyResult.get('id')),
+            keyResultIds: objective.get('keyResultIds'),
           });
         }
       });

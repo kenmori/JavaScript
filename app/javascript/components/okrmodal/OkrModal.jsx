@@ -86,7 +86,7 @@ class OkrModal extends Component {
           <div className="okr-body">
             <Sidebar 
               objective={objective}
-              keyResultOrder={objective.get('keyResults').map(keyResult => keyResult.get('id'))}
+              keyResultOrder={objective.get('keyResultIds')}
               keyResultId={this.props.keyResultId} 
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
               updateKeyResultOrder={this.props.updateKeyResultOrder}
