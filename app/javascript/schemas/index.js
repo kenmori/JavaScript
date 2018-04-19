@@ -57,6 +57,7 @@ function denormalizeObjective(objectiveId, entities) {
 function denormalizeObjectives(objectiveIds, entities) {
   return objectiveIds.map(objectiveId => {
     const objective = getObjective(objectiveId, entities);
+    if (!objective) return null;
     return objective
       .set('keyResults', objective.get('keyResultIds').map(id => getKeyResult(id, entities)).filter(value => !!value));
   });
@@ -73,6 +74,7 @@ function denormalizeKeyResult(keyResultId, entities, objective) {
 function denormalizeKeyResults(keyResultIds, entities) {
   return keyResultIds.map(keyResultId => {
     const keyResult = getKeyResult(keyResultId, entities);
+    if (!keyResult) return null;
     return keyResult
       .set('objective', getObjective(keyResult.get('objectiveId'), entities));
   });
