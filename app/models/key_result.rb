@@ -42,7 +42,7 @@ class KeyResult < ApplicationRecord
   end
 
   def members
-    key_result_members.where(role: :member).map(&:user)
+    key_result_members.includes(:user).where(role: :member).map(&:user)
   end
 
   def target_value_present?
