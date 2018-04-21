@@ -7,7 +7,8 @@ import { getParentKeyResultCandidates } from "../utils/okr";
 
 const mapStateToProps = (state) => {
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
-  const parentKeyResultCandidates = getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id'));
+  const parentKeyResultCandidates = getParentKeyResultCandidates(state,
+    parentKeyResult && parentKeyResult.get('id'), state.loginUser.get('id'));
   return {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
     parentKeyResult,
