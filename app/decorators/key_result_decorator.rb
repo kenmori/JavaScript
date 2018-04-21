@@ -33,4 +33,16 @@ module KeyResultDecorator
       Objective.find(objective_id_before_last_save)
     end
   end
+
+  def sorted_child_objective_ids
+    sorted_child_objectives.map(&:id)
+  end
+
+  def sorted_child_objectives
+    child_objectives.sort_by { |objective|
+      owner_id = objective.owner.id
+      role = objective.parent_key_result.key_result_members.find_by(user_id: owner_id).role_before_type_cast
+      [role, owner_id] # 責任者/関係者順 → ユーザー順 (→ 作成日昇順)
+    }
+  end
 end
