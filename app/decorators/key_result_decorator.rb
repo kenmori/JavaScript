@@ -39,7 +39,7 @@ module KeyResultDecorator
   end
 
   def sorted_child_objectives
-    child_objectives.sort_by { |objective|
+    child_objectives.includes(:parent_key_result).sort_by { |objective|
       owner_id = objective.owner.id
       role = objective.parent_key_result.key_result_members.find_by(user_id: owner_id).role_before_type_cast
       [role, owner_id] # 責任者/関係者順 → ユーザー順 (→ 作成日昇順)
