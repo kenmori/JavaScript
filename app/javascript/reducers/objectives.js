@@ -13,10 +13,12 @@ function remove(state, objectiveId) {
   const index = state.get('ids').indexOf(objectiveId);
   return state
     .set('ids', objectiveIds)
-    .update('selectedOkr', selectedOkr => selectedOkr.get('objectiveId') === objectiveId ? selectedOkr.merge({
-      objectiveId: objectiveIds.get(index, objectiveIds.last()),
-      keyResultId: null,
-    }) : selectedOkr);
+    .update('selectedOkr', selectedOkr => {
+      const isRemoved = selectedOkr.get('objectiveId') === objectiveId;
+      return isRemoved
+        ? selectedOkr.merge({ objectiveId: objectiveIds.get(index, objectiveIds.last()), keyResultId: null })
+        : selectedOkr;
+    });
 }
 
 function addToAll(state, objectiveId) {
@@ -77,8 +79,9 @@ export default handleActions({
       objectiveOrder = JSON.parse(objectiveOrder);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
-    [ActionTypes.CHANGE_CURRENT_OKR]: (state, { payload }) => {
-      return state.mergeIn(['selectedOkr'], { objectiveId: payload.objectiveId, keyResultId: payload.keyResultId });
+    [ActionTypes.SELECT_OKR]: (state, { payload }) => {
+      const { objectiveId, keyResultId } = payload;
+      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId });
     },
   },
   fromJS({

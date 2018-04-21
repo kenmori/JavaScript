@@ -3,6 +3,7 @@ import actionTypes from '../constants/actionTypes';
 import { normalizeObjective, normalizeObjectives } from '../schemas/index'
 
 const actions = createActions({
+  [actionTypes.SELECT_OKR]: (objectiveId, keyResultId = null) => ({ objectiveId, keyResultId }),
   [actionTypes.FETCH_OKRS]: (okrPeriodId, userId, withAll) => ({ okrPeriodId, userId, withAll }),
   [actionTypes.FETCH_OBJECTIVE]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.FETCH_OBJECTIVE_ASYNC]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),

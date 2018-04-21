@@ -44,7 +44,7 @@ class ObjectiveList extends Component {
   }
 
   selectObjective = objective => {
-    this.props.changeCurrentOkr(objective.get('id'));
+    this.props.selectOkr(objective.get('id'));
   }
 
   render() {
@@ -58,7 +58,7 @@ class ObjectiveList extends Component {
               key={objectiveId}
               index={index}
               objective={objective}
-              isSelected={objectiveId === this.props.currentObjectiveId}
+              isSelected={objectiveId === this.props.selectedObjectiveId}
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
               canMoveObjective={this.props.canMoveObjective}
