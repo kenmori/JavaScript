@@ -4,8 +4,8 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    currentObjectiveId: state.objectives.get('selectedId'),
-    currentKeyResultId: state.keyResults.get('selectedId'),
+    currentObjectiveId: state.objectives.getIn(['selectedOkr', 'objectiveId']),
+    currentKeyResultId: state.objectives.getIn(['selectedOkr', 'keyResultId']),
   };
 };
 

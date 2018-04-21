@@ -6,7 +6,7 @@ import { canMoveObjective } from "../utils/okr";
 
 const mapStateToProps = (state) => {
   return {
-    currentObjectiveId: state.objectives.get('selectedId'),
+    currentObjectiveId: state.objectives.getIn(['selectedOkr', 'objectiveId']),
     objectiveOrder: state.objectives.get('ids'),
     canMoveObjective: canMoveObjective(state),
   };
