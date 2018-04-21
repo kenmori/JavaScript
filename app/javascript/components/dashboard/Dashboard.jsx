@@ -22,7 +22,7 @@ export default class Dashboard extends Component {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, this.props.isAdmin);
     } else if (this.props.userId !== nextProps.userId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
-    } else if (nextProps.mapObjective && (!this.state.mapObjective || nextProps.isFetchedObjective)) {
+    } else if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
       this.setState({
         mapObjective: nextProps.mapObjective,
       });
