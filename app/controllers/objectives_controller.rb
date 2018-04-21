@@ -11,9 +11,9 @@ class ObjectivesController < ApplicationController
                        .order(created_at: :desc)
       if @user.objective_order
         order = JSON.parse(@user.objective_order)
-        index = order.size
-        # Objective 一覧を objective_order 順に並べる (順番のない O は後ろに並べていく)
-        @objectives =  objectives.sort_by { |objective| order.index(objective.id) || index + 1 }
+        index = 0
+        # Objective 一覧を objective_order 順に並べる (順番のない O は前に並べていく)
+        @objectives =  objectives.sort_by { |objective| order.index(objective.id) || index - 1 }
       else
         @objectives =  objectives
       end
