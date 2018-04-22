@@ -46,34 +46,64 @@ function getKeyResult(keyResultId, entities) {
   return entities.keyResults.get(keyResultId);
 }
 
-function denormalizeObjective(objectiveId, entities, parentObjective) {
+function denormalizeObjective(objectiveId, entities) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
-  // KR 経由で子の Objective ID を取得する
-  const childObjectiveIds = objective.get('keyResults').flatMap(id => getKeyResult(id, entities).get('childObjectiveIds'));
-  // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return objective
-    .set('parentObjective', parentObjective || denormalizeObjective(objective.get('parentObjectiveId'), entities))
     .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
-    .update('keyResults', ids => denormalizeKeyResults(ids, entities, objective))
-    .set('childObjectives', denormalizeObjectives(childObjectiveIds, entities, objective).filter(value => !!value));
+    .set('keyResults', objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value));
 }
 
-function denormalizeObjectives(objectiveIds, entities, parentObjective) {
-  return objectiveIds.map(id => denormalizeObjective(id, entities, parentObjective));
+function denormalizeObjectives(objectiveIds, entities) {
+  return objectiveIds.map(objectiveId => {
+    const objective = getObjective(objectiveId, entities);
+    if (!objective) return null;
+    return objective
+      .set('keyResults', objective.get('keyResultIds').map(id => getKeyResult(id, entities)).filter(value => !!value));
+  });
 }
 
 function denormalizeKeyResult(keyResultId, entities, objective) {
   const keyResult = getKeyResult(keyResultId, entities);
   if (!keyResult) return null;
-  // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return keyResult
-    .set('objective', objective || denormalizeObjective(keyResult.get('objectiveId'), entities))
+    .set('objective', objective || getObjective(keyResult.get('objectiveId'), entities))
     .set('childObjectives', keyResult.get('childObjectiveIds').map(id => getObjective(id, entities)).filter(value => !!value));
 }
 
-function denormalizeKeyResults(keyResultIds, entities, objective) {
-  return keyResultIds.map(id => denormalizeKeyResult(id, entities, objective));
+function denormalizeKeyResults(keyResultIds, entities) {
+  return keyResultIds.map(keyResultId => {
+    const keyResult = getKeyResult(keyResultId, entities);
+    if (!keyResult) return null;
+    return keyResult
+      .set('objective', getObjective(keyResult.get('objectiveId'), entities));
+  });
+}
+
+function denormalizeDeepObjective(objectiveId, entities, parentKeyResult) {
+  const objective = getObjective(objectiveId, entities);
+  if (!objective) return null;
+  // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
+  return objective
+    .set('parentKeyResult', parentKeyResult || denormalizeDeepKeyResult(objective.get('parentKeyResultId'), entities))
+    .set('keyResults', denormalizeDeepKeyResults(objective.get('keyResultIds'), entities, objective).filter(value => !!value));
+}
+
+function denormalizeDeepObjectives(objectiveIds, entities, parentKeyResult) {
+  return objectiveIds.map(id => denormalizeDeepObjective(id, entities, parentKeyResult));
+}
+
+function denormalizeDeepKeyResult(keyResultId, entities, objective) {
+  const keyResult = getKeyResult(keyResultId, entities);
+  if (!keyResult) return null;
+  // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
+  return keyResult
+    .set('objective', objective || denormalizeDeepObjective(keyResult.get('objectiveId'), entities))
+    .set('childObjectives', denormalizeDeepObjectives(keyResult.get('childObjectiveIds'), entities, keyResult).filter(value => !!value));
+}
+
+function denormalizeDeepKeyResults(keyResultIds, entities, objective) {
+  return keyResultIds.map(id => denormalizeDeepKeyResult(id, entities, objective));
 }
 
 export {
@@ -85,4 +115,5 @@ export {
   denormalizeObjectives,
   denormalizeKeyResult,
   denormalizeKeyResults,
+  denormalizeDeepObjective,
 };

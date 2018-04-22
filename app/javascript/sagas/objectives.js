@@ -1,4 +1,4 @@
-import { all, put, take, takeLatest } from 'redux-saga/effects';
+import { all, put, take, takeLatest, select } from 'redux-saga/effects';
 import call, { callInSilent } from '../utils/call';
 import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
@@ -21,10 +21,16 @@ function* fetchOkrs({ payload }) {
   }
 }
 
-function* fetchObjective({payload}) {
-  const result = yield callInSilent(API.get, '/objectives/' + payload.id);
+function* fetchObjective({ payload }) {
+  yield put(objectiveActions.fetchObjectiveAsync(payload.objectiveId, payload.keyResultId));
+  yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
+}
+
+function* fetchObjectiveAsync({ payload }) {
+  const { objectiveId, keyResultId } = payload;
+  const result = yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`);
   if (result.error) {
-    yield put(objectiveActions.fetchedObjectiveError(payload.id));
+    yield put(objectiveActions.fetchedObjectiveError());
   } else {
     yield put(objectiveActions.fetchedObjective(result.get('objective')));
   }
@@ -42,14 +48,16 @@ function* fetchAllObjectives({ payload }) {
 
 function* addObjective({ payload }) {
   const result = yield call(API.post, '/objectives', { objective: payload.objective });
-  yield put(objectiveActions.addedObjective(result.get('objective'), payload.currentUserId));
+  const currentUserId = yield select(state => state.current.get('userId'));
+  yield put(objectiveActions.addedObjective(result.get('objective'), payload.isNew, currentUserId));
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
 }
 
 function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
-  yield put(objectiveActions.updatedObjective(result.get('objective'), payload.currentUserId));
+  const currentUserId = yield select(state => state.current.get('userId'));
+  yield put(objectiveActions.updatedObjective(result.get('objective'), currentUserId));
   if (payload.isToast) {
     yield put(toastActions.showToast('Objective を更新しました'));
   }
@@ -65,6 +73,7 @@ export function *objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
+    takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
     takeLatest(actionTypes.FETCH_ALL_OBJECTIVES, fetchAllObjectives),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),

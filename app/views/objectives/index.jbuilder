@@ -1,9 +1,3 @@
 json.objectives do
-  json.array!(@objectives) do |objective|
-    json.partial!(objective)
-
-    json.child_objectives do
-      json.partial! 'objectives/objective', collection: objective.child_objectives, as: :objective
-    end
-  end
+  json.partial! 'objectives/with_key_result', collection: @objectives, as: :objective
 end

@@ -4,10 +4,11 @@ class ObjectivesController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       objectives = @user.objectives
-                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
-                        .where(okr_period_id: params[:okr_period_id])
-                        .order(created_at: :desc)
+                       .includes(key_results: {child_objectives: [key_results: :child_objectives]})
+                       .where(okr_period_id: params[:okr_period_id])
+                       .order(created_at: :desc)
       if @user.objective_order
         order = JSON.parse(@user.objective_order)
         index = order.size
@@ -17,11 +18,12 @@ class ObjectivesController < ApplicationController
         @objectives =  objectives
       end
     else
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @objectives = current_organization
                         .okr_periods
                         .find(params[:okr_period_id])
                         .objectives
-                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
+                        .includes(key_results: {child_objectives: [key_results: :child_objectives]})
                         .order(created_at: :desc)
     end
   end

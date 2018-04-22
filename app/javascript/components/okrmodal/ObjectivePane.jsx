@@ -63,7 +63,6 @@ class ObjectivePane extends Component {
     return (
       <Form>
         <Form.Field>
-          <label>Objective</label>
           <AutoInput value={this.state.name} onCommit={value => this.updateName(value)} />
         </Form.Field>
         <Form.Field className='flex-field'>
@@ -105,16 +104,22 @@ class ObjectivePane extends Component {
         <div>
           <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative floated='right' />
         </div>
+
+        <Divider hidden clearing />
       </Form>
     );
   }
 }
 
 ObjectivePane.propTypes = {
-  removeObjective: PropTypes.func.isRequired,
+  objective: PropTypes.object.isRequired,
+  keyResults: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  isObjectiveOwner: PropTypes.bool.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
-  objective: PropTypes.object,
-  users: PropTypes.object,
+  removeObjective: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
 };
 
 ObjectivePane.defaultProps = {

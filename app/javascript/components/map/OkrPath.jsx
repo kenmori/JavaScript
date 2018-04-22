@@ -111,7 +111,7 @@ OkrPath.propTypes = {
   toPoints: PropTypes.object.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
-  fromId: PropTypes.number.isRequired,
+  fromId: PropTypes.number,
   onToggleObjective: PropTypes.func.isRequired,
   parentKeyResultId: PropTypes.number,
   keyResultIds: PropTypes.object,

@@ -44,7 +44,6 @@ class ObjectiveList extends Component {
   }
 
   selectObjective = objective => {
-    this.props.setMapObjective(objective);
     this.props.changeCurrentOkr(objective.get('id'));
   }
 
@@ -73,7 +72,6 @@ class ObjectiveList extends Component {
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,
-  setMapObjective: PropTypes.func.isRequired,
   objectiveOrder: PropTypes.object.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,

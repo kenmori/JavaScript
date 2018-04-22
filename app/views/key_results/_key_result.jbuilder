@@ -13,13 +13,3 @@ json.members do
     json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled
   end
 end
-
-json.comments do
-  # FIXME: プレゼンテーション層に直接クエリを記述しない
-  json.array!(key_result.comments.order('created_at DESC')) do |comment|
-    decorate!(comment)
-    json.extract! comment, :id, :text, :updated_at
-    json.editable comment.user_id == current_user.id || key_result.owner.id == current_user.id || key_result.objective.owner.id == current_user.id || current_user.admin?
-    json.full_name comment.user.full_name
-  end
-end

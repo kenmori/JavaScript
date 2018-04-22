@@ -6,24 +6,23 @@ import { denormalizeKeyResults } from '../schemas/index';
 import { getParentKeyResultCandidates } from "../utils/okr";
 
 const mapStateToProps = (state) => {
-  this.currentUserId = state.current.get('userId');
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
-  const parentKeyResults = getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id'));
+  const parentKeyResultCandidates = getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id'));
   return {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
     parentKeyResult,
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
-    keyResults: denormalizeKeyResults(parentKeyResults, state.entities),
+    keyResults: denormalizeKeyResults(parentKeyResultCandidates, state.entities),
     isFetchedKeyResults: state.keyResults.get(state.loginUser.get('isAdmin') ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addObjective: (objective) => {
-      dispatch(objectiveActions.addObjective(objective, this.currentUserId));
+    addObjective: (objective, isNew) => {
+      dispatch(objectiveActions.addObjective(objective, isNew));
     },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveModal());

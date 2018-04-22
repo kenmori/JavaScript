@@ -7,6 +7,7 @@ const actions = createActions({
   [actionTypes.OPEN_OBJECTIVE_MODAL]: parentKeyResult => ({ parentKeyResult }),
   [actionTypes.CLOSE_OBJECTIVE_MODAL]: () => {},
   [actionTypes.OPEN_OKR_MODAL]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
+  [actionTypes.OPENED_OKR_MODAL]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.CLOSE_OKR_MODAL]: () => {},
   [actionTypes.OPEN_AVATAR_MODAL]: (targetId, imageData) => ({ targetId, imageData }),
   [actionTypes.CLOSE_AVATAR_MODAL]: () => {},

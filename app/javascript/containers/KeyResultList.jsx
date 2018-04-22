@@ -5,7 +5,7 @@ import currentActions from '../actions/current';
 
 const mapStateToProps = (state) => {
   return {
-    currentKeyResultId: state.current.get('keyResultId'),
+    currentKeyResultId: state.keyResults.get('selectedId'),
   };
 };
 

@@ -25,39 +25,49 @@ class OkrMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.objective.get('id') !== nextProps.objective.get('id')
-      || this.props.objective.get('parentObjectiveId') !== nextProps.objective.get('parentObjectiveId')) {
+      || this.props.objective.get('parentKeyResultId') !== nextProps.objective.get('parentKeyResultId')) {
       this.createObjectivesList(nextProps.objective);
     } else if (this.props.objective !== nextProps.objective) {
       this.createObjectivesList(nextProps.objective, this.state.visibleIds);
     }
   }
 
+  // 初期表示リスト (基点 Objective とその KR)
   getInitialVisibleIds(objective) {
     return OrderedMap([[
-      objective.get('id'), objective.get('keyResults').map(keyResult => keyResult.get('id')).toSet()
+      objective.get('id'), objective.get('keyResultIds').toSet()
     ]]);
   }
 
+  // 基点 Objective と表示リストから上下方向に展開される Objective リストを構築する
+  // ex. [[O1], [O2, O3], [O4, O5, O6], ...]
   createObjectivesList(objective, visibleIds = this.getInitialVisibleIds(objective)) {
     const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
       } else {
-        const parent = objective.get('parentObjective');
-        if (parent) {
-          return findRoot(parent, rootId);
+        const parentKeyResult = objective.get('parentKeyResult');
+        if (parentKeyResult) {
+          const parent = parentKeyResult.get('objective');
+          if (parent) {
+            return findRoot(parent, rootId);
+          } else {
+            // 他人の親 Objective (未 fetch) の場合
+            this.props.fetchObjective(parentKeyResult.get('objectiveId'));
+          }
         } else {
-          // 他人の親 Objective の場合
-          this.props.fetchObjective(objective.get('parentObjectiveId'));
+          // 他人の親 KR (未 fetch) の場合
+          this.props.fetchObjectiveByKeyResult(objective.get('parentKeyResultId'));
         }
         return objective;
       }
     };
 
     const collectDescendants = (result, objective) => {
-      const childObjectiveIds = objective.get('childObjectiveIds');
+      const keyResults = objective.get('keyResults');
+      const childObjectiveIds = keyResults.flatMap(keyResult => keyResult.get('childObjectiveIds'));
       if (!childObjectiveIds.isEmpty()) {
-        let childObjectives = objective.get('childObjectives');
+        let childObjectives = keyResults.flatMap(keyResult => keyResult.get('childObjectives'));
         if (childObjectiveIds.size === childObjectives.size) {
           // 親 KR が展開されている子 Objective のみに絞り込む
           const visibleKeyResultIds = visibleIds.get(objective.get('id')) || Set();
@@ -69,7 +79,7 @@ class OkrMap extends Component {
             result = collectDescendants(result, child);
           }
         } else {
-          // 他人の子 Objective が含まれている場合
+          // 他人の子 Objective (未 fetch) が含まれている場合
           this.props.fetchObjective(objective.get('id'));
         }
       }
@@ -93,29 +103,31 @@ class OkrMap extends Component {
     });
   }
 
+  // 構築した Objective リストから OKR パス情報を生成する
   updateOkrPathProps({ objectivesList }) {
-    // リンク情報の構築
+    // リンク関係の構築
     const links = objectivesList.reduce((result, objectives) => {
       if (result.isEmpty()) {
         // ルート要素に親がいる場合は親とのリンクを追加する
-        const parentId = objectives.first().get('parentObjectiveId');
-        if (parentId) {
+        const rootObjective = objectives.first();
+        const parentKeyResultId = rootObjective.get('parentKeyResultId');
+        if (parentKeyResultId) {
           result = result.push({
-            fromId: parentId,
+            fromId: rootObjective.getIn(['parentKeyResult', 'objectiveId']),
             toIds: objectives.map(objective => objective.get('id')),
-            parentKeyResultId: objectives.first().get('parentKeyResultId'),
+            parentKeyResultId: parentKeyResultId,
           });
         }
       }
 
       // 子がいる場合は子とのリンクを追加する
       objectives.forEach(objective => {
-        const childObjectiveIds = objective.get('childObjectiveIds');
+        const childObjectiveIds = objective.get('keyResults').flatMap(keyResult => keyResult.get('childObjectiveIds'));
         if (!childObjectiveIds.isEmpty()) {
           result = result.push({
             fromId: objective.get('id'),
             toIds: childObjectiveIds,
-            keyResultIds: objective.get('keyResults').map(keyResult => keyResult.get('id')),
+            keyResultIds: objective.get('keyResultIds'),
           });
         }
       });
@@ -123,7 +135,7 @@ class OkrMap extends Component {
       return result;
     }, List());
 
-    // リンク情報からパス情報を作成
+    // リンク関係からパス情報を作成
     const okrPathPropsList = links.map(link => {
       let collapsedParent = false;
       let expandedChild = false;
@@ -236,7 +248,7 @@ class OkrMap extends Component {
     // 表示系統を切り替えるため親の ID を検索する
     const parentId = this.state.objectivesList
       .find(objectives => objectives.some(objective => objective.get('id') === objectiveId))
-      .first().get('parentObjectiveId');
+      .first().getIn(['parentKeyResult', 'objectiveId']);
     const index = this.state.visibleIds.keySeq().findIndex(id => id === parentId);
     return this.state.visibleIds.take(index + 1).set(objectiveId, keyResultIds);
   }
