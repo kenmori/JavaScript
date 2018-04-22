@@ -54,14 +54,10 @@ export default handleActions({
       state = removeFromAll(state, keyResultId);
       return remove(state, keyResultId);
     },
-    [ActionTypes.CHANGE_CURRENT_OKR]: (state, { payload }) => {
-      return state.set('selectedId', payload.keyResultId);
-    },
   },
   fromJS({
     ids: [],
     allIds: [],
-    selectedId: null,
     isFetchedKeyResults: false,
     isFetchedAllKeyResults: false,
   }),

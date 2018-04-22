@@ -5,7 +5,7 @@ import ActionTypes from '../constants/actionTypes';
 function add(state, objectiveId, isNew) {
   return state
     .update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
-    .update('selectedId', id => isNew ? objectiveId : id);
+    .update('selectedOkr', selectedOkr => isNew ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
 }
 
 function remove(state, objectiveId) {
@@ -13,7 +13,12 @@ function remove(state, objectiveId) {
   const index = state.get('ids').indexOf(objectiveId);
   return state
     .set('ids', objectiveIds)
-    .update('selectedId', id => id === objectiveId ? objectiveIds.get(index, objectiveIds.last()) : id);
+    .update('selectedOkr', selectedOkr => {
+      const isRemoved = selectedOkr.get('objectiveId') === objectiveId;
+      return isRemoved
+        ? selectedOkr.merge({ objectiveId: objectiveIds.get(index, objectiveIds.last()), keyResultId: null })
+        : selectedOkr;
+    });
 }
 
 function addToAll(state, objectiveId) {
@@ -38,7 +43,7 @@ export default handleActions({
       const objectiveIds = payload.get('result');
       return state
         .set('ids', objectiveIds)
-        .set('selectedId', objectiveIds.first())
+        .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
         .set('isFetchedObjectives', true);
     },
     [ActionTypes.FETCH_ALL_OBJECTIVES]: (state, { payload }) => {
@@ -74,14 +79,15 @@ export default handleActions({
       objectiveOrder = JSON.parse(objectiveOrder);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
-    [ActionTypes.CHANGE_CURRENT_OKR]: (state, { payload }) => {
-      return state.set('selectedId', payload.objectiveId);
+    [ActionTypes.SELECT_OKR]: (state, { payload }) => {
+      const { objectiveId, keyResultId } = payload;
+      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId });
     },
   },
   fromJS({
     ids: [],
     allIds: [],
-    selectedId: null,
+    selectedOkr: { objectiveId: null, keyResultId: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,
     isFetchedAllObjectives: false,

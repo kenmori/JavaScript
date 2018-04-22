@@ -8,7 +8,7 @@ const mapStateToProps = state => {
   return {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
-    mapObjective: denormalizeDeepObjective(state.objectives.get('selectedId'), state.entities),
+    mapObjective: denormalizeDeepObjective(state.objectives.getIn(['selectedOkr', 'objectiveId']), state.entities),
     objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),

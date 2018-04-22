@@ -9,14 +9,7 @@ class ObjectivesController < ApplicationController
                        .includes(key_results: {child_objectives: [key_results: :child_objectives]})
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
-      if @user.objective_order
-        order = JSON.parse(@user.objective_order)
-        index = order.size
-        # Objective 一覧を objective_order 順に並べる (順番のない O は後ろに並べていく)
-        @objectives =  objectives.sort_by { |objective| order.index(objective.id) || index + 1 }
-      else
-        @objectives =  objectives
-      end
+      @objectives = sort_objectives(objectives, @user.objective_order)
     else
       # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @objectives = current_organization
@@ -149,6 +142,14 @@ class ObjectivesController < ApplicationController
     if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: user_id)
       @objective.parent_key_result.key_result_members.create!(user_id: user_id, role: :member)
     end
+  end
+
+  def sort_objectives(objectives, objective_order)
+    return objectives unless objective_order
+    order = JSON.parse(objective_order)
+    index = 0
+    # Objective 一覧を objective_order 順に並べる (順番のない O は前に並べていく)
+    objectives.sort_by { |objective| order.index(objective.id) || index - 1 }
   end
 
   def objective_create_params

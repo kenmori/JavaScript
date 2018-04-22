@@ -11,7 +11,7 @@ class KeyResultList extends Component {
       // 他人の Objective の場合 (未 fetch)
       this.props.fetchObjective(objectiveId);
     }
-    this.props.changeCurrentOkr(objectiveId, keyResult.get('id'));
+    this.props.selectOkr(objectiveId, keyResult.get('id'));
   }
 
   render() {
@@ -30,7 +30,7 @@ class KeyResultList extends Component {
           </Table.Header>
           <Table.Body className='key-result-table'>
             {this.props.keyResults.map((keyResult, key) =>
-              <Table.Row key={key} active={keyResult.get('id') === this.props.currentKeyResultId}
+              <Table.Row key={key} active={keyResult.get('id') === this.props.selectedKeyResultId}
                          onClick={() => this.selectKeyResult(keyResult)}>
                 <Table.Cell textAlign='center'><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} /></Table.Cell>
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>

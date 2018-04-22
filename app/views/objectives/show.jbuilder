@@ -6,7 +6,7 @@ json.objective do
   end
 
   json.key_results do
-    json.array!(@objective.sorted_key_results) do |key_result|
+    json.array!(@objective.key_results) do |key_result|
       json.partial!(key_result)
 
       json.child_objectives do

@@ -15,7 +15,7 @@ class OkrCard extends Component {
         <List>
           {keyResults.map(keyResult => {
             const keyResultId = keyResult.get('id');
-            const isSelected = keyResultId === this.props.currentKeyResultId;
+            const isSelected = keyResultId === this.props.selectedKeyResultId;
             const isToggleOn = this.props.visibleKeyResultIds && this.props.visibleKeyResultIds.includes(keyResultId);
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
@@ -49,7 +49,7 @@ class OkrCard extends Component {
 
   render() {
     const objective = this.props.objective;
-    const isSelected = objective.get('id') === this.props.currentObjectiveId;
+    const isSelected = objective.get('id') === this.props.selectedObjectiveId;
     return (
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
         <Card.Content>
