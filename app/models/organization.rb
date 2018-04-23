@@ -4,6 +4,7 @@ class Organization < ApplicationRecord
   
   has_many :groups
   has_many :organization_members
+  has_many :users, through: :organization_members
   has_many :okr_periods
 
   mount_uploader :logo, LogoUploader
