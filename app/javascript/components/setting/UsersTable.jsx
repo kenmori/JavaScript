@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Table, Label, Pagination } from 'semantic-ui-react';
+import { Table, Pagination } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import AutoInput from '../form/AutoInput';
-import UserAvatar from '../../containers/UserAvatar';
+import UsersTableRow from './UsersTableRow';
 
 class UsersTable extends Component {
 
@@ -29,7 +28,7 @@ class UsersTable extends Component {
     this.props.confirm({
       content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
       onConfirm: () => {
-        const notLogout = id !== this.props.loginUser.get('id');
+        const notLogout = id !== this.props.loginUserId;
         this.props.onUpdateEmail({ id, email, notLogout });
       },
       onCancel: () => this.forceUpdate(), // 入力内容を破棄する
@@ -79,14 +78,14 @@ class UsersTable extends Component {
     )) : users;
   }
 
-  removeUser = user => () => {
+  removeUser = user => {
     this.props.confirm({
       content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を無効化しますか？`,
       onConfirm: () => this.props.onRemove(user.get('id')),
     });
   };
 
-  restoreUser = user => () => {
+  restoreUser = user => {
     this.props.confirm({
       content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を有効化しますか？`,
       onConfirm: () => this.props.onRestore(user.get('id')),
@@ -122,58 +121,15 @@ class UsersTable extends Component {
           <Table.Body>
             {filteredUsers.slice(begin, end).map(user => {
               const id = user.get('id');
-              const isLoginUser = this.props.loginUser && id === this.props.loginUser.get('id');
-              return (
-                <Table.Row key={id}>
-                  <Table.Cell textAlign='center'>{user.get('index')}</Table.Cell>
-                  <Table.Cell textAlign='center'>
-                    <UserAvatar user={user} size='large' withInitial={false} editable={!user.get('disabled')} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <AutoInput value={user.get('lastName')}
-                               placeholder='姓'
-                               readOnly={user.get('disabled')}
-                               onCommit={lastName => this.props.onUpdateUser({ id, lastName })} />
-                    <AutoInput value={user.get('firstName')}
-                               placeholder='名'
-                               readOnly={user.get('disabled')}
-                               onCommit={firstName => this.props.onUpdateUser({ id, firstName })} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <AutoInput value={user.get('email')}
-                               placeholder='name@example.com'
-                               readOnly={user.get('disabled')}
-                               onCommit={email => this.changeEmail(id, email)} />
-                    {user.get('unconfirmedEmail') && (
-                      user.get('disabled')
-                        ? <Label pointing='left' icon='mail' content='確認中' />
-                        : <Label pointing='left' icon='mail' content='確認中' as='a'
-                                 onClick={() => this.resendEmail(user)} />
-                    )}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Checkbox label='管理者'
-                              defaultChecked={user.get('isAdmin')}
-                              onChange={(event, { checked }) => this.props.onUpdateUser({ id, admin: checked })}
-                              disabled={user.get('disabled') || isLoginUser}
-                    />
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {user.get('disabled') ?
-                      <Button icon='recycle' title='有効化'
-                              onClick={this.restoreUser(user)}
-                      />
-                      :
-                      <div className={isLoginUser ? 'disabled-box' : ''}>
-                        <Button icon='trash' title='無効化' negative
-                                onClick={this.removeUser(user)}
-                                disabled={isLoginUser}
-                        />
-                      </div>
-                    }
-                  </Table.Cell>
-                </Table.Row>
-              );
+              return <UsersTableRow key={id}
+                                    user={user}
+                                    isLoginUser={id === this.props.loginUserId}
+                                    updateUser={values => this.props.onUpdateUser({ id, ...values })}
+                                    changeEmail={email => this.changeEmail(id, email)}
+                                    resendEmail={this.resendEmail}
+                                    removeUser={this.removeUser}
+                                    restoreUser={this.restoreUser}
+              />
             })}
           </Table.Body>
 
@@ -197,7 +153,7 @@ class UsersTable extends Component {
 
 UsersTable.propTypes = {
   users: PropTypes.object.isRequired,
-  loginUser: PropTypes.object,
+  loginUserId: PropTypes.number,
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
   onResendEmail: PropTypes.func,
