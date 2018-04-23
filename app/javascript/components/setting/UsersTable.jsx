@@ -180,10 +180,12 @@ class UsersTable extends Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan='6' textAlign='right'>
-                <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
-                            prevItem={activePage === 1 ? null : undefined}
-                            nextItem={activePage === totalPages ? null : undefined}
-                            onPageChange={(e, { activePage }) => this.setState({ activePage })} />
+                {totalPages > 0 && (
+                  <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
+                              prevItem={activePage === 1 ? null : undefined}
+                              nextItem={activePage === totalPages ? null : undefined}
+                              onPageChange={(e, { activePage }) => this.setState({ activePage })} />
+                )}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
