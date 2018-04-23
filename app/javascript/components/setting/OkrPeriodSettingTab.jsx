@@ -128,7 +128,7 @@ class OkrPeriodSettingTab extends Component {
                 名前
               </Table.HeaderCell>
               <Table.HeaderCell sorted={column === 'month_start' ? direction : null} onClick={(event) => this.sort('month_start')}>
-                期間
+                期間 (開始日 - 終了日)
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
             </Table.Row>
