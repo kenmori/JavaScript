@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
+import { Button, Checkbox, Table, Label, Pagination } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import AutoInput from '../form/AutoInput';
 import UserAvatar from '../../containers/UserAvatar';
 
 class UsersTable extends Component {
+
+  static NUMBER_TO_DISPLAY = 50;
 
   constructor(props) {
     super(props);
@@ -12,6 +14,7 @@ class UsersTable extends Component {
       column: 'index',
       users: this.getUsers(props.users),
       direction: 'ascending',
+      activePage: 1,
     };
   }
 
@@ -90,7 +93,11 @@ class UsersTable extends Component {
   };
 
   render() {
-    const { column, direction } = this.state;
+    const { column, direction, users, activePage } = this.state;
+    const filteredUsers = this.getFilteredUsers(users, this.props.keyword);
+    const begin = (activePage - 1) * UsersTable.NUMBER_TO_DISPLAY;
+    const end = Math.min(filteredUsers.size, activePage * UsersTable.NUMBER_TO_DISPLAY);
+    const totalPages = Math.ceil(filteredUsers.size / UsersTable.NUMBER_TO_DISPLAY);
     return (
       <div className="users-table">
         <Table singleLine sortable>
@@ -112,7 +119,7 @@ class UsersTable extends Component {
           </Table.Header>
 
           <Table.Body>
-            {this.getFilteredUsers(this.state.users, this.props.keyword).map(user => {
+            {filteredUsers.slice(begin, end).map(user => {
               const id = user.get('id');
               const isLoginUser = this.props.loginUser && id === this.props.loginUser.get('id');
               return (
@@ -168,6 +175,17 @@ class UsersTable extends Component {
               );
             })}
           </Table.Body>
+
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan='6' textAlign='right'>
+                <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
+                            prevItem={activePage === 1 ? null : undefined}
+                            nextItem={activePage === totalPages ? null : undefined}
+                            onPageChange={(e, { activePage }) => this.setState({ activePage })} />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
       </div>
     );
