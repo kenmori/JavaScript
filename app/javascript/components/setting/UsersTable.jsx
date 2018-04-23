@@ -20,6 +20,7 @@ class UsersTable extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
+      activePage: this.props.keyword !== nextProps.keyword ? 1 : this.state.activePage,
       users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
     });
   }
