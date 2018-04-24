@@ -11,7 +11,7 @@ export const getParentKeyResultCandidates = (state, parentKeyResultId, objective
   const isObjectiveOwner = objectiveOwnerId === loginUserId;
 
   if (isAdmin) {
-    return state.keyResults.get('allIds');
+    return state.keyResults.get('candidates');
   } else if (isObjectiveOwner) {
     if (currentUserId === loginUserId) {
       return state.keyResults.get('ids');
@@ -37,7 +37,7 @@ export const getObjectiveCandidates = (state, objectiveId, objectiveOwnerId = nu
   const isObjectiveOwner = objectiveOwnerId === loginUserId;
 
   if (isAdmin) {
-    return state.objectives.get('allIds');
+    return state.objectives.get('candidates');
   } else if (isObjectiveOwner) {
     if (currentUserId === loginUserId) {
       return state.objectives.get('ids');

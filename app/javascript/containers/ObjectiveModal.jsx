@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
     keyResults: denormalizeKeyResults(parentKeyResultCandidates, state.entities),
-    isFetchedKeyResults: state.keyResults.get(state.loginUser.get('isAdmin') ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
+    isFetchedKeyResults: state.keyResults.get(state.loginUser.get('isAdmin') ? 'isFetchedCandidates' : 'isFetchedKeyResults'),
   };
 };
 

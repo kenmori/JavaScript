@@ -12,9 +12,9 @@ function* fetchKeyResults({payload}) {
   yield put(keyResultActions.fetchedKeyResults(result.get('keyResults')));
 }
 
-function* fetchAllKeyResults({ payload }) {
-  const result = yield call(API.get, '/key_results', { okrPeriodId: payload.okrPeriodId });
-  yield put(keyResultActions.fetchedAllKeyResults(result.get('keyResults')));
+function* fetchKeyResultCandidates({ payload }) {
+  const result = yield call(API.get, '/key_results/candidates', { okrPeriodId: payload.okrPeriodId });
+  yield put(keyResultActions.fetchedKeyResultCandidates(result));
 }
 
 function* addKeyResult({ payload }) {
@@ -41,7 +41,7 @@ function* removeKeyResult({payload}) {
 export function *keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
-    takeLatest(actionTypes.FETCH_ALL_KEY_RESULTS, fetchAllKeyResults),
+    takeLatest(actionTypes.FETCH_KEY_RESULT_CANDIDATES, fetchKeyResultCandidates),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),

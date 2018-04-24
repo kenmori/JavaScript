@@ -19,8 +19,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOkrs: (okrPeriodId, userId, withAll) => {
-      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withAll));
+    fetchOkrs: (okrPeriodId, userId, withCandidates) => {
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withCandidates));
     },
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());
