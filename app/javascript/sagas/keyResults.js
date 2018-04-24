@@ -13,7 +13,7 @@ function* fetchKeyResults({payload}) {
 }
 
 function* fetchKeyResultCandidates({ payload }) {
-  const result = yield call(API.get, '/key_results/candidates', { okrPeriodId: payload.okrPeriodId });
+  const result = yield call(API.get, '/key_results/candidates', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
   yield put(keyResultActions.fetchedKeyResultCandidates(result));
 }
 

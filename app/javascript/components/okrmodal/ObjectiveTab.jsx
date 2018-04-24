@@ -20,10 +20,10 @@ class ObjectiveTab extends Component {
 
 ObjectiveTab.propTypes = {
   objective: PropTypes.object.isRequired,
-  keyResults: PropTypes.object.isRequired,
+  parentKeyResultCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedKeyResults: PropTypes.bool.isRequired,
+  isFetchedKeyResultCandidates: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,

@@ -5,7 +5,7 @@ import { normalizeKeyResult, normalizeKeyResults } from '../schemas/index'
 const actions = createActions({
   [actionTypes.FETCH_KEY_RESULTS]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_KEY_RESULTS]: keyResults => normalizeKeyResults(keyResults),
-  [actionTypes.FETCH_KEY_RESULT_CANDIDATES]: okrPeriodId => ({ okrPeriodId }),
+  [actionTypes.FETCH_KEY_RESULT_CANDIDATES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_KEY_RESULT_CANDIDATES]: keyResults => ({ keyResults }),
   [actionTypes.ADD_KEY_RESULT]: keyResult => ({ keyResult }),
   [actionTypes.ADDED_KEY_RESULT]: (keyResult, currentUserId) => normalizeKeyResult(keyResult).set('currentUserId', currentUserId),

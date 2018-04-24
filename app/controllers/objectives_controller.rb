@@ -1,22 +1,28 @@
 class ObjectivesController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user.organization.id)
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+      forbidden and return unless valid_permission?(@user.organization.id)
 
-    # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
-    objectives = @user.objectives
-                     .includes(key_results: { child_objectives: [key_results: :child_objectives] })
-                     .where(okr_period_id: params[:okr_period_id])
-                     .order(created_at: :desc)
-    @objectives = sort_objectives(objectives, @user.objective_order)
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
+      objectives = @user.objectives
+                       .includes(key_results: { child_objectives: [key_results: :child_objectives] })
+                       .where(okr_period_id: params[:okr_period_id])
+                       .order(created_at: :desc)
+      @objectives = sort_objectives(objectives, @user.objective_order)
+    else
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
+      @objectives = current_organization
+                        .okr_periods
+                        .find(params[:okr_period_id])
+                        .objectives
+                        .includes(key_results: { child_objectives: [key_results: :child_objectives] })
+                        .order(created_at: :desc)
+    end
   end
 
   def index_candidates
-    @objectives = current_organization
-                      .okr_periods
-                      .find(params[:okr_period_id])
-                      .objectives
-                      .order(created_at: :desc)
+    index
   end
 
   def show

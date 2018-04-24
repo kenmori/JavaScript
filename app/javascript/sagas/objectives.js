@@ -14,9 +14,11 @@ function* fetchOkrs({ payload }) {
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
   if (payload.withCandidates) {
-    yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId)); // without loading
+    const [loginUserId, isAdmin] = yield select(state => [state.loginUser.get('id'), state.loginUser.get('isAdmin')]);
+    const userId = isAdmin ? undefined : loginUserId;
+    yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId, userId)); // without loading
     yield take(actionTypes.FETCHED_KEY_RESULT_CANDIDATES)
-    yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId)); // without loading
+    yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId, userId)); // without loading
     yield take(actionTypes.FETCHED_OBJECTIVE_CANDIDATES)
   }
 }
@@ -42,7 +44,7 @@ function* fetchObjectives({payload}) {
 }
 
 function* fetchObjectiveCandidates({ payload }) {
-  const result = yield call(API.get, '/objectives/candidates', { okrPeriodId: payload.okrPeriodId });
+  const result = yield call(API.get, '/objectives/candidates', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
   yield put(objectiveActions.fetchedObjectiveCandidates(result));
 }
 

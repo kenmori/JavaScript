@@ -13,13 +13,12 @@ const mapStateToProps = state => {
     keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
-    isAdmin: state.loginUser.get('isAdmin'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOkrs: (okrPeriodId, userId, withCandidates) => {
+    fetchOkrs: (okrPeriodId, userId, withCandidates = true) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withCandidates));
     },
     openObjectiveModal: () => {

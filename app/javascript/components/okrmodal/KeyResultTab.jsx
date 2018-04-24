@@ -26,11 +26,11 @@ class KeyResultTab extends Component {
 
 KeyResultTab.propTypes = {
   keyResult: PropTypes.object.isRequired,
-  objectives: PropTypes.object.isRequired,
+  objectiveCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedObjectives: PropTypes.bool.isRequired,
+  isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
   changeToObjectiveModal: PropTypes.func.isRequired,

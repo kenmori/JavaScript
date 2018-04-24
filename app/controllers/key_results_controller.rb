@@ -1,21 +1,27 @@
 class KeyResultsController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
-    forbidden and return unless valid_permission?(@user.organization.id)
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+      forbidden and return unless valid_permission?(@user.organization.id)
 
-    # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
-    @key_results = @user.key_results
-                       .includes(child_objectives: { key_results: [child_objectives: :key_results] })
-                       .where(okr_period_id: params[:okr_period_id])
-                       .order(created_at: :desc)
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
+      @key_results = @user.key_results
+                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
+                         .where(okr_period_id: params[:okr_period_id])
+                         .order(created_at: :desc)
+    else
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
+      @key_results = current_organization
+                         .okr_periods
+                         .find(params[:okr_period_id])
+                         .key_results
+                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
+                         .order(created_at: :desc)
+    end
   end
 
   def index_candidates
-    @key_results = current_organization
-                       .okr_periods
-                       .find(params[:okr_period_id])
-                       .key_results
-                       .order(created_at: :desc)
+    index
   end
 
   def show_objective
