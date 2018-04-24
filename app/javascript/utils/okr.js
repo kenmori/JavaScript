@@ -1,35 +1,38 @@
 import { List } from 'immutable';
 
 // Objective の上位 KR 候補一覧を返す
-// - 管理者 => 全 KR
-// - O 責任者 => 自分の KR (責任者＆関係者) のみ
-// - その他 => 他人の上位 KR のみ
-export const getParentKeyResultCandidates = (state, parentKeyResultId, objectiveOwnerId = null) => {
-  const loginUserId = state.loginUser.get('id');
-  const isAdmin = state.loginUser.get('isAdmin');
-  const isObjectiveOwner = objectiveOwnerId === loginUserId;
-
-  if (isAdmin || isObjectiveOwner) {
-    return state.keyResults.get('candidates');
-  } else {
-    return parentKeyResultId ? List.of(state.entities.keyResults.get(parentKeyResultId)) : List();
+export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
+  const candidates = state.keyResults.get('candidates');
+  if (parentKeyResultId) {
+    if (candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
+      return candidates;
+    }
+    // 候補一覧に紐付く上位 KR が存在しない場合は含める
+    const parentKeyResult = state.entities.keyResults.get(parentKeyResultId);
+    if (parentKeyResult) {
+      return candidates.push(parentKeyResult);
+    }
   }
+  return List();
 }
 
 // KR に紐付く Objective 候補一覧を返す
 // - 管理者 => 全 O
 // - O 責任者 => 自分の O のみ
 // - その他 => 他人の O のみ
-export const getObjectiveCandidates = (state, objectiveId, objectiveOwnerId = null) => {
-  const loginUserId = state.loginUser.get('id');
-  const isAdmin = state.loginUser.get('isAdmin');
-  const isObjectiveOwner = objectiveOwnerId === loginUserId;
-
-  if (isAdmin || isObjectiveOwner) {
-    return state.objectives.get('candidates');
-  } else {
-    return objectiveId ? List.of(state.entities.objectives.get(objectiveId)) : List();
+export const getObjectiveCandidates = (state, objectiveId) => {
+  const candidates = state.objectives.get('candidates');
+  if (objectiveId) {
+    if (candidates.find(objective => objective.get('id') === objectiveId)) {
+      return candidates;
+    }
+    // 候補一覧に紐付く Objective が存在しない場合は含める
+    const objective = state.entities.objectives.get(objectiveId);
+    if (objective) {
+      return candidates.push(objective);
+    }
   }
+  return List();
 }
 
 // Objective 並び替えが可能かどうか

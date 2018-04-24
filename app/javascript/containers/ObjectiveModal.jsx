@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
-    parentKeyResultCandidates: getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id'), state.loginUser.get('id')),
+    parentKeyResultCandidates: getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id')),
     isFetchedCandidates: state.keyResults.get('isFetchedCandidates'),
   };
 };
