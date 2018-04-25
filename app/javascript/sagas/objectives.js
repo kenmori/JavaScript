@@ -16,6 +16,7 @@ function* fetchOkrs({ payload }) {
   if (payload.withCandidates) {
     const [loginUserId, isAdmin] = yield select(state => [state.loginUser.get('id'), state.loginUser.get('isAdmin')]);
     const userId = isAdmin ? undefined : loginUserId;
+    // Objective に紐付く上位 KR の変更のほうがよく行われるとの推測から先に KR を fetch する
     yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId, userId)); // without loading
     yield take(actionTypes.FETCHED_KEY_RESULT_CANDIDATES)
     yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId, userId)); // without loading
