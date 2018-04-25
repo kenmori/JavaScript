@@ -12,7 +12,7 @@ const actions = createActions({
   [actionTypes.FETCH_OBJECTIVES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_OBJECTIVES]: objectives => normalizeObjectives(objectives),
   [actionTypes.FETCH_OBJECTIVE_CANDIDATES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
-  [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives => ({ objectives }),
+  [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives => normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, isNew) => ({ objective, isNew }),
   [actionTypes.ADDED_OBJECTIVE]: (objective, isNew, currentUserId) => normalizeObjective(objective).set('isNew', isNew).set('currentUserId', currentUserId),
   [actionTypes.UPDATE_OBJECTIVE]: (objective, isToast = true) => ({ objective, isToast }),

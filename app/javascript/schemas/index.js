@@ -106,6 +106,14 @@ function denormalizeDeepKeyResults(keyResultIds, entities, objective) {
   return keyResultIds.map(id => denormalizeDeepKeyResult(id, entities, objective));
 }
 
+function denormalizeObjectiveCandidates(objectiveIds, entities) {
+  return objectiveIds.map(objectiveId => getObjective(objectiveId, entities));
+}
+
+function denormalizeKeyResultCandidates(keyResultIds, entities) {
+  return keyResultIds.map(keyResultId => getKeyResult(keyResultId, entities));
+}
+
 export {
   normalizeObjective,
   normalizeObjectives,
@@ -116,4 +124,6 @@ export {
   denormalizeKeyResult,
   denormalizeKeyResults,
   denormalizeDeepObjective,
+  denormalizeObjectiveCandidates,
+  denormalizeKeyResultCandidates,
 };

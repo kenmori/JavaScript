@@ -1,6 +1,8 @@
+import { denormalizeObjectiveCandidates, denormalizeKeyResultCandidates } from '../schemas/index';
+
 // Objective の上位 KR 候補一覧を返す
 export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
-  const candidates = state.keyResults.get('candidates');
+  const candidates = denormalizeKeyResultCandidates(state.keyResults.get('candidates'), state.candidates);
   if (parentKeyResultId && !candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
     // 候補一覧に紐付く上位 KR が存在しない場合は含める
     const parentKeyResult = state.entities.keyResults.get(parentKeyResultId);
@@ -16,7 +18,7 @@ export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
 // - O 責任者 => 自分の O のみ
 // - その他 => 他人の O のみ
 export const getObjectiveCandidates = (state, objectiveId) => {
-  const candidates = state.objectives.get('candidates');
+  const candidates = denormalizeObjectiveCandidates(state.objectives.get('candidates'), state.candidates);
   if (objectiveId && !candidates.find(objective => objective.get('id') === objectiveId)) {
     // 候補一覧に紐付く Objective が存在しない場合は含める
     const objective = state.entities.objectives.get(objectiveId);

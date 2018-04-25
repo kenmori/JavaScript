@@ -50,7 +50,7 @@ export default handleActions({
       return state.set('isFetchedCandidates', false);
     },
     [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidates', payload.objectives).set('isFetchedCandidates', true);
+      return state.set('candidates', payload.get('result')).set('isFetchedCandidates', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();

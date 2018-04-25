@@ -29,7 +29,7 @@ export default handleActions({
       return state.set('isFetchedCandidates', false);
     },
     [ActionTypes.FETCHED_KEY_RESULT_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidates', payload.keyResults).set('isFetchedCandidates', true);
+      return state.set('candidates', payload.get('result')).set('isFetchedCandidates', true);
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
