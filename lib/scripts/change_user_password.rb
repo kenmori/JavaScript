@@ -10,7 +10,7 @@ class ChangeUserPassword
     end
 
     user_name = "'#{user.first_name} #{user.last_name}'"
-    print "Do you want to change password of #{user_name} (YES/no)? "
+    print "Do you want to change password of #{user_name}? [YES/no] "
     while true do
       case gets.chomp!
         when 'YES'
