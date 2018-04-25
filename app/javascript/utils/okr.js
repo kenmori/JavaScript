@@ -1,19 +1,14 @@
-import { List } from 'immutable';
-
 // Objective の上位 KR 候補一覧を返す
 export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
   const candidates = state.keyResults.get('candidates');
-  if (parentKeyResultId) {
-    if (candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
-      return candidates;
-    }
+  if (parentKeyResultId && !candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
     // 候補一覧に紐付く上位 KR が存在しない場合は含める
     const parentKeyResult = state.entities.keyResults.get(parentKeyResultId);
     if (parentKeyResult) {
       return candidates.push(parentKeyResult);
     }
   }
-  return List();
+  return candidates;
 }
 
 // KR に紐付く Objective 候補一覧を返す
@@ -22,17 +17,14 @@ export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
 // - その他 => 他人の O のみ
 export const getObjectiveCandidates = (state, objectiveId) => {
   const candidates = state.objectives.get('candidates');
-  if (objectiveId) {
-    if (candidates.find(objective => objective.get('id') === objectiveId)) {
-      return candidates;
-    }
+  if (objectiveId && !candidates.find(objective => objective.get('id') === objectiveId)) {
     // 候補一覧に紐付く Objective が存在しない場合は含める
     const objective = state.entities.objectives.get(objectiveId);
     if (objective) {
       return candidates.push(objective);
     }
   }
-  return List();
+  return candidates;
 }
 
 // Objective 並び替えが可能かどうか
