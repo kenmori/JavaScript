@@ -117,6 +117,7 @@ class KeyResultModal extends Component {
   
   render() {
     const { objective } = this.props;
+    const parentKeyResult = objective && objective.get('parentKeyResult');
     return (
       <Modal
         closeIcon 
@@ -133,6 +134,21 @@ class KeyResultModal extends Component {
         <Modal.Content>
           <div className="keyresult-modal__body">
             <div className="keyresult-modal__sidebar sidebar">
+              {parentKeyResult && (
+                <div className="sidebar__item">
+                  <div className="sidebar__title">上位 Key Result</div>
+                  <div className="sidebar__content">
+                    <List>
+                      <List.Item>
+                        <List.Content>
+                          <List.Header>{parentKeyResult.get('name')}</List.Header>
+                          <List.Description>{parentKeyResult.get('description')}</List.Description>
+                        </List.Content>
+                      </List.Item>
+                    </List>
+                  </div>
+                </div>
+              )}
               <div className="sidebar__item">
                 <div className="sidebar__title">紐付く Objective</div>
                 <div className="sidebar__content">
