@@ -117,6 +117,7 @@ class ObjectiveModal extends Component {
                         <List.Item>
                           <List.Content>
                             <List.Header>{parentKeyResult.get('name')}</List.Header>
+                            <List.Description>{parentKeyResult.get('description')}</List.Description>
                           </List.Content>
                         </List.Item>
                       </List>
