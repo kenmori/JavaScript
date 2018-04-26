@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
+import { Form, Divider } from 'semantic-ui-react';
 import OkrSelect from '../form/OkrSelect';
 import OkrList from '../form/OkrList';
 
 class LinkPane extends Component {
-
-  updateParentKeyResultId(value) {
-    this.props.updateOkr({
-        id: this.props.okr.get('id'),
-        parentKeyResultId: value === -1 ? null : value,
-      },
-    );
-  }
 
   renderObjectiveLinks() {
     const objective = this.props.okr;
@@ -28,9 +20,10 @@ class LinkPane extends Component {
             value={objective.get('parentKeyResultId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedCandidates}
-            onChange={value => this.updateParentKeyResultId(value)}
+            onChange={value => this.props.updateOkr({ parentKeyResultId: value === -1 ? null : value })}
           />
         </Form.Field>
+        <Divider hidden />
         {childObjectives && !childObjectives.isEmpty() && (
           <Form.Field>
             <label>上位 Key Result に紐付く下位 Objective 一覧</label>
@@ -43,6 +36,7 @@ class LinkPane extends Component {
 
   renderKeyResultLinks() {
     const keyResult = this.props.okr;
+    const childObjectives = keyResult.get('childObjectives');
     return (
       <Form>
         <Form.Field>
@@ -52,21 +46,17 @@ class LinkPane extends Component {
             value={keyResult.get('objectiveId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedCandidates}
-            onChange={value => this.updateOkr({ objectiveId: value })}
+            onChange={value => this.props.updateOkr({ objectiveId: value })}
           />
         </Form.Field>
-        {this.childObjectivesTag(keyResult.get('childObjectives'))}
+        <Divider hidden />
+        {!childObjectives.isEmpty() && (
+          <Form.Field>
+            <label>下位 Objective 一覧</label>
+            <OkrList okrs={childObjectives} />
+          </Form.Field>
+        )}
       </Form>
-    );
-  }
-
-  childObjectivesTag(childObjectives) {
-    if (childObjectives.isEmpty()) return null;
-    return (
-      <Form.Field>
-        <label>下位 Objective 一覧</label>
-        <OkrList okrs={childObjectives} />
-      </Form.Field>
     );
   }
 

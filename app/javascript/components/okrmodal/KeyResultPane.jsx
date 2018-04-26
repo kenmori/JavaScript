@@ -29,13 +29,13 @@ class KeyResultPane extends Component {
   }
 
   addMember(value) {
-    this.updateKeyResult({
+    this.props.updateKeyResult({
       member: {user: value, behavior: 'add', role: 'member'}
     });
   }
 
   removeMember(value) {
-    const removeAction = () => this.updateKeyResult({
+    const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
     });
     if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
@@ -49,19 +49,15 @@ class KeyResultPane extends Component {
   }
 
   changeKeyResultOwner(value) {
-    this.updateKeyResult({
+    this.props.updateKeyResult({
       member: {user: value, behavior: 'add', role: 'owner'}
     });
-  }
-
-  updateKeyResult(values) {
-    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
   
   updateKeyResultWithState(name, value) {
     if (this.state[name] !== value) {
       this.setState({ [name]: value });
-      this.updateKeyResult({ [name]: value });
+      this.props.updateKeyResult({ [name]: value });
     }
   }
 
@@ -90,7 +86,7 @@ class KeyResultPane extends Component {
       <div className='flex-field__item'>
         <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
                                content={`下位 OKR の進捗は ${childProgressRate}% です`}
-                               onClick={() => this.updateKeyResult({ 'progressRate': null })} />}
+                               onClick={() => this.props.updateKeyResult({ 'progressRate': null })} />}
                position='bottom left'
                size='tiny'
                content='クリックすると下位 OKR の進捗が設定されます'

@@ -6,13 +6,19 @@ import LinkPane from './LinkPane';
 
 class ObjectiveTab extends Component {
 
+  updateObjective = values => {
+    this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
+  }
+
   render() {
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
     return (
       <Tab panes={[
         {
           menuItem: <Menu.Item key='objective'>Objective{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane><ObjectivePane {...this.props} /></Tab.Pane>
+          render: () => <Tab.Pane>
+            <ObjectivePane {...this.props} updateObjective={this.updateObjective} />
+          </Tab.Pane>
         },
         {
           menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
@@ -21,7 +27,7 @@ class ObjectiveTab extends Component {
                       candidates={this.props.parentKeyResultCandidates}
                       isObjectiveOwner={this.props.isObjectiveOwner}
                       isFetchedCandidates={this.props.isFetchedKeyResultCandidates}
-                      updateOkr={this.props.updateObjective}
+                      updateOkr={this.updateObjective}
             />
           </Tab.Pane>
         },

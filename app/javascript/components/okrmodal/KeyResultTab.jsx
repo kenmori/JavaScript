@@ -7,6 +7,10 @@ import CommentPane from './CommentPane';
 
 class KeyResultTab extends Component {
 
+  updateKeyResult = values => {
+    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
+  }
+
   render() {
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
     const comments = this.props.keyResult.get('comments');
@@ -14,7 +18,9 @@ class KeyResultTab extends Component {
       <Tab panes={[
         {
           menuItem: <Menu.Item key='keyResult'>Key Result{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane><KeyResultPane {...this.props} /></Tab.Pane>
+          render: () => <Tab.Pane>
+            <KeyResultPane {...this.props} updateKeyResult={this.updateKeyResult} />
+          </Tab.Pane>
         },
         {
           menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
@@ -24,13 +30,15 @@ class KeyResultTab extends Component {
                       isObjective={false}
                       isObjectiveOwner={this.props.isObjectiveOwner}
                       isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
-                      updateOkr={this.props.updateKeyResult}
+                      updateOkr={this.updateKeyResult}
             />
           </Tab.Pane>
         },
         {
           menuItem: <Menu.Item key='comments'>コメント<Label>{comments ? comments.size : 0}</Label></Menu.Item>,
-          render: () => <Tab.Pane loading={!comments}><CommentPane {...this.props} /></Tab.Pane>
+          render: () => <Tab.Pane loading={!comments}>
+            <CommentPane {...this.props} updateKeyResult={this.updateKeyResult} />
+          </Tab.Pane>
         },
       ]} />
     );

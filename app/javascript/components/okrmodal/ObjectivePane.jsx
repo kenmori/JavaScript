@@ -16,18 +16,14 @@ class ObjectivePane extends Component {
   }
 
   changeObjectiveOwner(value) {
-    this.updateObjective({
+    this.props.updateObjective({
       objectiveMember: {user: value}
     });
   }
 
-  updateObjective(values) {
-    this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
-  }
-
   updateName(value) {
     this.setState({ name: value });
-    this.updateObjective({ name: value });
+    this.props.updateObjective({ name: value });
   }
 
   removeObjective(objective) {
@@ -75,7 +71,7 @@ class ObjectivePane extends Component {
           <label>説明</label>
           <AutoTextArea value={objective.get('description')}
                         placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={value => this.updateObjective({ description: value })}
+                        onCommit={value => this.props.updateObjective({ description: value })}
           />
         </Form.Field>
 
