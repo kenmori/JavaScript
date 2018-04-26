@@ -209,7 +209,7 @@ class KeyResultPane extends Component {
 
         <div>
           <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative floated='right' />
-          <Button content="下位 OKR を作成する" onClick={() => this.props.changeToObjectiveModal(keyResult)} as="span" positive floated='right' />
+          <Button content="下位 OKR を作成する" onClick={() => this.props.openObjectiveModal(keyResult)} as="span" positive floated='right' />
         </div>
 
         <Divider hidden clearing />
@@ -225,7 +225,7 @@ KeyResultPane.propTypes = {
   isObjectiveOwner: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
-  changeToObjectiveModal: PropTypes.func.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 

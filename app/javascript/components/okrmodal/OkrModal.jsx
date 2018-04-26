@@ -17,14 +17,6 @@ class OkrModal extends Component {
     }
   }
 
-  changeToObjectiveModal = parentKeyResult => {
-    this.props.openObjectiveModal(parentKeyResult);
-  }
-
-  changeToKeyResultModal(objective) {
-    this.props.openKeyResultModal(objective);
-  }
-
   isNotExistMember(users, targetUser) {
     return !users.find(item => item.get('id') === targetUser.get('id'));
   }
@@ -57,8 +49,7 @@ class OkrModal extends Component {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId);
       if(!keyResult) {return null;}
       const users = this.selectableKeyResultMembers(this.props.users, keyResult);
-      return <KeyResultTab {...this.props} keyResult={keyResult} users={users}
-                           changeToObjectiveModal={this.changeToObjectiveModal} />;
+      return <KeyResultTab {...this.props} keyResult={keyResult} users={users} />;
     }
   }
 
@@ -86,7 +77,7 @@ class OkrModal extends Component {
               objective={objective}
               keyResultOrder={objective.get('keyResultIds')}
               keyResultId={this.props.keyResultId} 
-              changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
+              openKeyResultModal={this.props.openKeyResultModal}
               updateKeyResultOrder={this.props.updateKeyResultOrder}
               canMoveKeyResult={this.props.isObjectiveOwner}
             />

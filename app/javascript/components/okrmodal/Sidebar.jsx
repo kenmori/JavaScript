@@ -85,7 +85,7 @@ class Sidebar extends Component {
           <div className="sidebar__title">Key Result 一覧</div>
           {this.keyResultListHTML()}
           <Button className="sidebar__add-keyresult" content="Key Result を追加する" positive
-                  onClick={() => this.props.changeToKeyResultModal(objective)} />
+                  onClick={() => this.props.openKeyResultModal(objective)} />
         </div>
       </div>
     )
@@ -98,7 +98,7 @@ Sidebar.propTypes = {
   canMoveKeyResult: PropTypes.bool.isRequired,
   keyResultOrder: PropTypes.object.isRequired,
   updateKeyResultOrder: PropTypes.func.isRequired,
-  changeToKeyResultModal: PropTypes.func.isRequired,
+  openKeyResultModal: PropTypes.func.isRequired,
 };
 
 Sidebar.defaultProps = {

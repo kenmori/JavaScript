@@ -54,7 +54,7 @@ KeyResultTab.propTypes = {
   isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
-  changeToObjectiveModal: PropTypes.func.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 
