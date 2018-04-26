@@ -18,12 +18,10 @@ class OkrModal extends Component {
   }
 
   changeToObjectiveModal = parentKeyResult => {
-    this.closeModal();
     this.props.openObjectiveModal(parentKeyResult);
   }
 
   changeToKeyResultModal(objective) {
-    this.closeModal();
     this.props.openKeyResultModal(objective);
   }
 
