@@ -23,9 +23,10 @@ class ErrorModal extends Component {
     }
     return (
       <Modal
-        closeIcon 
         open={this.props.isOpen} 
         size='small' 
+        closeOnEscape={false}
+        closeOnDimmerClick={false}
         onClose={this.handleClose}
       >
         <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>

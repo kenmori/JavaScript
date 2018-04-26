@@ -20,6 +20,8 @@ class ConfirmModal extends Component {
         onCancel={this.handleCancel.bind(this)}
         onConfirm={this.handleConfirm.bind(this)}
         cancelButton='キャンセル'
+        closeOnEscape={false}
+        closeOnDimmerClick={false}
       />
     )
   }
