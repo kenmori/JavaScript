@@ -36,12 +36,14 @@ class OkrCard extends Component {
               </List.Item>
             );
           })}
-          <List.Item className="keyResults__item--add">
-            <List.List>
-              <List.Item as='a' icon='plus' content='Key Result を追加する'
-                         onClick={() => this.props.openKeyResultModal(objective)} />
-            </List.List>
-          </List.Item>
+          {keyResults.isEmpty() && (
+            <List.Item className="keyResults__item--add">
+              <List.List>
+                <List.Item as='a' icon='plus' content='Key Result を追加する'
+                           onClick={() => this.props.openKeyResultModal(objective)} />
+              </List.List>
+            </List.Item>
+          )}
         </List>
       </Card.Content>
     );
