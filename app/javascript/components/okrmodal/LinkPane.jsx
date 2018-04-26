@@ -16,6 +16,8 @@ class LinkPane extends Component {
 
   renderObjectiveLinks() {
     const objective = this.props.okr;
+    const parentKeyResult = objective.get('parentKeyResult');
+    const childObjectives = parentKeyResult && parentKeyResult.get('childObjectives');
     return (
       <Form>
         <Form.Field>
@@ -29,6 +31,12 @@ class LinkPane extends Component {
             onChange={value => this.updateParentKeyResultId(value)}
           />
         </Form.Field>
+        {childObjectives && !childObjectives.isEmpty() && (
+          <Form.Field>
+            <label>上位 Key Result に紐付く下位 Objective 一覧</label>
+            <OkrList okrs={childObjectives} />
+          </Form.Field>
+        )}
       </Form>
     );
   }

@@ -50,7 +50,7 @@ function denormalizeObjective(objectiveId, entities) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
   return objective
-    .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
+    .set('parentKeyResult', denormalizeKeyResult(objective.get('parentKeyResultId'), entities))
     .set('keyResults', objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value));
 }
 

@@ -1,8 +1,15 @@
 json.objective do
   json.partial!(@objective)
 
-  json.parent_key_result do
-    json.partial!(@objective.parent_key_result) if @objective.parent_key_result
+  parent_key_result = @objective.parent_key_result
+  if parent_key_result
+    json.parent_key_result do
+      json.partial!(parent_key_result)
+
+      json.child_objectives do
+        json.partial! 'objectives/with_key_result', collection: parent_key_result.child_objectives, as: :objective
+      end
+    end
   end
 
   json.key_results do
