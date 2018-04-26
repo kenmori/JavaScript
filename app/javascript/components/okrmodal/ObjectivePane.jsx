@@ -5,7 +5,6 @@ import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import UserSelect from '../form/UserSelect';
-import OkrSelect from '../form/OkrSelect';
 
 class ObjectivePane extends Component {
 
@@ -29,14 +28,6 @@ class ObjectivePane extends Component {
   updateName(value) {
     this.setState({ name: value });
     this.updateObjective({ name: value });
-  }
-
-  updateParentKeyResultId(value) {
-    this.props.updateObjective({
-        id: this.props.objective.get('id'),
-        parentKeyResultId: value === -1 ? null : value,
-      },
-    );
   }
 
   removeObjective(objective) {
@@ -87,17 +78,6 @@ class ObjectivePane extends Component {
                         onCommit={value => this.updateObjective({ description: value })}
           />
         </Form.Field>
-        <Form.Field>
-          <label>上位 Key Result</label>
-          <OkrSelect
-            okrs={this.props.parentKeyResultCandidates}
-            isObjective={false}
-            value={objective.get('parentKeyResultId')}
-            readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedKeyResultCandidates}
-            onChange={value => this.updateParentKeyResultId(value)}
-          />
-        </Form.Field>
 
         <Divider hidden />
 
@@ -113,10 +93,7 @@ class ObjectivePane extends Component {
 
 ObjectivePane.propTypes = {
   objective: PropTypes.object.isRequired,
-  parentKeyResultCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
-  isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedKeyResultCandidates: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
