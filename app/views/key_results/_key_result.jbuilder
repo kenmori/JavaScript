@@ -7,7 +7,5 @@ json.owner do
 end
 
 json.members do
-  json.array!(key_result.members) do |user|
-    json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled
-  end
+  json.array! key_result.members, :id, :first_name, :last_name, :avatar_url, :disabled
 end
