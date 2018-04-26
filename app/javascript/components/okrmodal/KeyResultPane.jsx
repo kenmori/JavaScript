@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
-import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
-import OkrSelect from '../form/OkrSelect';
 import moment from 'moment';
 
 class KeyResultPane extends Component {
@@ -83,16 +81,6 @@ class KeyResultPane extends Component {
         progressRate: nextProps.keyResult.get('progressRate'),
       });
     }
-  }
-
-  childObjectivesTag(childObjectives) {
-    if (childObjectives.isEmpty()) return null;
-    return (
-      <Form.Field>
-        <label>下位 Objective 一覧</label>
-        <OkrList okrs={childObjectives} />
-      </Form.Field>
-    );
   }
   
   childObjectiveProgressRateHtml(keyResult) {
@@ -221,18 +209,6 @@ class KeyResultPane extends Component {
         </div>
 
         <Divider hidden clearing />
-
-        <Form.Field>
-          <label>紐付く Objective</label>
-          <OkrSelect
-            okrs={this.props.objectiveCandidates}
-            value={keyResult.get('objectiveId')}
-            readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedObjectiveCandidates}
-            onChange={value => this.updateKeyResult({ objectiveId: value })}
-          />
-        </Form.Field>
-        {this.childObjectivesTag(keyResult.get('childObjectives'))}
       </Form>
     );
   }
@@ -240,11 +216,9 @@ class KeyResultPane extends Component {
 
 KeyResultPane.propTypes = {
   keyResult: PropTypes.object.isRequired,
-  objectiveCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
   changeToObjectiveModal: PropTypes.func.isRequired,
