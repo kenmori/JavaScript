@@ -26,8 +26,6 @@ class ErrorModal extends Component {
         closeIcon 
         open={this.props.isOpen} 
         size='small' 
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.handleClose}
       >
         <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>

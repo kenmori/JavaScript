@@ -67,8 +67,6 @@ class OkrModal extends Component {
         open={this.props.isOpen} 
         size='large' 
         className='okr-modal' 
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.closeModal.bind(this)}
       >
         <Modal.Content scrolling>

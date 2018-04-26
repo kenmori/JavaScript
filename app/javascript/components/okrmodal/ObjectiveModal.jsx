@@ -85,8 +85,6 @@ class ObjectiveModal extends Component {
         open={this.props.isOpen} 
         size={modalSize} 
         className={wrapperClassName}
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>

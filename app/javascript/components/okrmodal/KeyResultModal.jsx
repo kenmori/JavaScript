@@ -124,8 +124,6 @@ class KeyResultModal extends Component {
         open={this.props.isOpen} 
         size='large' 
         className='keyresult-modal' 
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>
