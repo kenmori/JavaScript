@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180325051009) do
+ActiveRecord::Schema.define(version: 20180426082024) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20180325051009) do
     t.date "expired_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
     t.index ["created_at"], name: "index_key_results_on_created_at"
     t.index ["objective_id"], name: "index_key_results_on_objective_id"
   end
