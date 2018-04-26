@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
+import AutoTextArea from '../form/AutoTextArea';
 import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
@@ -195,6 +196,13 @@ class KeyResultPane extends Component {
               remove={this.removeMember.bind(this)}
             />
           </div>
+        </Form.Field>
+        <Form.Field>
+          <label>説明</label>
+          <AutoTextArea value={keyResult.get('description')}
+                        placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+                        onCommit={value => this.props.updateKeyResult({ description: value })}
+          />
         </Form.Field>
 
         <Divider hidden />
