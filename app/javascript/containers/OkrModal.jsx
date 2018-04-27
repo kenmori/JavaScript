@@ -9,7 +9,10 @@ import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/o
 const mapStateToProps = (state) => {
   const okrForm = state.dialogs.get('okrForm');
   const keyResultId = okrForm.get('keyResultId');
-  const objectiveId = keyResultId ? state.entities.keyResults.getIn([keyResultId, 'objectiveId']) : okrForm.get('objectiveId');
+  const removedKeyResultId = okrForm.get('removedKeyResultId');
+  const objectiveId = keyResultId && keyResultId !== removedKeyResultId
+    ? state.entities.keyResults.getIn([keyResultId, 'objectiveId']) // KR 紐付き変更時は KR に紐付く Objective を指定する
+    : okrForm.get('objectiveId');
   const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
   const loginUserId = state.loginUser.get('id');
   const objectiveOwnerId = objective && objective.get('owner').get('id');
@@ -25,7 +28,7 @@ const mapStateToProps = (state) => {
     isFetchedObjectiveCandidates: state.objectives.get('isFetchedCandidates'),
     isFetchedKeyResultCandidates: state.keyResults.get('isFetchedCandidates'),
     removedObjectiveId: okrForm.get('removedObjectiveId'),
-    removedKeyResultId: okrForm.get('removedKeyResultId'),
+    removedKeyResultId,
     isObjectiveOwner: state.loginUser.get('isAdmin') || objectiveOwnerId === loginUserId,
   };
 };
