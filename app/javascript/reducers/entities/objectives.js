@@ -24,7 +24,6 @@ export default handleActions({
       const objectiveId = payload.get('result').first();
       return state.delete(objectiveId);
     },
-    [ActionTypes.FETCHED_KEY_RESULT]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: merge,
     [ActionTypes.UPDATED_KEY_RESULT]: merge,
     [ActionTypes.REMOVED_KEY_RESULT]: merge,

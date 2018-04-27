@@ -4,28 +4,20 @@ import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
 import { openObjective, goToRoot } from "../../utils/linker";
 import Sidebar from './Sidebar';
-import ObjectivePane from './ObjectivePane';
-import KeyResultPane from './KeyResultPane';
+import ObjectiveTab from "./ObjectiveTab";
+import KeyResultTab from "./KeyResultTab";
 
 class OkrModal extends Component {
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpen && !nextProps.objectiveId && !nextProps.keyResultId) {
-      this.showNotFoundError(nextProps);
-    } else if (nextProps.removedObjectiveId === this.props.objectiveId) {
+    if (nextProps.removedObjectiveId === this.props.objectiveId) {
       goToRoot();
     } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
       openObjective(this.props.objectiveId);
-    } else if (nextProps.notFoundObjective || nextProps.notFoundKeyResult) {
-      this.showNotFoundError(nextProps);
-    } else if (nextProps.shouldFetchObjective) {
-      this.props.fetchObjective(nextProps.objectiveId);
-    } else if (nextProps.shouldFetchKeyResult) {
-      this.props.fetchKeyResult(nextProps.keyResultId);
     }
   }
 
-  changeToObjectiveModal(parentKeyResult) {
+  changeToObjectiveModal = parentKeyResult => {
     this.closeModal();
     this.props.openObjectiveModal(parentKeyResult);
   }
@@ -62,34 +54,19 @@ class OkrModal extends Component {
   modalContentTag(objective, keyResultId) {
     if(!keyResultId) {
       const users = this.selectableObjectiveMembers(this.props.users, this.props.objective);
-      return <ObjectivePane {...this.props} users={users}/>
+      return <ObjectiveTab {...this.props} users={users} />;
     } else {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId);
       if(!keyResult) {return null;}
       const users = this.selectableKeyResultMembers(this.props.users, keyResult);
-      return (
-        <KeyResultPane
-          {...this.props}
-          users={users}
-          keyResult={keyResult}
-          changeToObjectiveModal={parentKeyResult => this.changeToObjectiveModal(parentKeyResult)}
-        />
-      )
+      return <KeyResultTab {...this.props} keyResult={keyResult} users={users}
+                           changeToObjectiveModal={this.changeToObjectiveModal} />;
     }
   }
 
   closeModal() {
     goToRoot();
     this.props.closeModal();
-  }
-
-  showNotFoundError(props) {
-    if (!props.isOpenErrorModal) {
-      this.props.error({
-        message: '指定された OKR は存在しません',
-        onCloseBefore: () => goToRoot(),
-      });
-    }
   }
 
   render() {
@@ -109,8 +86,11 @@ class OkrModal extends Component {
           <div className="okr-body">
             <Sidebar 
               objective={objective}
+              keyResultOrder={objective.get('keyResultIds')}
               keyResultId={this.props.keyResultId} 
               changeToKeyResultModal={this.changeToKeyResultModal.bind(this)}
+              updateKeyResultOrder={this.props.updateKeyResultOrder}
+              canMoveKeyResult={this.props.isObjectiveOwner}
             />
             <div className="okr-main">
               {this.modalContentTag(objective, this.props.keyResultId)}

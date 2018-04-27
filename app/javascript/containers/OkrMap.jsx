@@ -8,8 +8,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchObjective: id => {
-      dispatch(objectiveActions.fetchObjective(id));
+    fetchObjective: objectiveId => {
+      dispatch(objectiveActions.fetchObjective(objectiveId));
+    },
+    fetchObjectiveByKeyResult: keyResultId => {
+      dispatch(objectiveActions.fetchObjective(null, keyResultId));
     },
   };
 };

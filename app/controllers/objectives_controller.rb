@@ -4,16 +4,19 @@ class ObjectivesController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
-      @objectives = @user.objectives
-                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
-                        .where(okr_period_id: params[:okr_period_id])
-                        .order(created_at: :desc)
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
+      objectives = @user.objectives
+                       .includes(key_results: {child_objectives: [key_results: :child_objectives]})
+                       .where(okr_period_id: params[:okr_period_id])
+                       .order(created_at: :desc)
+      @objectives = sort_objectives(objectives, @user.objective_order)
     else
+      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @objectives = current_organization
                         .okr_periods
                         .find(params[:okr_period_id])
                         .objectives
-                        .includes(:parent_key_result, key_results: { child_objectives: [:parent_key_result, :key_results] })
+                        .includes(key_results: {child_objectives: [key_results: :child_objectives]})
                         .order(created_at: :desc)
     end
   end
@@ -141,6 +144,14 @@ class ObjectivesController < ApplicationController
     end
   end
 
+  def sort_objectives(objectives, objective_order)
+    return objectives unless objective_order
+    order = JSON.parse(objective_order)
+    index = 0
+    # Objective 一覧を objective_order 順に並べる (順番のない O は前に並べていく)
+    objectives.sort_by { |objective| order.index(objective.id) || index - 1 }
+  end
+
   def objective_create_params
     params.require(:objective)
       .permit(:name, :description, :parent_key_result_id, :okr_period_id)
@@ -148,6 +159,6 @@ class ObjectivesController < ApplicationController
 
   def objective_update_params
     params.require(:objective)
-      .permit(:name, :description, :parent_key_result_id, :progress_rate)
+      .permit(:name, :description, :parent_key_result_id, :progress_rate, :key_result_order)
   end
 end

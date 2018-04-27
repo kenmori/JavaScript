@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
+  const selectedOkr = state.objectives.get('selectedOkr');
   return {
-    currentObjectiveId: state.current.get('objectiveId'),
-    currentKeyResultId: state.current.get('keyResultId'),
+    selectedObjectiveId: selectedOkr.get('objectiveId'),
+    selectedKeyResultId: selectedOkr.get('keyResultId'),
   };
 };
 

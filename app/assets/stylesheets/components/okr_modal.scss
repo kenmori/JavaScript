@@ -55,8 +55,49 @@
 
   .sidebar {
     width: 30%;
+    padding-right: 26px; /* for swap-icons */
     .sidebar__items {
       margin-bottom: 20px;
+    }
+    .sidebar__item-wrapper {
+      position: relative;
+
+      .sidebar__item {
+        &:hover:not(.drop) {
+          .sidebar__swap-icons {
+            display: flex;
+          }
+        }
+
+        &.drag:not(.touch) {
+          visibility: hidden;
+        }
+
+        &.drop {
+          cursor: default !important;
+        }
+      }
+
+      &:first-child .swap-up,
+      &:last-child .swap-down {
+        visibility: hidden;
+      }
+    }
+    .sidebar__swap-icons {
+      position: absolute;
+      top: 0;
+      right: -26px; /* = swap icon width */
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+
+      .swap-up,
+      .swap-down {
+        margin: 2px 0;
+        padding-left: 2px;
+        width: 26px;
+      }
     }
     .sidebar__item {
       position: relative;
@@ -75,11 +116,11 @@
       left: 4px;
       margin-top: -18px;
     }
-    .sidebar__val {
+    .sidebar__name {
       display: block;
       padding-left: 36px;
     }
-    .sidebar__rate {
+    .sidebar__progress {
       position: absolute;
       top: 50%;
       right: 7px;
@@ -87,14 +128,23 @@
     }
     .sidebar__add-keyresult {
       width: 100%;
+      margin-top: 20px;
     }
   }
 
   .okr-main {
     width: 70%;
-    padding-left: 20px;
     .field {
       margin-bottom: 10px;
+    }
+
+    .ui.menu .item > .label {
+      &.zero-width {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 0;
+      }
     }
   }
 

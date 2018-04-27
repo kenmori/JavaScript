@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317124854) do
+ActiveRecord::Schema.define(version: 20180325051009) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20180317124854) do
     t.integer "progress_rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "key_result_order"
     t.index ["created_at"], name: "index_objectives_on_created_at"
     t.index ["parent_key_result_id"], name: "index_objectives_on_parent_key_result_id"
   end

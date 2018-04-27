@@ -2,12 +2,23 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
-function add(state, objectiveId) {
-  return state.update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId));
+function add(state, objectiveId, isNew) {
+  return state
+    .update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
+    .update('selectedOkr', selectedOkr => isNew ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
 }
 
 function remove(state, objectiveId) {
-  return state.update('ids', ids => ids.filter(id => id !== objectiveId));
+  const objectiveIds = state.get('ids').filter(id => id !== objectiveId);
+  const index = state.get('ids').indexOf(objectiveId);
+  return state
+    .set('ids', objectiveIds)
+    .update('selectedOkr', selectedOkr => {
+      const isRemoved = selectedOkr.get('objectiveId') === objectiveId;
+      return isRemoved
+        ? selectedOkr.merge({ objectiveId: objectiveIds.get(index, objectiveIds.last()), keyResultId: null })
+        : selectedOkr;
+    });
 }
 
 function addToAll(state, objectiveId) {
@@ -18,22 +29,22 @@ function removeFromAll(state, objectiveId) {
   return state.update('allIds', ids => ids.filter(id => id !== objectiveId));
 }
 
-function sortIds(ids, objectiveOrder) {
-  return objectiveOrder ? ids.sortBy(id => objectiveOrder.indexOf(id)) : ids;
-}
-
 export default handleActions({
-    [ActionTypes.FETCHED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      return state.set('fetchedObjective', objectiveId);
+    [ActionTypes.FETCH_OBJECTIVE]: state => {
+      return state.set('isFetchedObjective', false);
+    },
+    [ActionTypes.FETCHED_OBJECTIVE]: state => {
+      return state.set('isFetchedObjective', true);
     },
     [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetchedObjectives', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      const ids = payload.get('result');
-      const objectiveOrder = payload.get('objectiveOrder');
-      return state.set('ids', sortIds(ids, objectiveOrder)).set('isFetchedObjectives', true);
+      const objectiveIds = payload.get('result');
+      return state
+        .set('ids', objectiveIds)
+        .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
+        .set('isFetchedObjectives', true);
     },
     [ActionTypes.FETCH_ALL_OBJECTIVES]: (state, { payload }) => {
       return state.set('isFetchedAllObjectives', false);
@@ -48,7 +59,7 @@ export default handleActions({
       const userId = payload.get('currentUserId');
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
       const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId) : state;
+      return isMine ? add(state, objectiveId, payload.get('isNew')) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       const userId = payload.get('currentUserId');
@@ -63,14 +74,21 @@ export default handleActions({
       return remove(state, objectiveId);
     },
     [ActionTypes.UPDATED_USER]: (state, { payload }) => {
-      const objectiveOrder = payload.user.get('objectiveOrder');
-      return state.update('ids', ids => sortIds(ids, objectiveOrder));
+      let objectiveOrder = payload.user.get('objectiveOrder');
+      if (!objectiveOrder) return state;
+      objectiveOrder = JSON.parse(objectiveOrder);
+      return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
+    },
+    [ActionTypes.SELECT_OKR]: (state, { payload }) => {
+      const { objectiveId, keyResultId } = payload;
+      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId });
     },
   },
   fromJS({
     ids: [],
     allIds: [],
-    fetchedObjective: null,
+    selectedOkr: { objectiveId: null, keyResultId: null },
+    isFetchedObjective: true,
     isFetchedObjectives: false,
     isFetchedAllObjectives: false,
   }),

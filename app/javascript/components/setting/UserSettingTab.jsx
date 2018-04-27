@@ -66,7 +66,7 @@ class UserSettingTab extends Component {
 
         <UsersTable
           users={enabledUsers}
-          loginUser={this.props.loginUser}
+          loginUserId={this.props.loginUserId}
           onUpdateUser={this.props.updateUser}
           onUpdateEmail={this.props.updateEmail}
           onResendEmail={this.props.resendEmail}

@@ -1,20 +1,4 @@
 module ObjectiveDecorator
-  def parent_objective_id
-    parent_key_result&.objective_id
-  end
-
-  def parent_objective
-    parent_key_result&.objective
-  end
-
-  def child_objective_ids
-    key_results.includes(:child_objectives).flat_map { |key_result| key_result.child_objective_ids }
-  end
-
-  def child_objectives
-    key_results.includes(:child_objectives).flat_map { |key_result| key_result.child_objectives }
-  end
-
   def progress_rate
     # 進捗率が未設定の場合は紐付く Key Result の進捗率から算出する
     progress_rate_in_database || key_result_progress_rate || 0
@@ -44,5 +28,17 @@ module ObjectiveDecorator
     if saved_change_to_parent_key_result_id? && parent_key_result_id_before_last_save
       KeyResult.find(parent_key_result_id_before_last_save)
     end
+  end
+
+  def sorted_key_result_ids
+    sorted_key_results.map(&:id)
+  end
+
+  def sorted_key_results
+    return key_results unless key_result_order
+    order = JSON.parse(key_result_order)
+    index = order.size
+    # KR 一覧を key_result_order 順に並べる (順番のない KR は後ろに並べていく)
+    key_results.sort_by { |key_result| order.index(key_result.id) || index + 1 }
   end
 end

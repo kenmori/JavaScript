@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { default as TouchBackend } from 'react-dnd-touch-backend';
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { DropTarget } from 'react-dnd';
+import Backend from '../../utils/backend';
 import Objective from './Objective';
 
 class ObjectiveList extends Component {
@@ -45,8 +44,7 @@ class ObjectiveList extends Component {
   }
 
   selectObjective = objective => {
-    this.props.setMapObjective(objective);
-    this.props.changeCurrentOkr(objective.get('id'));
+    this.props.selectOkr(objective.get('id'));
   }
 
   render() {
@@ -56,12 +54,11 @@ class ObjectiveList extends Component {
           .sortBy(objective => this.state.objectiveOrder.indexOf(objective.get('id')))
           .map((objective, index) => {
             const objectiveId = objective.get('id');
-            const isSelected = objectiveId === this.props.currentObjectiveId;
             return <Objective
               key={objectiveId}
               index={index}
               objective={objective}
-              isSelected={isSelected}
+              isSelected={objectiveId === this.props.selectedObjectiveId}
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
               canMoveObjective={this.props.canMoveObjective}
@@ -75,13 +72,9 @@ class ObjectiveList extends Component {
 ObjectiveList.propTypes = {
   objectives: PropTypes.object.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,
-  setMapObjective: PropTypes.func.isRequired,
   objectiveOrder: PropTypes.object.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
 };
 
-const isTouchSupport = 'ontouchstart' in window;
-const backend = isTouchSupport ? TouchBackend : HTML5Backend;
-
-export default DragDropContext(backend)(ObjectiveList);
+export default Backend(ObjectiveList);
