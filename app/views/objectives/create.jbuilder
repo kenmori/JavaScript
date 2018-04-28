@@ -1,5 +1,5 @@
 json.objective do
-  json.partial! 'objectives/with_key_result', objective: @objective
+  json.partial! 'objectives/with_key_results', objective: @objective
 
   parent_key_result = @objective.parent_key_result
   json.parent_key_result do

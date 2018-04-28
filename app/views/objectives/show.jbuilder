@@ -9,7 +9,7 @@ json.objective do
       json.achievement_rate parent_key_result.achievement_rate
 
       json.child_objectives do
-        json.partial! 'objectives/with_key_result', collection: parent_key_result.child_objectives, as: :objective
+        json.partial! 'objectives/with_key_results', collection: parent_key_result.child_objectives, as: :objective
       end
     end
   end
@@ -21,7 +21,7 @@ json.objective do
       json.achievement_rate key_result.achievement_rate
 
       json.child_objectives do
-        json.partial! 'objectives/with_key_result', collection: key_result.child_objectives, as: :objective
+        json.partial! 'objectives/with_key_results', collection: key_result.child_objectives, as: :objective
       end
 
       json.comments do
