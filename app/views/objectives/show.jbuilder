@@ -5,6 +5,8 @@ json.objective do
   if parent_key_result
     json.parent_key_result do
       json.partial!(parent_key_result)
+      json.child_progress_rate parent_key_result.child_progress_rate
+      json.achievement_rate parent_key_result.achievement_rate
 
       json.child_objectives do
         json.partial! 'objectives/with_key_result', collection: parent_key_result.child_objectives, as: :objective

@@ -37,7 +37,7 @@ class ObjectivePane extends Component {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
     const childProgressRate = parentKeyResult.get('childProgressRate');
-    return progressRate !== childProgressRate && (
+    return childProgressRate > 0 && progressRate !== childProgressRate && (
       <div className='flex-field__item'>
         <Label pointing='left' content={`上位 Key Result の進捗は ${childProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
