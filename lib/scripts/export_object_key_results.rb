@@ -75,7 +75,7 @@ class ExportObjectKeyResuts
         where org.name = #{org_name}
          and period.month_start >= #{from}
          and period.month_end <= #{to}
-        order by u.id, objective_id;
+        order by u.objective_order, o.key_result_order;
       EOS
 
       connection.select_all(sql).to_hash
