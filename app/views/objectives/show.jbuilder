@@ -2,27 +2,13 @@ json.objective do
   json.partial!(@objective)
 
   parent_key_result = @objective.parent_key_result
-  if parent_key_result
-    json.parent_key_result do
-      json.partial!(parent_key_result)
-      json.child_progress_rate parent_key_result.child_progress_rate
-      json.achievement_rate parent_key_result.achievement_rate
-
-      json.child_objectives do
-        json.partial! 'objectives/with_key_results', collection: parent_key_result.child_objectives, as: :objective
-      end
-    end
+  json.parent_key_result do
+    json.partial! 'key_results/with_child_objectives', key_result: parent_key_result if parent_key_result
   end
 
   json.key_results do
     json.array!(@objective.key_results) do |key_result|
-      json.partial!(key_result)
-      json.child_progress_rate key_result.child_progress_rate
-      json.achievement_rate key_result.achievement_rate
-
-      json.child_objectives do
-        json.partial! 'objectives/with_key_results', collection: key_result.child_objectives, as: :objective
-      end
+      json.partial! 'key_results/with_child_objectives', key_result: key_result
 
       json.comments do
         json.array!(key_result.comments) do |comment|
