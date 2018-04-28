@@ -13,11 +13,14 @@ function* fetchOkrs({ payload }) {
   yield take(actionTypes.FETCHED_OBJECTIVES)
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
-  if (payload.withAll) {
-    yield put(keyResultActions.fetchAllKeyResults(payload.okrPeriodId)); // without loading
-    yield take(actionTypes.FETCHED_ALL_KEY_RESULTS)
-    yield put(objectiveActions.fetchAllObjectives(payload.okrPeriodId)); // without loading
-    yield take(actionTypes.FETCHED_ALL_OBJECTIVES)
+  if (payload.withCandidates) {
+    const [loginUserId, isAdmin] = yield select(state => [state.loginUser.get('id'), state.loginUser.get('isAdmin')]);
+    const userId = isAdmin ? undefined : loginUserId;
+    // Objective に紐付く上位 KR の変更のほうがよく行われるとの推測から先に KR を fetch する
+    yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId, userId)); // without loading
+    yield take(actionTypes.FETCHED_KEY_RESULT_CANDIDATES)
+    yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId, userId)); // without loading
+    yield take(actionTypes.FETCHED_OBJECTIVE_CANDIDATES)
   }
 }
 
@@ -41,9 +44,9 @@ function* fetchObjectives({payload}) {
   yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
 }
 
-function* fetchAllObjectives({ payload }) {
-  const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId });
-  yield put(objectiveActions.fetchedAllObjectives(result.get('objectives')));
+function* fetchObjectiveCandidates({ payload }) {
+  const result = yield call(API.get, '/objectives/candidates', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
+  yield put(objectiveActions.fetchedObjectiveCandidates(result));
 }
 
 function* addObjective({ payload }) {
@@ -75,7 +78,7 @@ export function *objectiveSagas() {
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
-    takeLatest(actionTypes.FETCH_ALL_OBJECTIVES, fetchAllObjectives),
+    takeLatest(actionTypes.FETCH_OBJECTIVE_CANDIDATES, fetchObjectiveCandidates),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),

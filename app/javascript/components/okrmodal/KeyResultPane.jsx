@@ -225,10 +225,10 @@ class KeyResultPane extends Component {
         <Form.Field>
           <label>紐付く Objective</label>
           <OkrSelect
-            okrs={this.props.objectives}
+            okrs={this.props.objectiveCandidates}
             value={keyResult.get('objectiveId')}
             readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedObjectives}
+            loading={!this.props.isFetchedObjectiveCandidates}
             onChange={value => this.updateKeyResult({ objectiveId: value })}
           />
         </Form.Field>
@@ -240,11 +240,11 @@ class KeyResultPane extends Component {
 
 KeyResultPane.propTypes = {
   keyResult: PropTypes.object.isRequired,
-  objectives: PropTypes.object.isRequired,
+  objectiveCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedObjectives: PropTypes.bool.isRequired,
+  isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
   changeToObjectiveModal: PropTypes.func.isRequired,

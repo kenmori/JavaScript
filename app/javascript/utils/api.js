@@ -4,14 +4,6 @@ import queryString from 'querystring';
 import { fromJS } from 'immutable';
 import isObject from 'isobject';
 
-const format = (body) => {
-  if (/\S/.test(body)) {
-    return fromJS(camelizeKeys(body));
-  } else {
-    return body;
-  }
-};
-
 const defaultHeaders = {
   credentials: 'same-origin',
   headers: {
@@ -31,7 +23,7 @@ const csrfHeaders = {
 
 const handlerResponse = response => {
   if (response.status == 200 || response.status == 201 ) {
-    return response.json().then(body => format(body))
+    return response.json().then(body => fromJS(camelizeKeys(body)))
   } else if(response.status == 204){
     return {}
   } else {

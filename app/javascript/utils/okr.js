@@ -1,54 +1,32 @@
-import { List } from 'immutable';
+import { denormalizeObjectiveCandidates, denormalizeKeyResultCandidates } from '../schemas/index';
 
 // Objective の上位 KR 候補一覧を返す
-// - 管理者 => 全 KR
-// - O 責任者 => 自分の KR (責任者＆関係者) のみ
-// - その他 => 他人の上位 KR のみ
-export const getParentKeyResultCandidates = (state, parentKeyResultId, objectiveOwnerId = null) => {
-  const currentUserId = state.current.get('userId');
-  const loginUserId = state.loginUser.get('id');
-  const isAdmin = state.loginUser.get('isAdmin');
-  const isObjectiveOwner = objectiveOwnerId === loginUserId;
-
-  if (isAdmin) {
-    return state.keyResults.get('allIds');
-  } else if (isObjectiveOwner) {
-    if (currentUserId === loginUserId) {
-      return state.keyResults.get('ids');
-    } else {
-      return state.entities.keyResults.filter(keyResult =>
-        keyResult.get('owner').get('id') === loginUserId
-        || keyResult.get('members').some(member => member.get('id') === loginUserId)
-      ).keySeq().toList();
+export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
+  const candidates = denormalizeKeyResultCandidates(state.keyResults.get('candidates'), state.candidates);
+  if (parentKeyResultId && !candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
+    // 候補一覧に紐付く上位 KR が存在しない場合は含める
+    const parentKeyResult = state.entities.keyResults.get(parentKeyResultId);
+    if (parentKeyResult) {
+      return candidates.push(parentKeyResult);
     }
-  } else {
-    return parentKeyResultId ? List.of(parentKeyResultId) : List();
   }
+  return candidates;
 }
 
 // KR に紐付く Objective 候補一覧を返す
 // - 管理者 => 全 O
 // - O 責任者 => 自分の O のみ
 // - その他 => 他人の O のみ
-export const getObjectiveCandidates = (state, objectiveId, objectiveOwnerId = null) => {
-  const currentUserId = state.current.get('userId');
-  const loginUserId = state.loginUser.get('id');
-  const isAdmin = state.loginUser.get('isAdmin');
-  const isObjectiveOwner = objectiveOwnerId === loginUserId;
-
-  if (isAdmin) {
-    return state.objectives.get('allIds');
-  } else if (isObjectiveOwner) {
-    if (currentUserId === loginUserId) {
-      return state.objectives.get('ids');
-    } else {
-      return state.entities.objectives.filter(objective =>
-        objective.get('owner').get('id') === loginUserId
-      ).keySeq().toList();
+export const getObjectiveCandidates = (state, objectiveId) => {
+  const candidates = denormalizeObjectiveCandidates(state.objectives.get('candidates'), state.candidates);
+  if (objectiveId && !candidates.find(objective => objective.get('id') === objectiveId)) {
+    // 候補一覧に紐付く Objective が存在しない場合は含める
+    const objective = state.entities.objectives.get(objectiveId);
+    if (objective) {
+      return candidates.push(objective);
     }
-  } else {
-    return objectiveId ? List.of(objectiveId) : List();
   }
+  return candidates;
 }
 
 // Objective 並び替えが可能かどうか

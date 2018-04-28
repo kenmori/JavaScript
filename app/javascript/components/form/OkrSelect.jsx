@@ -54,7 +54,7 @@ class OkrSelect extends Component {
   }
 
   render() {
-    const showPreview = this.state.preview && !this.props.loading;
+    const showPreview = this.state.preview;
     return (
       <div className={`okr-select ${this.props.disabled ? 'disabled' : ''} ${showPreview ? 'preview' : ''}`}>
         {showPreview && (

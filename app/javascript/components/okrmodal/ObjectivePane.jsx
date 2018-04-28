@@ -90,11 +90,11 @@ class ObjectivePane extends Component {
         <Form.Field>
           <label>上位 Key Result</label>
           <OkrSelect
-            okrs={this.props.keyResults}
+            okrs={this.props.parentKeyResultCandidates}
             isObjective={false}
             value={objective.get('parentKeyResultId')}
             readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedKeyResults}
+            loading={!this.props.isFetchedKeyResultCandidates}
             onChange={value => this.updateParentKeyResultId(value)}
           />
         </Form.Field>
@@ -113,10 +113,10 @@ class ObjectivePane extends Component {
 
 ObjectivePane.propTypes = {
   objective: PropTypes.object.isRequired,
-  keyResults: PropTypes.object.isRequired,
+  parentKeyResultCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedKeyResults: PropTypes.bool.isRequired,
+  isFetchedKeyResultCandidates: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,

@@ -6,7 +6,7 @@ class ObjectivesController < ApplicationController
 
       # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       objectives = @user.objectives
-                       .includes(key_results: {child_objectives: [key_results: :child_objectives]})
+                       .includes(key_results: { child_objectives: [key_results: :child_objectives] })
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
       @objectives = sort_objectives(objectives, @user.objective_order)
@@ -16,9 +16,13 @@ class ObjectivesController < ApplicationController
                         .okr_periods
                         .find(params[:okr_period_id])
                         .objectives
-                        .includes(key_results: {child_objectives: [key_results: :child_objectives]})
+                        .includes(key_results: { child_objectives: [key_results: :child_objectives] })
                         .order(created_at: :desc)
     end
+  end
+
+  def index_candidates
+    index
   end
 
   def show
