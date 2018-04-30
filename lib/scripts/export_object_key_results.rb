@@ -52,11 +52,15 @@ class ExportObjectKeyResuts
           , o.id as objective_id
           , o.name as objective_name
           , o.progress_rate as objective_progress
+          , ou.id as objective_owner_id
           , ou.last_name as objective_owner_last_name
           , ou.first_name as objective_owner_first_name
           , parent_kr.id as parent_key_result_id
           , parent_kr.name as parent_key_result_name
           , parent_kr.progress_rate as parent_key_result_progress
+          , parent_kr.target_value as parent_key_result_target_value
+          , parent_kr.actual_value as parent_key_result_actual_value
+          , parent_kr_user.id as parent_key_result_owner_id
           , parent_kr_user.last_name as parent_key_result_owner_last_name
           , parent_kr_user.first_name as parent_key_result_owner_first_name
         from organizations as org
@@ -92,12 +96,15 @@ class ExportObjectKeyResuts
       connection.select_all(sql).to_hash
   end
 
+  private_class_method :get_export_data
+
   class RecordRow
     attr_reader :user_name, :email
 
     def initialize(source)
       first_row = source.first
-      
+
+      @key_result_owner_id = first_row['key_result_owner_id']
       @user_name = get_full_name(first_row['key_result_owner_last_name'], first_row['key_result_owner_first_name'])
       @email = first_row['key_result_owner_email']
       @okr_start_period = first_row['okr_start_period']
@@ -105,9 +112,42 @@ class ExportObjectKeyResuts
       @okrs = to_okrs(source)
     end
 
-    def get_full_name(last_name, first_name)
-      "#{last_name} #{first_name}"
+    def get_okr_column_value()
+      result = "【OKR 期間: #{@okr_start_period} - #{@okr_end_period}】\n\n"
+
+      @okrs.each_with_index do |okr, index|
+        parent_kr = okr[:parent_kr]
+        objective = okr[:objective]
+        key_results = okr[:key_results]
+
+        parent_kr_value = get_parent_kr_value(parent_kr)
+        objective_value = get_objective_value(objective)
+
+        result += <<~"EOS"
+          ┌ 上位 KR: #{parent_kr_value}
+          O#{index + 1}: #{objective_value}
+        EOS
+
+        count = key_results.count
+        key_results.each_with_index do |key_result, index|
+          tree_symbol = index + 1 == count ? '└' : '├'
+          
+          rate = parse_zero_if_nil(get_key_result_rate(key_result[:progress], key_result[:target_value], key_result[:actual_value]))
+
+          result += <<~"EOS"
+            #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{key_result[:progress]}%, #{rate}, 目標値#{key_result[:target_value]}, 実績値#{key_result[:actual_value]}, 期限#{key_result[:expired_date]}]
+          EOS
+        end
+
+        if index + 1 != @okrs.count
+          result += "\n"
+        end
+      end
+
+      result
     end
+
+    private
 
     def to_okrs(source)
       okrs = []
@@ -120,12 +160,16 @@ class ExportObjectKeyResuts
         parent_kr = first_record['parent_key_result_id'].nil? ? nil : {
           name: first_record['parent_key_result_name'],
           progress: first_record['parent_key_result_progress'],
+          target_value: first_record['parent_key_result_target_value'],
+          actual_value: first_record['parent_key_result_actual_value'],
+          owner_id: first_record['parent_key_result_owner_id'],
           owner: get_full_name(first_record['parent_key_result_owner_last_name'], first_record['parent_key_result_owner_first_name'])
         }
         
         objective = {
           name: first_record['objective_name'],
           progress: first_record['objective_progress'],
+          owner_id: first_record['objective_owner_id'],
           owner: get_full_name(first_record['objective_owner_last_name'], first_record['objective_owner_first_name'])
         }
 
@@ -151,36 +195,49 @@ class ExportObjectKeyResuts
       okrs
     end
 
-    def get_okr_column_value()
-      result = "【OKR 期間: #{@okr_start_period} - #{@okr_end_period}】\n\n"
+    def get_full_name(last_name, first_name)
+      "#{last_name} #{first_name}"
+    end
 
-      @okrs.each_with_index do |okr, index|
-        parent_kr = okr[:parent_kr]
-        objective = okr[:objective]
-        key_results = okr[:key_results]
+    def parse_zero_if_nil(value)
+      value.nil? ? 0 : value
+    end
 
-        parent_kr_owner = parent_kr[:owner] == @user_name ? parent_kr[:owner] : "(#{parent_kr[:owner]})"
-        parent_kr_format = parent_kr.nil? ? 'なし' : "#{parent_kr[:name]} [#{parent_kr[:progress]}%, #{parent_kr_owner}]"
+    def get_parent_kr_value(parent_kr)
+      if parent_kr.nil?
+        return 'なし'
+      end
+      
+      rate = parse_zero_if_nil(get_key_result_rate(parent_kr[:progress], parent_kr[:target_value], parent_kr[:actual_value]))
 
-        objectve_owner = objective[:owner] == @user_name ? objective[:owner] : "(#{objective[:owner]})"
+      parent_kr_format = "#{parent_kr[:name]} [#{rate}%, #{parent_kr[:owner]}]"
 
-        result += <<~"EOS"
-          ┌ 上位 KR: #{parent_kr_format}
-          O#{index + 1}: (#{objective[:name]} [#{objective[:progress]}%, #{objective[:owner]}])
-        EOS
-
-        count = key_results.count
-        key_results.each_with_index do |key_result, index|
-          tree_symbol = index + 1 == count ? '└' : '├'
-          result += <<~"EOS"
-            #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{key_result[:progress]}%, #{key_result[:owner]}, 目標値#{key_result[:target_value]}, 実績値#{key_result[:actual_value]}, 期限#{key_result[:expired_date]}]
-          EOS
-        end
-
-        result += "\n"
+      if parent_kr[:owner_id] != @key_result_owner_id
+        return "(#{parent_kr_format})"
       end
 
-      result
+      parent_kr_format
+    end
+
+    def get_objective_value(objective)
+      rate = parse_zero_if_nil(objective[:progress])
+
+      objective_format = "#{objective[:name]} [#{rate}%, #{objective[:owner]}]"
+      
+      if objective[:owner_id] != @key_result_owner_id 
+        return "(#{objective_format})"
+      end
+
+      objective_format
+    end
+
+    def get_key_result_rate(progress, target_value, actual_value)
+      if progress.nil?
+        if target_value.present? && actual_value.present? && target_value > 0
+          return (actual_value * 100 / target_value).round
+        end
+      end
+      progress
     end
   end
 
