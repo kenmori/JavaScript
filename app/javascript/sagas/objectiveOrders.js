@@ -7,7 +7,7 @@ import actionTypes from '../constants/actionTypes';
 
 function* updateObjectiveOrder({ payload }) {
   const [userId, okrPeriodId] = yield select(state => [state.current.get('userId'), state.current.get('okrPeriodId')]);
-  const objectiveOrder = { userId, okrPeriodId, list: payload.list };
+  const objectiveOrder = { userId, okrPeriodId, list: JSON.stringify(payload.order) };
   const result = yield call(API.put, '/objective_orders', { objectiveOrder });
   yield put(objectiveOrderActions.updatedObjectiveOrder(result.get('list')));
 }

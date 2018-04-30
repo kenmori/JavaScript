@@ -74,9 +74,8 @@ export default handleActions({
       return remove(state, objectiveId);
     },
     [ActionTypes.UPDATED_OBJECTIVE_ORDER]: (state, { payload }) => {
-      let objectiveOrder = payload.list;
-      if (!objectiveOrder) return state;
-      objectiveOrder = JSON.parse(objectiveOrder);
+      if (!payload.order) return state;
+      const objectiveOrder = JSON.parse(payload.order);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
     [ActionTypes.SELECT_OKR]: (state, { payload }) => {

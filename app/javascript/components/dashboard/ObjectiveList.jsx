@@ -27,7 +27,7 @@ class ObjectiveList extends Component {
   updateObjectiveOrder = (fromIndex, toIndex) => {
     const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex);
     if (!newObjectiveOrder.equals(this.props.objectiveOrder)) {
-      this.props.updateObjectiveOrder(JSON.stringify(newObjectiveOrder));
+      this.props.updateObjectiveOrder(newObjectiveOrder);
     }
   }
 
