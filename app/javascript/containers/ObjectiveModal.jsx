@@ -1,4 +1,4 @@
-import ObjectiveModal from '../components/okrmodal/ObjectiveModal';
+import ObjectiveModal from '../components/objectivemodal/ObjectiveModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
