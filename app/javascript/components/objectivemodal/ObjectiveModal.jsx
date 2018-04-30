@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import UserSelect from '../form/UserSelect';
-import OkrSelect from '../form/OkrSelect';
-import { Button, Form, Input, Modal, TextArea } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 import ObjectiveSidebar from './ObjectiveSidebar';
+import ObjectiveForm from './ObjectiveForm';
 
 class ObjectiveModal extends Component {
 
@@ -13,6 +11,8 @@ class ObjectiveModal extends Component {
     this.state = {
       ownerId: null,
       parentKeyResultId: null,
+      name: '',
+      description: '',
     }
   }
 
@@ -21,14 +21,16 @@ class ObjectiveModal extends Component {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
         parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
+        name: '',
+        description: '',
       });
     }
   }
 
   save() {
     const objective = {
-      name: this.nameInput.inputRef.value,
-      description: findDOMNode(this.refs.descriptionArea).value,
+      name: this.state.name,
+      description: this.state.description,
       ownerId: this.state.ownerId,
       parentKeyResultId: this.state.parentKeyResultId,
       okrPeriodId: this.props.okrPeriodId,
@@ -50,10 +52,10 @@ class ObjectiveModal extends Component {
   }
 
   isEditing() {
-    return this.nameInput.inputRef.value !== ''
+    return this.state.name !== ''
       || this.state.ownerId !== this.getInitialOwnerId()
       || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
-      || findDOMNode(this.refs.descriptionArea).value !== '';
+      || this.state.description !== '';
   }
 
   handleClose() {
@@ -94,40 +96,15 @@ class ObjectiveModal extends Component {
         <Modal.Content>
           <div className="objective-modal__body">
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
-            <div className="objective-modal__main">
-              <Form>
-                <Form.Field>
-                  <label>上位 Key Result</label>
-                  <OkrSelect
-                    okrs={this.props.parentKeyResultCandidates}
-                    isObjective={false}
-                    value={this.state.parentKeyResultId}
-                    preview={false}
-                    disabled={hasParentKeyResult}
-                    loading={!this.props.isFetchedCandidates}
-                    onChange={value => this.setState({ parentKeyResultId: value })}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <label>Objective</label>
-                  <Input ref={node => this.nameInput = node} />
-                </Form.Field>
-                <Form.Field>
-                  <label>説明</label>
-                  <TextArea autoHeight rows={3} ref='descriptionArea'
-                            placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <label>責任者</label>
-                  <UserSelect
-                    users={this.props.users}
-                    value={this.state.ownerId}
-                    onChange={value => this.setState({ ownerId: value })}
-                  />
-                </Form.Field>
-              </Form>
-            </div>
+            <ObjectiveForm
+              parentKeyResultCandidates={this.props.parentKeyResultCandidates}
+              users={this.props.users}
+              parentKeyResultId={this.state.parentKeyResultId}
+              ownerId={this.state.ownerId}
+              hasParentKeyResult={hasParentKeyResult}
+              isFetchedCandidates={this.props.isFetchedCandidates}
+              onChange={values => this.setState({ ...values })}
+            />
           </div>
         </Modal.Content>
         <Modal.Actions>
