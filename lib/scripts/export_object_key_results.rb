@@ -11,7 +11,6 @@ class ExportObjectKeyResuts
 
     user_grouped = export_data.group_by { |item| item['key_result_owner_id'] }
 
-    bom = "\uFEFF"
     headers = ['', 'ユーザー名', 'メールアドレス', 'OKR']
     csv_options = {
       encoding: 'UTF-8',
@@ -20,7 +19,7 @@ class ExportObjectKeyResuts
       force_quotes: true
     }
 
-    CSV.generate(bom, csv_options) do |csv|
+    CSV.generate(csv_options) do |csv|
       user_grouped.each_with_index do |(_, source), index|
         row = ExportCsvRow.new(source)
         csv << [index + 1, row.user_name, row.email, row.okr_column_value]
@@ -266,6 +265,10 @@ end
 file_name = "#{parsed[0]}_okr_#{parsed[1]}-#{parsed[2]}.csv"
 path = Dir.pwd + '/' + file_name
     
-File.open(path, 'w') { |file| file.write(csv_value) }
+File.open(path, 'w') do |file|
+  bom = "\uFEFF"
+  file.write(bom)
+  file.write(csv_value)
+end
 
 puts "#{path} に出力完了しました。"
