@@ -2,14 +2,10 @@ require 'optparse'
 require 'csv'
 
 class ExportObjectKeyResuts
-
-  def self.execute(organization, period_from, period_to, export_dest_path)
-    puts "以下の対象を出力します。 organization: #{organization}, period-from: #{period_from}, period-to: #{period_to}"
-
+  def self.create_csv_value(organization, period_from, period_to)
     export_data = get_export_data(organization, period_from, period_to)
 
-    if export_data.count == 0 then
-      puts "出力対象が存在しませんでした。処理を終了します。"
+    if export_data.count.zero?
       return
     end
 
@@ -23,19 +19,12 @@ class ExportObjectKeyResuts
       force_quotes: true,
     }
 
-    csv_data = CSV.generate(csv_options) do |csv|
+    CSV.generate(bom, csv_options) do |csv|
       user_grouped.each_with_index do |(key, source), index|
         row = RecordRow.new(source)
         csv << [index + 1, row.user_name, row.email, row.get_okr_column_value]
       end
     end
-
-    file_name = "#{organization}_okr_#{period_from}-#{period_to}.csv"
-    path = export_dest_path + '/' + file_name
-    
-    File.open(path, 'w') { |file|  file.write(csv_data)}
-
-    puts "#{path} に出力完了しました。"
   end
 
   def self.get_export_data(organization, period_from, period_to)
@@ -206,4 +195,18 @@ parsed = OptionParser.new { |opt|
 
 }.parse(ARGV, into: options)
 
-ExportObjectKeyResuts.execute(parsed[0], parsed[1], parsed[2], Dir.pwd)
+puts "以下の対象を出力します。 organization: #{parsed[0]}, period-from: #{parsed[1]}, period-to: #{parsed[2]}"
+
+csv_value = ExportObjectKeyResuts.create_csv_value(parsed[0], parsed[1], parsed[2])
+
+if csv_value.nil?
+  puts "出力対象が存在しませんでした。処理を終了します。"
+  return
+end
+
+file_name = "#{parsed[0]}_okr_#{parsed[1]}-#{parsed[2]}.csv"
+path = Dir.pwd + '/' + file_name
+    
+File.open(path, 'w') { |file| file.write(csv_value) }
+
+puts "#{path} に出力完了しました。"
