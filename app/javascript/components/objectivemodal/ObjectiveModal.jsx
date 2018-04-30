@@ -127,6 +127,18 @@ class ObjectiveModal extends Component {
             <div className="objective-modal__main">
               <Form>
                 <Form.Field>
+                  <label>上位 Key Result</label>
+                  <OkrSelect
+                    okrs={this.props.parentKeyResultCandidates}
+                    isObjective={false}
+                    value={this.state.parentKeyResultId}
+                    preview={false}
+                    disabled={hasParentKeyResult}
+                    loading={!this.props.isFetchedCandidates}
+                    onChange={value => this.setState({ parentKeyResultId: value })}
+                  />
+                </Form.Field>
+                <Form.Field>
                   <label>Objective</label>
                   <Input ref={node => this.nameInput = node} />
                 </Form.Field>
@@ -142,18 +154,6 @@ class ObjectiveModal extends Component {
                     users={this.props.users}
                     value={this.state.ownerId}
                     onChange={value => this.setState({ ownerId: value })}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <label>上位 Key Result</label>
-                  <OkrSelect
-                    okrs={this.props.parentKeyResultCandidates}
-                    isObjective={false}
-                    value={this.state.parentKeyResultId}
-                    preview={false}
-                    disabled={hasParentKeyResult}
-                    loading={!this.props.isFetchedCandidates}
-                    onChange={value => this.setState({ parentKeyResultId: value })}
                   />
                 </Form.Field>
               </Form>
