@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal, Tab } from 'semantic-ui-react';
 import ObjectiveSidebar from './ObjectiveSidebar';
 import ObjectiveForm from './ObjectiveForm';
 
@@ -13,6 +13,7 @@ class ObjectiveModal extends Component {
       parentKeyResultId: null,
       name: '',
       description: '',
+      objectiveId: null,
     }
   }
 
@@ -73,6 +74,26 @@ class ObjectiveModal extends Component {
     this.props.closeModal();
   }
 
+  getObjectiveFormHtml = (isNew = true) => {
+    return (
+      <Tab.Pane>
+        <ObjectiveForm
+          parentKeyResultCandidates={this.props.parentKeyResultCandidates}
+          users={this.props.users}
+          parentKeyResultId={this.state.parentKeyResultId}
+          ownerId={this.state.ownerId}
+          hasParentKeyResult={!!this.props.parentKeyResult}
+          isFetchedCandidates={this.props.isFetchedCandidates}
+          onChange={values => this.setState({ ...values })}
+          name={this.state.name}
+          description={this.state.description}
+          objectives={isNew ? undefined : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))}
+          objectiveId={isNew ? undefined : this.state.objectiveId}
+        />
+      </Tab.Pane>
+    );
+  }
+
   render() {
     const { parentKeyResult } = this.props;
     const hasParentKeyResult = !!parentKeyResult;
@@ -96,15 +117,10 @@ class ObjectiveModal extends Component {
         <Modal.Content>
           <div className="objective-modal__body">
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
-            <ObjectiveForm
-              parentKeyResultCandidates={this.props.parentKeyResultCandidates}
-              users={this.props.users}
-              parentKeyResultId={this.state.parentKeyResultId}
-              ownerId={this.state.ownerId}
-              hasParentKeyResult={hasParentKeyResult}
-              isFetchedCandidates={this.props.isFetchedCandidates}
-              onChange={values => this.setState({ ...values })}
-            />
+            <Tab panes={[
+              { menuItem: '新規作成', render: () => this.getObjectiveFormHtml() },
+              { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml(false) },
+            ]} />
           </div>
         </Modal.Content>
         <Modal.Actions>
