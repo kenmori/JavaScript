@@ -3,7 +3,8 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
-import { Button, Form, Input, Modal, TextArea, List } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, TextArea } from 'semantic-ui-react';
+import ObjectiveSidebar from './ObjectiveSidebar';
 
 class ObjectiveModal extends Component {
 
@@ -92,38 +93,7 @@ class ObjectiveModal extends Component {
         </Modal.Header>
         <Modal.Content>
           <div className="objective-modal__body">
-            {
-              hasParentKeyResult && (
-                <div className="objective-modal__sidebar sidebar">
-                  <div className="sidebar__item">
-                    <div className="sidebar__title">上位 Objective</div>
-                    <div className="sidebar__content">
-                      <List>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>{parentKeyResult.getIn(['objective', 'name'])}</List.Header>
-                            <List.Description>{parentKeyResult.getIn(['objective', 'description'])}</List.Description>
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </div>
-                  </div>
-                  <div className="sidebar__item">
-                    <div className="sidebar__title">上位 Key Result</div>
-                    <div className="sidebar__content">
-                      <List>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>{parentKeyResult.get('name')}</List.Header>
-                            <List.Description>{parentKeyResult.get('description')}</List.Description>
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
+            <ObjectiveSidebar parentKeyResult={parentKeyResult} />
             <div className="objective-modal__main">
               <Form>
                 <Form.Field>
