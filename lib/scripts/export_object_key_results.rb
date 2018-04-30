@@ -47,6 +47,7 @@ class ExportObjectKeyResuts
         , kr.progress_rate as key_result_progress
         , kr.target_value
         , kr.actual_value
+        , kr.value_unit
         , kr.expired_date
         , o.id as objective_id
         , o.name as objective_name
@@ -174,6 +175,7 @@ class ExportObjectKeyResuts
             owner: @user_name,
             target_value: record['target_value'],
             actual_value: record['actual_value'],
+            value_unit: record['value_unit'],
             expired_date: record['expired_date']
           )
         end
@@ -205,6 +207,8 @@ class ExportObjectKeyResuts
       parent_kr_format = "#{parent_kr[:name]} [#{rate}%, #{parent_kr[:owner]}]"
 
       return "(#{parent_kr_format})" if parent_kr[:owner_id] != @key_result_owner_id
+
+      parent_kr_format
     end
 
     def get_objective_value(objective)
@@ -213,6 +217,8 @@ class ExportObjectKeyResuts
       objective_format = "#{objective[:name]} [#{rate}%, #{objective[:owner]}]"
 
       return "(#{objective_format})" if objective[:owner_id] != @key_result_owner_id
+
+      objective_format
     end
 
     def get_key_result_rate(progress, target_value, actual_value)
@@ -233,8 +239,12 @@ class ExportObjectKeyResuts
         kr_rate = get_key_result_rate(key_result[:progress], key_result[:target_value], key_result[:actual_value])
         rate = parse_zero_if_nil(kr_rate)
 
+        target_actual = ''
+        target_actual += " 目標値#{key_result[:target_value]}#{key_result[:value_unit]}," if key_result[:target_value].present?
+        target_actual += " 実績値#{key_result[:actual_value]}#{key_result[:value_unit]}," if key_result[:actual_value].present?
+
         key_results_value += <<~"EOS"
-          #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{key_result[:progress]}%, #{rate}, 目標値#{key_result[:target_value]}, 実績値#{key_result[:actual_value]}, 期限#{key_result[:expired_date]}]
+          #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{rate}%,#{target_actual} 期限#{key_result[:expired_date]}]
         EOS
       end
 
