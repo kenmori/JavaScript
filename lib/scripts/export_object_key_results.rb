@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-
-require 'optparse'
 require 'csv'
+require 'date'
+require 'optparse'
 
 class ExportObjectKeyResuts
   def self.create_csv_value(organization, period_from, period_to)
@@ -262,6 +262,13 @@ parsed = OptionParser.new do |opt|
   opt.on('-f', '--period-from', '出力対象のOKR開始時期を指定します。')
   opt.on('-t', '--period-to', '出力対象のOKR終了時期を指定します。')
 end.parse(ARGV, into: options)
+
+begin
+  Date.parse(parsed[1])
+  Date.parse(parsed[2])
+rescue ArgumentError => ex
+  puts "日付として扱えない値が指定されました。#{ex}, period-from: #{parsed[1]}, period-to: #{parsed[2]}"
+end
 
 puts "以下の対象を出力します。 organization: #{parsed[0]}, period-from: #{parsed[1]}, period-to: #{parsed[2]}"
 
