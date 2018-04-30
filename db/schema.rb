@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180426082024) do
+ActiveRecord::Schema.define(version: 20180428093518) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -69,6 +69,14 @@ ActiveRecord::Schema.define(version: 20180426082024) do
     t.datetime "updated_at", null: false
     t.index ["objective_id"], name: "index_objective_members_on_objective_id"
     t.index ["user_id"], name: "index_objective_members_on_user_id"
+  end
+
+  create_table "objective_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "user_id", null: false
+    t.integer "okr_period_id", null: false
+    t.string "list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
