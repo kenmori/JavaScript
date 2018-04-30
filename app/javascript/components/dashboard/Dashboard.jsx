@@ -68,7 +68,7 @@ export default class Dashboard extends Component {
             </Menu>
           </div>
           {activeItem === 'objective'
-            ? <ObjectiveList objectives={this.props.objectives} userId={this.props.userId} />
+            ? <ObjectiveList objectives={this.props.objectives} />
             : <KeyResultList keyResults={this.props.keyResults} />
           }
         </section>

@@ -27,10 +27,7 @@ class ObjectiveList extends Component {
   updateObjectiveOrder = (fromIndex, toIndex) => {
     const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex);
     if (!newObjectiveOrder.equals(this.props.objectiveOrder)) {
-      this.props.updateObjectiveOrder({
-        id: this.props.userId,
-        objectiveOrder: JSON.stringify(newObjectiveOrder),
-      });
+      this.props.updateObjectiveOrder(JSON.stringify(newObjectiveOrder));
     }
   }
 
@@ -74,7 +71,6 @@ ObjectiveList.propTypes = {
   canMoveObjective: PropTypes.bool.isRequired,
   objectiveOrder: PropTypes.object.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
-  userId: PropTypes.number.isRequired,
 };
 
 export default Backend(ObjectiveList);
