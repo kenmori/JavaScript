@@ -244,7 +244,7 @@ class ExportObjectKeyResuts
         target_actual += " 実績値#{key_result[:actual_value]}#{key_result[:value_unit]}," if key_result[:actual_value].present?
 
         key_results_value += <<~"EOS"
-          #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{rate}%,#{target_actual} 期限#{key_result[:expired_date]}]
+          #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{rate}%, #{@user_name},#{target_actual} 期限#{key_result[:expired_date]}]
         EOS
       end
 
