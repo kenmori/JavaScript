@@ -11,6 +11,7 @@ class ExportObjectKeyResuts
 
     user_grouped = export_data.group_by {|item| item['key_result_owner_id']}
 
+    bom = "\uFEFF"
     headers = ['','ユーザー名','メールアドレス', 'OKR']
     csv_options = {
       encoding: 'UTF-8',
