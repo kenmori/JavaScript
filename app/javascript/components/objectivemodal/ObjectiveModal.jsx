@@ -6,6 +6,9 @@ import ObjectiveForm from './ObjectiveForm';
 
 class ObjectiveModal extends Component {
 
+  static INDEX_NEW = 0;
+  static INDEX_LINK = 1;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,6 +17,7 @@ class ObjectiveModal extends Component {
       name: '',
       description: '',
       objectiveId: null,
+      activeIndex: ObjectiveModal.INDEX_NEW,
     }
   }
 
@@ -25,12 +29,13 @@ class ObjectiveModal extends Component {
         name: '',
         description: '',
         objectiveId: null,
+        activeIndex: ObjectiveModal.INDEX_NEW,
       });
     }
   }
 
   save() {
-    if (!this.state.objectiveId) {
+    if (this.state.activeIndex === ObjectiveModal.INDEX_NEW) {
       const objective = {
         name: this.state.name,
         description: this.state.description,
@@ -132,7 +137,7 @@ class ObjectiveModal extends Component {
             <Tab panes={[
               { menuItem: '新規作成', render: () => this.getObjectiveFormHtml() },
               { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml(false) },
-            ]} />
+            ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
           </div>
         </Modal.Content>
         <Modal.Actions>
