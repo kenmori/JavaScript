@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
+import RequiredLabel from '../form/RequiredLabel';
 import { Form, Input, TextArea, Divider } from 'semantic-ui-react';
 
 class ObjectiveForm extends Component {
@@ -22,14 +23,14 @@ class ObjectiveForm extends Component {
         <Form>
           {this.props.objectives && (
             <Form.Field>
-              <label>既存 Objective</label>
+              <RequiredLabel text='既存 Objective' />
               <OkrSelect okrs={this.props.objectives} value={this.props.objectiveId} preview={false}
                          onChange={this.handleObjectivesChange} />
             </Form.Field>
           )}
           {this.props.objectives && <Divider />}
           <Form.Field>
-            <label>上位 Key Result</label>
+            <RequiredLabel text='上位 Key Result' required={!!this.props.objectives} />
             <OkrSelect
               okrs={this.props.parentKeyResultCandidates}
               isObjective={false}
@@ -41,7 +42,7 @@ class ObjectiveForm extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>Objective</label>
+            <RequiredLabel text='Objective' />
             <Input value={this.props.name} onChange={(event, { value }) => this.props.onChange({ name: value })} />
           </Form.Field>
           <Form.Field>
@@ -52,7 +53,7 @@ class ObjectiveForm extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>責任者</label>
+            <RequiredLabel text='責任者' />
             <UserSelect
               users={this.props.users}
               value={this.props.ownerId}

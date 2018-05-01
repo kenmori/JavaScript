@@ -5,6 +5,7 @@ import DatePicker from '../form/DatePicker';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
+import RequiredLabel from '../form/RequiredLabel';
 import moment from 'moment';
 import { fromJS } from 'immutable';
 
@@ -167,7 +168,7 @@ class KeyResultModal extends Component {
               <Form>
                 <Form.Group widths='equal'>
                   <Form.Field>
-                    <label>Key Result</label>
+                    <RequiredLabel text='Key Result' />
                     <Input ref={node => this.nameInput = node} />
                   </Form.Field>
                 </Form.Group>
@@ -197,13 +198,13 @@ class KeyResultModal extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Field>
-                    <label>期限</label>
+                    <RequiredLabel text='期限' />
                     <DatePicker dateFormat='YYYY/M/D' locale='ja' selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>
                   <Form.Field>
-                    <label>責任者</label>
+                    <RequiredLabel text='責任者' />
                     <UserSelect
                       users={this.props.users} 
                       value={this.state.ownerId}
@@ -225,7 +226,7 @@ class KeyResultModal extends Component {
                 </Form.Group>
                 {objective && (
                   <Form.Field>
-                    <label>紐付く Objective</label>
+                    <RequiredLabel text='紐付く Objective' />
                     <OkrSelect
                       okrs={fromJS([objective])}
                       value={objective.get('id')}
