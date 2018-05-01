@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Menu, Label } from 'semantic-ui-react';
 import KeyResultPane from './KeyResultPane';
+import LinkPane from './LinkPane';
 import CommentPane from './CommentPane';
 
 class KeyResultTab extends Component {
+
+  updateKeyResult = values => {
+    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
+  }
 
   render() {
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
@@ -13,11 +18,27 @@ class KeyResultTab extends Component {
       <Tab panes={[
         {
           menuItem: <Menu.Item key='keyResult'>Key Result{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane><KeyResultPane {...this.props} /></Tab.Pane>
+          render: () => <Tab.Pane>
+            <KeyResultPane {...this.props} updateKeyResult={this.updateKeyResult} />
+          </Tab.Pane>
+        },
+        {
+          menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
+          render: () => <Tab.Pane>
+            <LinkPane okr={this.props.keyResult}
+                      candidates={this.props.objectiveCandidates}
+                      isObjective={false}
+                      isObjectiveOwner={this.props.isObjectiveOwner}
+                      isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
+                      updateOkr={this.updateKeyResult}
+            />
+          </Tab.Pane>
         },
         {
           menuItem: <Menu.Item key='comments'>コメント<Label>{comments ? comments.size : 0}</Label></Menu.Item>,
-          render: () => <Tab.Pane loading={!comments}><CommentPane {...this.props} /></Tab.Pane>
+          render: () => <Tab.Pane loading={!comments}>
+            <CommentPane {...this.props} updateKeyResult={this.updateKeyResult} />
+          </Tab.Pane>
         },
       ]} />
     );
@@ -33,7 +54,7 @@ KeyResultTab.propTypes = {
   isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
-  changeToObjectiveModal: PropTypes.func.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 

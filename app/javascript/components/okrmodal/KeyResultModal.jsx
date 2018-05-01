@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, List } from 'semantic-ui-react';
+import { findDOMNode } from 'react-dom';
+import { Button, Form, Input, Modal, List, TextArea } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import UserSelect from '../form/UserSelect';
@@ -54,6 +55,7 @@ class KeyResultModal extends Component {
   save() {
     const keyResult = {
       name: this.nameInput.inputRef.value,
+      description: findDOMNode(this.refs.descriptionArea).value,
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
       targetValue: this.targetInput.inputRef.value,
@@ -90,6 +92,7 @@ class KeyResultModal extends Component {
 
   isEditing() {
     return this.nameInput.inputRef.value !== ''
+      || findDOMNode(this.refs.descriptionArea).value !== ''
       || this.targetInput.inputRef.value !== ''
       || this.unitInput.inputRef.value !== ''
       || this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods)
@@ -109,19 +112,20 @@ class KeyResultModal extends Component {
   }
 
   closeModal() {
-    this.props.closeModal();
+    // FIXME: キャンセルボタンで背面の OKR 編集モーダルごと閉じてしまう現象を setTimeout で回避する
+    // 背面の OKR 編集モーダルのモーダル外クリックが発生している (おそらく Semantic-UI のバグ)
+    setTimeout(() => this.props.closeModal(), 0);
   }
   
   render() {
     const { objective } = this.props;
+    const parentKeyResult = objective && objective.get('parentKeyResult');
     return (
       <Modal
         closeIcon 
         open={this.props.isOpen} 
         size='large' 
         className='keyresult-modal' 
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>
@@ -130,6 +134,21 @@ class KeyResultModal extends Component {
         <Modal.Content>
           <div className="keyresult-modal__body">
             <div className="keyresult-modal__sidebar sidebar">
+              {parentKeyResult && (
+                <div className="sidebar__item">
+                  <div className="sidebar__title">上位 Key Result</div>
+                  <div className="sidebar__content">
+                    <List>
+                      <List.Item>
+                        <List.Content>
+                          <List.Header>{parentKeyResult.get('name')}</List.Header>
+                          <List.Description>{parentKeyResult.get('description')}</List.Description>
+                        </List.Content>
+                      </List.Item>
+                    </List>
+                  </div>
+                </div>
+              )}
               <div className="sidebar__item">
                 <div className="sidebar__title">紐付く Objective</div>
                 <div className="sidebar__content">
@@ -150,6 +169,14 @@ class KeyResultModal extends Component {
                   <Form.Field>
                     <label>Key Result</label>
                     <Input ref={node => this.nameInput = node} />
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group widths='equal'>
+                  <Form.Field>
+                    <label>説明</label>
+                    <TextArea autoHeight rows={3} ref='descriptionArea'
+                              placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>

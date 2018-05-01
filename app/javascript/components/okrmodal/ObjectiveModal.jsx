@@ -85,8 +85,6 @@ class ObjectiveModal extends Component {
         open={this.props.isOpen} 
         size={modalSize} 
         className={wrapperClassName}
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.handleClose.bind(this)}
       >
         <Modal.Header>
@@ -117,6 +115,7 @@ class ObjectiveModal extends Component {
                         <List.Item>
                           <List.Content>
                             <List.Header>{parentKeyResult.get('name')}</List.Header>
+                            <List.Description>{parentKeyResult.get('description')}</List.Description>
                           </List.Content>
                         </List.Item>
                       </List>

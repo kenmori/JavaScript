@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
-import OkrList from '../form/OkrList';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
+import AutoTextArea from '../form/AutoTextArea';
 import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
-import OkrSelect from '../form/OkrSelect';
 import moment from 'moment';
 
 class KeyResultPane extends Component {
@@ -31,13 +30,13 @@ class KeyResultPane extends Component {
   }
 
   addMember(value) {
-    this.updateKeyResult({
+    this.props.updateKeyResult({
       member: {user: value, behavior: 'add', role: 'member'}
     });
   }
 
   removeMember(value) {
-    const removeAction = () => this.updateKeyResult({
+    const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
     });
     if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
@@ -51,19 +50,15 @@ class KeyResultPane extends Component {
   }
 
   changeKeyResultOwner(value) {
-    this.updateKeyResult({
+    this.props.updateKeyResult({
       member: {user: value, behavior: 'add', role: 'owner'}
     });
-  }
-
-  updateKeyResult(values) {
-    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
   
   updateKeyResultWithState(name, value) {
     if (this.state[name] !== value) {
       this.setState({ [name]: value });
-      this.updateKeyResult({ [name]: value });
+      this.props.updateKeyResult({ [name]: value });
     }
   }
 
@@ -84,25 +79,15 @@ class KeyResultPane extends Component {
       });
     }
   }
-
-  childObjectivesTag(childObjectives) {
-    if (childObjectives.isEmpty()) return null;
-    return (
-      <Form.Field>
-        <label>下位 Objective 一覧</label>
-        <OkrList okrs={childObjectives} />
-      </Form.Field>
-    );
-  }
   
   childObjectiveProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate');
     const childProgressRate = keyResult.get('childProgressRate');
-    return progressRate !== childProgressRate && typeof childProgressRate === 'number' && (
+    return childProgressRate > 0 && progressRate !== childProgressRate && (
       <div className='flex-field__item'>
         <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
                                content={`下位 OKR の進捗は ${childProgressRate}% です`}
-                               onClick={() => this.updateKeyResult({ 'progressRate': null })} />}
+                               onClick={() => this.props.updateKeyResult({ 'progressRate': null })} />}
                position='bottom left'
                size='tiny'
                content='クリックすると下位 OKR の進捗が設定されます'
@@ -212,27 +197,22 @@ class KeyResultPane extends Component {
             />
           </div>
         </Form.Field>
+        <Form.Field>
+          <label>説明</label>
+          <AutoTextArea value={keyResult.get('description')}
+                        placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+                        onCommit={value => this.props.updateKeyResult({ description: value })}
+          />
+        </Form.Field>
 
         <Divider hidden />
 
         <div>
           <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative floated='right' />
-          <Button content="下位 OKR を作成する" onClick={() => this.props.changeToObjectiveModal(keyResult)} as="span" positive floated='right' />
+          <Button content="下位 OKR を作成する" onClick={() => this.props.openObjectiveModal(keyResult)} as="span" positive floated='right' />
         </div>
 
         <Divider hidden clearing />
-
-        <Form.Field>
-          <label>紐付く Objective</label>
-          <OkrSelect
-            okrs={this.props.objectiveCandidates}
-            value={keyResult.get('objectiveId')}
-            readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedObjectiveCandidates}
-            onChange={value => this.updateKeyResult({ objectiveId: value })}
-          />
-        </Form.Field>
-        {this.childObjectivesTag(keyResult.get('childObjectives'))}
       </Form>
     );
   }
@@ -240,14 +220,12 @@ class KeyResultPane extends Component {
 
 KeyResultPane.propTypes = {
   keyResult: PropTypes.object.isRequired,
-  objectiveCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
-  changeToObjectiveModal: PropTypes.func.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 
