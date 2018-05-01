@@ -24,6 +24,9 @@ const mapDispatchToProps = dispatch => {
     addObjective: (objective, isNew) => {
       dispatch(objectiveActions.addObjective(objective, isNew));
     },
+    updateObjective: objective => {
+      dispatch(objectiveActions.updateObjective(objective));
+    },
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveModal());
     },

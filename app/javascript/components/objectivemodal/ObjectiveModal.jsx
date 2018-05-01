@@ -24,20 +24,32 @@ class ObjectiveModal extends Component {
         parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
         name: '',
         description: '',
+        objectiveId: null,
       });
     }
   }
 
   save() {
-    const objective = {
-      name: this.state.name,
-      description: this.state.description,
-      ownerId: this.state.ownerId,
-      parentKeyResultId: this.state.parentKeyResultId,
-      okrPeriodId: this.props.okrPeriodId,
-    };
-    const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
-    this.props.addObjective(objective, isNew);
+    if (!this.state.objectiveId) {
+      const objective = {
+        name: this.state.name,
+        description: this.state.description,
+        ownerId: this.state.ownerId,
+        parentKeyResultId: this.state.parentKeyResultId,
+        okrPeriodId: this.props.okrPeriodId,
+      };
+      const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
+      this.props.addObjective(objective, isNew);
+    } else {
+      const objective = {
+        id: this.state.objectiveId,
+        name: this.state.name,
+        description: this.state.description,
+        objectiveMember: { user: this.state.ownerId },
+        parentKeyResultId: this.state.parentKeyResultId,
+      };
+      this.props.updateObjective(objective);
+    }
   }
 
   getInitialOwnerId(props = this.props) {
