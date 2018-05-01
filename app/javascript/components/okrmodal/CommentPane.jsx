@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Icon, Button, TextArea, Divider } from 'semantic-ui-react';
-import AutoTextArea from '../form/AutoTextArea';
-import moment from 'moment';
+import OKRComment from './OKRComment';
 
 class CommentPane extends Component {
 
@@ -16,17 +15,7 @@ class CommentPane extends Component {
     const commentTags = comments.map((item) => {
       return (
         <div className="comments" key={item.get('id')}>
-          <div className="comments__item">
-            <AutoTextArea value={item.get('text')}
-                          onCommit={value => this.editComment(item.get('id'), value)}
-                          readOnly={!item.get('editable')}
-            />
-            <div className="comments__item-meta">
-              <div className="comments__item-updated">{moment(item.get('updatedAt')).format('YYYY/M/D H:mm')}</div>
-              <div className="comments__item-name">{item.get('fullName')}</div>
-              {item.get('editable') && <Icon link name="trash" className="comments__item-icon" onClick={() => {this.removeComment(item.get('id'))}} />}
-            </div>
-          </div>
+          <OKRComment item={item} onUpdate={(id, text) => this.editComment(id, text)}/>
         </div>
       )
     });
