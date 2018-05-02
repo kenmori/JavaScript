@@ -1,31 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Label } from 'semantic-ui-react';
-import avatar_image from '../../images/avatar.png';
+import { okrOptions } from "../../utils/okr";
 
 class RenderOkrSelect extends Component {
-
-  okrOptions = () => {
-    let options = this.props.okrs.map(okr => ({
-      key: okr.get('id'),
-      value: okr.get('id'),
-      text: okr.get('name'),
-      image: { avatar: true, src: okr.get('owner').get('avatarUrl') || avatar_image },
-    }));
-    if (!this.props.isObjective) {
-      // 上位 KR なしの選択肢を追加 (紐付く Objective なしは選ばせない)
-      options = options.insert(0, ({
-        key: -1,
-        value: -1,
-        text: 'なし',
-      }));
-    }
-    return options.toArray();
-  }
 
   render() {
     const {
       input: { value, onChange, onBlur },
+      okrs,
+      isObjective,
       disabled,
       loading,
       meta: { touched, error }
@@ -36,7 +20,7 @@ class RenderOkrSelect extends Component {
           <Select
             search
             fluid
-            options={this.okrOptions()}
+            options={okrOptions(okrs, isObjective)}
             value={value || -1}
             disabled={disabled}
             loading={loading}
