@@ -20,16 +20,16 @@ class ObjectiveModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.isOpen && !nextProps.isOpen) {
-      this.props.initialize({
-        name: '',
-      });
-    }
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
         description: '',
         activeIndex: ObjectiveModal.INDEX_NEW,
+      });
+      this.props.initialize({
+        name: '',
+        parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
+        objectiveId: null,
       });
     }
   }
