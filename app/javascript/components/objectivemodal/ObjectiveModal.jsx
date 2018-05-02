@@ -14,9 +14,7 @@ class ObjectiveModal extends Component {
     super(props);
     this.state = {
       ownerId: null,
-      parentKeyResultId: null,
       description: '',
-      objectiveId: null,
       activeIndex: ObjectiveModal.INDEX_NEW,
     }
   }
@@ -30,9 +28,7 @@ class ObjectiveModal extends Component {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
-        parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
         description: '',
-        objectiveId: null,
         activeIndex: ObjectiveModal.INDEX_NEW,
       });
     }
@@ -41,21 +37,23 @@ class ObjectiveModal extends Component {
   save(validData) {
     if (this.state.activeIndex === ObjectiveModal.INDEX_NEW) {
       const objective = {
+        name: validData.name,
         description: this.state.description,
         ownerId: this.state.ownerId,
-        parentKeyResultId: this.state.parentKeyResultId,
+        parentKeyResultId: validData.parentKeyResultId,
         okrPeriodId: this.props.okrPeriodId,
       };
       const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
-      this.props.addObjective(Object.assign(objective, validData), isNew);
+      this.props.addObjective(objective, isNew);
     } else {
       const objective = {
-        id: this.state.objectiveId,
+        id: validData.objectiveId,
+        name: validData.name,
         description: this.state.description,
         objectiveMember: { user: this.state.ownerId },
-        parentKeyResultId: this.state.parentKeyResultId,
+        parentKeyResultId: validData.parentKeyResultId,
       };
-      this.props.updateObjective(Object.assign(objective, validData));
+      this.props.updateObjective(objective);
     }
   }
 
@@ -74,7 +72,6 @@ class ObjectiveModal extends Component {
   isEditing() {
     return this.props.dirty
       || this.state.ownerId !== this.getInitialOwnerId()
-      || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
       || this.state.description !== '';
   }
 
@@ -99,16 +96,13 @@ class ObjectiveModal extends Component {
         <ObjectiveForm
           parentKeyResultCandidates={this.props.parentKeyResultCandidates}
           users={this.props.users}
-          parentKeyResultId={this.state.parentKeyResultId}
           ownerId={this.state.ownerId}
           hasParentKeyResult={!!this.props.parentKeyResult}
           isFetchedCandidates={this.props.isFetchedCandidates}
           onChange={values => this.setState({ ...values })}
           fieldChange={this.props.change}
-          name={this.state.name}
           description={this.state.description}
           objectives={isNew ? undefined : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))}
-          objectiveId={isNew ? undefined : this.state.objectiveId}
         />
       </Tab.Pane>
     );
@@ -165,6 +159,12 @@ export default reduxForm({
     const errors = {};
     if (!values.name) {
       errors.name = 'Objective を入力してください';
+    }
+    if (!values.parentKeyResultId ||values.parentKeyResultId === -1) {
+      errors.parentKeyResultId = '上位 Key Result を入力してください';
+    }
+    if (!values.objectiveId) {
+      errors.objectiveId = '既存 Objective を入力してください';
     }
     return errors;
   },

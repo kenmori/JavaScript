@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import RenderField from "../form/RenderField";
 import UserSelect from '../form/UserSelect';
-import OkrSelect from '../form/OkrSelect';
+import RenderOkrSelect from '../form/RenderOkrSelect';
 import RequiredLabel from '../form/RequiredLabel';
 import { Form, TextArea, Divider } from 'semantic-ui-react';
 
@@ -12,7 +12,6 @@ class ObjectiveForm extends Component {
   handleObjectivesChange = objectiveId => {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
     this.props.onChange({
-      objectiveId,
       description: objective.get('description'),
       ownerId: objective.get('owner').get('id'),
     });
@@ -26,21 +25,24 @@ class ObjectiveForm extends Component {
           {this.props.objectives && (
             <Form.Field>
               <RequiredLabel text='既存 Objective' />
-              <OkrSelect okrs={this.props.objectives} value={this.props.objectiveId} preview={false}
-                         onChange={this.handleObjectivesChange} />
+              <Field
+                name='objectiveId'
+                okrs={this.props.objectives}
+                component={RenderOkrSelect}
+                onChange={(e, newValue) => this.handleObjectivesChange(newValue)}
+              />
             </Form.Field>
           )}
           {this.props.objectives && <Divider />}
           <Form.Field>
             <RequiredLabel text='上位 Key Result' required={!!this.props.objectives} />
-            <OkrSelect
+            <Field
+              name='parentKeyResultId'
               okrs={this.props.parentKeyResultCandidates}
               isObjective={false}
-              value={this.props.parentKeyResultId}
-              preview={false}
               disabled={this.props.hasParentKeyResult}
               loading={!this.props.isFetchedCandidates}
-              onChange={parentKeyResultId => this.props.onChange({ parentKeyResultId })}
+              component={RenderOkrSelect}
             />
           </Form.Field>
           <Form.Field>
@@ -73,8 +75,6 @@ ObjectiveForm.propTypes = {
   users: PropTypes.object.isRequired,
   objectives: PropTypes.object,
   description: PropTypes.string.isRequired,
-  parentKeyResultId: PropTypes.number,
-  objectiveId: PropTypes.number,
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
