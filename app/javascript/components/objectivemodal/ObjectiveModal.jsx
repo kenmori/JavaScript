@@ -72,7 +72,8 @@ class ObjectiveModal extends Component {
   }
 
   isEditing() {
-    return this.state.ownerId !== this.getInitialOwnerId()
+    return this.props.dirty
+      || this.state.ownerId !== this.getInitialOwnerId()
       || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
       || this.state.description !== '';
   }
