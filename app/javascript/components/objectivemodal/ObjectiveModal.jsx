@@ -104,6 +104,7 @@ class ObjectiveModal extends Component {
           hasParentKeyResult={!!this.props.parentKeyResult}
           isFetchedCandidates={this.props.isFetchedCandidates}
           onChange={values => this.setState({ ...values })}
+          fieldChange={this.props.change}
           name={this.state.name}
           description={this.state.description}
           objectives={isNew ? undefined : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))}

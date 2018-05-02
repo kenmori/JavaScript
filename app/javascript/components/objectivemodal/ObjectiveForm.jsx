@@ -16,6 +16,7 @@ class ObjectiveForm extends Component {
       description: objective.get('description'),
       ownerId: objective.get('owner').get('id'),
     });
+    this.props.fieldChange('name', objective.get('name'));
   }
 
   render() {
@@ -78,6 +79,7 @@ ObjectiveForm.propTypes = {
   hasParentKeyResult: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  fieldChange: PropTypes.func.isRequired,
 };
 
 export default ObjectiveForm;
