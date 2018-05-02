@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { reduxForm } from 'redux-form';
 import { Button, Modal, Tab } from 'semantic-ui-react';
 import ObjectiveSidebar from './ObjectiveSidebar';
 import ObjectiveForm from './ObjectiveForm';
@@ -14,7 +15,6 @@ class ObjectiveModal extends Component {
     this.state = {
       ownerId: null,
       parentKeyResultId: null,
-      name: '',
       description: '',
       objectiveId: null,
       activeIndex: ObjectiveModal.INDEX_NEW,
@@ -22,11 +22,15 @@ class ObjectiveModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.isOpen && !nextProps.isOpen) {
+      this.props.initialize({
+        name: '',
+      });
+    }
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         ownerId: this.getInitialOwnerId(nextProps),
         parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
-        name: '',
         description: '',
         objectiveId: null,
         activeIndex: ObjectiveModal.INDEX_NEW,
@@ -34,26 +38,24 @@ class ObjectiveModal extends Component {
     }
   }
 
-  save() {
+  save(validData) {
     if (this.state.activeIndex === ObjectiveModal.INDEX_NEW) {
       const objective = {
-        name: this.state.name,
         description: this.state.description,
         ownerId: this.state.ownerId,
         parentKeyResultId: this.state.parentKeyResultId,
         okrPeriodId: this.props.okrPeriodId,
       };
       const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
-      this.props.addObjective(objective, isNew);
+      this.props.addObjective(Object.assign(objective, validData), isNew);
     } else {
       const objective = {
         id: this.state.objectiveId,
-        name: this.state.name,
         description: this.state.description,
         objectiveMember: { user: this.state.ownerId },
         parentKeyResultId: this.state.parentKeyResultId,
       };
-      this.props.updateObjective(objective);
+      this.props.updateObjective(Object.assign(objective, validData));
     }
   }
 
@@ -70,8 +72,7 @@ class ObjectiveModal extends Component {
   }
 
   isEditing() {
-    return this.state.name !== ''
-      || this.state.ownerId !== this.getInitialOwnerId()
+    return this.state.ownerId !== this.getInitialOwnerId()
       || this.state.parentKeyResultId !== this.getInitialParentKeyResultId()
       || this.state.description !== '';
   }
@@ -112,7 +113,7 @@ class ObjectiveModal extends Component {
   }
 
   render() {
-    const { parentKeyResult } = this.props;
+    const { parentKeyResult, isOpen, handleSubmit } = this.props;
     const hasParentKeyResult = !!parentKeyResult;
     let modalSize = 'small';
     let wrapperClassName = 'objective-modal';
@@ -123,7 +124,7 @@ class ObjectiveModal extends Component {
     return (
       <Modal
         closeIcon 
-        open={this.props.isOpen} 
+        open={isOpen}
         size={modalSize} 
         className={wrapperClassName}
         onClose={this.handleClose.bind(this)}
@@ -143,7 +144,7 @@ class ObjectiveModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
-            <Button positive onClick={this.save.bind(this)}>保存</Button>
+            <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
@@ -156,4 +157,14 @@ ObjectiveModal.propTypes = {
   parentKeyResult: PropTypes.object,
 };
 
-export default  ObjectiveModal;
+export default reduxForm({
+  form: 'objectiveModal',
+  validate: values => {
+    const errors = {};
+    if (!values.name) {
+      errors.name = 'Objective を入力してください';
+    }
+    return errors;
+  },
+  shouldError: () => true,
+})(ObjectiveModal);

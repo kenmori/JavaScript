@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
+import RenderField from "../form/RenderField";
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
 import RequiredLabel from '../form/RequiredLabel';
-import { Form, Input, TextArea, Divider } from 'semantic-ui-react';
+import { Form, TextArea, Divider } from 'semantic-ui-react';
 
 class ObjectiveForm extends Component {
 
@@ -11,7 +13,6 @@ class ObjectiveForm extends Component {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
     this.props.onChange({
       objectiveId,
-      name: objective.get('name'),
       description: objective.get('description'),
       ownerId: objective.get('owner').get('id'),
     });
@@ -43,7 +44,7 @@ class ObjectiveForm extends Component {
           </Form.Field>
           <Form.Field>
             <RequiredLabel text='Objective' />
-            <Input value={this.props.name} onChange={(event, { value }) => this.props.onChange({ name: value })} />
+            <Field name='name' type='text' component={RenderField} />
           </Form.Field>
           <Form.Field>
             <label>説明</label>
@@ -70,7 +71,6 @@ ObjectiveForm.propTypes = {
   parentKeyResultCandidates: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   objectives: PropTypes.object,
-  name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   parentKeyResultId: PropTypes.number,
   objectiveId: PropTypes.number,
