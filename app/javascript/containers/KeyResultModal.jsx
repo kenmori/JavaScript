@@ -1,4 +1,4 @@
-import KeyResultModal from '../components/okrmodal/KeyResultModal';
+import KeyResultModal from '../components/keyresultmodal/KeyResultModal';
 import { connect } from 'react-redux';
 import actions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
