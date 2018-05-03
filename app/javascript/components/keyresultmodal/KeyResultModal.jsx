@@ -22,6 +22,7 @@ class KeyResultModal extends Component {
       expiredDate: -1,
       members: [],
       ownerId: null,
+      isRequiredTargetValue: false,
     }
   }
 
@@ -92,6 +93,7 @@ class KeyResultModal extends Component {
       this.setState({
         expiredDate: -1,
         members: [],
+        isRequiredTargetValue: false,
       });
     }
 
@@ -170,7 +172,7 @@ class KeyResultModal extends Component {
                   <Form.Field>
                     <div className="flex-center">
                       <div style={{marginRight: "10px"}}>
-                        <label>目標値</label>
+                        <RequiredLabel text='目標値' required={this.state.isRequiredTargetValue} />
                         <div style={{width: "177px"}} >
                           <Field
                             name='targetValue'
@@ -187,6 +189,7 @@ class KeyResultModal extends Component {
                           type='text'
                           placeholder='例：円、件、人'
                           component={RenderField}
+                          onChange={(e, newValue) => this.setState({ isRequiredTargetValue: !!newValue })}
                         />
                       </div>
                     </div>
