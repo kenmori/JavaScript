@@ -66,14 +66,55 @@ hoge({name: "kenji", age: 37})>//ok
 //or
 $Exact<Obj>は
 type Obj = {|name: string, age: number|} でも同じ意味
-
-
+```
 NOTICE
 Object spreadを使う際に$Exactを使う際に注意が必要だったが今は治っている
-問題提起
-https://qiita.com/stomita/items/24a7d223acdc6a8715f4
-issue
-https://github.com/facebook/flow/issues/2405
+[https://qiita.com/stomita/items/24a7d223acdc6a8715f4](問題提起)
+[https://github.com/facebook/flow/issues/2405](issue)
+
+---
+
+### maybe型を使用する際に
+nullやundefinedが入っていた場合下記の方法だと最後のフィルターでerrorを起こす
+
+````
+type A = Array<?number>
+const a: A = [1,2,3];
+a.filter((n)=>{n != null}).filter(n => n >0)>
+
+```
+
+回避策
+
+```js
+type A = Array<?number>
+const a: A = [1,2,3];
+a.filter(Boolean).filter(n => n > 0)
+```
+
+### intersection
+
+下記の場合Errorになる
+```js`
+type Foo = {| foo: string |} & {| bar: string |}
+const example: Foo = {foo: 'foo', bar: 'bar'}
+```
+A & Bは Aが満たされる時Fooはfooしかもてず、Bが満たされる場合foo
+が持てないのでError
+```js
+type Foo = {| foo: string, bar: string |}
+```
+なら動くが、違う方法の表現の仕方は。。。
+```js
+type Foo = {| foo: string |};
+type Bar = {| bar: string |};
+type FooBar = { ...Foo, ...Bar };//ok
+
+or
+
+type Foo = {| ...{| foo: string |}, ...{| bar: string |} |}
+const example: Foo = {foo: 'foo', bar: 'bar'}
+```
 
 
 
@@ -81,4 +122,8 @@ https://github.com/facebook/flow/issues/2405
 ```
 
 
+
+
+参照
+[https://github.com/facebook/flow/issues/2846](https://github.com/facebook/flow/issues/2846)
 
