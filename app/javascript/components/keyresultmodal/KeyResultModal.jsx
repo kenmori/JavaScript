@@ -12,7 +12,7 @@ import moment from 'moment';
 import { fromJS } from 'immutable';
 import KeyResultSidebar from './KeyResultSidebar'
 import RenderField from '../form/RenderField'
-import { validateKeyResultName } from '../../utils/validator'
+import { validateKeyResultName, validateTargetValue } from '../../utils/validator'
 
 class KeyResultModal extends Component {
   constructor(props) {
@@ -64,8 +64,8 @@ class KeyResultModal extends Component {
       description: findDOMNode(this.refs.descriptionArea).value,
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
-      targetValue: this.targetInput.inputRef.value,
-      valueUnit: this.unitInput.inputRef.value,
+      targetValue: validData.targetValue,
+      valueUnit: validData.valueUnit,
       expiredDate: this.state.expiredDate.format(),
       members: this.state.members,
     };
@@ -98,6 +98,8 @@ class KeyResultModal extends Component {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.props.initialize({
         name: '',
+        targetValue: '',
+        valueUnit: '',
       })
     }
   }
@@ -105,8 +107,6 @@ class KeyResultModal extends Component {
   isEditing() {
     return this.props.dirty
       || findDOMNode(this.refs.descriptionArea).value !== ''
-      || this.targetInput.inputRef.value !== ''
-      || this.unitInput.inputRef.value !== ''
       || this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods)
       || this.state.ownerId !== this.props.objective.get('owner').get('id')
       || this.state.members.length;
@@ -172,12 +172,22 @@ class KeyResultModal extends Component {
                       <div style={{marginRight: "10px"}}>
                         <label>目標値</label>
                         <div style={{width: "177px"}} >
-                          <Input ref={node => this.targetInput = node} />
+                          <Field
+                            name='targetValue'
+                            type='text'
+                            component={RenderField}
+                            validate={[validateTargetValue]}
+                          />
                         </div>
                       </div>
                       <div>
                         <label>単位</label>
-                        <Input placeholder='例：円、件、人' ref={node => this.unitInput = node} />
+                        <Field
+                          name='valueUnit'
+                          type='text'
+                          placeholder='例：円、件、人'
+                          component={RenderField}
+                        />
                       </div>
                     </div>
                   </Form.Field>

@@ -13,3 +13,7 @@ export const validateParentKeyResultId = value => {
 export const validateKeyResultName = value => {
   return value ? undefined : 'KeyResult を入力してください'
 }
+
+export const validateTargetValue = (value, { valueUnit }) => {
+  return (value || !valueUnit) ? undefined : '目標値を入力してください'
+}
