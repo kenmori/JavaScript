@@ -9,3 +9,7 @@ export const validateObjectiveId = value => {
 export const validateParentKeyResultId = value => {
   return (value && value !== -1) ? undefined : '上位 Key Result を入力してください'
 }
+
+export const validateKeyResultName = value => {
+  return value ? undefined : 'KeyResult を入力してください'
+}

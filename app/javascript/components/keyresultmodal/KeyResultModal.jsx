@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
+import { reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import { Button, Form, Input, Modal, TextArea } from 'semantic-ui-react'
 import DatePicker from '../form/DatePicker';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
@@ -9,6 +11,8 @@ import RequiredLabel from '../form/RequiredLabel';
 import moment from 'moment';
 import { fromJS } from 'immutable';
 import KeyResultSidebar from './KeyResultSidebar'
+import RenderField from '../form/RenderField'
+import { validateKeyResultName } from '../../utils/validator'
 
 class KeyResultModal extends Component {
   constructor(props) {
@@ -54,9 +58,9 @@ class KeyResultModal extends Component {
     this.setState({ members });
   }
 
-  save() {
+  save(validData) {
     const keyResult = {
-      name: this.nameInput.inputRef.value,
+      name: validData.name,
       description: findDOMNode(this.refs.descriptionArea).value,
       objectiveId: this.props.objective.get('id'),
       ownerId: this.state.ownerId,
@@ -90,10 +94,16 @@ class KeyResultModal extends Component {
         members: [],
       });
     }
+
+    if (!this.props.isOpen && nextProps.isOpen) {
+      this.props.initialize({
+        name: '',
+      })
+    }
   }
 
   isEditing() {
-    return this.nameInput.inputRef.value !== ''
+    return this.props.dirty
       || findDOMNode(this.refs.descriptionArea).value !== ''
       || this.targetInput.inputRef.value !== ''
       || this.unitInput.inputRef.value !== ''
@@ -120,7 +130,7 @@ class KeyResultModal extends Component {
   }
   
   render() {
-    const { objective } = this.props;
+    const { objective, handleSubmit } = this.props
     return (
       <Modal
         closeIcon 
@@ -140,7 +150,12 @@ class KeyResultModal extends Component {
                 <Form.Group widths='equal'>
                   <Form.Field>
                     <RequiredLabel text='Key Result' />
-                    <Input ref={node => this.nameInput = node} />
+                    <Field
+                      name='name'
+                      type='text'
+                      component={RenderField}
+                      validate={[validateKeyResultName]}
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal'>
@@ -214,7 +229,7 @@ class KeyResultModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
-            <Button positive onClick={this.save.bind(this)}>保存</Button>
+            <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
@@ -222,4 +237,6 @@ class KeyResultModal extends Component {
   }
 }
 
-export default  KeyResultModal;
+export default reduxForm({
+  form: 'keyResultModal',
+})(KeyResultModal)
