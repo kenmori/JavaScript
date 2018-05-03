@@ -62,7 +62,7 @@ class ObjectiveForm extends Component {
             <TextArea
               autoHeight
               rows={3}
-              onChange={(e, { description }) => this.props.onChange({ description })}
+              onChange={(e, { value }) => this.props.onChange({ description: value })}
               placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
               value={this.props.description}
             />
