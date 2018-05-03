@@ -15,5 +15,14 @@ export const validateKeyResultName = value => {
 }
 
 export const validateTargetValue = (value, { valueUnit }) => {
-  return (value || !valueUnit) ? undefined : '目標値を入力してください'
+  if (value) {
+    if (value < 0) {
+      return '目標値は0以上の数値を入力してください'
+    } else if (!/^[0-9０-９]+([.．][0-9０-９]*)?$/.test(value)) {
+      return '目標値は数値を入力してください'
+    }
+  } else if (valueUnit) {
+    return '目標値を入力してください'
+  }
+  return undefined
 }
