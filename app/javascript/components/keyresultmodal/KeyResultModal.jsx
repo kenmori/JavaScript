@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { Button, Form, Input, Modal, List, TextArea } from 'semantic-ui-react';
+import { Button, Form, Input, Modal, TextArea } from 'semantic-ui-react'
 import DatePicker from '../form/DatePicker';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import UserSelect from '../form/UserSelect';
@@ -8,6 +8,7 @@ import OkrSelect from '../form/OkrSelect';
 import RequiredLabel from '../form/RequiredLabel';
 import moment from 'moment';
 import { fromJS } from 'immutable';
+import KeyResultSidebar from './KeyResultSidebar'
 
 class KeyResultModal extends Component {
   constructor(props) {
@@ -120,7 +121,6 @@ class KeyResultModal extends Component {
   
   render() {
     const { objective } = this.props;
-    const parentKeyResult = objective && objective.get('parentKeyResult');
     return (
       <Modal
         closeIcon 
@@ -134,36 +134,7 @@ class KeyResultModal extends Component {
         </Modal.Header>
         <Modal.Content>
           <div className="keyresult-modal__body">
-            <div className="keyresult-modal__sidebar sidebar">
-              {parentKeyResult && (
-                <div className="sidebar__item">
-                  <div className="sidebar__title">上位 Key Result</div>
-                  <div className="sidebar__content">
-                    <List>
-                      <List.Item>
-                        <List.Content>
-                          <List.Header>{parentKeyResult.get('name')}</List.Header>
-                          <List.Description>{parentKeyResult.get('description')}</List.Description>
-                        </List.Content>
-                      </List.Item>
-                    </List>
-                  </div>
-                </div>
-              )}
-              <div className="sidebar__item">
-                <div className="sidebar__title">紐付く Objective</div>
-                <div className="sidebar__content">
-                  <List>
-                    <List.Item>
-                      <List.Content>
-                        <List.Header>{objective && objective.get('name')}</List.Header>
-                        <List.Description>{objective && objective.get('description')}</List.Description>
-                      </List.Content>
-                    </List.Item>
-                  </List>
-                </div>
-              </div>
-            </div>
+            <KeyResultSidebar objective={objective} />
             <div className="keyresult-modal__main">
               <Form>
                 <Form.Group widths='equal'>
