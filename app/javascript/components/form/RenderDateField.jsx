@@ -8,6 +8,7 @@ export default ({ input: { value, onChange, onBlur }, meta: { touched, error } }
   return (
     <div className="form-item">
       <DatePicker
+        className={(touched && !!error) ? 'error' : undefined}
         dateFormat='YYYY/M/D'
         locale='ja'
         selected={selected.isValid() ? selected : null}

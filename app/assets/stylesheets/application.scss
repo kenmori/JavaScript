@@ -111,8 +111,8 @@ a.active {
 }
 
 .form-item {
-  /* SUI bug: Input error style doesn't work in form */
-  .ui.input.error input[type=text] {
+  .ui.input.error input[type=text], /* SUI bug: Input error style doesn't work in form */
+  input[type=text].error { /* error style for DatePicker */
     background-color: #fff6f6;
     border-color: #e0b4b4;
     color: #9f3a38;
