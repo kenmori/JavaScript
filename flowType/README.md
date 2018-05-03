@@ -1,5 +1,250 @@
 ## ざっくり理解するflowType
 
+### ?
+
+## Optional object type properties
+
+```js
+{foo?: string}
+{}, {foo:undefined}, {foo: "kenji"}//work
+
+{foo: null}//Error
+```
+### Optional Parameters
+
+valueにはundefined, matchする型が指定されている(nullは禁止)
+```js
+funtion method(value?: string){
+  //
+}
+
+method();
+method(undefined);
+method("string")
+method(null)//error
+
+```
+
+
+
+### Union types
+
+関数内ではそれぞれの実引数のtypeに対応し、返り値のstringに変換して返すようにしなくてはならない
+```js
+function ee(value: string | boolean | number):string{
+  if(typeof value === "string"){
+    return value;
+  } else if(typeof value === "boolean") {
+    return String(value)
+  } else if(typeof value === "number"){
+    return String(value);
+  } else {
+    return ""
+  }
+}
+```
+
+入ってくるかわからないものを扱うことはできない
+```js
+{success: true, value: false}
+{success: false, error: "bad"}
+これらを一つのtypeで処理しようとすると。。
+type Response = {
+  success: boolean,
+  value?: boolean,
+  error?: string
+};
+
+function handleResponse(response: Response) {
+  if (response.success) {
+    var value: boolean = response.value; // Error!
+  } else {
+    var error: string = response.error; // Error!
+  }
+}
+私たちはpropertyの存在がわかるが、flowはわからない
+
+二つのtypeを一つに結合していることによって引き起こされる
+分けることでどちらの値を使っているかFlowに教えてあげる
+type Success = {success: true, value: boolean}
+type Failed = {success: false, error: string}
+
+type Response = Success | Failed
+
+
+
+```
+
+
+結合されていない結合では、
+各オブジェクトタイプを区別するために単一のプロパティを使用する必要があります。
+2つの異なるオブジェクトを異なるプロパティで区別することはできません。
+```js
+type Success = { success: true, value: boolean };
+type Failed  = { error: true, message: string };
+
+function handleResponse(response:  Success | Failed) {
+    if (response.success) {
+  // $ExpectError
+    var value: boolean = response.value; // Error!
+    }
+} } }
+
+```
+
+下記のようにtype Objectが期待する以上に渡すことができる(width subtyping)ため
+
+```js
+handleResponse({
+  success: true,
+  error: true,
+  value: true,
+  message: 'hi'
+});
+```
+FlowはFailedの方にもvalueが渡ってくる可能性があると推論する
+Flowはお互いのtypeのpropertyが衝突しない限り比べる方法がない
+
+exact object typeで追加のプロパティを許さないようにすればok
+```js
+type Success = {| success: true, value: boolean |};
+type Failed  = {| error: true, message: string |};
+
+type Response = Success | Failed;
+
+function handleResponse(response: Response) {
+  if (response.success) {
+    var value: boolean = response.value;//ok
+  } else {
+    var message: string = response.message;//ok
+  }
+}
+```
+
+
+## generic type
+
+```js
+function somemethod(a){
+    return a
+}
+add("kenji");
+
+```
+こちらにstring型をつけると
+```js
+function somemethod(a:string):string {
+  return a
+}
+```
+文字列を結合して返すものしか使えなくなる
+その場合
+```js
+function somemethod<T>(a:T):T{
+  return a
+}
+add("kenji")
+add(3)
+```
+どっちの型もいける
+渡す型が決まっていない場合使える
+
+またgenericsは一旦私た型の追跡をする
+
+下の例はvalueが置き換わっていて、T型が保証されていないのでErrorになっている
+```js
+function identity<T>(value: T): T {
+  return "foo"; // Error!
+}
+
+function identity<T>(value: T): T {
+  value = "foo"; // Error!
+  // $ExpectError
+  return value;  // Error!
+}
+```
+
+ジェネリクスはunkowntype持つ。refineするようにしないといけない
+```js
+function obj<T>(obj: T): T {
+    return obj
+}
+obj({bar: "aa", foo: "bb"});
+```
+を
+````js
+function obj<T>(obj: T): T {
+  if(obj && obj.foo){//refine
+    return obj
+  }
+  return obj
+}
+```
+にするがどんな型でも許してしまう
+
+```js
+
+function obj<T:{foo: string}>(obj: T): T {
+  console.log(obj.foo)//refineが取れた
+  return obj
+}
+
+obj({foo: "foo", bar: "bar"})//work 追加パラメータは許されている型
+obj({bar: "bar"})//Error fooが入っていない
+```
+
+ジェネリクスは型が使われた返り値も関心があるので下記の場合Errorを出す
+```js
+function identity<T: number>(value: T): T {
+    return value;
+}
+
+let one: 1 = identity(1);
+let two: 2 = identity(2);
+// $ExpectError
+let three: "three" = identity("three");
+```
+
+Prameterized generics
+下のtype alias は使う時に型を決めている(Item<string>箇所)。関数に引数を渡すみたいに
+```js
+type Item<T> = {
+  prop: T,
+}
+
+let item: Item<string> = {
+  prop: "value"
+};
+```
+
+下記の例はparametearize genericsにdefaultParameterを追加している
+
+```js
+type Item<T: number = 1> = {
+    prop: T,
+};
+let foo: Item<> = { prop: 1 };
+let bar: Item<2> = { prop: 2 };
+```
+
+```js
+```
+
+```js
+```
+### Function type with generics
+
+```js
+function method (fn: <T>(param:T) => T){
+  ///some
+}
+```
+
+
+### restParameter
+
+### %checks
+
 
 ### $ElementType<T,K>
 
