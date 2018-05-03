@@ -30,23 +30,14 @@ class KeyResultModal extends Component {
     this.props.addKeyResult(keyResult);
   }
 
-  componentWillReceiveProps(nextProps, currentProps) {
-    if (nextProps.objective && this.props.objective !== nextProps.objective) {
-      this.setState({
-        ownerId: nextProps.objective.get('owner').get('id'),
-      });
-    }
-
-    const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
-    if (willClose) {
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         members: List(),
-        isRequiredTargetValue: false,
+        ownerId: nextProps.objective.get('owner').get('id'),
         description: '',
+        isRequiredTargetValue: false,
       });
-    }
-
-    if (!this.props.isOpen && nextProps.isOpen) {
       this.props.initialize({
         name: '',
         targetValue: '',
