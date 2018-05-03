@@ -170,7 +170,7 @@ class KeyResultModal extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Field>
-                    <div className="flex-center">
+                    <div className="flex-start">
                       <div style={{marginRight: "10px"}}>
                         <RequiredLabel text='目標値' required={this.state.isRequiredTargetValue} />
                         <div style={{width: "177px"}} >

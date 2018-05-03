@@ -58,6 +58,12 @@ a.active {
   justify-content: center;
 }
 
+.flex-start {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .flex-between {
   display: flex;
   justify-content: space-between;
