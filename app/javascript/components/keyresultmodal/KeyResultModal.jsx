@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form'
+import { List } from 'immutable'
 import { Button, Modal } from 'semantic-ui-react'
 import KeyResultSidebar from './KeyResultSidebar'
 import KeyResultForm from './KeyResultForm'
@@ -8,30 +9,11 @@ class KeyResultModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      members: [],
+      members: List(),
       ownerId: null,
       description: '',
       isRequiredTargetValue: false,
     }
-  }
-
-  changeKeyResultOwner = value => {
-    this.setState({
-      ownerId: value,
-    });
-    this.removeMember(value);
-  }
-
-  addMember = value => {
-    const members = this.state.members;
-    members.push(value);
-    this.setState({ members });
-  }
-
-  removeMember = value => {
-    const members = this.state.members;
-    members.splice(members.indexOf(value), 1);
-    this.setState({ members });
   }
 
   save(validData) {
@@ -43,7 +25,7 @@ class KeyResultModal extends Component {
       targetValue: validData.targetValue,
       valueUnit: validData.valueUnit,
       expiredDate: validData.expiredDate,
-      members: this.state.members,
+      members: this.state.members.toArray(),
     };
     this.props.addKeyResult(keyResult);
   }
@@ -58,7 +40,7 @@ class KeyResultModal extends Component {
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
       this.setState({
-        members: [],
+        members: List(),
         isRequiredTargetValue: false,
         description: '',
       });
@@ -78,7 +60,7 @@ class KeyResultModal extends Component {
     return this.props.dirty
       || this.state.description !== ''
       || this.state.ownerId !== this.props.objective.get('owner').get('id')
-      || this.state.members.length;
+      || this.state.members.size;
   }
 
   handleClose() {
@@ -121,9 +103,6 @@ class KeyResultModal extends Component {
               members={this.state.members}
               isRequiredTargetValue={this.state.isRequiredTargetValue}
               onChange={values => this.setState({ ...values })}
-              changeKeyResultOwner={this.changeKeyResultOwner}
-              addMember={this.addMember}
-              removeMember={this.removeMember}
             />
           </div>
         </Modal.Content>

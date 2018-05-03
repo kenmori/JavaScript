@@ -16,6 +16,7 @@ import {
 class KeyResultForm extends PureComponent {
 
   render() {
+    const { onChange } = this.props;
     if (!this.props.objective) return null
     return (
       <div className="keyresult-modal__main">
@@ -86,7 +87,7 @@ class KeyResultForm extends PureComponent {
               <UserSelect
                 users={this.props.users}
                 value={this.props.ownerId}
-                onChange={this.props.changeKeyResultOwner}
+                onChange={ownerId => onChange({ ownerId, members: this.props.members.filter(id => id !== ownerId) })}
               />
             </Form.Field>
           </Form.Group>
@@ -95,10 +96,10 @@ class KeyResultForm extends PureComponent {
               <label>関係者</label>
               <KeyResultMemberSelect
                 users={this.props.users}
-                members={this.props.members}
+                members={this.props.members.toArray()}
                 excludedId={this.props.ownerId}
-                add={this.props.addMember}
-                remove={this.props.removeMember}
+                add={value => onChange({ members: this.props.members.push(value) })}
+                remove={value => onChange({ members: this.props.members.filter(id => id !== value) })}
               />
             </Form.Field>
           </Form.Group>
@@ -121,13 +122,10 @@ class KeyResultForm extends PureComponent {
 KeyResultForm.propTypes = {
   objective: PropTypes.object,
   users: PropTypes.object.isRequired,
-  members: PropTypes.array.isRequired,
+  members: PropTypes.object.isRequired,
   ownerId: PropTypes.number,
   isRequiredTargetValue: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  changeKeyResultOwner: PropTypes.func.isRequired,
-  addMember: PropTypes.func.isRequired,
-  removeMember: PropTypes.func.isRequired,
 }
 
 export default KeyResultForm
