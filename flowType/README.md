@@ -227,11 +227,136 @@ let foo: Item<> = { prop: 1 };
 let bar: Item<2> = { prop: 2 };
 ```
 
+### intersection type
+
+```js
+type A = { a: number };
+type B = { b: boolean };
+type C = { c: string };
+
+function method(value: A & B & C) {
+    // ...
+}
+method({ a: 1 }); // Error!
+method({ a: 1, b: true }); // Error!
+method({ a: 1, b: true, c: 'three' }); // Works!
+```
+Impossible intersection type
+下記は number型でstring型な型を指定しているがそんなものないので必ずエラーになる。
+(こういうこともできてしまう)
+```js
+type NumberAndString = number & string;
+```
+
+また同じ名前のプロパティを持ち型が違う場合もErrorになる
+```js
+type One = {prop: number};
+type Two = {prop: boolean};
+
+type Both = One & Two;
+var value: Both = {
+  prop: 1//Error
+}
+
+type One = {prop: number};
+type Two = {foo: boolean};
+type Both = One & Two;
+var value: Both = {prop: 1, foo: false}//ok
+
+
+```
+Array Type
+
+配列の要素にnullを許容する時
+```js
+
+//?Type[]は?Array<T>と同じ
+let arr1: ?number[] = null;//ok
+let arr2: ?number[] = [1,2];//ok
+let arr3: ?number[] = [null];//Error
+
+//(?T[])
+let arr1: (?number)[] = null //Error
+let arr2: (?number)[] = [1,2]
+let arr3: (?number)[] = [null]//ok
+let arr4: (?number)[] = [undefined]//ok
+```
+
+下記のように要素がundefineの可能性がある場合
+
+```js
+let array: Array<number> = [0, 1, 2];
+let value: number = array[3]//work //but undefined
+//or
+let array: Array<number> = [];
+array[0] = 0;
+array[2] = 2;
+
+let value : number = array[1];//works //but undefined
+```
+
+この場合
+```js`
+
+let array: Array<number> = [0, 1, 2];
+let value: number | void = array[1];
+if(value !== undefined){
+}
+```
+と対応する。Flowは将来これをよりスマートにしようとしているが
+今の所これで対応してほしいとのこと
+
+
+### Tuple Types
+
+```js
+
+```
+
+### $Call<F>
+Fに渡した関数の呼び出し結果の型
+
+
+最初何をしているかわからなかった下記
+```js
+type ExtractPropType = <T>({prop: T}) => T;
+type Obj = {prop: number};
+type PropType = $Call<ExtractPropType, Obj>;
+type Nope = $Call<ExtractPropType, {nope: number}>;
+```
+
+Function.prototype.call(this, arg)を$Call<F, arg>でやっている
+this.はFunctionType。この場合ExtractProptype
+引数としてObjを渡している型。PropType。
+PropTypeはnumber型が返ってくる型になる
+
+
+
+
+```js
+```
+
+
 ```js
 ```
 
 ```js
 ```
+
+
+
+```js
+```
+
+```js
+```
+
+```js
+```
+
+```js
+```
+
 ### Function type with generics
 
 ```js
