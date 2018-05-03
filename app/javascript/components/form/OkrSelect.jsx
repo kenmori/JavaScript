@@ -75,7 +75,7 @@ OkrSelect.propTypes = {
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 OkrSelect.defaultProps = {
@@ -85,6 +85,7 @@ OkrSelect.defaultProps = {
   readOnly: false,
   disabled: false,
   loading: false,
+  onChange: value => {},
 };
 
 export default OkrSelect;

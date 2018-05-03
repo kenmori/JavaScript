@@ -16,7 +16,7 @@ import {
 class KeyResultForm extends PureComponent {
 
   render() {
-    const { onChange } = this.props;
+    const { onChange } = this.props
     if (!this.props.objective) return null
     return (
       <div className="keyresult-modal__main">
@@ -38,7 +38,7 @@ class KeyResultForm extends PureComponent {
               <TextArea
                 autoHeight
                 rows={3}
-                onChange={(e, { value }) => this.props.onChange({ description: value })}
+                onChange={(e, { value }) => onChange({ description: value })}
                 placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
               />
             </Form.Field>
@@ -64,7 +64,7 @@ class KeyResultForm extends PureComponent {
                     type='text'
                     placeholder='例：円、件、人'
                     component={RenderField}
-                    onChange={(e, newValue) => this.props.onChange({ isRequiredTargetValue: !!newValue })}
+                    onChange={(e, newValue) => onChange({ isRequiredTargetValue: !!newValue })}
                   />
                 </div>
               </div>
@@ -110,7 +110,6 @@ class KeyResultForm extends PureComponent {
               value={this.props.objective.get('id')}
               preview={false}
               disabled={true}
-              onChange={value => {}}
             />
           </Form.Field>
         </Form>

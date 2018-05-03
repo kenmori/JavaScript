@@ -6,8 +6,9 @@ import KeyResultSidebar from './KeyResultSidebar'
 import KeyResultForm from './KeyResultForm'
 
 class KeyResultModal extends Component {
-  constructor(props) {
-    super(props);
+
+  constructor() {
+    super()
     this.state = {
       members: List(),
       ownerId: null,
