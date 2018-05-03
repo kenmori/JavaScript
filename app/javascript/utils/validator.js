@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const validateObjectiveName = value => {
   return value ? undefined : 'Objective を入力してください'
 }
@@ -25,4 +27,12 @@ export const validateTargetValue = (value, { valueUnit }) => {
     return '目標値を入力してください'
   }
   return undefined
+}
+
+export const validateExpiredDate = value => {
+  return (value && value.isValid()) ? undefined : '期限が不正です'
+}
+
+export const normalizeExpiredDate = value => {
+  return (typeof value === 'string') ? moment(value) : value
 }

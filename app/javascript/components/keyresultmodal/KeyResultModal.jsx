@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { reduxForm } from 'redux-form'
 import { Field } from 'redux-form'
-import { Button, Form, Input, Modal, TextArea } from 'semantic-ui-react'
-import DatePicker from '../form/DatePicker';
+import { Button, Form, Modal, TextArea } from 'semantic-ui-react'
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
@@ -12,31 +11,16 @@ import moment from 'moment';
 import { fromJS } from 'immutable';
 import KeyResultSidebar from './KeyResultSidebar'
 import RenderField from '../form/RenderField'
-import { validateKeyResultName, validateTargetValue } from '../../utils/validator'
+import RenderDateField from '../form/RenderDateField'
+import { validateKeyResultName, validateTargetValue, validateExpiredDate, normalizeExpiredDate } from '../../utils/validator'
 
 class KeyResultModal extends Component {
   constructor(props) {
     super(props);
-    this.defaultExpiredDate = null;
     this.state = {
-      expiredDate: -1,
       members: [],
       ownerId: null,
       isRequiredTargetValue: false,
-    }
-  }
-
-  getDefaultExpiredData(periods) {
-    if(this.defaultExpiredDate) { return this.defaultExpiredDate; }
-    const selectedPeriodId = this.props.okrPeriodId;
-    const selectedPeriod = periods.find((item) => item.get('id') === selectedPeriodId);
-    this.defaultExpiredDate = moment(new Date(selectedPeriod.get('monthEnd'))).endOf('month');
-    return this.defaultExpiredDate;
-  }
-
-  handleCalendar(date) {
-    if (date) {
-      this.setState({expiredDate: date});
     }
   }
 
@@ -67,21 +51,13 @@ class KeyResultModal extends Component {
       ownerId: this.state.ownerId,
       targetValue: validData.targetValue,
       valueUnit: validData.valueUnit,
-      expiredDate: this.state.expiredDate.format(),
+      expiredDate: validData.expiredDate.format('YYYY-MM-DD'),
       members: this.state.members,
     };
     this.props.addKeyResult(keyResult);
   }
 
   componentWillReceiveProps(nextProps, currentProps) {
-    const isFetchedPeriods = !nextProps.okrPeriods.isEmpty() && this.state.expiredDate === -1;
-    if (isFetchedPeriods) {
-      const expiredDate = this.getDefaultExpiredData(nextProps.okrPeriods);
-      this.setState({
-        expiredDate
-      });
-    }
-
     if (nextProps.objective && this.props.objective !== nextProps.objective) {
       this.setState({
         ownerId: nextProps.objective.get('owner').get('id'),
@@ -91,7 +67,6 @@ class KeyResultModal extends Component {
     const willClose = nextProps.isOpen !== currentProps.isOpen && !nextProps.isOpen;
     if (willClose) {
       this.setState({
-        expiredDate: -1,
         members: [],
         isRequiredTargetValue: false,
       });
@@ -102,6 +77,7 @@ class KeyResultModal extends Component {
         name: '',
         targetValue: '',
         valueUnit: '',
+        expiredDate: moment(nextProps.initialExpiredDate),
       })
     }
   }
@@ -109,7 +85,6 @@ class KeyResultModal extends Component {
   isEditing() {
     return this.props.dirty
       || findDOMNode(this.refs.descriptionArea).value !== ''
-      || this.state.expiredDate !== this.getDefaultExpiredData(this.props.okrPeriods)
       || this.state.ownerId !== this.props.objective.get('owner').get('id')
       || this.state.members.length;
   }
@@ -198,7 +173,12 @@ class KeyResultModal extends Component {
                 <Form.Group>
                   <Form.Field>
                     <RequiredLabel text='期限' />
-                    <DatePicker dateFormat='YYYY/M/D' locale='ja' selected={this.state.expiredDate} onChange={this.handleCalendar.bind(this)} />
+                    <Field
+                      name='expiredDate'
+                      component={RenderDateField}
+                      validate={[validateExpiredDate]}
+                      normalize={normalizeExpiredDate}
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group>
