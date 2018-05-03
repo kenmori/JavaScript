@@ -94,6 +94,7 @@ class ObjectiveModal extends Component {
     return (
       <Tab.Pane>
         <ObjectiveForm
+          isNew={isNew}
           parentKeyResultCandidates={this.props.parentKeyResultCandidates}
           users={this.props.users}
           ownerId={this.state.ownerId}
@@ -155,18 +156,4 @@ ObjectiveModal.propTypes = {
 
 export default reduxForm({
   form: 'objectiveModal',
-  validate: values => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = 'Objective を入力してください';
-    }
-    if (!values.parentKeyResultId ||values.parentKeyResultId === -1) {
-      errors.parentKeyResultId = '上位 Key Result を入力してください';
-    }
-    if (!values.objectiveId) {
-      errors.objectiveId = '既存 Objective を入力してください';
-    }
-    return errors;
-  },
-  shouldError: () => true,
 })(ObjectiveModal);

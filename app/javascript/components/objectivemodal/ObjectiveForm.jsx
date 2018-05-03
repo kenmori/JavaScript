@@ -6,6 +6,7 @@ import UserSelect from '../form/UserSelect';
 import RenderOkrSelect from '../form/RenderOkrSelect';
 import RequiredLabel from '../form/RequiredLabel';
 import { Form, TextArea, Divider } from 'semantic-ui-react';
+import { validateObjectiveName, validateParentKeyResultId, validateObjectiveId } from "../../utils/validator"
 
 class ObjectiveForm extends Component {
 
@@ -22,20 +23,21 @@ class ObjectiveForm extends Component {
     return (
       <div className="objective-modal__main">
         <Form>
-          {this.props.objectives && (
+          {!this.props.isNew && (
             <Form.Field>
               <RequiredLabel text='既存 Objective' />
               <Field
                 name='objectiveId'
                 okrs={this.props.objectives}
                 component={RenderOkrSelect}
+                validate={[validateObjectiveId]}
                 onChange={(e, newValue) => this.handleObjectivesChange(newValue)}
               />
             </Form.Field>
           )}
-          {this.props.objectives && <Divider />}
+          {!this.props.isNew && <Divider />}
           <Form.Field>
-            <RequiredLabel text='上位 Key Result' required={!!this.props.objectives} />
+            <RequiredLabel text='上位 Key Result' required={!this.props.isNew} />
             <Field
               name='parentKeyResultId'
               okrs={this.props.parentKeyResultCandidates}
@@ -43,11 +45,12 @@ class ObjectiveForm extends Component {
               disabled={this.props.hasParentKeyResult}
               loading={!this.props.isFetchedCandidates}
               component={RenderOkrSelect}
+              validate={this.props.isNew ? undefined : [validateParentKeyResultId]}
             />
           </Form.Field>
           <Form.Field>
             <RequiredLabel text='Objective' />
-            <Field name='name' type='text' component={RenderField} />
+            <Field name='name' type='text' component={RenderField} validate={[validateObjectiveName]} />
           </Form.Field>
           <Form.Field>
             <label>説明</label>
@@ -78,6 +81,7 @@ ObjectiveForm.propTypes = {
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
+  isNew: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   fieldChange: PropTypes.func.isRequired,
 };
