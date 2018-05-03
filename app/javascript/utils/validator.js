@@ -30,9 +30,10 @@ export const validateTargetValue = (value, { valueUnit }) => {
 }
 
 export const validateExpiredDate = value => {
-  return (value && value.isValid()) ? undefined : '期限が不正です'
+  return moment(value, 'YYYY/M/D').isValid() ? undefined : '期限が不正です'
 }
 
 export const normalizeExpiredDate = value => {
-  return (typeof value === 'string') ? moment(value) : value
+  const expiredDate = (typeof value === 'string') ? moment(value, 'YYYY/M/D') : value
+  return expiredDate ? expiredDate.format('YYYY-MM-DD') : null
 }

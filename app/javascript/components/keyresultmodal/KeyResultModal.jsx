@@ -7,7 +7,6 @@ import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import UserSelect from '../form/UserSelect';
 import OkrSelect from '../form/OkrSelect';
 import RequiredLabel from '../form/RequiredLabel';
-import moment from 'moment';
 import { fromJS } from 'immutable';
 import KeyResultSidebar from './KeyResultSidebar'
 import RenderField from '../form/RenderField'
@@ -51,7 +50,7 @@ class KeyResultModal extends Component {
       ownerId: this.state.ownerId,
       targetValue: validData.targetValue,
       valueUnit: validData.valueUnit,
-      expiredDate: validData.expiredDate.format('YYYY-MM-DD'),
+      expiredDate: validData.expiredDate,
       members: this.state.members,
     };
     this.props.addKeyResult(keyResult);
@@ -77,7 +76,7 @@ class KeyResultModal extends Component {
         name: '',
         targetValue: '',
         valueUnit: '',
-        expiredDate: moment(nextProps.initialExpiredDate),
+        expiredDate: nextProps.initialExpiredDate,
       })
     }
   }
