@@ -82,7 +82,9 @@ class ObjectiveModal extends Component {
   }
 
   closeModal() {
-    this.props.closeModal();
+    // FIXME: キャンセルボタンで背面の OKR 編集モーダルごと閉じてしまう現象を setTimeout で回避する
+    // 背面の OKR 編集モーダルのモーダル外クリックが発生している (おそらく Semantic-UI のバグ)
+    setTimeout(() => this.props.closeModal(), 0)
   }
 
   getObjectiveFormHtml = (isNew = true) => {
