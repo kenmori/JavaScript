@@ -8,6 +8,7 @@ import ObjectiveForm from './ObjectiveForm';
 class ObjectiveModal extends Component {
 
   static INDEX_NEW = 0;
+  // noinspection JSUnusedGlobalSymbols
   static INDEX_LINK = 1;
 
   constructor(props) {
@@ -28,7 +29,7 @@ class ObjectiveModal extends Component {
       });
       this.props.initialize({
         name: '',
-        parentKeyResultId: this.getInitialParentKeyResultId(nextProps),
+        parentKeyResultId: nextProps.parentKeyResult ? nextProps.parentKeyResult.get('id') : null,
         objectiveId: null,
       });
     }
@@ -61,12 +62,6 @@ class ObjectiveModal extends Component {
     return props.parentKeyResult
       ? props.parentKeyResult.get('owner').get('id')
       : props.currentUserId;
-  }
-  
-  getInitialParentKeyResultId(props = this.props) {
-    return props.parentKeyResult
-      ? props.parentKeyResult.get('id')
-      : null;
   }
 
   isEditing() {
