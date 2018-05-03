@@ -10,7 +10,7 @@ import { validateObjectiveName, validateParentKeyResultId, validateObjectiveId }
 
 class ObjectiveForm extends Component {
 
-  handleObjectivesChange = objectiveId => {
+  handleObjectiveIdChange = objectiveId => {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
     this.props.onChange({
       description: objective.get('description'),
@@ -31,7 +31,7 @@ class ObjectiveForm extends Component {
                 okrs={this.props.objectives}
                 component={RenderOkrSelect}
                 validate={[validateObjectiveId]}
-                onChange={(e, newValue) => this.handleObjectivesChange(newValue)}
+                onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
               />
             </Form.Field>
           )}
@@ -50,13 +50,21 @@ class ObjectiveForm extends Component {
           </Form.Field>
           <Form.Field>
             <RequiredLabel text='Objective' />
-            <Field name='name' type='text' component={RenderField} validate={[validateObjectiveName]} />
+            <Field
+              name='name'
+              type='text'
+              component={RenderField}
+              validate={[validateObjectiveName]}
+            />
           </Form.Field>
           <Form.Field>
             <label>説明</label>
-            <TextArea autoHeight rows={3} onChange={(event, { value }) => this.props.onChange({ description: value })}
-                      placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                      value={this.props.description}
+            <TextArea
+              autoHeight
+              rows={3}
+              onChange={(e, { description }) => this.props.onChange({ description })}
+              placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+              value={this.props.description}
             />
           </Form.Field>
           <Form.Field>
