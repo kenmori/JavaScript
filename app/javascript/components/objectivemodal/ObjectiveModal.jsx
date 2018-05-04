@@ -8,8 +8,8 @@ import ObjectiveForm from './ObjectiveForm';
 class ObjectiveModal extends Component {
 
   static INDEX_NEW = 0;
-  // noinspection JSUnusedGlobalSymbols
   static INDEX_LINK = 1;
+  static INDEX_COPY = 2;
 
   constructor(props) {
     super(props);
@@ -87,11 +87,14 @@ class ObjectiveModal extends Component {
     setTimeout(() => this.props.closeModal(), 0)
   }
 
-  getObjectiveFormHtml = (isNew = true) => {
+  getObjectiveFormHtml = type => {
+    const objectives = type === 'new'
+      ? undefined
+      : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))
     return (
       <Tab.Pane>
         <ObjectiveForm
-          isNew={isNew}
+          type={type}
           parentKeyResultCandidates={this.props.parentKeyResultCandidates}
           users={this.props.users}
           ownerId={this.state.ownerId}
@@ -100,7 +103,7 @@ class ObjectiveModal extends Component {
           onChange={values => this.setState({ ...values })}
           fieldChange={this.props.change}
           description={this.state.description}
-          objectives={isNew ? undefined : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))}
+          objectives={objectives}
         />
       </Tab.Pane>
     );
@@ -131,8 +134,9 @@ class ObjectiveModal extends Component {
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
             <div className="objective-modal__main">
               <Tab panes={[
-                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml() },
-                { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml(false) },
+                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml('new') },
+                { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml('link') },
+                { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml('copy') },
               ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
             </div>
           </div>

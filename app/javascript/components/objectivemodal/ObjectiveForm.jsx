@@ -20,23 +20,26 @@ class ObjectiveForm extends Component {
   }
 
   render() {
+    const isNew = this.props.type === 'new'
+    const isLink = this.props.type === 'link'
+    const prefix = isNew ? '' : isLink ? '既存' : '前期'
     return (
       <Form>
-        {!this.props.isNew && (
+        {!isNew && (
           <Form.Field>
-            <RequiredLabel text='既存 Objective' />
+            <RequiredLabel text={`${prefix} Objective`} />
             <Field
               name='objectiveId'
               okrs={this.props.objectives}
               component={RenderOkrSelect}
-              validate={[validateObjectiveId]}
+              validate={[validateObjectiveId(prefix)]}
               onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
             />
           </Form.Field>
         )}
-        {!this.props.isNew && <Divider />}
+        {!isNew && <Divider />}
         <Form.Field>
-          <RequiredLabel text='上位 Key Result' required={!this.props.isNew} />
+          <RequiredLabel text='上位 Key Result' required={isLink} />
           <Field
             name='parentKeyResultId'
             okrs={this.props.parentKeyResultCandidates}
@@ -44,7 +47,7 @@ class ObjectiveForm extends Component {
             disabled={this.props.hasParentKeyResult}
             loading={!this.props.isFetchedCandidates}
             component={RenderOkrSelect}
-            validate={this.props.isNew ? undefined : [validateParentKeyResultId]}
+            validate={isLink ? [validateParentKeyResultId] : undefined}
           />
         </Form.Field>
         <Form.Field>
@@ -87,7 +90,7 @@ ObjectiveForm.propTypes = {
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
-  isNew: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   fieldChange: PropTypes.func.isRequired,
 };
