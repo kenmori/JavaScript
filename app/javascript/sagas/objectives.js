@@ -53,7 +53,7 @@ function* addObjective({ payload }) {
   const url = payload.isCopy ? `/objectives/${payload.objective.id}/copy` : '/objectives'
   const result = yield call(API.post, url, { objective: payload.objective })
   const currentUserId = yield select(state => state.current.get('userId'));
-  yield put(objectiveActions.addedObjective(result.get('objective'), payload.isNew, currentUserId));
+  yield put(objectiveActions.addedObjective(result.get('objective'), payload.viaHome, currentUserId));
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
 }

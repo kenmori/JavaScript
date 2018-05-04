@@ -21,8 +21,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addObjective: (objective, isNew, isCopy) => {
-      dispatch(objectiveActions.addObjective(objective, isNew, isCopy))
+    addObjective: (objective, viaHome, isCopy) => {
+      dispatch(objectiveActions.addObjective(objective, viaHome, isCopy))
     },
     updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective));

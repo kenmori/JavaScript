@@ -46,8 +46,8 @@ class ObjectiveModal extends Component {
         parentKeyResultId: validData.parentKeyResultId,
         okrPeriodId: this.props.okrPeriodId,
       };
-      const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
-      this.props.addObjective(objective, isNew, isCopy)
+      const viaHome = !this.props.parentKeyResult; // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
+      this.props.addObjective(objective, viaHome, isCopy)
     } else {
       const objective = {
         id: validData.objectiveId,

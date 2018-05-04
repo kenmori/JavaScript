@@ -2,10 +2,10 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
-function add(state, objectiveId, isNew) {
+function add(state, objectiveId, viaHome) {
   return state
     .update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
-    .update('selectedOkr', selectedOkr => isNew ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
+    .update('selectedOkr', selectedOkr => viaHome ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
 }
 
 function remove(state, objectiveId) {
@@ -59,7 +59,7 @@ export default handleActions({
       const userId = payload.get('currentUserId');
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
       const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId, payload.get('isNew')) : state;
+      return isMine ? add(state, objectiveId, payload.get('viaHome')) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       const userId = payload.get('currentUserId');
