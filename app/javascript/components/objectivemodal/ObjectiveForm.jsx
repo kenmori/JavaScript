@@ -21,62 +21,60 @@ class ObjectiveForm extends Component {
 
   render() {
     return (
-      <div className="objective-modal__main">
-        <Form>
-          {!this.props.isNew && (
-            <Form.Field>
-              <RequiredLabel text='既存 Objective' />
-              <Field
-                name='objectiveId'
-                okrs={this.props.objectives}
-                component={RenderOkrSelect}
-                validate={[validateObjectiveId]}
-                onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
-              />
-            </Form.Field>
-          )}
-          {!this.props.isNew && <Divider />}
+      <Form>
+        {!this.props.isNew && (
           <Form.Field>
-            <RequiredLabel text='上位 Key Result' required={!this.props.isNew} />
+            <RequiredLabel text='既存 Objective' />
             <Field
-              name='parentKeyResultId'
-              okrs={this.props.parentKeyResultCandidates}
-              isObjective={false}
-              disabled={this.props.hasParentKeyResult}
-              loading={!this.props.isFetchedCandidates}
+              name='objectiveId'
+              okrs={this.props.objectives}
               component={RenderOkrSelect}
-              validate={this.props.isNew ? undefined : [validateParentKeyResultId]}
+              validate={[validateObjectiveId]}
+              onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
             />
           </Form.Field>
-          <Form.Field>
-            <RequiredLabel text='Objective' />
-            <Field
-              name='name'
-              type='text'
-              component={RenderField}
-              validate={[validateObjectiveName]}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>説明</label>
-            <TextArea
-              autoHeight
-              rows={3}
-              onChange={(e, { value }) => this.props.onChange({ description: value })}
-              placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-              value={this.props.description}
-            />
-          </Form.Field>
-          <Form.Field>
-            <RequiredLabel text='責任者' />
-            <UserSelect
-              users={this.props.users}
-              value={this.props.ownerId}
-              onChange={ownerId => this.props.onChange({ ownerId })}
-            />
-          </Form.Field>
-        </Form>
-      </div>
+        )}
+        {!this.props.isNew && <Divider />}
+        <Form.Field>
+          <RequiredLabel text='上位 Key Result' required={!this.props.isNew} />
+          <Field
+            name='parentKeyResultId'
+            okrs={this.props.parentKeyResultCandidates}
+            isObjective={false}
+            disabled={this.props.hasParentKeyResult}
+            loading={!this.props.isFetchedCandidates}
+            component={RenderOkrSelect}
+            validate={this.props.isNew ? undefined : [validateParentKeyResultId]}
+          />
+        </Form.Field>
+        <Form.Field>
+          <RequiredLabel text='Objective' />
+          <Field
+            name='name'
+            type='text'
+            component={RenderField}
+            validate={[validateObjectiveName]}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>説明</label>
+          <TextArea
+            autoHeight
+            rows={3}
+            onChange={(e, { value }) => this.props.onChange({ description: value })}
+            placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+            value={this.props.description}
+          />
+        </Form.Field>
+        <Form.Field>
+          <RequiredLabel text='責任者' />
+          <UserSelect
+            users={this.props.users}
+            value={this.props.ownerId}
+            onChange={ownerId => this.props.onChange({ ownerId })}
+          />
+        </Form.Field>
+      </Form>
     );
   }
 }

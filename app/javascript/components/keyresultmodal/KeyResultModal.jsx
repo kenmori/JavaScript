@@ -88,13 +88,15 @@ class KeyResultModal extends Component {
         <Modal.Content>
           <div className="keyresult-modal__body">
             <KeyResultSidebar objective={objective} />
-            <KeyResultForm
-              users={this.props.users}
-              ownerId={this.state.ownerId}
-              members={this.state.members}
-              isRequiredTargetValue={this.state.isRequiredTargetValue}
-              onChange={values => this.setState({ ...values })}
-            />
+            <div className="keyresult-modal__main">
+              <KeyResultForm
+                users={this.props.users}
+                ownerId={this.state.ownerId}
+                members={this.state.members}
+                isRequiredTargetValue={this.state.isRequiredTargetValue}
+                onChange={values => this.setState({ ...values })}
+              />
+            </div>
           </div>
         </Modal.Content>
         <Modal.Actions>

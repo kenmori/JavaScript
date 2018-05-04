@@ -8,7 +8,7 @@ class ObjectiveSidebar extends Component {
     const { parentKeyResult } = this.props;
     if (!parentKeyResult) return null;
     return (
-      <div className="objective-modal__sidebar sidebar">
+      <div className="objective-modal__sidebar">
         <div className="sidebar__item">
           <div className="sidebar__title">上位 Objective</div>
           <div className="sidebar__content">

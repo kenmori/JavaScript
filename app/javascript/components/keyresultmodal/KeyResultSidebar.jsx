@@ -9,7 +9,7 @@ class KeyResultSidebar extends PureComponent {
     if (!objective) return null
     const parentKeyResult = objective.get('parentKeyResult')
     return (
-      <div className="keyresult-modal__sidebar sidebar">
+      <div className="keyresult-modal__sidebar">
         {parentKeyResult && (
           <div className="sidebar__item">
             <div className="sidebar__title">上位 Key Result</div>

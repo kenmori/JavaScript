@@ -129,10 +129,12 @@ class ObjectiveModal extends Component {
         <Modal.Content>
           <div className="objective-modal__body">
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
-            <Tab panes={[
-              { menuItem: '新規作成', render: () => this.getObjectiveFormHtml() },
-              { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml(false) },
-            ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
+            <div className="objective-modal__main">
+              <Tab panes={[
+                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml() },
+                { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml(false) },
+              ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
+            </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
