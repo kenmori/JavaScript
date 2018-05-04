@@ -89,7 +89,6 @@ class KeyResultModal extends Component {
           <div className="keyresult-modal__body">
             <KeyResultSidebar objective={objective} />
             <KeyResultForm
-              objective={objective}
               users={this.props.users}
               ownerId={this.state.ownerId}
               members={this.state.members}

@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
-import { List } from 'immutable'
 import { Form, TextArea } from 'semantic-ui-react'
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect'
 import UserSelect from '../form/UserSelect'
-import OkrSelect from '../form/OkrSelect'
 import RequiredLabel from '../form/RequiredLabel'
 import RenderField from '../form/RenderField'
 import RenderDateField from '../form/RenderDateField'
@@ -17,7 +15,6 @@ class KeyResultForm extends PureComponent {
 
   render() {
     const { onChange } = this.props
-    if (!this.props.objective) return null
     return (
       <div className="keyresult-modal__main">
         <Form>
@@ -103,15 +100,6 @@ class KeyResultForm extends PureComponent {
               />
             </Form.Field>
           </Form.Group>
-          <Form.Field>
-            <RequiredLabel text='紐付く Objective' />
-            <OkrSelect
-              okrs={List.of(this.props.objective)}
-              value={this.props.objective.get('id')}
-              preview={false}
-              disabled={true}
-            />
-          </Form.Field>
         </Form>
       </div>
     )
@@ -119,7 +107,6 @@ class KeyResultForm extends PureComponent {
 }
 
 KeyResultForm.propTypes = {
-  objective: PropTypes.object,
   users: PropTypes.object.isRequired,
   members: PropTypes.object.isRequired,
   ownerId: PropTypes.number,
