@@ -137,7 +137,7 @@ class ObjectiveModal extends Component {
             <div className="objective-modal__main">
               <Tab panes={[
                 { menuItem: '新規作成', render: () => this.getObjectiveFormHtml('new') },
-                { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml('link') },
+                { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml('link') },
                 { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml('copy') },
               ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
             </div>

@@ -22,7 +22,7 @@ class ObjectiveForm extends Component {
   render() {
     const isNew = this.props.type === 'new'
     const isLink = this.props.type === 'link'
-    const prefix = isNew ? '' : isLink ? '既存' : '前期'
+    const prefix = isNew ? '' : isLink ? '孤立' : '前期'
     return (
       <Form>
         {!isNew && (

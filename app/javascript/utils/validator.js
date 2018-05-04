@@ -5,11 +5,11 @@ export const validateObjectiveName = value => {
 }
 
 export const validateObjectiveId = prefix => value => {
-  return value ? undefined : `${prefix} Objective を入力してください`
+  return value ? undefined : `${prefix} Objective を選択してください`
 }
 
 export const validateParentKeyResultId = value => {
-  return (value && value !== -1) ? undefined : '上位 Key Result を入力してください'
+  return (value && value !== -1) ? undefined : '上位 Key Result を選択してください'
 }
 
 export const validateKeyResultName = value => {
