@@ -42,10 +42,10 @@ class ObjectiveForm extends Component {
           <RequiredLabel text='上位 Key Result' required={isLink} />
           <Field
             name='parentKeyResultId'
-            okrs={this.props.parentKeyResultCandidates}
+            okrs={this.props.parentKeyResults}
             isObjective={false}
             disabled={this.props.hasParentKeyResult}
-            loading={!this.props.isFetchedCandidates}
+            loading={!this.props.isFetchedKeyResults}
             component={RenderOkrSelect}
             validate={isLink ? [validateParentKeyResultId] : undefined}
           />
@@ -83,13 +83,13 @@ class ObjectiveForm extends Component {
 }
 
 ObjectiveForm.propTypes = {
-  parentKeyResultCandidates: PropTypes.object.isRequired,
+  parentKeyResults: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   objectives: PropTypes.object,
   description: PropTypes.string.isRequired,
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,
-  isFetchedCandidates: PropTypes.bool.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   fieldChange: PropTypes.func.isRequired,

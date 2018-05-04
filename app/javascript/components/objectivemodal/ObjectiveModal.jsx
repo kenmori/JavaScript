@@ -97,11 +97,11 @@ class ObjectiveModal extends Component {
       <Tab.Pane>
         <ObjectiveForm
           type={type}
-          parentKeyResultCandidates={this.props.parentKeyResultCandidates}
+          parentKeyResults={this.props.parentKeyResults}
           users={this.props.users}
           ownerId={this.state.ownerId}
           hasParentKeyResult={!!this.props.parentKeyResult}
-          isFetchedCandidates={this.props.isFetchedCandidates}
+          isFetchedKeyResults={this.props.isFetchedKeyResults}
           onChange={values => this.setState({ ...values })}
           fieldChange={this.props.change}
           description={this.state.description}

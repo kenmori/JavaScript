@@ -2,8 +2,7 @@ import ObjectiveModal from '../components/objectivemodal/ObjectiveModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
-import { getParentKeyResultCandidates } from "../utils/okr";
-import { denormalizeObjectives } from "../schemas";
+import { denormalizeObjectives, denormalizeKeyResults } from "../schemas"
 
 const mapStateToProps = (state) => {
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
@@ -13,8 +12,8 @@ const mapStateToProps = (state) => {
     currentUserId: state.current.get('userId'),
     users: state.users.filter(user => !user.get('disabled')),
     okrPeriodId: state.current.get('okrPeriodId'),
-    parentKeyResultCandidates: getParentKeyResultCandidates(state, parentKeyResult && parentKeyResult.get('id')),
-    isFetchedCandidates: state.keyResults.get('isFetchedCandidates'),
+    parentKeyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
+    isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
     objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
   };
 };
