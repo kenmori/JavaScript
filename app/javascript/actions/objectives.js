@@ -13,7 +13,7 @@ const actions = createActions({
   [actionTypes.FETCHED_OBJECTIVES]: objectives => normalizeObjectives(objectives),
   [actionTypes.FETCH_OBJECTIVE_CANDIDATES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives => normalizeObjectives(objectives),
-  [actionTypes.ADD_OBJECTIVE]: (objective, isNew) => ({ objective, isNew }),
+  [actionTypes.ADD_OBJECTIVE]: (objective, isNew, isCopy) => ({ objective, isNew, isCopy }),
   [actionTypes.ADDED_OBJECTIVE]: (objective, isNew, currentUserId) => normalizeObjective(objective).set('isNew', isNew).set('currentUserId', currentUserId),
   [actionTypes.UPDATE_OBJECTIVE]: (objective, isToast = true) => ({ objective, isToast }),
   [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),

@@ -36,8 +36,10 @@ class ObjectiveModal extends Component {
   }
 
   save(validData) {
-    if (this.state.activeIndex === ObjectiveModal.INDEX_NEW) {
+    if (this.state.activeIndex !== ObjectiveModal.INDEX_LINK) {
+      const isCopy = this.state.activeIndex === ObjectiveModal.INDEX_COPY
       const objective = {
+        id: isCopy ? validData.objectiveId : null,
         name: validData.name,
         description: this.state.description,
         ownerId: this.state.ownerId,
@@ -45,7 +47,7 @@ class ObjectiveModal extends Component {
         okrPeriodId: this.props.okrPeriodId,
       };
       const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
-      this.props.addObjective(objective, isNew);
+      this.props.addObjective(objective, isNew, isCopy)
     } else {
       const objective = {
         id: validData.objectiveId,

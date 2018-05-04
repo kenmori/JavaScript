@@ -50,7 +50,8 @@ function* fetchObjectiveCandidates({ payload }) {
 }
 
 function* addObjective({ payload }) {
-  const result = yield call(API.post, '/objectives', { objective: payload.objective });
+  const url = payload.isCopy ? `/objectives/${payload.objective.id}/copy` : '/objectives'
+  const result = yield call(API.post, url, { objective: payload.objective })
   const currentUserId = yield select(state => state.current.get('userId'));
   yield put(objectiveActions.addedObjective(result.get('objective'), payload.isNew, currentUserId));
   yield put(dialogActions.closeObjectiveModal());
