@@ -29,7 +29,7 @@ class ObjectiveModal extends Component {
       });
       this.props.initialize({
         name: '',
-        parentKeyResultId: nextProps.parentKeyResult ? nextProps.parentKeyResult.get('id') : null,
+        parentKeyResultId: nextProps.parentKeyResult ? nextProps.parentKeyResult.get('id') : -1,
         objectiveId: null,
       });
     }

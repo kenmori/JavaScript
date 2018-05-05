@@ -21,7 +21,7 @@ class RenderOkrSelect extends Component {
             search
             fluid
             options={okrOptions(okrs, withNone)}
-            value={value || -1}
+            value={value}
             disabled={disabled}
             loading={loading}
             error={touched && !!error}
