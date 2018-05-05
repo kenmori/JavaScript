@@ -61,6 +61,10 @@ function* updateObjective({payload}) {
   const result = yield call(API.put, '/objectives/' + payload.objective.id, payload);
   const currentUserId = yield select(state => state.current.get('userId'));
   yield put(objectiveActions.updatedObjective(result.get('objective'), currentUserId));
+  const isOpenObjectiveModal = yield select(state => state.dialogs.getIn(['objectiveForm', 'isOpen']));
+  if (isOpenObjectiveModal) {
+    yield put(dialogActions.closeObjectiveModal());
+  }
   if (payload.isToast) {
     yield put(toastActions.showToast('Objective を更新しました'));
   }

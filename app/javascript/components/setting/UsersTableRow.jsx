@@ -39,7 +39,7 @@ class UsersTableRow extends PureComponent {
         <Table.Cell>
           <Checkbox label='管理者'
                     defaultChecked={user.get('isAdmin')}
-                    onChange={(event, { admin }) => updateUser({ admin })}
+                    onChange={(event, { checked }) => updateUser({ admin: checked })}
                     disabled={disabled || isLoginUser}
           />
         </Table.Cell>

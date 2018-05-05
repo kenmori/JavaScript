@@ -1,20 +1,21 @@
 import React from 'react';
+import moment from 'moment'
+import { Label } from 'semantic-ui-react'
 import DatePicker from './DatePicker';
 
-export default ({ input, type, dateFormat, locale, selected, handleCalendar, meta: { touched, error } }) => {
-  delete input.value;
-  const selectedValue = selected ? selected.format(dateFormat) : null;
+export default ({ input: { value, onChange, onBlur }, meta: { touched, error } }) => {
+  const selected = moment(value, 'YYYY/M/D')
   return (
     <div className="form-item">
-      <DatePicker {...input}
-                  type={type}
-                  defaultValue={selectedValue}
-                  dateFormat={dateFormat}
-                  locale={locale}
-                  selected={selected}
-                  onChange={handleCalendar}
+      <DatePicker
+        className={(touched && !!error) ? 'error' : undefined}
+        dateFormat='YYYY/M/D'
+        locale='ja'
+        selected={selected.isValid() ? selected : null}
+        onChange={date => onChange(date)}
+        onBlur={e => onBlur(e)}
       />
-      {touched && error && <span className="form-item__validation-error">{error}</span>}
+      {touched && error && <Label basic color='red' pointing>{error}</Label>}
     </div>
   )
-};
+}

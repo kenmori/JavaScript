@@ -1,15 +1,16 @@
-import KeyResultModal from '../components/okrmodal/KeyResultModal';
+import KeyResultModal from '../components/keyresultmodal/KeyResultModal';
 import { connect } from 'react-redux';
 import actions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
+  const currentOkrPeriodId = state.current.get('okrPeriodId')
+  const currentOkrPeriod = state.okrPeriods.find(period => period.get('id') === currentOkrPeriodId)
   return {
     isOpen: state.dialogs.getIn(['keyResultForm', 'isOpen']),
     objective: state.dialogs.getIn(['keyResultForm', 'objective']),
     users: state.users.filter(user => !user.get('disabled')),
-    okrPeriodId: state.current.get('okrPeriodId'),
-    okrPeriods: state.okrPeriods,
+    initialExpiredDate: currentOkrPeriod && currentOkrPeriod.get('monthEnd'),
   };
 };
 

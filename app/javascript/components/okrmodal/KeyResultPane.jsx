@@ -98,6 +98,7 @@ class KeyResultPane extends Component {
 
   render() {
     const keyResult = this.props.keyResult;
+    const keyResultId = keyResult.get('id')
     const members = keyResult.get('members').map(member => member.get('id')).toArray();
     const isOwner = this.props.isObjectiveOwner || keyResult.get('owner').get('id') === this.props.loginUserId;
     return (
@@ -199,7 +200,7 @@ class KeyResultPane extends Component {
         </Form.Field>
         <Form.Field>
           <label>説明</label>
-          <AutoTextArea value={keyResult.get('description')}
+          <AutoTextArea key={keyResultId} value={keyResult.get('description')}
                         placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
                         onCommit={value => this.props.updateKeyResult({ description: value })}
           />
@@ -208,7 +209,7 @@ class KeyResultPane extends Component {
         <Divider hidden />
 
         <div>
-          <Button content="削除する" onClick={() => {this.removeKeyResult(keyResult.get('id'))}} as="span" negative floated='right' />
+          <Button content="削除する" onClick={() => {this.removeKeyResult(keyResultId)}} as="span" negative floated='right' />
           <Button content="下位 OKR を作成する" onClick={() => this.props.openObjectiveModal(keyResult)} as="span" positive floated='right' />
         </div>
 
