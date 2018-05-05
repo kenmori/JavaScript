@@ -11,8 +11,8 @@ class ObjectiveModal extends Component {
   static INDEX_LINK = 1;
   static INDEX_COPY = 2;
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super()
     this.state = {
       ownerId: null,
       description: '',
@@ -89,14 +89,12 @@ class ObjectiveModal extends Component {
     setTimeout(() => this.props.closeModal(), 0)
   }
 
-  getObjectiveFormHtml = type => {
-    const objectives = type === 'new'
-      ? undefined
-      : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))
+  getObjectiveFormHtml = ({ isLink = false, isCopy = false }) => {
     return (
       <Tab.Pane>
         <ObjectiveForm
-          type={type}
+          isLink={isLink}
+          isCopy={isCopy}
           parentKeyResults={this.props.parentKeyResults}
           users={this.props.users}
           ownerId={this.state.ownerId}
@@ -105,7 +103,8 @@ class ObjectiveModal extends Component {
           onChange={values => this.setState({ ...values })}
           fieldChange={this.props.change}
           description={this.state.description}
-          objectives={objectives}
+          objectives={isLink ? this.props.objectives : (isCopy ? this.props.previousObjectives : undefined)}
+          isFetchedObjectives={isLink ? this.props.isFetchedObjectives : (isCopy ? this.props.isFetchedPreviousObjectives : undefined)}
         />
       </Tab.Pane>
     );
@@ -136,9 +135,9 @@ class ObjectiveModal extends Component {
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
             <div className="objective-modal__main">
               <Tab panes={[
-                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml('new') },
-                { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml('link') },
-                { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml('copy') },
+                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml({}) },
+                { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml({ isLink: true }) },
+                { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml({ isCopy: true }) },
               ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
             </div>
           </div>

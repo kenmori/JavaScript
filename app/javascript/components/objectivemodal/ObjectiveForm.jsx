@@ -20,24 +20,24 @@ class ObjectiveForm extends Component {
   }
 
   render() {
-    const isNew = this.props.type === 'new'
-    const isLink = this.props.type === 'link'
-    const prefix = isNew ? '' : isLink ? '孤立' : '前期'
+    const { isLink, isCopy } = this.props
+    const prefix = isLink ? '孤立' : (isCopy ? '前期' : '')
     return (
       <Form>
-        {!isNew && (
+        {(isLink || isCopy) && (
           <Form.Field>
             <RequiredLabel text={`${prefix} Objective`} />
             <Field
               name='objectiveId'
               okrs={this.props.objectives}
+              loading={!this.props.isFetchedObjectives}
               component={RenderOkrSelect}
               validate={[validateObjectiveId(prefix)]}
               onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
             />
           </Form.Field>
         )}
-        {!isNew && <Divider />}
+        {(isLink || isCopy) && <Divider />}
         <Form.Field>
           <RequiredLabel text='上位 Key Result' required={isLink} />
           <Field
@@ -83,6 +83,8 @@ class ObjectiveForm extends Component {
 }
 
 ObjectiveForm.propTypes = {
+  isLink: PropTypes.bool.isRequired,
+  isCopy: PropTypes.bool.isRequired,
   parentKeyResults: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   objectives: PropTypes.object,
@@ -90,7 +92,7 @@ ObjectiveForm.propTypes = {
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,
   isFetchedKeyResults: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired,
+  isFetchedObjectives: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   fieldChange: PropTypes.func.isRequired,
 };

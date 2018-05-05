@@ -2,6 +2,7 @@ import ObjectiveModal from '../components/objectivemodal/ObjectiveModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
+import { getIsolatedObjectives } from '../utils/okr'
 import { denormalizeObjectives, denormalizeKeyResults } from "../schemas"
 
 const mapStateToProps = (state) => {
@@ -14,7 +15,10 @@ const mapStateToProps = (state) => {
     okrPeriodId: state.current.get('okrPeriodId'),
     parentKeyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
-    objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
+    objectives: getIsolatedObjectives(state),
+    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
+    previousObjectives: denormalizeObjectives(state.objectives.get('previousIds'), state.entities),
+    isFetchedPreviousObjectives: state.objectives.get('isFetchedPreviousObjectives'),
   };
 };
 

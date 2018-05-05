@@ -1,5 +1,11 @@
-import { denormalizeObjectiveCandidates, denormalizeKeyResultCandidates } from '../schemas/index';
+import { denormalizeObjectives, denormalizeObjectiveCandidates, denormalizeKeyResultCandidates } from '../schemas/index'
 import avatar_image from '../images/avatar.png';
+
+// 孤立 (親のいない) Objective 一覧を返す
+export const getIsolatedObjectives = state => {
+  return denormalizeObjectives(state.objectives.get('ids'), state.entities)
+    .filter(objective => !objective.get('parentKeyResultId'))
+}
 
 // Objective の上位 KR 候補一覧を返す
 export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
