@@ -7,7 +7,7 @@ import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
 
 function* fetchOrganization({ payload }) {
-  const result = yield call(API.get, '/organizations/' + payload.organization.id);
+  const result = yield call(API.get, '/organizations/' + payload.id);
   yield put(organizationActions.fetchedOrganization(result.get('organization')));
 }
 

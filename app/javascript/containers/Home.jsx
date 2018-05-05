@@ -6,7 +6,8 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state, { match: { params } }) => {
   return {
-    organization: state.organizations.get('selected'),
+    organizationId: state.organizations.get('selected').get('id'),
+    isFetchedOrganization: state.organizations.get('isFetched'),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     okrHash: params.okrHash,
@@ -17,7 +18,7 @@ const mapStateToProps = (state, { match: { params } }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchOrganization: id => {
-      dispatch(organizationActions.fetchOrganization({id}))
+      dispatch(organizationActions.fetchOrganization(id))
     },
     fetchOkrs: (okrPeriodId, userId, isOkrPeriodChanged = true) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, isOkrPeriodChanged))

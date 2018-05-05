@@ -16,12 +16,13 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOrganization(this.props.organization.get('id'))
-    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
+    this.props.fetchOrganization(this.props.organizationId)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
+    if (!this.props.isFetchedOrganization && nextProps.isFetchedOrganization) {
+      this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
+    } else if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId)
     } else if (this.props.userId !== nextProps.userId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false)
