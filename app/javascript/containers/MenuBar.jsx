@@ -1,5 +1,7 @@
 import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
+import organizationActions from '../actions/organizations'
+import objectiveActions from '../actions/objectives'
 import userActions from '../actions/users';
 import currentActions from '../actions/current';
 import sessionActions from '../actions/sessions';
@@ -7,6 +9,8 @@ import history from '../utils/history';
 
 const mapStateToProps = (state) => {
   return {
+    organizationId: state.organizations.get('selected').get('id'),
+    isFetchedOrganization: state.organizations.get('isFetched'),
     users: state.users.filter(user => !user.get('disabled')),
     userId: state.current.get('userId'),
     okrPeriodId: state.current.get('okrPeriodId'),
@@ -20,6 +24,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchOrganization: id => {
+      dispatch(organizationActions.fetchOrganization(id))
+    },
+    fetchOkrs: (okrPeriodId, userId, isOkrPeriodChanged = true) => {
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, isOkrPeriodChanged))
+    },
     changeCurrentUser: (userId) => {
       if (location.pathname !== '/') {
         history.push('/');
