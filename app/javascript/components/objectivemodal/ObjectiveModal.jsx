@@ -36,6 +36,7 @@ class ObjectiveModal extends Component {
   }
 
   save(validData) {
+    const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null 
     if (this.state.activeIndex !== ObjectiveModal.INDEX_LINK) {
       const isCopy = this.state.activeIndex === ObjectiveModal.INDEX_COPY
       const objective = {
@@ -43,7 +44,7 @@ class ObjectiveModal extends Component {
         name: validData.name,
         description: this.state.description,
         ownerId: this.state.ownerId,
-        parentKeyResultId: validData.parentKeyResultId,
+        parentKeyResultId,
         okrPeriodId: this.props.okrPeriodId,
       };
       const viaHome = !this.props.parentKeyResult; // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
@@ -54,7 +55,7 @@ class ObjectiveModal extends Component {
         name: validData.name,
         description: this.state.description,
         objectiveMember: { user: this.state.ownerId },
-        parentKeyResultId: validData.parentKeyResultId,
+        parentKeyResultId,
       };
       this.props.updateObjective(objective);
     }
