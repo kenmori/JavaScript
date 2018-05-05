@@ -11,6 +11,7 @@ class OKRComment extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      text: props.item.get('text'),
       editing: false,
     }
   }
@@ -31,7 +32,7 @@ class OKRComment extends Component {
             <Comment.Text>{this.props.item.get('text')}</Comment.Text>
             <Comment.Actions>
               <a onClick={() => this.setState({editing: true})}>編集</a>
-              <a onClick={() => this.removeComment(this.props.item.get('id'))}>削除</a>
+              <a onClick={() => this.props.onDelete(this.props.item.get('id'))}>削除</a>
             </Comment.Actions>
           </Comment.Content>
         </Comment>
@@ -44,11 +45,14 @@ class OKRComment extends Component {
     return (
       <div className="comments__item">
         <AutoTextArea value={item.get('text')}
-                      onCommit={() => {}}
+                      onCommit={value => this.setState({text: value})}
                       readOnly={!item.get('editable')}/>
         <div className="comments__item-meta">
           <Button content="キャンセル" onClick={() => this.setState({editing: false})} floated='right' />
-          <Button content="更新する" onClick={() => {}} as="div" floated='right' />
+          <Button content="更新する" onClick={() => {
+            this.props.onUpdate(item.get('id'), this.state.text)
+            this.setState({editing: false})
+          }} as="div" floated='right' />
         </div>
       </div>
     );
@@ -63,6 +67,7 @@ class OKRComment extends Component {
 OKRComment.propTypes = {
   item: PropTypes.object.isRequired,
   editing: PropTypes.bool,
+  onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 }
 

@@ -15,7 +15,9 @@ class CommentPane extends Component {
     const commentTags = comments.map((item) => {
       return (
         <div className="comments" key={item.get('id')}>
-          <OKRComment item={item} onUpdate={(id, text) => this.editComment(id, text)}/>
+          <OKRComment item={item}
+                      onDelete={this.removeComment.bind(this)}
+                      onUpdate={this.editComment.bind(this)}/>
         </div>
       )
     });
