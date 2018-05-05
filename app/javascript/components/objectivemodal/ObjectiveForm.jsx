@@ -6,7 +6,9 @@ import UserSelect from '../form/UserSelect';
 import RenderOkrSelect from '../form/RenderOkrSelect';
 import RequiredLabel from '../form/RequiredLabel';
 import { Form, TextArea, Divider } from 'semantic-ui-react';
-import { validateObjectiveName, validateParentKeyResultId, validateObjectiveId } from "../../utils/validator"
+import {
+  validateObjectiveName, validateParentKeyResultId, validateIsolatedObjectiveId, validatePreviousObjectiveId,
+} from "../../utils/validator"
 
 class ObjectiveForm extends Component {
 
@@ -21,18 +23,17 @@ class ObjectiveForm extends Component {
 
   render() {
     const { isLink, isCopy } = this.props
-    const prefix = isLink ? '孤立' : (isCopy ? '前期' : '')
     return (
       <Form>
         {(isLink || isCopy) && (
           <Form.Field>
-            <RequiredLabel text={`${prefix} Objective`} />
+            <RequiredLabel text={`${isLink ? '孤立' : '前期'} Objective`} />
             <Field
               name='objectiveId'
               okrs={this.props.objectives}
               loading={!this.props.isFetchedObjectives}
               component={RenderOkrSelect}
-              validate={[validateObjectiveId(prefix)]}
+              validate={[isLink ? validateIsolatedObjectiveId : validatePreviousObjectiveId]}
               onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
             />
           </Form.Field>
