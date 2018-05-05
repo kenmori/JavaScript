@@ -7,10 +7,6 @@ import Logo from './util/Logo';
 
 class MenuBar extends Component {
 
-  componentDidMount() {
-    this.props.fetchOrganization(this.props.organization.get('id'));
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.needLogout) {
       this.props.signOut()
@@ -107,7 +103,6 @@ class MenuBar extends Component {
 }
 
 MenuBar.propTypes = {
-  fetchOrganization: PropTypes.func.isRequired,
   changeCurrentUser: PropTypes.func.isRequired,
   changeCurrentOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,

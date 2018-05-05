@@ -13,16 +13,8 @@ export default class Dashboard extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId);
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId);
-    } else if (this.props.userId !== nextProps.userId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
-    } else if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
+    if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
       this.setState({
         mapObjective: nextProps.mapObjective,
       });

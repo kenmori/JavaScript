@@ -1,7 +1,6 @@
 import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
-import organizationActions from '../actions/organizations';
 import currentActions from '../actions/current';
 import sessionActions from '../actions/sessions';
 import history from '../utils/history';
@@ -21,9 +20,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrganization: (id) => {
-      dispatch(organizationActions.fetchOrganization({id}));
-    },
     changeCurrentUser: (userId) => {
       if (location.pathname !== '/') {
         history.push('/');
