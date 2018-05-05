@@ -16,10 +16,13 @@ class OKRComment extends Component {
   }
 
   commentText() {
+    const user = this.props.item.get('user')
+    const avatarUrl = user ? user.get('avatarUrl') : null
+
     return (
       <Comment.Group>
         <Comment>
-          <Comment.Avatar src={avatar_image} className='avatar__inner'/>
+          <Comment.Avatar src={avatarUrl || avatar_image} className='avatar__inner'/>
           <Comment.Content>
             <Comment.Author as='a'>{this.props.item.get('fullName')}</Comment.Author>
             <Comment.Metadata>
