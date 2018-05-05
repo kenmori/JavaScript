@@ -31,18 +31,21 @@ function* fetchOkrs({ payload }) {
 }
 
 function* fetchObjective({ payload }) {
-  yield put(objectiveActions.fetchObjectiveAsync(payload.objectiveId, payload.keyResultId));
-  yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
-}
-
-function* fetchObjectiveAsync({ payload }) {
-  const { objectiveId, keyResultId } = payload;
-  const result = yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`);
+  const result = yield callFetchObjective(payload.objectiveId, payload.keyResultId)
   if (result.error) {
     yield put(objectiveActions.fetchedObjectiveError());
   } else {
     yield put(objectiveActions.fetchedObjective(result.get('objective')));
   }
+}
+
+function* fetchObjectiveAsync({ payload }) {
+  const result = yield callFetchObjective(payload.objectiveId, payload.keyResultId)
+  yield put(objectiveActions.fetchedObjective(result.get('objective')))
+}
+
+function* callFetchObjective(objectiveId, keyResultId) {
+  return yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`)
 }
 
 function* fetchObjectives({ payload }) {
