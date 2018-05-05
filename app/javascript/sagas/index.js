@@ -6,6 +6,7 @@ import { sessionSagas } from './sessions';
 import { organizationSagas } from './organizations';
 import { okrPeriodSagas } from './okrPeriods';
 import { dialogSagas } from './dialogs';
+import { objectiveOrderSagas } from "./objectiveOrders";
 
 const sagas = [
   objectiveSagas,
@@ -15,6 +16,7 @@ const sagas = [
   organizationSagas,
   okrPeriodSagas,
   dialogSagas,
+  objectiveOrderSagas,
 ];
 
 export default function* rootSaga() {

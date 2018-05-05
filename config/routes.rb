@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'users/sign_up(/*path)' => 'home#non_login'
   get 'users/password(/*path)' => 'home#non_login'
   get 'objectives/candidates', to: 'objectives#index_candidates'
+  put 'objective_orders', to: 'objective_orders#create_or_update'
   resources :objectives, only: %i[index show create update destroy]
   get 'key_results/candidates', to: 'key_results#index_candidates'
   resources :key_results, only: %i[index create update destroy] do

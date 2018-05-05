@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :key_results, through: :key_result_members
   has_many :comments
   has_many :organization_member, dependent: :destroy
+  has_many :objective_orders
 
   mount_uploader :avatar, AvatarUploader
 

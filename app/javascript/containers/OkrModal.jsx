@@ -44,7 +44,8 @@ const mapDispatchToProps = dispatch => {
     updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective));
     },
-    updateKeyResultOrder: objective => {
+    updateKeyResultOrder: (objectiveId, order) => {
+      const objective = { id: objectiveId, keyResultOrder: JSON.stringify(order) };
       dispatch(objectiveActions.updateObjective(objective, false));
     },
     updateKeyResult: keyResult => {

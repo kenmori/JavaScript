@@ -30,10 +30,7 @@ class Sidebar extends Component {
   updateKeyResultOrder = (fromIndex, toIndex) => {
     const newKeyResultOrder = this.getNewKeyResultOrder(fromIndex, toIndex);
     if (!newKeyResultOrder.equals(this.props.keyResultOrder)) {
-      this.props.updateKeyResultOrder({
-        id: this.props.objective.get('id'),
-        keyResultOrder: JSON.stringify(newKeyResultOrder),
-      });
+      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder);
     }
   }
 

@@ -9,7 +9,8 @@ class ObjectivesController < ApplicationController
                        .includes(key_results: { child_objectives: [key_results: :child_objectives] })
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
-      @objectives = sort_objectives(objectives, @user.objective_order)
+      objective_order = @user.objective_orders.find_by(okr_period_id: params[:okr_period_id])&.list
+      @objectives = sort_objectives(objectives, objective_order)
     else
       # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @objectives = current_organization

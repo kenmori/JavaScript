@@ -73,10 +73,9 @@ export default handleActions({
       state = removeFromCandidates(state, objectiveId);
       return remove(state, objectiveId);
     },
-    [ActionTypes.UPDATED_USER]: (state, { payload }) => {
-      let objectiveOrder = payload.user.get('objectiveOrder');
-      if (!objectiveOrder) return state;
-      objectiveOrder = JSON.parse(objectiveOrder);
+    [ActionTypes.UPDATED_OBJECTIVE_ORDER]: (state, { payload }) => {
+      if (!payload.order) return state;
+      const objectiveOrder = JSON.parse(payload.order);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
     [ActionTypes.SELECT_OKR]: (state, { payload }) => {

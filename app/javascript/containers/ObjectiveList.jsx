@@ -1,7 +1,7 @@
 import ObjectiveList from '../components/dashboard/ObjectiveList';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
-import userActions from '../actions/users';
+import objectiveOrderActions from '../actions/objectiveOrders';
 import { canMoveObjective } from "../utils/okr";
 
 const mapStateToProps = (state) => {
@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => {
     selectOkr: objectiveId => {
       dispatch(objectiveActions.selectOkr(objectiveId));
     },
-    updateObjectiveOrder: user => {
-      dispatch(userActions.updateUser(user, false))
+    updateObjectiveOrder: order => {
+      dispatch(objectiveOrderActions.updateObjectiveOrder(order))
     },
   };
 };
