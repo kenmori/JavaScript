@@ -393,18 +393,118 @@ $Diff<A, B>
 Aはprops
 Bはdefaultprops
 
-このdefaultPropsにあるpropertyはPropsには必須。
-渡ってこなくてはいけない。
-propsに増える分は許容される
+Aに含まれているものでBに含まれないもプロパティが必須になる
+
+
 
 またPropを送らない表現ができる
 $Diff<{}, {nope: number}> //Error
 $Diff<{}, {nop: number | void}> //ok
 ```
 
-### $ElementType<T, K>
-$PropertyType<T, K>との違いはKはany型
-$PropertyTypeはliteral型でなければならない
+
+### Object
+
+indexer
+
+keyに型を持たせることができる
+
+```js
+type user = {[string]: string};
+var obj = {name: "kenji"}//ok
+```
+何が嬉しいか
+
+keyにドキュメントの目的で「オプショナリーネーム」を持たせてる
+```js
+type user = {[userName: string]: string};
+var obj = {name: "kenji"}//ok
+```
+
+とか参照時の型を制御できる
+
+```
+obj["name"] = "fafa"//ok
+obj[0] = "fafa"//error。keyはstringで参照しなくてはいけません
+```
+存在しないプロパティにアクセスしても型エラーにはならない(実行時にはエラーになる)
+
+```js
+var o:{[number]: string} = {};
+o[42].length
+
+type user = {name: number, [id:number]: string}
+
+var obj:user = {name: 200, [222]: "eee"}
+
+```
+
+
+
+### $Shape<T>
+
+Tとの違い
+
+```js
+
+type T = {
+ a: string,
+ b: number
+}
+
+const a:T = {a: "string"}//TはError。満たしていないため
+const a:$Shape<T> = {a: "string"} //ok
+
+const a:T = {a:"string", b: 89, c:"kenji"}//ok width spreadを許す
+const a:$Shape<T> = {a:"string", b: 89, c:"kenji"}// Error　許さない
+
+```
+
+使い所
+
+```js
+type O = {
+ name: string,
+ id: number
+}
+function add(o: O):O {
+ return o;
+}
+
+渡す際に
+add({name: "fafa", id: 40, add:"fafafa"})//Oだとok
+余分なものは渡して欲しくない。。。
+
+
+function add(o: $Shape<O>):O {
+ return o;
+}
+
+add({name: "fafa", id: 40, add:"fafafa"})//error
+
+add({name: "fafa", id: 40})
+or
+add({id: 40})//ok
+or
+add({name: "fafa"})//ok
+
+少ないのも増えるのも嫌な場合
+Exact Object TypeかUtilityの$Exact
+
+```
+### UnionType
+
+一つのtypeの中で存在するかわからないプロパティを分岐処理する場合Errorを起こす
+type O = {a: string, isOpen?:boolean, isClose?: boolean}
+var o = {a:"fafa", isOpen: true}
+
+const func = (o: O) =>{
+ if(o.isOpen){
+   return o.isOpen
+ } else if(o.isClose) {
+   return o.isClose
+ }
+}
 
 ### Exact<T>
 $Exact<{name | string}>は{|name: string|}と同等
@@ -492,6 +592,35 @@ const example: Foo = {foo: 'foo', bar: 'bar'}
 ```
 
 
+### $ElementType<T, K>
+$PropertyType<T, K>との違いはKはany型
+$PropertyTypeはliteral型でなければならない
+
+
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
 
 
 参照
