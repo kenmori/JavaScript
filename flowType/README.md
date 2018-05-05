@@ -337,26 +337,6 @@ PropTypeはnumber型が返ってくる型になる
 ```
 
 
-```js
-```
-
-```js
-```
-
-
-
-```js
-```
-
-```js
-```
-
-```js
-```
-
-```js
-```
-
 ### Function type with generics
 
 ```js
@@ -368,7 +348,55 @@ function method (fn: <T>(param:T) => T){
 
 ### restParameter
 
+
+```js
+```
+
+```js
+```
+
+
+
+```js
+```
+
+```js
+```
+
+```js
+```
+
+```js
+```
+
+
 ### %checks
+
+ ```js
+ function truthy(a, b):boolean %checks {
+  return  !!a && !!b
+}
+
+function isString(y):boolean %checks{
+ return typeof y === "string"
+}
+
+function isNumber(y): boolean %checks{
+ return typeof y === "number"
+}
+function isStrOrNum(y): %checks{
+  return isString(y) || isNumber(y)
+}
+
+function a(b):string | number{
+  if(isStrOrNum(b)){
+     return b + b;
+  } else {
+    return b.length
+  }
+}
+a("fafa");
+ ```
 
 
 ### $ElementType<T,K>
@@ -599,19 +627,117 @@ $PropertyTypeはliteral型でなければならない
 
 ```
 
-```
+
+
+### $Values<T>
+
+Tに渡したObject型が持つvalueのunionTypeの型を返す
+
+```js
+function a(o:T):string{
+  if(typeof o === "number"){
+    return String(o)
+  }
+  return o;
+}
+type O = {
+  name: string,
+  age: number
+}
+type T = $Values<O>;
+
+//same as  string | number
+var o = {
+  name: "kenji",
+  age: 37
+}
+a(o.name);
 ```
 
 ```
 ```
 
-```
-```
+### $PropertyType<T, K>;
+
+TはObject型、Kはkey
+あるTのpropertyがもつ型を返す
 
 ```
+type Props = {name: {e: string}, age: number };
+type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
+ const f:faf = "eeee";//ok
 ```
 
+
+### $ElementType<T, K>
+
 ```
+
+type O = {
+ a: string,
+  b: string
+}
+const fafa :$ElementType<O, "a"> = "eee"
+
+//PropertyTypeと同じように使える
+
+type O = {
+ a: string,
+  b: string
+}
+const fafa :$PropertyType<O, "a"> = "eee"
+
+
+//違いはArray, Tuple,にも使えるところ
+
+type Tuple = [boolean, string]
+("name" :$ElementType<Tuple, 1>)//ok
+
+
+$ElementType<T, K>の
+//またKはTに存在するどんな型でも可能にする
+type Arr = Array<boolean>
+(true: $ElementType<Arr, number>);
+(true: $ElementType<Arr, string>);//Arrayのkeyはstringではない
+//("fafa": $ElementType<Arr, number>);//Error, boolanではない
+
+```
+
+### Function (callback)
+```
+
+
+
+type O = {
+ a: string,
+ b: string
+}
+
+var obj = {
+ a: "hellow",
+  b: "kenji"
+}
+
+type B = {
+ c: boolean
+}
+
+
+function fn2<T>(fn:(T)=> string, obj:T):string{
+ return fn(obj)
+}
+//or
+
+function fn2<T>(fn:Function, obj:T):string{
+ return fn(obj)
+}
+
+function eee(obj): string {
+ return obj.a + obj.b
+}
+
+fn2(eee, obj)
+
 ```
 
 ```
