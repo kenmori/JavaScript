@@ -43,7 +43,7 @@ class ObjectiveForm extends Component {
           <Field
             name='parentKeyResultId'
             okrs={this.props.parentKeyResults}
-            isObjective={false}
+            withNone={!isLink}
             disabled={this.props.hasParentKeyResult}
             loading={!this.props.isFetchedKeyResults}
             component={RenderOkrSelect}
