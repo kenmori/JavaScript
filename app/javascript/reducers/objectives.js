@@ -55,6 +55,11 @@ export default handleActions({
         .set('previousIds', objectiveIds)
         .set('isFetchedPreviousObjectives', true)
     },
+    [ActionTypes.FETCHED_PREVIOUS_OBJECTIVES_ERROR]: state => {
+      return state
+        .update('previousIds', ids => ids.clear())
+        .set('isFetchedPreviousObjectives', true)
+    },
     [ActionTypes.FETCH_OBJECTIVE_CANDIDATES]: state => {
       return state.set('isFetchedCandidates', false);
     },

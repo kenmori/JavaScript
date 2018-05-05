@@ -17,9 +17,14 @@ function* fetchOkrs({ payload }) {
     const [loginUserId, isAdmin] = yield select(state => [state.loginUser.get('id'), state.loginUser.get('isAdmin')]);
     // 前期 OKR の fetch
     const okrPeriods = yield select(state => state.okrPeriods)
-    const previousOkrPeriod = okrPeriods.first().get('id') // TODO 前期 OKR 期間の取得ロジック
-    yield put(objectiveActions.fetchPreviousObjectives(previousOkrPeriod, loginUserId)); // without loading
-    yield take(actionTypes.FETCHED_PREVIOUS_OBJECTIVES)
+    const okrPeriodIndex = okrPeriods.findIndex(okrPeriod => okrPeriod.get('id') === payload.okrPeriodId)
+    if (okrPeriodIndex > 0) {
+      const previousOkrPeriodId = okrPeriods.get(okrPeriodIndex - 1).get('id')
+      yield put(objectiveActions.fetchPreviousObjectives(previousOkrPeriodId, loginUserId)); // without loading
+      yield take(actionTypes.FETCHED_PREVIOUS_OBJECTIVES)
+    } else {
+      yield put(objectiveActions.fetchedPreviousObjectivesError());
+    }
     // 上位 KR や紐付く Objective の紐付け変更用に O/KR 候補一覧を取得する
     const userId = isAdmin ? undefined : loginUserId;
     // Objective に紐付く上位 KR の変更のほうがよく行われるとの推測から先に KR を fetch する
