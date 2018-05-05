@@ -46,6 +46,15 @@ export default handleActions({
         .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
         .set('isFetchedObjectives', true);
     },
+    [ActionTypes.FETCH_PREVIOUS_OBJECTIVES]: state => {
+      return state.set('isFetchedPreviousObjectives', false)
+    },
+    [ActionTypes.FETCHED_PREVIOUS_OBJECTIVES]: (state, { payload }) => {
+      const objectiveIds = payload.get('result')
+      return state
+        .set('previousIds', objectiveIds)
+        .set('isFetchedPreviousObjectives', true)
+    },
     [ActionTypes.FETCH_OBJECTIVE_CANDIDATES]: state => {
       return state.set('isFetchedCandidates', false);
     },
@@ -85,10 +94,12 @@ export default handleActions({
   },
   fromJS({
     ids: [],
+    previousIds: [],
     candidates: [],
     selectedOkr: { objectiveId: null, keyResultId: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,
+    isFetchedPreviousObjectives: true,
     isFetchedCandidates: false,
   }),
 );

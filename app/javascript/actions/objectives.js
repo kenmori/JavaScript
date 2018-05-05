@@ -4,13 +4,15 @@ import { normalizeObjective, normalizeObjectives } from '../schemas/index'
 
 const actions = createActions({
   [actionTypes.SELECT_OKR]: (objectiveId, keyResultId = null) => ({ objectiveId, keyResultId }),
-  [actionTypes.FETCH_OKRS]: (okrPeriodId, userId, withCandidates) => ({ okrPeriodId, userId, withCandidates }),
+  [actionTypes.FETCH_OKRS]: (okrPeriodId, userId, isOkrPeriodChanged) => ({ okrPeriodId, userId, isOkrPeriodChanged }),
   [actionTypes.FETCH_OBJECTIVE]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.FETCH_OBJECTIVE_ASYNC]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.FETCHED_OBJECTIVE]: (objective) => normalizeObjective(objective),
   [actionTypes.FETCHED_OBJECTIVE_ERROR]: () => {},
   [actionTypes.FETCH_OBJECTIVES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_OBJECTIVES]: objectives => normalizeObjectives(objectives),
+  [actionTypes.FETCH_PREVIOUS_OBJECTIVES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
+  [actionTypes.FETCHED_PREVIOUS_OBJECTIVES]: objectives => normalizeObjectives(objectives),
   [actionTypes.FETCH_OBJECTIVE_CANDIDATES]: (okrPeriodId, userId) => ({ okrPeriodId, userId }),
   [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives => normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, viaHome, isCopy) => ({ objective, viaHome, isCopy }),
