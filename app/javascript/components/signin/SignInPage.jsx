@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class SignIn extends Component {
+class SignInPage extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -55,3 +56,11 @@ export default class SignIn extends Component {
     );
   }
 }
+
+SignInPage.propTypes = {
+  // container
+  signIn: PropTypes.func.isRequired,
+  // component
+}
+
+export default SignInPage

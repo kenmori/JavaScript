@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class PasswordRecoveredPage extends Component {
+class PasswordRecoveredPage extends PureComponent {
   render() {
     return (
       <div className="password-recovered">
@@ -18,3 +18,10 @@ export default class PasswordRecoveredPage extends Component {
     );
   }
 }
+
+PasswordRecoveredPage.propTypes = {
+  // container
+  // component
+}
+
+export default PasswordRecoveredPage

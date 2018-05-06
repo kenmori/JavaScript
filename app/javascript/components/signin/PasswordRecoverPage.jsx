@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class PasswordRecoverPage extends Component {
+class PasswordRecoverPage extends PureComponent {
   send() {
     this.props.send(this.emailInput.inputRef.value);
   }
@@ -34,3 +35,13 @@ export default class PasswordRecoverPage extends Component {
     );
   }
 }
+
+PasswordRecoverPage.propTypes = {
+  // container
+  passwordRecoveredPath: PropTypes.string.isRequired,
+  isRecovered: PropTypes.bool.isRequired,
+  send: PropTypes.func.isRequired,
+  // component
+}
+
+export default PasswordRecoverPage

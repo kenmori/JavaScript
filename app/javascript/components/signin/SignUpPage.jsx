@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class SignUp extends Component {
+class SignUpPage extends PureComponent {
   addUser() {
     this.props.addUser({
       last_name: this.lastNameInput.inputRef.value,
@@ -60,3 +61,13 @@ export default class SignUp extends Component {
     );
   }
 }
+
+SignUpPage.propTypes = {
+  // container
+  signUpCompleted: PropTypes.string.isRequired,
+  isCompleted: PropTypes.bool.isRequired,
+  addUser: PropTypes.func.isRequired,
+  // component
+}
+
+export default SignUpPage
