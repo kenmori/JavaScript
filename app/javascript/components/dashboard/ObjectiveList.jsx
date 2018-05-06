@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import Backend from '../../utils/backend';
 import Objective from './Objective';
 
-class ObjectiveList extends Component {
+class ObjectiveList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,10 +67,14 @@ class ObjectiveList extends Component {
 }
 
 ObjectiveList.propTypes = {
-  objectives: PropTypes.object.isRequired,
+  // container
+  selectedObjectiveId: PropTypes.number,
+  objectiveOrder: ImmutablePropTypes.list.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,
-  objectiveOrder: PropTypes.object.isRequired,
+  selectOkr: PropTypes.func.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
+  // component
+  objectives: ImmutablePropTypes.list.isRequired,
 };
 
 export default Backend(ObjectiveList);

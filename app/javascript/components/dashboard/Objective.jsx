@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
@@ -49,7 +50,7 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-class Objective extends Component {
+class Objective extends PureComponent {
   swapObjective(event, toLeft) {
     const fromIndex = this.props.index;
     const toIndex = toLeft ? fromIndex - 1 : fromIndex + 1;
@@ -97,8 +98,10 @@ class Objective extends Component {
 }
 
 Objective.propTypes = {
+  // container
+  // component
   index: PropTypes.number.isRequired,
-  objective: PropTypes.object.isRequired,
+  objective: ImmutablePropTypes.map.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectObjective: PropTypes.func.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,

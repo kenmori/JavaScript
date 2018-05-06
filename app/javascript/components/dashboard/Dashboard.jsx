@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Menu, Button, Segment, Header, Label } from 'semantic-ui-react';
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
 
-export default class Dashboard extends Component {
+class Dashboard extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,3 +81,16 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  // container
+  mapObjective: ImmutablePropTypes.map,
+  objectives: ImmutablePropTypes.list.isRequired,
+  keyResults: ImmutablePropTypes.list.isRequired,
+  isFetchedObjective: PropTypes.bool.isRequired,
+  isFetchedObjectives: PropTypes.bool.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
+  // component
+}
+
+export default Dashboard

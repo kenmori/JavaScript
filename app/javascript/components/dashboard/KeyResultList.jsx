@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Table } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 
-class KeyResultList extends Component {
+class KeyResultList extends PureComponent {
 
   selectKeyResult = keyResult => {
     const objectiveId = keyResult.get('objectiveId');
@@ -48,7 +49,12 @@ class KeyResultList extends Component {
 }
 
 KeyResultList.propTypes = {
-  keyResults: PropTypes.object.isRequired,
+  // container
+  selectedKeyResultId: PropTypes.number,
+  fetchObjective: PropTypes.func.isRequired,
+  selectOkr: PropTypes.func.isRequired,
+  // component
+  keyResults: ImmutablePropTypes.list.isRequired,
 };
 
 export default KeyResultList;
