@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import UserAvatar from 'react-user-avatar';
 import { Icon } from 'semantic-ui-react';
 import avatar_image from '../../images/avatar.png';
@@ -24,7 +25,7 @@ const sizeToIconSize = {
   massive: 'huge',
 };
 
-class Avatar extends Component {
+class Avatar extends PureComponent {
   render() {
     let name = this.props.user.get('lastName');
     let path = this.props.user.get('avatarUrl');
@@ -58,13 +59,14 @@ class Avatar extends Component {
 }
 
 Avatar.propTypes = {
-  user: PropTypes.object,
+  // container
+  // component
+  user: ImmutablePropTypes.map.isRequired,
   size: PropTypes.string,
   withInitial: PropTypes.bool,
   withName: PropTypes.bool,
 };
 Avatar.defaultProps = {
-  user: null,
   size: 'small',
   withInitial: true,
   withName: false,

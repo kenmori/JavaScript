@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {Image} from 'semantic-ui-react';
 import logo_image from '../../images/logo.png';
 
-class Logo extends Component {
+class Logo extends PureComponent {
   render() {
     return (
       <div className="logo">
@@ -14,6 +14,8 @@ class Logo extends Component {
 }
 
 Logo.propTypes = {
+  // container
+  // component
   path: PropTypes.string,
   size: PropTypes.string,
 };
