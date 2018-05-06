@@ -728,9 +728,86 @@ fn2(eee, obj)
 
 ```
 
+### こういう場合はどうするの？
+
+#### destructure Object
+
+オブジェクトを渡した際に好みのを受け取る、その時の型付け
+
+````js
+function foo ({a, b}: {a: string, b: number}): string | number {
+ return a + b
+}
+foo({a:'kenji',b: 2})
+```
+
+#### Functorに対しての型付したい
+
+```js
+function addString(e){return e + "fafa"}
+function foo (array:string[]){
+ return array.map(addString)
+}
+foo(["a", "b", "c"])
+```
+を
+
+```js
+declare function addString(e:string): string //追加
+function addString(e){return e + "fafa"}
+function foo (array:string[]){
+ return array.map(addString)
+}
+foo(["a", "b", "c"])
+
+
+or
+
+type AddStringFunc = (e:string) => string
+let addString:AddStringFunc = (e) => {return e + "fafa"}
+function foo (array:string[]){
+ return array.map(addString)
+}
+foo(["a", "b", "c"])
+```
+
+引数の数や型によって挙動が違う関数を型付けしたい(overloadしたい)
+
+```
+type FT = (s:string) => string
+const createName:FT = (s) => {
+ return `name is ${s}`
+}
+createName("kenji")
+```
+
+上記の関数で引数が2つ、stringとnumberが渡ってくるFunction型を作りたい
+
+```js
+
+type FT = ((string) => string) & ((string, number) => string)
+
+const createName: FT = (s, n) => {
+  if(typeof n === "number"){//refinementもしなくてはいけない
+    return `name is ${s}, age is ${n}`
+  }
+  return `name is ${s}`;
+}
+createName("kenji");
+createName("kenji", 37);
+
+```
+[TryFlow](https://flow.org/try/#0C4TwDgpgBAYgKlAvFAFCgzsATgSwHYDmAlEgHxSa6EkBkqG2+BANFHgK4C2ARhFiYnKUmRAFCiAxgHs8mKBKwQAhsAgA5JZwgAuWAmQZWeAeQDeoqFBwAzFKEhTrbJImQAiDjz5uipgPR+itb4EFp4wIBBDIDqDIBWDIDyDIBmDID2DIAiDICKDDEpFpZQisDsWHhQAAZ4mtA46FAAJKboAL6sSgQVVbV49cXZ9dl5BUWl5VZtdZ0A3KI9CsqqGloobgDWEHgAVjg+E9Mq6uULy2sbrADMAOxEE+JAA)
+
 ### Flow Error集
 
 エラーで言われていることを理解して修正できるようになることを目指したセクションです
+
+大体のエラーメッセージ
+・^ Cannot resolve name `a`. (aの変数はどこに定義されていますか？見当たらないんですすけど)
+
+・ because number [1] is incompatible with string [2] in the first argument
+([1]の箇所はnumber型なのに[2]のところはstringですよ？おかしくない？)
 
 #### エラー1
 
@@ -791,6 +868,20 @@ function identity(a:string, ...rest:Array<void>){
 [1]　のstringは[2]のarray要素のindefined型と矛盾していますよ
 
 ```
+
+####　エラー3
+
+すでにその名前あるから使えないよ
+
+```js
+function addString(e){return e + "fafa"}
+         ^ Cannot declare `addString` [1] because the name is already bound.
+References:
+1: type addString = (e:number) => string
+        ^ [1]
+```
+
+
 
 参照
 [https://github.com/facebook/flow/issues/2846](https://github.com/facebook/flow/issues/2846)
