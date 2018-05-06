@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { reduxForm } from 'redux-form'
 import { List } from 'immutable'
 import { Button, Modal } from 'semantic-ui-react'
 import KeyResultSidebar from './KeyResultSidebar'
 import KeyResultForm from './KeyResultForm'
 
-class KeyResultModal extends Component {
+class KeyResultModal extends PureComponent {
 
   constructor() {
     super()
@@ -108,6 +110,18 @@ class KeyResultModal extends Component {
       </Modal>
     );
   }
+}
+
+KeyResultModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  objective: ImmutablePropTypes.map,
+  users: ImmutablePropTypes.list.isRequired,
+  initialExpiredDate: PropTypes.string,
+  addKeyResult: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 }
 
 export default reduxForm({

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Field } from 'redux-form'
 import { Form, TextArea } from 'semantic-ui-react'
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect'
@@ -105,8 +106,10 @@ class KeyResultForm extends PureComponent {
 }
 
 KeyResultForm.propTypes = {
-  users: PropTypes.object.isRequired,
-  members: PropTypes.object.isRequired,
+  // container
+  // component
+  users: ImmutablePropTypes.list.isRequired,
+  members: ImmutablePropTypes.list.isRequired,
   ownerId: PropTypes.number,
   isRequiredTargetValue: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
