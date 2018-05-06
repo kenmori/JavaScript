@@ -695,6 +695,32 @@ type Arr = Array<boolean>
 //("fafa": $ElementType<Arr, number>);//Error, boolanではない
 ```
 
+
+### $ObjMap<T, F>
+
+WIP
+
+TはObjectType、FはFunctionType、
+戻り値はTの中で提供されたFで「ぞれぞれのvalueに対して取得(maping)」された型のオブジェクト
+言い換えると
+$ObjMapはTの中のそれぞれのプロパティ値に対してFで呼び出し、それらのcall結果のオブジェクト型を返す
+
+
+Objectのvalueに対して関数の戻り値を当てているようなオブジェクトの型を付ける
+為のUtility
+
+例えば
+
+```js
+type Ob = {fname: string};//WIP
+type Handler = (v:Ob) => string
+const fnc:Handler = (param) => "fafa"
+type PramsHandlers = $ObjMap<Ob, /*fn*/<V>(v: any) => Handler>
+const handlers: PramsHandlers = {
+   fname: fnc,
+   sname: fnc
+}
+```
 ### Function (callback)
 
 ```js
@@ -728,6 +754,15 @@ function eee(obj): string {
 
 fn2(eee, obj)
 
+```
+
+### Redux内でのusecase
+
+WIP
+````
+https://hackernoon.com/the-redux-type-flow-93aada6964e5
+
+type Exact<T> = T & $Shape<T>
 ```
 
 ### こういう場合は？
@@ -816,12 +851,37 @@ interface FT{
 anyとmixedの違いを説明してくれと言われた
 
 ```js
+
+ドキュメントによれば
+//mixed: the "supertype" of all types. Any type can flow into a mixed.
+//any: the "dynamic" type. Any type can flow into any, and vice-versa
+
+//mixed：すべての型の "スーパータイプ"。 どんなタイプでも混在することができます。
+//any： "動的な型"。 どんなタイプでもanyに混在することができ、その逆も可能です
+
+使う判断は、
+any・・・・type checkingをしない場合に使う
+mixed・・・・現時点ではどのtypeが入ってくるか確認できない場合にあてで使う。refinementが必要
+
+例えば
+
 WIP
+https://stackoverflow.com/questions/30004233/what-is-the-difference-between-mixed-and-any
+```
+
+castしたい
+
+```js
+WIP`
+
+```
+
+
 ```
 
 コードが書き換わるごとにtype checkしたい
-````
 
+```
 ・flow-watch
 ```
 
@@ -973,5 +1033,11 @@ let foo: Item<number> = {prop: 1};
 
 
 参照
-[https://github.com/facebook/flow/issues/2846](https://github.com/facebook/flow/issues/2846)
+[flow/issues/2846](https://github.com/facebook/flow/issues/2846)
+[SecretFlowTypes](https://medium.com/netscape/secret-flow-types-86b2ebb30951)
+[busypeoples/FlowTutorial.js](https://gist.github.com/busypeoples/61e83a1becc9ee9d498e0db324fc641b)
+[Flowtype + reduxにおけるreducerの正しい型づけ](https://qiita.com/akameco/items/fe7ba22c158a2593b077)
+
+
+
 
