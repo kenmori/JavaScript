@@ -2,6 +2,8 @@
 
 ![flowType](http://kenjimorita.jp/wp-content/uploads/2018/05/64087C72-006E-4EC0-90B5-892266C1F5F7.jpeg)
 
+こちらはflowの[ドキュメント](https://flow.org/en/docs/types/)を参照に自分の言葉でわかりやすく、ざっと参照できるようにしたものです
+
 #### 対象
 ・flowはなんとなく分かるがなんとなくつまる方
 ・Documentを眺めたがもうちょっと違う角度で説明して欲しい
@@ -661,7 +663,7 @@ type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
 ```js
 type O = {
  a: string,
-  b: string
+ b: string
 }
 const fafa :$ElementType<O, "a"> = "eee"
 ```
@@ -670,7 +672,7 @@ PropertyTypeと同じように使える
 ```js
 type O = {
  a: string,
-  b: string
+ b: string
 }
 const fafa :$PropertyType<O, "a"> = "eee"
 ```
@@ -686,7 +688,7 @@ type Tuple = [boolean, string]
 $ElementType<T, K>の
 //またKはTに存在するどんな型でも可能にする
 
-```
+```js
 type Arr = Array<boolean>
 (true: $ElementType<Arr, number>);
 (true: $ElementType<Arr, string>);//Arrayのkeyはstringではない
@@ -839,7 +841,7 @@ import type { Person } from './types'
 
 WIP
 
-[Issue](https://github.com/flowtype/flow-typed/issues/578)
+
 [here](https://flow.org/try/#0C4TwDgpgBAFglgcxhATgfQPYoCarQMwFcA7AY2Dg2LVEigF4oAeAFQD4AKfYgLihYCUDNvwDcAKHG5SAGwCGKaADcFUGRgQAlCAGdCM4H3hI8WXOiJkKVGuAiioAekdRCO6AAMVKD1HxYoYGQ-EnJKYklLMKo1DW09Ay5QoQBvcSgnFxgMAHdAjCg5YmIMYDlgaCDoMAU5AFsICpRC4mwoRWBCFGJAux0-AIagjDb-FByFbDhiBHT2xq6eqOsejgA6DYUEHVS5jNIqHWB5hOPGKPXNlG2BCQz9w4wZCDX1BA4PeP1DKAASFMUpwAvh5bnt5p1uidvncoECJEDIqEVlAdJA5ABrS5rHJmHR8ACCKBQchATCOKGmCDYAj4FKpUDSGQ6iyguJwOjWACsMNMOAByKD8sGI8QHYhHVHojEAGQ0DFiWl03w4aIgmLB4jVmLl735AEZ+QAaIUAJmFEiAA)
 
 ````
@@ -933,6 +935,41 @@ References:
         ^ [1]
 ```
 
+### エラー4
+
+型引数の数が合わないですよ
+
+```js
+//Prameterized generics
+type Item<T> = {
+  prop: T,
+}
+let foo: Item<> = {prop: 1};
+
+//でたエラー
+let foo: Item<> = {prop: 1};
+              ^ Cannot use `Item` [1] with less than 1 type argument.
+References:
+type Item<T> = {
+              ^ [1]
+
+type Item<T> = {
+  prop: T,
+}
+let foo: Item<> = {prop: 1};
+
+//fix
+デフォルト型引数を指定
+type Item<T:number = 1> = {
+    prop: T,
+}
+
+let foo: Item<> = {prop: 1};
+
+or
+//呼び出し時に指定
+let foo: Item<number> = {prop: 1};
+```
 
 
 参照
