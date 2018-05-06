@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Confirm } from 'semantic-ui-react';
 
-class ConfirmModal extends Component {
+class ConfirmModal extends PureComponent {
   handleCancel() {
     this.props.closeModal();
     this.props.onCancel();
@@ -28,11 +28,13 @@ class ConfirmModal extends Component {
 }
 
 ConfirmModal.propTypes = {
-  isOpen: PropTypes.bool,
+  // container
+  isOpen: PropTypes.bool.isRequired,
   content: PropTypes.string,
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
-  closeModal: PropTypes.func,
+  closeModal: PropTypes.func.isRequired,
+  // component
 };
 
 ConfirmModal.defaultProps = {

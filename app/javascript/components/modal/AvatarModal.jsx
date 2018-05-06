@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
 
-class AvatarModal extends Component {
+class AvatarModal extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -33,7 +34,6 @@ class AvatarModal extends Component {
     const {
       targetId,
       imageData,
-      closeModal,
       uploadAvatarImage,
     } = this.props
 
@@ -58,6 +58,16 @@ class AvatarModal extends Component {
       </ Modal >
     );
   }
+}
+
+AvatarModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  imageData: PropTypes.object,
+  targetId: PropTypes.number,
+  uploadAvatarImage: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  // component
 }
 
 export default AvatarModal;

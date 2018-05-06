@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
 
-class LogoModal extends Component {
+class LogoModal extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -33,7 +34,6 @@ class LogoModal extends Component {
     const {
       targetId,
       imageData,
-      closeModal,
       uploadLogoImage,
     } = this.props
     return (
@@ -58,6 +58,15 @@ class LogoModal extends Component {
     );
   }
 }
-;
+
+LogoModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  imageData: PropTypes.object,
+  targetId: PropTypes.number,
+  uploadLogoImage: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  // component
+}
 
 export default LogoModal;
