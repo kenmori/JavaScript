@@ -100,7 +100,6 @@ class KeyResultPane extends PureComponent {
   render() {
     const keyResult = this.props.keyResult;
     const keyResultId = keyResult.get('id')
-    const members = keyResult.get('members').map(member => member.get('id')).toArray();
     const isOwner = this.props.isObjectiveOwner || keyResult.get('owner').get('id') === this.props.loginUserId;
     return (
       <Form>
@@ -191,7 +190,7 @@ class KeyResultPane extends PureComponent {
           <div className='flex-field__item key-result-members'>
             <KeyResultMemberSelect
               users={this.props.users}
-              members={members}
+              members={keyResult.get('members').map(member => member.get('id'))}
               includedId={isOwner ? null : this.props.loginUserId}
               excludedId={keyResult.get('owner').get('id')}
               add={this.addMember.bind(this)}

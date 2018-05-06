@@ -93,7 +93,7 @@ class KeyResultForm extends PureComponent {
             <label>関係者</label>
             <KeyResultMemberSelect
               users={this.props.users}
-              members={this.props.members.toArray()}
+              members={this.props.members}
               excludedId={this.props.ownerId}
               add={value => onChange({ members: this.props.members.push(value) })}
               remove={value => onChange({ members: this.props.members.filter(id => id !== value) })}

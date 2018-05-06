@@ -19,10 +19,10 @@ class KeyResultMemberSelect extends PureComponent {
   }
 
   handleChange = value => {
-    if (value.length > this.state.defaultValue.length) {
+    if (value.size > this.state.defaultValue.size) {
       const addedId = value.find(id => !this.state.defaultValue.includes(id));
       this.props.add(addedId);
-    } else if (value.length < this.state.defaultValue.length) {
+    } else if (value.size < this.state.defaultValue.size) {
       const removedId = this.state.defaultValue.find(id => !value.includes(id));
       this.props.remove(removedId);
     }
@@ -58,7 +58,7 @@ KeyResultMemberSelect.propTypes = {
   // container
   // component
   users: ImmutablePropTypes.list.isRequired,
-  members: PropTypes.array.isRequired,
+  members: ImmutablePropTypes.list.isRequired,
   includedId: PropTypes.number,
   excludedId: PropTypes.number,
   add: PropTypes.func.isRequired,
