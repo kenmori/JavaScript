@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { openObjective, openKeyResult } from '../../utils/linker';
 import { Card, Icon, List, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import moment from 'moment';
 
-class OkrCard extends Component {
+class OkrCard extends PureComponent {
 
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
@@ -76,8 +77,13 @@ class OkrCard extends Component {
 }
 
 OkrCard.propTypes = {
-  objective: PropTypes.object.isRequired,
-  visibleKeyResultIds: PropTypes.object,
+  // container
+  selectedObjectiveId: PropTypes.number.isRequired,
+  selectedKeyResultId: PropTypes.number,
+  openKeyResultModal: PropTypes.func.isRequired,
+  // component
+  objective: ImmutablePropTypes.map.isRequired,
+  visibleKeyResultIds: ImmutablePropTypes.set,
   onToggleKeyResult: PropTypes.func.isRequired,
 };
 

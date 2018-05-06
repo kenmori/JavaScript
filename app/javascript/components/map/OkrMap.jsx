@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrCard from '../../containers/OkrCard';
 import OkrPath from './OkrPath';
 import { Card } from 'semantic-ui-react';
 import { List, Set, OrderedMap } from 'immutable';
 
-class OkrMap extends Component {
+class OkrMap extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -278,7 +279,11 @@ class OkrMap extends Component {
 }
 
 OkrMap.propTypes = {
-  objective: PropTypes.object.isRequired,
+  // container
+  fetchObjective: PropTypes.func.isRequired,
+  fetchObjectiveByKeyResult: PropTypes.func.isRequired,
+  // component
+  objective: ImmutablePropTypes.map.isRequired,
 };
 
 export default OkrMap;
