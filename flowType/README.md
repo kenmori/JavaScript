@@ -728,7 +728,7 @@ fn2(eee, obj)
 
 ```
 
-### こういう場合はどうするの？
+### こういう場合は？
 
 #### destructure Object
 
@@ -784,6 +784,9 @@ createName("kenji")
 上記の関数で引数が2つ、stringとnumberが渡ってくるFunction型を作りたい
 
 ```js
+//flowはUnionTypeの中でのfunction型を知ることができない下記はerror
+type FT = (string) => string | (string, number) => string
+
 
 type FT = ((string) => string) & ((string, number) => string)
 
@@ -796,8 +799,57 @@ const createName: FT = (s, n) => {
 createName("kenji");
 createName("kenji", 37);
 
+
+//or
+
+//interfaceを使う
+
+interface FT{
+  (string):string,
+  (string, number):string;
+}
 ```
 [TryFlow](https://flow.org/try/#0C4TwDgpgBAYgKlAvFAFCgzsATgSwHYDmAlEgHxSa6EkBkqG2+BANFHgK4C2ARhFiYnKUmRAFCiAxgHs8mKBKwQAhsAgA5JZwgAuWAmQZWeAeQDeoqFBwAzFKEhTrbJImQAiDjz5uipgPR+itb4EFp4wIBBDIDqDIBWDIDyDIBmDID2DIAiDICKDDEpFpZQisDsWHhQAAZ4mtA46FAAJKboAL6sSgQVVbV49cXZ9dl5BUWl5VZtdZ0A3KI9CsqqGloobgDWEHgAVjg+E9Mq6uULy2sbrADMAOxEE+JAA)
+
+anyとmixedの違いを説明してくれと言われた
+
+```js
+WIP
+```
+
+コードが書き換わるごとにtype checkしたい
+````
+
+・flow-watch
+```
+
+違うファイルで定義した型を別ファイルで使いたい
+
+```
+//types.js
+export type Person = {
+}
+
+//use.js
+import type { Person } from './types'
+```
+
+
+高階関数に対して型を付けたい
+
+WIP
+
+[Issue](https://github.com/flowtype/flow-typed/issues/578)
+[here](https://flow.org/try/#0C4TwDgpgBAFglgcxhATgfQPYoCarQMwFcA7AY2Dg2LVEigF4oAeAFQD4AKfYgLihYCUDNvwDcAKHG5SAGwCGKaADcFUGRgQAlCAGdCM4H3hI8WXOiJkKVGuAiioAekdRCO6AAMVKD1HxYoYGQ-EnJKYklLMKo1DW09Ay5QoQBvcSgnFxgMAHdAjCg5YmIMYDlgaCDoMAU5AFsICpRC4mwoRWBCFGJAux0-AIagjDb-FByFbDhiBHT2xq6eqOsejgA6DYUEHVS5jNIqHWB5hOPGKPXNlG2BCQz9w4wZCDX1BA4PeP1DKAASFMUpwAvh5bnt5p1uidvncoECJEDIqEVlAdJA5ABrS5rHJmHR8ACCKBQchATCOKGmCDYAj4FKpUDSGQ6iyguJwOjWACsMNMOAByKD8sGI8QHYhHVHojEAGQ0DFiWl03w4aIgmLB4jVmLl735AEZ+QAaIUAJmFEiAA)
+
+````
+//function signature
+type Callback = (?Error, string) => any
+
+function fetch (callback: Callback) {
+  ···
+}
+```
 
 ### Flow Error集
 
