@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
@@ -10,7 +11,7 @@ import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import moment from 'moment';
 
-class KeyResultPane extends Component {
+class KeyResultPane extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -220,8 +221,10 @@ class KeyResultPane extends Component {
 }
 
 KeyResultPane.propTypes = {
-  keyResult: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
+  // container
+  // component
+  keyResult: ImmutablePropTypes.map.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,

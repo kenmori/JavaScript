@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
@@ -50,7 +51,7 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-class KeyResult extends Component {
+class KeyResult extends PureComponent {
   swapKeyResult(event, toUp) {
     const fromIndex = this.props.index;
     const toIndex = toUp ? fromIndex - 1 : fromIndex + 1;
@@ -101,8 +102,10 @@ class KeyResult extends Component {
 }
 
 KeyResult.propTypes = {
+  // container
+  // component
   index: PropTypes.number.isRequired,
-  keyResult: PropTypes.object.isRequired,
+  keyResult: ImmutablePropTypes.map.isRequired,
   isSelected: PropTypes.bool.isRequired,
   canMoveKeyResult: PropTypes.bool.isRequired,
   moveKeyResult: PropTypes.func.isRequired,

@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import UserSelect from '../form/UserSelect';
 
-class ObjectivePane extends Component {
+class ObjectivePane extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -88,8 +89,10 @@ class ObjectivePane extends Component {
 }
 
 ObjectivePane.propTypes = {
-  objective: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
+  // container
+  // component
+  objective: ImmutablePropTypes.map.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,

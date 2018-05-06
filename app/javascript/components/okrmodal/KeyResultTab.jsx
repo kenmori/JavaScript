@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react';
 import KeyResultPane from './KeyResultPane';
 import LinkPane from './LinkPane';
 import CommentPane from './CommentPane';
 
-class KeyResultTab extends Component {
+class KeyResultTab extends PureComponent {
 
   updateKeyResult = values => {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
@@ -46,9 +47,11 @@ class KeyResultTab extends Component {
 }
 
 KeyResultTab.propTypes = {
-  keyResult: PropTypes.object.isRequired,
-  objectiveCandidates: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
+  // container
+  // component
+  keyResult: ImmutablePropTypes.map.isRequired,
+  objectiveCandidates: ImmutablePropTypes.list.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedObjectiveCandidates: PropTypes.bool.isRequired,

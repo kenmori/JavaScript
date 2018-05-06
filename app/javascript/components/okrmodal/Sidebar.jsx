@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
 
-class Sidebar extends Component {
+class Sidebar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -90,10 +91,12 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  objective: PropTypes.object.isRequired,
+  // container
+  // component
+  objective: ImmutablePropTypes.map.isRequired,
   keyResultId: PropTypes.number,
   canMoveKeyResult: PropTypes.bool.isRequired,
-  keyResultOrder: PropTypes.object.isRequired,
+  keyResultOrder: ImmutablePropTypes.list.isRequired,
   updateKeyResultOrder: PropTypes.func.isRequired,
   openKeyResultModal: PropTypes.func.isRequired,
 };

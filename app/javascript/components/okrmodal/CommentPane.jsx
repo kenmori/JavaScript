@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Icon, Button, TextArea, Divider } from 'semantic-ui-react';
 import AutoTextArea from '../form/AutoTextArea';
 import moment from 'moment';
 
-class CommentPane extends Component {
+class CommentPane extends PureComponent {
 
   commentList(comments) {
     if (!comments) return null;
@@ -82,7 +83,9 @@ class CommentPane extends Component {
 }
 
 CommentPane.propTypes = {
-  keyResult: PropTypes.object.isRequired,
+  // container
+  // component
+  keyResult: ImmutablePropTypes.map.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };

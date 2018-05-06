@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Divider } from 'semantic-ui-react';
 import OkrSelect from '../form/OkrSelect';
 import OkrList from '../form/OkrList';
 
-class LinkPane extends Component {
+class LinkPane extends PureComponent {
 
   renderObjectiveLinks() {
     const objective = this.props.okr;
@@ -66,8 +67,10 @@ class LinkPane extends Component {
 }
 
 LinkPane.propTypes = {
-  okr: PropTypes.object.isRequired,
-  candidates: PropTypes.object.isRequired,
+  // container
+  // component
+  okr: ImmutablePropTypes.map.isRequired,
+  candidates: ImmutablePropTypes.list.isRequired,
   isObjective: PropTypes.bool,
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
