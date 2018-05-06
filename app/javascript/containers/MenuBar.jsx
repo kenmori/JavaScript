@@ -10,14 +10,14 @@ import history from '../utils/history';
 const mapStateToProps = (state) => {
   return {
     organizationId: state.organizations.get('selected').get('id'),
-    isFetchedOrganization: state.organizations.get('isFetched'),
-    users: state.users.filter(user => !user.get('disabled')),
-    userId: state.current.get('userId'),
     okrPeriodId: state.current.get('okrPeriodId'),
-    okrPeriods: state.okrPeriods,
-    loginUser: state.loginUser,
-    organization: state.organizations.get('selected'),
+    userId: state.current.get('userId'),
     organizations: state.organizations.get('list'),
+    okrPeriods: state.okrPeriods,
+    users: state.users.filter(user => !user.get('disabled')),
+    organization: state.organizations.get('selected'),
+    loginUser: state.loginUser,
+    isFetchedOrganization: state.organizations.get('isFetched'),
     needLogout: state.signUp.get('needLogout'),
   };
 };

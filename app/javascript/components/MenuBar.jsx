@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import {Dropdown, Menu} from 'semantic-ui-react';
 import UserSelect from './form/UserSelect';
 import UserAvatar from '../containers/UserAvatar';
 import Logo from './util/Logo';
 
-class MenuBar extends Component {
+class MenuBar extends PureComponent {
 
   componentDidMount() {
     this.props.fetchOrganization(this.props.organizationId)
@@ -113,14 +114,23 @@ class MenuBar extends Component {
 }
 
 MenuBar.propTypes = {
+  // container
+  organizationId: PropTypes.number.isRequired,
+  okrPeriodId: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  organizations: ImmutablePropTypes.list.isRequired,
+  okrPeriods: ImmutablePropTypes.list.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  organization: ImmutablePropTypes.map.isRequired,
+  loginUser: ImmutablePropTypes.map.isRequired,
+  isFetchedOrganization: PropTypes.bool.isRequired,
+  needLogout: PropTypes.bool.isRequired,
+  fetchOrganization: PropTypes.func.isRequired,
   changeCurrentUser: PropTypes.func.isRequired,
   changeCurrentOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,
-  users: PropTypes.object,
-  okrPeriods: PropTypes.object,
-  menu: PropTypes.object,
-  organization: PropTypes.object,
-  organizations: PropTypes.object,
+  signOut: PropTypes.func.isRequired,
+  // component
 };
 
 export default MenuBar;
