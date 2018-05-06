@@ -7,8 +7,8 @@ export default class PasswordRecoverPage extends Component {
     this.props.send(this.emailInput.inputRef.value);
   }
   componentWillUpdate(props = this.props) {
-    if (props.isRecoverd) {
-      props.history.push(props.passwordRecoverdPath)
+    if (props.isRecovered) {
+      props.history.push(props.passwordRecoveredPath)
     }
   }
   render() {

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class PasswordRecoverdPage extends Component {
+export default class PasswordRecoveredPage extends Component {
   render() {
     return (
-      <div className="password-recoverd">
+      <div className="password-recovered">
         <main className="main-content">
           <Image as='h1' src={logo_image} title='Resily' />
           <p>
