@@ -62,7 +62,7 @@ class LogoModal extends PureComponent {
 LogoModal.propTypes = {
   // container
   isOpen: PropTypes.bool.isRequired,
-  imageData: PropTypes.object,
+  imageData: PropTypes.object, // File
   targetId: PropTypes.number,
   uploadLogoImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,

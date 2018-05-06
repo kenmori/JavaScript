@@ -45,7 +45,7 @@ class Toast extends PureComponent {
 
 Toast.propTypes = {
   // container
-  message: PropTypes.object, // 同じ文言のトーストを続けて表示するため String オブジェクトを受け取る
+  message: PropTypes.object, // String: 同じ文言のトーストを続けて表示するため String オブジェクトを受け取る
   type: PropTypes.string,
   clearToast: PropTypes.func.isRequired,
   // component

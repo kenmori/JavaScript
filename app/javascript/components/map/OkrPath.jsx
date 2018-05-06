@@ -110,7 +110,7 @@ OkrPath.propTypes = {
   // component
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  fromPoint: PropTypes.object.isRequired,
+  fromPoint: PropTypes.object.isRequired, // {x, y}
   toPoints: ImmutablePropTypes.list.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,

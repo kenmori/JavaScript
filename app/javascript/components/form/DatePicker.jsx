@@ -18,7 +18,7 @@ DatePicker.propTypes = {
   // component
   dateFormat: PropTypes.string,
   locale: PropTypes.string,
-  selected: PropTypes.object,
+  selected: PropTypes.object, // Moment
   onChange: PropTypes.func,
 }
 
