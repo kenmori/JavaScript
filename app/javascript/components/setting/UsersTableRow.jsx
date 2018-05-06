@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import AutoInput from '../form/AutoInput';
 import UserAvatar from '../../containers/UserAvatar';
 
@@ -59,7 +60,9 @@ class UsersTableRow extends PureComponent {
 }
 
 UsersTableRow.propTypes = {
-  user: PropTypes.object.isRequired,
+  // container
+  // component
+  user: ImmutablePropTypes.map.isRequired,
   isLoginUser: PropTypes.bool.isRequired,
   updateUser: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,

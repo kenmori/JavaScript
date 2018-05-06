@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Button, Input } from 'semantic-ui-react';
 import UserAvatar from '../../containers/UserAvatar';
 import AutoInput from '../form/AutoInput';
 
-class AccountSettingTab extends Component {
+class AccountSettingTab extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -107,7 +108,15 @@ class AccountSettingTab extends Component {
 }
 
 AccountSettingTab.propTypes = {
+  // container
+  loginUser: ImmutablePropTypes.map.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  updateEmail: PropTypes.func.isRequired,
   updatePassword: PropTypes.func.isRequired,
+  openAvatarModal: PropTypes.func.isRequired,
+  deleteAvatar: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default AccountSettingTab;

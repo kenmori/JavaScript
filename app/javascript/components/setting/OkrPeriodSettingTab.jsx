@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import moment from 'moment';
 import { Tab, Table, Form, Button, Input } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import DatePicker from '../form/DatePicker';
 
-class OkrPeriodSettingTab extends Component {
+class OkrPeriodSettingTab extends PureComponent {
   constructor(props) {
     super(props);
     this.name = '';
@@ -174,12 +175,15 @@ class OkrPeriodSettingTab extends Component {
 }
 
 OkrPeriodSettingTab.propTypes = {
-  organizationId: PropTypes.number,
-  okrSpan: PropTypes.number,
-  okrPeriods: PropTypes.object,
-  addOkrPeriod: PropTypes.func,
-  updateOkrPeriod: PropTypes.func,
-  removeOkrPeriod: PropTypes.func,
+  // container
+  organizationId: PropTypes.number.isRequired,
+  okrSpan: PropTypes.number.isRequired,
+  okrPeriods: ImmutablePropTypes.list.isRequired,
+  addOkrPeriod: PropTypes.func.isRequired,
+  updateOkrPeriod: PropTypes.func.isRequired,
+  removeOkrPeriod: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default OkrPeriodSettingTab;

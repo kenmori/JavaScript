@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import MenuBar from '../../containers/MenuBar';
@@ -9,7 +9,7 @@ import OkrPeriodSettingTab from '../../containers/OkrPeriodSettingTab'
 import AvatarModal from '../../containers/AvatarModal'
 import LogoModal from '../../containers/LogoModal'
 
-class SettingsPage extends Component {
+class SettingsPage extends PureComponent {
   get panes() {
     const panes = [{ id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' }];
     const adminPanes = [
@@ -55,8 +55,11 @@ class SettingsPage extends Component {
 }
 
 SettingsPage.propTypes = {
+  // container
   name: PropTypes.string,
-  changeURL: PropTypes.func,
+  isAdmin: PropTypes.bool.isRequired,
+  changeURL: PropTypes.func.isRequired,
+  // component
 };
 
 SettingsPage.defaultProps = {

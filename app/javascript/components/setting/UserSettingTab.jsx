@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Table, Input, Checkbox, Button, Divider } from 'semantic-ui-react';
 import UsersTable from './UsersTable';
 
-class UserSettingTab extends Component {
+class UserSettingTab extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -97,7 +98,18 @@ class UserSettingTab extends Component {
 }
 
 UserSettingTab.propTypes = {
-  users: PropTypes.object.isRequired,
+  // container
+  loginUserId: PropTypes.number.isRequired,
+  organization: ImmutablePropTypes.map.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  addUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  updateEmail: PropTypes.func.isRequired,
+  removeUser: PropTypes.func.isRequired,
+  restoreUser: PropTypes.func.isRequired,
+  resendEmail: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default UserSettingTab;

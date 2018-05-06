@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Table, Pagination } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import UsersTableRow from './UsersTableRow';
 
-class UsersTable extends Component {
+class UsersTable extends PureComponent {
 
   static NUMBER_TO_DISPLAY = 50;
 
@@ -152,15 +153,17 @@ class UsersTable extends Component {
 }
 
 UsersTable.propTypes = {
-  users: PropTypes.object.isRequired,
+  // container
+  // component
+  users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number,
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
   onResendEmail: PropTypes.func,
   onRemove: PropTypes.func,
   onRestore: PropTypes.func,
-  confirm: PropTypes.func,
-  keyword: PropTypes.string,
+  confirm: PropTypes.func.isRequired,
+  keyword: PropTypes.string.isRequired,
 };
 
 export default UsersTable;
