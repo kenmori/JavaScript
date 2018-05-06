@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Select, Button } from 'semantic-ui-react';
 import OkrList from './OkrList';
 import { okrOptions } from "../../utils/okr";
 
-class OkrSelect extends Component {
+class OkrSelect extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -68,7 +69,9 @@ class OkrSelect extends Component {
 }
 
 OkrSelect.propTypes = {
-  okrs: PropTypes.object.isRequired,
+  // container
+  // component
+  okrs: ImmutablePropTypes.list.isRequired,
   isObjective: PropTypes.bool,
   value: PropTypes.number,
   preview: PropTypes.bool,

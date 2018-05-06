@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import UserSelect from './UserSelect';
 
-class KeyResultMemberSelect extends Component {
+class KeyResultMemberSelect extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -54,7 +55,9 @@ class KeyResultMemberSelect extends Component {
 }
 
 KeyResultMemberSelect.propTypes = {
-  users: PropTypes.object.isRequired,
+  // container
+  // component
+  users: ImmutablePropTypes.list.isRequired,
   members: PropTypes.array.isRequired,
   includedId: PropTypes.number,
   excludedId: PropTypes.number,

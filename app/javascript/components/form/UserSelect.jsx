@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Select } from 'semantic-ui-react';
 import avatar_image from '../../images/avatar.png';
 
-class UserSelect extends Component {
+class UserSelect extends PureComponent {
 
   userOptions = () => {
     return this.props.users.map(user => ({
@@ -47,7 +48,9 @@ class UserSelect extends Component {
 }
 
 UserSelect.propTypes = {
-  users: PropTypes.object.isRequired,
+  // container
+  // component
+  users: ImmutablePropTypes.list.isRequired,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
   multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,

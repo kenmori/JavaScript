@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Popup } from 'semantic-ui-react';
 
-class RequiredLabel extends Component {
+class RequiredLabel extends PureComponent {
 
   render() {
     const style = { verticalAlign: 'super', marginLeft: '2px' };
@@ -19,6 +19,8 @@ class RequiredLabel extends Component {
 }
 
 RequiredLabel.propTypes = {
+  // container
+  // component
   text: PropTypes.string.isRequired,
   required: PropTypes.bool,
 };

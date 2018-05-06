@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'semantic-ui-react';
 
-class NumberInput extends Component {
+class NumberInput extends PureComponent {
 
   handleChange = event => {
     this.props.onChange(event.target.value);
@@ -42,6 +42,8 @@ class NumberInput extends Component {
 }
 
 NumberInput.propTypes = {
+  // container
+  // component
   type: PropTypes.string,
   min: PropTypes.number,
   max: PropTypes.number,
