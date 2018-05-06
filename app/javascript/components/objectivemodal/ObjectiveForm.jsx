@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Field } from 'redux-form';
 import RenderField from "../form/RenderField";
 import UserSelect from '../form/UserSelect';
@@ -10,7 +11,7 @@ import {
   validateObjectiveName, validateParentKeyResultId, validateIsolatedObjectiveId, validatePreviousObjectiveId,
 } from "../../utils/validator"
 
-class ObjectiveForm extends Component {
+class ObjectiveForm extends PureComponent {
 
   handleObjectiveIdChange = objectiveId => {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
@@ -84,11 +85,13 @@ class ObjectiveForm extends Component {
 }
 
 ObjectiveForm.propTypes = {
+  // container
+  // component
   isLink: PropTypes.bool.isRequired,
   isCopy: PropTypes.bool.isRequired,
-  parentKeyResults: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
-  objectives: PropTypes.object,
+  parentKeyResults: ImmutablePropTypes.list.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  objectives: ImmutablePropTypes.list,
   description: PropTypes.string.isRequired,
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,

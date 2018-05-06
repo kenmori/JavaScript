@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { reduxForm } from 'redux-form';
 import { Button, Modal, Tab } from 'semantic-ui-react';
 import ObjectiveSidebar from './ObjectiveSidebar';
 import ObjectiveForm from './ObjectiveForm';
 
-class ObjectiveModal extends Component {
+class ObjectiveModal extends PureComponent {
 
   static INDEX_NEW = 0;
   static INDEX_LINK = 1;
@@ -155,8 +156,23 @@ class ObjectiveModal extends Component {
 }
 
 ObjectiveModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  parentKeyResult: ImmutablePropTypes.map,
+  currentUserId: PropTypes.number.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  okrPeriodId: PropTypes.number.isRequired,
+  parentKeyResults: ImmutablePropTypes.list.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
+  objectives: ImmutablePropTypes.list.isRequired,
+  isFetchedObjectives: PropTypes.bool.isRequired,
+  previousObjectives: ImmutablePropTypes.list.isRequired,
+  isFetchedPreviousObjectives: PropTypes.bool.isRequired,
   addObjective: PropTypes.func.isRequired,
-  parentKeyResult: PropTypes.object,
+  updateObjective: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default reduxForm({
