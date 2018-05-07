@@ -337,26 +337,6 @@ PropTypeはnumber型が返ってくる型になる
 ```
 
 
-```js
-```
-
-```js
-```
-
-
-
-```js
-```
-
-```js
-```
-
-```js
-```
-
-```js
-```
-
 ### Function type with generics
 
 ```js
@@ -368,7 +348,55 @@ function method (fn: <T>(param:T) => T){
 
 ### restParameter
 
+
+```js
+```
+
+```js
+```
+
+
+
+```js
+```
+
+```js
+```
+
+```js
+```
+
+```js
+```
+
+
 ### %checks
+
+ ```js
+ function truthy(a, b):boolean %checks {
+  return  !!a && !!b
+}
+
+function isString(y):boolean %checks{
+ return typeof y === "string"
+}
+
+function isNumber(y): boolean %checks{
+ return typeof y === "number"
+}
+function isStrOrNum(y): %checks{
+  return isString(y) || isNumber(y)
+}
+
+function a(b):string | number{
+  if(isStrOrNum(b)){
+     return b + b;
+  } else {
+    return b.length
+  }
+}
+a("fafa");
+ ```
 
 
 ### $ElementType<T,K>
@@ -393,18 +421,118 @@ $Diff<A, B>
 Aはprops
 Bはdefaultprops
 
-このdefaultPropsにあるpropertyはPropsには必須。
-渡ってこなくてはいけない。
-propsに増える分は許容される
+Aに含まれているものでBに含まれないもプロパティが必須になる
+
+
 
 またPropを送らない表現ができる
 $Diff<{}, {nope: number}> //Error
 $Diff<{}, {nop: number | void}> //ok
 ```
 
-### $ElementType<T, K>
-$PropertyType<T, K>との違いはKはany型
-$PropertyTypeはliteral型でなければならない
+
+### Object
+
+indexer
+
+keyに型を持たせることができる
+
+```js
+type user = {[string]: string};
+var obj = {name: "kenji"}//ok
+```
+何が嬉しいか
+
+keyにドキュメントの目的で「オプショナリーネーム」を持たせてる
+```js
+type user = {[userName: string]: string};
+var obj = {name: "kenji"}//ok
+```
+
+とか参照時の型を制御できる
+
+```
+obj["name"] = "fafa"//ok
+obj[0] = "fafa"//error。keyはstringで参照しなくてはいけません
+```
+存在しないプロパティにアクセスしても型エラーにはならない(実行時にはエラーになる)
+
+```js
+var o:{[number]: string} = {};
+o[42].length
+
+type user = {name: number, [id:number]: string}
+
+var obj:user = {name: 200, [222]: "eee"}
+
+```
+
+
+
+### $Shape<T>
+
+Tとの違い
+
+```js
+
+type T = {
+ a: string,
+ b: number
+}
+
+const a:T = {a: "string"}//TはError。満たしていないため
+const a:$Shape<T> = {a: "string"} //ok
+
+const a:T = {a:"string", b: 89, c:"kenji"}//ok width spreadを許す
+const a:$Shape<T> = {a:"string", b: 89, c:"kenji"}// Error　許さない
+
+```
+
+使い所
+
+```js
+type O = {
+ name: string,
+ id: number
+}
+function add(o: O):O {
+ return o;
+}
+
+渡す際に
+add({name: "fafa", id: 40, add:"fafafa"})//Oだとok
+余分なものは渡して欲しくない。。。
+
+
+function add(o: $Shape<O>):O {
+ return o;
+}
+
+add({name: "fafa", id: 40, add:"fafafa"})//error
+
+add({name: "fafa", id: 40})
+or
+add({id: 40})//ok
+or
+add({name: "fafa"})//ok
+
+少ないのも増えるのも嫌な場合
+Exact Object TypeかUtilityの$Exact
+
+```
+### UnionType
+
+一つのtypeの中で存在するかわからないプロパティを分岐処理する場合Errorを起こす
+type O = {a: string, isOpen?:boolean, isClose?: boolean}
+var o = {a:"fafa", isOpen: true}
+
+const func = (o: O) =>{
+ if(o.isOpen){
+   return o.isOpen
+ } else if(o.isClose) {
+   return o.isClose
+ }
+}
 
 ### Exact<T>
 $Exact<{name | string}>は{|name: string|}と同等
@@ -492,6 +620,133 @@ const example: Foo = {foo: 'foo', bar: 'bar'}
 ```
 
 
+### $ElementType<T, K>
+$PropertyType<T, K>との違いはKはany型
+$PropertyTypeはliteral型でなければならない
+
+
+```
+
+
+
+### $Values<T>
+
+Tに渡したObject型が持つvalueのunionTypeの型を返す
+
+```js
+function a(o:T):string{
+  if(typeof o === "number"){
+    return String(o)
+  }
+  return o;
+}
+type O = {
+  name: string,
+  age: number
+}
+type T = $Values<O>;
+
+//same as  string | number
+var o = {
+  name: "kenji",
+  age: 37
+}
+a(o.name);
+```
+
+```
+```
+
+### $PropertyType<T, K>;
+
+TはObject型、Kはkey
+あるTのpropertyがもつ型を返す
+
+```
+type Props = {name: {e: string}, age: number };
+type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
+ const f:faf = "eeee";//ok
+```
+
+
+### $ElementType<T, K>
+
+```
+
+type O = {
+ a: string,
+  b: string
+}
+const fafa :$ElementType<O, "a"> = "eee"
+
+//PropertyTypeと同じように使える
+
+type O = {
+ a: string,
+  b: string
+}
+const fafa :$PropertyType<O, "a"> = "eee"
+
+
+//違いはArray, Tuple,にも使えるところ
+
+type Tuple = [boolean, string]
+("name" :$ElementType<Tuple, 1>)//ok
+
+
+$ElementType<T, K>の
+//またKはTに存在するどんな型でも可能にする
+type Arr = Array<boolean>
+(true: $ElementType<Arr, number>);
+(true: $ElementType<Arr, string>);//Arrayのkeyはstringではない
+//("fafa": $ElementType<Arr, number>);//Error, boolanではない
+
+```
+
+### Function (callback)
+```
+
+
+
+type O = {
+ a: string,
+ b: string
+}
+
+var obj = {
+ a: "hellow",
+  b: "kenji"
+}
+
+type B = {
+ c: boolean
+}
+
+
+function fn2<T>(fn:(T)=> string, obj:T):string{
+ return fn(obj)
+}
+//or
+
+function fn2<T>(fn:Function, obj:T):string{
+ return fn(obj)
+}
+
+function eee(obj): string {
+ return obj.a + obj.b
+}
+
+fn2(eee, obj)
+
+```
+
+```
+```
+
+```
+```
+
+```
 
 
 参照
