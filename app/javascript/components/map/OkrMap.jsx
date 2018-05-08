@@ -259,9 +259,9 @@ class OkrMap extends PureComponent {
       <div className='okr-map' ref='map'>
         {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
-            {objectives.map((objective, key) => (
+            {objectives.map(objective => (
               <OkrCard
-                key={key}
+                key={objective.get('id')}
                 objective={objective}
                 ref={`objective_${objective.get('id')}`}
                 visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
