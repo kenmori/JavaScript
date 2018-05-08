@@ -4,6 +4,7 @@ import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import { getIsolatedObjectives } from '../utils/okr'
 import { denormalizeObjectives, denormalizeKeyResults } from "../schemas"
+import { getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
@@ -11,7 +12,7 @@ const mapStateToProps = (state) => {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
     parentKeyResult,
     currentUserId: state.current.get('userId'),
-    users: state.users.filter(user => !user.get('disabled')),
+    users: getEnabledUsers(state),
     okrPeriodId: state.current.get('okrPeriodId'),
     parentKeyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
     isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),

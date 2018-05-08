@@ -5,6 +5,7 @@ import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
 import { denormalizeObjective } from '../schemas/index';
 import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/okr';
+import { getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   const okrForm = state.dialogs.get('okrForm');
@@ -21,7 +22,7 @@ const mapStateToProps = (state) => {
     objectiveId,
     objective,
     keyResultId,
-    users: state.users.filter(user => !user.get('disabled')),
+    users: getEnabledUsers(state),
     loginUserId,
     objectiveCandidates: getObjectiveCandidates(state, objectiveId),
     parentKeyResultCandidates: getParentKeyResultCandidates(state, objective && objective.get('parentKeyResultId')),
