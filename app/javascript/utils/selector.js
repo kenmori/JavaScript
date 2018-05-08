@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect'
 import {
-  denormalizeDeepObjective,
+  denormalizeObjective, denormalizeDeepObjective,
   denormalizeObjectives, denormalizeKeyResults,
+  denormalizeObjectiveCandidates, denormalizeKeyResultCandidates,
 } from '../schemas'
 
 export const getEnabledUsers = createSelector(
@@ -39,4 +40,58 @@ export const getSelectedObjective = createSelector(
   state => state.objectives.getIn(['selectedOkr', 'objectiveId']),
   state => state.entities,
   (selectedId, entities) => denormalizeDeepObjective(selectedId, entities)
+)
+
+export const getOkrModalObjective = createSelector(
+  state => state.dialogs.getIn(['okrForm', 'objectiveId']),
+  state => state.dialogs.getIn(['okrForm', 'keyResultId']),
+  state => state.dialogs.getIn(['okrForm', 'removedKeyResultId']),
+  state => state.entities,
+  (modalObjectiveId, modalKeyResultId, removedKeyResultId, entities) => {
+    const objectiveId = modalKeyResultId && modalKeyResultId !== removedKeyResultId
+      ? entities.keyResults.getIn([modalKeyResultId, 'objectiveId']) // KR に紐付く Objective を指定する
+      : modalObjectiveId
+    return objectiveId && denormalizeObjective(objectiveId, entities)
+  }
+)
+
+// Objective の上位 KR 候補一覧を返す
+export const getParentKeyResultCandidates = createSelector(
+  getOkrModalObjective,
+  state => state.keyResults.get('candidateIds'),
+  state => state.candidates,
+  (modalObjective, keyResultIds, entities) => {
+    const candidates = denormalizeKeyResultCandidates(keyResultIds, entities)
+    const parentKeyResultId = modalObjective && modalObjective.get('parentKeyResultId')
+    if (parentKeyResultId && !candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
+      // 候補一覧に紐付く上位 KR が存在しない場合は含める
+      const parentKeyResult = entities.keyResults.get(parentKeyResultId)
+      if (parentKeyResult) {
+        return candidates.push(parentKeyResult)
+      }
+    }
+    return candidates
+  }
+)
+
+// KR に紐付く Objective 候補一覧を返す
+// - 管理者 => 全 O
+// - O 責任者 => 自分の O のみ
+// - その他 => 他人の O のみ
+export const getObjectiveCandidates = createSelector(
+  getOkrModalObjective,
+  state => state.objectives.get('candidateIds'),
+  state => state.candidates,
+  (modalObjective, objectiveIds, entities) => {
+    const candidates = denormalizeObjectiveCandidates(objectiveIds, entities)
+    const objectiveId = modalObjective && modalObjective.get('id')
+    if (objectiveId && !candidates.find(objective => objective.get('id') === objectiveId)) {
+      // 候補一覧に紐付く Objective が存在しない場合は含める
+      const objective = entities.objectives.get(objectiveId)
+      if (objective) {
+        return candidates.push(objective)
+      }
+    }
+    return candidates
+  }
 )

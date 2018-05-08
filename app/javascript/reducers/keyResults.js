@@ -11,11 +11,11 @@ function remove(state, keyResultId) {
 }
 
 function addToCandidates(state, keyResultId) {
-  return state.update('candidates', ids => ids.insert(0, keyResultId));
+  return state.update('candidateIds', ids => ids.insert(0, keyResultId));
 }
 
 function removeFromCandidates(state, keyResultId) {
-  return state.update('candidates', ids => ids.filter(id => id !== keyResultId));
+  return state.update('candidateIds', ids => ids.filter(id => id !== keyResultId));
 }
 
 export default handleActions({
@@ -29,7 +29,7 @@ export default handleActions({
       return state.set('isFetchedCandidates', false);
     },
     [ActionTypes.FETCHED_KEY_RESULT_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidates', payload.get('result')).set('isFetchedCandidates', true);
+      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true);
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
@@ -57,7 +57,7 @@ export default handleActions({
   },
   fromJS({
     ids: [],
-    candidates: [],
+    candidateIds: [],
     isFetchedKeyResults: false,
     isFetchedCandidates: false,
   }),

@@ -3,33 +3,28 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import { denormalizeObjective } from '../schemas/index';
-import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/okr';
-import { getEnabledUsers } from '../utils/selector'
+import {
+  getOkrModalObjective, getObjectiveCandidates, getParentKeyResultCandidates, getEnabledUsers
+} from '../utils/selector'
 
 const mapStateToProps = (state) => {
   const okrForm = state.dialogs.get('okrForm');
-  const keyResultId = okrForm.get('keyResultId');
-  const removedKeyResultId = okrForm.get('removedKeyResultId');
-  const objectiveId = keyResultId && keyResultId !== removedKeyResultId
-    ? state.entities.keyResults.getIn([keyResultId, 'objectiveId']) // KR 紐付き変更時は KR に紐付く Objective を指定する
-    : okrForm.get('objectiveId');
-  const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
+  const objective = getOkrModalObjective(state)
   const loginUserId = state.loginUser.get('id');
   const objectiveOwnerId = objective && objective.get('owner').get('id');
   return {
     isOpen: okrForm.get('isOpen'),
-    objectiveId,
+    objectiveId: objective && objective.get('id'),
     objective,
-    keyResultId,
+    keyResultId: okrForm.get('keyResultId'),
     users: getEnabledUsers(state),
     loginUserId,
-    objectiveCandidates: getObjectiveCandidates(state, objectiveId),
-    parentKeyResultCandidates: getParentKeyResultCandidates(state, objective && objective.get('parentKeyResultId')),
+    objectiveCandidates: getObjectiveCandidates(state),
+    parentKeyResultCandidates: getParentKeyResultCandidates(state),
     isFetchedObjectiveCandidates: state.objectives.get('isFetchedCandidates'),
     isFetchedKeyResultCandidates: state.keyResults.get('isFetchedCandidates'),
     removedObjectiveId: okrForm.get('removedObjectiveId'),
-    removedKeyResultId,
+    removedKeyResultId: okrForm.get('removedKeyResultId'),
     isObjectiveOwner: state.loginUser.get('isAdmin') || objectiveOwnerId === loginUserId,
   };
 };
