@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
 import { getIsolatedObjectives } from '../utils/okr'
-import { denormalizeObjectives, denormalizeKeyResults } from "../schemas"
-import { getEnabledUsers } from '../utils/selector'
+import { getKeyResults, getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
@@ -14,7 +13,7 @@ const mapStateToProps = (state) => {
     currentUserId: state.current.get('userId'),
     users: getEnabledUsers(state),
     okrPeriodId: state.current.get('okrPeriodId'),
-    parentKeyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
+    parentKeyResults: getKeyResults(state),
     isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
     objectives: getIsolatedObjectives(state),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
