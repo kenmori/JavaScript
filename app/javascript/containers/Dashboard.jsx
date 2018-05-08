@@ -1,12 +1,11 @@
 import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
-import { denormalizeDeepObjective } from "../schemas";
-import { getObjectives, getKeyResults } from '../utils/selector'
+import { getObjectives, getKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
   return {
-    mapObjective: denormalizeDeepObjective(state.objectives.getIn(['selectedOkr', 'objectiveId']), state.entities),
+    mapObjective: getSelectedObjective(state),
     objectives: getObjectives(state),
     keyResults: getKeyResults(state),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
