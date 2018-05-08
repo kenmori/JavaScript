@@ -21,7 +21,7 @@ class SettingsPage extends PureComponent {
     return this.props.isAdmin ? panes.concat(adminPanes) : panes;
   }
 
-  handleTabChange(event, {activeIndex}) {
+  handleTabChange = (event, { activeIndex }) => {
     const targetPane = this.panes.find(item => item.id === Number(activeIndex)) || {};
     this.props.changeURL(`/settings/${targetPane.name || this.panes[0].name}`);
   }
@@ -45,7 +45,7 @@ class SettingsPage extends PureComponent {
         <MenuBar/>
         <main>
           <h2>設定</h2>
-          <Tab activeIndex={activeIndex} menu={{ secondary: true, pointing: true }} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange.bind(this)}/>
+          <Tab activeIndex={activeIndex} menu={{ secondary: true, pointing: true }} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange}/>
         </main>
         <AvatarModal/>
         <LogoModal/>

@@ -19,7 +19,7 @@ class SignInPage extends PureComponent {
     });
   }
 
-  signIn() {
+  signIn = () => {
     this.props.signIn(this.emailInput.inputRef.value, this.passwordInput.inputRef.value, true);
   }
 
@@ -48,7 +48,7 @@ class SignInPage extends PureComponent {
               }}>パスワードを忘れた方はこちら</Link>
             </div>
             <div className='center'>
-              <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
+              <Button positive onClick={this.signIn}>ログインする</Button>
             </div>
           </Form>
         </main>

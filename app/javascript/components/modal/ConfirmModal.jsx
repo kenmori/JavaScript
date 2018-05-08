@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Confirm } from 'semantic-ui-react';
 
 class ConfirmModal extends PureComponent {
-  handleCancel() {
+  handleCancel = () => {
     this.props.closeModal();
     this.props.onCancel();
   }
-  handleConfirm() {
+  handleConfirm = () => {
     this.props.closeModal();
     this.props.onConfirm();
   }
@@ -17,8 +17,8 @@ class ConfirmModal extends PureComponent {
       <Confirm
         open={this.props.isOpen}
         content={this.props.content}
-        onCancel={this.handleCancel.bind(this)}
-        onConfirm={this.handleConfirm.bind(this)}
+        onCancel={this.handleCancel}
+        onConfirm={this.handleConfirm}
         cancelButton='キャンセル'
         closeOnEscape={false}
         closeOnDimmerClick={false}

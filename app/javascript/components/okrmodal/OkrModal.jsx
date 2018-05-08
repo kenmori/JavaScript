@@ -54,7 +54,7 @@ class OkrModal extends PureComponent {
     }
   }
 
-  closeModal() {
+  closeModal = () => {
     goToRoot();
     this.props.closeModal();
   }
@@ -68,7 +68,7 @@ class OkrModal extends PureComponent {
         open={this.props.isOpen} 
         size='large' 
         className='okr-modal' 
-        onClose={this.closeModal.bind(this)}
+        onClose={this.closeModal}
       >
         <Modal.Content scrolling>
           <div className="okr-body">

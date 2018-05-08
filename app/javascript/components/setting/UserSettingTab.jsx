@@ -55,7 +55,7 @@ class UserSettingTab extends PureComponent {
                 <Checkbox label='管理者' required ref='admin' />
               </Table.Cell>
               <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加する" onClick={this.addUser.bind(this)}/>
+                <Button icon="plus" content="追加する" onClick={this.addUser}/>
               </Table.Cell>
             </Table.Row>
           </Table.Body>

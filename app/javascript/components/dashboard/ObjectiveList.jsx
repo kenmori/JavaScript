@@ -59,7 +59,7 @@ class ObjectiveList extends PureComponent {
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
               canMoveObjective={this.props.canMoveObjective}
-              selectObjective={this.selectObjective.bind(this)} />
+              selectObjective={this.selectObjective} />
           })}
       </div>
     );

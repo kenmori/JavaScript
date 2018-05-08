@@ -4,7 +4,7 @@ import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
 class PasswordEditPage extends PureComponent {
-  editPassword() {
+  editPassword = () => {
     const passwordVal = this.passwordInput.inputRef.value;
     const passwordValConfirm = this.passwordInputConfirm.inputRef.value;
     if (passwordVal === passwordValConfirm) {
@@ -40,7 +40,7 @@ class PasswordEditPage extends PureComponent {
               </Form.Field>
             </Form.Group>
             <div>
-              <Button positive onClick={this.editPassword.bind(this)}>再設定する</Button>
+              <Button positive onClick={this.editPassword}>再設定する</Button>
             </div>
           </Form>
         </main>

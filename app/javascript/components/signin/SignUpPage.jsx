@@ -4,7 +4,7 @@ import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
 class SignUpPage extends PureComponent {
-  addUser() {
+  addUser = () => {
     this.props.addUser({
       last_name: this.lastNameInput.inputRef.value,
       first_name: this.firstNameInput.inputRef.value,
@@ -53,7 +53,7 @@ class SignUpPage extends PureComponent {
               </Form.Field>
             </Form.Group>
             <div>
-              <Button positive onClick={this.addUser.bind(this)}>登録する</Button>
+              <Button positive onClick={this.addUser}>登録する</Button>
             </div>
           </Form>
         </main>

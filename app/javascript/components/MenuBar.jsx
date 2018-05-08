@@ -38,11 +38,11 @@ class MenuBar extends PureComponent {
     return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
   }
 
-  handleOkrPeriodChange(event, { value }) {
+  handleOkrPeriodChange = (event, { value }) => {
     this.props.changeCurrentOkrPeriod(value);
   }
 
-  handleChangeOrganization(event, { value }) {
+  handleChangeOrganization = (event, { value }) => {
     this.props.changeCurrentOrganizationId(this.props.loginUser.get('id'), value);
   }
 
@@ -67,7 +67,7 @@ class MenuBar extends PureComponent {
                 pointing='top'
                 options={options(props.organizations)}
                 defaultValue={props.organization.get('id')}
-                onChange={this.handleChangeOrganization.bind(this)} 
+                onChange={this.handleChangeOrganization} 
                 selectOnNavigation={false}
             />
       }
@@ -85,7 +85,7 @@ class MenuBar extends PureComponent {
             <Dropdown scrolling pointing='top'
                       options={this.okrPeriodsOption(this.props.okrPeriods)}
                       defaultValue={this.props.okrPeriodId}
-                      onChange={this.handleOkrPeriodChange.bind(this)}
+                      onChange={this.handleOkrPeriodChange}
                       selectOnNavigation={false}
             />
           }
@@ -104,7 +104,7 @@ class MenuBar extends PureComponent {
             <Dropdown.Menu>
               <Dropdown.Item as='a' href='/settings/account' icon='setting' text='設定'/>
               <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
-              <Dropdown.Item onClick={this.props.signOut.bind(this)} icon='sign out' text='ログアウト'/>
+              <Dropdown.Item onClick={this.props.signOut} icon='sign out' text='ログアウト'/>
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>

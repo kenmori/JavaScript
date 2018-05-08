@@ -30,13 +30,13 @@ class KeyResultPane extends PureComponent {
     };
   }
 
-  addMember(value) {
+  addMember = value => {
     this.props.updateKeyResult({
       member: {user: value, behavior: 'add', role: 'member'}
     });
   }
 
-  removeMember(value) {
+  removeMember = value => {
     const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
     });
@@ -193,8 +193,8 @@ class KeyResultPane extends PureComponent {
               members={keyResult.get('members').map(member => member.get('id'))}
               includedId={isOwner ? null : this.props.loginUserId}
               excludedId={keyResult.get('owner').get('id')}
-              add={this.addMember.bind(this)}
-              remove={this.removeMember.bind(this)}
+              add={this.addMember}
+              remove={this.removeMember}
             />
           </div>
         </Form.Field>

@@ -76,7 +76,7 @@ class OkrPeriodSettingTab extends PureComponent {
     });
   }
 
-  addOkrPeriod() {
+  addOkrPeriod = () => {
     this.props.addOkrPeriod({
       name: this.name.inputRef.value,
       monthStart: this.state.monthStart.format(),
@@ -115,7 +115,7 @@ class OkrPeriodSettingTab extends PureComponent {
                   <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={date => this.setState({monthEnd: date})} /></Form.Field>
                   </Table.Cell>
                   <Table.Cell textAlign="center">
-                    <Button icon="plus" content="追加する" onClick={this.addOkrPeriod.bind(this)}/>
+                    <Button icon="plus" content="追加する" onClick={this.addOkrPeriod}/>
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>

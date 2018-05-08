@@ -4,7 +4,7 @@ import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
 class PasswordRecoverPage extends PureComponent {
-  send() {
+  send = () => {
     this.props.send(this.emailInput.inputRef.value);
   }
   componentWillUpdate(props = this.props) {
@@ -27,7 +27,7 @@ class PasswordRecoverPage extends PureComponent {
               </Form.Field>
             </Form.Group>
             <div>
-              <Button positive onClick={this.send.bind(this)}>送信する</Button>
+              <Button positive onClick={this.send}>送信する</Button>
             </div>
           </Form>
         </main>
