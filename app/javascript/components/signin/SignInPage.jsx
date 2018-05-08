@@ -13,7 +13,7 @@ class SignInPage extends PureComponent {
     };
   }
 
-  handleEmailChange(value) {
+  handleEmailChange = (event, { value }) => {
     this.setState({
       email: value,
     });
@@ -33,7 +33,7 @@ class SignInPage extends PureComponent {
               <Form.Field inline>
                 <div>メールアドレス</div>
                 <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
-                       onChange={(event, { value }) => this.handleEmailChange(value)} />
+                       onChange={this.handleEmailChange} />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>

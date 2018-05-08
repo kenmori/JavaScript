@@ -52,12 +52,14 @@ const collectTarget = (connect, monitor) => {
 }
 
 class KeyResult extends PureComponent {
-  swapKeyResult(event, toUp) {
+  swapKeyResult = toUp => event => {
     const fromIndex = this.props.index;
     const toIndex = toUp ? fromIndex - 1 : fromIndex + 1;
     this.props.updateKeyResultOrder(fromIndex, toIndex);
     event.stopPropagation();
   }
+
+  handleClick = () => openKeyResult(this.props.keyResult.get('id'))
 
   keyResultHtml() {
     const {
@@ -72,7 +74,7 @@ class KeyResult extends PureComponent {
       <div className="sidebar__item-wrapper">
         <Segment
           className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
-          key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}
+          key={keyResult.get('id')} onClick={this.handleClick}
         >
           <span className="sidebar__avatar">
             <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
@@ -82,9 +84,9 @@ class KeyResult extends PureComponent {
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
               <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'
-                    onClick={event => this.swapKeyResult(event, true)} />
+                    onClick={this.swapKeyResult(true)} />
               <Icon name='arrow circle down' size='large' color='grey' fitted className='swap-down'
-                    onClick={event => this.swapKeyResult(event, false)} />
+                    onClick={this.swapKeyResult(false)} />
             </div>
           )}
         </Segment>

@@ -16,21 +16,23 @@ class ObjectivePane extends PureComponent {
     };
   }
 
-  changeObjectiveOwner(value) {
+  changeObjectiveOwner = value => {
     this.props.updateObjective({
       objectiveMember: {user: value}
     });
   }
 
-  updateName(value) {
+  updateName = value => {
     this.setState({ name: value });
     this.props.updateObjective({ name: value });
   }
 
-  removeObjective(objective) {
+  updateDescription = value => this.props.updateObjective({ description: value })
+
+  removeObjective = () => {
     this.props.confirm({
-      content: `Objective ${objective.get('name')} を削除しますか？`,
-      onConfirm: () => this.props.removeObjective(objective.get('id')),
+      content: `Objective ${this.props.objective.get('name')} を削除しますか？`,
+      onConfirm: () => this.props.removeObjective(this.props.objective.get('id')),
     });
   }
 
@@ -51,7 +53,7 @@ class ObjectivePane extends PureComponent {
     return (
       <Form>
         <Form.Field>
-          <AutoInput value={this.state.name} onCommit={value => this.updateName(value)} />
+          <AutoInput value={this.state.name} onCommit={this.updateName} />
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
@@ -64,7 +66,7 @@ class ObjectivePane extends PureComponent {
           <UserSelect
             users={this.props.users}
             value={objective.get('owner').get('id')}
-            onChange={(value) => this.changeObjectiveOwner(value)}
+            onChange={this.changeObjectiveOwner}
           />
           </div>
         </Form.Field>
@@ -72,14 +74,14 @@ class ObjectivePane extends PureComponent {
           <label>説明</label>
           <AutoTextArea value={objective.get('description')}
                         placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={value => this.props.updateObjective({ description: value })}
+                        onCommit={this.updateDescription}
           />
         </Form.Field>
 
         <Divider hidden />
 
         <div>
-          <Button content="削除する" onClick={() => {this.removeObjective(objective)}} as="span" negative floated='right' />
+          <Button content="削除する" onClick={this.removeObjective} as="span" negative floated='right' />
         </div>
 
         <Divider hidden clearing />

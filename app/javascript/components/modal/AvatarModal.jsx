@@ -30,13 +30,10 @@ class AvatarModal extends PureComponent {
   componentWillReceiveProps(nextProps) {
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
-  render() {
-    const {
-      targetId,
-      imageData,
-      uploadAvatarImage,
-    } = this.props
 
+  handleClick = () => this.props.uploadAvatarImage(this.props.targetId, this.props.imageData)
+
+  render() {
     return (
       <Modal
         closeIcon 
@@ -52,7 +49,7 @@ class AvatarModal extends PureComponent {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.closeModal}>キャンセル</Button>
-            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}>OK</Button>
+            <Button positive onClick={this.handleClick}>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >

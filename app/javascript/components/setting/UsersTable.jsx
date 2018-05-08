@@ -25,7 +25,9 @@ class UsersTable extends PureComponent {
     });
   }
 
-  changeEmail = (id, email) => {
+  updateUser = id => values => this.props.onUpdateUser({ id, ...values })
+
+  changeEmail = id => email => {
     this.props.confirm({
       content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
       onConfirm: () => {
@@ -63,7 +65,7 @@ class UsersTable extends PureComponent {
     return direction === 'ascending' ? sortedUsers : sortedUsers.reverse();
   }
 
-  sort = (column) => {
+  sort = column => () => {
     const direction = this.state.column !== column ? 'ascending'
       : this.state.direction === 'ascending' ? 'descending' : 'ascending';
     this.setState({
@@ -93,6 +95,8 @@ class UsersTable extends PureComponent {
     });
   };
 
+  handlePageChange = (e, { activePage }) => this.setState({ activePage })
+
   render() {
     const { column, direction, users, activePage } = this.state;
     const filteredUsers = this.getFilteredUsers(users, this.props.keyword);
@@ -104,15 +108,15 @@ class UsersTable extends PureComponent {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={() => this.sort('index')} textAlign='center' />
+              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={this.sort('index')} textAlign='center' />
               <Table.HeaderCell disabled />
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={() => this.sort('lastName')}>
+              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort('lastName')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={() => this.sort('email')}>
+              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={() => this.sort('isAdmin')}>
+              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={this.sort('isAdmin')}>
                 権限
               </Table.HeaderCell>
               <Table.HeaderCell disabled />
@@ -125,8 +129,8 @@ class UsersTable extends PureComponent {
               return <UsersTableRow key={id}
                                     user={user}
                                     isLoginUser={id === this.props.loginUserId}
-                                    updateUser={values => this.props.onUpdateUser({ id, ...values })}
-                                    changeEmail={email => this.changeEmail(id, email)}
+                                    updateUser={this.updateUser(id)}
+                                    changeEmail={this.changeEmail(id)}
                                     resendEmail={this.resendEmail}
                                     removeUser={this.removeUser}
                                     restoreUser={this.restoreUser}
@@ -141,7 +145,7 @@ class UsersTable extends PureComponent {
                   <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
                               prevItem={activePage === 1 ? null : undefined}
                               nextItem={activePage === totalPages ? null : undefined}
-                              onPageChange={(e, { activePage }) => this.setState({ activePage })} />
+                              onPageChange={this.handlePageChange} />
                 )}
               </Table.HeaderCell>
             </Table.Row>

@@ -7,6 +7,10 @@ import OkrList from '../form/OkrList';
 
 class LinkPane extends PureComponent {
 
+  handleParentKeyResultChange = value => this.props.updateOkr({ parentKeyResultId: value === -1 ? null : value })
+
+  handleObjectiveChange = value => this.props.updateOkr({ objectiveId: value })
+
   renderObjectiveLinks() {
     const objective = this.props.okr;
     const parentKeyResult = objective.get('parentKeyResult');
@@ -21,7 +25,7 @@ class LinkPane extends PureComponent {
             value={objective.get('parentKeyResultId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedCandidates}
-            onChange={value => this.props.updateOkr({ parentKeyResultId: value === -1 ? null : value })}
+            onChange={this.handleParentKeyResultChange}
           />
         </Form.Field>
         <Divider hidden />
@@ -47,7 +51,7 @@ class LinkPane extends PureComponent {
             value={keyResult.get('objectiveId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedCandidates}
-            onChange={value => this.props.updateOkr({ objectiveId: value })}
+            onChange={this.handleObjectiveChange}
           />
         </Form.Field>
         <Divider hidden />

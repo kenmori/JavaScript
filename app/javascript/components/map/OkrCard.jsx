@@ -8,6 +8,14 @@ import moment from 'moment';
 
 class OkrCard extends PureComponent {
 
+  handleObjectiveClick = () => openObjective(this.props.objective.get('id'))
+
+  handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId)
+
+  handleToggleClick = (keyResultId, isToggleOn) => () => this.props.onToggleKeyResult(this.props.objective.get('id'), keyResultId, isToggleOn)
+
+  handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
+
   generateKeyResultList(objective) {
     const keyResults = objective.get('keyResults');
     const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
@@ -22,7 +30,7 @@ class OkrCard extends PureComponent {
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
                 <div className='name'>
-                  <a onClick={() => openKeyResult(keyResultId)}>{keyResult.get('name')}</a>
+                  <a onClick={this.handleKeyResultClick(keyResultId)}>{keyResult.get('name')}</a>
                 </div>
                 <div className="progress">{keyResult.get('progressRate')}%</div>
                 {
@@ -30,7 +38,7 @@ class OkrCard extends PureComponent {
                   <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
                     <Button circular basic compact icon='sitemap' size='small'
                             active={isToggleOn}
-                            onClick={() => this.props.onToggleKeyResult(objective.get('id'), keyResultId, isToggleOn)}
+                            onClick={this.handleToggleClick(keyResultId, isToggleOn)}
                     />
                   </div>
                 }
@@ -41,7 +49,7 @@ class OkrCard extends PureComponent {
             <List.Item className="keyResults__item--add">
               <List.List>
                 <List.Item as='a' icon='plus' content='Key Result を追加する'
-                           onClick={() => this.props.openKeyResultModal(objective)} />
+                           onClick={this.handleAddKeyResultClick} />
               </List.List>
             </List.Item>
           )}
@@ -59,7 +67,7 @@ class OkrCard extends PureComponent {
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
             <div className="name">
-              <a onClick={() => openObjective(objective.get('id'))}>{objective.get('name')}</a>
+              <a onClick={this.handleObjectiveClick}>{objective.get('name')}</a>
             </div>
             <div className="progress">{objective.get('progressRate')}%</div>
           </Card.Header>

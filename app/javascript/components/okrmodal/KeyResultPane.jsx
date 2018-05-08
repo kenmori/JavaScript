@@ -88,7 +88,7 @@ class KeyResultPane extends PureComponent {
       <div className='flex-field__item'>
         <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
                                content={`下位 OKR の進捗は ${childProgressRate}% です`}
-                               onClick={() => this.props.updateKeyResult({ 'progressRate': null })} />}
+                               onClick={this.handleChildProgrresRateClick} />}
                position='bottom left'
                size='tiny'
                content='クリックすると下位 OKR の進捗が設定されます'
@@ -96,6 +96,32 @@ class KeyResultPane extends PureComponent {
       </div>
     );
   }
+
+  handleChildProgrresRateClick = () => this.props.updateKeyResult({ progressRate: null })
+
+  handleNameCommit = value => this.updateKeyResultWithState('name', value)
+
+  handleTargetValueCommit = value => this.updateKeyResultWithState('targetValue', value)
+
+  handleValueUnitCommit = value => this.updateKeyResultWithState('valueUnit', value)
+
+  handleActualValueCommit = value => this.updateKeyResultWithState('actualValue', value)
+
+  handleTargetValueVisibleClick = () => this.setState({ isTargetValueVisible: true })
+
+  handleProgressRateChange = progressRate => this.setState({ progressRate })
+
+  handleProgressRateCommit = value => this.updateKeyResultWithState('progressRate', Number(value))
+
+  handleExpiredDateChange = value => this.updateKeyResultWithState('expiredDate', value.format('YYYY-MM-DD'))
+
+  handleOwnerChange = value => this.changeKeyResultOwner(value)
+
+  handleDescriptionCommit = value => this.props.updateKeyResult({ description: value })
+
+  handleRemoveClick = () => {this.removeKeyResult(this.props.keyResult.get('id'))}
+
+  handleCreateChildOkrClick = () => this.props.openObjectiveModal(this.props.keyResult)
 
   render() {
     const keyResult = this.props.keyResult;
@@ -105,7 +131,7 @@ class KeyResultPane extends PureComponent {
       <Form>
         <Form.Field>
           <AutoInput value={this.state.name}
-                     onCommit={value => this.updateKeyResultWithState('name', value)}
+                     onCommit={this.handleNameCommit}
           />
         </Form.Field>
 
@@ -114,11 +140,11 @@ class KeyResultPane extends PureComponent {
             <label>目標値</label>
             <div className='flex-field__item'>
               <AutoInput value={this.state.targetValue}
-                         onCommit={value => this.updateKeyResultWithState('targetValue', value)}
+                         onCommit={this.handleTargetValueCommit}
               />
               <AutoInput value={this.state.valueUnit}
                          placeholder='単位'
-                         onCommit={value => this.updateKeyResultWithState('valueUnit', value)}
+                         onCommit={this.handleValueUnitCommit}
               />
             </div>
           </Form.Field>
@@ -128,7 +154,7 @@ class KeyResultPane extends PureComponent {
             <label>実績値</label>
             <div className='flex-field__item'>
               <AutoInput value={this.state.actualValue}
-                         onCommit={value => this.updateKeyResultWithState('actualValue', value)}
+                         onCommit={this.handleActualValueCommit}
               />
             </div>
             <div className='flex-field__item'>
@@ -138,7 +164,7 @@ class KeyResultPane extends PureComponent {
         }
         {!this.state.isTargetValueVisible &&
           <div>
-            <Button content="目標値を設定する" onClick={() => this.setState({isTargetValueVisible: true})} floated='right' />
+            <Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} floated='right' />
           </div>
         }
 
@@ -147,15 +173,15 @@ class KeyResultPane extends PureComponent {
           <div className="flex-field__item progress-rate">
             <NumberInput label='%'
                          value={this.state.progressRate}
-                         onChange={progressRate => this.setState({ progressRate })}
-                         onCommit={value => this.updateKeyResultWithState('progressRate', Number(value))}
+                         onChange={this.handleProgressRateChange}
+                         onCommit={this.handleProgressRateCommit}
             />
           </div>
           <div className='flex-field__item slider'>
             <NumberInput type='range'
                          value={this.state.progressRate}
-                         onChange={progressRate => this.setState({ progressRate })}
-                         onMouseUp={value => this.updateKeyResultWithState('progressRate', Number(value))}
+                         onChange={this.handleProgressRateChange}
+                         onCommit={this.handleProgressRateCommit}
             />
           </div>
           {this.childObjectiveProgressRateHtml(keyResult)}
@@ -171,7 +197,7 @@ class KeyResultPane extends PureComponent {
           <div className='flex-field__item'>
             <DatePicker dateFormat="YYYY/M/D" locale="ja"
                         selected={moment(this.state.expiredDate)}
-                        onChange={value => this.updateKeyResultWithState('expiredDate', value.format('YYYY-MM-DD'))}
+                        onChange={this.handleExpiredDateChange}
             />
           </div>
         </Form.Field>
@@ -181,7 +207,7 @@ class KeyResultPane extends PureComponent {
             <UserSelect
               users={this.props.users}
               value={keyResult.get('owner').get('id')}
-              onChange={(value) => this.changeKeyResultOwner(value)}
+              onChange={this.handleOwnerChange}
             />
           </div>
         </Form.Field>
@@ -202,15 +228,15 @@ class KeyResultPane extends PureComponent {
           <label>説明</label>
           <AutoTextArea key={keyResultId} value={keyResult.get('description')}
                         placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={value => this.props.updateKeyResult({ description: value })}
+                        onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
 
         <Divider hidden />
 
         <div>
-          <Button content="削除する" onClick={() => {this.removeKeyResult(keyResultId)}} as="span" negative floated='right' />
-          <Button content="下位 OKR を作成する" onClick={() => this.props.openObjectiveModal(keyResult)} as="span" positive floated='right' />
+          <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
+          <Button content="下位 OKR を作成する" onClick={this.handleCreateChildOkrClick} as="span" positive floated='right' />
         </div>
 
         <Divider hidden clearing />

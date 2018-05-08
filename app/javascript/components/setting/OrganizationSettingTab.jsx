@@ -18,6 +18,9 @@ class OrganizationSettingTab extends PureComponent {
       onConfirm: () => this.props.deleteLogo({id: this.props.organization.get('id'), removeLogo: true}),
     });
   }
+
+  handleNameCommit = name => this.props.updateOrganization({id: this.props.organization.get('id'), name})
+
   render() {
     const organization = this.props.organization;
     const path = organization.get('logo').get('url');
@@ -25,7 +28,7 @@ class OrganizationSettingTab extends PureComponent {
       <Tab.Pane attached={false} className="organization-setting-tab">
         <dl>
           <dt>組織名</dt>
-          <dd><AutoInput value={organization.get('name')} placeholder='会社名やチーム名など' onCommit={name => this.props.updateOrganization({id: organization.get('id'), name})}/></dd>
+          <dd><AutoInput value={organization.get('name')} placeholder='会社名やチーム名など' onCommit={this.handleNameCommit}/></dd>
           <dt>ロゴ</dt>
           <dd>
             <Logo path={path} />

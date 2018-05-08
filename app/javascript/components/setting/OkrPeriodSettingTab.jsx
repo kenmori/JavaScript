@@ -47,7 +47,7 @@ class OkrPeriodSettingTab extends PureComponent {
     return monthStart.clone().add(this.props.okrSpan - 1, 'month').endOf('month');
   }
 
-  sort(column) {
+  sort = column => () => {
     if (this.state.column !== column) {
       const sortedOkrPeriods = this.getSortedOkrPeriods(this.state.okrPeriods, column);
       this.setState({
@@ -92,6 +92,18 @@ class OkrPeriodSettingTab extends PureComponent {
     });
   };
 
+  handleNewMonthStartChange = date => this.setState({ monthStart: date })
+
+  handleNewMonthEndChange = date => this.setState({ monthEnd: date })
+
+  handleNameCommit = id => name => this.props.updateOkrPeriod({ id, name })
+
+  handleMonthStartChange = id => date => this.props.updateOkrPeriod({ id, monthStart: date.format() })
+
+  handleMonthEndChange = id => date => this.props.updateOkrPeriod({ id, monthEnd: date.format() })
+
+  handleRemoveClick = (id, okrPeriodName) => () => this.removeOkrPeriod(id, okrPeriodName)
+
   render() {
     const { column, direction } = this.state;
     if (!this.props.okrPeriods) {
@@ -109,10 +121,10 @@ class OkrPeriodSettingTab extends PureComponent {
                     <Input type="text" maxLength="255" ref={node => { this.name = node; }} placeholder="期間名"/>
                   </Table.Cell>
                   <Table.Cell>
-                    <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthStart} locale="ja" onChange={date => this.setState({monthStart: date})} /></Form.Field>
+                    <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthStart} locale="ja" onChange={this.handleNewMonthStartChange} /></Form.Field>
                   </Table.Cell>
                   <Table.Cell>
-                  <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={date => this.setState({monthEnd: date})} /></Form.Field>
+                  <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={this.handleNewMonthEndChange} /></Form.Field>
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <Button icon="plus" content="追加する" onClick={this.addOkrPeriod}/>
@@ -125,10 +137,10 @@ class OkrPeriodSettingTab extends PureComponent {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={(event) => this.sort('name')}>
+              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={this.sort('name')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'month_start' ? direction : null} onClick={(event) => this.sort('month_start')}>
+              <Table.HeaderCell sorted={column === 'month_start' ? direction : null} onClick={this.sort('month_start')}>
                 期間 (開始日 - 終了日)
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
@@ -145,23 +157,23 @@ class OkrPeriodSettingTab extends PureComponent {
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
-                      <AutoInput value={okrPeriodName} onCommit={name => this.props.updateOkrPeriod({id, name})}/>
+                      <AutoInput value={okrPeriodName} onCommit={this.handleNameCommit(id)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <Form>
                         <Form.Group>
                           <Form.Field>
                             <div className="date-input">
-                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={date => this.props.updateOkrPeriod({id, monthStart: date.format()})} />
+                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={this.handleMonthStartChange(id)} />
                               <div className="date-input__between">〜</div>
-                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={date => this.props.updateOkrPeriod({id, monthEnd: date.format()})} />
+                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={this.handleMonthEndChange(id)} />
                             </div>
                           </Form.Field>
                         </Form.Group>
                       </Form>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={() => this.removeOkrPeriod(id, okrPeriodName)} title="削除" negative/>
+                      <Button icon="trash" onClick={this.handleRemoveClick(id, okrPeriodName)} title="削除" negative/>
                     </Table.Cell>
                   </Table.Row>
                 );

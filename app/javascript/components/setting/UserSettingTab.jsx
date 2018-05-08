@@ -33,6 +33,10 @@ class UserSettingTab extends PureComponent {
     });
   };
 
+  handleKeywordChange = (event, { value }) => this.setState({ keyword: value })
+
+  handleShowDisabledUsersClick = () => this.setState({ showDisabledUsers: true })
+
   render() {
     if (this.props.users.size === 0) return null;
     const enabledUsers = this.props.users.filter(user => !user.get('disabled'));
@@ -62,7 +66,7 @@ class UserSettingTab extends PureComponent {
         </Table>
 
         <Input icon="search" placeholder="ユーザーを検索&#8230;"
-               onChange={(event, { value }) => this.setState({ keyword: value })}
+               onChange={this.handleKeywordChange}
         />
 
         <UsersTable
@@ -90,7 +94,7 @@ class UserSettingTab extends PureComponent {
               />
             </div>
             :
-            <Button content="無効なユーザーを表示する" onClick={() => this.setState({ showDisabledUsers: true })} />
+            <Button content="無効なユーザーを表示する" onClick={this.handleShowDisabledUsersClick} />
         )}
       </Tab.Pane>
     );

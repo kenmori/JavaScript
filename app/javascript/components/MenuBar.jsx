@@ -95,7 +95,7 @@ class MenuBar extends PureComponent {
             <UserSelect
               users={this.props.users}
               value={this.props.userId}
-              onChange={value => this.props.changeCurrentUser(value)}
+              onChange={this.props.changeCurrentUser}
             />
           )}
         </Menu.Item>

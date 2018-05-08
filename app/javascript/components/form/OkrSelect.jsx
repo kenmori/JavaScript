@@ -30,11 +30,15 @@ class OkrSelect extends PureComponent {
     return props.preview && value !== -1; // 上位 KR なしの場合は常に Select 表示
   }
 
+  handleClick = () => this.setState({ preview: false })
+
   handleChange = (event, { value }) => {
     if (value !== this.state.value) {
       this.props.onChange(value);
     }
   }
+  
+  handleBlur = () => this.setState({ preview: this.isPreview(this.props, this.state.value) })
 
   render() {
     const showPreview = this.state.preview;
@@ -47,7 +51,7 @@ class OkrSelect extends PureComponent {
           />
         )}
         {showPreview && !this.props.readOnly && (
-          <Button content="変更する" size='small' onClick={() => this.setState({ preview: false })} />
+          <Button content="変更する" size='small' onClick={this.handleClick} />
         )}
         {!showPreview && (
           <Select
@@ -58,7 +62,7 @@ class OkrSelect extends PureComponent {
             disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}
             onChange={this.handleChange}
-            onBlur={() => this.setState({ preview: this.isPreview(this.props, this.state.value) })}
+            onBlur={this.handleBlur}
             selectOnNavigation={false}
             noResultsMessage='結果が見つかりません'
           />

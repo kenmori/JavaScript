@@ -30,12 +30,10 @@ class LogoModal extends PureComponent {
   componentWillReceiveProps(nextProps) {
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
+
+  handleClick = () => this.props.uploadLogoImage(this.props.targetId, this.props.imageData)
+
   render() {
-    const {
-      targetId,
-      imageData,
-      uploadLogoImage,
-    } = this.props
     return (
       <Modal
         closeIcon 
@@ -51,7 +49,7 @@ class LogoModal extends PureComponent {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.closeModal}>キャンセル</Button>
-            <Button positive onClick={() => {uploadLogoImage(targetId, imageData)}}>OK</Button>
+            <Button positive onClick={this.handleClick}>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >

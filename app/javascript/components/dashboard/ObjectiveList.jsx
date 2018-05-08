@@ -40,7 +40,7 @@ class ObjectiveList extends PureComponent {
     }
   }
 
-  selectObjective = objective => {
+  selectObjective = objective => () => {
     this.props.selectOkr(objective.get('id'));
   }
 

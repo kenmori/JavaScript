@@ -84,6 +84,8 @@ class OkrPath extends PureComponent {
     };
   }
 
+  handleIconClick = () => this.props.onToggleObjective(this.props)
+
   render() {
     return (
       <div className='okr-path'>
@@ -99,7 +101,7 @@ class OkrPath extends PureComponent {
           ))}
         </svg>
         <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon'
-              style={this.getIconStyle()} onClick={() => this.props.onToggleObjective(this.props)} />
+              style={this.getIconStyle()} onClick={this.handleIconClick} />
       </div>
     );
   }

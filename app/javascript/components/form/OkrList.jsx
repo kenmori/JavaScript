@@ -7,7 +7,7 @@ import OwnerAvatar from '../util/OwnerAvatar';
 
 class OkrList extends PureComponent {
 
-  handleClick = id => {
+  handleClick = id => () => {
     this.props.isObjective ? openObjective(id) : openKeyResult(id);
   }
 
@@ -18,7 +18,7 @@ class OkrList extends PureComponent {
           <List.Item key={okr.get('id')} className='okr-item'>
             <OwnerAvatar owner={okr.get('owner')} members={okr.get('members')} />
             <List.Content className='name'>
-              <a onClick={() => this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
+              <a onClick={this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
             </List.Content>
             <List.Content className='progress-rate'>{okr.get('progressRate')}%</List.Content>
           </List.Item>

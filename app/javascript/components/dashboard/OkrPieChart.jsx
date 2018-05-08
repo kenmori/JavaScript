@@ -28,6 +28,8 @@ class OkrPieChart extends PureComponent {
     };
   }
 
+  formatter = value => `${Math.round(value)}%`
+
   getPieChart = (objective) => {
     const { data, startAngle, endAngle, minAngle, label } = this.getPieChartProperties(objective);
     return (
@@ -43,7 +45,7 @@ class OkrPieChart extends PureComponent {
              paddingAngle={2}>
           <Label value={label} position="center" className="progress-rate" />
         </Pie>
-        <Tooltip formatter={value => `${Math.round(value)}%`} />
+        <Tooltip formatter={this.formatter} />
       </PieChart>
     );
   }

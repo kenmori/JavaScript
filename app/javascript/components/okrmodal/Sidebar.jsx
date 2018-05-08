@@ -65,6 +65,10 @@ class Sidebar extends PureComponent {
     }
   }
 
+  handleObjectiveClick = () => openObjective(this.props.objective.get('id'))
+
+  handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
+
   render() {
     const objective = this.props.objective;
     const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
@@ -72,7 +76,7 @@ class Sidebar extends PureComponent {
       <div className='sidebar'>
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
-          <Segment className={objectiveCls} onClick={() => openObjective(objective.get('id'))}>
+          <Segment className={objectiveCls} onClick={this.handleObjectiveClick}>
             <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
             <span className="sidebar__name">{objective.get('name')}</span>
             <span className="progress-rate sidebar__progress">{objective.get('progressRate')}%</span>
@@ -83,7 +87,7 @@ class Sidebar extends PureComponent {
           <div className="sidebar__title">Key Result 一覧</div>
           {this.keyResultListHTML()}
           <Button className="sidebar__add-keyresult" content="Key Result を追加する" positive
-                  onClick={() => this.props.openKeyResultModal(objective)} />
+                  onClick={this.handleAddKeyResultClick} />
         </div>
       </div>
     )
