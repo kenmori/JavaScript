@@ -1,6 +1,9 @@
 {
   "name": "resily",
   "private": true,
+  "scripts": {
+    "lint": "eslint app/javascript"
+  },
   "dependencies": {
     "@rails/webpacker": "3.0.2",
     "babel-preset-react": "6.24.1",
