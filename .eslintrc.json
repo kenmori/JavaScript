@@ -33,6 +33,7 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "react/jsx-no-bind": "error"
     }
 }
