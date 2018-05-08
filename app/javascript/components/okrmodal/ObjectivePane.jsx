@@ -5,7 +5,6 @@ import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import UserSelect from '../form/UserSelect';
-import OkrSelect from '../form/OkrSelect';
 
 class ObjectivePane extends Component {
 
@@ -17,26 +16,14 @@ class ObjectivePane extends Component {
   }
 
   changeObjectiveOwner(value) {
-    this.updateObjective({
+    this.props.updateObjective({
       objectiveMember: {user: value}
     });
   }
 
-  updateObjective(values) {
-    this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
-  }
-
   updateName(value) {
     this.setState({ name: value });
-    this.updateObjective({ name: value });
-  }
-
-  updateParentKeyResultId(value) {
-    this.props.updateObjective({
-        id: this.props.objective.get('id'),
-        parentKeyResultId: value === -1 ? null : value,
-      },
-    );
+    this.props.updateObjective({ name: value });
   }
 
   removeObjective(objective) {
@@ -50,7 +37,7 @@ class ObjectivePane extends Component {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
     const childProgressRate = parentKeyResult.get('childProgressRate');
-    return progressRate !== childProgressRate && (
+    return childProgressRate > 0 && progressRate !== childProgressRate && (
       <div className='flex-field__item'>
         <Label pointing='left' content={`上位 Key Result の進捗は ${childProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
@@ -84,18 +71,7 @@ class ObjectivePane extends Component {
           <label>説明</label>
           <AutoTextArea value={objective.get('description')}
                         placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={value => this.updateObjective({ description: value })}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>上位 Key Result</label>
-          <OkrSelect
-            okrs={this.props.keyResults}
-            isObjective={false}
-            value={objective.get('parentKeyResultId')}
-            readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedKeyResults}
-            onChange={value => this.updateParentKeyResultId(value)}
+                        onCommit={value => this.props.updateObjective({ description: value })}
           />
         </Form.Field>
 
@@ -113,10 +89,7 @@ class ObjectivePane extends Component {
 
 ObjectivePane.propTypes = {
   objective: PropTypes.object.isRequired,
-  keyResults: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
-  isObjectiveOwner: PropTypes.bool.isRequired,
-  isFetchedKeyResults: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,

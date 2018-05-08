@@ -50,7 +50,7 @@ function denormalizeObjective(objectiveId, entities) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
   return objective
-    .set('parentKeyResult', getKeyResult(objective.get('parentKeyResultId'), entities))
+    .set('parentKeyResult', denormalizeKeyResult(objective.get('parentKeyResultId'), entities))
     .set('keyResults', objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value));
 }
 
@@ -106,6 +106,14 @@ function denormalizeDeepKeyResults(keyResultIds, entities, objective) {
   return keyResultIds.map(id => denormalizeDeepKeyResult(id, entities, objective));
 }
 
+function denormalizeObjectiveCandidates(objectiveIds, entities) {
+  return objectiveIds.map(objectiveId => getObjective(objectiveId, entities));
+}
+
+function denormalizeKeyResultCandidates(keyResultIds, entities) {
+  return keyResultIds.map(keyResultId => getKeyResult(keyResultId, entities));
+}
+
 export {
   normalizeObjective,
   normalizeObjectives,
@@ -116,4 +124,6 @@ export {
   denormalizeKeyResult,
   denormalizeKeyResults,
   denormalizeDeepObjective,
+  denormalizeObjectiveCandidates,
+  denormalizeKeyResultCandidates,
 };

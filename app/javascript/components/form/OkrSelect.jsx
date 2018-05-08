@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Button } from 'semantic-ui-react';
 import OkrList from './OkrList';
-import avatar_image from '../../images/avatar.png';
+import { okrOptions } from "../../utils/okr";
 
 class OkrSelect extends Component {
 
@@ -29,24 +29,6 @@ class OkrSelect extends Component {
     return props.preview && value !== -1; // 上位 KR なしの場合は常に Select 表示
   }
 
-  okrOptions = () => {
-    let options = this.props.okrs.map(okr => ({
-      key: okr.get('id'),
-      value: okr.get('id'),
-      text: okr.get('name'),
-      image: { avatar: true, src: okr.get('owner').get('avatarUrl') || avatar_image },
-    }));
-    if (!this.props.isObjective) {
-      // 上位 KR なしの選択肢を追加 (紐付く Objective なしは選ばせない)
-      options = options.insert(0, ({
-        key: -1,
-        value: -1,
-        text: 'なし',
-      }));
-    }
-    return options.toArray();
-  }
-
   handleChange = (event, { value }) => {
     if (value !== this.state.value) {
       this.props.onChange(value);
@@ -54,7 +36,7 @@ class OkrSelect extends Component {
   }
 
   render() {
-    const showPreview = this.state.preview && !this.props.loading;
+    const showPreview = this.state.preview;
     return (
       <div className={`okr-select ${this.props.disabled ? 'disabled' : ''} ${showPreview ? 'preview' : ''}`}>
         {showPreview && (
@@ -70,7 +52,7 @@ class OkrSelect extends Component {
           <Select
             search
             fluid
-            options={this.okrOptions()}
+            options={okrOptions(this.props.okrs, this.props.isObjective)}
             value={this.state.value}
             disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}
@@ -93,7 +75,7 @@ OkrSelect.propTypes = {
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 OkrSelect.defaultProps = {
@@ -103,6 +85,7 @@ OkrSelect.defaultProps = {
   readOnly: false,
   disabled: false,
   loading: false,
+  onChange: value => {},
 };
 
 export default OkrSelect;

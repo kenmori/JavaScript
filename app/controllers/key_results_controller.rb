@@ -6,7 +6,7 @@ class KeyResultsController < ApplicationController
 
       # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @key_results = @user.key_results
-                         .includes(child_objectives: {key_results: [child_objectives: :key_results]})
+                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                          .where(okr_period_id: params[:okr_period_id])
                          .order(created_at: :desc)
     else
@@ -15,9 +15,13 @@ class KeyResultsController < ApplicationController
                          .okr_periods
                          .find(params[:okr_period_id])
                          .key_results
-                         .includes(child_objectives: {key_results: [child_objectives: :key_results]})
+                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                          .order(created_at: :desc)
     end
+  end
+
+  def index_candidates
+    index
   end
 
   def show_objective
@@ -180,11 +184,11 @@ class KeyResultsController < ApplicationController
 
   def key_result_create_params
     params.require(:key_result)
-      .permit(:name, :objective_id, :target_value, :value_unit, :expired_date)
+      .permit(:name, :description, :objective_id, :target_value, :value_unit, :expired_date)
   end
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:id, :name, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id)
+      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id)
   end
 end

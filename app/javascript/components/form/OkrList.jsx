@@ -15,7 +15,7 @@ class OkrList extends Component {
       <List className='okr-list'>
         {this.props.okrs.map(okr =>
           <List.Item key={okr.get('id')} className='okr-item'>
-            <OwnerAvatar owner={okr.get('owner')} />
+            <OwnerAvatar owner={okr.get('owner')} members={okr.get('members')} />
             <List.Content className='name'>
               <a onClick={() => this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
             </List.Content>

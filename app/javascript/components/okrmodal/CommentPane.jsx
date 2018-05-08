@@ -7,10 +7,6 @@ import moment from 'moment';
 
 class CommentPane extends Component {
 
-  updateKeyResult(values) {
-    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
-  }
-
   commentList(comments) {
     if (!comments) return null;
     const commentTags = comments.map((item) => {
@@ -38,7 +34,7 @@ class CommentPane extends Component {
     if (!value) {
       return;
     }
-    this.updateKeyResult({
+    this.props.updateKeyResult({
       comment: {data: value, behavior: 'add'}
     });
     findDOMNode(this.refs.commentArea).value = '';
@@ -48,7 +44,7 @@ class CommentPane extends Component {
     if (!text) {
       return;
     }
-    this.updateKeyResult({
+    this.props.updateKeyResult({
       comment: {data: {id, text}, behavior: 'edit'}
     });
   }
@@ -57,7 +53,7 @@ class CommentPane extends Component {
     this.props.confirm({
       content: 'コメントを削除しますか？',
       onConfirm: () => {
-        this.updateKeyResult({
+        this.props.updateKeyResult({
           comment: { data: id, behavior: 'remove' }
         });
       },

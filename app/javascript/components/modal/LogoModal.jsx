@@ -41,8 +41,6 @@ class LogoModal extends Component {
         closeIcon 
         open={this.props.isOpen} 
         size='small' 
-        closeOnEscape={true} 
-        closeOnRootNodeClick={true} 
         onClose={this.props.closeModal}
       >
         <Modal.Content style={{ margin: '10px 0' }}>

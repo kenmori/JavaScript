@@ -14,12 +14,12 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId, this.props.isAdmin);
+    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, this.props.isAdmin);
+      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId);
     } else if (this.props.userId !== nextProps.userId) {
       this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
     } else if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
@@ -68,7 +68,7 @@ export default class Dashboard extends Component {
             </Menu>
           </div>
           {activeItem === 'objective'
-            ? <ObjectiveList objectives={this.props.objectives} userId={this.props.userId} />
+            ? <ObjectiveList objectives={this.props.objectives} />
             : <KeyResultList keyResults={this.props.keyResults} />
           }
         </section>

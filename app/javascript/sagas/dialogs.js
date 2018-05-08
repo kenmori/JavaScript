@@ -35,8 +35,8 @@ function* openOkrModal({ payload }) {
     const hasObjectiveId = entities.objectives.has(objectiveId);
     const hasKeyResultId = entities.keyResults.has(keyResultId);
     if (hasObjectiveId && (!keyResultId || hasKeyResultId)) {
-      const isOpen = yield select(state => state.dialogs.getIn(['okrForm', 'isOpen']));
-      if (!isOpen) {
+      const currentObjectiveId = yield select(state => state.dialogs.getIn(['okrForm', 'objectiveId']));
+      if (currentObjectiveId !== objectiveId) {
         yield put(objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId));
       }
       yield put(dialogActions.openedOkrModal(objectiveId, keyResultId));

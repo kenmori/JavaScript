@@ -74,7 +74,7 @@ class KeyResult extends Component {
           key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}
         >
           <span className="sidebar__avatar">
-            <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('keyResultMembers')} />
+            <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
           </span>
           <span className="sidebar__name">{keyResult.get('name')}</span>
           <span className="progress-rate sidebar__progress">{keyResult.get('progressRate')}%</span>

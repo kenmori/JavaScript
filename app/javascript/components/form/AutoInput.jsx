@@ -6,19 +6,17 @@ class AutoInput extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: props.value,
-    };
+    this.state = { value: props.value }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
+    if (this.state.value !== nextProps.value) {
       this.setState({ value: nextProps.value });
     }
   }
 
   handleChange = event => {
-    // 幅を動的に伸縮させるため state を変更する 
+    // 動的に幅をリサイズさせるため state 経由で value プロパティを変更する 
     this.setState({ value: event.target.value });
   }
 

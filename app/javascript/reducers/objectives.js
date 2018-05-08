@@ -21,12 +21,12 @@ function remove(state, objectiveId) {
     });
 }
 
-function addToAll(state, objectiveId) {
-  return state.update('allIds', ids => ids.insert(0, objectiveId));
+function addToCandidates(state, objectiveId) {
+  return state.update('candidates', ids => ids.insert(0, objectiveId));
 }
 
-function removeFromAll(state, objectiveId) {
-  return state.update('allIds', ids => ids.filter(id => id !== objectiveId));
+function removeFromCandidates(state, objectiveId) {
+  return state.update('candidates', ids => ids.filter(id => id !== objectiveId));
 }
 
 export default handleActions({
@@ -46,15 +46,15 @@ export default handleActions({
         .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
         .set('isFetchedObjectives', true);
     },
-    [ActionTypes.FETCH_ALL_OBJECTIVES]: (state, { payload }) => {
-      return state.set('isFetchedAllObjectives', false);
+    [ActionTypes.FETCH_OBJECTIVE_CANDIDATES]: state => {
+      return state.set('isFetchedCandidates', false);
     },
-    [ActionTypes.FETCHED_ALL_OBJECTIVES]: (state, { payload }) => {
-      return state.set('allIds', payload.get('result')).set('isFetchedAllObjectives', true);
+    [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: (state, { payload }) => {
+      return state.set('candidates', payload.get('result')).set('isFetchedCandidates', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
-      state = addToAll(state, objectiveId);
+      state = addToCandidates(state, objectiveId);
 
       const userId = payload.get('currentUserId');
       const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
@@ -70,13 +70,12 @@ export default handleActions({
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
-      state = removeFromAll(state, objectiveId);
+      state = removeFromCandidates(state, objectiveId);
       return remove(state, objectiveId);
     },
-    [ActionTypes.UPDATED_USER]: (state, { payload }) => {
-      let objectiveOrder = payload.user.get('objectiveOrder');
-      if (!objectiveOrder) return state;
-      objectiveOrder = JSON.parse(objectiveOrder);
+    [ActionTypes.UPDATED_OBJECTIVE_ORDER]: (state, { payload }) => {
+      if (!payload.order) return state;
+      const objectiveOrder = JSON.parse(payload.order);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
     [ActionTypes.SELECT_OKR]: (state, { payload }) => {
@@ -86,10 +85,10 @@ export default handleActions({
   },
   fromJS({
     ids: [],
-    allIds: [],
+    candidates: [],
     selectedOkr: { objectiveId: null, keyResultId: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,
-    isFetchedAllObjectives: false,
+    isFetchedCandidates: false,
   }),
 );

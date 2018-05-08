@@ -3,33 +3,33 @@ import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
-import { denormalizeObjective, denormalizeObjectives, denormalizeKeyResults } from '../schemas/index';
+import { denormalizeObjective } from '../schemas/index';
 import { getObjectiveCandidates, getParentKeyResultCandidates } from '../utils/okr';
 
 const mapStateToProps = (state) => {
   const okrForm = state.dialogs.get('okrForm');
-  const objectiveId = okrForm.get('objectiveId');
+  const keyResultId = okrForm.get('keyResultId');
+  const removedKeyResultId = okrForm.get('removedKeyResultId');
+  const objectiveId = keyResultId && keyResultId !== removedKeyResultId
+    ? state.entities.keyResults.getIn([keyResultId, 'objectiveId']) // KR 紐付き変更時は KR に紐付く Objective を指定する
+    : okrForm.get('objectiveId');
   const objective = objectiveId && denormalizeObjective(objectiveId, state.entities);
   const loginUserId = state.loginUser.get('id');
-  const isAdmin = state.loginUser.get('isAdmin');
   const objectiveOwnerId = objective && objective.get('owner').get('id');
-  const objectiveCandidates = getObjectiveCandidates(state, objectiveId, objectiveOwnerId);
-  const parentKeyResultCandidates = getParentKeyResultCandidates(state,
-    objective && objective.get('parentKeyResultId'), objectiveOwnerId);
   return {
     isOpen: okrForm.get('isOpen'),
     objectiveId,
     objective,
-    keyResultId: okrForm.get('keyResultId'),
+    keyResultId,
     users: state.users.filter(user => !user.get('disabled')),
     loginUserId,
-    objectives: denormalizeObjectives(objectiveCandidates, state.entities),
-    keyResults: denormalizeKeyResults(parentKeyResultCandidates, state.entities),
-    isFetchedObjectives: state.objectives.get(isAdmin ? 'isFetchedAllObjectives' : 'isFetchedObjectives'),
-    isFetchedKeyResults: state.keyResults.get(isAdmin ? 'isFetchedAllKeyResults' : 'isFetchedKeyResults'),
+    objectiveCandidates: getObjectiveCandidates(state, objectiveId),
+    parentKeyResultCandidates: getParentKeyResultCandidates(state, objective && objective.get('parentKeyResultId')),
+    isFetchedObjectiveCandidates: state.objectives.get('isFetchedCandidates'),
+    isFetchedKeyResultCandidates: state.keyResults.get('isFetchedCandidates'),
     removedObjectiveId: okrForm.get('removedObjectiveId'),
-    removedKeyResultId: okrForm.get('removedKeyResultId'),
-    isObjectiveOwner: isAdmin || objectiveOwnerId === loginUserId,
+    removedKeyResultId,
+    isObjectiveOwner: state.loginUser.get('isAdmin') || objectiveOwnerId === loginUserId,
   };
 };
 
@@ -44,7 +44,8 @@ const mapDispatchToProps = dispatch => {
     updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective));
     },
-    updateKeyResultOrder: objective => {
+    updateKeyResultOrder: (objectiveId, order) => {
+      const objective = { id: objectiveId, keyResultOrder: JSON.stringify(order) };
       dispatch(objectiveActions.updateObjective(objective, false));
     },
     updateKeyResult: keyResult => {
