@@ -6,6 +6,10 @@ import { okrOptions } from "../../utils/okr";
 
 class RenderOkrSelect extends PureComponent {
 
+  handleChange = onChange => (e, { value }) => onChange(value)
+
+  handleClose = onBlur => e => onBlur(e)
+
   render() {
     const {
       input: { value, onChange, onBlur },
@@ -26,8 +30,8 @@ class RenderOkrSelect extends PureComponent {
             disabled={disabled}
             loading={loading}
             error={touched && !!error}
-            onChange={(e, { value }) => onChange(value)}
-            onClose={e => onBlur(e)}
+            onChange={this.handleChange(onChange)}
+            onClose={this.handleClose(onBlur)}
             selectOnNavigation={false}
             noResultsMessage='結果が見つかりません'
           />

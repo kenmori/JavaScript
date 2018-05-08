@@ -19,6 +19,11 @@ class ObjectiveModal extends PureComponent {
       description: '',
       activeIndex: ObjectiveModal.INDEX_NEW,
     }
+    this.panes = [
+      { menuItem: '新規作成', render: () => this.getObjectiveFormHtml({}) },
+      { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml({ isLink: true }) },
+      { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml({ isCopy: true }) },
+    ]
   }
 
   componentWillReceiveProps(nextProps) {
@@ -74,7 +79,7 @@ class ObjectiveModal extends PureComponent {
       || this.state.description !== '';
   }
 
-  handleClose() {
+  handleClose = () => {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
@@ -91,6 +96,10 @@ class ObjectiveModal extends PureComponent {
     setTimeout(() => this.props.closeModal(), 0)
   }
 
+  handleFormChange = values => this.setState({ ...values })
+
+  handleTabChange = (e, { activeIndex }) => this.setState({ activeIndex })
+
   getObjectiveFormHtml = ({ isLink = false, isCopy = false }) => {
     return (
       <Tab.Pane>
@@ -102,7 +111,7 @@ class ObjectiveModal extends PureComponent {
           ownerId={this.state.ownerId}
           hasParentKeyResult={!!this.props.parentKeyResult}
           isFetchedKeyResults={this.props.isFetchedKeyResults}
-          onChange={values => this.setState({ ...values })}
+          onChange={this.handleFormChange}
           fieldChange={this.props.change}
           description={this.state.description}
           objectives={isLink ? this.props.objectives : (isCopy ? this.props.previousObjectives : undefined)}
@@ -127,7 +136,7 @@ class ObjectiveModal extends PureComponent {
         open={isOpen}
         size={modalSize} 
         className={wrapperClassName}
-        onClose={this.handleClose.bind(this)}
+        onClose={this.handleClose}
       >
         <Modal.Header>
           Objective を入力する
@@ -136,17 +145,13 @@ class ObjectiveModal extends PureComponent {
           <div className="objective-modal__body">
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
             <div className="objective-modal__main">
-              <Tab panes={[
-                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml({}) },
-                { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml({ isLink: true }) },
-                { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml({ isCopy: true }) },
-              ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
+              <Tab panes={this.panes} onTabChange={this.handleTabChange} />
             </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
+            <Button onClick={this.handleClose}>キャンセル</Button>
             <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
           </div>
         </Modal.Actions>

@@ -13,7 +13,7 @@ import {
 
 class ObjectiveForm extends PureComponent {
 
-  handleObjectiveIdChange = objectiveId => {
+  handleObjectiveChange = (e, objectiveId) => {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
     this.props.onChange({
       description: objective.get('description'),
@@ -21,6 +21,10 @@ class ObjectiveForm extends PureComponent {
     });
     this.props.fieldChange('name', objective.get('name'));
   }
+
+  handleDescriptionChange = (e, { value }) => this.props.onChange({ description: value })
+
+  handleOwnerChange = ownerId => this.props.onChange({ ownerId })
 
   render() {
     const { isLink, isCopy } = this.props
@@ -34,8 +38,8 @@ class ObjectiveForm extends PureComponent {
               okrs={this.props.objectives}
               loading={!this.props.isFetchedObjectives}
               component={RenderOkrSelect}
-              validate={[isLink ? validateIsolatedObjectiveId : validatePreviousObjectiveId]}
-              onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
+              validate={isLink ? validateIsolatedObjectiveId : validatePreviousObjectiveId}
+              onChange={this.handleObjectiveChange}
             />
           </Form.Field>
         )}
@@ -49,7 +53,7 @@ class ObjectiveForm extends PureComponent {
             disabled={this.props.hasParentKeyResult}
             loading={!this.props.isFetchedKeyResults}
             component={RenderOkrSelect}
-            validate={isLink ? [validateParentKeyResultId] : undefined}
+            validate={isLink ? validateParentKeyResultId : undefined}
           />
         </Form.Field>
         <Form.Field>
@@ -57,7 +61,7 @@ class ObjectiveForm extends PureComponent {
           <Field
             name='name'
             component={RenderField}
-            validate={[validateObjectiveName]}
+            validate={validateObjectiveName}
           />
         </Form.Field>
         <Form.Field>
@@ -65,7 +69,7 @@ class ObjectiveForm extends PureComponent {
           <TextArea
             autoHeight
             rows={3}
-            onChange={(e, { value }) => this.props.onChange({ description: value })}
+            onChange={this.handleDescriptionChange}
             placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
             value={this.props.description}
           />
@@ -75,7 +79,7 @@ class ObjectiveForm extends PureComponent {
           <UserSelect
             users={this.props.users}
             value={this.props.ownerId}
-            onChange={ownerId => this.props.onChange({ ownerId })}
+            onChange={this.handleOwnerChange}
           />
         </Form.Field>
       </Form>
