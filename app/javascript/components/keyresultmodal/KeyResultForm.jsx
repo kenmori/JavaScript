@@ -23,7 +23,6 @@ class KeyResultForm extends PureComponent {
             <RequiredLabel text='Key Result' />
             <Field
               name='name'
-              type='text'
               component={RenderField}
               validate={[validateKeyResultName]}
             />
@@ -48,7 +47,6 @@ class KeyResultForm extends PureComponent {
                 <div style={{ width: "177px" }}>
                   <Field
                     name='targetValue'
-                    type='text'
                     component={RenderField}
                     validate={[validateTargetValue]}
                   />
@@ -58,7 +56,6 @@ class KeyResultForm extends PureComponent {
                 <label>単位</label>
                 <Field
                   name='valueUnit'
-                  type='text'
                   placeholder='例：円、件、人'
                   component={RenderField}
                   onChange={(e, newValue) => onChange({ isRequiredTargetValue: !!newValue })}

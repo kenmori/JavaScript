@@ -56,7 +56,6 @@ class ObjectiveForm extends PureComponent {
           <RequiredLabel text='Objective' />
           <Field
             name='name'
-            type='text'
             component={RenderField}
             validate={[validateObjectiveName]}
           />
