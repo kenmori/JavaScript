@@ -14,8 +14,17 @@ import {
 
 class KeyResultForm extends PureComponent {
 
+  handleDescriptionChange = (e, { value }) => this.props.onChange({ description: value })
+
+  handleValueUnitChange = (e, valueUnit) => this.props.onChange({ isRequiredTargetValue: !!valueUnit })
+
+  handleOwnerChange = ownerId => this.props.onChange({ ownerId, members: this.props.members.filter(id => id !== ownerId) })
+
+  handleKeyResultMemberAdd = value => this.props.onChange({ members: this.props.members.push(value) })
+
+  handleKeyResultMemberRemove = value => this.props.onChange({ members: this.props.members.filter(id => id !== value) })
+
   render() {
-    const { onChange } = this.props
     return (
       <Form>
         <Form.Group widths='equal'>
@@ -24,7 +33,7 @@ class KeyResultForm extends PureComponent {
             <Field
               name='name'
               component={RenderField}
-              validate={[validateKeyResultName]}
+              validate={validateKeyResultName}
             />
           </Form.Field>
         </Form.Group>
@@ -34,7 +43,7 @@ class KeyResultForm extends PureComponent {
             <TextArea
               autoHeight
               rows={3}
-              onChange={(e, { value }) => onChange({ description: value })}
+              onChange={this.handleDescriptionChange}
               placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
             />
           </Form.Field>
@@ -48,7 +57,7 @@ class KeyResultForm extends PureComponent {
                   <Field
                     name='targetValue'
                     component={RenderField}
-                    validate={[validateTargetValue]}
+                    validate={validateTargetValue}
                   />
                 </div>
               </div>
@@ -58,7 +67,7 @@ class KeyResultForm extends PureComponent {
                   name='valueUnit'
                   placeholder='例：円、件、人'
                   component={RenderField}
-                  onChange={(e, newValue) => onChange({ isRequiredTargetValue: !!newValue })}
+                  onChange={this.handleValueUnitChange}
                 />
               </div>
             </div>
@@ -70,7 +79,7 @@ class KeyResultForm extends PureComponent {
             <Field
               name='expiredDate'
               component={RenderDateField}
-              validate={[validateExpiredDate]}
+              validate={validateExpiredDate}
               normalize={normalizeExpiredDate}
             />
           </Form.Field>
@@ -81,7 +90,7 @@ class KeyResultForm extends PureComponent {
             <UserSelect
               users={this.props.users}
               value={this.props.ownerId}
-              onChange={ownerId => onChange({ ownerId, members: this.props.members.filter(id => id !== ownerId) })}
+              onChange={this.handleOwnerChange}
             />
           </Form.Field>
         </Form.Group>
@@ -92,8 +101,8 @@ class KeyResultForm extends PureComponent {
               users={this.props.users}
               members={this.props.members}
               excludedId={this.props.ownerId}
-              add={value => onChange({ members: this.props.members.push(value) })}
-              remove={value => onChange({ members: this.props.members.filter(id => id !== value) })}
+              add={this.handleKeyResultMemberAdd}
+              remove={this.handleKeyResultMemberRemove}
             />
           </Form.Field>
         </Form.Group>

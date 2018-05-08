@@ -5,6 +5,10 @@ import DatePicker from './DatePicker';
 
 class RenderDateField extends PureComponent {
 
+  handleChange = onChange => date => onChange(date)
+
+  handleBlur = onBlur => e => onBlur(e)
+
   render() {
     const {
       input: { value, onChange, onBlur },
@@ -18,8 +22,8 @@ class RenderDateField extends PureComponent {
           dateFormat='YYYY/M/D'
           locale='ja'
           selected={selected.isValid() ? selected : null}
-          onChange={date => onChange(date)}
-          onBlur={e => onBlur(e)}
+          onChange={this.handleChange(onChange)}
+          onBlur={this.handleBlur(onBlur)}
         />
         {touched && error && <Label basic color='red' pointing>{error}</Label>}
       </div>

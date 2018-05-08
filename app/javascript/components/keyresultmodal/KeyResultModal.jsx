@@ -57,7 +57,7 @@ class KeyResultModal extends PureComponent {
       || this.state.members.size;
   }
 
-  handleClose() {
+  handleClose = () => {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
@@ -74,6 +74,8 @@ class KeyResultModal extends PureComponent {
     setTimeout(() => this.props.closeModal(), 0);
   }
   
+  handleFormChange = values => this.setState({ ...values })
+
   render() {
     const { objective, handleSubmit } = this.props
     return (
@@ -82,7 +84,7 @@ class KeyResultModal extends PureComponent {
         open={this.props.isOpen} 
         size='large' 
         className='keyresult-modal' 
-        onClose={this.handleClose.bind(this)}
+        onClose={this.handleClose}
       >
         <Modal.Header>
           KeyResult を追加する
@@ -96,14 +98,14 @@ class KeyResultModal extends PureComponent {
                 ownerId={this.state.ownerId}
                 members={this.state.members}
                 isRequiredTargetValue={this.state.isRequiredTargetValue}
-                onChange={values => this.setState({ ...values })}
+                onChange={this.handleFormChange}
               />
             </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
+            <Button onClick={this.handleClose}>キャンセル</Button>
             <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
           </div>
         </Modal.Actions>
