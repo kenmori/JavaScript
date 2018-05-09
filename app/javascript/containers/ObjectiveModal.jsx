@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
     okrPeriodId: state.current.get('okrPeriodId'),
     parentKeyResults: getKeyResults(state),
     isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
-    objectives: getIsolatedObjectives(state),
+    isolatedObjectives: getIsolatedObjectives(state),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
     previousObjectives: getPreviousObjectives(state),
     isFetchedPreviousObjectives: state.objectives.get('isFetchedPreviousObjectives'),

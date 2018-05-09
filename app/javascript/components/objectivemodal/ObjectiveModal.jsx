@@ -114,7 +114,7 @@ class ObjectiveModal extends PureComponent {
           onChange={this.handleFormChange}
           fieldChange={this.props.change}
           description={this.state.description}
-          objectives={isLink ? this.props.objectives : (isCopy ? this.props.previousObjectives : undefined)}
+          objectives={isLink ? this.props.isolatedObjectives : (isCopy ? this.props.previousObjectives : undefined)}
           isFetchedObjectives={isLink ? this.props.isFetchedObjectives : (isCopy ? this.props.isFetchedPreviousObjectives : undefined)}
         />
       </Tab.Pane>
@@ -169,7 +169,7 @@ ObjectiveModal.propTypes = {
   okrPeriodId: PropTypes.number.isRequired,
   parentKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedKeyResults: PropTypes.bool.isRequired,
-  objectives: ImmutablePropTypes.list.isRequired,
+  isolatedObjectives: ImmutablePropTypes.list.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
   previousObjectives: ImmutablePropTypes.list.isRequired,
   isFetchedPreviousObjectives: PropTypes.bool.isRequired,
