@@ -20,7 +20,6 @@ class OKRComment extends Component {
     const user = this.props.item.get('user')
     const avatarUrl = user ? user.get('avatarUrl') : null
 
-    console.log(this.props.item.get('isEdited'))
     return (
       <Comment.Group>
         <Comment>
