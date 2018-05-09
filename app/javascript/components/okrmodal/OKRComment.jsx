@@ -25,7 +25,7 @@ class OKRComment extends Component {
         <Comment>
           <Comment.Avatar src={avatarUrl || avatar_image} className='avatar__inner'/>
           <Comment.Content>
-            <Comment.Author>{this.props.item.get('fullName')}</Comment.Author>
+            <Comment.Author as='span'>{this.props.item.get('fullName')}</Comment.Author>
             <Comment.Metadata>
               <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')}</div>
             </Comment.Metadata>
