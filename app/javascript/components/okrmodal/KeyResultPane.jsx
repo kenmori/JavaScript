@@ -88,7 +88,7 @@ class KeyResultPane extends PureComponent {
       <div className='flex-field__item'>
         <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
                                content={`下位 OKR の進捗は ${childProgressRate}% です`}
-                               onClick={this.handleChildProgrresRateClick} />}
+                               onClick={this.handleChildProgressRateClick} />}
                position='bottom left'
                size='tiny'
                content='クリックすると下位 OKR の進捗が設定されます'
@@ -97,7 +97,7 @@ class KeyResultPane extends PureComponent {
     );
   }
 
-  handleChildProgrresRateClick = () => this.props.updateKeyResult({ progressRate: null })
+  handleChildProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
 
   handleNameCommit = value => this.updateKeyResultWithState('name', value)
 
@@ -181,7 +181,7 @@ class KeyResultPane extends PureComponent {
             <NumberInput type='range'
                          value={this.state.progressRate}
                          onChange={this.handleProgressRateChange}
-                         onCommit={this.handleProgressRateCommit}
+                         onMouseUp={this.handleProgressRateCommit}
             />
           </div>
           {this.childObjectiveProgressRateHtml(keyResult)}
