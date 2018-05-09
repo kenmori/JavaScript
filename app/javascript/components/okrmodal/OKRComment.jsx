@@ -20,6 +20,7 @@ class OKRComment extends Component {
     const user = this.props.item.get('user')
     const avatarUrl = user ? user.get('avatarUrl') : null
 
+    console.log(this.props.item.get('isEdited'))
     return (
       <Comment.Group>
         <Comment>
@@ -27,7 +28,7 @@ class OKRComment extends Component {
           <Comment.Content>
             <Comment.Author as='span'>{this.props.item.get('fullName')}</Comment.Author>
             <Comment.Metadata>
-              <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')}</div>
+              <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')}{this.props.item.get('isEdited') ? '(編集済)' : null}</div>
             </Comment.Metadata>
             <Comment.Text>{this.props.item.get('text')}</Comment.Text>
             <Comment.Actions>

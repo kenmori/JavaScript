@@ -26,6 +26,7 @@ class CommentPane extends Component {
 
   addComment() {
     const value = findDOMNode(this.refs.commentArea).value;
+    console.log(value)
     if (!value) {
       return;
     }
