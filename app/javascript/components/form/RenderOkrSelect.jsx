@@ -9,7 +9,7 @@ class RenderOkrSelect extends Component {
     const {
       input: { value, onChange, onBlur },
       okrs,
-      isObjective,
+      withNone,
       disabled,
       loading,
       meta: { touched, error }
@@ -20,8 +20,8 @@ class RenderOkrSelect extends Component {
           <Select
             search
             fluid
-            options={okrOptions(okrs, isObjective)}
-            value={value || -1}
+            options={okrOptions(okrs, withNone)}
+            value={value}
             disabled={disabled}
             loading={loading}
             error={touched && !!error}
@@ -40,13 +40,13 @@ class RenderOkrSelect extends Component {
 
 RenderOkrSelect.propTypes = {
   okrs: PropTypes.object.isRequired,
-  isObjective: PropTypes.bool,
+  withNone: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
 };
 
 RenderOkrSelect.defaultProps = {
-  isObjective: true,
+  withNone: false,
   disabled: false,
   loading: false,
 };

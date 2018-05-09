@@ -46,6 +46,37 @@ class ObjectivesController < ApplicationController
     unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
 
+  def create_copy
+    @user = User.find(params[:objective][:owner_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+    forbidden('Key Result 責任者または関係者のみ作成できます') and return unless valid_user_to_create?
+
+    ActiveRecord::Base.transaction do
+      original_objective = Objective.find(params[:objective_id])
+      @objective = @user.objectives.new(objective_create_params)
+      @user.save!
+      update_parent_key_result if params[:objective][:parent_key_result_id]
+
+      # KR をコピー
+      expired_date = @objective.okr_period.month_end
+      original_objective.sorted_key_results.each do |original_key_result|
+        key_result = @objective.key_results.create!(
+            name: original_key_result.name,
+            description: original_key_result.description,
+            target_value: original_key_result.target_value,
+            value_unit: original_key_result.value_unit,
+            expired_date: expired_date,
+        )
+        original_key_result.key_result_members.each do |member|
+          key_result.key_result_members.create!(user_id: member.user_id, role: member.role)
+        end
+      end
+    end
+    render action: :create, status: :created
+  rescue
+    unprocessable_entity_with_errors(@objective.errors.full_messages)
+  end
+
   def update
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)

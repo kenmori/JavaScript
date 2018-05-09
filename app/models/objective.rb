@@ -13,4 +13,16 @@ class Objective < ApplicationRecord
   def owner
     objective_members.find_by(role: :owner)&.user
   end
+
+  def sorted_key_result_ids
+    sorted_key_results.map(&:id)
+  end
+
+  def sorted_key_results
+    return key_results unless key_result_order
+    order = JSON.parse(key_result_order)
+    index = order.size
+    # KR 一覧を key_result_order 順に並べる (順番のない KR は後ろに並べていく)
+    key_results.sort_by { |key_result| order.index(key_result.id) || index + 1 }
+  end
 end

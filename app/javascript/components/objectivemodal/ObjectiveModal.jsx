@@ -8,11 +8,11 @@ import ObjectiveForm from './ObjectiveForm';
 class ObjectiveModal extends Component {
 
   static INDEX_NEW = 0;
-  // noinspection JSUnusedGlobalSymbols
   static INDEX_LINK = 1;
+  static INDEX_COPY = 2;
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super()
     this.state = {
       ownerId: null,
       description: '',
@@ -29,30 +29,33 @@ class ObjectiveModal extends Component {
       });
       this.props.initialize({
         name: '',
-        parentKeyResultId: nextProps.parentKeyResult ? nextProps.parentKeyResult.get('id') : null,
+        parentKeyResultId: nextProps.parentKeyResult ? nextProps.parentKeyResult.get('id') : -1,
         objectiveId: null,
       });
     }
   }
 
   save(validData) {
-    if (this.state.activeIndex === ObjectiveModal.INDEX_NEW) {
+    const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null 
+    if (this.state.activeIndex !== ObjectiveModal.INDEX_LINK) {
+      const isCopy = this.state.activeIndex === ObjectiveModal.INDEX_COPY
       const objective = {
+        id: isCopy ? validData.objectiveId : null,
         name: validData.name,
         description: this.state.description,
         ownerId: this.state.ownerId,
-        parentKeyResultId: validData.parentKeyResultId,
+        parentKeyResultId,
         okrPeriodId: this.props.okrPeriodId,
       };
-      const isNew = !this.props.parentKeyResult; // 上位 KR (初期値) がない = 新規作成
-      this.props.addObjective(objective, isNew);
+      const viaHome = !this.props.parentKeyResult; // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
+      this.props.addObjective(objective, viaHome, isCopy)
     } else {
       const objective = {
         id: validData.objectiveId,
         name: validData.name,
         description: this.state.description,
         objectiveMember: { user: this.state.ownerId },
-        parentKeyResultId: validData.parentKeyResultId,
+        parentKeyResultId,
       };
       this.props.updateObjective(objective);
     }
@@ -87,20 +90,22 @@ class ObjectiveModal extends Component {
     setTimeout(() => this.props.closeModal(), 0)
   }
 
-  getObjectiveFormHtml = (isNew = true) => {
+  getObjectiveFormHtml = ({ isLink = false, isCopy = false }) => {
     return (
       <Tab.Pane>
         <ObjectiveForm
-          isNew={isNew}
-          parentKeyResultCandidates={this.props.parentKeyResultCandidates}
+          isLink={isLink}
+          isCopy={isCopy}
+          parentKeyResults={this.props.parentKeyResults}
           users={this.props.users}
           ownerId={this.state.ownerId}
           hasParentKeyResult={!!this.props.parentKeyResult}
-          isFetchedCandidates={this.props.isFetchedCandidates}
+          isFetchedKeyResults={this.props.isFetchedKeyResults}
           onChange={values => this.setState({ ...values })}
           fieldChange={this.props.change}
           description={this.state.description}
-          objectives={isNew ? undefined : this.props.objectives.filter(objective => !objective.get('parentKeyResultId'))}
+          objectives={isLink ? this.props.objectives : (isCopy ? this.props.previousObjectives : undefined)}
+          isFetchedObjectives={isLink ? this.props.isFetchedObjectives : (isCopy ? this.props.isFetchedPreviousObjectives : undefined)}
         />
       </Tab.Pane>
     );
@@ -131,8 +136,9 @@ class ObjectiveModal extends Component {
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
             <div className="objective-modal__main">
               <Tab panes={[
-                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml() },
-                { menuItem: '既存 OKR 紐付け', render: () => this.getObjectiveFormHtml(false) },
+                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml({}) },
+                { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml({ isLink: true }) },
+                { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml({ isCopy: true }) },
               ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
             </div>
           </div>

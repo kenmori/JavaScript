@@ -1,5 +1,11 @@
-import { denormalizeObjectiveCandidates, denormalizeKeyResultCandidates } from '../schemas/index';
+import { denormalizeObjectives, denormalizeObjectiveCandidates, denormalizeKeyResultCandidates } from '../schemas/index'
 import avatar_image from '../images/avatar.png';
+
+// 孤立 (親のいない) Objective 一覧を返す
+export const getIsolatedObjectives = state => {
+  return denormalizeObjectives(state.objectives.get('ids'), state.entities)
+    .filter(objective => !objective.get('parentKeyResultId'))
+}
 
 // Objective の上位 KR 候補一覧を返す
 export const getParentKeyResultCandidates = (state, parentKeyResultId) => {
@@ -48,15 +54,14 @@ export const canMoveObjective = state => {
 }
 
 // O/KR 選択ドロップダウンに指定する O/KR 一覧データを返す
-export const okrOptions = (okrs, isObjective) => {
+export const okrOptions = (okrs, withNone) => {
   let options = okrs.map(okr => ({
     key: okr.get('id'),
     value: okr.get('id'),
     text: okr.get('name'),
     image: { avatar: true, src: okr.get('owner').get('avatarUrl') || avatar_image },
   }));
-  if (!isObjective) {
-    // 上位 KR なしの選択肢を追加 (紐付く Objective なしは選ばせない)
+  if (withNone) { // なしの選択肢を追加
     options = options.insert(0, ({
       key: -1,
       value: -1,

@@ -52,7 +52,7 @@ class OkrSelect extends Component {
           <Select
             search
             fluid
-            options={okrOptions(this.props.okrs, this.props.isObjective)}
+            options={okrOptions(this.props.okrs, !this.props.isObjective)}
             value={this.state.value}
             disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}

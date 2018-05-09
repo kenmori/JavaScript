@@ -8,12 +8,18 @@ import Logo from './util/Logo';
 class MenuBar extends Component {
 
   componentDidMount() {
-    this.props.fetchOrganization(this.props.organization.get('id'));
+    this.props.fetchOrganization(this.props.organizationId)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.needLogout) {
       this.props.signOut()
+    } else if (!this.props.isFetchedOrganization && nextProps.isFetchedOrganization) {
+      this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
+    } else if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
+      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId)
+    } else if (this.props.userId !== nextProps.userId) {
+      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false)
     }
   }
 
@@ -107,7 +113,6 @@ class MenuBar extends Component {
 }
 
 MenuBar.propTypes = {
-  fetchOrganization: PropTypes.func.isRequired,
   changeCurrentUser: PropTypes.func.isRequired,
   changeCurrentOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,

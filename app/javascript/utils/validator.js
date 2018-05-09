@@ -4,12 +4,16 @@ export const validateObjectiveName = value => {
   return value ? undefined : 'Objective を入力してください'
 }
 
-export const validateObjectiveId = value => {
-  return value ? undefined : '既存 Objective を入力してください'
+export const validateIsolatedObjectiveId = value => {
+  return value ? undefined : '孤立 Objective を選択してください'
+}
+
+export const validatePreviousObjectiveId = value => {
+  return value ? undefined : '前期 Objective を選択してください'
 }
 
 export const validateParentKeyResultId = value => {
-  return (value && value !== -1) ? undefined : '上位 Key Result を入力してください'
+  return (value && value !== -1) ? undefined : '上位 Key Result を選択してください'
 }
 
 export const validateKeyResultName = value => {
