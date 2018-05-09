@@ -42,28 +42,37 @@ class ObjectiveModal extends PureComponent {
   }
 
   save(validData) {
-    const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null 
-    if (this.state.activeIndex !== ObjectiveModal.INDEX_LINK) {
-      const isCopy = this.state.activeIndex === ObjectiveModal.INDEX_COPY
-      const objective = {
-        id: isCopy ? validData.objectiveId : null,
-        name: validData.name,
-        description: this.state.description,
-        ownerId: this.state.ownerId,
-        parentKeyResultId,
-        okrPeriodId: this.props.okrPeriodId,
-      };
-      const viaHome = !this.props.parentKeyResult; // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
-      this.props.addObjective(objective, viaHome, isCopy)
-    } else {
-      const objective = {
-        id: validData.objectiveId,
-        name: validData.name,
-        description: this.state.description,
-        objectiveMember: { user: this.state.ownerId },
-        parentKeyResultId,
-      };
-      this.props.updateObjective(objective);
+    const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null
+    const viaHome = !this.props.parentKeyResult // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
+    switch (this.state.activeIndex) {
+      case ObjectiveModal.INDEX_NEW:
+        this.props.addObjective({
+          name: validData.name,
+          description: this.state.description,
+          ownerId: this.state.ownerId,
+          parentKeyResultId,
+          okrPeriodId: this.props.okrPeriodId,
+        }, viaHome)
+        break
+      case ObjectiveModal.INDEX_LINK:
+        this.props.updateObjective({
+          id: validData.objectiveId,
+          name: validData.name,
+          description: this.state.description,
+          objectiveMember: { user: this.state.ownerId },
+          parentKeyResultId,
+        })
+        break
+      case ObjectiveModal.INDEX_COPY:
+        this.props.addObjective({
+          id: validData.objectiveId,
+          name: validData.name,
+          description: this.state.description,
+          ownerId: this.state.ownerId,
+          parentKeyResultId,
+          okrPeriodId: this.props.okrPeriodId,
+        }, viaHome, true)
+        break
     }
   }
 
