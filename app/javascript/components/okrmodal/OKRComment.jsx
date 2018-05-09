@@ -30,10 +30,13 @@ class OKRComment extends Component {
               <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')}{this.props.item.get('isEdited') ? '(編集済)' : null}</div>
             </Comment.Metadata>
             <Comment.Text style={{'whiteSpace': 'pre-wrap'}}>{this.props.item.get('text')}</Comment.Text>
-            <Comment.Actions>
-              <a onClick={() => this.setState({editing: true})}>編集</a>
-              <a onClick={() => this.props.onDelete(this.props.item.get('id'))}>削除</a>
-            </Comment.Actions>
+            {this.props.item.get('editable') ?
+              (
+                <Comment.Actions>
+                  <a onClick={() => this.setState({editing: true})}>編集</a>
+                  <a onClick={() => this.props.onDelete(this.props.item.get('id'))}>削除</a>
+                </Comment.Actions>
+              ) : null}
           </Comment.Content>
         </Comment>
       </Comment.Group>
