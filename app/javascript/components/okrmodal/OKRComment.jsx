@@ -29,7 +29,7 @@ class OKRComment extends Component {
             <Comment.Metadata>
               <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')}{this.props.item.get('isEdited') ? '(編集済)' : null}</div>
             </Comment.Metadata>
-            <Comment.Text>{this.props.item.get('text')}</Comment.Text>
+            <Comment.Text style={{'whiteSpace': 'pre-wrap'}}>{this.props.item.get('text')}</Comment.Text>
             <Comment.Actions>
               <a onClick={() => this.setState({editing: true})}>編集</a>
               <a onClick={() => this.props.onDelete(this.props.item.get('id'))}>削除</a>
