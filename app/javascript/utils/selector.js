@@ -30,10 +30,8 @@ export const getPreviousObjectives = createSelector(
 
 // 孤立 (親のいない) Objective 一覧を返す
 export const getIsolatedObjectives = createSelector(
-  state => state.objectives.get('ids'),
-  state => state.entities,
-  (objectiveIds, entities) => denormalizeObjectives(objectiveIds, entities)
-    .filter(objective => !objective.get('parentKeyResultId'))
+  getObjectives,
+  objectives => objectives.filter(objective => !objective.get('parentKeyResultId'))
 )
 
 export const getSelectedObjective = createSelector(
