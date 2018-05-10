@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Menu, Button, Segment, Header, Label } from 'semantic-ui-react';
+import TaskList from '../../containers/TaskList'
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
 
 class Dashboard extends PureComponent {
 
+  static ITEM_TASK = 'task'
   static ITEM_OBJECTIVE = 'objective'
   static ITEM_KEY_RESULT = 'keyResult'
 
@@ -42,6 +44,17 @@ class Dashboard extends PureComponent {
     );
   }
 
+  getTabContent() {
+    switch(this.state.activeItem) {
+      case Dashboard.ITEM_TASK:
+        return <TaskList keyResults={this.props.keyResults} />
+      case Dashboard.ITEM_OBJECTIVE:
+        return <ObjectiveList objectives={this.props.objectives} />
+      case Dashboard.ITEM_KEY_RESULT:
+        return <KeyResultList keyResults={this.props.keyResults} />
+    }
+  }
+
   render() {
     let activeItem = this.state.activeItem;
     if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
@@ -54,6 +67,9 @@ class Dashboard extends PureComponent {
         <section className="okr-list-section">
           <div className='okr-list-section__menu'>
             <Menu tabular>
+              <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
+                タスク<Label>{this.props.keyResults.size}</Label>
+              </Menu.Item>
               <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
@@ -65,10 +81,7 @@ class Dashboard extends PureComponent {
               </Menu.Item>
             </Menu>
           </div>
-          {activeItem === Dashboard.ITEM_OBJECTIVE
-            ? <ObjectiveList objectives={this.props.objectives} />
-            : <KeyResultList keyResults={this.props.keyResults} />
-          }
+          {this.getTabContent()}
         </section>
         <section className='okr-map-section'>
           <div className='okr-map-section__menu'>
