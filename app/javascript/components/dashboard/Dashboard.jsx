@@ -7,11 +7,15 @@ import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
 
 class Dashboard extends PureComponent {
+
+  static ITEM_OBJECTIVE = 'objective'
+  static ITEM_KEY_RESULT = 'keyResult'
+
   constructor(props) {
     super(props);
     this.state = {
       mapObjective: props.mapObjective,
-      activeItem: 'objective',
+      activeItem: Dashboard.ITEM_OBJECTIVE,
     };
   }
 
@@ -41,19 +45,19 @@ class Dashboard extends PureComponent {
   render() {
     let activeItem = this.state.activeItem;
     if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
-      activeItem = 'objective';
+      activeItem = Dashboard.ITEM_OBJECTIVE;
     } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetchedObjectives) {
-      activeItem = 'keyResult';
+      activeItem = Dashboard.ITEM_KEY_RESULT;
     }
     return (
       <div className="dashboard">
         <section className="okr-list-section">
           <div className='okr-list-section__menu'>
             <Menu tabular>
-              <Menu.Item name='objective' active={activeItem === 'objective'} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
-              <Menu.Item name='keyResult' active={activeItem === 'keyResult'} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={Dashboard.ITEM_KEY_RESULT} active={activeItem === Dashboard.ITEM_KEY_RESULT} onClick={this.handleMenuItemClick}>
                 Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
               <Menu.Item>
@@ -61,7 +65,7 @@ class Dashboard extends PureComponent {
               </Menu.Item>
             </Menu>
           </div>
-          {activeItem === 'objective'
+          {activeItem === Dashboard.ITEM_OBJECTIVE
             ? <ObjectiveList objectives={this.props.objectives} />
             : <KeyResultList keyResults={this.props.keyResults} />
           }
