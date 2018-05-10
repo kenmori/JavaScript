@@ -48,6 +48,12 @@ export const getParentKeyResults = createSelector(
   }
 )
 
+export const getKeyResultTasks = createSelector(
+  state => state.keyResults.get('taskIds'),
+  state => state.entities,
+  (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
+)
+
 export const getSelectedObjective = createSelector(
   state => state.objectives.getIn(['selectedOkr', 'objectiveId']),
   state => state.entities,
