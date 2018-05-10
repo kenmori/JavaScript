@@ -17,6 +17,11 @@ function* fetchKeyResultCandidates({ payload }) {
   yield put(keyResultActions.fetchedKeyResultCandidates(result));
 }
 
+function* fetchKeyResultTasks({ payload }) {
+  const result = yield call(API.get, '/key_results/tasks', { okrPeriodId: payload.okrPeriodId, userId: payload.userId })
+  yield put(keyResultActions.fetchedKeyResultTasks(result.get('keyResults')))
+}
+
 function* addKeyResult({ payload }) {
   const result = yield call(API.post, '/key_results', { keyResult: payload.keyResult });
   const currentUserId = yield select(state => state.current.get('userId'));
@@ -42,6 +47,7 @@ export function *keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
     takeLatest(actionTypes.FETCH_KEY_RESULT_CANDIDATES, fetchKeyResultCandidates),
+    takeLatest(actionTypes.FETCH_KEY_RESULT_TASKS, withLoading(fetchKeyResultTasks)),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),

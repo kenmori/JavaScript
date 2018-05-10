@@ -31,6 +31,9 @@ export default handleActions({
     [ActionTypes.FETCHED_KEY_RESULT_CANDIDATES]: (state, { payload }) => {
       return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true);
     },
+    [ActionTypes.FETCHED_KEY_RESULT_TASKS]: (state, { payload }) => {
+      return state.set('taskIds', payload.get('result'))
+    },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
       state = addToCandidates(state, keyResultId);
@@ -58,6 +61,7 @@ export default handleActions({
   fromJS({
     ids: [],
     candidateIds: [],
+    taskIds: [],
     isFetchedKeyResults: false,
     isFetchedCandidates: false,
   }),

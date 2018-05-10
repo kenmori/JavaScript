@@ -15,6 +15,7 @@ function merge(state, { payload }) {
 
 export default handleActions({
     [ActionTypes.FETCHED_KEY_RESULTS]: merge,
+    [ActionTypes.FETCHED_KEY_RESULT_TASKS]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: merge,
     [ActionTypes.UPDATED_KEY_RESULT]: merge,
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {

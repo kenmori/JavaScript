@@ -24,6 +24,18 @@ class KeyResultsController < ApplicationController
     index
   end
 
+  def index_tasks
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
+    # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
+    @key_results = @user.key_results
+                       .includes(child_objectives: { key_results: [child_objectives: :key_results] })
+                       .where(okr_period_id: params[:okr_period_id])
+                       .order(created_at: :desc)
+    render action: :index
+  end
+
   def show_objective
     key_result = KeyResult.find(params[:key_result_id])
     forbidden and return unless valid_permission?(key_result.owner.organization.id)
