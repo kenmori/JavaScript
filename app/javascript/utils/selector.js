@@ -34,6 +34,20 @@ export const getIsolatedObjectives = createSelector(
   objectives => objectives.filter(objective => !objective.get('parentKeyResultId'))
 )
 
+// Objective 作成モーダルに表示する上位 KR 一覧を返す 
+export const getParentKeyResults = createSelector(
+  getKeyResults,
+  state => state.dialogs.getIn(['objectiveForm', 'parentKeyResult']),
+  (keyResults, parentKeyResult) => {
+    const parentKeyResultId = parentKeyResult && parentKeyResult.get('id')
+    if (parentKeyResultId && !keyResults.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
+      // 上位 KR 一覧に指定された上位 KR が存在しない場合は一覧に含める
+      return keyResults.push(parentKeyResult)
+    }
+    return keyResults
+  }
+)
+
 export const getSelectedObjective = createSelector(
   state => state.objectives.getIn(['selectedOkr', 'objectiveId']),
   state => state.entities,
@@ -53,7 +67,7 @@ export const getOkrModalObjective = createSelector(
   }
 )
 
-// Objective の上位 KR 候補一覧を返す
+// OKR 編集モーダルに表示する上位 KR 候補一覧を返す
 export const getParentKeyResultCandidates = createSelector(
   getOkrModalObjective,
   state => state.keyResults.get('candidateIds'),
@@ -62,7 +76,7 @@ export const getParentKeyResultCandidates = createSelector(
     const candidates = denormalizeKeyResultCandidates(keyResultIds, entities)
     const parentKeyResultId = modalObjective && modalObjective.get('parentKeyResultId')
     if (parentKeyResultId && !candidates.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
-      // 候補一覧に紐付く上位 KR が存在しない場合は含める
+      // 候補一覧に指定された上位 KR が存在しない場合は一覧に含める
       const parentKeyResult = entities.keyResults.get(parentKeyResultId)
       if (parentKeyResult) {
         return candidates.push(parentKeyResult)
@@ -72,7 +86,7 @@ export const getParentKeyResultCandidates = createSelector(
   }
 )
 
-// KR に紐付く Objective 候補一覧を返す
+// OKR 編集モーダルに表示する Objective 候補一覧を返す
 // - 管理者 => 全 O
 // - O 責任者 => 自分の O のみ
 // - その他 => 他人の O のみ
@@ -84,7 +98,7 @@ export const getObjectiveCandidates = createSelector(
     const candidates = denormalizeObjectiveCandidates(objectiveIds, entities)
     const objectiveId = modalObjective && modalObjective.get('id')
     if (objectiveId && !candidates.find(objective => objective.get('id') === objectiveId)) {
-      // 候補一覧に紐付く Objective が存在しない場合は含める
+      // 候補一覧に指定された Objective が存在しない場合は一覧に含める
       const objective = entities.objectives.get(objectiveId)
       if (objective) {
         return candidates.push(objective)

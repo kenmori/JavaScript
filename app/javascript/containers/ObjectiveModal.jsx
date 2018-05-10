@@ -2,7 +2,7 @@ import ObjectiveModal from '../components/objectivemodal/ObjectiveModal';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
-import { getKeyResults, getPreviousObjectives, getIsolatedObjectives, getEnabledUsers } from '../utils/selector'
+import { getParentKeyResults, getPreviousObjectives, getIsolatedObjectives, getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   const parentKeyResult = state.dialogs.getIn(['objectiveForm', 'parentKeyResult']);
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
     currentUserId: state.current.get('userId'),
     users: getEnabledUsers(state),
     okrPeriodId: state.current.get('okrPeriodId'),
-    parentKeyResults: getKeyResults(state),
+    parentKeyResults: getParentKeyResults(state),
     isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
     isolatedObjectives: getIsolatedObjectives(state),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
