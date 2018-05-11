@@ -777,8 +777,17 @@ fn2(eee, obj)
 
 ```
 
-### Existential Typek
+### $Rest<A, B>
 
+WIP
+ ```js
+https://github.com/facebook/flow/issues/5006
+ ```
+
+### Existential Types
+
+
+WIP
 ```
 *は、Flowへの「自動」命令と見なすことができ、コンテキストから型を記入するように指示します。
 
