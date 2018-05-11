@@ -11,8 +11,8 @@ import toastActions from '../actions/toasts';
 function* fetchOkrs({ payload }) {
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (payload.isOkrPeriodChanged) {
-    yield put(keyResultActions.fetchKeyResultTasks(payload.okrPeriodId, loginUserId)) // with loading
-    yield take(actionTypes.FETCHED_KEY_RESULT_TASKS)
+    yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
+    yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
   }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)

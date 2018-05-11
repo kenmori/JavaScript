@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     post 'copy', to: 'objectives#create_copy'
   end
   get 'key_results/candidates', to: 'key_results#index_candidates'
-  get 'key_results/tasks', to: 'key_results#index_tasks'
+  get 'key_results/unprocessed', to: 'key_results#index_unprocessed'
   resources :key_results, only: %i[index create update destroy] do
     get 'objective', to: 'key_results#show_objective'
   end

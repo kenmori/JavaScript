@@ -24,7 +24,7 @@ class KeyResultsController < ApplicationController
     index
   end
 
-  def index_tasks
+  def index_unprocessed
     @user = User.find(params[:user_id])
     forbidden and return unless valid_permission?(@user.organization.id)
 

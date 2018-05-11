@@ -47,7 +47,7 @@ class Dashboard extends PureComponent {
   getTabContent() {
     switch(this.state.activeItem) {
       case Dashboard.ITEM_TASK:
-        return <TaskList keyResults={this.props.keyResultTasks} />
+        return <TaskList keyResults={this.props.unprocessedKeyResults} />
       case Dashboard.ITEM_OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />
       case Dashboard.ITEM_KEY_RESULT:
@@ -68,7 +68,7 @@ class Dashboard extends PureComponent {
           <div className='okr-list-section__menu'>
             <Menu tabular>
               <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
-                タスク<Label>{this.props.keyResultTasks.size}</Label>
+                タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
               </Menu.Item>
               <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
@@ -104,7 +104,7 @@ Dashboard.propTypes = {
   mapObjective: ImmutablePropTypes.map,
   objectives: ImmutablePropTypes.list.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
-  keyResultTasks: ImmutablePropTypes.list.isRequired,
+  unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
