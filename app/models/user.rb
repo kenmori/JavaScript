@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :objectives, through: :objective_members
   has_many :key_result_members
   has_many :key_results, through: :key_result_members
+  has_many :unprocessed_key_results, -> { where(key_result_members: { processed: false }) }, through: :key_result_members, :source => :key_result 
   has_many :comments
   has_many :organization_member, dependent: :destroy
   has_many :objective_orders

@@ -29,7 +29,7 @@ class KeyResultsController < ApplicationController
     forbidden and return unless valid_permission?(@user.organization.id)
 
     # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
-    @key_results = @user.key_results
+    @key_results = @user.unprocessed_key_results
                        .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
