@@ -27,6 +27,9 @@ class Dashboard extends PureComponent {
         mapObjective: nextProps.mapObjective,
       });
     }
+    if (!this.props.unprocessedKeyResults.size && nextProps.unprocessedKeyResults.size) {
+      this.setState({ activeItem: Dashboard.ITEM_TASK })
+    }
   }
 
   handleMenuItemClick = (e, { name }) => {
@@ -67,9 +70,11 @@ class Dashboard extends PureComponent {
         <section className="okr-list-section">
           <div className='okr-list-section__menu'>
             <Menu tabular>
-              <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
-                タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
-              </Menu.Item>
+              {this.props.isLoginUser && !!this.props.unprocessedKeyResults.size && (
+                <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
+                  タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
+                </Menu.Item>
+              )}
               <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
@@ -107,6 +112,7 @@ Dashboard.propTypes = {
   unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
+  isLoginUser: PropTypes.bool.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   // component
 }

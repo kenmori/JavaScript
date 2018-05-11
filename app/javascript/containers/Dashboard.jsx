@@ -11,6 +11,7 @@ const mapStateToProps = state => {
     unprocessedKeyResults: getUnprocessedKeyResults(state),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
+    isLoginUser: state.loginUser.get('id') === state.current.get('userId'),
   };
 };
 
