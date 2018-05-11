@@ -17,7 +17,7 @@ class Dashboard extends PureComponent {
     super(props);
     this.state = {
       mapObjective: props.mapObjective,
-      activeItem: Dashboard.ITEM_OBJECTIVE,
+      activeItem: Dashboard.ITEM_TASK,
     };
   }
 
@@ -27,15 +27,35 @@ class Dashboard extends PureComponent {
         mapObjective: nextProps.mapObjective,
       });
     }
-    if (!this.props.unprocessedKeyResults.size && nextProps.unprocessedKeyResults.size) {
-      this.setState({ activeItem: Dashboard.ITEM_TASK })
+    if (!this.props.isFetchedKeyResults && nextProps.isFetchedKeyResults) {
+      if (!nextProps.objectives.size && nextProps.keyResults.size) {
+        this.setActiveItem(Dashboard.ITEM_KEY_RESULT) // O = 0 かつ KR > 0 => KR タブ選択
+      } else if (!nextProps.keyResults.size) {
+        this.setActiveItem(Dashboard.ITEM_OBJECTIVE) //  KR = 0 => O タブ選択
+      }
     }
   }
 
   handleMenuItemClick = (e, { name }) => {
-    this.setState({
-      activeItem: name,
-    });
+    if ((name === Dashboard.ITEM_OBJECTIVE && !this.props.objectives.size)
+      || (name === Dashboard.ITEM_KEY_RESULT && !this.props.keyResults.size)) {
+      return
+    }
+    this.setActiveItem(name)
+  }
+
+  getActiveItem = () => {
+    let { activeItem } = this.state
+    if (activeItem === Dashboard.ITEM_TASK && (!this.props.isLoginUser || !this.props.unprocessedKeyResults.size)) {
+      activeItem = Dashboard.ITEM_OBJECTIVE
+    }
+    return activeItem
+  }
+
+  setActiveItem = activeItem => {
+    if (this.state.activeItem !== activeItem) {
+      this.setState({ activeItem })
+    }
   }
 
   emptyViewHtml() {
@@ -47,8 +67,8 @@ class Dashboard extends PureComponent {
     );
   }
 
-  getTabContent() {
-    switch(this.state.activeItem) {
+  getTabContent = activeItem => {
+    switch(activeItem) {
       case Dashboard.ITEM_TASK:
         return <TaskList keyResults={this.props.unprocessedKeyResults} />
       case Dashboard.ITEM_OBJECTIVE:
@@ -59,12 +79,7 @@ class Dashboard extends PureComponent {
   }
 
   render() {
-    let activeItem = this.state.activeItem;
-    if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
-      activeItem = Dashboard.ITEM_OBJECTIVE;
-    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetchedObjectives) {
-      activeItem = Dashboard.ITEM_KEY_RESULT;
-    }
+    const activeItem = this.getActiveItem()
     return (
       <div className="dashboard">
         <section className="okr-list-section">
@@ -86,7 +101,7 @@ class Dashboard extends PureComponent {
               </Menu.Item>
             </Menu>
           </div>
-          {this.getTabContent()}
+          {this.getTabContent(activeItem)}
         </section>
         <section className='okr-map-section'>
           <div className='okr-map-section__menu'>
@@ -112,6 +127,7 @@ Dashboard.propTypes = {
   unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
   isLoginUser: PropTypes.bool.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   // component
