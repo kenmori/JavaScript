@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class SignIn extends Component {
+class SignInPage extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -12,13 +13,13 @@ export default class SignIn extends Component {
     };
   }
 
-  handleEmailChange(value) {
+  handleEmailChange = (event, { value }) => {
     this.setState({
       email: value,
     });
   }
 
-  signIn() {
+  signIn = () => {
     this.props.signIn(this.emailInput.inputRef.value, this.passwordInput.inputRef.value, true);
   }
 
@@ -32,7 +33,7 @@ export default class SignIn extends Component {
               <Form.Field inline>
                 <div>メールアドレス</div>
                 <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
-                       onChange={(event, { value }) => this.handleEmailChange(value)} />
+                       onChange={this.handleEmailChange} />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
@@ -47,7 +48,7 @@ export default class SignIn extends Component {
               }}>パスワードを忘れた方はこちら</Link>
             </div>
             <div className='center'>
-              <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
+              <Button positive onClick={this.signIn}>ログインする</Button>
             </div>
           </Form>
         </main>
@@ -55,3 +56,11 @@ export default class SignIn extends Component {
     );
   }
 }
+
+SignInPage.propTypes = {
+  // container
+  signIn: PropTypes.func.isRequired,
+  // component
+}
+
+export default SignInPage

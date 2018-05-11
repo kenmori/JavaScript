@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { reduxForm } from 'redux-form';
 import { Button, Modal, Tab } from 'semantic-ui-react';
 import ObjectiveSidebar from './ObjectiveSidebar';
 import ObjectiveForm from './ObjectiveForm';
 
-class ObjectiveModal extends Component {
+class ObjectiveModal extends PureComponent {
 
   static INDEX_NEW = 0;
   static INDEX_LINK = 1;
@@ -18,6 +19,11 @@ class ObjectiveModal extends Component {
       description: '',
       activeIndex: ObjectiveModal.INDEX_NEW,
     }
+    this.panes = [
+      { menuItem: '新規作成', render: () => this.getObjectiveFormHtml({}) },
+      { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml({ isLink: true }) },
+      { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml({ isCopy: true }) },
+    ]
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,28 +42,37 @@ class ObjectiveModal extends Component {
   }
 
   save(validData) {
-    const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null 
-    if (this.state.activeIndex !== ObjectiveModal.INDEX_LINK) {
-      const isCopy = this.state.activeIndex === ObjectiveModal.INDEX_COPY
-      const objective = {
-        id: isCopy ? validData.objectiveId : null,
-        name: validData.name,
-        description: this.state.description,
-        ownerId: this.state.ownerId,
-        parentKeyResultId,
-        okrPeriodId: this.props.okrPeriodId,
-      };
-      const viaHome = !this.props.parentKeyResult; // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
-      this.props.addObjective(objective, viaHome, isCopy)
-    } else {
-      const objective = {
-        id: validData.objectiveId,
-        name: validData.name,
-        description: this.state.description,
-        objectiveMember: { user: this.state.ownerId },
-        parentKeyResultId,
-      };
-      this.props.updateObjective(objective);
+    const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null
+    const viaHome = !this.props.parentKeyResult // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
+    switch (this.state.activeIndex) {
+      case ObjectiveModal.INDEX_NEW:
+        this.props.addObjective({
+          name: validData.name,
+          description: this.state.description,
+          ownerId: this.state.ownerId,
+          parentKeyResultId,
+          okrPeriodId: this.props.okrPeriodId,
+        }, viaHome)
+        break
+      case ObjectiveModal.INDEX_LINK:
+        this.props.updateObjective({
+          id: validData.objectiveId,
+          name: validData.name,
+          description: this.state.description,
+          objectiveMember: { user: this.state.ownerId },
+          parentKeyResultId,
+        })
+        break
+      case ObjectiveModal.INDEX_COPY:
+        this.props.addObjective({
+          id: validData.objectiveId,
+          name: validData.name,
+          description: this.state.description,
+          ownerId: this.state.ownerId,
+          parentKeyResultId,
+          okrPeriodId: this.props.okrPeriodId,
+        }, viaHome, true)
+        break
     }
   }
 
@@ -73,7 +88,7 @@ class ObjectiveModal extends Component {
       || this.state.description !== '';
   }
 
-  handleClose() {
+  handleClose = () => {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
@@ -90,6 +105,10 @@ class ObjectiveModal extends Component {
     setTimeout(() => this.props.closeModal(), 0)
   }
 
+  handleFormChange = values => this.setState({ ...values })
+
+  handleTabChange = (e, { activeIndex }) => this.setState({ activeIndex })
+
   getObjectiveFormHtml = ({ isLink = false, isCopy = false }) => {
     return (
       <Tab.Pane>
@@ -101,10 +120,10 @@ class ObjectiveModal extends Component {
           ownerId={this.state.ownerId}
           hasParentKeyResult={!!this.props.parentKeyResult}
           isFetchedKeyResults={this.props.isFetchedKeyResults}
-          onChange={values => this.setState({ ...values })}
+          onChange={this.handleFormChange}
           fieldChange={this.props.change}
           description={this.state.description}
-          objectives={isLink ? this.props.objectives : (isCopy ? this.props.previousObjectives : undefined)}
+          objectives={isLink ? this.props.isolatedObjectives : (isCopy ? this.props.previousObjectives : undefined)}
           isFetchedObjectives={isLink ? this.props.isFetchedObjectives : (isCopy ? this.props.isFetchedPreviousObjectives : undefined)}
         />
       </Tab.Pane>
@@ -126,7 +145,7 @@ class ObjectiveModal extends Component {
         open={isOpen}
         size={modalSize} 
         className={wrapperClassName}
-        onClose={this.handleClose.bind(this)}
+        onClose={this.handleClose}
       >
         <Modal.Header>
           Objective を入力する
@@ -135,17 +154,13 @@ class ObjectiveModal extends Component {
           <div className="objective-modal__body">
             <ObjectiveSidebar parentKeyResult={parentKeyResult} />
             <div className="objective-modal__main">
-              <Tab panes={[
-                { menuItem: '新規作成', render: () => this.getObjectiveFormHtml({}) },
-                { menuItem: '孤立 OKR 紐付け', render: () => this.getObjectiveFormHtml({ isLink: true }) },
-                { menuItem: '前期 OKR コピー', render: () => this.getObjectiveFormHtml({ isCopy: true }) },
-              ]} onTabChange={(e, { activeIndex }) => this.setState({ activeIndex })} />
+              <Tab panes={this.panes} onTabChange={this.handleTabChange} />
             </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
+            <Button onClick={this.handleClose}>キャンセル</Button>
             <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
           </div>
         </Modal.Actions>
@@ -155,8 +170,23 @@ class ObjectiveModal extends Component {
 }
 
 ObjectiveModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  parentKeyResult: ImmutablePropTypes.map,
+  currentUserId: PropTypes.number.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  okrPeriodId: PropTypes.number.isRequired,
+  parentKeyResults: ImmutablePropTypes.list.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
+  isolatedObjectives: ImmutablePropTypes.list.isRequired,
+  isFetchedObjectives: PropTypes.bool.isRequired,
+  previousObjectives: ImmutablePropTypes.list.isRequired,
+  isFetchedPreviousObjectives: PropTypes.bool.isRequired,
   addObjective: PropTypes.func.isRequired,
-  parentKeyResult: PropTypes.object,
+  updateObjective: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default reduxForm({

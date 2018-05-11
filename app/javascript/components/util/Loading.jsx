@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Loader } from 'semantic-ui-react'
 
-class Loading extends Component {
+class Loading extends PureComponent {
   render() {
     if (!this.props.isOpened) { return null; }
     return (
@@ -16,7 +16,9 @@ class Loading extends Component {
 }
 
 Loading.propTypes = {
+  // container
   isOpened: PropTypes.bool.isRequired,
+  // component
 };
 Loading.defaultProps = {
   isOpened: false,

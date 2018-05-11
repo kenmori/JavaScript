@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Field } from 'redux-form';
 import RenderField from "../form/RenderField";
 import UserSelect from '../form/UserSelect';
@@ -10,9 +11,9 @@ import {
   validateObjectiveName, validateParentKeyResultId, validateIsolatedObjectiveId, validatePreviousObjectiveId,
 } from "../../utils/validator"
 
-class ObjectiveForm extends Component {
+class ObjectiveForm extends PureComponent {
 
-  handleObjectiveIdChange = objectiveId => {
+  handleObjectiveChange = (e, objectiveId) => {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
     this.props.onChange({
       description: objective.get('description'),
@@ -20,6 +21,10 @@ class ObjectiveForm extends Component {
     });
     this.props.fieldChange('name', objective.get('name'));
   }
+
+  handleDescriptionChange = (e, { value }) => this.props.onChange({ description: value })
+
+  handleOwnerChange = ownerId => this.props.onChange({ ownerId })
 
   render() {
     const { isLink, isCopy } = this.props
@@ -33,8 +38,8 @@ class ObjectiveForm extends Component {
               okrs={this.props.objectives}
               loading={!this.props.isFetchedObjectives}
               component={RenderOkrSelect}
-              validate={[isLink ? validateIsolatedObjectiveId : validatePreviousObjectiveId]}
-              onChange={(e, newValue) => this.handleObjectiveIdChange(newValue)}
+              validate={isLink ? validateIsolatedObjectiveId : validatePreviousObjectiveId}
+              onChange={this.handleObjectiveChange}
             />
           </Form.Field>
         )}
@@ -48,16 +53,15 @@ class ObjectiveForm extends Component {
             disabled={this.props.hasParentKeyResult}
             loading={!this.props.isFetchedKeyResults}
             component={RenderOkrSelect}
-            validate={isLink ? [validateParentKeyResultId] : undefined}
+            validate={isLink ? validateParentKeyResultId : undefined}
           />
         </Form.Field>
         <Form.Field>
           <RequiredLabel text='Objective' />
           <Field
             name='name'
-            type='text'
             component={RenderField}
-            validate={[validateObjectiveName]}
+            validate={validateObjectiveName}
           />
         </Form.Field>
         <Form.Field>
@@ -65,7 +69,7 @@ class ObjectiveForm extends Component {
           <TextArea
             autoHeight
             rows={3}
-            onChange={(e, { value }) => this.props.onChange({ description: value })}
+            onChange={this.handleDescriptionChange}
             placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
             value={this.props.description}
           />
@@ -75,7 +79,7 @@ class ObjectiveForm extends Component {
           <UserSelect
             users={this.props.users}
             value={this.props.ownerId}
-            onChange={ownerId => this.props.onChange({ ownerId })}
+            onChange={this.handleOwnerChange}
           />
         </Form.Field>
       </Form>
@@ -84,11 +88,13 @@ class ObjectiveForm extends Component {
 }
 
 ObjectiveForm.propTypes = {
+  // container
+  // component
   isLink: PropTypes.bool.isRequired,
   isCopy: PropTypes.bool.isRequired,
-  parentKeyResults: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
-  objectives: PropTypes.object,
+  parentKeyResults: ImmutablePropTypes.list.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  objectives: ImmutablePropTypes.list,
   description: PropTypes.string.isRequired,
   ownerId: PropTypes.number,
   hasParentKeyResult: PropTypes.bool.isRequired,

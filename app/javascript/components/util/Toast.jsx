@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Transition, Message } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
 
-class Toast extends Component {
+class Toast extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -40,6 +41,14 @@ class Toast extends Component {
       </Transition>
     );
   }
+}
+
+Toast.propTypes = {
+  // container
+  message: PropTypes.object, // String: 同じ文言のトーストを続けて表示するため String オブジェクトを受け取る
+  type: PropTypes.string,
+  clearToast: PropTypes.func.isRequired,
+  // component
 }
 
 export default Toast;

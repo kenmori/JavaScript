@@ -22,11 +22,11 @@ function remove(state, objectiveId) {
 }
 
 function addToCandidates(state, objectiveId) {
-  return state.update('candidates', ids => ids.insert(0, objectiveId));
+  return state.update('candidateIds', ids => ids.insert(0, objectiveId));
 }
 
 function removeFromCandidates(state, objectiveId) {
-  return state.update('candidates', ids => ids.filter(id => id !== objectiveId));
+  return state.update('candidateIds', ids => ids.filter(id => id !== objectiveId));
 }
 
 export default handleActions({
@@ -64,7 +64,7 @@ export default handleActions({
       return state.set('isFetchedCandidates', false);
     },
     [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidates', payload.get('result')).set('isFetchedCandidates', true);
+      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
@@ -100,7 +100,7 @@ export default handleActions({
   fromJS({
     ids: [],
     previousIds: [],
-    candidates: [],
+    candidateIds: [],
     selectedOkr: { objectiveId: null, keyResultId: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,

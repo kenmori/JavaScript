@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class PasswordEditPage extends Component {
-  editPassword() {
+class PasswordEditPage extends PureComponent {
+  editPassword = () => {
     const passwordVal = this.passwordInput.inputRef.value;
     const passwordValConfirm = this.passwordInputConfirm.inputRef.value;
     if (passwordVal === passwordValConfirm) {
@@ -39,7 +40,7 @@ export default class PasswordEditPage extends Component {
               </Form.Field>
             </Form.Group>
             <div>
-              <Button positive onClick={this.editPassword.bind(this)}>再設定する</Button>
+              <Button positive onClick={this.editPassword}>再設定する</Button>
             </div>
           </Form>
         </main>
@@ -47,3 +48,13 @@ export default class PasswordEditPage extends Component {
     );
   }
 }
+
+PasswordEditPage.propTypes = {
+  // container
+  passwordEditedPath: PropTypes.string.isRequired,
+  isEdited: PropTypes.bool.isRequired,
+  editPassword: PropTypes.func.isRequired,
+  // component
+}
+
+export default PasswordEditPage

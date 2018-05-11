@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Select, Label } from 'semantic-ui-react';
 import { okrOptions } from "../../utils/okr";
 
-class RenderOkrSelect extends Component {
+class RenderOkrSelect extends PureComponent {
+
+  handleChange = onChange => (e, { value }) => onChange(value)
+
+  handleClose = onBlur => e => onBlur(e)
 
   render() {
     const {
@@ -25,8 +30,8 @@ class RenderOkrSelect extends Component {
             disabled={disabled}
             loading={loading}
             error={touched && !!error}
-            onChange={(e, { value }) => onChange(value)}
-            onClose={e => onBlur(e)}
+            onChange={this.handleChange(onChange)}
+            onClose={this.handleClose(onBlur)}
             selectOnNavigation={false}
             noResultsMessage='結果が見つかりません'
           />
@@ -39,7 +44,9 @@ class RenderOkrSelect extends Component {
 }
 
 RenderOkrSelect.propTypes = {
-  okrs: PropTypes.object.isRequired,
+  // container
+  // component
+  okrs: ImmutablePropTypes.list.isRequired,
   withNone: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,

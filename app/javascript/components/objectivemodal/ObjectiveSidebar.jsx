@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { List } from 'semantic-ui-react';
 
-class ObjectiveSidebar extends Component {
+class ObjectiveSidebar extends PureComponent {
 
   render() {
     const { parentKeyResult } = this.props;
@@ -41,7 +41,9 @@ class ObjectiveSidebar extends Component {
 }
 
 ObjectiveSidebar.propTypes = {
-  parentKeyResult: PropTypes.object,
+  // container
+  // component
+  parentKeyResult: ImmutablePropTypes.map,
 };
 
 export default ObjectiveSidebar;

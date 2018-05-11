@@ -75,11 +75,11 @@ export default handleActions({
     },
     avatarImage: {
       isOpen: false,
-      imageData: '',
+      imageData: null,
     },
     logoImage: {
       isOpen: false,
-      imageData: '',
+      imageData: null,
     },
     error: {
       isOpen: false,

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
 
-class LogoModal extends Component {
+class LogoModal extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -29,13 +30,10 @@ class LogoModal extends Component {
   componentWillReceiveProps(nextProps) {
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
+
+  handleClick = () => this.props.uploadLogoImage(this.props.targetId, this.props.imageData)
+
   render() {
-    const {
-      targetId,
-      imageData,
-      closeModal,
-      uploadLogoImage,
-    } = this.props
     return (
       <Modal
         closeIcon 
@@ -51,13 +49,22 @@ class LogoModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.closeModal}>キャンセル</Button>
-            <Button positive onClick={() => {uploadLogoImage(targetId, imageData)}}>OK</Button>
+            <Button positive onClick={this.handleClick}>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >
     );
   }
 }
-;
+
+LogoModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  imageData: PropTypes.object, // File
+  targetId: PropTypes.number,
+  uploadLogoImage: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  // component
+}
 
 export default LogoModal;

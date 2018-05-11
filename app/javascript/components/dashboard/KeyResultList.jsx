@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Table } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 
-class KeyResultList extends Component {
+class KeyResultList extends PureComponent {
 
-  selectKeyResult = keyResult => {
+  selectKeyResult = keyResult => () => {
     const objectiveId = keyResult.get('objectiveId');
     if (!keyResult.get('objective')) {
       // 他人の Objective の場合 (未 fetch)
@@ -29,9 +30,9 @@ class KeyResultList extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body className='key-result-table'>
-            {this.props.keyResults.map((keyResult, key) =>
-              <Table.Row key={key} active={keyResult.get('id') === this.props.selectedKeyResultId}
-                         onClick={() => this.selectKeyResult(keyResult)}>
+            {this.props.keyResults.map(keyResult =>
+              <Table.Row key={keyResult.get('id')} active={keyResult.get('id') === this.props.selectedKeyResultId}
+                         onClick={this.selectKeyResult(keyResult)}>
                 <Table.Cell textAlign='center'><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} /></Table.Cell>
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
@@ -48,7 +49,12 @@ class KeyResultList extends Component {
 }
 
 KeyResultList.propTypes = {
-  keyResults: PropTypes.object.isRequired,
+  // container
+  selectedKeyResultId: PropTypes.number,
+  fetchObjective: PropTypes.func.isRequired,
+  selectOkr: PropTypes.func.isRequired,
+  // component
+  keyResults: ImmutablePropTypes.list.isRequired,
 };
 
 export default KeyResultList;

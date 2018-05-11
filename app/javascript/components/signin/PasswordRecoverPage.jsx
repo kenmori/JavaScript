@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class PasswordRecoverPage extends Component {
-  send() {
+class PasswordRecoverPage extends PureComponent {
+  send = () => {
     this.props.send(this.emailInput.inputRef.value);
   }
   componentWillUpdate(props = this.props) {
-    if (props.isRecoverd) {
-      props.history.push(props.passwordRecoverdPath)
+    if (props.isRecovered) {
+      props.history.push(props.passwordRecoveredPath)
     }
   }
   render() {
@@ -26,7 +27,7 @@ export default class PasswordRecoverPage extends Component {
               </Form.Field>
             </Form.Group>
             <div>
-              <Button positive onClick={this.send.bind(this)}>送信する</Button>
+              <Button positive onClick={this.send}>送信する</Button>
             </div>
           </Form>
         </main>
@@ -34,3 +35,13 @@ export default class PasswordRecoverPage extends Component {
     );
   }
 }
+
+PasswordRecoverPage.propTypes = {
+  // container
+  passwordRecoveredPath: PropTypes.string.isRequired,
+  isRecovered: PropTypes.bool.isRequired,
+  send: PropTypes.func.isRequired,
+  // component
+}
+
+export default PasswordRecoverPage

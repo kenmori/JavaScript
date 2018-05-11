@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Popup, Icon } from 'semantic-ui-react';
 import Avatar from './Avatar';
 
@@ -13,7 +14,7 @@ const sizeToIconSize = {
   massive: 'huge',
 };
 
-class UserAvatar extends Component {
+class UserAvatar extends PureComponent {
 
   clickFileInput = () => {
     if (this.props.editable) {
@@ -51,16 +52,17 @@ class UserAvatar extends Component {
 }
 
 UserAvatar.propTypes = {
-  user: PropTypes.object,
+  // container
+  openAvatarModal: PropTypes.func.isRequired,
+  // component
+  user: ImmutablePropTypes.map.isRequired,
   size: PropTypes.string,
   withInitial: PropTypes.bool,
   withName: PropTypes.bool,
   withPopup: PropTypes.bool,
   editable: PropTypes.bool,
-  openAvatarModal: PropTypes.func
 };
 UserAvatar.defaultProps = {
-  user: null,
   size: 'small',
   withInitial: true,
   withName: false,

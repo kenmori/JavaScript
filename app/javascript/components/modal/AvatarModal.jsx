@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
 
-class AvatarModal extends Component {
+class AvatarModal extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -29,14 +30,10 @@ class AvatarModal extends Component {
   componentWillReceiveProps(nextProps) {
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
-  render() {
-    const {
-      targetId,
-      imageData,
-      closeModal,
-      uploadAvatarImage,
-    } = this.props
 
+  handleClick = () => this.props.uploadAvatarImage(this.props.targetId, this.props.imageData)
+
+  render() {
     return (
       <Modal
         closeIcon 
@@ -52,12 +49,22 @@ class AvatarModal extends Component {
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.closeModal}>キャンセル</Button>
-            <Button positive onClick={() => {uploadAvatarImage(targetId, imageData)}}>OK</Button>
+            <Button positive onClick={this.handleClick}>OK</Button>
           </div>
         </ Modal.Actions >
       </ Modal >
     );
   }
+}
+
+AvatarModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  imageData: PropTypes.object, // File
+  targetId: PropTypes.number,
+  uploadAvatarImage: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  // component
 }
 
 export default AvatarModal;

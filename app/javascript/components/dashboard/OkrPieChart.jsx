@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { PieChart, Pie, Tooltip, Label } from 'recharts';
-import PropTypes from 'prop-types';
 
-class OkrPieChart extends Component {
+class OkrPieChart extends PureComponent {
 
   getPieChartProperties(objective) {
     const startAngle = 90;
@@ -28,6 +28,8 @@ class OkrPieChart extends Component {
     };
   }
 
+  formatter = value => `${Math.round(value)}%`
+
   getPieChart = (objective) => {
     const { data, startAngle, endAngle, minAngle, label } = this.getPieChartProperties(objective);
     return (
@@ -43,7 +45,7 @@ class OkrPieChart extends Component {
              paddingAngle={2}>
           <Label value={label} position="center" className="progress-rate" />
         </Pie>
-        <Tooltip formatter={value => `${Math.round(value)}%`} />
+        <Tooltip formatter={this.formatter} />
       </PieChart>
     );
   }
@@ -64,7 +66,9 @@ class OkrPieChart extends Component {
 }
 
 OkrPieChart.propTypes = {
-  objective: PropTypes.object.isRequired,
+  // container
+  // component
+  objective: ImmutablePropTypes.map.isRequired,
 };
 
 export default OkrPieChart;

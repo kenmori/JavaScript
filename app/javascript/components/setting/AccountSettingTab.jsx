@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Button, Input } from 'semantic-ui-react';
 import UserAvatar from '../../containers/UserAvatar';
 import AutoInput from '../form/AutoInput';
 
-class AccountSettingTab extends Component {
+class AccountSettingTab extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -12,9 +13,13 @@ class AccountSettingTab extends Component {
     }
   }
 
-  changeEmail = (id, email) => {
+  handleLastNameCommit = lastName => this.props.updateUser({ id: this.props.loginUser.get('id'), lastName })
+
+  handleFistNameCommit = firstName => this.props.updateUser({ id: this.props.loginUser.get('id'), firstName })
+
+  changeEmail = email => {
     if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？')) {
-      this.props.updateEmail({id, email});
+      this.props.updateEmail({ id: this.props.loginUser.get('id'), email });
     } else {
       this.setState({
         email: this.props.loginUser.get('email'),
@@ -65,13 +70,13 @@ class AccountSettingTab extends Component {
           <dt>名前</dt>
           <dd>
             <span style={{marginRight: '5px'}}>
-              <AutoInput value={loginUser.get('lastName')} onCommit={lastName => this.props.updateUser({id: loginUser.get('id'), lastName})}/>
+              <AutoInput value={loginUser.get('lastName')} onCommit={this.handleLastNameCommit}/>
             </span>
-            <AutoInput value={loginUser.get('firstName')} onCommit={firstName => this.props.updateUser({id: loginUser.get('id'), firstName})}/>
+            <AutoInput value={loginUser.get('firstName')} onCommit={this.handleFistNameCommit}/>
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={email => this.changeEmail(loginUser.get('id'), email)}/></dd>
+          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
 
           <dt>アバター</dt>
           <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
@@ -107,7 +112,15 @@ class AccountSettingTab extends Component {
 }
 
 AccountSettingTab.propTypes = {
+  // container
+  loginUser: ImmutablePropTypes.map.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  updateEmail: PropTypes.func.isRequired,
   updatePassword: PropTypes.func.isRequired,
+  openAvatarModal: PropTypes.func.isRequired,
+  deleteAvatar: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default AccountSettingTab;

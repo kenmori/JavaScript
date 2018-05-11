@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Popup, Icon } from 'semantic-ui-react';
 import Avatar from './Avatar';
 
@@ -13,7 +14,7 @@ const sizeToIconSize = {
   massive: 'huge',
 };
 
-class OwnerAvatar extends Component {
+class OwnerAvatar extends PureComponent {
 
   trigger = () => {
     const hasMembers = this.props.members && this.props.members.size > 0;
@@ -56,12 +57,13 @@ class OwnerAvatar extends Component {
 }
 
 OwnerAvatar.propTypes = {
-  owner: PropTypes.object,
-  members: PropTypes.object,
+  // container
+  // component
+  owner: ImmutablePropTypes.map.isRequired,
+  members: ImmutablePropTypes.list,
   size: PropTypes.string,
 };
 OwnerAvatar.defaultProps = {
-  owner: null,
   members: null,
   size: 'small',
 };
