@@ -4,6 +4,7 @@ require 'date'
 require 'optparse'
 require 'csv'
 
+# DataAccessLayer
 class ExportObjectKeyResultsDataAccessor
   def self.all_organizations
     Organization.order(:id).all
@@ -53,26 +54,28 @@ class ExportObjectKeyResultsDataAccessor
           on org.id = m.organization_id
         inner join users as u
           on m.user_id = u.id
-        inner join key_result_members as krm
+        left outer join key_result_members as krm
           on krm.user_id = u.id
-        inner join key_results as kr
+          and krm.role = 0 #owner
+        left outer join key_results as kr
           on kr.id = krm.key_result_id
-        inner join okr_periods as period
+        left outer join okr_periods as period
           on period.id = kr.okr_period_id
           and period.organization_id = org.id
-        inner join objectives as o
+        left outer join objectives as o
           on o.id = kr.objective_id
-        inner join objective_members as om
+        left outer join objective_members as om
           on om.objective_id = o.id
-        inner join users as ou
+        left outer join users as ou
           on ou.id = om.user_id
-        inner join key_results as parent_kr
+        left outer join key_results as parent_kr
           on parent_kr.id = o.parent_key_result_id
-        inner join key_result_members as parent_kr_member
+        left outer join key_result_members as parent_kr_member
           on parent_kr_member.key_result_id = parent_kr.id
-        inner join users as parent_kr_user
+          and parent_kr_member.role = 0 #owner
+        left outer join users as parent_kr_user
           on parent_kr_member.user_id = parent_kr_user.id
-      where org.name = #{organization_id}
+      where org.id = #{organization_id}
        and period.id = #{period_id}
       order by u.id, u.objective_order, o.key_result_order;
     EOS
@@ -81,6 +84,7 @@ class ExportObjectKeyResultsDataAccessor
   end
 end
 
+# Model
 class ExportObjectKeyResultsCsvRow
   attr_reader :user_name, :email
 
@@ -235,6 +239,7 @@ class ExportObjectKeyResultsCsvRow
   end
 end
 
+# ServiceLayer
 class ExportObjectKeyResultsService
   def self.create_csv_value(organization_id, period_id)
     export_data = ExportObjectKeyResultsDataAccessor.get_export_data(organization_id, period_id)
