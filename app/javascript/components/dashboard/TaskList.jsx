@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Table } from 'semantic-ui-react'
+import { Table, Button } from 'semantic-ui-react'
 import OwnerAvatar from '../util/OwnerAvatar'
 
 class TaskList extends PureComponent {
@@ -15,6 +15,16 @@ class TaskList extends PureComponent {
     this.props.selectOkr(objectiveId, keyResult.get('id'))
   }
 
+  handleCreateClick = keyResult => event => {
+    this.props.openObjectiveModal(keyResult)
+    event.stopPropagation()
+  }
+
+  handleNotCreateClick = keyResult => event => {
+    this.props.processKeyResult(keyResult.get('id'))
+    event.stopPropagation()
+  }
+
   render() {
     return (
       <div className="task-list">
@@ -24,9 +34,8 @@ class TaskList extends PureComponent {
               <Table.HeaderCell />
               <Table.HeaderCell>Key Result</Table.HeaderCell>
               <Table.HeaderCell>目標値</Table.HeaderCell>
-              <Table.HeaderCell>実績値</Table.HeaderCell>
-              <Table.HeaderCell>進捗</Table.HeaderCell>
               <Table.HeaderCell>期限</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
           <Table.Body className='task-table'>
@@ -39,9 +48,14 @@ class TaskList extends PureComponent {
                 </Table.Cell>
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
-                <Table.Cell>{keyResult.get('actualValue')} {keyResult.get('valueUnit')}</Table.Cell>
-                <Table.Cell>{keyResult.get('progressRate')}%</Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
+                <Table.Cell>
+                  <Button.Group>
+                    <Button content='下位 OKR を作成する' positive onClick={this.handleCreateClick(keyResult)} />
+                    <Button.Or />
+                    <Button content='作成しない' onClick={this.handleNotCreateClick(keyResult)} />
+                  </Button.Group>
+                </Table.Cell>
               </Table.Row>
             )}
           </Table.Body>
@@ -56,6 +70,8 @@ TaskList.propTypes = {
   selectedKeyResultId: PropTypes.number,
   fetchObjective: PropTypes.func.isRequired,
   selectOkr: PropTypes.func.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
+  processKeyResult: PropTypes.func.isRequired,
   // component
   keyResults: ImmutablePropTypes.list.isRequired,
 }
