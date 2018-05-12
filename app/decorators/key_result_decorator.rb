@@ -45,4 +45,9 @@ module KeyResultDecorator
       [role, owner_id] # 責任者/関係者順 → ユーザー順 (→ 作成日昇順)
     }
   end
+
+  def processed?
+    key_result_member = key_result_members.find_by(user_id: current_user.id)
+    key_result_member.nil? ? true : key_result_member.processed # 関連付いていない KR は処理済みとみなす
+  end
 end

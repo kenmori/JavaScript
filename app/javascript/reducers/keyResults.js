@@ -2,12 +2,14 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
-function add(state, keyResultId) {
-  return state.update('ids', ids => ids.includes(keyResultId) ? ids : ids.insert(0, keyResultId));
+function add(state, keyResultId, isProcessed) {
+  return state.update('ids', ids => ids.includes(keyResultId) ? ids : ids.insert(0, keyResultId))
+    .update('unprocessedIds', ids => (isProcessed || ids.includes(keyResultId)) ? ids : ids.insert(0, keyResultId))
 }
 
 function remove(state, keyResultId) {
-  return state.update('ids', ids => ids.filter(id => id !== keyResultId));
+  return state.update('ids', ids => ids.filter(id => id !== keyResultId))
+    .update('unprocessedIds', ids => ids.filter(id => id !== keyResultId))
 }
 
 function addToCandidates(state, keyResultId) {
@@ -42,7 +44,7 @@ export default handleActions({
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const isMine = userId === keyResult.get('owner').get('id')
         || keyResult.get('members').some(member => member.get('id') === userId);
-      return isMine ? add(state, keyResultId) : state;
+      return isMine ? add(state, keyResultId, keyResult.get('isProcessed')) : state;
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
       const userId = payload.get('currentUserId');
@@ -50,7 +52,7 @@ export default handleActions({
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
       const isMine = userId === keyResult.get('owner').get('id')
         || keyResult.get('members').some(member => member.get('id') === userId);
-      return isMine ? add(state, keyResultId) : remove(state, keyResultId);
+      return isMine ? add(state, keyResultId, keyResult.get('isProcessed')) : remove(state, keyResultId);
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();

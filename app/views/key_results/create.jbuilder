@@ -1,6 +1,8 @@
 json.key_result do
   json.partial!(@key_result)
 
+  json.is_processed @key_result.processed?
+
   objective = @key_result.objective
   json.objective do
     json.partial! 'objectives/progress_rate', objective: objective
