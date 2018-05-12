@@ -43,6 +43,11 @@ function* removeKeyResult({payload}) {
   yield put(toastActions.showToast('Key Result を削除しました'));
 }
 
+function* processKeyResult({ payload }) {
+  yield call(API.put, `/key_results/${payload.id}/process`, {})
+  yield put(keyResultActions.processedKeyResult(payload.id))
+}
+
 export function *keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
@@ -51,5 +56,6 @@ export function *keyResultSagas() {
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),
+    takeLatest(actionTypes.PROCESS_KEY_RESULT, withLoading(processKeyResult)),
   ]);
 }

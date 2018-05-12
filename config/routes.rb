@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get 'key_results/unprocessed', to: 'key_results#index_unprocessed'
   resources :key_results, only: %i[index create update destroy] do
     get 'objective', to: 'key_results#show_objective'
+    put 'process', to: 'key_results#update_processed'
   end
   resources :users, only: %i[create update destroy] do
     put 'restore', to: 'users#restore'

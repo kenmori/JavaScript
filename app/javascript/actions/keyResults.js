@@ -15,6 +15,8 @@ const actions = createActions({
   [actionTypes.UPDATED_KEY_RESULT]: (keyResult, currentUserId) => normalizeKeyResult(keyResult).set('currentUserId', currentUserId),
   [actionTypes.REMOVE_KEY_RESULT]: id => ({ id }),
   [actionTypes.REMOVED_KEY_RESULT]: keyResult => normalizeKeyResult(keyResult),
+  [actionTypes.PROCESS_KEY_RESULT]: id => ({ id }),
+  [actionTypes.PROCESSED_KEY_RESULT]: id => ({ id }),
 });
 
 export default actions;

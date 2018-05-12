@@ -72,6 +72,9 @@ export default handleActions({
       state = removeFromCandidates(state, keyResultId);
       return remove(state, keyResultId);
     },
+    [ActionTypes.PROCESSED_KEY_RESULT]: (state, { payload }) => {
+      return state.update('unprocessedIds', ids => ids.filter(id => id !== payload.id))
+    },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       return removeFromUnprocessed(state, payload)
     },
