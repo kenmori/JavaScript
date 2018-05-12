@@ -167,7 +167,6 @@ class ObjectivesController < ApplicationController
 
     member = @objective.objective_members.find_by(user_id: user_id)
     if member.nil?
-      # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       @objective.objective_members.create!(user_id: user_id, role: :owner)
     else
       # 関係者から責任者に変更

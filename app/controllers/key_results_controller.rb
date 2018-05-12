@@ -55,7 +55,6 @@ class KeyResultsController < ApplicationController
       @user.save!
       update_objective if params[:key_result][:objective_id]
       params[:key_result][:members].each do |id|
-        # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: id, role: :member)
       end
     end
@@ -160,7 +159,6 @@ class KeyResultsController < ApplicationController
       end
       member = @key_result.key_result_members.find_by(user_id: user_id)
       if member.nil?
-        # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: user_id, role: role)
       else
         # 関係者から責任者に変更
@@ -174,7 +172,6 @@ class KeyResultsController < ApplicationController
           .each do |objective|
         @key_result.child_objectives.delete(objective)
       end
-      # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       member = @key_result.key_result_members.find_by(user_id: user_id)
       member.destroy!
     end
