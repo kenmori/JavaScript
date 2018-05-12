@@ -4,6 +4,7 @@ json.objective do
   parent_key_result = @objective.parent_key_result
   json.parent_key_result do
     json.partial! 'key_results/progress_rate', key_result: parent_key_result if parent_key_result
+    json.is_processed parent_key_result.processed? if parent_key_result
   end
 
   detached_parent_key_result = @objective.detached_parent_key_result

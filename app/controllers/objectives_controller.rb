@@ -139,10 +139,11 @@ class ObjectivesController < ApplicationController
         @objective.errors[:base] << '上位 Key Result の関係者は Objective 責任者に自分以外を指定できません'
         raise
       end
+      parent_key_result.key_result_members.find_by(user_id: objective_owner_id).update!(processed: true)
     else
       if current_user.admin? || parent_key_result.owner.id == current_user.id
         # 管理者または上位 KR 責任者の場合は上位 KR の関係者として追加する
-        parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member)
+        parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member, processed: true)
       else
         @objective.errors[:base] << '上位 Key Result の責任者または関係者でないため紐付けられません'
         raise
@@ -175,7 +176,7 @@ class ObjectivesController < ApplicationController
 
     # Objective 責任者が紐付く上位 KR の責任者または関係者でない場合は追加する
     if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: user_id)
-      @objective.parent_key_result.key_result_members.create!(user_id: user_id, role: :member)
+      @objective.parent_key_result.key_result_members.create!(user_id: user_id, role: :member, processed: true)
     end
   end
 

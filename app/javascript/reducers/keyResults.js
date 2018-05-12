@@ -20,6 +20,19 @@ function removeFromCandidates(state, keyResultId) {
   return state.update('candidateIds', ids => ids.filter(id => id !== keyResultId));
 }
 
+function removeFromUnprocessed(state, payload) {
+  const objectiveId = payload.get('result').first()
+  const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`])
+  const parentKeyResultId = objective.get('parentKeyResultId')
+  if (parentKeyResultId) {
+    const parentKeyResult = payload.getIn(['entities', 'keyResults', `${parentKeyResultId}`])
+    if (parentKeyResult.get('isProcessed')) {
+      return state.update('unprocessedIds', ids => ids.filter(id => id !== parentKeyResultId))
+    }
+  }
+  return state
+}
+
 export default handleActions({
     [ActionTypes.FETCH_KEY_RESULTS]: (state, { payload }) => {
       return state.set('isFetchedKeyResults', false);
@@ -58,6 +71,12 @@ export default handleActions({
       const keyResultId = payload.get('result').first();
       state = removeFromCandidates(state, keyResultId);
       return remove(state, keyResultId);
+    },
+    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
+      return removeFromUnprocessed(state, payload)
+    },
+    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
+      return removeFromUnprocessed(state, payload)
     },
   },
   fromJS({
