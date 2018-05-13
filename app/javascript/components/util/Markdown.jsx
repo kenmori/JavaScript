@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import remark from 'remark';
 import reactRemark from 'remark-react'
 import emoji from 'remark-emoji'
+import style from 'github-markdown-css/github-markdown.css'
 
 class Markdown extends Component {
 
@@ -14,8 +15,9 @@ class Markdown extends Component {
       pedantic: true,
       breaks: true,
     }
+
     return (
-      <div className='markdown'>
+      <div className={`${'markdown-body'} ${'markdown'}`}>
         {remark()
           .use(emoji)
           .use(reactRemark)

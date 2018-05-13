@@ -8,6 +8,7 @@
     "@rails/webpacker": "3.0.2",
     "babel-preset-react": "6.24.1",
     "coffeescript": "1.12.7",
+    "github-markdown-css": "2.10.0",
     "hashids": "1.1.4",
     "humps": "2.0.1",
     "immutable": "3.8.2",
