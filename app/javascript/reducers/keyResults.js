@@ -44,6 +44,20 @@ function removeParentFromUnprocessed(state, payload) {
   return state
 }
 
+function addParentAndKeyResults(state, payload) {
+  // 上位 KR 紐付け変更時や下位 OKR 作成時、OKR コピー時に Objective の上位 KR や紐付く KR を追加する
+  const objectiveId = payload.get('result').first()
+  const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`])
+  objective.get('keyResultIds')
+    .push(objective.get('parentKeyResultId'))
+    .forEach(keyResultId => {
+      if (keyResultId && isMine(keyResultId, payload)) {
+        state = add(state, keyResultId)
+      }
+    })
+  return state
+}
+
 function isMine(keyResultId, payload) {
   const userId = payload.get('currentUserId')
   const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`])
@@ -88,10 +102,12 @@ export default handleActions({
       return removeFromUnprocessed(state, payload.id)
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      return removeParentFromUnprocessed(state, payload)
+      state = removeParentFromUnprocessed(state, payload)
+      return addParentAndKeyResults(state, payload)
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      return removeParentFromUnprocessed(state, payload)
+      state = removeParentFromUnprocessed(state, payload)
+      return addParentAndKeyResults(state, payload)
     },
   },
   fromJS({
