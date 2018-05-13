@@ -4,15 +4,17 @@ import dialogActions from '../actions/dialogs';
 import { getObjectives, getKeyResults, getUnprocessedKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
+  const unprocessedKeyResults = getUnprocessedKeyResults(state)
+  const isLoginUser = state.loginUser.get('id') === state.current.get('userId')
   return {
     mapObjective: getSelectedObjective(state),
     objectives: getObjectives(state),
     keyResults: getKeyResults(state),
-    unprocessedKeyResults: getUnprocessedKeyResults(state),
+    unprocessedKeyResults,
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
     isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
-    isLoginUser: state.loginUser.get('id') === state.current.get('userId'),
+    showTask: isLoginUser && !!unprocessedKeyResults.size,
   };
 };
 

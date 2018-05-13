@@ -45,11 +45,8 @@ class Dashboard extends PureComponent {
   }
 
   getActiveItem = () => {
-    let { activeItem } = this.state
-    if (activeItem === Dashboard.ITEM_TASK && (!this.props.isLoginUser || !this.props.unprocessedKeyResults.size)) {
-      activeItem = Dashboard.ITEM_OBJECTIVE
-    }
-    return activeItem
+    const { activeItem } = this.state
+    return (activeItem === Dashboard.ITEM_TASK && !this.props.showTask) ? Dashboard.ITEM_OBJECTIVE : activeItem
   }
 
   setActiveItem = activeItem => {
@@ -85,7 +82,7 @@ class Dashboard extends PureComponent {
         <section className="okr-list-section">
           <div className='okr-list-section__menu'>
             <Menu tabular>
-              {this.props.isLoginUser && !!this.props.unprocessedKeyResults.size && (
+              {this.props.showTask && (
                 <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
                   タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
                 </Menu.Item>
@@ -128,7 +125,7 @@ Dashboard.propTypes = {
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
   isFetchedKeyResults: PropTypes.bool.isRequired,
-  isLoginUser: PropTypes.bool.isRequired,
+  showTask: PropTypes.bool.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   // component
 }
