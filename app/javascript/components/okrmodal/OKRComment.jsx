@@ -5,8 +5,7 @@ import { Form, Icon, Button, TextArea, Divider, Comment } from 'semantic-ui-reac
 import AutoTextArea from '../form/AutoTextArea';
 import moment from 'moment';
 import avatar_image from '../../images/avatar.png';
-import remark from 'remark';
-import reactRemark from 'remark-react'
+import Markdown from '../util/Markdown';
 
 class OKRComment extends Component {
 
@@ -21,7 +20,6 @@ class OKRComment extends Component {
   commentText() {
     const user = this.props.item.get('user')
     const avatarUrl = user ? user.get('avatarUrl') : null
-    const markdown = text => remark().use(reactRemark).processSync(text).contents
 
     return (
       <Comment.Group className='okr-comment'>
@@ -33,7 +31,7 @@ class OKRComment extends Component {
               <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')} {this.props.item.get('isEdited') ? '(編集済)' : null}</div>
             </Comment.Metadata>
             <Comment.Text>
-              {markdown(this.props.item.get('text'))}
+              <Markdown text={this.props.item.get('text')}></Markdown>
             </Comment.Text>
             {this.props.item.get('editable') ?
               (
