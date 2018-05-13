@@ -3,17 +3,16 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import remark from 'remark';
 import reactRemark from 'remark-react'
-import OKRComment from "../okrmodal/OKRComment";
 
-class Markdonw extends Component {
+class Markdown extends Component {
 
   render() {
     return remark().use(reactRemark).processSync(this.props.text).contents
   }
 }
 
-Markdonw.propTypes = {
+Markdown.propTypes = {
   text: PropTypes.string.isRequired,
 }
 
-export default Markdonw
+export default Markdown
