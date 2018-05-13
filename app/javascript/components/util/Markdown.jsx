@@ -7,7 +7,12 @@ import reactRemark from 'remark-react'
 class Markdown extends Component {
 
   render() {
-    return remark().use(reactRemark).processSync(this.props.text).contents
+
+    return (
+      <div className='markdown'>
+        {remark().use(reactRemark).processSync(this.props.text).contents}
+      </div>
+    )
   }
 }
 
