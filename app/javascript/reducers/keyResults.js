@@ -33,8 +33,15 @@ function removeFromUnprocessed(state, payload) {
   return state
 }
 
+function isMine(keyResultId, payload) {
+  const userId = payload.get('currentUserId')
+  const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`])
+  return userId === keyResult.get('owner').get('id')
+    || keyResult.get('members').some(member => member.get('id') === userId)
+}
+
 export default handleActions({
-    [ActionTypes.FETCH_KEY_RESULTS]: (state, { payload }) => {
+    [ActionTypes.FETCH_KEY_RESULTS]: state => {
       return state.set('isFetchedKeyResults', false);
     },
     [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
@@ -52,19 +59,14 @@ export default handleActions({
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
       state = addToCandidates(state, keyResultId);
-
-      const userId = payload.get('currentUserId');
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
-      const isMine = userId === keyResult.get('owner').get('id')
-        || keyResult.get('members').some(member => member.get('id') === userId);
+      const isMine = isMine(keyResultId, payload)
       return isMine ? add(state, keyResultId, keyResult.get('isProcessed')) : state;
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      const userId = payload.get('currentUserId');
       const keyResultId = payload.get('result').first();
       const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`]);
-      const isMine = userId === keyResult.get('owner').get('id')
-        || keyResult.get('members').some(member => member.get('id') === userId);
+      const isMine = isMine(keyResultId, payload)
       return isMine ? add(state, keyResultId, keyResult.get('isProcessed')) : remove(state, keyResultId);
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
