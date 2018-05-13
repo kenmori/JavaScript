@@ -37,6 +37,8 @@
     "redux-form": "7.3.0",
     "redux-logger": "3.0.6",
     "redux-saga": "0.15.6",
+    "remark": "9.0.0",
+    "remark-react": "4.0.3",
     "reselect": "3.0.1",
     "semantic-ui-react": "0.79.0"
   },
