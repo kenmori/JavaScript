@@ -8,9 +8,14 @@ class Markdown extends Component {
 
   render() {
 
+    const options = {
+      gfm: true,
+      pedantic: true,
+      breaks: true,
+    }
     return (
       <div className='markdown'>
-        {remark().use(reactRemark).processSync(this.props.text).contents}
+        {remark().use(reactRemark).processSync(this.props.text, options).contents}
       </div>
     )
   }
