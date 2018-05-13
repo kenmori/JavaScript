@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import remark from 'remark';
 import reactRemark from 'remark-react'
+import emoji from 'remark-emoji'
 
 class Markdown extends Component {
 
@@ -15,7 +16,11 @@ class Markdown extends Component {
     }
     return (
       <div className='markdown'>
-        {remark().use(reactRemark).processSync(this.props.text, options).contents}
+        {remark()
+          .use(emoji)
+          .use(reactRemark)
+          .processSync(this.props.text, options)
+          .contents}
       </div>
     )
   }
