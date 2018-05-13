@@ -27,7 +27,7 @@ class Dashboard extends PureComponent {
         mapObjective: nextProps.mapObjective,
       });
     }
-    if (!this.props.isFetchedKeyResults && nextProps.isFetchedKeyResults) {
+    if (!this.props.isFetchedKeyResults && nextProps.isFetchedKeyResults && !nextProps.showTask) {
       if (!nextProps.objectives.size && nextProps.keyResults.size) {
         this.setActiveItem(Dashboard.ITEM_KEY_RESULT) // O = 0 かつ KR > 0 => KR タブ選択
       } else if (!nextProps.keyResults.size) {
