@@ -1,6 +1,31 @@
-## ざっくり理解するflowType
+## ざっくり、だけど今より深く理解するflowType
+![flowType](http://kenjimorita.jp/wp-content/uploads/2018/05/64087C72-006E-4EC0-90B5-892266C1F5F7.jpeg)
 
-### ?
+#### 対象
+・flowはなんとなく分かるがなんとなくつまる方
+・Documentを眺めたがもうちょっと違う角度で説明して欲しい
+・ざっと読みたいのでまとめて欲しい
+
+#### ゴール
+・読んでくれた方が理解を深めれたと思えること
+
+### 個人の感想
+個人的にsubtypeと?(オプション)、ジェネリクス、utilityのそれぞれの違い
+エラーが伝えていることの理解は重要に思えました
+
+### 注釈
+WIP
+### Content
+WIP
+
+
+
+### Subtype
+
+WIP
+
+
+
 
 ## Optional object type properties
 
@@ -372,6 +397,7 @@ function method (fn: <T>(param:T) => T){
 
 ### %checks
 
+このメソッドがrefinementだという宣言
  ```js
  function truthy(a, b):boolean %checks {
   return  !!a && !!b
@@ -396,6 +422,12 @@ function a(b):string | number{
   }
 }
 a("fafa");
+
+
+
+//もしくはインラインcheckする
+
+
  ```
 
 
@@ -740,7 +772,22 @@ fn2(eee, obj)
 
 ```
 
+
+
+### Flow Error集
+
+エラーで言われていることを理解して修正できるようになることを目指したセクションです
+
 ```
+
+function add<T>(a:T, b:T):T{
+ return a + b
+}
+
+add(5, 7)
+add("fafa", "eee")
+
+
 ```
 
 ```
