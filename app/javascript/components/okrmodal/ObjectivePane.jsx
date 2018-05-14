@@ -47,7 +47,7 @@ class ObjectivePane extends PureComponent {
   keyResultProgressRateHtml(objective) {
     const progressRate = objective.get('progressRate')
     const keyResultProgressRate = objective.get('keyResultProgressRate')
-    return keyResultProgressRate > 0 && progressRate !== keyResultProgressRate && (
+    return (typeof keyResultProgressRate === 'number') && progressRate !== keyResultProgressRate && (
       <div className='flex-field__item'>
         <Popup
           trigger={<Label
@@ -69,7 +69,7 @@ class ObjectivePane extends PureComponent {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
     const childProgressRate = parentKeyResult.get('childProgressRate');
-    return childProgressRate > 0 && progressRate !== childProgressRate && (
+    return (typeof childProgressRate === 'number') && progressRate !== childProgressRate && (
       <div className='flex-field__item'>
         <Label pointing='left' content={`上位 Key Result の進捗は ${childProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
