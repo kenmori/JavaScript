@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
+import NumberInput from '../form/NumberInput'
 import UserSelect from '../form/UserSelect';
 
 class ObjectivePane extends PureComponent {
@@ -13,6 +14,7 @@ class ObjectivePane extends PureComponent {
     super(props);
     this.state = {
       name: props.objective.get('name'),
+      progressRate: props.objective.get('progressRate'),
     };
   }
 
@@ -47,9 +49,14 @@ class ObjectivePane extends PureComponent {
     );
   }
 
+  handleProgressRateChange = progressRate => this.setState({ progressRate })
+
+  handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate })
+
   render() {
     const objective = this.props.objective;
     if (!objective) return null;
+    const { progressRate } = this.state
     return (
       <Form>
         <Form.Field>
@@ -57,7 +64,22 @@ class ObjectivePane extends PureComponent {
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
-          <div className='flex-field__item progress-rate'>{objective.get('progressRate')}%</div>
+          <div className="flex-field__item progress-rate">
+            <NumberInput
+              label='%'
+              value={progressRate}
+              onChange={this.handleProgressRateChange}
+              onCommit={this.handleProgressRateCommit}
+            />
+          </div>
+          <div className='flex-field__item slider'>
+            <NumberInput
+              type='range'
+              value={progressRate}
+              onChange={this.handleProgressRateChange}
+              onMouseUp={this.handleProgressRateCommit}
+            />
+          </div>
           {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
         <Form.Field className='flex-field'>
