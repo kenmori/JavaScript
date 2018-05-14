@@ -1,4 +1,5 @@
-## ざっくり、だけど今より深く理解するflowType
+## 静的起動戦隊flowType
+
 ![flowType](http://kenjimorita.jp/wp-content/uploads/2018/05/64087C72-006E-4EC0-90B5-892266C1F5F7.jpeg)
 
 #### 対象
@@ -7,25 +8,19 @@
 ・ざっと読みたいのでまとめて欲しい
 
 #### ゴール
-・読んでくれた方が理解を深めれたと思えること
+・読んでくれた方が「理解を深められた」と思えること
 
-### 個人の感想
-個人的にsubtypeと?(オプション)、ジェネリクス、utilityのそれぞれの違い
-エラーが伝えていることの理解は重要に思えました
+### 感想
+個人的にsubtypeとエラーが伝えていることの理解は重要に思えました
 
 ### 注釈
 WIP
 ### Content
 WIP
 
-
-
 ### Subtype
 
 WIP
-
-
-
 
 ## Optional object type properties
 
@@ -50,11 +45,10 @@ method(null)//error
 
 ```
 
-
-
 ### Union types
 
 関数内ではそれぞれの実引数のtypeに対応し、返り値のstringに変換して返すようにしなくてはならない
+
 ```js
 function ee(value: string | boolean | number):string{
   if(typeof value === "string"){
@@ -70,6 +64,7 @@ function ee(value: string | boolean | number):string{
 ```
 
 入ってくるかわからないものを扱うことはできない
+
 ```js
 {success: true, value: false}
 {success: false, error: "bad"}
@@ -95,15 +90,12 @@ type Success = {success: true, value: boolean}
 type Failed = {success: false, error: string}
 
 type Response = Success | Failed
-
-
-
 ```
-
 
 結合されていない結合では、
 各オブジェクトタイプを区別するために単一のプロパティを使用する必要があります。
 2つの異なるオブジェクトを異なるプロパティで区別することはできません。
+
 ```js
 type Success = { success: true, value: boolean };
 type Failed  = { error: true, message: string };
@@ -146,7 +138,6 @@ function handleResponse(response: Response) {
 }
 ```
 
-
 ## generic type
 
 ```js
@@ -157,6 +148,7 @@ add("kenji");
 
 ```
 こちらにstring型をつけると
+
 ```js
 function somemethod(a:string):string {
   return a
@@ -164,6 +156,7 @@ function somemethod(a:string):string {
 ```
 文字列を結合して返すものしか使えなくなる
 その場合
+
 ```js
 function somemethod<T>(a:T):T{
   return a
@@ -177,6 +170,7 @@ add(3)
 またgenericsは一旦私た型の追跡をする
 
 下の例はvalueが置き換わっていて、T型が保証されていないのでErrorになっている
+
 ```js
 function identity<T>(value: T): T {
   return "foo"; // Error!
@@ -287,12 +281,12 @@ type One = {prop: number};
 type Two = {foo: boolean};
 type Both = One & Two;
 var value: Both = {prop: 1, foo: false}//ok
-
-
 ```
-Array Type
+
+### Array Type
 
 配列の要素にnullを許容する時
+
 ```js
 
 //?Type[]は?Array<T>と同じ
@@ -335,7 +329,7 @@ if(value !== undefined){
 ### Tuple Types
 
 ```js
-
+WIP
 ```
 
 ### $Call<F>
@@ -356,12 +350,6 @@ this.はFunctionType。この場合ExtractProptype
 PropTypeはnumber型が返ってくる型になる
 
 
-
-
-```js
-```
-
-
 ### Function type with generics
 
 ```js
@@ -370,30 +358,11 @@ function method (fn: <T>(param:T) => T){
 }
 ```
 
-
 ### restParameter
 
-
 ```js
+WIP
 ```
-
-```js
-```
-
-
-
-```js
-```
-
-```js
-```
-
-```js
-```
-
-```js
-```
-
 
 ### %checks
 
@@ -423,11 +392,7 @@ function a(b):string | number{
 }
 a("fafa");
 
-
-
 //もしくはインラインcheckする
-
-
  ```
 
 
@@ -455,7 +420,7 @@ Bはdefaultprops
 
 Aに含まれているものでBに含まれないもプロパティが必須になる
 
-
+WIP もっと詳しく
 
 またPropを送らない表現ができる
 $Diff<{}, {nope: number}> //Error
@@ -499,14 +464,11 @@ var obj:user = {name: 200, [222]: "eee"}
 
 ```
 
-
-
 ### $Shape<T>
 
 Tとの違い
 
 ```js
-
 type T = {
  a: string,
  b: number
@@ -596,13 +558,13 @@ hoge({name: "kenji", age: 37})>//ok
 //or
 $Exact<Obj>は
 type Obj = {|name: string, age: number|} でも同じ意味
+
 ```
 NOTICE
 Object spreadを使う際に$Exactを使う際に注意が必要だったが今は治っている
-[https://qiita.com/stomita/items/24a7d223acdc6a8715f4](問題提起)
-[https://github.com/facebook/flow/issues/2405](issue)
+[qiita](https://qiita.com/stomita/items/24a7d223acdc6a8715f4])
+[Issue](https://github.com/facebook/flow/issues/2405)
 
----
 
 ### maybe型を使用する際に
 nullやundefinedが入っていた場合下記の方法だと最後のフィルターでerrorを起こす
@@ -631,10 +593,12 @@ const example: Foo = {foo: 'foo', bar: 'bar'}
 ```
 A & Bは Aが満たされる時Fooはfooしかもてず、Bが満たされる場合foo
 が持てないのでError
+
 ```js
 type Foo = {| foo: string, bar: string |}
 ```
 なら動くが、違う方法の表現の仕方は。。。
+
 ```js
 type Foo = {| foo: string |};
 type Bar = {| bar: string |};
@@ -646,19 +610,13 @@ type Foo = {| ...{| foo: string |}, ...{| bar: string |} |}
 const example: Foo = {foo: 'foo', bar: 'bar'}
 ```
 
-
-
-
-```
-
-
 ### $ElementType<T, K>
 $PropertyType<T, K>との違いはKはany型
 $PropertyTypeはliteral型でなければならない
 
-
 ```
-
+WIP
+```
 
 
 ### $Values<T>
@@ -686,15 +644,12 @@ var o = {
 a(o.name);
 ```
 
-```
-```
-
 ### $PropertyType<T, K>;
 
 TはObject型、Kはkey
 あるTのpropertyがもつ型を返す
 
-```
+```js
 type Props = {name: {e: string}, age: number };
 type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
  const f:faf = "eeee";//ok
@@ -703,43 +658,44 @@ type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
 
 ### $ElementType<T, K>
 
-```
-
+```js
 type O = {
  a: string,
   b: string
 }
 const fafa :$ElementType<O, "a"> = "eee"
+```
+PropertyTypeと同じように使える
 
-//PropertyTypeと同じように使える
-
+```js
 type O = {
  a: string,
   b: string
 }
 const fafa :$PropertyType<O, "a"> = "eee"
-
+```
 
 //違いはArray, Tuple,にも使えるところ
 
+```js
 type Tuple = [boolean, string]
 ("name" :$ElementType<Tuple, 1>)//ok
+```
 
 
 $ElementType<T, K>の
 //またKはTに存在するどんな型でも可能にする
+
+```
 type Arr = Array<boolean>
 (true: $ElementType<Arr, number>);
 (true: $ElementType<Arr, string>);//Arrayのkeyはstringではない
 //("fafa": $ElementType<Arr, number>);//Error, boolanではない
-
 ```
 
 ### Function (callback)
-```
 
-
-
+```js
 type O = {
  a: string,
  b: string
@@ -772,29 +728,69 @@ fn2(eee, obj)
 
 ```
 
-
-
 ### Flow Error集
 
 エラーで言われていることを理解して修正できるようになることを目指したセクションです
 
-```
+#### エラー1
+
+```js
+//これだと文字列しか返さない。
+function add(a:string, b:string):string{
+ return a + b
+}
+
+//stringかnumberが入ってくるようにしたい
 
 function add<T>(a:T, b:T):T{
  return a + b
 }
 
-add(5, 7)
-add("fafa", "eee")
+add(1, 2)
+add("kenji", "morita")
 
 
+//でるエラー
+return a + b
+       ^ Cannot add `a` and `b` because `T` [1] could either behave like a string or like a number.
+function add<T>(a:T, b:T):T{
+                  ^ [1]
+
+[1]の箇所、T はstringかnumberのどちらかに振る舞うのでaとbを追加できません
+
+//修正案
+function add<T:string | number>(a:T, b:T):T{
+ return a + b
+}
+add("kenji", "morita")//ok
+add(1, 2)//ok
 ```
 
-```
-```
+#### エラー2
+
+型が矛盾している時のメッセージ
+
+```js
+
+1しか引数を受け取らないように定義したのに2つ渡していますよ！
+function identity(a:string, ...rest:Array<void>){
+ return a
+}
+identity("kenji", "fafa")
+
+
+//error
+identity("kenji", "fafa")
+                     ^ Cannot call `identity` because string [1] is incompatible with undefined [2] in array element.
+References:
+identity("kenji", "fafa")
+                     ^ [1]
+function identity(a:string, ...rest:Array<void>){
+                                             ^ [2]
+
+[1]　のstringは[2]のarray要素のindefined型と矛盾していますよ
 
 ```
-
 
 参照
 [https://github.com/facebook/flow/issues/2846](https://github.com/facebook/flow/issues/2846)
