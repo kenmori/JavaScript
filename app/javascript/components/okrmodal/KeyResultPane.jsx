@@ -160,6 +160,11 @@ class KeyResultPane extends PureComponent {
             <div className='flex-field__item'>
               {this.state.valueUnit}
             </div>
+            {keyResult.get('achievementRate') >= 100 && (
+              <div className='flex-field__item'>
+                <Label pointing='left' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+              </div>
+            )}
           </Form.Field>
         }
         {!this.state.isTargetValueVisible &&
@@ -185,11 +190,6 @@ class KeyResultPane extends PureComponent {
             />
           </div>
           {this.childObjectiveProgressRateHtml(keyResult)}
-          {keyResult.get('achievementRate') >= 100 && (
-            <div className='flex-field__item--block'>
-              <Label pointing='above' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
-            </div>
-          )}
         </Form.Field>
 
         <Form.Field className='flex-field input-date-picker'>
