@@ -24,10 +24,17 @@ class ObjectivePane extends PureComponent {
     }
   }
 
-  changeObjectiveOwner = value => {
-    this.props.updateObjective({
-      objectiveMember: {user: value}
-    });
+  changeObjectiveOwner = ownerId => {
+    const updateObjectiveOwner = () => this.props.updateObjective({ objectiveMember: { user: ownerId } })
+    if (!this.props.isAdmin && this.props.isObjectiveOwner && ownerId !== this.props.loginUserId) {
+      // O 責任者 (非管理者) が自分以外に変更しようとした場合
+      this.props.confirm({
+        content: 'Objective 責任者を他人に変更すると自分に戻すことはできません。変更しますか？',
+        onConfirm: updateObjectiveOwner,
+      })
+    } else {
+      updateObjectiveOwner()
+    }
   }
 
   updateName = value => {
@@ -147,6 +154,9 @@ ObjectivePane.propTypes = {
   // component
   objective: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,
+  loginUserId: PropTypes.number.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  isObjectiveOwner: PropTypes.bool.isRequired,
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,

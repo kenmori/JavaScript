@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react';
-import KeyResultPane from './KeyResultPane';
+import KeyResultPane from '../../containers/KeyResultPane';
 import LinkPane from './LinkPane';
 import CommentPane from './CommentPane';
 

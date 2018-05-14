@@ -50,10 +50,17 @@ class KeyResultPane extends PureComponent {
     }
   }
 
-  changeKeyResultOwner(value) {
-    this.props.updateKeyResult({
-      member: {user: value, behavior: 'add', role: 'owner'}
-    });
+  changeKeyResultOwner = ownerId => {
+    const updateKeyResultOwner = () => this.props.updateKeyResult({ member: { user: ownerId, behavior: 'add', role: 'owner' } })
+    if (!this.props.isObjectiveOwner && this.props.isKeyResultOwner && ownerId !== this.props.loginUserId) {
+      // O 責任者でない KR 責任者 (非管理者) が自分以外に変更しようとした場合
+      this.props.confirm({
+        content: 'Key Result 責任者を他人に変更すると自分に戻すことはできません。変更しますか？',
+        onConfirm: updateKeyResultOwner,
+      })
+    } else {
+      updateKeyResultOwner()
+    }
   }
   
   updateKeyResultWithState(name, value) {
@@ -128,7 +135,7 @@ class KeyResultPane extends PureComponent {
   render() {
     const keyResult = this.props.keyResult;
     const keyResultId = keyResult.get('id')
-    const isOwner = this.props.isObjectiveOwner || keyResult.get('owner').get('id') === this.props.loginUserId;
+    const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner;
     return (
       <Form>
         <Form.Field>
@@ -247,6 +254,7 @@ class KeyResultPane extends PureComponent {
 
 KeyResultPane.propTypes = {
   // container
+  isKeyResultOwner: PropTypes.bool.isRequired,
   // component
   keyResult: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,
