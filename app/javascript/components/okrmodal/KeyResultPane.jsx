@@ -123,6 +123,8 @@ class KeyResultPane extends PureComponent {
 
   handleCreateChildOkrClick = () => this.props.openObjectiveModal(this.props.keyResult)
 
+  handleResultCommit = result => this.props.updateKeyResult({ result })
+
   render() {
     const keyResult = this.props.keyResult;
     const keyResultId = keyResult.get('id')
@@ -222,6 +224,12 @@ class KeyResultPane extends PureComponent {
                         placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
                         onCommit={this.handleDescriptionCommit}
           />
+        </Form.Field>
+        <Form.Field className='flex-field'>
+          <label>結果</label>
+          <div className='flex-field__item'>
+            <AutoInput value={keyResult.get('result') || ''} onCommit={this.handleResultCommit} />
+          </div>
         </Form.Field>
 
         <Divider hidden />

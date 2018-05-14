@@ -12,6 +12,8 @@ json.objective do
     json.array!(@objective.key_results) do |key_result|
       json.partial! 'key_results/with_child_objectives', key_result: key_result
 
+      json.result key_result.result
+
       json.comments do
         json.array!(key_result.comments) do |comment|
           json.extract! comment, :id, :text, :updated_at
