@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Button, Label, Divider } from 'semantic-ui-react';
+import { Form, Button, Label, Popup, Divider } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import NumberInput from '../form/NumberInput'
@@ -16,6 +16,12 @@ class ObjectivePane extends PureComponent {
       name: props.objective.get('name'),
       progressRate: props.objective.get('progressRate'),
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.objective.get('progressRate') !== nextProps.objective.get('progressRate')) {
+      this.setState({ progressRate: nextProps.objective.get('progressRate') })
+    }
   }
 
   changeObjectiveOwner = value => {
@@ -38,6 +44,27 @@ class ObjectivePane extends PureComponent {
     });
   }
 
+  keyResultProgressRateHtml(objective) {
+    const progressRate = objective.get('progressRate')
+    const keyResultProgressRate = objective.get('keyResultProgressRate')
+    return keyResultProgressRate > 0 && progressRate !== keyResultProgressRate && (
+      <div className='flex-field__item'>
+        <Popup
+          trigger={<Label
+            pointing='left'
+            as='a'
+            icon='unlinkify'
+            content={`Key Result 一覧 の進捗は ${keyResultProgressRate}% です`}
+            onClick={this.handleKeyResultProgressRateClick}
+          />}
+          position='bottom left'
+          size='tiny'
+          content='クリックすると Key Result 一覧の進捗が設定されます'
+        />
+      </div>
+    )
+  }
+
   parentKeyResultProgressRateHtml(parentKeyResult) {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
@@ -48,6 +75,8 @@ class ObjectivePane extends PureComponent {
       </div>
     );
   }
+
+  handleKeyResultProgressRateClick = () => this.props.updateObjective({ progressRate: null })
 
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
@@ -80,6 +109,7 @@ class ObjectivePane extends PureComponent {
               onMouseUp={this.handleProgressRateCommit}
             />
           </div>
+          {this.keyResultProgressRateHtml(objective)}
           {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
         <Form.Field className='flex-field'>
