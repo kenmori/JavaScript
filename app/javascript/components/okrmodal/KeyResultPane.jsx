@@ -135,43 +135,35 @@ class KeyResultPane extends PureComponent {
           />
         </Form.Field>
 
-        {this.state.isTargetValueVisible &&
-          <Form.Field className='flex-field'>
-            <label>目標値</label>
-            <div className='flex-field__item'>
-              <AutoInput value={this.state.targetValue}
-                         onCommit={this.handleTargetValueCommit}
-              />
-              <AutoInput value={this.state.valueUnit}
-                         placeholder='単位'
-                         onCommit={this.handleValueUnitCommit}
-              />
-            </div>
-          </Form.Field>
-        }
-        {this.state.isTargetValueVisible &&
-          <Form.Field className='flex-field'>
-            <label>実績値</label>
-            <div className='flex-field__item'>
-              <AutoInput value={this.state.actualValue}
-                         onCommit={this.handleActualValueCommit}
-              />
-            </div>
-            <div className='flex-field__item'>
-              {this.state.valueUnit}
-            </div>
-            {keyResult.get('achievementRate') >= 100 && (
+        {this.state.isTargetValueVisible ? (
+          <Form.Group>
+            <Form.Field className='flex-field'>
+              <label>目標値</label>
               <div className='flex-field__item'>
-                <Label pointing='left' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+                <AutoInput value={this.state.targetValue} placeholder='数値' onCommit={this.handleTargetValueCommit} />
+                <AutoInput value={this.state.valueUnit} placeholder='単位' onCommit={this.handleValueUnitCommit} />
               </div>
-            )}
-          </Form.Field>
-        }
-        {!this.state.isTargetValueVisible &&
+            </Form.Field>
+            <Form.Field className='flex-field'>
+              <label>実績値</label>
+              <div className='flex-field__item'>
+                <AutoInput value={this.state.actualValue} placeholder='数値' onCommit={this.handleActualValueCommit} />
+              </div>
+              <div className='flex-field__item'>
+                {this.state.valueUnit}
+              </div>
+              {keyResult.get('achievementRate') >= 100 && (
+                <div className='flex-field__item'>
+                  <Label pointing='left' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+                </div>
+              )}
+            </Form.Field>
+          </Form.Group>
+        ) : (
           <div>
             <Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} floated='right' />
           </div>
-        }
+        )}
 
         <Form.Field className='flex-field progress-rate-field'>
           <label>進捗</label>

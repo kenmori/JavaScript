@@ -41,6 +41,11 @@
         }
       }
     }
+    .ui.form .fields {
+      .flex-field:not(:first-child) {
+        margin-left: .5rem;
+      }
+    }
   }
 
   .okr-body {
