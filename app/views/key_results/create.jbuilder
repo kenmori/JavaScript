@@ -2,6 +2,7 @@ json.key_result do
   json.partial!(@key_result)
 
   json.is_processed @key_result.processed?
+  json.achievement_rate @key_result.achievement_rate
 
   objective = @key_result.objective
   json.objective do
