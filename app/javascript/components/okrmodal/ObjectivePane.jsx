@@ -36,7 +36,7 @@ class ObjectivePane extends PureComponent {
     if (!this.props.isAdmin && this.props.isObjectiveOwner && ownerId !== this.props.loginUserId) {
       // O 責任者 (非管理者) が自分以外に変更しようとした場合
       this.props.confirm({
-        content: 'Objective 責任者を他人に変更すると自分に戻すことはできません。変更しますか？',
+        content: 'Objective 責任者を他ユーザーに変更すると自分では戻せなくなります。変更しますか？',
         onConfirm: updateObjectiveOwner,
       })
     } else {

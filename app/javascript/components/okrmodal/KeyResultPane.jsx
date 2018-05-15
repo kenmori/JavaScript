@@ -78,7 +78,7 @@ class KeyResultPane extends PureComponent {
     if (!this.props.isObjectiveOwner && this.props.isKeyResultOwner && ownerId !== this.props.loginUserId) {
       // O 責任者でない KR 責任者 (非管理者) が自分以外に変更しようとした場合
       this.props.confirm({
-        content: 'Key Result 責任者を他人に変更すると自分に戻すことはできません。変更しますか？',
+        content: 'Key Result 責任者を他ユーザーに変更すると自分では戻せなくなります。変更しますか？',
         onConfirm: updateKeyResultOwner,
       })
     } else {
