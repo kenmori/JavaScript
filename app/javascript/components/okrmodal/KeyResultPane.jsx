@@ -20,13 +20,46 @@ class KeyResultPane extends PureComponent {
     };
   }
 
-  addMember = value => {
-    this.props.updateKeyResult({
-      member: {user: value, behavior: 'add', role: 'member'}
-    });
+  componentWillReceiveProps(nextProps) {
+    if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
+      this.setState({
+        progressRate: nextProps.keyResult.get('progressRate'),
+        isTargetValueVisible: !!nextProps.keyResult.get('targetValue'),
+      })
+    } else if (this.props.keyResult.get('progressRate') !== nextProps.keyResult.get('progressRate')) {
+      this.setState({
+        progressRate: nextProps.keyResult.get('progressRate'),
+      })
+    }
   }
 
-  removeMember = value => {
+  handleNameCommit = name => this.props.updateKeyResult({ name })
+
+  handleTargetValueCommit = targetValue => this.props.updateKeyResult({ targetValue })
+
+  handleActualValueCommit = actualValue => this.props.updateKeyResult({ actualValue })
+
+  handleValueUnitCommit = valueUnit => this.props.updateKeyResult({ valueUnit })
+
+  handleTargetValueVisibleClick = () => this.setState({ isTargetValueVisible: true })
+
+  handleProgressRateChange = progressRate => this.setState({ progressRate })
+
+  handleProgressRateCommit = progressRate => this.props.updateKeyResult({ progressRate: Number(progressRate) })
+
+  handleChildProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
+
+  handleExpiredDateChange = expiredDate => this.props.updateKeyResult({ expiredDate: expiredDate.format('YYYY-MM-DD') })
+
+  handleDescriptionCommit = description => this.props.updateKeyResult({ description })
+
+  handleResultCommit = result => this.props.updateKeyResult({ result })
+
+  handleCreateClick = () => this.props.openObjectiveModal(this.props.keyResult)
+
+  handleKeyResultMemberAdd = value => this.props.updateKeyResult({ member: { user: value, behavior: 'add', role: 'member' } })
+
+  handleKeyResultMemberRemove = value => {
     const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
     });
@@ -40,7 +73,7 @@ class KeyResultPane extends PureComponent {
     }
   }
 
-  changeKeyResultOwner = ownerId => {
+  handleOwnerChange = ownerId => {
     const updateKeyResultOwner = () => this.props.updateKeyResult({ member: { user: ownerId, behavior: 'add', role: 'owner' } })
     if (!this.props.isObjectiveOwner && this.props.isKeyResultOwner && ownerId !== this.props.loginUserId) {
       // O 責任者でない KR 責任者 (非管理者) が自分以外に変更しようとした場合
@@ -52,30 +85,13 @@ class KeyResultPane extends PureComponent {
       updateKeyResultOwner()
     }
   }
-  
-  updateKeyResult(name, value) {
-    this.props.updateKeyResult({ [name]: value });
-  }
 
-  removeKeyResult(id) {
+  handleRemoveClick = () => {
     this.props.confirm({
       content: this.props.keyResult.get('childObjectives').isEmpty()
         ? 'Key Result を削除しますか？' : '下位 Objective が紐付いています。Key Result を削除しますか？',
-      onConfirm: () => this.props.removeKeyResult(id),
+      onConfirm: () => this.props.removeKeyResult(this.props.keyResult.get('id')),
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
-      this.setState({
-        progressRate: nextProps.keyResult.get('progressRate'),
-        isTargetValueVisible: !!nextProps.keyResult.get('targetValue'),
-      })
-    } else if (this.props.keyResult.get('progressRate') !== nextProps.keyResult.get('progressRate')) {
-      this.setState({
-        progressRate: nextProps.keyResult.get('progressRate'),
-      });
-    }
   }
   
   childObjectiveProgressRateHtml(keyResult) {
@@ -93,34 +109,6 @@ class KeyResultPane extends PureComponent {
       </div>
     );
   }
-
-  handleChildProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
-
-  handleNameCommit = value => this.updateKeyResult('name', value)
-
-  handleTargetValueCommit = value => this.updateKeyResult('targetValue', value)
-
-  handleValueUnitCommit = value => this.updateKeyResult('valueUnit', value)
-
-  handleActualValueCommit = value => this.updateKeyResult('actualValue', value)
-
-  handleTargetValueVisibleClick = () => this.setState({ isTargetValueVisible: true })
-
-  handleProgressRateChange = progressRate => this.setState({ progressRate })
-
-  handleProgressRateCommit = value => this.updateKeyResult('progressRate', Number(value))
-
-  handleExpiredDateChange = value => this.updateKeyResult('expiredDate', value.format('YYYY-MM-DD'))
-
-  handleOwnerChange = value => this.changeKeyResultOwner(value)
-
-  handleDescriptionCommit = value => this.props.updateKeyResult({ description: value })
-
-  handleRemoveClick = () => {this.removeKeyResult(this.props.keyResult.get('id'))}
-
-  handleCreateChildOkrClick = () => this.props.openObjectiveModal(this.props.keyResult)
-
-  handleResultCommit = result => this.props.updateKeyResult({ result })
 
   render() {
     const keyResult = this.props.keyResult;
@@ -210,8 +198,8 @@ class KeyResultPane extends PureComponent {
               members={keyResult.get('members').map(member => member.get('id'))}
               includedId={isOwner ? null : this.props.loginUserId}
               excludedId={keyResult.get('owner').get('id')}
-              add={this.addMember}
-              remove={this.removeMember}
+              add={this.handleKeyResultMemberAdd}
+              remove={this.handleKeyResultMemberRemove}
             />
           </div>
         </Form.Field>
@@ -237,7 +225,7 @@ class KeyResultPane extends PureComponent {
 
         <div>
           <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
-          <Button content="下位 OKR を作成する" onClick={this.handleCreateChildOkrClick} as="span" positive floated='right' />
+          <Button content="下位 OKR を作成する" onClick={this.handleCreateClick} as="span" positive floated='right' />
         </div>
 
         <Divider hidden clearing />

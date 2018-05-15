@@ -21,7 +21,17 @@ class ObjectivePane extends PureComponent {
     }
   }
 
-  changeObjectiveOwner = ownerId => {
+  handleNameCommit = name => this.props.updateObjective({ name })
+
+  handleProgressRateChange = progressRate => this.setState({ progressRate })
+
+  handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate })
+
+  handleKeyResultProgressRateClick = () => this.props.updateObjective({ progressRate: null })
+
+  handleDescriptionCommit = description => this.props.updateObjective({ description })
+
+  handleOwnerChange = ownerId => {
     const updateObjectiveOwner = () => this.props.updateObjective({ objectiveMember: { user: ownerId } })
     if (!this.props.isAdmin && this.props.isObjectiveOwner && ownerId !== this.props.loginUserId) {
       // O 責任者 (非管理者) が自分以外に変更しようとした場合
@@ -34,13 +44,7 @@ class ObjectivePane extends PureComponent {
     }
   }
 
-  updateName = value => {
-    this.props.updateObjective({ name: value });
-  }
-
-  updateDescription = value => this.props.updateObjective({ description: value })
-
-  removeObjective = () => {
+  handleRemoveClick = () => {
     this.props.confirm({
       content: `Objective ${this.props.objective.get('name')} を削除しますか？`,
       onConfirm: () => this.props.removeObjective(this.props.objective.get('id')),
@@ -79,12 +83,6 @@ class ObjectivePane extends PureComponent {
     );
   }
 
-  handleKeyResultProgressRateClick = () => this.props.updateObjective({ progressRate: null })
-
-  handleProgressRateChange = progressRate => this.setState({ progressRate })
-
-  handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate })
-
   render() {
     const objective = this.props.objective;
     if (!objective) return null;
@@ -92,7 +90,7 @@ class ObjectivePane extends PureComponent {
     return (
       <Form>
         <Form.Field>
-          <AutoInput value={objective.get('name')} onCommit={this.updateName} />
+          <AutoInput value={objective.get('name')} onCommit={this.handleNameCommit} />
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
@@ -121,7 +119,7 @@ class ObjectivePane extends PureComponent {
           <UserSelect
             users={this.props.users}
             value={objective.get('owner').get('id')}
-            onChange={this.changeObjectiveOwner}
+            onChange={this.handleOwnerChange}
           />
           </div>
         </Form.Field>
@@ -129,14 +127,14 @@ class ObjectivePane extends PureComponent {
           <label>説明</label>
           <AutoTextArea value={objective.get('description')}
                         placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={this.updateDescription}
+                        onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
 
         <Divider hidden />
 
         <div>
-          <Button content="削除する" onClick={this.removeObjective} as="span" negative floated='right' />
+          <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
         </div>
 
         <Divider hidden clearing />
