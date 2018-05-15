@@ -16,7 +16,7 @@ class KeyResultPane extends PureComponent {
     super(props);
     this.state = {
       progressRate: props.keyResult.get('progressRate'),
-      isTargetValueVisible: !!props.keyResult.get('targetValue'),
+      isTargetValueVisible: typeof props.keyResult.get('targetValue') === 'number',
     };
   }
 
@@ -24,7 +24,7 @@ class KeyResultPane extends PureComponent {
     if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
       this.setState({
         progressRate: nextProps.keyResult.get('progressRate'),
-        isTargetValueVisible: !!nextProps.keyResult.get('targetValue'),
+        isTargetValueVisible: typeof nextProps.keyResult.get('targetValue') === 'number',
       })
     } else if (this.props.keyResult.get('progressRate') !== nextProps.keyResult.get('progressRate')) {
       this.setState({
@@ -112,14 +112,12 @@ class KeyResultPane extends PureComponent {
 
   render() {
     const keyResult = this.props.keyResult;
-    const keyResultId = keyResult.get('id')
     const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner;
+    const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
     return (
       <Form>
         <Form.Field>
-          <AutoInput value={keyResult.get('name')}
-                     onCommit={this.handleNameCommit}
-          />
+          <AutoInput value={keyResult.get('name')} onCommit={this.handleNameCommit} />
         </Form.Field>
 
         {this.state.isTargetValueVisible ? (
@@ -127,18 +125,28 @@ class KeyResultPane extends PureComponent {
             <Form.Field className='flex-field'>
               <label>目標値</label>
               <div className='flex-field__item'>
-                <AutoInput value={keyResult.get('targetValue') || ''} placeholder='数値' onCommit={this.handleTargetValueCommit} />
-                <AutoInput value={keyResult.get('valueUnit') || ''} placeholder='単位' onCommit={this.handleValueUnitCommit} />
+                <AutoInput
+                  value={typeof targetValue === 'number' ? targetValue : ''}
+                  placeholder='数値'
+                  onCommit={this.handleTargetValueCommit}
+                />
+                <AutoInput
+                  value={keyResult.get('valueUnit') || ''}
+                  placeholder='単位'
+                  onCommit={this.handleValueUnitCommit}
+                />
               </div>
             </Form.Field>
             <Form.Field className='flex-field'>
               <label>実績値</label>
               <div className='flex-field__item'>
-                <AutoInput value={keyResult.get('actualValue') || ''} placeholder='数値' onCommit={this.handleActualValueCommit} />
+                <AutoInput
+                  value={typeof actualValue === 'number' ? actualValue : ''}
+                  placeholder='数値'
+                  onCommit={this.handleActualValueCommit}
+                />
               </div>
-              <div className='flex-field__item'>
-                {keyResult.get('valueUnit') || ''}
-              </div>
+              <div className='flex-field__item'>{keyResult.get('valueUnit') || ''}</div>
               {keyResult.get('achievementRate') >= 100 && (
                 <div className='flex-field__item'>
                   <Label pointing='left' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
@@ -205,7 +213,7 @@ class KeyResultPane extends PureComponent {
         </Form.Field>
         <Form.Field>
           <label>説明</label>
-          <AutoTextArea key={keyResultId} value={keyResult.get('description')}
+          <AutoTextArea key={keyResult.get('id')} value={keyResult.get('description')}
                         placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
                         onCommit={this.handleDescriptionCommit}
           />
