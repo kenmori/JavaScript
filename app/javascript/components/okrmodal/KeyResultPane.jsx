@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
@@ -15,17 +14,8 @@ class KeyResultPane extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = this.getState(props);
-  }
-
-  getState(props) {
-    return {
-      name: props.keyResult.get('name'),
-      targetValue: props.keyResult.get('targetValue') || '',
-      actualValue: props.keyResult.get('actualValue') || '',
-      valueUnit: props.keyResult.get('valueUnit') || '',
+    this.state = {
       progressRate: props.keyResult.get('progressRate'),
-      expiredDate: props.keyResult.get('expiredDate'),
       isTargetValueVisible: !!props.keyResult.get('targetValue'),
     };
   }
@@ -63,11 +53,8 @@ class KeyResultPane extends PureComponent {
     }
   }
   
-  updateKeyResultWithState(name, value) {
-    if (this.state[name] !== value) {
-      this.setState({ [name]: value });
-      this.props.updateKeyResult({ [name]: value });
-    }
+  updateKeyResult(name, value) {
+    this.props.updateKeyResult({ [name]: value });
   }
 
   removeKeyResult(id) {
@@ -80,7 +67,10 @@ class KeyResultPane extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
-      this.setState(this.getState(nextProps));
+      this.setState({
+        progressRate: nextProps.keyResult.get('progressRate'),
+        isTargetValueVisible: !!nextProps.keyResult.get('targetValue'),
+      })
     } else if (this.props.keyResult.get('progressRate') !== nextProps.keyResult.get('progressRate')) {
       this.setState({
         progressRate: nextProps.keyResult.get('progressRate'),
@@ -106,21 +96,21 @@ class KeyResultPane extends PureComponent {
 
   handleChildProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
 
-  handleNameCommit = value => this.updateKeyResultWithState('name', value)
+  handleNameCommit = value => this.updateKeyResult('name', value)
 
-  handleTargetValueCommit = value => this.updateKeyResultWithState('targetValue', value)
+  handleTargetValueCommit = value => this.updateKeyResult('targetValue', value)
 
-  handleValueUnitCommit = value => this.updateKeyResultWithState('valueUnit', value)
+  handleValueUnitCommit = value => this.updateKeyResult('valueUnit', value)
 
-  handleActualValueCommit = value => this.updateKeyResultWithState('actualValue', value)
+  handleActualValueCommit = value => this.updateKeyResult('actualValue', value)
 
   handleTargetValueVisibleClick = () => this.setState({ isTargetValueVisible: true })
 
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
-  handleProgressRateCommit = value => this.updateKeyResultWithState('progressRate', Number(value))
+  handleProgressRateCommit = value => this.updateKeyResult('progressRate', Number(value))
 
-  handleExpiredDateChange = value => this.updateKeyResultWithState('expiredDate', value.format('YYYY-MM-DD'))
+  handleExpiredDateChange = value => this.updateKeyResult('expiredDate', value.format('YYYY-MM-DD'))
 
   handleOwnerChange = value => this.changeKeyResultOwner(value)
 
@@ -139,7 +129,7 @@ class KeyResultPane extends PureComponent {
     return (
       <Form>
         <Form.Field>
-          <AutoInput value={this.state.name}
+          <AutoInput value={keyResult.get('name')}
                      onCommit={this.handleNameCommit}
           />
         </Form.Field>
@@ -149,17 +139,17 @@ class KeyResultPane extends PureComponent {
             <Form.Field className='flex-field'>
               <label>目標値</label>
               <div className='flex-field__item'>
-                <AutoInput value={this.state.targetValue} placeholder='数値' onCommit={this.handleTargetValueCommit} />
-                <AutoInput value={this.state.valueUnit} placeholder='単位' onCommit={this.handleValueUnitCommit} />
+                <AutoInput value={keyResult.get('targetValue') || ''} placeholder='数値' onCommit={this.handleTargetValueCommit} />
+                <AutoInput value={keyResult.get('valueUnit') || ''} placeholder='単位' onCommit={this.handleValueUnitCommit} />
               </div>
             </Form.Field>
             <Form.Field className='flex-field'>
               <label>実績値</label>
               <div className='flex-field__item'>
-                <AutoInput value={this.state.actualValue} placeholder='数値' onCommit={this.handleActualValueCommit} />
+                <AutoInput value={keyResult.get('actualValue') || ''} placeholder='数値' onCommit={this.handleActualValueCommit} />
               </div>
               <div className='flex-field__item'>
-                {this.state.valueUnit}
+                {keyResult.get('valueUnit') || ''}
               </div>
               {keyResult.get('achievementRate') >= 100 && (
                 <div className='flex-field__item'>
@@ -197,7 +187,7 @@ class KeyResultPane extends PureComponent {
           <label>期限</label>
           <div className='flex-field__item'>
             <DatePicker dateFormat="YYYY/M/D" locale="ja"
-                        selected={moment(this.state.expiredDate)}
+                        selected={moment(keyResult.get('expiredDate'))}
                         onChange={this.handleExpiredDateChange}
             />
           </div>

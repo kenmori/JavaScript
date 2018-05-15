@@ -12,10 +12,7 @@ class ObjectivePane extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      name: props.objective.get('name'),
-      progressRate: props.objective.get('progressRate'),
-    };
+    this.state = { progressRate: props.objective.get('progressRate') }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,7 +35,6 @@ class ObjectivePane extends PureComponent {
   }
 
   updateName = value => {
-    this.setState({ name: value });
     this.props.updateObjective({ name: value });
   }
 
@@ -96,7 +92,7 @@ class ObjectivePane extends PureComponent {
     return (
       <Form>
         <Form.Field>
-          <AutoInput value={this.state.name} onCommit={this.updateName} />
+          <AutoInput value={objective.get('name')} onCommit={this.updateName} />
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
