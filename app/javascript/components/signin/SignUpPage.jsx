@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image } from 'semantic-ui-react';
+import { Button, Form, Input, Image, Divider } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
 class SignUpPage extends PureComponent {
@@ -29,27 +29,48 @@ class SignUpPage extends PureComponent {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>組織名</div>
-                <Input type='text' size='mini' placeholder='会社名やチーム名など' ref={(node) => {this.organizationInput = node;}}/>
+                <Input
+                  type='text'
+                  size='mini'
+                  placeholder='会社名やチーム名など'
+                  ref={(node) => { this.organizationInput = node; }}
+                  onBlur={() => {
+                    let organization = this.organizationInput.inputRef.value.match(/[a-z0-9_-]+/gi).join('').toLowerCase();
+                    if (organization.length && !this.organizationUniqNameInput.inputRef.value.length) {
+                      this.organizationUniqNameInput.inputRef.value = organization;
+                    }
+                  }}
+                />
               </Form.Field>
               <Form.Field inline>
                 <div>組織ID</div>
-                <Input type='text' size='mini' placeholder='英数字、ハイフン、アンダースコア' ref={(node) => {this.organizationUniqNameInput = node;}}/>
+                <Input type='text' size='mini' placeholder='英数字、ハイフン、アンダースコア' ref={(node) => { this.organizationUniqNameInput = node; }} />
               </Form.Field>
+              <Divider hidden />
               <Form.Field inline>
-                <div>姓</div>
-                <Input type='text' size='mini' placeholder='姓' ref={(node) => {this.lastNameInput = node;}}/>
-              </Form.Field>
-              <Form.Field inline>
-                <div>名</div>
-                <Input type='text' size='mini' placeholder='名' ref={(node) => {this.firstNameInput = node;}}/>
+                <div>管理者</div>
+                <Input type='text' className='last-name' size='mini' placeholder='姓' ref={(node) => { this.lastNameInput = node; }} />
+                <Input type='text' className='first-name' size='mini' placeholder='名' ref={(node) => { this.firstNameInput = node; }} />
               </Form.Field>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}/>
+                <Input
+                  type='email'
+                  size='mini'
+                  placeholder='name@example.com'
+                  ref={(node) => { this.emailInput = node; }}
+                  onBlur={() => {
+                    let email = this.emailInput.inputRef.value;
+                    if (email.length && !this.organizationUniqNameInput.inputRef.value.length) {
+                      let orgName = email.includes('@') ? email.split('@').slice(1).join('') : email;
+                      this.organizationUniqNameInput.inputRef.value = orgName.replace(/\./g, '');
+                    }
+                  }}
+                />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
-                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
+                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => { this.passwordInput = node; }} />
               </Form.Field>
             </Form.Group>
             <div>
