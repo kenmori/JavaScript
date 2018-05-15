@@ -9,12 +9,16 @@ import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 
 function* fetchOkrs({ payload }) {
+  const loginUserId = yield select(state => state.loginUser.get('id'))
+  if (payload.isOkrPeriodChanged) {
+    yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
+    yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
+  }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
   if (payload.isOkrPeriodChanged) {
-    const [loginUserId, isAdmin] = yield select(state => [state.loginUser.get('id'), state.loginUser.get('isAdmin')]);
     // 前期 OKR の fetch
     const okrPeriods = yield select(state => state.okrPeriods)
     const okrPeriodIndex = okrPeriods.findIndex(okrPeriod => okrPeriod.get('id') === payload.okrPeriodId)
@@ -26,6 +30,7 @@ function* fetchOkrs({ payload }) {
       yield put(objectiveActions.fetchedPreviousObjectivesError());
     }
     // 上位 KR や紐付く Objective の紐付け変更用に O/KR 候補一覧を取得する
+    const isAdmin = yield select(state => state.loginUser.get('isAdmin'))
     const userId = isAdmin ? undefined : loginUserId;
     // Objective に紐付く上位 KR の変更のほうがよく行われるとの推測から先に KR を fetch する
     yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId, userId)); // without loading

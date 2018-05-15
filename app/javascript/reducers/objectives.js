@@ -29,6 +29,12 @@ function removeFromCandidates(state, objectiveId) {
   return state.update('candidateIds', ids => ids.filter(id => id !== objectiveId));
 }
 
+function isMine(objectiveId, payload) {
+  const userId = payload.get('currentUserId')
+  const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`])
+  return userId === objective.get('owner').get('id')
+}
+
 export default handleActions({
     [ActionTypes.FETCH_OBJECTIVE]: state => {
       return state.set('isFetchedObjective', false);
@@ -36,7 +42,7 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: state => {
       return state.set('isFetchedObjective', true);
     },
-    [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
+    [ActionTypes.FETCH_OBJECTIVES]: state => {
       return state.set('isFetchedObjectives', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
@@ -69,18 +75,11 @@ export default handleActions({
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
       state = addToCandidates(state, objectiveId);
-
-      const userId = payload.get('currentUserId');
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId, payload.get('viaHome')) : state;
+      return isMine(objectiveId, payload) ? add(state, objectiveId, payload.get('viaHome')) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      const userId = payload.get('currentUserId');
       const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId) : remove(state, objectiveId);
+      return isMine(objectiveId, payload) ? add(state, objectiveId) : remove(state, objectiveId);
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
