@@ -25,7 +25,7 @@ class ObjectivePane extends PureComponent {
 
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
-  handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate })
+  handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate: progressRate || null })
 
   handleKeyResultProgressRateClick = () => this.props.updateObjective({ progressRate: null })
 

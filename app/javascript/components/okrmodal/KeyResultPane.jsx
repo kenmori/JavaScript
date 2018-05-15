@@ -45,7 +45,7 @@ class KeyResultPane extends PureComponent {
 
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
-  handleProgressRateCommit = progressRate => this.props.updateKeyResult({ progressRate: Number(progressRate) })
+  handleProgressRateCommit = progressRate => this.props.updateKeyResult({ progressRate: progressRate || null })
 
   handleChildProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
 
