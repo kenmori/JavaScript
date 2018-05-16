@@ -257,8 +257,8 @@ class ExportObjectKeyResultsCsvRow
       sorted = []
 
       o_order.each do |id|
-        kr = ok_trees.find {|i| i[:objective][:id].to_s == id}
-        sorted.push(kr)
+        o = ok_trees.find {|i| i[:objective][:id].to_s == id}
+        sorted.push(o) unless o.nil?
       end
 
       ok_trees = sorted
