@@ -382,7 +382,7 @@ class ExportObjectKeyResultsCsvRow
                         target_value: record['o_p_kr_target_value'],
                         actual_value: record['o_p_kr_actual_value'],
                         owner_id: record['o_p_kr_user_id'],
-                        owner: to_full_name(record['o_p_kr_last_name'], record['o_p_kr_first_name'])
+                        owner: to_full_name(record['o_p_kr_user_last_name'], record['o_p_kr_user_first_name'])
                     }
                   end
 
