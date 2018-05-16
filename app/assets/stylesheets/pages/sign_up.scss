@@ -14,7 +14,20 @@
 
     .ui.input {
       input {
-        width: 250px;
+        width: 300px;
+      }
+    }
+
+    .ui.input.last-name {
+      input {
+        width: 148px;
+        margin-right: 4px;
+      }
+    }
+
+    .ui.input.first-name {
+      input {
+        width: 148px;
       }
     }
 
