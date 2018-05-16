@@ -416,7 +416,7 @@ class ExportObjectKeyResultsCsvRow
     kr_rate = get_key_result_rate(parent_kr[:progress], parent_kr[:target_value], parent_kr[:actual_value])
     rate = parse_zero_if_nil(kr_rate)
 
-    parent_kr_format = "#{parent_kr[:name]} [#{rate}%, #{parent_kr[:owner]}]"
+    parent_kr_format = "#{parent_kr[:name]} [#{rate.to_i}%, #{parent_kr[:owner]}]"
 
     return "(#{parent_kr_format})" if parent_kr[:owner_id] != @user_id
 
