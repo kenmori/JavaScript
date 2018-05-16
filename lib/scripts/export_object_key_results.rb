@@ -273,7 +273,7 @@ class ExportObjectKeyResultsCsvRow
     okr_tree = to_okr_trees_exists_objective(source)
 
     # O の無い KR を Tree にする
-    no_objective_krs = source.select {|i| i['kr_o_id'].nil? && i['o_o_id'].nil?}
+    no_objective_krs = source.select {|i| !i['kr_kr_id'].nil? && i['kr_o_id'].nil? && i['o_o_id'].nil?}
     no_objective_key_results = no_objective_krs.map do |record|
       {
           parent_kr: nil,
