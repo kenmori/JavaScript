@@ -35,9 +35,9 @@ class SignUpPage extends PureComponent {
                   placeholder='会社名やチーム名など'
                   ref={(node) => { this.organizationInput = node; }}
                   onBlur={() => {
-                    let organization = this.organizationInput.inputRef.value.match(/[a-z0-9_-]+/gi).join('').toLowerCase();
+                    let organization = this.organizationInput.inputRef.value;
                     if (organization.length && !this.organizationUniqNameInput.inputRef.value.length) {
-                      this.organizationUniqNameInput.inputRef.value = organization;
+                      this.organizationUniqNameInput.inputRef.value = organization.match(/[a-z0-9_-]+/gi).join('').toLowerCase();
                     }
                   }}
                 />
@@ -63,7 +63,7 @@ class SignUpPage extends PureComponent {
                     let email = this.emailInput.inputRef.value;
                     if (email.length && !this.organizationUniqNameInput.inputRef.value.length) {
                       let orgName = email.includes('@') ? email.split('@').slice(1).join('') : email;
-                      this.organizationUniqNameInput.inputRef.value = orgName.replace(/\./g, '');
+                      this.organizationUniqNameInput.inputRef.value = orgName.replace(/\./g, '').toLowerCase();
                     }
                   }}
                 />

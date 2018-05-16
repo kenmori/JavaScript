@@ -1,7 +1,7 @@
 class Organization < ApplicationRecord
   validates :name, presence: true
-  validates :uniq_name, presence: true, uniqueness: true, format: { with: /\A[a-z0-9_-]+\z/i }
-  
+  validates :uniq_name, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-z0-9_-]+\z/ }
+
   has_many :groups
   has_many :organization_members
   has_many :users, through: :organization_members
