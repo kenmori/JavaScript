@@ -136,6 +136,7 @@ class ExportObjectKeyResultsDataAccessor
              inner join key_result_members as krm
                on kr.id = krm.key_result_id
                and krm.role = 0 -- owner
+               and kr.okr_period_id = #{period_id}
              inner join objectives o
                on o.id = kr.objective_id
                and o.okr_period_id = kr.okr_period_id
@@ -176,6 +177,7 @@ class ExportObjectKeyResultsDataAccessor
              inner join objective_members as oom
                on oom.objective_id = oo.id
                and oom.role = 0 -- owner
+               and oo.okr_period_id = #{period_id}
              inner join users as oou
                on oou.id = oom.user_id
              left outer join key_results as o_parent_kr
@@ -189,7 +191,6 @@ class ExportObjectKeyResultsDataAccessor
         ) as own_objectives
           on own_objectives.ou_id = u.id
       where org.id = #{organization_id}
-       and (own_key_results.okr_period_id = #{period_id} or own_objectives.okr_period_id = #{period_id})
       order by u.id, record_order_key;
     EOS
 
