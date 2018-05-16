@@ -459,7 +459,7 @@ class ExportObjectKeyResultsCsvRow
       target_actual = ''
       target_actual += " 目標値#{target_value.to_i}#{value_unit}," if target_value.present?
       unless target_value.nil?
-        value = actual_value.nil? ? '【-】' : "#{actual_value.to_i}#{value_unit}"
+        value = actual_value.nil? ? '-' : "#{actual_value.to_i}#{value_unit}"
         target_actual += " 実績値#{value},"
       end
 
