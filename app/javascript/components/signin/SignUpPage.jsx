@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image, Divider } from 'semantic-ui-react';
+import { Button, Form, Input, Select, Image, Divider } from 'semantic-ui-react';
+import moment from 'moment';
 import logo_image from '../../images/logo_large.png';
+import DatePicker from '../form/DatePicker';
 
 class SignUpPage extends PureComponent {
   addUser = () => {
@@ -72,7 +74,39 @@ class SignUpPage extends PureComponent {
                 <div>パスワード</div>
                 <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => { this.passwordInput = node; }} />
               </Form.Field>
+              <Divider hidden />
+              <Form.Field inline>
+                <div>開始日</div>
+                <DatePicker
+                  className="month_start"
+                  dateFormat="YYYY/M/D"
+                  locale="ja"
+                  selected={moment().startOf('month')}
+                />
+              </Form.Field>
+              <Form.Field inline>
+                <div>終了日</div>
+                <DatePicker
+                  className="month_end"
+                  dateFormat="YYYY/M/D"
+                  locale="ja"
+                  selected={moment().add('day', 2).endOf('month')}
+                />
+              </Form.Field>
+              <Form.Field inline>
+                <div>OKR 周期</div>
+                <Select
+                  defaultValue={1}
+                  options={[
+                    { key: 1, value: 1, text: '1ヶ月間' },	
+                    { key: 3, value: 3, text: '3ヶ月間' },	
+                    { key: 6, value: 6, text: '半年間' },	
+                    { key: 12, value: 12, text: '1年間' }
+                  ]}
+                />
+              </Form.Field>
             </Form.Group>
+            <Divider hidden />
             <div>
               <Button positive onClick={this.addUser}>登録する</Button>
             </div>
