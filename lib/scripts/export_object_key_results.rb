@@ -221,16 +221,15 @@ class ExportObjectKeyResultsCsvRow
       objective = okr[:objective]
       key_results = okr[:key_results]
 
-      parent_kr_value = get_parent_kr_value(parent_kr)
       objective_value = get_objective_value(objective)
 
-      result += <<~"EOS"
-        ┌ 上位 KR: #{parent_kr_value}
-        O#{index + 1}: #{objective_value}
-      EOS
+      unless parent_kr.nil?
+        parent_kr_value = get_parent_kr_value(parent_kr)
+        result += "┌ 上位 KR: #{parent_kr_value}\n"
+      end
 
+      result += "O#{index + 1}: #{objective_value}\n"
       result += get_key_results_value(key_results)
-
       result += "\n" if index + 1 != @okrs.count
     end
 
@@ -411,8 +410,6 @@ class ExportObjectKeyResultsCsvRow
   end
 
   def get_parent_kr_value(parent_kr)
-    return 'なし' if parent_kr.nil?
-
     kr_rate = get_key_result_rate(parent_kr[:progress], parent_kr[:target_value], parent_kr[:actual_value])
     rate = parse_zero_if_nil(kr_rate)
 
