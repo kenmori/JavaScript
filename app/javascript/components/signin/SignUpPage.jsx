@@ -6,6 +6,16 @@ import logo_image from '../../images/logo_large.png';
 import DatePicker from '../form/DatePicker';
 
 class SignUpPage extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: moment().startOf('month'),
+      endDate: moment().add(2, 'months').endOf('month'),
+      endDateChanged: false,
+      okrSpan: 3
+    };
+  }
+
   addUser = () => {
     this.props.addUser({
       last_name: this.lastNameInput.inputRef.value,
@@ -15,6 +25,9 @@ class SignUpPage extends PureComponent {
       admin: true,
       organization_name: this.organizationInput.inputRef.value,
       organization_uniq_name: this.organizationUniqNameInput.inputRef.value,
+      month_start: this.state.startDate.format('YYYY/MM/DD'),
+      month_end: this.state.endDate.format('YYYY/MM/DD'),
+      okr_span: this.state.okrSpan
     })
   }
   componentWillUpdate(props = this.props) {
@@ -78,31 +91,62 @@ class SignUpPage extends PureComponent {
               <Form.Field inline>
                 <div>開始日</div>
                 <DatePicker
-                  className="month_start"
                   dateFormat="YYYY/M/D"
                   locale="ja"
-                  selected={moment().startOf('month')}
+                  selected={this.state.startDate}
+                  onChange={(date) => {
+                    if (this.state.endDateChanged) {
+                      this.setState({
+                        startDate: date
+                      })
+                    } else {
+                      // 終了日をユーザーが変更していない場合、計算し直す
+                      const endDate = date.clone().add(this.state.okrSpan, 'months').subtract(1, 'days');
+                      this.setState({
+                        startDate: date,
+                        endDate
+                      });
+                    }
+                  }}
                 />
               </Form.Field>
               <Form.Field inline>
                 <div>終了日</div>
                 <DatePicker
-                  className="month_end"
                   dateFormat="YYYY/M/D"
                   locale="ja"
-                  selected={moment().add('day', 2).endOf('month')}
+                  selected={this.state.endDate}
+                  onChange={(date) => {
+                    this.setState({
+                      endDate: date,
+                      endDateChanged: true
+                    })
+                  }}
                 />
               </Form.Field>
               <Form.Field inline>
                 <div>OKR 周期</div>
                 <Select
-                  defaultValue={1}
+                  defaultValue={3}
                   options={[
                     { key: 1, value: 1, text: '1ヶ月間' },	
                     { key: 3, value: 3, text: '3ヶ月間' },	
                     { key: 6, value: 6, text: '半年間' },	
                     { key: 12, value: 12, text: '1年間' }
                   ]}
+                  onChange={(event, data) => {
+                    const okrSpan = data.value;
+                    if (this.state.endDateChanged) {
+                      this.setState({ okrSpan });
+                    } else {
+                      // 終了日をユーザーが変更していない場合、計算し直す
+                      const endDate = this.state.startDate.clone().add(okrSpan, 'months').subtract(1, 'days');
+                      this.setState({
+                        okrSpan,
+                        endDate
+                      });
+                    }
+                  }}
                 />
               </Form.Field>
             </Form.Group>

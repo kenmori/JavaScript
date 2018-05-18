@@ -18,9 +18,6 @@ ApplicationRecord.transaction do
       uniq_name: 'test',
   )
 
-  # 自動生成される OKR 期間を削除
-  organization.okr_periods.first.destroy!
-
   # 管理者ユーザーを作成
   login_user = User.new(
       last_name: '山田',
