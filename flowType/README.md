@@ -24,6 +24,8 @@ WIP
 
 WIP
 
+
+
 ## Optional object type properties
 
 ```js
@@ -47,8 +49,25 @@ method(null)//error
 
 ```
 
-### Union types
+### Union Types
 
+
+一つのtypeの中で存在するかわからないプロパティを分岐処理する場合Errorを起こす
+
+```js`
+type O = {a: string, isOpen?:boolean, isClose?: boolean}
+var o = {a:"fafa", isOpen: true}
+
+const func = (o: O) =>{
+ if(o.isOpen){
+   return o.isOpen
+ } else if(o.isClose) {
+   return o.isClose
+ }
+}
+```
+
+以下WIP
 関数内ではそれぞれの実引数のtypeに対応し、返り値のstringに変換して返すようにしなくてはならない
 
 ```js
@@ -140,7 +159,7 @@ function handleResponse(response: Response) {
 }
 ```
 
-## generic type
+## Generic Types
 
 ```js
 function somemethod(a){
@@ -248,7 +267,7 @@ let foo: Item<> = { prop: 1 };
 let bar: Item<2> = { prop: 2 };
 ```
 
-### intersection type
+### Intersection Types
 
 ```js
 type A = { a: number };
@@ -285,7 +304,7 @@ type Both = One & Two;
 var value: Both = {prop: 1, foo: false}//ok
 ```
 
-### Array Type
+### Array Types
 
 配列の要素にnullを許容する時
 
@@ -337,6 +356,8 @@ WIP
 ### $Call<F>
 Fに渡した関数の呼び出し結果の型
 
+F型の関数をを静的に呼び出し実行し型の取得が可能なところが特徴
+
 
 最初何をしているかわからなかった下記
 ```js
@@ -350,6 +371,26 @@ Function.prototype.call(this, arg)を$Call<F, arg>でやっている
 this.はFunctionType。この場合ExtractProptype
 引数としてObjを渡している型。PropType。
 PropTypeはnumber型が返ってくる型になる
+
+
+もうちょっとわかりやすく
+
+```js
+type O = {v: string};//取得したいv値の型
+type F = <T>({v: T}) => T //Tで取得。Tを返す関数
+type PropertyGet = $Call<F, O>//指定。返型を取得
+("fafa": PropertyGet)//ok
+
+```
+
+例えば、深くネスとした型を取得する
+
+```
+type O = {v: string, name: {arr: number[]}};
+type F = <T>({name: {arr: T[]}}) => T
+type PropertyGet = $Call<F, O>
+(5: PropertyGet)
+```
 
 
 ### Function type with generics
@@ -398,19 +439,6 @@ a("fafa");
  ```
 
 
-### $ElementType<T,K>
-
-Tに渡した型のkeyを指定Kに指定するとその型になる
-
-```js
-type obj = {
-  name: string,
-  age: number
-}
-
-("kenji": $ElementType<obj, "name">)//ok!
-
-```
 
 ### $Diff<Props, DefaultProps>
 
@@ -516,20 +544,6 @@ add({name: "fafa"})//ok
 Exact Object TypeかUtilityの$Exact
 
 ```
-### UnionType
-
-一つのtypeの中で存在するかわからないプロパティを分岐処理する場合Errorを起こす
-type O = {a: string, isOpen?:boolean, isClose?: boolean}
-var o = {a:"fafa", isOpen: true}
-
-const func = (o: O) =>{
- if(o.isOpen){
-   return o.isOpen
- } else if(o.isClose) {
-   return o.isClose
- }
-}
-
 ### Exact<T>
 $Exact<{name | string}>は{|name: string|}と同等
 他のプロパティを持っていないことを保証する
@@ -586,7 +600,7 @@ const a: A = [1,2,3];
 a.filter(Boolean).filter(n => n > 0)
 ```
 
-### intersection
+### Intersection Types
 
 下記の場合Errorになる
 ```js`
@@ -610,14 +624,6 @@ or
 
 type Foo = {| ...{| foo: string |}, ...{| bar: string |} |}
 const example: Foo = {foo: 'foo', bar: 'bar'}
-```
-
-### $ElementType<T, K>
-$PropertyType<T, K>との違いはKはany型
-$PropertyTypeはliteral型でなければならない
-
-```
-WIP
 ```
 
 
@@ -659,6 +665,21 @@ type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
 
 
 ### $ElementType<T, K>
+
+
+Tに渡した型のkeyを指定Kに指定するとその型になる
+
+```js
+type obj = {
+  name: string,
+  age: number
+}
+
+("kenji": $ElementType<obj, "name">)//ok!
+
+
+$PropertyType<T, K>との違いはKはany型
+$PropertyTypeはliteral型でなければならない
 
 ```js
 type O = {
@@ -721,7 +742,7 @@ const handlers: PramsHandlers = {
    sname: fnc
 }
 ```
-### Function (callback)
+### Function Types (callback)
 
 ```js
 type O = {
@@ -755,6 +776,17 @@ function eee(obj): string {
 fn2(eee, obj)
 
 ```
+
+### Existential Typek
+
+```
+*は、Flowへの「自動」命令と見なすことができ、コンテキストから型を記入するように指示します。
+
+いずれかと比較して、*は型の安全性を失うことを避けることができます。
+
+実在の演算子は、不要な冗長性を持たない型を自動的に埋め込むのにも役立ちます：
+```
+
 
 ### Redux内でのusecase
 
@@ -1041,3 +1073,4 @@ let foo: Item<number> = {prop: 1};
 
 
 
+<BS>
