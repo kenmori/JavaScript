@@ -127,7 +127,7 @@ class SignUpPage extends PureComponent {
               <Form.Field inline>
                 <div>OKR 周期</div>
                 <Select
-                  defaultValue={3}
+                  defaultValue={this.state.okrSpan}
                   options={[
                     { key: 1, value: 1, text: '1ヶ月間' },	
                     { key: 3, value: 3, text: '3ヶ月間' },	
