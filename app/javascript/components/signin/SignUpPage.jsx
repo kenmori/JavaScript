@@ -8,12 +8,18 @@ import DatePicker from '../form/DatePicker';
 class SignUpPage extends PureComponent {
   constructor(props) {
     super(props);
+    const startDate = moment().startOf('month')
+    const okrSpan = 3
     this.state = {
-      startDate: moment().startOf('month'),
-      endDate: moment().add(2, 'months').endOf('month'),
+      startDate,
+      endDate: this.getEndDate(startDate, okrSpan),
       endDateChanged: false,
-      okrSpan: 3
+      okrSpan,
     };
+  }
+
+  getEndDate = (startDate, okrSpan) => {
+    return startDate.clone().add(okrSpan, 'months').subtract(1, 'days')
   }
 
   addUser = () => {
@@ -130,10 +136,9 @@ class SignUpPage extends PureComponent {
                       })
                     } else {
                       // 終了日をユーザーが変更していない場合、計算し直す
-                      const endDate = date.clone().add(this.state.okrSpan, 'months').subtract(1, 'days');
                       this.setState({
                         startDate: date,
-                        endDate
+                        endDate: this.getEndDate(date, this.state.okrSpan),
                       });
                     }
                   }}
@@ -169,10 +174,9 @@ class SignUpPage extends PureComponent {
                       this.setState({ okrSpan });
                     } else {
                       // 終了日をユーザーが変更していない場合、計算し直す
-                      const endDate = this.state.startDate.clone().add(okrSpan, 'months').subtract(1, 'days');
                       this.setState({
                         okrSpan,
-                        endDate
+                        endDate: this.getEndDate(this.state.startDate, okrSpan),
                       });
                     }
                   }}
