@@ -68,7 +68,7 @@ class SignUpPage extends PureComponent {
                 />
               </Form.Field>
               <Form.Field inline>
-                <div>組織ID</div>
+                <div>組織 ID</div>
                 <Input
                   autoComplete="off"
                   size="mini"
