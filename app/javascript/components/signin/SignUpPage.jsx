@@ -6,6 +6,7 @@ import logo_image from '../../images/logo_large.png';
 import DatePicker from '../form/DatePicker';
 
 class SignUpPage extends PureComponent {
+
   constructor(props) {
     super(props);
     const startDate = moment().startOf('month')
@@ -16,6 +17,12 @@ class SignUpPage extends PureComponent {
       endDateChanged: false,
       okrSpan,
     };
+  }
+
+  componentWillUpdate(props = this.props) {
+    if (props.isCompleted) {
+      props.history.push(props.signUpCompleted)
+    }
   }
 
   getEndDate = (startDate, okrSpan) => {
@@ -36,11 +43,7 @@ class SignUpPage extends PureComponent {
       okr_span: this.state.okrSpan
     })
   }
-  componentWillUpdate(props = this.props) {
-    if (props.isCompleted) {
-      props.history.push(props.signUpCompleted)
-    }
-  }
+
   render() {
     return (
       <div className="sign-up">
