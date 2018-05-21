@@ -405,13 +405,12 @@ class ExportObjectKeyResultsCsvRow
 
   def get_achievement_rate(target_value, actual_value)
     if target_value.present? && actual_value.present? && target_value.positive?
-      return (actual_value * 100 / target_value).round
+      (actual_value * 100 / target_value).round
     end
-    0
   end
 
   def get_key_result_rate_value(achievement_rate, progress_rate)
-    if progress_rate == achievement_rate
+    if achievement_rate.nil? || progress_rate == achievement_rate
       "#{progress_rate.to_i}%"
     else
       "#{progress_rate.to_i}% (達成率#{achievement_rate.to_i}%)"
