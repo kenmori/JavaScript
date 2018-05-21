@@ -405,15 +405,13 @@ class ExportObjectKeyResultsCsvRow
     "#{last_name} #{first_name}"
   end
 
-  def parse_zero_if_nil(value)
-    value.nil? ? 0 : value
-  end
-
   def get_parent_kr_value(parent_kr)
-    kr_rate = get_key_result_rate(parent_kr[:progress], parent_kr[:target_value], parent_kr[:actual_value])
-    rate = parse_zero_if_nil(kr_rate)
+    progress_rate = parent_kr[:progress].nil? ? 0 : parent_kr[:progress]
+    achievement_rate = get_achievement_rate(parent_kr[:target_value], parent_kr[:actual_value])
 
-    parent_kr_format = "#{parent_kr[:name]} [#{rate.to_i}%, #{parent_kr[:owner]}]"
+    rate = get_key_result_rate_value(achievement_rate, progress_rate)
+
+    parent_kr_format = "#{parent_kr[:name]} [#{rate}, #{parent_kr[:owner]}]"
 
     return "(#{parent_kr_format})" if parent_kr[:owner_id] != @user_id
 
@@ -421,7 +419,8 @@ class ExportObjectKeyResultsCsvRow
   end
 
   def get_objective_value(objective)
-    rate = parse_zero_if_nil(objective[:progress])
+    progress = objective[:progress]
+    rate = progress.nil? ? 0 : progress
 
     objective_format = "#{objective[:name]} [#{rate.to_i}%, #{objective[:owner]}]"
 
@@ -430,12 +429,19 @@ class ExportObjectKeyResultsCsvRow
     objective_format
   end
 
-  def get_key_result_rate(progress, target_value, actual_value)
-    if progress.nil? && target_value.present? && actual_value.present? && target_value.positive?
+  def get_achievement_rate(target_value, actual_value)
+    if target_value.present? && actual_value.present? && target_value.positive?
       return (actual_value * 100 / target_value).round
     end
+    0
+  end
 
-    progress
+  def get_key_result_rate_value(achievement_rate, progress_rate)
+    if progress_rate == achievement_rate
+      "#{progress_rate.to_i}%"
+    else
+      "#{progress_rate.to_i}% (達成率#{achievement_rate.to_i}%)"
+    end
   end
 
   def get_key_results_value(key_results)
@@ -450,8 +456,9 @@ class ExportObjectKeyResultsCsvRow
       actual_value = key_result[:actual_value]
       value_unit = key_result[:value_unit]
 
-      kr_rate = get_key_result_rate(key_result[:progress], target_value, actual_value)
-      rate = parse_zero_if_nil(kr_rate)
+      progress_rate = key_result[:progress].nil? ? 0 : key_result[:progress]
+      achievement_rate = get_achievement_rate(target_value, actual_value)
+      rate = get_key_result_rate_value(achievement_rate, progress_rate)
 
       target_actual = ''
       target_actual += " 目標値#{target_value.to_i}#{value_unit}," if target_value.present?
@@ -461,7 +468,7 @@ class ExportObjectKeyResultsCsvRow
       end
 
       key_results_value += <<~"EOS"
-        #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{rate.to_i}%, #{@user_name},#{target_actual} 期限#{key_result[:expired_date]}]
+        #{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限#{key_result[:expired_date]}]
       EOS
     end
 
