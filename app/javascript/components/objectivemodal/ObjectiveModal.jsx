@@ -77,9 +77,11 @@ class ObjectiveModal extends PureComponent {
   }
 
   getInitialOwnerId(props = this.props) {
-    return props.parentKeyResult
-      ? props.parentKeyResult.get('owner').get('id')
-      : props.currentUserId;
+    if (props.parentKeyResult) {
+      const isMember = props.parentKeyResult.get('members').some(member => member.get('id') === props.loginUserId)
+      return isMember ? props.loginUserId : props.parentKeyResult.get('owner').get('id')
+    }
+    return props.currentUserId
   }
 
   isEditing() {

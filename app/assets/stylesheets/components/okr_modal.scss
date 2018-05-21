@@ -45,6 +45,11 @@
         }
       }
     }
+    .ui.form .fields {
+      .flex-field:not(:first-child) {
+        margin-left: .5rem;
+      }
+    }
   }
 
   .okr-body {
@@ -199,7 +204,14 @@
     margin-left: 10px;
     cursor: pointer;
   }
-  
+
+  .okr-comment {
+    &.ui.comments .comment .text {
+      margin: .5rem 0 .75rem;
+      white-space: pre-wrap;
+    }
+  }
+
   &.ui.modal .scrolling.content {
     overflow-y: scroll;
   }

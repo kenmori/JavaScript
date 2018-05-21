@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react';
-import ObjectivePane from './ObjectivePane';
+import ObjectivePane from '../../containers/ObjectivePane';
 import LinkPane from './LinkPane';
 
 class ObjectiveTab extends PureComponent {

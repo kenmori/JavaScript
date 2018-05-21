@@ -21,15 +21,15 @@ class OKRComment extends Component {
     const avatarUrl = user ? user.get('avatarUrl') : null
 
     return (
-      <Comment.Group>
+      <Comment.Group className='okr-comment'>
         <Comment>
           <Comment.Avatar src={avatarUrl || avatar_image} className='avatar__inner'/>
           <Comment.Content>
             <Comment.Author as='span'>{this.props.item.get('fullName')}</Comment.Author>
             <Comment.Metadata>
-              <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')}{this.props.item.get('isEdited') ? '(編集済)' : null}</div>
+              <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')} {this.props.item.get('isEdited') ? '(編集済)' : null}</div>
             </Comment.Metadata>
-            <Comment.Text style={{'whiteSpace': 'pre-wrap'}}>{this.props.item.get('text')}</Comment.Text>
+            <Comment.Text>{this.props.item.get('text')}</Comment.Text>
             {this.props.item.get('editable') ?
               (
                 <Comment.Actions>

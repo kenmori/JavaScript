@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
     isOpen: state.dialogs.getIn(['objectiveForm', 'isOpen']),
     parentKeyResult,
     currentUserId: state.current.get('userId'),
+    loginUserId: state.loginUser.get('id'),
     users: getEnabledUsers(state),
     okrPeriodId: state.current.get('okrPeriodId'),
     parentKeyResults: getParentKeyResults(state),

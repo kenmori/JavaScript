@@ -211,6 +211,6 @@ class KeyResultsController < ApplicationController
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id)
+      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id, :result)
   end
 end
