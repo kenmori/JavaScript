@@ -23,13 +23,14 @@ class User < ApplicationRecord
 
   attr_accessor :no_password_required
 
-  def self.create_user_with_organization!(organization_admin_user, user_params, organization_name, organization_uniq_name)
+  def self.create_user_with_organization!(organization_admin_user, user_params, organization_name, organization_uniq_name, month_start, month_end, okr_span)
     transaction do
       user = User.create!(user_params)
       if organization_admin_user.present?
         organization = organization_admin_user.organization
       else
-        organization = Organization.create!(name: organization_name, uniq_name: organization_uniq_name)
+        organization = Organization.create!(name: organization_name, uniq_name: organization_uniq_name, okr_span: okr_span)
+        organization.okr_periods.create!(month_start: month_start, month_end: month_end)
       end
       OrganizationMember.create!(organization_id: organization.id, user_id: user.id)
       user
