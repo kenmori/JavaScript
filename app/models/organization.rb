@@ -9,10 +9,6 @@ class Organization < ApplicationRecord
 
   mount_uploader :logo, LogoUploader
 
-  after_create do
-    self.okr_periods.create!(month_start: Date.today, month_end: Date.today.months_since(okr_span))
-  end
-
   def current_okr_period
     self.okr_periods.current.first || okr_periods.order(month_start: :desc).first
   end
