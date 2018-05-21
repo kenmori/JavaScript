@@ -38,8 +38,8 @@ class SignUpPage extends PureComponent {
       admin: true,
       organization_name: this.organizationInput.inputRef.value,
       organization_uniq_name: this.organizationUniqNameInput.inputRef.value,
-      month_start: this.state.startDate.format('YYYY/MM/DD'),
-      month_end: this.state.endDate.format('YYYY/MM/DD'),
+      month_start: this.state.startDate.format('YYYY-MM-DD'),
+      month_end: this.state.endDate.format('YYYY-MM-DD'),
       okr_span: this.state.okrSpan
     })
   }
