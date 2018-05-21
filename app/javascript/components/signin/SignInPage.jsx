@@ -32,12 +32,12 @@ class SignInPage extends PureComponent {
             <Form.Group className='text-input-group'>
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
+                <Input type='email' name="email" autoComplete="email" size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
                        onChange={this.handleEmailChange} />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
-                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
+                <Input type='password' name="current-password" autoComplete="current-password" size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
               </Form.Field>
             </Form.Group>
             {/*<div className="user-create-link"><Link to="/users/sign_up">新規ユーザー登録はこちら</Link></div>*/}
