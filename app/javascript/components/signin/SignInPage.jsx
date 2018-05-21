@@ -25,19 +25,33 @@ class SignInPage extends PureComponent {
 
   render() {
     return (
-      <div className='sign-in'>
-        <main style={{ margin: 30, flexDirection: 'column' }} className='flex flex-center '>
-          <Image as='h1' src={logo_image} title='Resily' />
+      <div className="sign-in">
+        <main style={{ margin: 30, flexDirection: 'column' }} className="flex flex-center">
+          <Image as="h1" src={logo_image} title="Resily" />
           <Form>
-            <Form.Group className='text-input-group'>
+            <Form.Group className="text-input-group">
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' name="email" autoComplete="email" size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
-                       onChange={this.handleEmailChange} />
+                <Input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  size="mini"
+                  placeholder="name@example.com"
+                  ref={(node) => {this.emailInput = node;}}
+                  onChange={this.handleEmailChange}
+                />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
-                <Input type='password' name="current-password" autoComplete="current-password" size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
+                <Input
+                  type="password"
+                  name="current-password"
+                  autoComplete="current-password"
+                  size="mini"
+                  placeholder="英数字8文字以上"
+                  ref={(node) => {this.passwordInput = node;}}
+                />
               </Form.Field>
             </Form.Group>
             {/*<div className="user-create-link"><Link to="/users/sign_up">新規ユーザー登録はこちら</Link></div>*/}
@@ -47,7 +61,7 @@ class SignInPage extends PureComponent {
                 state: { email: this.state.email },
               }}>パスワードを忘れた方はこちら</Link>
             </div>
-            <div className='center'>
+            <div className="center">
               <Button positive onClick={this.signIn}>ログインする</Button>
             </div>
           </Form>
