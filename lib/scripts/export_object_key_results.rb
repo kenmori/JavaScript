@@ -39,12 +39,6 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.o_id as kr_o_id
         , own_key_results.o_name as kr_o_name
         , own_key_results.o_progress as kr_o_progress
-        , (
-          select sum(coalesce(progress_rate, 0)) / count(*)
-          from key_results
-          where objective_id = kr_o_id
-          group by objective_id
-        ) as kr_o_calc_progress
         , own_key_results.o_kr_order as kr_o_kr_order
         , own_key_results.ou_id as kr_ou_id
         , own_key_results.ou_last_name as kr_ou_last_name
@@ -52,13 +46,6 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.p_kr_id as kr_p_kr_id
         , own_key_results.p_kr_name as kr_p_kr_name
         , own_key_results.p_kr_progress as kr_p_kr_progress
-        , (
-          select
-            sum(coalesce(progress_rate, 0)) / count(*)
-          from objectives
-          where parent_key_result_id = kr_p_kr_id
-          group by parent_key_result_id
-        ) as kr_p_kr_calc_progress
         , own_key_results.p_kr_target_value as kr_p_kr_target_value
         , own_key_results.p_kr_actual_value as kr_p_kr_actual_value
         , own_key_results.p_kr_user_id as kr_p_kr_user_id
@@ -67,25 +54,12 @@ class ExportObjectKeyResultsDataAccessor
         , own_objectives.o_id as o_o_id
         , own_objectives.o_name as o_o_name
         , own_objectives.o_progress as o_o_progress
-        , (
-          select sum(coalesce(progress_rate,0)) / count(*)
-          from key_results
-          where objective_id = o_o_id
-          group by objective_id
-        ) as o_o_calc_progress
         , own_objectives.ou_id as o_ou_id
         , own_objectives.ou_last_name as o_ou_last_name
         , own_objectives.ou_first_name as o_ou_first_name
         , own_objectives.p_kr_id as o_p_kr_id
         , own_objectives.p_kr_name as o_p_kr_name
         , own_objectives.p_kr_progress as o_p_kr_progress
-        , (
-          select
-            sum(coalesce(progress_rate, 0)) / count(*)
-          from objectives
-          where parent_key_result_id = o_p_kr_id
-          group by parent_key_result_id
-        ) as o_p_kr_calc_progress
         , own_objectives.p_kr_target_value as o_p_kr_target_value
         , own_objectives.p_kr_actual_value as o_p_kr_actual_value
         , own_objectives.p_kr_user_id as o_p_kr_user_id
@@ -279,7 +253,7 @@ class ExportObjectKeyResultsCsvRow
           objective: {
               id: record['kr_o_id'],
               name: record['kr_o_name'],
-              progress: record['kr_o_progress'] || record['kr_o_calc_progress'] || 0,
+              progress: record['kr_o_progress'],
               owner_id: record['kr_ou_id'],
               owner: to_full_name(record['kr_ou_last_name'], record['kr_ou_first_name'])
           },
@@ -313,7 +287,7 @@ class ExportObjectKeyResultsCsvRow
                   else
                     {
                         name: first['kr_p_kr_name'],
-                        progress: first['kr_p_kr_progress'] || first['kr_p_kr_calc_progress'] || 0,
+                        progress: first['kr_p_kr_progress'],
                         target_value: first['kr_p_kr_target_value'],
                         actual_value: first['kr_p_kr_actual_value'],
                         owner_id: first['kr_p_kr_user_id'],
@@ -324,7 +298,7 @@ class ExportObjectKeyResultsCsvRow
       objective = {
           id: first['kr_o_id'],
           name: first['kr_o_name'],
-          progress: first['kr_o_progress'] || first['kr_o_calc_progress'] || 0,
+          progress: first['kr_o_progress'],
           owner_id: first['kr_ou_id'],
           owner: to_full_name(first['kr_ou_last_name'], first['kr_ou_first_name'])
       }
@@ -377,7 +351,7 @@ class ExportObjectKeyResultsCsvRow
                   else
                     {
                         name: record['o_p_kr_name'],
-                        progress: record['o_p_kr_progress'] || record['o_p_kr_calc_progress'] || 0,
+                        progress: record['o_p_kr_progress'],
                         target_value: record['o_p_kr_target_value'],
                         actual_value: record['o_p_kr_actual_value'],
                         owner_id: record['o_p_kr_user_id'],
@@ -388,7 +362,7 @@ class ExportObjectKeyResultsCsvRow
       objective = {
           id: record['o_o_id'],
           name: record['o_o_name'],
-          progress: record['o_o_progress'] || record['o_o_calc_progress'] || 0,
+          progress: record['o_o_progress'],
           owner_id: record['o_ou_id'],
           owner: to_full_name(record['o_ou_last_name'], record['o_ou_first_name'])
       }
