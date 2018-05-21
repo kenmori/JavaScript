@@ -31,16 +31,16 @@ class SignUpPage extends PureComponent {
 
   addUser = () => {
     this.props.addUser({
-      last_name: this.lastNameInput.inputRef.value,
-      first_name: this.firstNameInput.inputRef.value,
+      lastName: this.lastNameInput.inputRef.value,
+      firstName: this.firstNameInput.inputRef.value,
       email: this.emailInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       admin: true,
       organization_name: this.organizationInput.inputRef.value,
       organization_uniq_name: this.organizationUniqNameInput.inputRef.value,
-      month_start: this.state.startDate.format('YYYY-MM-DD'),
-      month_end: this.state.endDate.format('YYYY-MM-DD'),
-      okr_span: this.state.okrSpan
+      monthStart: this.state.startDate.format('YYYY-MM-DD'),
+      monthEnd: this.state.endDate.format('YYYY-MM-DD'),
+      okrSpan: this.state.okrSpan,
     })
   }
 
