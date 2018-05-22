@@ -31,21 +31,18 @@ class CreateUsers
     puts 'How many users do you want to add?'
     print 'Number: '
     number = gets.chomp!
-    puts 'Enter a prefix to make email address unique.'
-    print 'Prefix: '
-    prefix = gets.chomp!
     print 'Do you make added users disabled? [YES/no] '
     disabled = gets.chomp! == 'YES'
     
 
     begin
       ActiveRecord::Base.transaction do
+        name = ('a'..'z').to_a.sample(4).join
         number.to_i.times do |i|
-          name = "#{prefix}#{i + 1}"
           organization.users.create!(
-              first_name: name,
+              first_name: (i + 1).to_s,
               last_name: name,
-              email: "#{name}@example.com",
+              email: "#{name}#{i + 1}@example.com",
               password: 'Pass0123',
               disabled: disabled,
               confirmed_at: Time.now,
