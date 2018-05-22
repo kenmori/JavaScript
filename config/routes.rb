@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     put 'current_organization_id', to: 'users#update_current_organization_id'
     put 'resend', to: 'users#resend'
   end
-  resources :organizations, only: %i[show update]
+  resources :organizations, only: %i[show create update]
   resources :okr_periods, only: %i[index create update destroy]
   get '*path', to: 'home#index'
 end

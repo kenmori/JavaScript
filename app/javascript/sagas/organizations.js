@@ -11,6 +11,11 @@ function* fetchOrganization({ payload }) {
   yield put(organizationActions.fetchedOrganization(result.get('organization')));
 }
 
+function* addOrganization({ payload: { organization, user, okrPeriod } }) {
+  const result = yield call(API.post, '/organizations/', { organization, user, okrPeriod })
+  yield put(organizationActions.addedOrganization(result.get('organization')))
+}
+
 function* updateOrganization({ payload }) {
   const result = yield call(API.put, '/organizations/' + payload.organization.id, { organization: payload.organization });
   yield put(organizationActions.updatedOrganization(result.get('organization')));
@@ -25,6 +30,7 @@ function* updateLogo({ payload }) {
 export function* organizationSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_ORGANIZATION, withLoading(fetchOrganization)),
+    takeLatest(actionTypes.ADD_ORGANIZATION, withLoading(addOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION, withLoading(updateOrganization)),
     takeLatest(actionTypes.UPDATE_LOGO, withLoading(updateLogo)),
   ]);
