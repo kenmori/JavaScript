@@ -18,58 +18,47 @@ ApplicationRecord.transaction do
       uniq_name: 'test',
   )
 
-  # 管理者ユーザーを作成
-  login_user = User.new(
+  # ユーザーを作成
+  login_user = organization.users.create!(
       last_name: '山田',
       first_name: '太郎',
       email: 'yamada@example.com',
       password: 'Pass0123',
       admin: true,
+      confirmed_at: Time.now,
   )
-  login_user.skip_confirmation!
-  login_user.save!
-  organization.organization_members.create!(user_id: login_user.id)
-
-  another = User.new(
+  another = organization.users.create!(
       last_name: '鈴木',
       first_name: '花子',
       email: 'suzuki@example.com',
       password: 'Pass0123',
+      confirmed_at: Time.now,
   )
-  another.skip_confirmation!
-  another.save!
-  organization.organization_members.create!(user_id: another.id)
-
-  horie = User.new(
+  horie = organization.users.create!(
       last_name: '堀江',
       first_name: '真弘',
       email: 'horie@example.com',
       password: 'Pass0123',
       admin: true,
+      confirmed_at: Time.now,
   )
-  horie.skip_confirmation!
-  horie.save!
-  organization.organization_members.create!(user_id: horie.id)
-
-  guest = User.new(
+  guest = organization.users.create!(
       last_name: 'ゲスト',
       first_name: 'ユーザー',
       email: 'guest@example.com',
       password: 'Ke4nQVXL',
+      confirmed_at: Time.now,
   )
-  guest.skip_confirmation!
-  guest.save!
-  organization.organization_members.create!(user_id: guest.id)
 
   # OKR 期間を作成
   active_okr_period = organization.okr_periods.create!(
-      month_start: '2017/12/01',
-      month_end: '2018/02/28',
+      month_start: '2017-12-01',
+      month_end: '2018-02-28',
       name: '3Q',
   )
   inactive_okr_period = organization.okr_periods.create!(
-      month_start: '2017/9/1',
-      month_end: '2017/11/30',
+      month_start: '2017-09-01',
+      month_end: '2017-11-30',
   )
 
   # 今期 OKR を作成

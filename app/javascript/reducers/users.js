@@ -9,7 +9,7 @@ function set (state, { payload }) {
 
 export default handleActions({
     [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
-      return payload.organization.get('members');
+      return payload.organization.get('users');
     },
     [ActionTypes.ADDED_USER]: (state, { payload }) => (
       state.push(payload.user)

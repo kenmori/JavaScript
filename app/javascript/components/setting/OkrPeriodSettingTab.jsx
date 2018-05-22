@@ -79,8 +79,8 @@ class OkrPeriodSettingTab extends PureComponent {
   addOkrPeriod = () => {
     this.props.addOkrPeriod({
       name: this.name.inputRef.value,
-      monthStart: this.state.monthStart.format(),
-      monthEnd: this.state.monthEnd.format(),
+      monthStart: this.state.monthStart.format('YYYY-MM-DD'),
+      monthEnd: this.state.monthEnd.format('YYYY-MM-DD'),
       organizationId: this.props.organizationId,
     })
   }
@@ -98,9 +98,9 @@ class OkrPeriodSettingTab extends PureComponent {
 
   handleNameCommit = id => name => this.props.updateOkrPeriod({ id, name })
 
-  handleMonthStartChange = id => date => this.props.updateOkrPeriod({ id, monthStart: date.format() })
+  handleMonthStartChange = id => date => this.props.updateOkrPeriod({ id, monthStart: date.format('YYYY-MM-DD') })
 
-  handleMonthEndChange = id => date => this.props.updateOkrPeriod({ id, monthEnd: date.format() })
+  handleMonthEndChange = id => date => this.props.updateOkrPeriod({ id, monthEnd: date.format('YYYY-MM-DD') })
 
   handleRemoveClick = (id, okrPeriodName) => () => this.removeOkrPeriod(id, okrPeriodName)
 

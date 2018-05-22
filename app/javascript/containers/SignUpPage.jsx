@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
 import SignUpPage from '../components/signin/SignUpPage';
-import usersActions from '../actions/users';
+import organizationActions from '../actions/organizations';
 
 const mapStateToProps = (state) => {
   return {
     signUpCompleted: '/users/sign_up/completed',
-    isCompleted: state.signUp.get('isCompleted'),
+    isCompleted: state.organizations.get('isCompleted'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addUser(userData) {
-      dispatch(usersActions.addUser(userData));
+    addOrganization(organization, user, okrPeriod) {
+      dispatch(organizationActions.addOrganization(organization, user, okrPeriod));
     }
   };
 };
