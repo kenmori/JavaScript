@@ -42,16 +42,14 @@ class CreateUsers
       ActiveRecord::Base.transaction do
         number.to_i.times do |i|
           name = "#{prefix}#{i + 1}"
-          user = User.new(
+          organization.users.create!(
               first_name: name,
               last_name: name,
               email: "#{name}@example.com",
               password: 'Pass0123',
               disabled: disabled,
+              confirmed_at: Time.now,
           )
-          user.skip_confirmation!
-          user.save!
-          organization.organization_members.create!(user_id: user.id)
         end
       end
     rescue => e
