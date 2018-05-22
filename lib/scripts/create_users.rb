@@ -28,25 +28,36 @@ class CreateUsers
       end
     end
 
-    puts 'How many users do you want to add?'
+    puts 'How many enabled users do you want to add?'
     print 'Number: '
-    number = gets.chomp!
-    print 'Do you make added users disabled? [YES/no] '
-    disabled = gets.chomp! == 'YES'
-    
+    enabled_number = gets.chomp!.to_i
+    puts 'How many disabled users do you want to add?'
+    print 'Number: '
+    disabled_number = gets.chomp!.to_i
 
     begin
       ActiveRecord::Base.transaction do
         name = ('a'..'z').to_a.sample(4).join
-        number.to_i.times do |i|
+        enabled_number.times do |i|
+          index = i + 1
           organization.users.create!(
-              first_name: (i + 1).to_s,
+              first_name: index.to_s,
               last_name: name,
-              email: "#{name}#{i + 1}@example.com",
+              email: "#{name}#{index}@example.com",
               password: 'Pass0123',
-              disabled: disabled,
               confirmed_at: Time.now,
           )
+        end
+        disabled_number.times do |i|
+          index = enabled_number + i + 1
+          organization.users.create!(
+              first_name: index.to_s,
+              last_name: name,
+              email: "#{name}#{index}@example.com",
+              password: 'Pass0123',
+              disabled: true,
+              confirmed_at: Time.now,
+              )
         end
       end
     rescue => e
@@ -54,7 +65,7 @@ class CreateUsers
       return 1
     end
 
-    puts "The #{number} users have been added to #{organization.name} successfully."
+    puts "The #{enabled_number + disabled_number} users have been added to #{organization.name} successfully."
   end
 end
 
