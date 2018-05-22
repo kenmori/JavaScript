@@ -1,15 +1,10 @@
 class UsersController < ApplicationController
-  before_action :valid_operatable_user?, except: [:create]
-  skip_before_action :authenticate_user!, only: [:create]
+  before_action :valid_operatable_user?
 
   def create
-    @user = User.create_user_with_organization!(current_user,
-                                               user_params, 
-                                               params[:user][:organization_name],
-                                               params[:user][:organization_uniq_name],
-                                               params[:user][:month_start], 
-                                               params[:user][:month_end],
-                                               params[:user][:okr_span])
+    ActiveRecord::Base.transaction do
+      @user = current_user.organization.users.create!(user_params)
+    end
     render status: :created
   rescue => e
     unprocessable_entity(e.message)

@@ -29,18 +29,20 @@ class SignUpPage extends PureComponent {
     return startDate.clone().add(okrSpan, 'months').subtract(1, 'days')
   }
 
-  addUser = () => {
-    this.props.addUser({
+  addOrganization = () => {
+    this.props.addOrganization({
+      name: this.organizationInput.inputRef.value,
+      uniqName: this.organizationUniqNameInput.inputRef.value,
+      okrSpan: this.state.okrSpan,
+    }, {
       lastName: this.lastNameInput.inputRef.value,
       firstName: this.firstNameInput.inputRef.value,
       email: this.emailInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       admin: true,
-      organization_name: this.organizationInput.inputRef.value,
-      organization_uniq_name: this.organizationUniqNameInput.inputRef.value,
+    }, {
       monthStart: this.state.startDate.format('YYYY-MM-DD'),
       monthEnd: this.state.endDate.format('YYYY-MM-DD'),
-      okrSpan: this.state.okrSpan,
     })
   }
 
@@ -188,7 +190,7 @@ class SignUpPage extends PureComponent {
             </Form.Group>
             <Divider hidden />
             <div>
-              <Button positive onClick={this.addUser}>登録する</Button>
+              <Button positive onClick={this.addOrganization}>登録する</Button>
             </div>
           </Form>
         </main>
@@ -201,7 +203,7 @@ SignUpPage.propTypes = {
   // container
   signUpCompleted: PropTypes.string.isRequired,
   isCompleted: PropTypes.bool.isRequired,
-  addUser: PropTypes.func.isRequired,
+  addOrganization: PropTypes.func.isRequired,
   // component
 }
 

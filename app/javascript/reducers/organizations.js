@@ -7,6 +7,7 @@ const initialState = fromJS({
   selected: gon.get('organization'),
   list: gon.get('organizations'),
   isFetched: false,
+  isCompleted: false,
 });
 
 function newSelectedData(state, payload) {
@@ -29,6 +30,9 @@ export default handleActions({
   ),
   [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => (
     newSelectedData(state, payload).set('isFetched', true)
+  ),
+  [ActionTypes.ADDED_ORGANIZATION]: state => (
+    state.set('isCompleted', true)
   ),
   [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => (
     newSelectedData(state, payload)
