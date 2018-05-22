@@ -15,7 +15,20 @@ class CreateUsers
       return 1
     end
 
-    print "Do you want to add users to #{organization.name}? [YES/no] "
+    puts 'How many enabled users do you want to add?'
+    print 'Number: '
+    enabled_number = gets.chomp!.to_i
+    puts 'How many disabled users do you want to add?'
+    print 'Number: '
+    disabled_number = gets.chomp!.to_i
+
+    puts ''
+    puts "Organization: #{organization.name} (#{organization.uniq_name})"
+    puts "Enabled users: #{enabled_number}"
+    puts "Disabled users: #{disabled_number}"
+    puts ''
+
+    print 'Do you want to add users to the above? [YES/no] '
     while true do
       case gets.chomp!
         when 'YES'
@@ -27,13 +40,6 @@ class CreateUsers
           print "Type 'YES' or 'no': "
       end
     end
-
-    puts 'How many enabled users do you want to add?'
-    print 'Number: '
-    enabled_number = gets.chomp!.to_i
-    puts 'How many disabled users do you want to add?'
-    print 'Number: '
-    disabled_number = gets.chomp!.to_i
 
     begin
       ActiveRecord::Base.transaction do
