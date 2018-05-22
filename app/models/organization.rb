@@ -12,8 +12,4 @@ class Organization < ApplicationRecord
   def current_okr_period
     self.okr_periods.current.first || okr_periods.order(month_start: :desc).first
   end
-
-  def members
-    self.organization_members.includes(:user).map(&:user)
-  end
 end

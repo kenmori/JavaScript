@@ -7,7 +7,7 @@ json.organization do
     json.month_start period.month_start
     json.month_end period.month_end
   end
-  json.members @organization.members do |user|
+  json.users @organization.users do |user|
     json.id user.id
     json.first_name user.first_name
     json.last_name user.last_name
