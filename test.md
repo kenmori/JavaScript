@@ -1,5 +1,5 @@
 
-Enzymeとは 
+Enzymeとは
 ・ライブラリ
 ・React componentに対してのユニットテスト、utility functionを提供している(shallow renderringのような)
 ・Enzymeはどのテストランナーとも共存できる(Enzymeはテストランナーではない)

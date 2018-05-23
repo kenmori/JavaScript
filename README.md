@@ -8128,6 +8128,23 @@ fun(1)
 //1
 ```
 
+
+
+
+```js
+
+下記の関数
+
+function f(images, index, attributes){
+ return {images: [ ...images.slice(0, index), {...images[index], ...attributes}, ...images.slice(index + 1)]}
+}
+の
+f(["eeee","ppp","lll"], 1, [1,2,3])
+実行時出力結果を答えてください
+
+
+//images:[ "eeee",  {0: 1, 1: 2, 2: 3} ,"lll"]
+```
 </details>
 
 
