@@ -63,4 +63,44 @@
   result : 1
 }
 
+````
+
+
+
+
+
+
+
+
+ex2
+
+
+//////////////
+
+```js
+        let article = {
+            id: 1,
+            author: {
+                id: 1,
+                name: "kenji"
+            },
+            comment: { user: [{ //階層が深くなった
+                    id: 2,
+                name: "keiko"
+            }
+            ]
+            },
+        }
+
+
+        const user = new schema.Entity("user")
+        const commentSchema = new schema.Entity("comment", {
+            comment:  user
+        })
+        const articleschema = new schema.Entity("article", {
+            author: user,
+            comment: {user : [commentSchema]}//受け取りたい場所の階層を変更
+        });
+        const data = normalize(article, articleschema)
+
 ```
