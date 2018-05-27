@@ -14,14 +14,15 @@ class Markdown extends Component {
       gfm: true,
       pedantic: true,
       breaks: true,
+      sanitize: false,
     }
 
     return (
-      <div className={`${'markdown-body'} ${'markdown'}`}>
+      <div className={`${'markdown-body'}`}>
         {remark()
           .use(emoji)
-          .use(reactRemark)
-          .processSync(this.props.text, options)
+          .use(reactRemark, options)
+          .processSync(this.props.text)
           .contents}
       </div>
     )
