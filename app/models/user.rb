@@ -16,7 +16,8 @@ class User < ApplicationRecord
   has_many :key_results, through: :key_result_members
   has_many :unprocessed_key_results, -> { where(key_result_members: { processed: false }) }, through: :key_result_members, :source => :key_result 
   has_many :comments # destroy 時に何もしない
-  has_many :organization_member, dependent: :destroy
+  has_many :organization_members, dependent: :destroy
+  has_many :organizations, through: :organization_members
   has_many :objective_orders, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
@@ -24,12 +25,7 @@ class User < ApplicationRecord
   attr_accessor :no_password_required
 
   def organization
-    return organizations.select { |e| e.id == current_organization_id }.first if current_organization_id.present?
-    organizations.first
-  end
-
-  def organizations
-    organization_member.includes(:organization).map(&:organization)
+    current_organization_id.present? ? organizations.find(current_organization_id) : organizations.first
   end
 
   def password_required?
