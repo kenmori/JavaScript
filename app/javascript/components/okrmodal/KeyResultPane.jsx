@@ -96,11 +96,11 @@ class KeyResultPane extends PureComponent {
   
   childObjectiveProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate');
-    const childProgressRate = keyResult.get('childProgressRate');
-    return (typeof childProgressRate === 'number') && progressRate !== childProgressRate && (
+    const childObjectiveProgressRate = keyResult.get('childObjectiveProgressRate');
+    return (typeof childObjectiveProgressRate === 'number') && progressRate !== childObjectiveProgressRate && (
       <div className='flex-field__item'>
         <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
-                               content={`下位 OKR の進捗は ${childProgressRate}% です`}
+                               content={`下位 OKR の進捗は ${childObjectiveProgressRate}% です`}
                                onClick={this.handleChildProgressRateClick} />}
                position='bottom left'
                size='tiny'

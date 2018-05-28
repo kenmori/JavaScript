@@ -75,10 +75,10 @@ class ObjectivePane extends PureComponent {
   parentKeyResultProgressRateHtml(parentKeyResult) {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
-    const childProgressRate = parentKeyResult.get('childProgressRate');
-    return (typeof childProgressRate === 'number') && progressRate !== childProgressRate && (
+    const childObjectiveProgressRate = parentKeyResult.get('childObjectiveProgressRate');
+    return (typeof childObjectiveProgressRate === 'number') && progressRate !== childObjectiveProgressRate && (
       <div className='flex-field__item--block'>
-        <Label pointing='above' content={`上位 Key Result の進捗は ${childProgressRate}% から ${progressRate}% に変更されています`} />
+        <Label pointing='above' content={`上位 Key Result の進捗は ${childObjectiveProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
     );
   }

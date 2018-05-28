@@ -1,5 +1,5 @@
 json.partial!(key_result)
-json.child_progress_rate key_result.child_progress_rate
+json.child_objective_progress_rate key_result.child_objective_progress_rate
 json.achievement_rate key_result.achievement_rate
 
 json.child_objectives do
