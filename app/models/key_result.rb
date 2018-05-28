@@ -19,6 +19,13 @@ class KeyResult < ApplicationRecord
     self.okr_period_id = objective.okr_period_id
   end
 
+  after_save do
+    if objective
+      objective.update_key_result_progress_rate
+      objective.save!
+    end
+  end
+
   def progress_rate
     super || child_objective_progress_rate || 0
   end
@@ -39,6 +46,11 @@ class KeyResult < ApplicationRecord
     if target_value.present? && actual_value.present? && target_value > 0
       self.progress_rate = [(actual_value * 100 / target_value).round, 100].min
     end
+  end
+
+  def update_child_objective_progress_rate
+    self.child_objective_progress_rate = child_objectives.size == 0 ? nil
+        : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
   end
 
   def owner

@@ -10,8 +10,20 @@ class Objective < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  after_save do
+    if parent_key_result
+      parent_key_result.update_child_objective_progress_rate
+      parent_key_result.save!
+    end
+  end
+
   def progress_rate
     super || key_result_progress_rate || 0
+  end
+
+  def update_key_result_progress_rate
+    self.key_result_progress_rate = key_results.size == 0 ? nil
+        : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.size
   end
 
   def owner
