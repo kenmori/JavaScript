@@ -30,7 +30,7 @@ class Avatar extends PureComponent {
     let name = this.props.user.get('lastName');
     let path = this.props.user.get('avatarUrl');
     const size = this.props.size;
-    let fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
+    const fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
     const disabled = this.props.user.get('disabled');
 
     if (size === 'tiny' || size === 'mini') {
@@ -38,9 +38,6 @@ class Avatar extends PureComponent {
     }
     if (!this.props.withInitial) {
       path = path || avatar_image; // イニシャルを非表示にするためデフォルト画像を指定する
-    }
-    if (disabled) {
-      fullName = `${fullName} (無効)`
     }
 
     return (
@@ -52,7 +49,7 @@ class Avatar extends PureComponent {
                     color='transparent'
         />
         {disabled && <Icon disabled name='dont' size={sizeToIconSize[this.props.size]} />}
-        {this.props.withName && <span className='avatar__name'>{fullName}</span>}
+        {this.props.withName && <span className='avatar__name'>{disabled ? `${fullName} (無効)` : fullName}</span>}
       </div>
     );
   }
