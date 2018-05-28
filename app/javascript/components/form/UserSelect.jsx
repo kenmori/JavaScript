@@ -8,13 +8,16 @@ import avatar_image from '../../images/avatar.png';
 class UserSelect extends PureComponent {
 
   userOptions = () => {
-    return this.props.users.map(user => ({
-      key: user.get('id'),
-      value: user.get('id'),
-      text: `${user.get('lastName')} ${user.get('firstName')}`,
-      image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
-      email: user.get('email'),
-    })).toArray();
+    return this.props.users.map(user => {
+      const fullName = `${user.get('lastName')} ${user.get('firstName')}`
+      return {
+        key: user.get('id'),
+        value: user.get('id'),
+        text: fullName,
+        image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
+        searchtext: `${fullName} ${user.get('email')}`.toLowerCase(),
+      }
+    }).toArray()
   }
 
   handleChange = (event, { value }) => {
@@ -31,7 +34,9 @@ class UserSelect extends PureComponent {
   }
 
   search = (options, query) => {
-    return options.filter(option => option.text.includes(query) || option.email.includes(query))
+    if (!query) return options
+    query = query.toLowerCase()
+    return options.filter(option => option.searchtext.includes(query))
   }
 
   render() {
