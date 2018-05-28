@@ -49,6 +49,7 @@ class UsersTable extends PureComponent {
     users.map((user, index) =>
       user.set('index', index + 1)
         .set('email', user.get('unconfirmedEmail') || user.get('email'))
+        .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
     )
   )
 
@@ -76,9 +77,9 @@ class UsersTable extends PureComponent {
   };
 
   getFilteredUsers = (users, keyword) => {
-    return keyword ? users.filter(user => (
-      user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
-    )) : users;
+    if (!keyword) return users
+    keyword = keyword.toLowerCase()
+    return users.filter(user => user.get('searchText').includes(keyword))
   }
 
   removeUser = user => {

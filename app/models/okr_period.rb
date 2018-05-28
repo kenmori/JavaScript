@@ -1,7 +1,7 @@
 class OkrPeriod < ApplicationRecord
   belongs_to :organization
-  has_many :objectives
-  has_many :key_results
+  has_many :objectives, dependent: :destroy
+  has_many :key_results, dependent: :destroy
 
   scope :current, -> { where('month_start <= ? AND month_end >= ?', Date.today, Date.today) }
 
