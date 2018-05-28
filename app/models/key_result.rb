@@ -19,6 +19,10 @@ class KeyResult < ApplicationRecord
     self.okr_period_id = objective.okr_period_id
   end
 
+  def progress_rate
+    super || child_objective_progress_rate || 0
+  end
+
   def target_value=(value)
     value.tr!('０-９．', '0-9.') if value.is_a?(String)
     super(value)

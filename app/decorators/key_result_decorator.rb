@@ -1,14 +1,4 @@
 module KeyResultDecorator
-  def progress_rate
-    # 進捗率が未設定の場合は子 Objective の進捗率から算出する
-    progress_rate_in_database || child_objective_progress_rate || 0
-  end
-
-  def child_objective_progress_rate
-    child_objectives.size == 0 ? nil
-        : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
-  end
-
   def achievement_rate
     if target_value.present? && actual_value.present? && target_value > 0
       (actual_value * 100 / target_value).round

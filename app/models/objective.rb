@@ -10,6 +10,10 @@ class Objective < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  def progress_rate
+    super || key_result_progress_rate || 0
+  end
+
   def owner
     objective_members.find_by(role: :owner)&.user
   end
