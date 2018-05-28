@@ -8,16 +8,16 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { maximum: 255 }
   validates :last_name, presence: true, length: { maximum: 255 }
 
-  has_many :group_members
+  has_many :group_members, dependent: :destroy
   has_many :groups, through: :group_members
-  has_many :objective_members
+  has_many :objective_members, dependent: :destroy
   has_many :objectives, through: :objective_members
-  has_many :key_result_members
+  has_many :key_result_members, dependent: :destroy
   has_many :key_results, through: :key_result_members
   has_many :unprocessed_key_results, -> { where(key_result_members: { processed: false }) }, through: :key_result_members, :source => :key_result 
-  has_many :comments
+  has_many :comments # destroy 時に何もしない
   has_many :organization_member, dependent: :destroy
-  has_many :objective_orders
+  has_many :objective_orders, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 
