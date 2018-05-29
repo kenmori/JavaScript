@@ -43,7 +43,7 @@ class OrganizationsController < ApplicationController
   end
 
   def update_params
-    params.require(:organization).permit(:id, :name, :logo, :remove_logo)
+    params.require(:organization).permit(:id, :name, :logo, :remove_logo, :okr_span)
   end
   
 end
