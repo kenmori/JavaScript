@@ -1,28 +1,35 @@
 import MenuBar from '../components/MenuBar';
 import { connect } from 'react-redux';
+import organizationActions from '../actions/organizations'
+import objectiveActions from '../actions/objectives'
 import userActions from '../actions/users';
-import organizationActions from '../actions/organizations';
 import currentActions from '../actions/current';
 import sessionActions from '../actions/sessions';
 import history from '../utils/history';
+import { getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users.filter(user => !user.get('disabled')),
-    userId: state.current.get('userId'),
+    organizationId: state.organizations.get('selected').get('id'),
     okrPeriodId: state.current.get('okrPeriodId'),
-    okrPeriods: state.okrPeriods,
-    loginUser: state.loginUser,
-    organization: state.organizations.get('selected'),
+    userId: state.current.get('userId'),
     organizations: state.organizations.get('list'),
+    okrPeriods: state.okrPeriods,
+    users: getEnabledUsers(state),
+    organization: state.organizations.get('selected'),
+    loginUser: state.loginUser,
+    isFetchedOrganization: state.organizations.get('isFetched'),
     needLogout: state.signUp.get('needLogout'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrganization: (id) => {
-      dispatch(organizationActions.fetchOrganization({id}));
+    fetchOrganization: id => {
+      dispatch(organizationActions.fetchOrganization(id))
+    },
+    fetchOkrs: (okrPeriodId, userId, isOkrPeriodChanged = true) => {
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, isOkrPeriodChanged))
     },
     changeCurrentUser: (userId) => {
       if (location.pathname !== '/') {

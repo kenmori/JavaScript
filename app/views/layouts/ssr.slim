@@ -4,8 +4,7 @@ html
     title
       | Resily (β)
     = csrf_meta_tags
-    = favicon_link_tag('favicon.ico')
     = include_gon
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 body
   = yield

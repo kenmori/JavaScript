@@ -2,10 +2,10 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
-function add(state, objectiveId, isNew) {
+function add(state, objectiveId, viaHome) {
   return state
     .update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
-    .update('selectedOkr', selectedOkr => isNew ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
+    .update('selectedOkr', selectedOkr => viaHome ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
 }
 
 function remove(state, objectiveId) {
@@ -22,11 +22,17 @@ function remove(state, objectiveId) {
 }
 
 function addToCandidates(state, objectiveId) {
-  return state.update('candidates', ids => ids.insert(0, objectiveId));
+  return state.update('candidateIds', ids => ids.insert(0, objectiveId));
 }
 
 function removeFromCandidates(state, objectiveId) {
-  return state.update('candidates', ids => ids.filter(id => id !== objectiveId));
+  return state.update('candidateIds', ids => ids.filter(id => id !== objectiveId));
+}
+
+function isMine(objectiveId, payload) {
+  const userId = payload.get('currentUserId')
+  const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`])
+  return userId === objective.get('owner').get('id')
 }
 
 export default handleActions({
@@ -36,7 +42,7 @@ export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: state => {
       return state.set('isFetchedObjective', true);
     },
-    [ActionTypes.FETCH_OBJECTIVES]: (state, { payload }) => {
+    [ActionTypes.FETCH_OBJECTIVES]: state => {
       return state.set('isFetchedObjectives', false);
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
@@ -46,27 +52,34 @@ export default handleActions({
         .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
         .set('isFetchedObjectives', true);
     },
+    [ActionTypes.FETCH_PREVIOUS_OBJECTIVES]: state => {
+      return state.set('isFetchedPreviousObjectives', false)
+    },
+    [ActionTypes.FETCHED_PREVIOUS_OBJECTIVES]: (state, { payload }) => {
+      const objectiveIds = payload.get('result')
+      return state
+        .set('previousIds', objectiveIds)
+        .set('isFetchedPreviousObjectives', true)
+    },
+    [ActionTypes.FETCHED_PREVIOUS_OBJECTIVES_ERROR]: state => {
+      return state
+        .update('previousIds', ids => ids.clear())
+        .set('isFetchedPreviousObjectives', true)
+    },
     [ActionTypes.FETCH_OBJECTIVE_CANDIDATES]: state => {
       return state.set('isFetchedCandidates', false);
     },
     [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidates', payload.get('result')).set('isFetchedCandidates', true);
+      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true);
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
       state = addToCandidates(state, objectiveId);
-
-      const userId = payload.get('currentUserId');
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId, payload.get('isNew')) : state;
+      return isMine(objectiveId, payload) ? add(state, objectiveId, payload.get('viaHome')) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      const userId = payload.get('currentUserId');
       const objectiveId = payload.get('result').first();
-      const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`]);
-      const isMine = userId === objective.get('owner').get('id');
-      return isMine ? add(state, objectiveId) : remove(state, objectiveId);
+      return isMine(objectiveId, payload) ? add(state, objectiveId) : remove(state, objectiveId);
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
@@ -85,10 +98,12 @@ export default handleActions({
   },
   fromJS({
     ids: [],
-    candidates: [],
+    previousIds: [],
+    candidateIds: [],
     selectedOkr: { objectiveId: null, keyResultId: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,
+    isFetchedPreviousObjectives: true,
     isFetchedCandidates: false,
   }),
 );

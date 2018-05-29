@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Modal } from 'semantic-ui-react';
 import { openObjective, goToRoot } from "../../utils/linker";
 import Sidebar from './Sidebar';
 import ObjectiveTab from "./ObjectiveTab";
 import KeyResultTab from "./KeyResultTab";
 
-class OkrModal extends Component {
+class OkrModal extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.removedObjectiveId === this.props.objectiveId) {
@@ -53,7 +54,7 @@ class OkrModal extends Component {
     }
   }
 
-  closeModal() {
+  closeModal = () => {
     goToRoot();
     this.props.closeModal();
   }
@@ -67,7 +68,7 @@ class OkrModal extends Component {
         open={this.props.isOpen} 
         size='large' 
         className='okr-modal' 
-        onClose={this.closeModal.bind(this)}
+        onClose={this.closeModal}
       >
         <Modal.Content scrolling>
           <div className="okr-body">
@@ -90,16 +91,30 @@ class OkrModal extends Component {
 }
 
 OkrModal.propTypes = {
-  updateObjective: PropTypes.func,
-  updateKeyResult: PropTypes.func,
-  openObjectiveModal: PropTypes.func,
-  openKeyResultModal: PropTypes.func,
-  closeModal: PropTypes.func,
-  removeKeyResult: PropTypes.func,
-  objective: PropTypes.object,
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  objectiveId: PropTypes.number,
+  objective: ImmutablePropTypes.map,
   keyResultId: PropTypes.number,
-  users: PropTypes.object,
-  isOpen: PropTypes.bool,
+  users: ImmutablePropTypes.list.isRequired,
+  loginUserId: PropTypes.number.isRequired,
+  objectiveCandidates: ImmutablePropTypes.list.isRequired,
+  parentKeyResultCandidates: ImmutablePropTypes.list.isRequired,
+  isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
+  isFetchedKeyResultCandidates: PropTypes.bool.isRequired,
+  removedObjectiveId: PropTypes.number,
+  removedKeyResultId: PropTypes.number,
+  isObjectiveOwner: PropTypes.bool.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
+  openKeyResultModal: PropTypes.func.isRequired,
+  updateObjective: PropTypes.func.isRequired,
+  updateKeyResultOrder: PropTypes.func.isRequired,
+  updateKeyResult: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  removeKeyResult: PropTypes.func.isRequired,
+  removeObjective: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 OkrModal.defaultProps = {

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { List } from 'semantic-ui-react'
 
 class KeyResultSidebar extends PureComponent {
@@ -44,7 +44,9 @@ class KeyResultSidebar extends PureComponent {
 }
 
 KeyResultSidebar.propTypes = {
-  objective: PropTypes.object,
+  // container
+  // component
+  objective: ImmutablePropTypes.map,
 }
 
 export default KeyResultSidebar

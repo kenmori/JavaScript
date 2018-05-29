@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Divider } from 'semantic-ui-react';
 import OkrSelect from '../form/OkrSelect';
 import OkrList from '../form/OkrList';
 
-class LinkPane extends Component {
+class LinkPane extends PureComponent {
+
+  handleParentKeyResultChange = value => this.props.updateOkr({ parentKeyResultId: value === -1 ? null : value })
+
+  handleObjectiveChange = value => this.props.updateOkr({ objectiveId: value })
 
   renderObjectiveLinks() {
     const objective = this.props.okr;
@@ -20,7 +25,7 @@ class LinkPane extends Component {
             value={objective.get('parentKeyResultId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedCandidates}
-            onChange={value => this.props.updateOkr({ parentKeyResultId: value === -1 ? null : value })}
+            onChange={this.handleParentKeyResultChange}
           />
         </Form.Field>
         <Divider hidden />
@@ -46,7 +51,7 @@ class LinkPane extends Component {
             value={keyResult.get('objectiveId')}
             readOnly={!this.props.isObjectiveOwner}
             loading={!this.props.isFetchedCandidates}
-            onChange={value => this.props.updateOkr({ objectiveId: value })}
+            onChange={this.handleObjectiveChange}
           />
         </Form.Field>
         <Divider hidden />
@@ -66,8 +71,10 @@ class LinkPane extends Component {
 }
 
 LinkPane.propTypes = {
-  okr: PropTypes.object.isRequired,
-  candidates: PropTypes.object.isRequired,
+  // container
+  // component
+  okr: ImmutablePropTypes.map.isRequired,
+  candidates: ImmutablePropTypes.list.isRequired,
   isObjective: PropTypes.bool,
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,

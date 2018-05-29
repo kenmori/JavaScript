@@ -1,26 +1,25 @@
 import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
-import objectiveActions from '../actions/objectives';
 import dialogActions from '../actions/dialogs';
-import { denormalizeDeepObjective, denormalizeObjectives, denormalizeKeyResults } from "../schemas";
+import { getObjectives, getKeyResults, getUnprocessedKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
+  const unprocessedKeyResults = getUnprocessedKeyResults(state)
+  const isLoginUser = state.loginUser.get('id') === state.current.get('userId')
   return {
-    okrPeriodId: state.current.get('okrPeriodId'),
-    userId: state.current.get('userId'),
-    mapObjective: denormalizeDeepObjective(state.objectives.getIn(['selectedOkr', 'objectiveId']), state.entities),
-    objectives: denormalizeObjectives(state.objectives.get('ids'), state.entities),
-    keyResults: denormalizeKeyResults(state.keyResults.get('ids'), state.entities),
+    mapObjective: getSelectedObjective(state),
+    objectives: getObjectives(state),
+    keyResults: getKeyResults(state),
+    unprocessedKeyResults,
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
+    isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
+    showTask: isLoginUser && !!unprocessedKeyResults.size,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOkrs: (okrPeriodId, userId, withCandidates = true) => {
-      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, withCandidates));
-    },
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());
     },

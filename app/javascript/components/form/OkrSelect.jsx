@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Select, Button } from 'semantic-ui-react';
 import OkrList from './OkrList';
 import { okrOptions } from "../../utils/okr";
 
-class OkrSelect extends Component {
+class OkrSelect extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -29,11 +30,15 @@ class OkrSelect extends Component {
     return props.preview && value !== -1; // 上位 KR なしの場合は常に Select 表示
   }
 
+  handleClick = () => this.setState({ preview: false })
+
   handleChange = (event, { value }) => {
     if (value !== this.state.value) {
       this.props.onChange(value);
     }
   }
+  
+  handleBlur = () => this.setState({ preview: this.isPreview(this.props, this.state.value) })
 
   render() {
     const showPreview = this.state.preview;
@@ -46,18 +51,18 @@ class OkrSelect extends Component {
           />
         )}
         {showPreview && !this.props.readOnly && (
-          <Button content="変更する" size='small' onClick={() => this.setState({ preview: false })} />
+          <Button content="変更する" size='small' onClick={this.handleClick} />
         )}
         {!showPreview && (
           <Select
             search
             fluid
-            options={okrOptions(this.props.okrs, this.props.isObjective)}
+            options={okrOptions(this.props.okrs, !this.props.isObjective)}
             value={this.state.value}
             disabled={this.props.disabled || this.props.readOnly}
             loading={this.props.loading}
             onChange={this.handleChange}
-            onBlur={() => this.setState({ preview: this.isPreview(this.props, this.state.value) })}
+            onBlur={this.handleBlur}
             selectOnNavigation={false}
             noResultsMessage='結果が見つかりません'
           />
@@ -68,7 +73,9 @@ class OkrSelect extends Component {
 }
 
 OkrSelect.propTypes = {
-  okrs: PropTypes.object.isRequired,
+  // container
+  // component
+  okrs: ImmutablePropTypes.list.isRequired,
   isObjective: PropTypes.bool,
   value: PropTypes.number,
   preview: PropTypes.bool,

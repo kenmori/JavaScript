@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { openObjective, openKeyResult } from '../../utils/linker';
 import { List } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 
-class OkrList extends Component {
+class OkrList extends PureComponent {
 
-  handleClick = id => {
+  handleClick = id => () => {
     this.props.isObjective ? openObjective(id) : openKeyResult(id);
   }
 
@@ -17,7 +18,7 @@ class OkrList extends Component {
           <List.Item key={okr.get('id')} className='okr-item'>
             <OwnerAvatar owner={okr.get('owner')} members={okr.get('members')} />
             <List.Content className='name'>
-              <a onClick={() => this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
+              <a onClick={this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
             </List.Content>
             <List.Content className='progress-rate'>{okr.get('progressRate')}%</List.Content>
           </List.Item>
@@ -28,7 +29,9 @@ class OkrList extends Component {
 }
 
 OkrList.propTypes = {
-  okrs: PropTypes.object.isRequired,
+  // container
+  // component
+  okrs: ImmutablePropTypes.list.isRequired,
   isObjective: PropTypes.bool,
 };
 

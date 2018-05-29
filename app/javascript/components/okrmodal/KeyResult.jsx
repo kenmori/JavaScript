@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
@@ -50,13 +51,15 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-class KeyResult extends Component {
-  swapKeyResult(event, toUp) {
+class KeyResult extends PureComponent {
+  swapKeyResult = toUp => event => {
     const fromIndex = this.props.index;
     const toIndex = toUp ? fromIndex - 1 : fromIndex + 1;
     this.props.updateKeyResultOrder(fromIndex, toIndex);
     event.stopPropagation();
   }
+
+  handleClick = () => openKeyResult(this.props.keyResult.get('id'))
 
   keyResultHtml() {
     const {
@@ -71,7 +74,7 @@ class KeyResult extends Component {
       <div className="sidebar__item-wrapper">
         <Segment
           className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
-          key={keyResult.get('id')} onClick={() => openKeyResult(keyResult.get('id'))}
+          key={keyResult.get('id')} onClick={this.handleClick}
         >
           <span className="sidebar__avatar">
             <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
@@ -81,9 +84,9 @@ class KeyResult extends Component {
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
               <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'
-                    onClick={event => this.swapKeyResult(event, true)} />
+                    onClick={this.swapKeyResult(true)} />
               <Icon name='arrow circle down' size='large' color='grey' fitted className='swap-down'
-                    onClick={event => this.swapKeyResult(event, false)} />
+                    onClick={this.swapKeyResult(false)} />
             </div>
           )}
         </Segment>
@@ -101,8 +104,10 @@ class KeyResult extends Component {
 }
 
 KeyResult.propTypes = {
+  // container
+  // component
   index: PropTypes.number.isRequired,
-  keyResult: PropTypes.object.isRequired,
+  keyResult: ImmutablePropTypes.map.isRequired,
   isSelected: PropTypes.bool.isRequired,
   canMoveKeyResult: PropTypes.bool.isRequired,
   moveKeyResult: PropTypes.func.isRequired,

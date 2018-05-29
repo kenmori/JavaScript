@@ -9,12 +9,28 @@ import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 
 function* fetchOkrs({ payload }) {
+  const loginUserId = yield select(state => state.loginUser.get('id'))
+  if (payload.isOkrPeriodChanged) {
+    yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
+    yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
+  }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
-  if (payload.withCandidates) {
-    const [loginUserId, isAdmin] = yield select(state => [state.loginUser.get('id'), state.loginUser.get('isAdmin')]);
+  if (payload.isOkrPeriodChanged) {
+    // 前期 OKR の fetch
+    const okrPeriods = yield select(state => state.okrPeriods)
+    const okrPeriodIndex = okrPeriods.findIndex(okrPeriod => okrPeriod.get('id') === payload.okrPeriodId)
+    if (okrPeriodIndex > 0) {
+      const previousOkrPeriodId = okrPeriods.get(okrPeriodIndex - 1).get('id')
+      yield put(objectiveActions.fetchPreviousObjectives(previousOkrPeriodId, loginUserId)); // without loading
+      yield take(actionTypes.FETCHED_PREVIOUS_OBJECTIVES)
+    } else {
+      yield put(objectiveActions.fetchedPreviousObjectivesError());
+    }
+    // 上位 KR や紐付く Objective の紐付け変更用に O/KR 候補一覧を取得する
+    const isAdmin = yield select(state => state.loginUser.get('isAdmin'))
     const userId = isAdmin ? undefined : loginUserId;
     // Objective に紐付く上位 KR の変更のほうがよく行われるとの推測から先に KR を fetch する
     yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId, userId)); // without loading
@@ -25,13 +41,7 @@ function* fetchOkrs({ payload }) {
 }
 
 function* fetchObjective({ payload }) {
-  yield put(objectiveActions.fetchObjectiveAsync(payload.objectiveId, payload.keyResultId));
-  yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
-}
-
-function* fetchObjectiveAsync({ payload }) {
-  const { objectiveId, keyResultId } = payload;
-  const result = yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`);
+  const result = yield callFetchObjective(payload.objectiveId, payload.keyResultId)
   if (result.error) {
     yield put(objectiveActions.fetchedObjectiveError());
   } else {
@@ -39,9 +49,27 @@ function* fetchObjectiveAsync({ payload }) {
   }
 }
 
-function* fetchObjectives({payload}) {
-  const result = yield call(API.get, '/objectives', { okrPeriodId: payload.okrPeriodId, userId: payload.userId });
-  yield put(objectiveActions.fetchedObjectives(result.get('objectives')));
+function* fetchObjectiveAsync({ payload }) {
+  const result = yield callFetchObjective(payload.objectiveId, payload.keyResultId)
+  yield put(objectiveActions.fetchedObjective(result.get('objective')))
+}
+
+function* callFetchObjective(objectiveId, keyResultId) {
+  return yield callInSilent(API.get, objectiveId ? `/objectives/${objectiveId}` : `/key_results/${keyResultId}/objective`)
+}
+
+function* fetchObjectives({ payload }) {
+  const result = yield callFetchObjectives(payload.okrPeriodId, payload.userId)
+  yield put(objectiveActions.fetchedObjectives(result.get('objectives')))
+}
+
+function* fetchPreviousObjectives({ payload }) {
+  const result = yield callFetchObjectives(payload.okrPeriodId, payload.userId)
+  yield put(objectiveActions.fetchedPreviousObjectives(result.get('objectives')))
+}
+
+function* callFetchObjectives(okrPeriodId, userId) {
+  return yield call(API.get, '/objectives', { okrPeriodId, userId })
 }
 
 function* fetchObjectiveCandidates({ payload }) {
@@ -50,9 +78,10 @@ function* fetchObjectiveCandidates({ payload }) {
 }
 
 function* addObjective({ payload }) {
-  const result = yield call(API.post, '/objectives', { objective: payload.objective });
+  const url = payload.isCopy ? `/objectives/${payload.objective.id}/copy` : '/objectives'
+  const result = yield call(API.post, url, { objective: payload.objective })
   const currentUserId = yield select(state => state.current.get('userId'));
-  yield put(objectiveActions.addedObjective(result.get('objective'), payload.isNew, currentUserId));
+  yield put(objectiveActions.addedObjective(result.get('objective'), payload.viaHome, currentUserId));
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
 }
@@ -82,6 +111,7 @@ export function *objectiveSagas() {
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),
     takeLatest(actionTypes.FETCH_OBJECTIVES, withLoading(fetchObjectives)),
+    takeLatest(actionTypes.FETCH_PREVIOUS_OBJECTIVES, fetchPreviousObjectives),
     takeLatest(actionTypes.FETCH_OBJECTIVE_CANDIDATES, fetchObjectiveCandidates),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),

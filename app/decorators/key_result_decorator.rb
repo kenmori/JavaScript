@@ -1,14 +1,4 @@
 module KeyResultDecorator
-  def progress_rate
-    # 進捗率が未設定の場合は子 Objective の進捗率から算出する
-    progress_rate_in_database || child_progress_rate || 0
-  end
-
-  def child_progress_rate
-    child_objectives.size == 0 ? nil
-        : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
-  end
-
   def achievement_rate
     if target_value.present? && actual_value.present? && target_value > 0
       (actual_value * 100 / target_value).round
@@ -44,5 +34,10 @@ module KeyResultDecorator
       role = objective.parent_key_result.key_result_members.find_by(user_id: owner_id).role_before_type_cast
       [role, owner_id] # 責任者/関係者順 → ユーザー順 (→ 作成日昇順)
     }
+  end
+
+  def processed?
+    key_result_member = key_result_members.find_by(user_id: current_user.id)
+    key_result_member.nil? ? true : key_result_member.processed # 関連付いていない KR は処理済みとみなす
   end
 end

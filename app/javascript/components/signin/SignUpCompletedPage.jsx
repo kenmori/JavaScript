@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class SignUpCompletedPage extends Component {
+class SignUpCompletedPage extends PureComponent {
   render() {
     return (
       <div className="sign-up-completed">
@@ -18,3 +18,10 @@ export default class SignUpCompletedPage extends Component {
     );
   }
 }
+
+SignUpCompletedPage.propTypes = {
+  // container
+  // component
+}
+
+export default SignUpCompletedPage

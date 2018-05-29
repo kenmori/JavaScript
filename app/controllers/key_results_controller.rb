@@ -4,24 +4,30 @@ class KeyResultsController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @key_results = @user.key_results
-                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                          .where(okr_period_id: params[:okr_period_id])
                          .order(created_at: :desc)
     else
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @key_results = current_organization
                          .okr_periods
                          .find(params[:okr_period_id])
                          .key_results
-                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                          .order(created_at: :desc)
     end
   end
 
   def index_candidates
     index
+  end
+
+  def index_unprocessed
+    @user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+
+    @key_results = @user.unprocessed_key_results
+                       .where(okr_period_id: params[:okr_period_id])
+                       .order(created_at: :desc)
+    render action: :index
   end
 
   def show_objective
@@ -43,7 +49,6 @@ class KeyResultsController < ApplicationController
       @user.save!
       update_objective if params[:key_result][:objective_id]
       params[:key_result][:members].each do |id|
-        # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: id, role: :member)
       end
     end
@@ -78,6 +83,19 @@ class KeyResultsController < ApplicationController
     else
       unprocessable_entity_with_errors(@key_result.errors.full_messages)
     end
+  end
+
+  def update_processed
+    @key_result = KeyResult.find(params[:key_result_id])
+    key_result_member = @key_result.key_result_members.find_by(user_id: current_user.id)
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Key Result 責任者または関係者のみ編集できます') and return unless key_result_member
+
+    ActiveRecord::Base.transaction do
+      key_result_member.update!(processed: true)
+    end
+  rescue
+    unprocessable_entity_with_errors(@key_result.errors.full_messages)
   end
 
   private
@@ -148,7 +166,6 @@ class KeyResultsController < ApplicationController
       end
       member = @key_result.key_result_members.find_by(user_id: user_id)
       if member.nil?
-        # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
         @key_result.key_result_members.create!(user_id: user_id, role: role)
       else
         # 関係者から責任者に変更
@@ -162,7 +179,6 @@ class KeyResultsController < ApplicationController
           .each do |objective|
         @key_result.child_objectives.delete(objective)
       end
-      # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       member = @key_result.key_result_members.find_by(user_id: user_id)
       member.destroy!
     end
@@ -189,6 +205,6 @@ class KeyResultsController < ApplicationController
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id)
+      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id, :result)
   end
 end

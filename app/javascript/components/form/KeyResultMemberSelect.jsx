@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import UserSelect from './UserSelect';
 
-class KeyResultMemberSelect extends Component {
+class KeyResultMemberSelect extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -18,10 +19,10 @@ class KeyResultMemberSelect extends Component {
   }
 
   handleChange = value => {
-    if (value.length > this.state.defaultValue.length) {
+    if (value.size > this.state.defaultValue.size) {
       const addedId = value.find(id => !this.state.defaultValue.includes(id));
       this.props.add(addedId);
-    } else if (value.length < this.state.defaultValue.length) {
+    } else if (value.size < this.state.defaultValue.size) {
       const removedId = this.state.defaultValue.find(id => !value.includes(id));
       this.props.remove(removedId);
     }
@@ -54,8 +55,10 @@ class KeyResultMemberSelect extends Component {
 }
 
 KeyResultMemberSelect.propTypes = {
-  users: PropTypes.object.isRequired,
-  members: PropTypes.array.isRequired,
+  // container
+  // component
+  users: ImmutablePropTypes.list.isRequired,
+  members: ImmutablePropTypes.list.isRequired,
   includedId: PropTypes.number,
   excludedId: PropTypes.number,
   add: PropTypes.func.isRequired,

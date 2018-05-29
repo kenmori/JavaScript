@@ -1,38 +1,58 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Menu, Button, Segment, Header, Label } from 'semantic-ui-react';
+import TaskList from '../../containers/TaskList'
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
 
-export default class Dashboard extends Component {
+class Dashboard extends PureComponent {
+
+  static ITEM_TASK = 'task'
+  static ITEM_OBJECTIVE = 'objective'
+  static ITEM_KEY_RESULT = 'keyResult'
+
   constructor(props) {
     super(props);
     this.state = {
       mapObjective: props.mapObjective,
-      activeItem: 'objective',
+      activeItem: Dashboard.ITEM_TASK,
     };
   }
 
-  componentDidMount() {
-    this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId);
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (this.props.okrPeriodId !== nextProps.okrPeriodId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId);
-    } else if (this.props.userId !== nextProps.userId) {
-      this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId, false);
-    } else if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
+    if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
       this.setState({
         mapObjective: nextProps.mapObjective,
       });
     }
+    if (!this.props.isFetchedKeyResults && nextProps.isFetchedKeyResults && !nextProps.showTask) {
+      if (!nextProps.objectives.size && nextProps.keyResults.size) {
+        this.setActiveItem(Dashboard.ITEM_KEY_RESULT) // O = 0 かつ KR > 0 => KR タブ選択
+      } else if (!nextProps.keyResults.size) {
+        this.setActiveItem(Dashboard.ITEM_OBJECTIVE) //  KR = 0 => O タブ選択
+      }
+    }
   }
 
   handleMenuItemClick = (e, { name }) => {
-    this.setState({
-      activeItem: name,
-    });
+    if ((name === Dashboard.ITEM_OBJECTIVE && !this.props.objectives.size)
+      || (name === Dashboard.ITEM_KEY_RESULT && !this.props.keyResults.size)) {
+      return
+    }
+    this.setActiveItem(name)
+  }
+
+  getActiveItem = () => {
+    const { activeItem } = this.state
+    return (activeItem === Dashboard.ITEM_TASK && !this.props.showTask) ? Dashboard.ITEM_OBJECTIVE : activeItem
+  }
+
+  setActiveItem = activeItem => {
+    if (this.state.activeItem !== activeItem) {
+      this.setState({ activeItem })
+    }
   }
 
   emptyViewHtml() {
@@ -44,22 +64,33 @@ export default class Dashboard extends Component {
     );
   }
 
-  render() {
-    let activeItem = this.state.activeItem;
-    if (this.props.objectives.size > 0 && this.props.keyResults.size === 0) {
-      activeItem = 'objective';
-    } else if (this.props.objectives.size === 0 && this.props.keyResults.size > 0 && this.props.isFetchedObjectives) {
-      activeItem = 'keyResult';
+  getTabContent = activeItem => {
+    switch(activeItem) {
+      case Dashboard.ITEM_TASK:
+        return <TaskList keyResults={this.props.unprocessedKeyResults} />
+      case Dashboard.ITEM_OBJECTIVE:
+        return <ObjectiveList objectives={this.props.objectives} />
+      case Dashboard.ITEM_KEY_RESULT:
+        return <KeyResultList keyResults={this.props.keyResults} />
     }
+  }
+
+  render() {
+    const activeItem = this.getActiveItem()
     return (
       <div className="dashboard">
         <section className="okr-list-section">
           <div className='okr-list-section__menu'>
             <Menu tabular>
-              <Menu.Item name='objective' active={activeItem === 'objective'} onClick={this.handleMenuItemClick}>
+              {this.props.showTask && (
+                <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
+                  タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
+                </Menu.Item>
+              )}
+              <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
-              <Menu.Item name='keyResult' active={activeItem === 'keyResult'} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={Dashboard.ITEM_KEY_RESULT} active={activeItem === Dashboard.ITEM_KEY_RESULT} onClick={this.handleMenuItemClick}>
                 Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
               <Menu.Item>
@@ -67,10 +98,7 @@ export default class Dashboard extends Component {
               </Menu.Item>
             </Menu>
           </div>
-          {activeItem === 'objective'
-            ? <ObjectiveList objectives={this.props.objectives} />
-            : <KeyResultList keyResults={this.props.keyResults} />
-          }
+          {this.getTabContent(activeItem)}
         </section>
         <section className='okr-map-section'>
           <div className='okr-map-section__menu'>
@@ -87,3 +115,19 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  // container
+  mapObjective: ImmutablePropTypes.map,
+  objectives: ImmutablePropTypes.list.isRequired,
+  keyResults: ImmutablePropTypes.list.isRequired,
+  unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
+  isFetchedObjective: PropTypes.bool.isRequired,
+  isFetchedObjectives: PropTypes.bool.isRequired,
+  isFetchedKeyResults: PropTypes.bool.isRequired,
+  showTask: PropTypes.bool.isRequired,
+  openObjectiveModal: PropTypes.func.isRequired,
+  // component
+}
+
+export default Dashboard

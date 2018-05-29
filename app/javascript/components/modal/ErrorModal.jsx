@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { List } from 'immutable';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Button, Modal } from 'semantic-ui-react';
 
-class ErrorModal extends Component {
+class ErrorModal extends PureComponent {
   getErrorMessages(messages) {
     return messages.toArray().map((message, idx) => (
       <p key={idx}>{message}</p>
@@ -43,11 +44,13 @@ class ErrorModal extends Component {
 }
 
 ErrorModal.propTypes = {
-  isOpen: PropTypes.bool,
-  message: PropTypes.any,
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  message: PropTypes.oneOfType([PropTypes.string, ImmutablePropTypes.list]),
   onClose: PropTypes.func,
   onCloseBefore: PropTypes.func,
-  closeModal: PropTypes.func,
+  closeModal: PropTypes.func.isRequired,
+  // component
 };
 
 ErrorModal.defaultProps = {

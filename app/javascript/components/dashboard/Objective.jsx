@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
@@ -49,8 +50,8 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-class Objective extends Component {
-  swapObjective(event, toLeft) {
+class Objective extends PureComponent {
+  swapObjective = toLeft => event => {
     const fromIndex = this.props.index;
     const toIndex = toLeft ? fromIndex - 1 : fromIndex + 1;
     this.props.updateObjectiveOrder(fromIndex, toIndex);
@@ -69,7 +70,7 @@ class Objective extends Component {
     return (
       <div
         className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
-        onClick={() => selectObjective(objective)}
+        onClick={selectObjective(objective)}
       >
         <div>
           <div className='name'>{objective.get('name')}</div>
@@ -78,9 +79,9 @@ class Objective extends Component {
         {canMoveObjective && (
           <div className='swap-icons'>
             <Icon name='arrow circle left' size='large' color='grey' fitted className='swap-left'
-                  onClick={event => this.swapObjective(event, true)} />
+                  onClick={this.swapObjective(true)} />
             <Icon name='arrow circle right' size='large' color='grey' fitted className='swap-right'
-                  onClick={event => this.swapObjective(event, false)} />
+                  onClick={this.swapObjective(false)} />
           </div>
         )}
       </div>
@@ -97,8 +98,10 @@ class Objective extends Component {
 }
 
 Objective.propTypes = {
+  // container
+  // component
   index: PropTypes.number.isRequired,
-  objective: PropTypes.object.isRequired,
+  objective: ImmutablePropTypes.map.isRequired,
   isSelected: PropTypes.bool.isRequired,
   selectObjective: PropTypes.func.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,

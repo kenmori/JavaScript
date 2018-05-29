@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180428093518) do
+ActiveRecord::Schema.define(version: 20180528104208) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20180428093518) do
     t.integer "role", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "processed", default: false, null: false
     t.index ["key_result_id"], name: "index_key_result_members_on_key_result_id"
   end
 
@@ -57,6 +58,8 @@ ActiveRecord::Schema.define(version: 20180428093518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.string "result"
+    t.integer "sub_progress_rate"
     t.index ["created_at"], name: "index_key_results_on_created_at"
     t.index ["objective_id"], name: "index_key_results_on_objective_id"
   end
@@ -88,6 +91,7 @@ ActiveRecord::Schema.define(version: 20180428093518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "key_result_order"
+    t.integer "sub_progress_rate"
     t.index ["created_at"], name: "index_objectives_on_created_at"
     t.index ["parent_key_result_id"], name: "index_objectives_on_parent_key_result_id"
   end
@@ -146,7 +150,6 @@ ActiveRecord::Schema.define(version: 20180428093518) do
     t.string "avatar"
     t.integer "current_organization_id"
     t.boolean "disabled", default: false
-    t.string "objective_order"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

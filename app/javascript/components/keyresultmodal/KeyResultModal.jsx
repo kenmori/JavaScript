@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { reduxForm } from 'redux-form'
 import { List } from 'immutable'
 import { Button, Modal } from 'semantic-ui-react'
 import KeyResultSidebar from './KeyResultSidebar'
 import KeyResultForm from './KeyResultForm'
 
-class KeyResultModal extends Component {
+class KeyResultModal extends PureComponent {
 
   constructor() {
     super()
@@ -55,7 +57,7 @@ class KeyResultModal extends Component {
       || this.state.members.size;
   }
 
-  handleClose() {
+  handleClose = () => {
     if(this.isEditing()) {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
@@ -72,6 +74,8 @@ class KeyResultModal extends Component {
     setTimeout(() => this.props.closeModal(), 0);
   }
   
+  handleFormChange = values => this.setState({ ...values })
+
   render() {
     const { objective, handleSubmit } = this.props
     return (
@@ -80,7 +84,7 @@ class KeyResultModal extends Component {
         open={this.props.isOpen} 
         size='large' 
         className='keyresult-modal' 
-        onClose={this.handleClose.bind(this)}
+        onClose={this.handleClose}
       >
         <Modal.Header>
           KeyResult を追加する
@@ -94,20 +98,32 @@ class KeyResultModal extends Component {
                 ownerId={this.state.ownerId}
                 members={this.state.members}
                 isRequiredTargetValue={this.state.isRequiredTargetValue}
-                onChange={values => this.setState({ ...values })}
+                onChange={this.handleFormChange}
               />
             </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
           <div className='center'>
-            <Button onClick={this.handleClose.bind(this)}>キャンセル</Button>
+            <Button onClick={this.handleClose}>キャンセル</Button>
             <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
           </div>
         </Modal.Actions>
       </Modal>
     );
   }
+}
+
+KeyResultModal.propTypes = {
+  // container
+  isOpen: PropTypes.bool.isRequired,
+  objective: ImmutablePropTypes.map,
+  users: ImmutablePropTypes.list.isRequired,
+  initialExpiredDate: PropTypes.string,
+  addKeyResult: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 }
 
 export default reduxForm({

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { TextArea } from 'semantic-ui-react';
 
-class AutoTextArea extends Component {
+class AutoTextArea extends PureComponent {
 
   handleCommit = event => {
     if (this.props.value !== event.target.value) {
@@ -25,6 +25,8 @@ class AutoTextArea extends Component {
 }
 
 AutoTextArea.propTypes = {
+  // container
+  // component
   value: PropTypes.string,
   placeholder: PropTypes.string,
   rows: PropTypes.number,

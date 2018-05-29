@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import { Button, Form, Input, Image } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-export default class SignIn extends Component {
+class SignInPage extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -12,31 +13,45 @@ export default class SignIn extends Component {
     };
   }
 
-  handleEmailChange(value) {
+  handleEmailChange = (event, { value }) => {
     this.setState({
       email: value,
     });
   }
 
-  signIn() {
+  signIn = () => {
     this.props.signIn(this.emailInput.inputRef.value, this.passwordInput.inputRef.value, true);
   }
 
   render() {
     return (
-      <div className='sign-in'>
-        <main style={{ margin: 30, flexDirection: 'column' }} className='flex flex-center '>
-          <Image as='h1' src={logo_image} title='Resily' />
+      <div className="sign-in">
+        <main style={{ margin: 30, flexDirection: 'column' }} className="flex flex-center">
+          <Image as="h1" src={logo_image} title="Resily" />
           <Form>
-            <Form.Group className='text-input-group'>
+            <Form.Group className="text-input-group">
               <Form.Field inline>
                 <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
-                       onChange={(event, { value }) => this.handleEmailChange(value)} />
+                <Input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  size="mini"
+                  placeholder="name@example.com"
+                  ref={(node) => {this.emailInput = node;}}
+                  onChange={this.handleEmailChange}
+                />
               </Form.Field>
               <Form.Field inline>
                 <div>パスワード</div>
-                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
+                <Input
+                  type="password"
+                  name="current-password"
+                  autoComplete="current-password"
+                  size="mini"
+                  placeholder="英数字8文字以上"
+                  ref={(node) => {this.passwordInput = node;}}
+                />
               </Form.Field>
             </Form.Group>
             {/*<div className="user-create-link"><Link to="/users/sign_up">新規ユーザー登録はこちら</Link></div>*/}
@@ -46,8 +61,8 @@ export default class SignIn extends Component {
                 state: { email: this.state.email },
               }}>パスワードを忘れた方はこちら</Link>
             </div>
-            <div className='center'>
-              <Button positive onClick={this.signIn.bind(this)}>ログインする</Button>
+            <div className="center">
+              <Button positive onClick={this.signIn}>ログインする</Button>
             </div>
           </Form>
         </main>
@@ -55,3 +70,11 @@ export default class SignIn extends Component {
     );
   }
 }
+
+SignInPage.propTypes = {
+  // container
+  signIn: PropTypes.func.isRequired,
+  // component
+}
+
+export default SignInPage

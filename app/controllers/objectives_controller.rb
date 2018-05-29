@@ -4,20 +4,17 @@ class ObjectivesController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       objectives = @user.objectives
-                       .includes(key_results: { child_objectives: [key_results: :child_objectives] })
+                       .includes(:key_results)
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
       objective_order = @user.objective_orders.find_by(okr_period_id: params[:okr_period_id])&.list
       @objectives = sort_objectives(objectives, objective_order)
     else
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @objectives = current_organization
                         .okr_periods
                         .find(params[:okr_period_id])
                         .objectives
-                        .includes(key_results: { child_objectives: [key_results: :child_objectives] })
                         .order(created_at: :desc)
     end
   end
@@ -42,6 +39,37 @@ class ObjectivesController < ApplicationController
       update_parent_key_result if params[:objective][:parent_key_result_id]
     end
     render status: :created
+  rescue
+    unprocessable_entity_with_errors(@objective.errors.full_messages)
+  end
+
+  def create_copy
+    @user = User.find(params[:objective][:owner_id])
+    forbidden and return unless valid_permission?(@user.organization.id)
+    forbidden('Key Result 責任者または関係者のみ作成できます') and return unless valid_user_to_create?
+
+    ActiveRecord::Base.transaction do
+      original_objective = Objective.find(params[:objective_id])
+      @objective = @user.objectives.new(objective_create_params)
+      @user.save!
+      update_parent_key_result if params[:objective][:parent_key_result_id]
+
+      # KR をコピー
+      expired_date = @objective.okr_period.month_end
+      original_objective.sorted_key_results.each do |original_key_result|
+        key_result = @objective.key_results.create!(
+            name: original_key_result.name,
+            description: original_key_result.description,
+            target_value: original_key_result.target_value,
+            value_unit: original_key_result.value_unit,
+            expired_date: expired_date,
+        )
+        original_key_result.key_result_members.each do |member|
+          key_result.key_result_members.create!(user_id: member.user_id, role: member.role)
+        end
+      end
+    end
+    render action: :create, status: :created
   rescue
     unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
@@ -108,10 +136,11 @@ class ObjectivesController < ApplicationController
         @objective.errors[:base] << '上位 Key Result の関係者は Objective 責任者に自分以外を指定できません'
         raise
       end
+      parent_key_result.key_result_members.find_by(user_id: objective_owner_id).update!(processed: true)
     else
       if current_user.admin? || parent_key_result.owner.id == current_user.id
         # 管理者または上位 KR 責任者の場合は上位 KR の関係者として追加する
-        parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member)
+        parent_key_result.key_result_members.create!(user_id: objective_owner_id, role: :member, processed: true)
       else
         @objective.errors[:base] << '上位 Key Result の責任者または関係者でないため紐付けられません'
         raise
@@ -136,7 +165,6 @@ class ObjectivesController < ApplicationController
 
     member = @objective.objective_members.find_by(user_id: user_id)
     if member.nil?
-      # FIXME: 任意のユーザIDで作成してしまうが、サーバ側で採番しない？
       @objective.objective_members.create!(user_id: user_id, role: :owner)
     else
       # 関係者から責任者に変更
@@ -145,7 +173,7 @@ class ObjectivesController < ApplicationController
 
     # Objective 責任者が紐付く上位 KR の責任者または関係者でない場合は追加する
     if @objective.parent_key_result && !@objective.parent_key_result.key_result_members.exists?(user_id: user_id)
-      @objective.parent_key_result.key_result_members.create!(user_id: user_id, role: :member)
+      @objective.parent_key_result.key_result_members.create!(user_id: user_id, role: :member, processed: true)
     end
   end
 

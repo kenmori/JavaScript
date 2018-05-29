@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Icon } from 'semantic-ui-react';
 
-class OkrPath extends Component {
+class OkrPath extends PureComponent {
   static STEP_HEIGHT = 24; // 折れ線の段差の高さ
   static LINE_LENGTH = 24; // 折り畳まれた線分の長さ
   static BYPASS_WIDTH = 315 / 2 + 16; // 迂回路の幅
@@ -83,6 +84,8 @@ class OkrPath extends Component {
     };
   }
 
+  handleIconClick = () => this.props.onToggleObjective(this.props)
+
   render() {
     return (
       <div className='okr-path'>
@@ -98,23 +101,25 @@ class OkrPath extends Component {
           ))}
         </svg>
         <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon'
-              style={this.getIconStyle()} onClick={() => this.props.onToggleObjective(this.props)} />
+              style={this.getIconStyle()} onClick={this.handleIconClick} />
       </div>
     );
   }
 }
 
 OkrPath.propTypes = {
+  // container
+  // component
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  fromPoint: PropTypes.object.isRequired,
-  toPoints: PropTypes.object.isRequired,
+  fromPoint: PropTypes.object.isRequired, // {x, y}
+  toPoints: ImmutablePropTypes.list.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
   fromId: PropTypes.number,
   onToggleObjective: PropTypes.func.isRequired,
   parentKeyResultId: PropTypes.number,
-  keyResultIds: PropTypes.object,
+  keyResultIds: ImmutablePropTypes.list,
 };
 
 export default OkrPath;

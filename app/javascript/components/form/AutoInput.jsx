@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import AutosizeInput from 'react-input-autosize';
 
-class AutoInput extends Component {
+class AutoInput extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -48,6 +48,8 @@ class AutoInput extends Component {
 }
 
 AutoInput.propTypes = {
+  // container
+  // component
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,

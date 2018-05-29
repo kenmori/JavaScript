@@ -11,10 +11,6 @@ function* openOkrModal({ payload }) {
     yield put(objectiveActions.fetchObjective(objectiveId, keyResultId));
     const action = yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
     if (action.type === actionTypes.FETCHED_OBJECTIVE) {
-      if (keyResultId) {
-        const entities = yield select(state => state.entities);
-        objectiveId = entities.keyResults.getIn([keyResultId, 'objectiveId']);
-      }
       yield put(dialogActions.openedOkrModal(objectiveId, keyResultId));
     } else {
       yield openErrorModal();

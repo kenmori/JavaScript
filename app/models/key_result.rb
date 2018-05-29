@@ -19,6 +19,22 @@ class KeyResult < ApplicationRecord
     self.okr_period_id = objective.okr_period_id
   end
 
+  after_save do
+    objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
+    if saved_change_to_objective_id? & objective_id_before_last_save
+      # 紐付け変更時は、変更前の上位進捗率も連動更新する
+      Objective.find(objective_id_before_last_save).update_sub_progress_rate
+    end
+  end
+
+  after_destroy do
+    objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
+  end
+
+  def progress_rate
+    super || sub_progress_rate || 0
+  end
+
   def target_value=(value)
     value.tr!('０-９．', '0-9.') if value.is_a?(String)
     super(value)
@@ -34,6 +50,20 @@ class KeyResult < ApplicationRecord
   def update_progress_rate
     if target_value.present? && actual_value.present? && target_value > 0
       self.progress_rate = [(actual_value * 100 / target_value).round, 100].min
+    end
+  end
+
+  def update_sub_progress_rate
+    # 下位進捗率を更新する (updated_at は更新しない)
+    KeyResult.no_touching do
+      new_sub_progress_rate = child_objectives.size == 0 ? nil
+          : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
+      if progress_rate_in_database.nil?
+        self.sub_progress_rate = new_sub_progress_rate
+        save!(touch: false) # after_save コールバックを呼び出す
+      else
+        update_column(:sub_progress_rate, new_sub_progress_rate)
+      end
     end
   end
 

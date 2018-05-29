@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Table, Input, Checkbox, Button, Divider } from 'semantic-ui-react';
 import UsersTable from './UsersTable';
 
-class UserSettingTab extends Component {
+class UserSettingTab extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -32,6 +33,10 @@ class UserSettingTab extends Component {
     });
   };
 
+  handleKeywordChange = (event, { value }) => this.setState({ keyword: value })
+
+  handleShowDisabledUsersClick = () => this.setState({ showDisabledUsers: true })
+
   render() {
     if (this.props.users.size === 0) return null;
     const enabledUsers = this.props.users.filter(user => !user.get('disabled'));
@@ -54,14 +59,14 @@ class UserSettingTab extends Component {
                 <Checkbox label='管理者' required ref='admin' />
               </Table.Cell>
               <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加する" onClick={this.addUser.bind(this)}/>
+                <Button icon="plus" content="追加する" onClick={this.addUser}/>
               </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
 
         <Input icon="search" placeholder="ユーザーを検索&#8230;"
-               onChange={(event, { value }) => this.setState({ keyword: value })}
+               onChange={this.handleKeywordChange}
         />
 
         <UsersTable
@@ -89,7 +94,7 @@ class UserSettingTab extends Component {
               />
             </div>
             :
-            <Button content="無効なユーザーを表示する" onClick={() => this.setState({ showDisabledUsers: true })} />
+            <Button content="無効なユーザーを表示する" onClick={this.handleShowDisabledUsersClick} />
         )}
       </Tab.Pane>
     );
@@ -97,7 +102,18 @@ class UserSettingTab extends Component {
 }
 
 UserSettingTab.propTypes = {
-  users: PropTypes.object.isRequired,
+  // container
+  loginUserId: PropTypes.number.isRequired,
+  organization: ImmutablePropTypes.map.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  addUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  updateEmail: PropTypes.func.isRequired,
+  removeUser: PropTypes.func.isRequired,
+  restoreUser: PropTypes.func.isRequired,
+  resendEmail: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  // component
 };
 
 export default UserSettingTab;

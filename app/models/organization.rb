@@ -1,23 +1,15 @@
 class Organization < ApplicationRecord
   validates :name, presence: true
-  validates :uniq_name, presence: true, uniqueness: true, format: { with: /\A[a-z0-9_-]+\z/i }
-  
-  has_many :groups
-  has_many :organization_members
+  validates :uniq_name, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-z0-9_-]+\z/ }
+
+  has_many :groups, dependent: :destroy
+  has_many :organization_members, dependent: :destroy
   has_many :users, through: :organization_members
-  has_many :okr_periods
+  has_many :okr_periods, dependent: :destroy
 
   mount_uploader :logo, LogoUploader
 
-  after_create do
-    self.okr_periods.create!(month_start: Date.today, month_end: Date.today.months_since(okr_span))
-  end
-
   def current_okr_period
     self.okr_periods.current.first || okr_periods.order(month_start: :desc).first
-  end
-
-  def members
-    self.organization_members.includes(:user).map(&:user)
   end
 end

@@ -10,7 +10,7 @@ import history from '../utils/history';
 import SignUpPage from '../containers/SignUpPage';
 import SignUpCompletedPage from '../components/signin/SignUpCompletedPage';
 import PasswordRecoverPage from '../containers/PasswordRecoverPage';
-import PasswordRecoverdPage from '../components/signin/PasswordRecoverdPage';
+import PasswordRecoveredPage from '../components/signin/PasswordRecoveredPage';
 import PasswordEditPage from '../containers/PasswordEditPage';
 import PasswordEditedPage from '../components/signin/PasswordEditedPage';
 import SignInPage from '../containers/SignInPage';
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <Route exact path='/users/sign_up' component={SignUpPage}/>
             <Route exact path='/users/sign_up/completed' component={SignUpCompletedPage}/>
             <Route exact path='/users/password/recover' component={PasswordRecoverPage}/>
-            <Route exact path='/users/password/recover/completed' component={PasswordRecoverdPage}/>
+            <Route exact path='/users/password/recover/completed' component={PasswordRecoveredPage}/>
             <Route exact path='/users/password/edit' component={PasswordEditPage}/>
             <Route exact path='/users/password/edit/completed' component={PasswordEditedPage}/>
             <Route exact path='/users/sign_in' component={SignInPage}/>

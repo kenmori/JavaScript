@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import UserAvatar from 'react-user-avatar';
 import { Icon } from 'semantic-ui-react';
 import avatar_image from '../../images/avatar.png';
@@ -24,12 +25,12 @@ const sizeToIconSize = {
   massive: 'huge',
 };
 
-class Avatar extends Component {
+class Avatar extends PureComponent {
   render() {
     let name = this.props.user.get('lastName');
     let path = this.props.user.get('avatarUrl');
     const size = this.props.size;
-    let fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
+    const fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
     const disabled = this.props.user.get('disabled');
 
     if (size === 'tiny' || size === 'mini') {
@@ -37,9 +38,6 @@ class Avatar extends Component {
     }
     if (!this.props.withInitial) {
       path = path || avatar_image; // イニシャルを非表示にするためデフォルト画像を指定する
-    }
-    if (disabled) {
-      fullName = `${fullName} (無効)`
     }
 
     return (
@@ -51,20 +49,21 @@ class Avatar extends Component {
                     color='transparent'
         />
         {disabled && <Icon disabled name='dont' size={sizeToIconSize[this.props.size]} />}
-        {this.props.withName && <span className='avatar__name'>{fullName}</span>}
+        {this.props.withName && <span className='avatar__name'>{disabled ? `${fullName} (無効)` : fullName}</span>}
       </div>
     );
   }
 }
 
 Avatar.propTypes = {
-  user: PropTypes.object,
+  // container
+  // component
+  user: ImmutablePropTypes.map.isRequired,
   size: PropTypes.string,
   withInitial: PropTypes.bool,
   withName: PropTypes.bool,
 };
 Avatar.defaultProps = {
-  user: null,
   size: 'small',
   withInitial: true,
   withName: false,
