@@ -20,7 +20,15 @@ class KeyResult < ApplicationRecord
   end
 
   after_save do
-    objective.update_sub_progress_rate if objective
+    objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
+    if saved_change_to_objective_id? & objective_id_before_last_save
+      # 紐付け変更時は、変更前の上位進捗率も連動更新する
+      Objective.find(objective_id_before_last_save).update_sub_progress_rate
+    end
+  end
+
+  after_destroy do
+    objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
   end
 
   def progress_rate
