@@ -15,7 +15,7 @@ class SettingsPage extends PureComponent {
     const panes = [{ id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' }];
     const adminPanes = [
       { id: 1, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
-      { id: 2, menuItem: 'OKR期間', render: () => <OkrPeriodSettingTab/>, name: 'okr_periods' },
+      { id: 2, menuItem: 'OKR 期間', render: () => <OkrPeriodSettingTab/>, name: 'okr_periods' },
       { id: 3, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
     ]
     this.panes = this.props.isAdmin ? panes.concat(adminPanes) : panes;
