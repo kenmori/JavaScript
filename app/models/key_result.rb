@@ -20,18 +20,7 @@ class KeyResult < ApplicationRecord
   end
 
   after_save do
-    if objective
-      Objective.no_touching do
-        # 上位進捗率 (紐付く O の下位進捗率) を連動更新する (updated_at は更新しない)
-        calcd_progress_rate = objective.calc_sub_progress_rate
-        if objective.progress_rate_in_database.nil?
-          objective.sub_progress_rate = calcd_progress_rate
-          objective.save!(touch: false) # after_save コールバックを呼び出す
-        else
-          objective.update_column(:sub_progress_rate, calcd_progress_rate)
-        end
-      end
-    end
+    objective.update_sub_progress_rate if objective
   end
 
   def progress_rate
@@ -56,9 +45,18 @@ class KeyResult < ApplicationRecord
     end
   end
 
-  def calc_sub_progress_rate
-    child_objectives.size == 0 ? nil
-        : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
+  def update_sub_progress_rate
+    # 下位進捗率を更新する (updated_at は更新しない)
+    KeyResult.no_touching do
+      new_sub_progress_rate = child_objectives.size == 0 ? nil
+          : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
+      if progress_rate_in_database.nil?
+        self.sub_progress_rate = new_sub_progress_rate
+        save!(touch: false) # after_save コールバックを呼び出す
+      else
+        update_column(:sub_progress_rate, new_sub_progress_rate)
+      end
+    end
   end
 
   def owner
