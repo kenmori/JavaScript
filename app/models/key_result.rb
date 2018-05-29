@@ -21,8 +21,11 @@ class KeyResult < ApplicationRecord
 
   after_save do
     if objective
-      objective.update_key_result_progress_rate
-      objective.save!
+      Objective.no_touching do
+        # 上位進捗率 (紐付く O の下位進捗率) を連動更新する (updated_at は更新しない)
+        objective.update_key_result_progress_rate
+        objective.save!(touch: false) # after_save コールバックを呼び出す
+      end
     end
   end
 

@@ -12,8 +12,11 @@ class Objective < ApplicationRecord
 
   after_save do
     if parent_key_result
-      parent_key_result.update_child_objective_progress_rate
-      parent_key_result.save!
+      KeyResult.no_touching do
+        # 上位進捗率 (上位 KR の下位進捗率) を連動更新する (updated_at は更新しない)
+        parent_key_result.update_child_objective_progress_rate
+        parent_key_result.save!(touch: false) # after_save コールバックを呼び出す
+      end
     end
   end
 
