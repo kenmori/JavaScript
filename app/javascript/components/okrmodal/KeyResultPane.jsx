@@ -47,7 +47,7 @@ class KeyResultPane extends PureComponent {
 
   handleProgressRateCommit = progressRate => this.props.updateKeyResult({ progressRate: progressRate || null })
 
-  handleChildProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
+  handleSubProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
 
   handleExpiredDateChange = expiredDate => this.props.updateKeyResult({ expiredDate: expiredDate.format('YYYY-MM-DD') })
 
@@ -94,14 +94,14 @@ class KeyResultPane extends PureComponent {
     });
   }
   
-  childObjectiveProgressRateHtml(keyResult) {
+  subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate');
-    const childObjectiveProgressRate = keyResult.get('childObjectiveProgressRate');
-    return (typeof childObjectiveProgressRate === 'number') && progressRate !== childObjectiveProgressRate && (
+    const subProgressRate = keyResult.get('subProgressRate');
+    return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
         <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
-                               content={`下位 OKR の進捗は ${childObjectiveProgressRate}% です`}
-                               onClick={this.handleChildProgressRateClick} />}
+                               content={`下位 OKR の進捗は ${subProgressRate}% です`}
+                               onClick={this.handleSubProgressRateClick} />}
                position='bottom left'
                size='tiny'
                content='クリックすると下位 OKR の進捗が設定されます'
@@ -176,7 +176,7 @@ class KeyResultPane extends PureComponent {
                          onMouseUp={this.handleProgressRateCommit}
             />
           </div>
-          {this.childObjectiveProgressRateHtml(keyResult)}
+          {this.subProgressRateHtml(keyResult)}
         </Form.Field>
 
         <Form.Field className='flex-field input-date-picker'>

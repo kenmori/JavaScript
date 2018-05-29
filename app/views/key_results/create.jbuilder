@@ -8,7 +8,7 @@ json.key_result do
   objective = @key_result.objective
   json.objective do
     json.partial! 'objectives/progress_rate', objective: objective
-    json.key_result_progress_rate objective.key_result_progress_rate
+    json.sub_progress_rate objective.sub_progress_rate
   end
 
   detached_objective = @key_result.detached_objective

@@ -27,7 +27,7 @@ class ObjectivePane extends PureComponent {
 
   handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate: progressRate || null })
 
-  handleKeyResultProgressRateClick = () => this.props.updateObjective({ progressRate: null })
+  handleSubProgressRateClick = () => this.props.updateObjective({ progressRate: null })
 
   handleDescriptionCommit = description => this.props.updateObjective({ description })
 
@@ -51,18 +51,18 @@ class ObjectivePane extends PureComponent {
     });
   }
 
-  keyResultProgressRateHtml(objective) {
+  subProgressRateHtml(objective) {
     const progressRate = objective.get('progressRate')
-    const keyResultProgressRate = objective.get('keyResultProgressRate')
-    return (typeof keyResultProgressRate === 'number') && progressRate !== keyResultProgressRate && (
+    const subProgressRate = objective.get('subProgressRate')
+    return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
         <Popup
           trigger={<Label
             pointing='left'
             as='a'
             icon='unlinkify'
-            content={`Key Result 一覧 の進捗は ${keyResultProgressRate}% です`}
-            onClick={this.handleKeyResultProgressRateClick}
+            content={`Key Result 一覧 の進捗は ${subProgressRate}% です`}
+            onClick={this.handleSubProgressRateClick}
           />}
           position='bottom left'
           size='tiny'
@@ -75,10 +75,10 @@ class ObjectivePane extends PureComponent {
   parentKeyResultProgressRateHtml(parentKeyResult) {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
-    const childObjectiveProgressRate = parentKeyResult.get('childObjectiveProgressRate');
-    return (typeof childObjectiveProgressRate === 'number') && progressRate !== childObjectiveProgressRate && (
+    const subProgressRate = parentKeyResult.get('subProgressRate');
+    return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item--block'>
-        <Label pointing='above' content={`上位 Key Result の進捗は ${childObjectiveProgressRate}% から ${progressRate}% に変更されています`} />
+        <Label pointing='above' content={`上位 Key Result の進捗は ${subProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
     );
   }
@@ -110,7 +110,7 @@ class ObjectivePane extends PureComponent {
               onMouseUp={this.handleProgressRateCommit}
             />
           </div>
-          {this.keyResultProgressRateHtml(objective)}
+          {this.subProgressRateHtml(objective)}
           {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
         <Form.Field className='flex-field'>
