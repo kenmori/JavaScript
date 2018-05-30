@@ -32,6 +32,7 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.kr_id as kr_kr_id
         , own_key_results.kr_name as kr_kr_name
         , own_key_results.kr_progress as kr_kr_progress
+        , own_key_results.kr_sub_progress as kr_kr_sub_progress
         , own_key_results.target_value as kr_target_value
         , own_key_results.actual_value as kr_actual_value
         , own_key_results.value_unit as kr_value_unit
@@ -39,6 +40,7 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.o_id as kr_o_id
         , own_key_results.o_name as kr_o_name
         , own_key_results.o_progress as kr_o_progress
+        , own_key_results.o_sub_progress as kr_o_sub_progress
         , own_key_results.o_kr_order as kr_o_kr_order
         , own_key_results.ou_id as kr_ou_id
         , own_key_results.ou_last_name as kr_ou_last_name
@@ -46,6 +48,7 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.p_kr_id as kr_p_kr_id
         , own_key_results.p_kr_name as kr_p_kr_name
         , own_key_results.p_kr_progress as kr_p_kr_progress
+        , own_key_results.p_kr_sub_progress as kr_p_kr_sub_progress
         , own_key_results.p_kr_target_value as kr_p_kr_target_value
         , own_key_results.p_kr_actual_value as kr_p_kr_actual_value
         , own_key_results.p_kr_user_id as kr_p_kr_user_id
@@ -54,12 +57,14 @@ class ExportObjectKeyResultsDataAccessor
         , own_objectives.o_id as o_o_id
         , own_objectives.o_name as o_o_name
         , own_objectives.o_progress as o_o_progress
+        , own_objectives.o_progress as o_o_sub_progress
         , own_objectives.ou_id as o_ou_id
         , own_objectives.ou_last_name as o_ou_last_name
         , own_objectives.ou_first_name as o_ou_first_name
         , own_objectives.p_kr_id as o_p_kr_id
         , own_objectives.p_kr_name as o_p_kr_name
         , own_objectives.p_kr_progress as o_p_kr_progress
+        , own_objectives.p_kr_progress as o_p_kr_sub_progress
         , own_objectives.p_kr_target_value as o_p_kr_target_value
         , own_objectives.p_kr_actual_value as o_p_kr_actual_value
         , own_objectives.p_kr_user_id as o_p_kr_user_id
@@ -86,6 +91,7 @@ class ExportObjectKeyResultsDataAccessor
              , kr.id as kr_id
              , kr.name as kr_name
              , kr.progress_rate as kr_progress
+             , kr.sub_progress_rate as kr_sub_progress
              , kr.target_value
              , kr.actual_value
              , kr.value_unit
@@ -94,6 +100,7 @@ class ExportObjectKeyResultsDataAccessor
              , o.key_result_order
              , o.name as o_name
              , o.progress_rate as o_progress
+             , o.sub_progress_rate as o_sub_progress
              , o.key_result_order as o_kr_order
              , ou.id as ou_id
              , ou.last_name as ou_last_name
@@ -101,6 +108,7 @@ class ExportObjectKeyResultsDataAccessor
              , parent_kr.id as p_kr_id
              , parent_kr.name as p_kr_name
              , parent_kr.progress_rate as p_kr_progress
+             , parent_kr.sub_progress_rate as p_kr_sub_progress
              , parent_kr.target_value as p_kr_target_value
              , parent_kr.actual_value as p_kr_actual_value
              , parent_kr_user.id as p_kr_user_id
@@ -136,12 +144,14 @@ class ExportObjectKeyResultsDataAccessor
              , oo.key_result_order
              , oo.name as o_name
              , oo.progress_rate  as o_progress
+             , oo.sub_progress_rate as o_sub_progress
              , oou.id as ou_id
              , oou.last_name as ou_last_name
              , oou.first_name as ou_first_name
              , o_parent_kr.id as p_kr_id
              , o_parent_kr.name as p_kr_name
              , o_parent_kr.progress_rate as p_kr_progress
+             , o_parent_kr.sub_progress_rate as p_kr_sub_progress
              , o_parent_kr.target_value as p_kr_target_value
              , o_parent_kr.actual_value as p_kr_actual_value
              , o_parent_kr_user.id as p_kr_user_id
@@ -254,12 +264,14 @@ class ExportObjectKeyResultsCsvRow
               id: record['kr_o_id'],
               name: record['kr_o_name'],
               progress: record['kr_o_progress'],
+              sub_progress: record['kr_o_sub_progress'],
               owner_id: record['kr_ou_id'],
               owner: to_full_name(record['kr_ou_last_name'], record['kr_ou_first_name'])
           },
           key_results: [{
                             name: record['kr_kr_name'],
                             progress: record['kr_kr_progress'],
+                            sub_progress: record['kr_kr_sub_progress'],
                             owner: @user_name,
                             target_value: record['kr_target_value'],
                             actual_value: record['kr_actual_value'],
@@ -288,6 +300,7 @@ class ExportObjectKeyResultsCsvRow
                     {
                         name: first['kr_p_kr_name'],
                         progress: first['kr_p_kr_progress'],
+                        sub_progress: first['kr_p_kr_sub_progress'],
                         target_value: first['kr_p_kr_target_value'],
                         actual_value: first['kr_p_kr_actual_value'],
                         owner_id: first['kr_p_kr_user_id'],
@@ -299,6 +312,7 @@ class ExportObjectKeyResultsCsvRow
           id: first['kr_o_id'],
           name: first['kr_o_name'],
           progress: first['kr_o_progress'],
+          sub_progress: first['kr_o_sub_progress'],
           owner_id: first['kr_ou_id'],
           owner: to_full_name(first['kr_ou_last_name'], first['kr_ou_first_name'])
       }
@@ -321,6 +335,7 @@ class ExportObjectKeyResultsCsvRow
         {
             name: record['kr_kr_name'],
             progress: record['kr_kr_progress'],
+            sub_progress: record['kr_kr_sub_progress'],
             owner: @user_name,
             target_value: record['kr_target_value'],
             actual_value: record['kr_actual_value'],
@@ -352,6 +367,7 @@ class ExportObjectKeyResultsCsvRow
                     {
                         name: record['o_p_kr_name'],
                         progress: record['o_p_kr_progress'],
+                        sub_progress: record['o_p_kr_sub_progress'],
                         target_value: record['o_p_kr_target_value'],
                         actual_value: record['o_p_kr_actual_value'],
                         owner_id: record['o_p_kr_user_id'],
@@ -363,6 +379,7 @@ class ExportObjectKeyResultsCsvRow
           id: record['o_o_id'],
           name: record['o_o_name'],
           progress: record['o_o_progress'],
+          sub_progress: record['o_o_sub_progress'],
           owner_id: record['o_ou_id'],
           owner: to_full_name(record['o_ou_last_name'], record['o_ou_first_name'])
       }
@@ -380,7 +397,14 @@ class ExportObjectKeyResultsCsvRow
   end
 
   def get_parent_kr_value(parent_kr)
-    progress_rate = parent_kr[:progress].nil? ? 0 : parent_kr[:progress]
+    progress_rate = if !parent_kr[:progress].nil?
+                      parent_kr[:progress]
+                    elsif parent_kr[:progress].nil? && !parent_kr[:sub_progress].nil?
+                      parent_kr[:sub_progress]
+                    else
+                      0
+                    end
+
     achievement_rate = get_achievement_rate(parent_kr[:target_value], parent_kr[:actual_value])
 
     rate = get_key_result_rate_value(achievement_rate, progress_rate)
@@ -393,10 +417,15 @@ class ExportObjectKeyResultsCsvRow
   end
 
   def get_objective_value(objective)
-    progress = objective[:progress]
-    rate = progress.nil? ? 0 : progress
+    progress = if !objective[:progress].nil?
+                 objective[:progress]
+               elsif objective[:progress].nil? && !objective[:sub_progress].nil?
+                 objective[:sub_progress]
+               else
+                 0
+               end
 
-    objective_format = "#{objective[:name]} [#{rate.to_i}%, #{objective[:owner]}]"
+    objective_format = "#{objective[:name]} [#{progress.to_i}%, #{objective[:owner]}]"
 
     return "(#{objective_format})" if objective[:owner_id] != @user_id
 
@@ -429,7 +458,14 @@ class ExportObjectKeyResultsCsvRow
       actual_value = key_result[:actual_value]
       value_unit = key_result[:value_unit]
 
-      progress_rate = key_result[:progress].nil? ? 0 : key_result[:progress]
+      progress_rate = if !key_result[:progress].nil?
+                        key_result[:progress]
+                      elsif key_result[:progress].nil? && !key_result[:sub_progress].nil?
+                        key_result[:sub_progress]
+                      else
+                        0
+                      end
+
       achievement_rate = get_achievement_rate(target_value, actual_value)
       rate = get_key_result_rate_value(achievement_rate, progress_rate)
 
