@@ -1,7 +1,7 @@
 json.objective do
   json.partial!(@objective)
 
-  json.key_result_progress_rate @objective.key_result_progress_rate
+  json.sub_progress_rate @objective.sub_progress_rate
 
   parent_key_result = @objective.parent_key_result
   json.parent_key_result do
