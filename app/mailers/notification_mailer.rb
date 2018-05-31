@@ -1,6 +1,7 @@
 class NotificationMailer < ApplicationMailer
 
-  def assign_key_result(assignee, key_result)
+  def assign_key_result(assignor, assignee, key_result)
+    @assignor = "#{assignor.last_name} #{assignor.first_name}"
     @assignee = "#{assignee.last_name} #{assignee.first_name}"
     @key_result = key_result
     mail to: assignee.email,

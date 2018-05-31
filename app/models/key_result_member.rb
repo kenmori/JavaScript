@@ -11,6 +11,6 @@ class KeyResultMember < ApplicationRecord
   end
 
   after_save do
-    NotificationMailer.assign_key_result(user, key_result).deliver_later
+    NotificationMailer.assign_key_result(Current.user, user, key_result).deliver_later
   end
 end
