@@ -1,3 +1,22 @@
-' Notification#assign_key_result
-= "\r\n" * 2
-' #{@greeting + ", find me in app/views/notification_mailer/assign_key_result.text.slim"}
+| [ Resily ]
+
+  #{@assignee} さん
+
+  あなたに新しい OKR が割り当てられました。
+
+  Key Result:
+    #{@key_result.name}
+  目標値:
+    #{@key_result.target_value.to_i} #{@key_result.value_unit}
+  期限:
+    #{@key_result.expired_date}
+  責任者:
+    #{@key_result.owner.last_name} #{@key_result.owner.first_name}
+
+  以下から Resily にアクセスして、内容を確認しましょう。
+
+  https://ap.resily.com
+
+  --
+  Resily株式会社 
+  https://resily.com
