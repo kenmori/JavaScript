@@ -3,13 +3,11 @@ ruby:
     (number == number.to_i) ? number.to_i : number
   end
 
-h2 Resily
-
 p #{@assignee} さん
 
 p #{@assignor} さんが、あなたに新しい OKR を割り当てました。
 
-dl
+dl style="width: 600px; padding: 8px; border: 1px solid black; border-radius: 8px;"
   dt Key Result
   dd #{@key_result.name}
   - if @key_result.target_value

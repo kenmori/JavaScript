@@ -3,12 +3,11 @@ ruby:
     (number == number.to_i) ? number.to_i : number
   end
 
-| [ Resily ]
-
-  #{@assignee} さん
+| #{@assignee} さん
 
   #{@assignor} さんが、あなたに新しい OKR を割り当てました。
 
+  ------------------------------------------------------------
   Key Result:
     #{@key_result.name}
 - if @key_result.target_value
@@ -20,6 +19,7 @@ ruby:
     #{@key_result.expired_date}
   責任者:
     #{@key_result.owner.last_name} #{@key_result.owner.first_name}
+  ------------------------------------------------------------
 
   以下から Resily にアクセスして、内容を確認しましょう。
 
