@@ -6,9 +6,12 @@
 
   Key Result:
     #{@key_result.name}
-  目標値:
-    #{@key_result.target_value.to_i} #{@key_result.value_unit}
-  期限:
+- if @key_result.target_value
+  = "\r\n"
+  | 目標値:
+      #{@key_result.target_value.to_i} #{@key_result.value_unit}
+= "\r\n"
+| 期限:
     #{@key_result.expired_date}
   責任者:
     #{@key_result.owner.last_name} #{@key_result.owner.first_name}

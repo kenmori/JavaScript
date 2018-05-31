@@ -7,8 +7,9 @@ p あなたに新しい OKR が割り当てられました。
 dl
   dt Key Result
   dd #{@key_result.name}
-  dt 目標値
-  dd #{@key_result.target_value.to_i} #{@key_result.value_unit}
+  - if @key_result.target_value
+    dt 目標値
+    dd #{@key_result.target_value.to_i} #{@key_result.value_unit}
   dt 期限
   dd #{@key_result.expired_date}
   dt 責任者
