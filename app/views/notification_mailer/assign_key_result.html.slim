@@ -1,3 +1,8 @@
+ruby:
+  def strip_insignificant_zeros(number)
+    (number == number.to_i) ? number.to_i : number
+  end
+
 h2 Resily
 
 p #{@assignee} さん
@@ -9,7 +14,7 @@ dl
   dd #{@key_result.name}
   - if @key_result.target_value
     dt 目標値
-    dd #{@key_result.target_value.to_i} #{@key_result.value_unit}
+    dd #{strip_insignificant_zeros(@key_result.target_value)} #{@key_result.value_unit}
   dt 期限
   dd #{@key_result.expired_date}
   dt 責任者
