@@ -10,7 +10,7 @@ class KeyResultMember < ApplicationRecord
     self.processed = user_id == key_result.objective.owner.id unless processed
   end
 
-  after_save do
+  after_create do
     if !processed && user_id != Current.user.id
       NotificationMailer.assign_key_result(Current.user, user, key_result).deliver_later
     end
