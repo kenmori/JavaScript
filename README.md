@@ -1,12 +1,14 @@
 ## JavaScript練習問題集
+![JavaScript](http://kenjimorita.jp/wp-content/uploads/2017/06/image3-1024x755.jpeg)
 
-**2018/3/7更新**
-scss問題集をリンク
-https://github.com/kenmori/scss_exercise
+**更新情報**
 
-![毘沙門天](http://kenjimorita.jp/wp-content/uploads/2017/07/image.jpeg)
+```
+・問題9の誤字を修正(2018/5/22)
+```
 
-### こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。
+
+#### こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。
 
 ※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017が使える環境で試されることを想定しています。
 
@@ -21,7 +23,9 @@ https://github.com/kenmori/scss_exercise
 ・途中似ているような問題が出てくるかもしれませんが気にしないでください。
 ・プルリク歓迎です。
 ・答えが見えてしまっているのは都度操作させないためです。
+※修正依頼は[こちら](https://omajimedesign.drift.com/omajimedesign)
 
+*月一で更新予定。
 
 *★を押していただけたら今後もやる気出ます。よろしくお願いします。
 
@@ -68,7 +72,6 @@ const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 const newArry = arry.slice(-4,-1);
 //or
 const newArry = arry.slice(3,-1);
-//
 ```
 
 **問3**
@@ -196,6 +199,8 @@ for (key in obj){
 }
 //key aa
 //key2 bb
+
+//or use Object.values, Object.keys
 ```
 
 **問9**
@@ -203,16 +208,16 @@ for (key in obj){
 こちらの ['a', 'b', 'c'] 配列の中の全ての要素を結合し、1つの文字列として出力してください。
 
 ```js
-const arry = ['a', 'b', 'c'];
+const array = ['a', 'b', 'c'];
 array.join("");
 //'abc'
 
 //other
-const arry = ['a', 'b', 'c'];
+const array = ['a', 'b', 'c'];
 let str = '';
 const count = array.length;
 for(var i= 0; i < count; i++){
-  str += arry[i];
+  str += array[i];
 }
 str
 //'abc'
@@ -265,6 +270,7 @@ let color = ['red', 'blue', 'green'];
 delete color[1]
 //true
 color.length//削除しても配列の長さには影響しない
+
 //3
 //配列の一部ではなくなります
 if(1 in color){console.log('実行されてます')}
@@ -1178,7 +1184,6 @@ map.set('four', 'fafa@eee');
 
 </details>
 <details><summary>問51〜問100</summary>
-	
 **問51**
 
 問50の変数fafa内にある要素を出力してください
@@ -3250,8 +3255,7 @@ DOMのspanタグの分だけ取得してNodeListをArrayに変えてください
 ```js
 var tag = document.getElementsByTagName('span');
 var array = Array.prototype.slice.call(tag);
-Array.isArray(array);
-//true
+console.log(array instanceof Array );
 ```
 
 **問164**
@@ -3313,7 +3317,7 @@ FIRST_ORDERED_NODE_TYPe :9
 
 こちら
 ```html
-<div id="target" class="foo-after">
+<div id="target" class="foo-after" onClick="toggleStyle()">
   click here!
 </div>
 ```
@@ -3321,12 +3325,10 @@ clickをしたらclass名がfoo-beforeに変わるtoggleStyleを実装をして�
 
 ```js
 var target = document.getElementById('target');
-target.onclick = function() {
+target.onclick = function toggleStyle() {
   this.classList.toggle('foo-after');
   this.classList.toggle('foo-before');
-  console.log(this.classList);
 }
-//https://jsbin.com/qimipoyijo/edit?html,js,console,output
 ```
 
 
@@ -3611,10 +3613,21 @@ flat
 
 **問178**
 
-
+下記の関数式としての宣言は
 
 ```js
-WIP
+// bad
+const foo = function () {
+};
+```
+なぜ好ましくないとされているか答えてください
+
+```js
+//コールスタックに識別しやすくされている
+//アロー関数が使える
+// good
+function foo() {
+}
 ```
 
 **問179**
@@ -4114,7 +4127,7 @@ setTimeout(create.get, 1000);
 setTimeout(create.get.bind(create), 1000);
 
 //2 Arrow Function
-setTimeout(()=> {create.get()}, 1000);
+setTimeout(()=> {create.get}, 1000);
 ```
 
 **問204**
@@ -4520,7 +4533,7 @@ function withLogging(wrappedFunction){
     return result;
   };
  }
-
+ 
 var addAndLog = withLogging(add);
 addAndLog(1, 2)
 //result 3
@@ -4836,7 +4849,7 @@ hash - #test
 同一オリジン : スキーム,ホスト,ポートが同じこと
 クロスオリジン : 上記がいずれか一つでも違うこと
 セッションハイジャック : サーバーから渡されるセッションIDを盗み正規ユーザーになりすますこと
-
+ 
 
 ```
 
@@ -4942,7 +4955,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 
 **問243**
-let n = '124';を数値に変換してください。
+let n = '124';を数値に変換してください。 
 
 ```js
 let n = '124';
@@ -4998,7 +5011,7 @@ o && o.f && o.f();
 **問246**
 ```var v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
-
+ 
 ```js
 var n = +v || 0;
 ```
@@ -5096,7 +5109,6 @@ pop、push、reverse、shift、sort、splice、unshilft
 
 </details>
 <details><summary>問251〜問300</summary>
-	
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
@@ -5657,37 +5669,37 @@ const foo = (name, callback) => {
         callback(name);
     }, 100);
 };
-
+ 
 const curry = (method, ...args) => {
     return (callback) => {
         args.push(callback);
         return method.apply({}, args);
     };
 };
-
+ 
 const controller = (generator) => {
     const iterator = generator();
-
+ 
     const advancer = (response) => {
         var state;
-
+ 
         state = iterator.next(response);
-
+ 
         if (!state.done) {
             state.value(advancer);
         }
     }
-
+ 
     advancer();
 };
-
+ 
 controller(function* () {
     const a = yield curry(foo, 'a');
     const b = yield curry(foo, 'b');
     const c = yield curry(foo, 'c');
     console.log(a, b, c);
 });
-
+ 
 // a
 // b
 // c
@@ -6421,7 +6433,6 @@ el.setAttribute('tabindex', 3);
 ```
 </details>
 <details><summary>問301〜問350</summary>
-
 **問301**
 
 こちら
@@ -7798,6 +7809,7 @@ greetAwkwardly('kenji')
 //Hello...kenji?
 ```
 
+
 **問347**
 
 文字列が'He'から始まる場合trueになる評価をしてください
@@ -7853,7 +7865,6 @@ function capitalizeFirstLetter(string) {
 capitalizeFirstLetter("morita")
 //"Morita"
 ```
-
 
 **問350**
 
@@ -7997,8 +8008,6 @@ b.car
 //JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(a.prototype)を参照し、a.prototypeにあるcarプロパティ値を返すためです。
 ```
 
-
-ネタ
 http://exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters
 
 
@@ -8070,31 +8079,74 @@ typeOf(null, [], NaN);
 
 **問357**
 
-Array.of fill. copyWithinなどを書く
 
 
 ```js
-
+WIP
 ```
 
 **問358**
 
+こちら
 ```js
+let faf;
+let ee;
+if(true){
+ ee = "true";
+ faf = "true";
+} else {
+  ee = "false";
+ faf = "false";
+}
 
+```
+をletを書かずにconstで代入できるようにしてください
+
+```js
+const {faf, ee } = (() => {
+ if(true){
+     return {ee:"true",
+ faf:"true"}
+} else {
+   return {ee: "false",
+ faf:"false"}
+}
+})()
 ```
 
 **問359**
 
 ```js
+[1, 2, 3].map(e => e);
+```
+上記のようないわゆるワンラインで書かれているFanctor内でconsole.logを出力してください
 
+````js
+[1, 2, 3].map(e => console.log(e) || e);
+
+//console.logはundefinedを返すのでfalse。処理が次に移る
 ```
 
 **問360**
 
 ```js
+~1
 
+~-1
+
+~0
 ```
+上記3つはそれぞれは何を返すか
 
+```js
+-2
+
+0
+
+-1
+
+//符号を逆にして-1された値が返る
+```
 
 **WIP**
 
@@ -8150,6 +8202,9 @@ f(["eeee","ppp","lll"], 1, [1,2,3])
 
 <details><summary>参照記事</summary>
 
+
+参照
+
 http://exploringjs.com/es6/
 https://leanpub.com/understandinges6/read
 https://github.com/airbnb/javascript
@@ -8182,4 +8237,5 @@ http://javascriptissexy.com/understand-javascript-callback-functions-and-use-the
 https://www.sitepoint.com/currying-in-functional-javascript/
 https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
 https://ponyfoo.com/articles/es6-array-extensions-in-depth
+https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan
 </details>
