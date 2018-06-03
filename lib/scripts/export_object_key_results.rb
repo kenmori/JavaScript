@@ -57,14 +57,14 @@ class ExportObjectKeyResultsDataAccessor
         , own_objectives.o_id as o_o_id
         , own_objectives.o_name as o_o_name
         , own_objectives.o_progress as o_o_progress
-        , own_objectives.o_progress as o_o_sub_progress
+        , own_objectives.o_sub_progress as o_o_sub_progress
         , own_objectives.ou_id as o_ou_id
         , own_objectives.ou_last_name as o_ou_last_name
         , own_objectives.ou_first_name as o_ou_first_name
         , own_objectives.p_kr_id as o_p_kr_id
         , own_objectives.p_kr_name as o_p_kr_name
         , own_objectives.p_kr_progress as o_p_kr_progress
-        , own_objectives.p_kr_progress as o_p_kr_sub_progress
+        , own_objectives.p_kr_sub_progress as o_p_kr_sub_progress
         , own_objectives.p_kr_target_value as o_p_kr_target_value
         , own_objectives.p_kr_actual_value as o_p_kr_actual_value
         , own_objectives.p_kr_user_id as o_p_kr_user_id
