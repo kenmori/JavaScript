@@ -54,7 +54,7 @@ method(null)//error
 
 一つのtypeの中で存在するかわからないプロパティを分岐処理する場合Errorを起こす
 
-```js`
+```js
 type O = {a: string, isOpen?:boolean, isClose?: boolean}
 var o = {a:"fafa", isOpen: true}
 
@@ -212,7 +212,8 @@ function obj<T>(obj: T): T {
 obj({bar: "aa", foo: "bb"});
 ```
 を
-````js
+
+```js
 function obj<T>(obj: T): T {
   if(obj && obj.foo){//refine
     return obj
@@ -247,6 +248,7 @@ let three: "three" = identity("three");
 
 Prameterized generics
 下のtype alias は使う時に型を決めている(Item<string>箇所)。関数に引数を渡すみたいに
+  
 ```js
 type Item<T> = {
   prop: T,
@@ -284,11 +286,13 @@ method({ a: 1, b: true, c: 'three' }); // Works!
 Impossible intersection type
 下記は number型でstring型な型を指定しているがそんなものないので必ずエラーになる。
 (こういうこともできてしまう)
+
 ```js
 type NumberAndString = number & string;
 ```
 
 また同じ名前のプロパティを持ち型が違う場合もErrorになる
+
 ```js
 type One = {prop: number};
 type Two = {prop: boolean};
@@ -336,7 +340,7 @@ let value : number = array[1];//works //but undefined
 ```
 
 この場合
-```js`
+```js
 
 let array: Array<number> = [0, 1, 2];
 let value: number | void = array[1];
@@ -360,6 +364,7 @@ F型の関数をを静的に呼び出し実行し型の取得が可能なとこ�
 
 
 最初何をしているかわからなかった下記
+
 ```js
 type ExtractPropType = <T>({prop: T}) => T;
 type Obj = {prop: number};
@@ -410,6 +415,7 @@ WIP
 ### %checks
 
 このメソッドがrefinementだという宣言
+
  ```js
  function truthy(a, b):boolean %checks {
   return  !!a && !!b
@@ -542,8 +548,8 @@ add({name: "fafa"})//ok
 
 少ないのも増えるのも嫌な場合
 Exact Object TypeかUtilityの$Exact
-
 ```
+
 ### Exact<T>
 $Exact<{name | string}>は{|name: string|}と同等
 他のプロパティを持っていないことを保証する
@@ -574,8 +580,8 @@ hoge({name: "kenji", age: 37})>//ok
 //or
 $Exact<Obj>は
 type Obj = {|name: string, age: number|} でも同じ意味
-
 ```
+
 NOTICE
 Object spreadを使う際に$Exactを使う際に注意が必要だったが今は治っている
 [qiita](https://qiita.com/stomita/items/24a7d223acdc6a8715f4])
@@ -585,11 +591,10 @@ Object spreadを使う際に$Exactを使う際に注意が必要だったが今�
 ### maybe型を使用する際に
 nullやundefinedが入っていた場合下記の方法だと最後のフィルターでerrorを起こす
 
-````
+```js
 type A = Array<?number>
 const a: A = [1,2,3];
 a.filter((n)=>{n != null}).filter(n => n >0)>
-
 ```
 
 回避策
@@ -603,7 +608,8 @@ a.filter(Boolean).filter(n => n > 0)
 ### Intersection Types
 
 下記の場合Errorになる
-```js`
+
+```js
 type Foo = {| foo: string |} & {| bar: string |}
 const example: Foo = {foo: 'foo', bar: 'bar'}
 ```
@@ -625,7 +631,6 @@ or
 type Foo = {| ...{| foo: string |}, ...{| bar: string |} |}
 const example: Foo = {foo: 'foo', bar: 'bar'}
 ```
-
 
 ### $Values<T>
 
@@ -666,7 +671,6 @@ type faf = $PropertyType<$PropertyType<Props, 'name'>, 'e'>
 
 ### $ElementType<T, K>
 
-
 Tに渡した型のkeyを指定Kに指定するとその型になる
 
 ```js
@@ -676,7 +680,7 @@ type obj = {
 }
 
 ("kenji": $ElementType<obj, "name">)//ok!
-
+```
 
 $PropertyType<T, K>との違いはKはany型
 $PropertyTypeはliteral型でなければならない
@@ -774,12 +778,12 @@ function eee(obj): string {
 }
 
 fn2(eee, obj)
-
 ```
 
 ### $Rest<A, B>
 
 WIP
+
  ```js
 https://github.com/facebook/flow/issues/5006
  ```
@@ -788,6 +792,7 @@ https://github.com/facebook/flow/issues/5006
 
 
 WIP
+
 ```
 *は、Flowへの「自動」命令と見なすことができ、コンテキストから型を記入するように指示します。
 
@@ -800,7 +805,7 @@ WIP
 ### Redux内でのusecase
 
 WIP
-````
+```
 https://hackernoon.com/the-redux-type-flow-93aada6964e5
 
 type Exact<T> = T & $Shape<T>
@@ -812,7 +817,7 @@ type Exact<T> = T & $Shape<T>
 
 オブジェクトを渡した際に好みのを受け取る、その時の型付け
 
-````js
+```js
 function foo ({a, b}: {a: string, b: number}): string | number {
  return a + b
 }
@@ -887,6 +892,7 @@ interface FT{
   (string, number):string;
 }
 ```
+
 [TryFlow](https://flow.org/try/#0C4TwDgpgBAYgKlAvFAFCgzsATgSwHYDmAlEgHxSa6EkBkqG2+BANFHgK4C2ARhFiYnKUmRAFCiAxgHs8mKBKwQAhsAgA5JZwgAuWAmQZWeAeQDeoqFBwAzFKEhTrbJImQAiDjz5uipgPR+itb4EFp4wIBBDIDqDIBWDIDyDIBmDID2DIAiDICKDDEpFpZQisDsWHhQAAZ4mtA46FAAJKboAL6sSgQVVbV49cXZ9dl5BUWl5VZtdZ0A3KI9CsqqGloobgDWEHgAVjg+E9Mq6uULy2sbrADMAOxEE+JAA)
 
 anyとmixedの違いを説明してくれと言われた
@@ -928,15 +934,13 @@ WIP`
 
 違うファイルで定義した型を別ファイルで使いたい
 
-```
+```js
 //types.js
 export type Person = {
 }
-
 //use.js
 import type { Person } from './types'
 ```
-
 
 高階関数に対して型を付けたい
 
@@ -945,7 +949,7 @@ WIP
 
 [here](https://flow.org/try/#0C4TwDgpgBAFglgcxhATgfQPYoCarQMwFcA7AY2Dg2LVEigF4oAeAFQD4AKfYgLihYCUDNvwDcAKHG5SAGwCGKaADcFUGRgQAlCAGdCM4H3hI8WXOiJkKVGuAiioAekdRCO6AAMVKD1HxYoYGQ-EnJKYklLMKo1DW09Ay5QoQBvcSgnFxgMAHdAjCg5YmIMYDlgaCDoMAU5AFsICpRC4mwoRWBCFGJAux0-AIagjDb-FByFbDhiBHT2xq6eqOsejgA6DYUEHVS5jNIqHWB5hOPGKPXNlG2BCQz9w4wZCDX1BA4PeP1DKAASFMUpwAvh5bnt5p1uidvncoECJEDIqEVlAdJA5ABrS5rHJmHR8ACCKBQchATCOKGmCDYAj4FKpUDSGQ6iyguJwOjWACsMNMOAByKD8sGI8QHYhHVHojEAGQ0DFiWl03w4aIgmLB4jVmLl735AEZ+QAaIUAJmFEiAA)
 
-````
+```
 //function signature
 type Callback = (?Error, string) => any
 
@@ -1079,7 +1083,3 @@ let foo: Item<number> = {prop: 1};
 [busypeoples/FlowTutorial.js](https://gist.github.com/busypeoples/61e83a1becc9ee9d498e0db324fc641b)
 [Flowtype + reduxにおけるreducerの正しい型づけ](https://qiita.com/akameco/items/fe7ba22c158a2593b077)
 
-
-
-
-<BS>
