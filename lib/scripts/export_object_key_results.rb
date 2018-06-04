@@ -397,13 +397,7 @@ class ExportObjectKeyResultsCsvRow
   end
 
   def get_parent_kr_value(parent_kr)
-    progress_rate = if !parent_kr[:progress].nil?
-                      parent_kr[:progress]
-                    elsif parent_kr[:progress].nil? && !parent_kr[:sub_progress].nil?
-                      parent_kr[:sub_progress]
-                    else
-                      0
-                    end
+    progress_rate = parent_kr[:progress] || parent_kr[:sub_progress] || 0
 
     achievement_rate = get_achievement_rate(parent_kr[:target_value], parent_kr[:actual_value])
 
@@ -417,13 +411,7 @@ class ExportObjectKeyResultsCsvRow
   end
 
   def get_objective_value(objective)
-    progress = if !objective[:progress].nil?
-                 objective[:progress]
-               elsif objective[:progress].nil? && !objective[:sub_progress].nil?
-                 objective[:sub_progress]
-               else
-                 0
-               end
+    progress = objective[:progress] || objective[:sub_progress] || 0
 
     objective_format = "#{objective[:name]} [#{progress.to_i}%, #{objective[:owner]}]"
 
@@ -458,13 +446,7 @@ class ExportObjectKeyResultsCsvRow
       actual_value = key_result[:actual_value]
       value_unit = key_result[:value_unit]
 
-      progress_rate = if !key_result[:progress].nil?
-                        key_result[:progress]
-                      elsif key_result[:progress].nil? && !key_result[:sub_progress].nil?
-                        key_result[:sub_progress]
-                      else
-                        0
-                      end
+      progress_rate = key_result[:progress] || key_result[:sub_progress] || 0
 
       achievement_rate = get_achievement_rate(target_value, actual_value)
       rate = get_key_result_rate_value(achievement_rate, progress_rate)
