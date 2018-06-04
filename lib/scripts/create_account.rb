@@ -2,8 +2,6 @@ class CreateAccount
   def self.execute
     print 'Organization Name: '
     organization_name = gets.chomp!
-    print 'Organization ID: '
-    uniq_name = gets.chomp!
     print 'Last [space] First Name: '
     user_name = gets.chomp!
     print 'Email: '
@@ -17,7 +15,7 @@ class CreateAccount
     month_end = Date.parse(month_start).months_since(3).yesterday.strftime('%Y-%m-%d')
 
     puts ''
-    puts "Organization: #{organization_name} (#{uniq_name})"
+    puts "Organization: #{organization_name}"
     puts "User Name: #{last_name} #{first_name}"
     puts "Email: #{email}"
     puts "Password: #{password}"
@@ -41,7 +39,6 @@ class CreateAccount
       ActiveRecord::Base.transaction do
         organization = Organization.create!(
             name: organization_name,
-            uniq_name: uniq_name,
         )
         organization.users.create!(
             last_name: last_name,

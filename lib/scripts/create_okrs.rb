@@ -2,7 +2,7 @@ class CreateOkrs
   def self.execute
     puts ''
     Organization.all.each do |organization|
-      puts "#{organization.id} - #{organization.name} (#{organization.uniq_name})"
+      puts "#{organization.id} - #{organization.name}"
     end
     puts ''
 
@@ -46,7 +46,7 @@ class CreateOkrs
     end
 
     puts ''
-    puts "Organization: #{organization.name} (#{organization.uniq_name})"
+    puts "Organization: #{organization.name}"
     puts "OKR Period: #{okr_period.name}"
     puts "User: #{user.first_name} #{user.last_name}"
     puts ''

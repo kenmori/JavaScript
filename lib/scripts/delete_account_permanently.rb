@@ -1,11 +1,17 @@
 class DeleteAccountPermanently
   def self.execute
-    puts 'Enter the organization UNIQUE name to delete permanently.'
-    print 'Organization UNIQUE name: '
-    uniq_name = gets.chomp!
-    organization = Organization.find_by(uniq_name: uniq_name)
+    puts ''
+    Organization.all.each do |organization|
+      puts "#{organization.id} - #{organization.name}"
+    end
+    puts ''
+
+    puts 'Enter the ID of the organization you want to delete permanently.'
+    print 'ID: '
+    organization_id = gets.chomp!
+    organization = Organization.find_by(id: organization_id)
     if organization.nil?
-      puts "Not found a organization whose unique name is '#{uniq_name}'!"
+      puts "Not found a organization whose ID is #{organization_id}!"
       return 1
     end
 

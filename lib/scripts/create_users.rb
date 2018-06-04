@@ -2,7 +2,7 @@ class CreateUsers
   def self.execute
     puts ''
     Organization.all.each do |organization|
-      puts "#{organization.id} - #{organization.name} (#{organization.uniq_name})"
+      puts "#{organization.id} - #{organization.name}"
     end
     puts ''
 
@@ -23,7 +23,7 @@ class CreateUsers
     disabled_number = gets.chomp!.to_i
 
     puts ''
-    puts "Organization: #{organization.name} (#{organization.uniq_name})"
+    puts "Organization: #{organization.name}"
     puts "Enabled users: #{enabled_number}"
     puts "Disabled users: #{disabled_number}"
     puts ''
