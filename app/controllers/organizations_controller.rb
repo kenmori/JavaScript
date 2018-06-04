@@ -31,7 +31,7 @@ class OrganizationsController < ApplicationController
   private
 
   def create_params
-    params.require(:organization).permit(:name, :uniq_name, :okr_span)
+    params.require(:organization).permit(:name, :okr_span)
   end
 
   def create_user_params
