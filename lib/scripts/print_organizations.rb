@@ -1,5 +1,13 @@
 class PrintOrganizations
   def self.execute
+    puts 'Showing organization information...'
+    puts ''
+    puts "- #{Organization.count} organizations"
+    puts "- #{User.count} users (#{User.where(disabled: false).count} enabled, #{User.where(disabled: true).count} disabled)"
+    puts "  - #{User.where(last_sign_in_at: 1.month.ago..Date.today).count} active users in the last month"
+    puts "    - #{User.where(last_sign_in_at: 1.week.ago..Date.today).count} active users in the last week"
+    puts "  - #{User.where(created_at: 1.month.ago..Date.today).count} new users in the last month"
+    puts "    - #{User.where(created_at: 1.week.ago..Date.today).count} new users in the last week"
     puts ''
     index = 0
     Organization.all.each do |organization|
