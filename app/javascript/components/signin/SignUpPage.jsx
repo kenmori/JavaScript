@@ -32,7 +32,6 @@ class SignUpPage extends PureComponent {
   addOrganization = () => {
     this.props.addOrganization({
       name: this.organizationInput.inputRef.value,
-      uniqName: this.organizationUniqNameInput.inputRef.value,
       okrSpan: this.state.okrSpan,
     }, {
       lastName: this.lastNameInput.inputRef.value,
@@ -61,21 +60,6 @@ class SignUpPage extends PureComponent {
                   size="mini"
                   placeholder="会社名やチーム名など"
                   ref={(node) => { this.organizationInput = node; }}
-                  onBlur={() => {
-                    let organization = this.organizationInput.inputRef.value;
-                    if (organization.length && !this.organizationUniqNameInput.inputRef.value.length) {
-                      this.organizationUniqNameInput.inputRef.value = organization.match(/[a-z0-9_-]+/gi).join('').toLowerCase();
-                    }
-                  }}
-                />
-              </Form.Field>
-              <Form.Field inline>
-                <div>組織 ID</div>
-                <Input
-                  autoComplete="off"
-                  size="mini"
-                  placeholder="英数字、ハイフン、アンダースコア"
-                  ref={(node) => { this.organizationUniqNameInput = node; }}
                 />
               </Form.Field>
               <Divider hidden />
@@ -107,13 +91,6 @@ class SignUpPage extends PureComponent {
                   size="mini"
                   placeholder="name@example.com"
                   ref={(node) => { this.emailInput = node; }}
-                  onBlur={() => {
-                    let email = this.emailInput.inputRef.value;
-                    if (email.length && !this.organizationUniqNameInput.inputRef.value.length) {
-                      let orgName = email.includes('@') ? email.split('@').slice(1).join('') : email;
-                      this.organizationUniqNameInput.inputRef.value = orgName.replace(/\./g, '').toLowerCase();
-                    }
-                  }}
                 />
               </Form.Field>
               <Form.Field inline>
