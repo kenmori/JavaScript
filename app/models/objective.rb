@@ -1,5 +1,5 @@
 class Objective < ApplicationRecord
-  has_many :key_results # destroy 時に何もしない 
+  has_many :key_results, dependent: :destroy 
   has_many :objective_members, dependent: :destroy
   has_many :users, through: :objective_members
   belongs_to :okr_period
