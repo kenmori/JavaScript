@@ -45,10 +45,18 @@ class CreateOkrs
       return 1
     end
 
+    puts 'How many objectives do you want to add?'
+    print 'Number: '
+    objective_number = gets.chomp!
+    puts 'How many key results do you want to add for each objective?'
+    print 'Number: '
+    key_result_number = gets.chomp!
+
     puts ''
     puts "Organization: #{organization.name}"
     puts "OKR Period: #{okr_period.name}"
     puts "User: #{user.first_name} #{user.last_name}"
+    puts "OKRs: #{objective_number} objectives with #{key_result_number} key results"
     puts ''
 
     print 'Do you want to add OKRs to the above? [YES/no] '
@@ -63,13 +71,6 @@ class CreateOkrs
           print "Type 'YES' or 'no': "
       end
     end
-
-    puts 'How many objectives do you want to add?'
-    print 'Number: '
-    objective_number = gets.chomp!
-    puts 'How many key results do you want to add for each objective?'
-    print 'Number: '
-    key_result_number = gets.chomp!
 
     begin
       ActiveRecord::Base.transaction do
