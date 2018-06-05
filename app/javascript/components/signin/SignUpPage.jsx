@@ -120,15 +120,14 @@ class SignUpPage extends PureComponent {
                   locale="ja"
                   selected={this.state.startDate}
                   onChange={date => {
+                    const startDate = date || this.state.startDate
                     if (this.state.endDateChanged) {
-                      this.setState({
-                        startDate: date
-                      })
+                      this.setState({ startDate })
                     } else {
                       // 終了日をユーザーが変更していない場合、計算し直す
                       this.setState({
-                        startDate: date,
-                        endDate: this.getEndDate(date, this.state.okrSpan),
+                        startDate,
+                        endDate: this.getEndDate(startDate, this.state.okrSpan),
                       })
                     }
                   }}
@@ -138,7 +137,10 @@ class SignUpPage extends PureComponent {
                   dateFormat="YYYY/M/D"
                   locale="ja"
                   selected={this.state.endDate}
-                  onChange={date => this.setState({ endDate: date, endDateChanged: true })}
+                  onChange={date => {
+                    const endDate = date || this.state.endDate
+                    this.setState({ endDate, endDateChanged: true })}
+                  }
                 />
               </Form.Field>
               <Form.Select
