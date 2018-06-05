@@ -47,7 +47,7 @@ class MenuBar extends PureComponent {
   }
 
   organizationTag(props = this.props) {
-    if(!props.organizations) { return null; }
+    if(!props.organizations || props.organizations.size === 1) return null
 
     function options(organizations) {
       return organizations.map(item => (
@@ -59,18 +59,18 @@ class MenuBar extends PureComponent {
       )).toArray();
     }
 
-    if(props.organizations.size === 1) {
-      return <div>{props.organization.get('name')}</div>
-    } else {
-      return <Dropdown 
-                scrolling 
-                pointing='top'
-                options={options(props.organizations)}
-                defaultValue={props.organization.get('id')}
-                onChange={this.handleChangeOrganization} 
-                selectOnNavigation={false}
-            />
-      }
+    return (
+      <Menu.Item>
+        <Dropdown
+          scrolling
+          pointing='top'
+          options={options(props.organizations)}
+          defaultValue={props.organization.get('id')}
+          onChange={this.handleChangeOrganization}
+          selectOnNavigation={false}
+        />
+      </Menu.Item>
+    )
   }
 
   render() {
@@ -80,9 +80,7 @@ class MenuBar extends PureComponent {
           <Logo path={this.props.organization.get('logo').get('url')} size='tiny'/>
         </Menu.Item>
         <Menu.Item href='/'>ホーム</Menu.Item>
-        <Menu.Item>
-          {this.organizationTag()}
-        </Menu.Item>
+        {this.organizationTag()}
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
