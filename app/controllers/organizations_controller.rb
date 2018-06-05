@@ -13,8 +13,12 @@ class OrganizationsController < ApplicationController
       @organization.okr_periods.create!(create_okr_period_params)
     end
     render status: :created
-  rescue
-    unprocessable_entity_with_errors(@organization.errors.full_messages)
+  rescue => e
+    if @organization && @organization.errors.any?
+      unprocessable_entity_with_errors(@organization.errors.full_messages)
+    else
+      unprocessable_entity(e.message)
+    end
   end
 
   def update
