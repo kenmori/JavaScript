@@ -12,6 +12,11 @@ class SignUpPage extends PureComponent {
     const startDate = moment().startOf('month')
     const okrSpan = 3
     this.state = {
+      organizationName: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      password: null,
       startDate,
       endDate: this.getEndDate(startDate, okrSpan),
       endDateChanged: false,
@@ -31,13 +36,13 @@ class SignUpPage extends PureComponent {
 
   addOrganization = () => {
     this.props.addOrganization({
-      name: this.organizationInput.inputRef.value,
+      name: this.state.organizationName,
       okrSpan: this.state.okrSpan,
     }, {
-      lastName: this.lastNameInput.inputRef.value,
-      firstName: this.firstNameInput.inputRef.value,
-      email: this.emailInput.inputRef.value,
-      password: this.passwordInput.inputRef.value,
+      lastName: this.state.lastName,
+      firstName: this.state.firstName,
+      email: this.state.email,
+      password: this.state.password,
       admin: true,
     }, {
       monthStart: this.state.startDate.format('YYYY-MM-DD'),
@@ -61,7 +66,7 @@ class SignUpPage extends PureComponent {
                 placeholder="会社名やチーム名など"
                 icon="building"
                 iconPosition="left"
-                ref={node => { this.organizationInput = node }}
+                onChange={(e, { value }) => this.setState({ organizationName: value })}
               />
             </Form.Group>
 
@@ -73,14 +78,14 @@ class SignUpPage extends PureComponent {
                   name="family-name"
                   autoComplete="family-name"
                   placeholder="姓"
-                  ref={node => { this.lastNameInput = node }}
+                  onChange={(e, { value }) => this.setState({ lastName: value })}
                 />
                 <Input
                   className="first-name"
                   name="given-name"
                   autoComplete="family-name"
                   placeholder="名"
-                  ref={node => { this.firstNameInput = node }}
+                  onChange={(e, { value }) => this.setState({ firstName: value })}
                 />
               </Form.Field>
               <Form.Input
@@ -92,7 +97,7 @@ class SignUpPage extends PureComponent {
                 placeholder="name@example.com"
                 icon="mail"
                 iconPosition="left"
-                ref={node => { this.emailInput = node }}
+                onChange={(e, { value }) => this.setState({ email: value })}
               />
               <Form.Input
                 inline
@@ -103,7 +108,7 @@ class SignUpPage extends PureComponent {
                 placeholder="英数字8文字以上"
                 icon="lock"
                 iconPosition="left"
-                ref={node => { this.passwordInput = node }}
+                onChange={(e, { value }) => this.setState({ password: value })}
               />
             </Form.Group>
 
