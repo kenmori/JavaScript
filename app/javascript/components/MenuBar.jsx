@@ -81,6 +81,9 @@ class MenuBar extends PureComponent {
         </Menu.Item>
         <Menu.Item href='/'>ホーム</Menu.Item>
         <Menu.Item>
+          {this.organizationTag()}
+        </Menu.Item>
+        <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
             <Dropdown scrolling pointing='top'
                       options={this.okrPeriodsOption(this.props.okrPeriods)}
