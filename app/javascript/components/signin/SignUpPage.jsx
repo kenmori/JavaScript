@@ -171,6 +171,8 @@ class SignUpPage extends PureComponent {
         </Segment>
 
         <Button className="submit" positive onClick={this.addOrganization}>登録する</Button>
+
+        <p className="link"><a href="/">トップに戻る</a></p>
       </div>
     );
   }
