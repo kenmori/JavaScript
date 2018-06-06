@@ -31,12 +31,7 @@ class DeleteAccountPermanently
 
     begin
       ActiveRecord::Base.transaction do
-        # User (ObjectiveOrder)
-        organization.users.each do |user|
-          user.destroy!
-        end
-
-        # Organization (OkrPeriod, Objective, KeyResult, Comment, Group)
+        # Organization (OkrPeriod, Objective, KeyResult, Comment, Group, User, ObjectiveOrder)
         organization.destroy!
       end
     rescue => e
