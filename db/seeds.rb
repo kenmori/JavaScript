@@ -15,7 +15,6 @@ ApplicationRecord.transaction do
   # 組織を作成
   organization = Organization.create!(
       name: 'Test',
-      uniq_name: 'test',
   )
 
   # ユーザーを作成

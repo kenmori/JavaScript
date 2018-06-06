@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Select, Image, Divider } from 'semantic-ui-react';
+import { Button, Form, Input, Image, Segment } from 'semantic-ui-react';
 import moment from 'moment';
 import logo_image from '../../images/logo_large.png';
 import DatePicker from '../form/DatePicker';
@@ -12,6 +12,11 @@ class SignUpPage extends PureComponent {
     const startDate = moment().startOf('month')
     const okrSpan = 3
     this.state = {
+      organizationName: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      password: null,
       startDate,
       endDate: this.getEndDate(startDate, okrSpan),
       endDateChanged: false,
@@ -31,14 +36,13 @@ class SignUpPage extends PureComponent {
 
   addOrganization = () => {
     this.props.addOrganization({
-      name: this.organizationInput.inputRef.value,
-      uniqName: this.organizationUniqNameInput.inputRef.value,
+      name: this.state.organizationName,
       okrSpan: this.state.okrSpan,
     }, {
-      lastName: this.lastNameInput.inputRef.value,
-      firstName: this.firstNameInput.inputRef.value,
-      email: this.emailInput.inputRef.value,
-      password: this.passwordInput.inputRef.value,
+      lastName: this.state.lastName,
+      firstName: this.state.firstName,
+      email: this.state.email,
+      password: this.state.password,
       admin: true,
     }, {
       monthStart: this.state.startDate.format('YYYY-MM-DD'),
@@ -49,151 +53,126 @@ class SignUpPage extends PureComponent {
   render() {
     return (
       <div className="sign-up">
-        <main className="center">
-          <Image as="h1" src={logo_image} title="Resily" />
-          <Form className="user-form">
-            <Form.Group className="text-input-group">
+        <Image as="h1" src={logo_image} title="Resily"/>
+
+        <Segment raised compact padded="very">
+          <Form>
+            <Form.Group>
+              <Form.Input
+                inline
+                label="組織名"
+                name="organization"
+                autoComplete="organization"
+                placeholder="会社名やチーム名など"
+                icon="building"
+                iconPosition="left"
+                onChange={(e, { value }) => this.setState({ organizationName: value })}
+              />
+            </Form.Group>
+
+            <Form.Group>
               <Form.Field inline>
-                <div>組織名</div>
+                <label>管理者</label>
                 <Input
-                  name="organization"
-                  autoComplete="organization"
-                  size="mini"
-                  placeholder="会社名やチーム名など"
-                  ref={(node) => { this.organizationInput = node; }}
-                  onBlur={() => {
-                    let organization = this.organizationInput.inputRef.value;
-                    if (organization.length && !this.organizationUniqNameInput.inputRef.value.length) {
-                      this.organizationUniqNameInput.inputRef.value = organization.match(/[a-z0-9_-]+/gi).join('').toLowerCase();
-                    }
-                  }}
-                />
-              </Form.Field>
-              <Form.Field inline>
-                <div>組織 ID</div>
-                <Input
-                  autoComplete="off"
-                  size="mini"
-                  placeholder="英数字、ハイフン、アンダースコア"
-                  ref={(node) => { this.organizationUniqNameInput = node; }}
-                />
-              </Form.Field>
-              <Divider hidden />
-              <Form.Field inline>
-                <div>管理者</div>
-                <Input
+                  className="last-name"
                   name="family-name"
                   autoComplete="family-name"
-                  className="last-name"
-                  size="mini"
                   placeholder="姓"
-                  ref={(node) => { this.lastNameInput = node; }}
+                  onChange={(e, { value }) => this.setState({ lastName: value })}
                 />
                 <Input
+                  className="first-name"
                   name="given-name"
                   autoComplete="family-name"
-                  className="first-name"
-                  size="mini"
                   placeholder="名"
-                  ref={(node) => { this.firstNameInput = node; }}
+                  onChange={(e, { value }) => this.setState({ firstName: value })}
                 />
               </Form.Field>
+              <Form.Input
+                inline
+                label="メールアドレス"
+                type="email"
+                name="email"
+                autoComplete="email"
+                placeholder="name@example.com"
+                icon="mail"
+                iconPosition="left"
+                onChange={(e, { value }) => this.setState({ email: value })}
+              />
+              <Form.Input
+                inline
+                label="パスワード"
+                type="password"
+                name="current-password"
+                autoComplete="current-password"
+                placeholder="英数字8文字以上"
+                icon="lock"
+                iconPosition="left"
+                onChange={(e, { value }) => this.setState({ password: value })}
+              />
+            </Form.Group>
+
+            <Form.Group>
               <Form.Field inline>
-                <div>メールアドレス</div>
-                <Input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  size="mini"
-                  placeholder="name@example.com"
-                  ref={(node) => { this.emailInput = node; }}
-                  onBlur={() => {
-                    let email = this.emailInput.inputRef.value;
-                    if (email.length && !this.organizationUniqNameInput.inputRef.value.length) {
-                      let orgName = email.includes('@') ? email.split('@').slice(1).join('') : email;
-                      this.organizationUniqNameInput.inputRef.value = orgName.replace(/\./g, '').toLowerCase();
-                    }
-                  }}
-                />
-              </Form.Field>
-              <Form.Field inline>
-                <div>パスワード</div>
-                <Input
-                  type="password"
-                  name="current-password"
-                  autoComplete="current-password"
-                  size="mini"
-                  placeholder="英数字8文字以上"
-                  ref={(node) => { this.passwordInput = node; }}
-                />
-              </Form.Field>
-              <Divider hidden />
-              <Form.Field inline>
-                <div>開始日</div>
+                <label>OKR 期間</label>
                 <DatePicker
                   dateFormat="YYYY/M/D"
                   locale="ja"
                   selected={this.state.startDate}
-                  onChange={(date) => {
+                  onChange={date => {
+                    const startDate = date || this.state.startDate
                     if (this.state.endDateChanged) {
-                      this.setState({
-                        startDate: date
-                      })
+                      this.setState({ startDate })
                     } else {
                       // 終了日をユーザーが変更していない場合、計算し直す
                       this.setState({
-                        startDate: date,
-                        endDate: this.getEndDate(date, this.state.okrSpan),
-                      });
+                        startDate,
+                        endDate: this.getEndDate(startDate, this.state.okrSpan),
+                      })
                     }
                   }}
                 />
-              </Form.Field>
-              <Form.Field inline>
-                <div>終了日</div>
+                <span className="between">-</span>
                 <DatePicker
                   dateFormat="YYYY/M/D"
                   locale="ja"
                   selected={this.state.endDate}
-                  onChange={(date) => {
+                  onChange={date => {
+                    const endDate = date || this.state.endDate
+                    this.setState({ endDate, endDateChanged: true })}
+                  }
+                />
+              </Form.Field>
+              <Form.Select
+                inline
+                label="OKR 周期"
+                defaultValue={this.state.okrSpan}
+                options={[
+                  { key: 1, value: 1, text: '1ヶ月間' },
+                  { key: 3, value: 3, text: '3ヶ月間' },
+                  { key: 6, value: 6, text: '半年間' },
+                  { key: 12, value: 12, text: '1年間' }
+                ]}
+                onChange={(event, data) => {
+                  const okrSpan = data.value
+                  if (this.state.endDateChanged) {
+                    this.setState({ okrSpan })
+                  } else {
+                    // 終了日をユーザーが変更していない場合、計算し直す
                     this.setState({
-                      endDate: date,
-                      endDateChanged: true
+                      okrSpan,
+                      endDate: this.getEndDate(this.state.startDate, okrSpan),
                     })
-                  }}
-                />
-              </Form.Field>
-              <Form.Field inline>
-                <div>OKR 周期</div>
-                <Select
-                  defaultValue={this.state.okrSpan}
-                  options={[
-                    { key: 1, value: 1, text: '1ヶ月間' },	
-                    { key: 3, value: 3, text: '3ヶ月間' },	
-                    { key: 6, value: 6, text: '半年間' },	
-                    { key: 12, value: 12, text: '1年間' }
-                  ]}
-                  onChange={(event, data) => {
-                    const okrSpan = data.value;
-                    if (this.state.endDateChanged) {
-                      this.setState({ okrSpan });
-                    } else {
-                      // 終了日をユーザーが変更していない場合、計算し直す
-                      this.setState({
-                        okrSpan,
-                        endDate: this.getEndDate(this.state.startDate, okrSpan),
-                      });
-                    }
-                  }}
-                />
-              </Form.Field>
+                  }
+                }}
+              />
             </Form.Group>
-            <Divider hidden />
-            <div>
-              <Button positive onClick={this.addOrganization}>登録する</Button>
-            </div>
           </Form>
-        </main>
+        </Segment>
+
+        <Button className="submit" positive onClick={this.addOrganization}>登録する</Button>
+
+        <p className="link"><a href="/">トップに戻る</a></p>
       </div>
     );
   }

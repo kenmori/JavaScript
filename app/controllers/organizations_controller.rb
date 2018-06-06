@@ -12,9 +12,15 @@ class OrganizationsController < ApplicationController
       @organization.users.create!(create_user_params)
       @organization.okr_periods.create!(create_okr_period_params)
     end
+    # トラッキング：新規アカウント作成
+    TrackingMailer.create_account(@organization).deliver_later
     render status: :created
-  rescue
-    unprocessable_entity_with_errors(@organization.errors.full_messages)
+  rescue => e
+    if @organization && @organization.errors.any?
+      unprocessable_entity_with_errors(@organization.errors.full_messages)
+    else
+      unprocessable_entity(e.message)
+    end
   end
 
   def update
@@ -31,7 +37,7 @@ class OrganizationsController < ApplicationController
   private
 
   def create_params
-    params.require(:organization).permit(:name, :uniq_name, :okr_span)
+    params.require(:organization).permit(:name, :okr_span)
   end
 
   def create_user_params

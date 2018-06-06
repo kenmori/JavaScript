@@ -6,9 +6,11 @@ import { Button, Modal } from 'semantic-ui-react';
 
 class ErrorModal extends PureComponent {
   getErrorMessages(messages) {
-    return messages.toArray().map((message, idx) => (
-      <p key={idx}>{message}</p>
-    ))
+    return (
+      <ul>
+        {messages.map((message, index) => <li key={index}>{message}</li>)}
+      </ul>
+    )
   }
 
   handleClose = () => {
@@ -21,6 +23,8 @@ class ErrorModal extends PureComponent {
     let message = this.props.message;
     if (List.isList(message)) {
       message = this.getErrorMessages(message)
+    } else if (message.includes(', ')) {
+      message = this.getErrorMessages(message.split(', '))
     }
     return (
       <Modal
@@ -30,15 +34,13 @@ class ErrorModal extends PureComponent {
         closeOnDimmerClick={false}
         onClose={this.handleClose}
       >
-        <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>
+        <Modal.Content style={{ margin: '10px 0' }}>
           {message}
         </Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button positive onClick={this.handleClose}>OK</Button>
-          </div>
-        </ Modal.Actions >
-      </ Modal >
+          <Button negative onClick={this.handleClose}>OK</Button>
+        </Modal.Actions>
+      </Modal>
     );
   }
 }
