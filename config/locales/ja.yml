@@ -38,6 +38,10 @@ ja:
     attributes:
       organization:
         name: "組織名"
+      group:
+        name: "部署名"
+      okr_period:
+        name: "期間名"
       objective:
         name: "Objective"
       key_result:
@@ -47,16 +51,14 @@ ja:
         expired_date: "期限"
         progress_rate: "進捗"
       user:
-        first_name: "名"
-        last_name: "姓"
+        first_name: "ユーザー名 (名) "
+        last_name: "ユーザー名 (姓) "
     errors:
       messages:
         record_invalid: "%{errors}"
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
-  attributes:
-    name: "名前"
   date:
     abbr_day_names:
     - 日
