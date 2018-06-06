@@ -34,15 +34,13 @@ class ErrorModal extends PureComponent {
         closeOnDimmerClick={false}
         onClose={this.handleClose}
       >
-        <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>
+        <Modal.Content style={{ margin: '10px 0' }}>
           {message}
         </Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button positive onClick={this.handleClose}>OK</Button>
-          </div>
-        </ Modal.Actions >
-      </ Modal >
+          <Button negative onClick={this.handleClose}>OK</Button>
+        </Modal.Actions>
+      </Modal>
     );
   }
 }
