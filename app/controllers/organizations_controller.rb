@@ -12,6 +12,8 @@ class OrganizationsController < ApplicationController
       @organization.users.create!(create_user_params)
       @organization.okr_periods.create!(create_okr_period_params)
     end
+    # トラッキング：新規アカウント作成
+    TrackingMailer.create_account(@organization).deliver_later
     render status: :created
   rescue => e
     if @organization && @organization.errors.any?
