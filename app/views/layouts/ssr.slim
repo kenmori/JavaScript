@@ -3,6 +3,8 @@ html
   head
     title
       | Resily (β)
+    - if Rails.env.production?
+      link rel='icon' href='/public/favicon.ico'
     = csrf_meta_tags
     = include_gon
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
