@@ -9,12 +9,7 @@ class OrganizationsController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       @organization = Organization.create!(create_params)
-      user = User.find_by(email: create_user_params[:email])
-      if user.nil?
-        @organization.users.create!(create_user_params)
-      else
-        @organization.organization_members.create!(user_id: user.id)
-      end
+      @organization.users.create!(create_user_params)
       @organization.okr_periods.create!(create_okr_period_params)
     end
     render status: :created
