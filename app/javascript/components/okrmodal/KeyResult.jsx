@@ -5,6 +5,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import Status from '../util/Status'
 import { onTouch } from '../../utils/backend';
 
 const itemSource = {
@@ -80,7 +81,7 @@ class KeyResult extends PureComponent {
             <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
           </span>
           <span className="sidebar__name">{keyResult.get('name')}</span>
-          <span className="progress-rate sidebar__progress">{keyResult.get('progressRate')}%</span>
+          <span className="progress-rate sidebar__progress">{keyResult.get('progressRate')}%<Status value={keyResult.get('status')} /></span>
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
               <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'
