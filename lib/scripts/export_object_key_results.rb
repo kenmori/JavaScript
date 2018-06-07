@@ -42,9 +42,9 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.o_progress as kr_o_progress
         , own_key_results.o_sub_progress as kr_o_sub_progress
         , own_key_results.o_kr_order as kr_o_kr_order
-        , own_key_results.ou_id as kr_ou_id
-        , own_key_results.ou_last_name as kr_ou_last_name
-        , own_key_results.ou_first_name as kr_ou_first_name
+        , own_key_results.o_user_id as kr_o_user_id
+        , own_key_results.o_user_last_name as kr_o_user_last_name
+        , own_key_results.o_user_first_name as kr_o_user_first_name
         , own_key_results.p_kr_id as kr_p_kr_id
         , own_key_results.p_kr_name as kr_p_kr_name
         , own_key_results.p_kr_progress as kr_p_kr_progress
@@ -58,9 +58,9 @@ class ExportObjectKeyResultsDataAccessor
         , own_objectives.o_name as o_o_name
         , own_objectives.o_progress as o_o_progress
         , own_objectives.o_sub_progress as o_o_sub_progress
-        , own_objectives.ou_id as o_ou_id
-        , own_objectives.ou_last_name as o_ou_last_name
-        , own_objectives.ou_first_name as o_ou_first_name
+        , own_objectives.o_user_id as o_o_user_id
+        , own_objectives.o_user_last_name as o_o_user_last_name
+        , own_objectives.o_user_first_name as o_o_user_first_name
         , own_objectives.p_kr_id as o_p_kr_id
         , own_objectives.p_kr_name as o_p_kr_name
         , own_objectives.p_kr_progress as o_p_kr_progress
@@ -102,9 +102,9 @@ class ExportObjectKeyResultsDataAccessor
              , o.progress_rate as o_progress
              , o.sub_progress_rate as o_sub_progress
              , o.key_result_order as o_kr_order
-             , ou.id as ou_id
-             , ou.last_name as ou_last_name
-             , ou.first_name as ou_first_name
+             , ou.id as o_user_id
+             , ou.last_name as o_user_last_name
+             , ou.first_name as o_user_first_name
              , parent_kr.id as p_kr_id
              , parent_kr.name as p_kr_name
              , parent_kr.progress_rate as p_kr_progress
@@ -145,9 +145,9 @@ class ExportObjectKeyResultsDataAccessor
              , oo.name as o_name
              , oo.progress_rate  as o_progress
              , oo.sub_progress_rate as o_sub_progress
-             , oou.id as ou_id
-             , oou.last_name as ou_last_name
-             , oou.first_name as ou_first_name
+             , oou.id as o_user_id
+             , oou.last_name as o_user_last_name
+             , oou.first_name as o_user_first_name
              , o_parent_kr.id as p_kr_id
              , o_parent_kr.name as p_kr_name
              , o_parent_kr.progress_rate as p_kr_progress
@@ -173,9 +173,9 @@ class ExportObjectKeyResultsDataAccessor
              left outer join users as o_parent_kr_user
                on o_parent_kr_member.user_id = o_parent_kr_user.id
         ) as own_objectives
-          on own_objectives.ou_id = u.id
+          on own_objectives.o_user_id = u.id
       where org.id = #{organization_id}
-      order by u.id, record_order_key;
+      order by u.id;
     EOS
 
     connection.select_all(sql).to_hash
@@ -265,8 +265,8 @@ class ExportObjectKeyResultsCsvRow
               name: record['kr_o_name'],
               progress: record['kr_o_progress'],
               sub_progress: record['kr_o_sub_progress'],
-              owner_id: record['kr_ou_id'],
-              owner: to_full_name(record['kr_ou_last_name'], record['kr_ou_first_name'])
+              owner_id: record['kr_o_user_id'],
+              owner: to_full_name(record['kr_o_user_last_name'], record['kr_o_user_first_name'])
           },
           key_results: [{
                             name: record['kr_kr_name'],
@@ -313,8 +313,8 @@ class ExportObjectKeyResultsCsvRow
           name: first['kr_o_name'],
           progress: first['kr_o_progress'],
           sub_progress: first['kr_o_sub_progress'],
-          owner_id: first['kr_ou_id'],
-          owner: to_full_name(first['kr_ou_last_name'], first['kr_ou_first_name'])
+          owner_id: first['kr_o_user_id'],
+          owner: to_full_name(first['kr_o_user_last_name'], first['kr_o_user_first_name'])
       }
 
       kr_source = records.uniq {|i| i['kr_kr_id']}
@@ -380,8 +380,8 @@ class ExportObjectKeyResultsCsvRow
           name: record['o_o_name'],
           progress: record['o_o_progress'],
           sub_progress: record['o_o_sub_progress'],
-          owner_id: record['o_ou_id'],
-          owner: to_full_name(record['o_ou_last_name'], record['o_ou_first_name'])
+          owner_id: record['o_o_user_id'],
+          owner: to_full_name(record['o_o_user_last_name'], record['o_o_user_first_name'])
       }
 
       {
