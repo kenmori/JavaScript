@@ -527,7 +527,7 @@ puts '上記の中から組織から出力する組織のIdを選択してくだ
 print '組織のId:'
 org_id = gets.chomp!
 
-org = organizations.find {|x| x.id.to_s == org_id}
+org = organizations.find_by(id: org_id)
 if org.nil?
   puts '入力したIdの組織が存在しないので処理を終了します。'
   return
