@@ -2,7 +2,7 @@
   <main class="center">
     <%= devise_error_messages! %>
     <h1 class="ui image" title="Resily">
-      <%= image_tag 'logo_large.png' %>
+    <img src="<%= asset_pack_path 'images/logo_large.png' %>" />
     </h1>
     <p>アカウントに設定するパスワードを入力してください。</p>
     <%= form_for(resource, html: { class: 'ui form' },  as: resource_name, url: confirmation_path(resource_name)) do |f| %>

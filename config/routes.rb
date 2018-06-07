@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   mount HealthMonitor::Engine, at: '/'
 
   # For devise
-  devise_for :users, skip: :registrations, controllers: {
+  devise_for :users, controllers: {
+    :sessions => 'users/sessions',
     :confirmations => 'users/confirmations',
     :passwords => 'users/passwords'
   }

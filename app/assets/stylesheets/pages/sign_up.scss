@@ -1,17 +1,32 @@
 .sign-up {
-  margin: 100px;
+  margin-top: -28px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 
-  form {
-    width: 100%;
-    justify-content: center;
-    display: flex;
+  .ui.form .fields {
     flex-direction: column;
-    align-items: center;
   }
 
-  .ui.form .text-input-group {
-    flex-direction: column;
+  .ui.form .field {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 6px 0;
+  }
 
+  .submit {
+    margin-top: 12px;
+  }
+
+  .link {
+    margin-top: 20px;
+  }
+
+  .ui.form .fields .field {
     .ui.input {
       input {
         width: 300px;
@@ -20,34 +35,31 @@
 
     .ui.input.last-name {
       input {
-        width: 148px;
-        margin-right: 4px;
+        width: 146px;
       }
     }
 
     .ui.input.first-name {
       input {
-        width: 148px;
+        width: 146px;
+        margin-left: 8px;
       }
     }
 
     .react-datepicker__input-container {
       input {
-        width: 300px;
-        height: 30px;
+        width: 142px;
       }
     }
 
     .ui.selection.dropdown {
       width: 300px;
-    }
-
-    .field {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin: 5px 0;
+      margin-top: 6px;
     }
   }
-}
 
+  .between {
+    width: 16px;
+    text-align: center;
+  }
+}

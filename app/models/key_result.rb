@@ -48,7 +48,7 @@ class KeyResult < ApplicationRecord
   end
   
   def update_progress_rate
-    if target_value.present? && actual_value.present? && target_value > 0
+    if target_value.present? && actual_value.present? && target_value > 0 && actual_value >= 0
       self.progress_rate = [(actual_value * 100 / target_value).round, 100].min
     end
   end

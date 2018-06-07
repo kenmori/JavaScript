@@ -1,7 +1,13 @@
 .sign-up-completed {
-  margin: 100px;
-  .main-content {
-    text-align: center;
+  margin-top: -28px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  .link {
+    margin-top: 12px;
   }
 }
-

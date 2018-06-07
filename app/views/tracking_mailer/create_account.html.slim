@@ -1,0 +1,24 @@
+h2 Resily
+
+p
+  a[href="#{@url}"] #{@url}
+  |  に新しいアカウントが作成されました。
+
+dl style="width: 600px; padding: 8px; border: 1px solid black; border-radius: 8px;"
+  dt 組織名
+  dd #{@organization.name}
+  dt 管理者
+  dd #{@user.last_name} #{@user.first_name}
+  dt メールアドレス
+  dd #{@user.email}
+  dt OKR 期間
+  dd #{@okr_period.month_start} - #{@okr_period.month_end}
+  dt OKR 周期
+  dd #{@organization.okr_span}ヶ月間
+
+br
+
+address
+  | Resily株式会社
+  br
+  a[href="https://resily.com"] https://resily.com
