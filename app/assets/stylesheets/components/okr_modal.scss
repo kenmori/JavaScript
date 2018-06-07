@@ -161,6 +161,30 @@
     }
   }
 
+  .status-radio {
+    &.ui.toggle.checkbox {
+      &.green {
+        input:checked ~ label:before {
+          background-color: #21ba45 !important;
+        }
+      }
+      &.yellow {
+        margin-left: 40px;
+
+        input:checked ~ label:before {
+          background-color: #fbbd08 !important;
+        }
+      }
+      &.red {
+        margin-left: 40px;
+
+        input:checked ~ label:before {
+          background-color: #db2828 !important;
+        }
+      }
+    }
+  }
+
   .key-result-members {
     .key-result-members__item {
       width: 200px;

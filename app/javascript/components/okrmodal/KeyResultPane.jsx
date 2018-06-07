@@ -196,6 +196,8 @@ class KeyResultPane extends PureComponent {
           <label>見通し</label>
           <div className="flex-field__item">
             <Radio
+              className="status-radio green"
+              toggle
               label="順調"
               name="status"
               value="green"
@@ -203,6 +205,8 @@ class KeyResultPane extends PureComponent {
               onChange={this.handleStatusChange}
             />
             <Radio
+              className="status-radio yellow"
+              toggle
               label="注意"
               name="status"
               value="yellow"
@@ -210,6 +214,8 @@ class KeyResultPane extends PureComponent {
               onChange={this.handleStatusChange}
             />
             <Radio
+              className="status-radio red"
+              toggle
               label="危険"
               name="status"
               value="red"
