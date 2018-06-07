@@ -6,6 +6,8 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective, touch: true
 
+  enum status: {green: 0, yellow: 1, red: 2}
+
   validate :target_value_required_if_value_unit_exists, 
     :expired_date_can_be_converted_to_date
   validates :name, :objective_id, :okr_period_id, presence: true
