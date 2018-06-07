@@ -330,6 +330,25 @@ this.はFunctionType。この場合ExtractProptype
 引数としてObjを渡している型。PropType。
 PropTypeはnumber型が返ってくる型になる
 
+````
+(5: PropType)//ok
+(true: PropType);  // Error: PropType is a number
+(5: Nope);  // Error {nope: number}と{prop: number}のオブジェクト型が一致していないのでError
+```
+下記は引数にFuntionを取る型
+
+```js
+type ExtractReturnType = <R>(() => R) => R;
+type Fn = () => number;
+type ReturnType = $Call<ExtractReturnType, Fn> // Call `ExtractReturnType` with `Fn` as an argument
+
+(5: ReturnType);  // OK
+```
+
+
+
+
+
 
 
 
@@ -392,10 +411,26 @@ $Diff<A, B>
 
 Aはprops
 Bはdefaultprops
+```
 
-このdefaultPropsにあるpropertyはPropsには必須。
-渡ってこなくてはいけない。
-propsに増える分は許容される
+```js
+type A  = {//Props
+ name: string,//defaultで渡ってくる
+ content: number//ここは持っていないといけない。必須
+}
+type B = {//DefaultProps
+  name: string,//default
+}
+function Func<T:$Diff<A, B>>(u:T){
+}
+Func({content:90})
+```
+
+このdefaultPropsのpropertyはPropsには渡ってくる前提
+Propsに増える分の差が必須property
+
+
+
 
 またPropを送らない表現ができる
 $Diff<{}, {nope: number}> //Error
@@ -489,9 +524,59 @@ const example: Foo = {foo: 'foo', bar: 'bar'}
 
 
 
+
+### React
+
+WIP
+
+・defualtPropsに定義したpropertyは{hoge?: string}としなくていい
+・defaultPropsに持っているpropertyをnullにする必要はない。flowはfooをdefaultPropsとして持っている場合optionalだと知っている
+
+```js`
+type Props = {
+  foo: number
+}
+Component = defaultProps({
+  foo: 42
+})(Component)
+<Component /> //ここに記述する必要はない
+```
+
+```js`
 ```
 
 
+```js`
+```
+
+```js`
+```
+
+
+```js`
+```
+
+```js`
+```
+
+```js`
+```
+
+```js`
+```
+
+
+```js`
+```
+
+```js`
+```
+
+```js`
+```
+
+```js`
+```
 
 
 参照
