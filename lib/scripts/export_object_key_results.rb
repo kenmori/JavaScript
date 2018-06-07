@@ -33,6 +33,7 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.kr_name as kr_kr_name
         , own_key_results.kr_progress as kr_kr_progress
         , own_key_results.kr_sub_progress as kr_kr_sub_progress
+        , own_key_results.kr_created_at as kr_kr_created_at
         , own_key_results.target_value as kr_target_value
         , own_key_results.actual_value as kr_actual_value
         , own_key_results.value_unit as kr_value_unit
@@ -41,6 +42,7 @@ class ExportObjectKeyResultsDataAccessor
         , own_key_results.o_name as kr_o_name
         , own_key_results.o_progress as kr_o_progress
         , own_key_results.o_sub_progress as kr_o_sub_progress
+        , own_key_results.o_created_at as kr_o_created_at
         , own_key_results.o_kr_order as kr_o_kr_order
         , own_key_results.o_user_id as kr_o_user_id
         , own_key_results.o_user_last_name as kr_o_user_last_name
@@ -58,6 +60,7 @@ class ExportObjectKeyResultsDataAccessor
         , own_objectives.o_name as o_o_name
         , own_objectives.o_progress as o_o_progress
         , own_objectives.o_sub_progress as o_o_sub_progress
+        , own_objectives.o_created_at as o_o_created_at
         , own_objectives.o_user_id as o_o_user_id
         , own_objectives.o_user_last_name as o_o_user_last_name
         , own_objectives.o_user_first_name as o_o_user_first_name
@@ -70,12 +73,6 @@ class ExportObjectKeyResultsDataAccessor
         , own_objectives.p_kr_user_id as o_p_kr_user_id
         , own_objectives.p_kr_user_last_name as o_p_kr_user_last_name
         , own_objectives.p_kr_user_first_name as o_p_kr_user_first_name
-        , case when own_key_results.o_id is null then
-            case when own_key_results.kr_id is null then own_objectives.o_id
-            else own_key_results.kr_id
-            end
-          else own_key_results.o_id
-          end as record_order_key
       from organizations as org
         inner join organization_members as m
           on org.id = m.organization_id
@@ -96,12 +93,14 @@ class ExportObjectKeyResultsDataAccessor
              , kr.actual_value
              , kr.value_unit
              , kr.expired_date
+             , kr.created_at as kr_created_at
              , o.id as o_id
              , o.key_result_order
              , o.name as o_name
              , o.progress_rate as o_progress
              , o.sub_progress_rate as o_sub_progress
              , o.key_result_order as o_kr_order
+             , o.created_at as o_created_at
              , ou.id as o_user_id
              , ou.last_name as o_user_last_name
              , ou.first_name as o_user_first_name
@@ -145,6 +144,7 @@ class ExportObjectKeyResultsDataAccessor
              , oo.name as o_name
              , oo.progress_rate  as o_progress
              , oo.sub_progress_rate as o_sub_progress
+             , oo.created_at as o_created_at
              , oou.id as o_user_id
              , oou.last_name as o_user_last_name
              , oou.first_name as o_user_first_name
@@ -235,16 +235,24 @@ class ExportObjectKeyResultsCsvRow
 
     ok_trees = okr_trees_exists_key_results.concat(to_okr_trees_objective_only(source, treed_objective_ids))
 
-    unless source.first['o_order'].nil?
+    if source.first['o_order'].nil?
+      ok_trees.sort_by! {|i| i[:objective][:created_at]}
+    else
       o_order = source.first['o_order'].split(',').map {|i| i.delete('[]"\\\\')}
-      sorted = []
+      order_sorted = []
 
       o_order.each do |id|
         o = ok_trees.find {|i| i[:objective][:id].to_s == id}
-        sorted.push(o) unless o.nil?
+        order_sorted.push(o) unless o.nil?
       end
 
-      ok_trees = sorted
+      # order の無いものを created_at で sort する
+      o_ids = ok_trees.map {|i| i[:objective][:id].to_s}
+      no_order_ids = o_ids - o_order
+      order_by_created_at_ok_trees = ok_trees.select {|i| no_order_ids.include?(i[:objective][:id].to_s)}
+                                         .sort_by {|i| i[:objective][:created_at]}
+
+      ok_trees = order_sorted.concat(order_by_created_at_ok_trees)
     end
 
     ok_trees
@@ -265,6 +273,7 @@ class ExportObjectKeyResultsCsvRow
               name: record['kr_o_name'],
               progress: record['kr_o_progress'],
               sub_progress: record['kr_o_sub_progress'],
+              created_at: record['kr_o_created_at'],
               owner_id: record['kr_o_user_id'],
               owner: to_full_name(record['kr_o_user_last_name'], record['kr_o_user_first_name'])
           },
@@ -313,13 +322,16 @@ class ExportObjectKeyResultsCsvRow
           name: first['kr_o_name'],
           progress: first['kr_o_progress'],
           sub_progress: first['kr_o_sub_progress'],
+          created_at: first['kr_o_created_at'],
           owner_id: first['kr_o_user_id'],
           owner: to_full_name(first['kr_o_user_last_name'], first['kr_o_user_first_name'])
       }
 
       kr_source = records.uniq {|i| i['kr_kr_id']}
 
-      unless first['kr_o_kr_order'].nil?
+      if first['kr_o_kr_order'].nil?
+        kr_source.sort_by! {|i| i['kr_kr_created_at']}
+      else
         kr_order = first['kr_o_kr_order'].split(',').map {|i| i.delete('[]"\\\\')}
         sorted = []
 
@@ -328,7 +340,12 @@ class ExportObjectKeyResultsCsvRow
           sorted.push(kr) unless kr.nil?
         end
 
-        kr_source = sorted
+        kr_ids = kr_source.select {|i| i['kr_kr_id'].to_s}
+        no_ordered_kr_ids = kr_ids - kr_order
+        order_by_created_at_kr_source = kr_source.select {|i| no_ordered_kr_ids.include?(i['kr_kr_id'].to_s)}
+                                            .sort_by {|i| i['kr_kr_created_at']}
+
+        kr_source = sorted.concat(order_by_created_at_kr_source)
       end
 
       key_results = kr_source.map do |record|
@@ -380,6 +397,7 @@ class ExportObjectKeyResultsCsvRow
           name: record['o_o_name'],
           progress: record['o_o_progress'],
           sub_progress: record['o_o_sub_progress'],
+          created_at: record['o_o_created_at'],
           owner_id: record['o_o_user_id'],
           owner: to_full_name(record['o_o_user_last_name'], record['o_o_user_first_name'])
       }
