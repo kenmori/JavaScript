@@ -15,9 +15,21 @@
   .recharts-wrapper {
     cursor: pointer !important;
 
-    path.recharts-sector:hover {
-      fill: $SELECT_COLOR;
+    path.recharts-sector {
       fill-opacity: .5;
+
+      &.green {
+        fill: $GREEN_COLOR;
+      }
+      &.yellow {
+        fill: $YELLOW_COLOR;
+      }
+      &.red {
+        fill: $RED_COLOR;
+      }
+      &:hover {
+        fill: $SELECT_COLOR;
+      }
     }
 
     .recharts-tooltip-item-value {

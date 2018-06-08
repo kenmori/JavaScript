@@ -16,6 +16,7 @@ class OkrPieChart extends PureComponent {
       return {
         name: keyResult.get('name'),
         value: Math.max(0.1, keyResult.get('progressRate')), // 進捗率0%の KR を表示するため nonzero の値を指定する
+        className: keyResult.get('status'),
       }
     });
 
@@ -41,7 +42,6 @@ class OkrPieChart extends PureComponent {
              minAngle={minAngle}
              innerRadius={50}
              outerRadius={70}
-             fill="lightgray"
              paddingAngle={2}>
           <Label value={label} position="center" className="progress-rate" />
         </Pie>
