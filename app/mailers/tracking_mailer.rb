@@ -7,6 +7,6 @@ class TrackingMailer < ApplicationMailer
     @url = url_for(controller: 'home')
 
     mail to: 'info@resily.com',
-         subject: 'Resily 新しいアカウントが作成されました'
+         subject: '[Resily] 新しいアカウントが作成されました'
   end
 end
