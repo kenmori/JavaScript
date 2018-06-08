@@ -28,7 +28,7 @@ class KeyResult < ApplicationRecord
       Objective.find(objective_id_before_last_save).update_sub_progress_rate
     end
 
-    NotificationMailer.change_kr_status(Current.user, self).deliver_later if saved_change_to_status?
+    NotificationMailer.send_change_kr_status(Current.user, self) if saved_change_to_status?
   end
 
   after_destroy do
