@@ -27,6 +27,8 @@ class KeyResult < ApplicationRecord
       # 紐付け変更時は、変更前の上位進捗率も連動更新する
       Objective.find(objective_id_before_last_save).update_sub_progress_rate
     end
+
+    NotificationMailer.change_kr_status(Current.user, self).deliver_later if saved_change_to_status?
   end
 
   after_destroy do
