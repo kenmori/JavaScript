@@ -8,20 +8,20 @@
 
   .progress-rate {
     font-size: medium;
-    color: indianred;
-    fill: indianred;
+    font-weight: normal;
+    fill: $SECONDARY_COLOR;
   }
 
   .recharts-wrapper {
     cursor: pointer !important;
 
     path.recharts-sector:hover {
-      fill: indianred;
+      fill: $SELECT_COLOR;
       fill-opacity: .5;
     }
 
     .recharts-tooltip-item-value {
-      color: indianred;
+      color: $SECONDARY_COLOR;
     }
 
     .recharts-tooltip-wrapper {

@@ -24,12 +24,11 @@
     cursor: pointer;
 
     &.active {
-      border: 2px $ASSIST_COLOR solid;
-      background: rgba(239, 8, 3, 0.11);
+      border: 2px $SELECT_COLOR solid;
     }
 
     &:hover:not(.drop) {
-      border-color: $ASSIST_COLOR;
+      border-color: $SELECT_COLOR;
 
       .swap-icons {
         display: flex;

@@ -1,15 +1,7 @@
 .okr-modal {
   .content {
     .progress-rate {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: $PRIMARY_COLOR;
-
-      input {
-        font-size: 1.1rem !important;
-        font-weight: bold !important;
-        color: $PRIMARY_COLOR !important;
-      }
+      color: $SECONDARY_COLOR;
     }
 
     .slider {
@@ -165,21 +157,21 @@
     &.ui.toggle.checkbox {
       &.green {
         input:checked ~ label:before {
-          background-color: #21ba45 !important;
+          background-color: $GREEN_COLOR !important;
         }
       }
       &.yellow {
         margin-left: 40px;
 
         input:checked ~ label:before {
-          background-color: #fbbd08 !important;
+          background-color: $YELLOW_COLOR !important;
         }
       }
       &.red {
         margin-left: 40px;
 
         input:checked ~ label:before {
-          background-color: #db2828 !important;
+          background-color: $RED_COLOR !important;
         }
       }
     }

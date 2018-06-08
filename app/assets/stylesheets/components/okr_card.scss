@@ -9,8 +9,7 @@
     }
 
     &.active {
-      border: 2px $ASSIST_COLOR solid;
-      background: rgba(239, 8, 3, 0.11);
+      border: 2px $SELECT_COLOR solid;
     }
 
     .content .header {
@@ -32,7 +31,7 @@
       }
 
       .progress {
-        color: indianred;
+        color: $SECONDARY_COLOR;
         text-align: right;
       }
     }
@@ -52,8 +51,9 @@
       }
 
       .progress {
-        color: indianred;
+        color: $SECONDARY_COLOR;
         font-size: smaller;
+        font-weight: normal;
       }
     }
   }
@@ -64,7 +64,7 @@
   }
   .keyResults__item {
     &.active {
-      background: rgba(236, 95, 0, 0.3);
+      background: $SELECT_BG_COLOR;
       font-weight: bold;
     }
 
