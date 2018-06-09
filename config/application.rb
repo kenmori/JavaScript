@@ -71,5 +71,7 @@ module Resily
       end
     end
 
+    # Active job
+    config.active_job.queue_adapter = :sidekiq
   end
 end

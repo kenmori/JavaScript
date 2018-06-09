@@ -35,6 +35,8 @@ gem 'rmagick'
 gem 'fog'
 gem 'foreman', '~> 0.82.0'
 gem 'health-monitor-rails', '~> 7.2'
+gem "sidekiq", "~> 5.1"
+gem "redis-namespace", "~> 1.6"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
