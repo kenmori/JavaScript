@@ -431,7 +431,7 @@ class ExportObjectKeyResultsCsvRow
   def get_objective_value(objective)
     progress = objective[:progress] || objective[:sub_progress] || 0
 
-    objective_format = "#{objective[:name]} [#{progress.to_i}%, #{objective[:owner]}]"
+    objective_format = "#{objective[:name]} [#{progress}%, #{objective[:owner]}]"
 
     return "(#{objective_format})" if objective[:owner_id] != @user_id
 
@@ -446,9 +446,9 @@ class ExportObjectKeyResultsCsvRow
 
   def get_key_result_rate_value(achievement_rate, progress_rate)
     if achievement_rate.nil? || progress_rate == achievement_rate
-      "#{progress_rate.to_i}%"
+      "#{progress_rate}%"
     else
-      "#{progress_rate.to_i}% (達成率#{achievement_rate.to_i}%)"
+      "#{progress_rate}% (達成率#{achievement_rate}%)"
     end
   end
 
@@ -470,9 +470,9 @@ class ExportObjectKeyResultsCsvRow
       rate = get_key_result_rate_value(achievement_rate, progress_rate)
 
       target_actual = ''
-      target_actual += " 目標値#{target_value.to_i}#{value_unit}," if target_value.present?
+      target_actual += " 目標値#{format_float(target_value)}#{value_unit}," if target_value.present?
       unless target_value.nil?
-        value = actual_value.nil? ? '-' : "#{actual_value.to_i}#{value_unit}"
+        value = actual_value.nil? ? '-' : "#{format_float(actual_value)}#{value_unit}"
         target_actual += " 実績値#{value},"
       end
 
@@ -482,6 +482,10 @@ class ExportObjectKeyResultsCsvRow
     end
 
     key_results_value
+  end
+
+  def format_float(value)
+    value == value.to_i ? value.to_i : value
   end
 end
 
