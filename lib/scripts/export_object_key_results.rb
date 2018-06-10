@@ -252,7 +252,7 @@ class ExportObjectKeyResultsCsvRow
       order_by_created_at_ok_trees = ok_trees.select {|i| no_order_ids.include?(i[:objective][:id].to_s)}
                                          .sort_by {|i| i[:objective][:created_at]}
 
-      ok_trees = order_sorted.concat(order_by_created_at_ok_trees)
+      ok_trees = order_by_created_at_ok_trees.concat(order_sorted)
     end
 
     ok_trees
@@ -340,7 +340,7 @@ class ExportObjectKeyResultsCsvRow
           sorted.push(kr) unless kr.nil?
         end
 
-        kr_ids = kr_source.select {|i| i['kr_kr_id'].to_s}
+        kr_ids = kr_source.map {|i| i['kr_kr_id'].to_s}
         no_ordered_kr_ids = kr_ids - kr_order
         order_by_created_at_kr_source = kr_source.select {|i| no_ordered_kr_ids.include?(i['kr_kr_id'].to_s)}
                                             .sort_by {|i| i['kr_kr_created_at']}
