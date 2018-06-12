@@ -16,6 +16,10 @@
       display: flex;
       align-items: center;
     }
+
+    .content.keyResults {
+      padding: .5em .5em;
+    }
   }
 
   .content {
@@ -23,7 +27,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 3px 1px;
+      padding: .25em .5em;
 
       .name {
         flex-grow: 1;
@@ -58,6 +62,8 @@
     }
   }
   .keyResults__item {
+    border-radius: 4px;
+
     &.active {
       background: $SELECT_BG_COLOR;
       font-weight: bold;
