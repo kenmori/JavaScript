@@ -8,7 +8,7 @@ import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import KeyResult from './KeyResult';
 
-class Sidebar extends PureComponent {
+class OkrSidebar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +73,7 @@ class Sidebar extends PureComponent {
     const objective = this.props.objective;
     const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
     return (
-      <div className='sidebar'>
+      <div className='okr-sidebar'>
         <div className="sidebar__items">
           <div className="sidebar__title">Objective</div>
           <Segment className={objectiveCls} onClick={this.handleObjectiveClick}>
@@ -94,7 +94,7 @@ class Sidebar extends PureComponent {
   }
 }
 
-Sidebar.propTypes = {
+OkrSidebar.propTypes = {
   // container
   // component
   objective: ImmutablePropTypes.map.isRequired,
@@ -105,8 +105,8 @@ Sidebar.propTypes = {
   openKeyResultModal: PropTypes.func.isRequired,
 };
 
-Sidebar.defaultProps = {
+OkrSidebar.defaultProps = {
   objective: Map(),
 };
 
-export default Backend(Sidebar);
+export default Backend(OkrSidebar);
