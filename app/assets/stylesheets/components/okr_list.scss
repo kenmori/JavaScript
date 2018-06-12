@@ -12,14 +12,15 @@
     }
   }
 
-  .name {
+  .okr-list__name {
     flex-grow: 1;
     margin: 0 .5rem;
   }
 
-  .progress-rate {
+  .okr-list__progress {
     display: inline-block;
     min-width: 50px;
     text-align: right;
+    color: $SECONDARY_COLOR;
   }
 }

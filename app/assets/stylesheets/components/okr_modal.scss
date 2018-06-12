@@ -1,9 +1,5 @@
 .okr-modal {
   .content {
-    .progress-rate {
-      color: $SECONDARY_COLOR;
-    }
-
     .slider {
       .ui.input input[type="range"] {
         margin: 0 8px;
@@ -122,6 +118,7 @@
       top: 50%;
       right: 7px;
       margin-top: -10px;
+      color: $SECONDARY_COLOR;
     }
     .sidebar__add-keyresult {
       width: 100%;

@@ -30,7 +30,7 @@ class OkrCard extends PureComponent {
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
-                <div className='name'>
+                <div className='okr-card__name'>
                   <a onClick={this.handleKeyResultClick(keyResultId)}>{keyResult.get('name')}</a>
                 </div>
                 <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} />
@@ -67,10 +67,10 @@ class OkrCard extends PureComponent {
         <Card.Content>
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
-            <div className="name">
+            <div className="okr-card__name">
               <a onClick={this.handleObjectiveClick}>{objective.get('name')}</a>
             </div>
-            <div className="progress">{objective.get('progressRate')}%</div>
+            <div className="okr-card__progress">{objective.get('progressRate')}%</div>
           </Card.Header>
         </Card.Content>
         {this.generateKeyResultList(objective)}

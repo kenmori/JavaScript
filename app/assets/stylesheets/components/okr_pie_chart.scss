@@ -6,9 +6,10 @@
     height: 145px;
   }
 
-  .progress-rate {
+  .okr-pie-chart__progress {
     font-size: medium;
     font-weight: normal;
+    color: $SECONDARY_COLOR;
     fill: $SECONDARY_COLOR;
   }
 

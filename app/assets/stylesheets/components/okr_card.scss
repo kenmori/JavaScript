@@ -29,7 +29,7 @@
       align-items: center;
       padding: .25em .5em;
 
-      .name {
+      .okr-card__name {
         flex-grow: 1;
         margin: 0 .5rem;
       }
@@ -42,14 +42,14 @@
         flex-shrink: 0;
       }
 
-      .name {
+      .okr-card__name {
         flex-grow: 1;
         margin: 0 .5rem;
         font-size: smaller;
         text-align: center;
       }
 
-      .progress {
+      .okr-card__progress {
         color: $SECONDARY_COLOR;
         font-size: smaller;
         font-weight: normal;

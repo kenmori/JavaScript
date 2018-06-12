@@ -165,7 +165,7 @@ class KeyResultPane extends PureComponent {
 
         <Form.Field className='flex-field progress-rate-field'>
           <label>進捗</label>
-          <div className="flex-field__item progress-rate">
+          <div className="flex-field__item">
             <NumberInput label='%'
                          value={this.state.progressRate}
                          onChange={this.handleProgressRateChange}

@@ -17,10 +17,10 @@ class OkrList extends PureComponent {
         {this.props.okrs.map(okr =>
           <List.Item key={okr.get('id')} className='okr-item'>
             <OwnerAvatar owner={okr.get('owner')} members={okr.get('members')} />
-            <List.Content className='name'>
+            <List.Content className='okr-list__name'>
               <a onClick={this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
             </List.Content>
-            <List.Content className='progress-rate'>{okr.get('progressRate')}%</List.Content>
+            <List.Content className='okr-list__progress'>{okr.get('progressRate')}%</List.Content>
           </List.Item>
         )}
       </List>

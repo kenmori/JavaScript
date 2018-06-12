@@ -43,7 +43,7 @@ class OkrPieChart extends PureComponent {
              innerRadius={50}
              outerRadius={70}
              paddingAngle={2}>
-          <Label value={label} position="center" className="progress-rate" />
+          <Label value={label} position="center" className="okr-pie-chart__progress" />
         </Pie>
         <Tooltip formatter={this.formatter} />
       </PieChart>
@@ -55,7 +55,7 @@ class OkrPieChart extends PureComponent {
       <div className='okr-pie-chart'>
         {(() => {
           if (this.props.objective.get('keyResults').isEmpty()) {
-            return <div className='empty progress-rate'>-%</div>;
+            return <div className='empty okr-pie-chart__progress'>-%</div>;
           } else {
             return this.getPieChart(this.props.objective);
           }

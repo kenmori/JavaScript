@@ -79,7 +79,7 @@ class Sidebar extends PureComponent {
           <Segment className={objectiveCls} onClick={this.handleObjectiveClick}>
             <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
             <span className="sidebar__name">{objective.get('name')}</span>
-            <span className="progress-rate sidebar__progress">{objective.get('progressRate')}%</span>
+            <span className="sidebar__progress">{objective.get('progressRate')}%</span>
           </Segment>
         </div>
 
