@@ -4,7 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { openObjective, openKeyResult } from '../../utils/linker';
 import { Card, Icon, List, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
-import Status from '../util/Status'
+import ProgressRate from '../util/ProgressRate'
 import moment from 'moment';
 
 class OkrCard extends PureComponent {
@@ -33,7 +33,7 @@ class OkrCard extends PureComponent {
                 <div className='name'>
                   <a onClick={this.handleKeyResultClick(keyResultId)}>{keyResult.get('name')}</a>
                 </div>
-                <div className="progress">{keyResult.get('progressRate')}%<Status value={keyResult.get('status')} /></div>
+                <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} />
                 {
                   showToggle &&
                   <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Icon, Popup } from 'semantic-ui-react'
+import { Progress, Popup } from 'semantic-ui-react'
 
-class Status extends PureComponent {
+class ProgressRate extends PureComponent {
 
   statusToText = status => {
     switch (status) {
@@ -18,32 +18,28 @@ class Status extends PureComponent {
   }
 
   render() {
-    const { value, size, showGreen } = this.props
-    if (value === 'green' && !showGreen) {
-      return null
-    }
-    const statusText = this.statusToText(value)
+    const { value, status, size } = this.props
+    const statusText = this.statusToText(status)
     return (
       <Popup
         hoverable
         size='tiny'
         content={`見通しは${statusText}です`}
-        trigger={<Icon className="status" circular inverted size={size} color={value} />}
+        trigger={<Progress progress className='progress-rate' percent={value} size={size} color={status} />}
       />
     )
   }
 }
 
-Status.propTypes = {
+ProgressRate.propTypes = {
   // container
   // component
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
   size: PropTypes.string,
-  showGreen: PropTypes.bool,
 }
-Status.defaultProps = {
-  size: 'small',
-  showGreen: false,
+ProgressRate.defaultProps = {
+  size: null,
 }
 
-export default Status
+export default ProgressRate
