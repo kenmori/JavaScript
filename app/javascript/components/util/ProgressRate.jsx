@@ -20,12 +20,13 @@ class ProgressRate extends PureComponent {
   render() {
     const { value, status, size } = this.props
     const statusText = this.statusToText(status)
+    const className = `progress-rate ${value < 50 ? 'lt50' : ''}`
     return (
       <Popup
         hoverable
         size='tiny'
         content={`見通しは${statusText}です`}
-        trigger={<Progress progress className='progress-rate' percent={value} size={size} color={status} />}
+        trigger={<Progress progress className={className} percent={value} size={size} color={status} />}
       />
     )
   }

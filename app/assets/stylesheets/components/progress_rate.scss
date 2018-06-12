@@ -4,4 +4,12 @@
   &.ui.progress {
     margin: 0;
   }
+
+  &.lt50 {
+    &.ui.progress .bar > .progress {
+      right: auto;
+      left: 110%;
+      color: #808080;
+    }
+  }
 }
