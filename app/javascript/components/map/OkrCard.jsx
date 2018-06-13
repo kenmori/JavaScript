@@ -70,7 +70,7 @@ class OkrCard extends PureComponent {
             <div className="okr-card__name">
               <a onClick={this.handleObjectiveClick}>{objective.get('name')}</a>
             </div>
-            <div className="okr-card__progress">{objective.get('progressRate')}%</div>
+            <ProgressRate value={objective.get('progressRate')} />
           </Card.Header>
         </Card.Content>
         {this.generateKeyResultList(objective)}

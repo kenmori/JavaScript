@@ -17,16 +17,22 @@ class ProgressRate extends PureComponent {
     }
   }
 
-  render() {
+  getProgressView = () => {
     const { value, status, size } = this.props
-    const statusText = this.statusToText(status)
     const className = `progress-rate ${value < 50 ? 'lt50' : ''}`
+    return <Progress progress className={className} percent={value} size={size} color={status} />
+  }
+
+  render() {
+    const { status } = this.props
+    const view = this.getProgressView()
+    if (!status) return view
     return (
       <Popup
         hoverable
         size='tiny'
-        content={`見通しは${statusText}です`}
-        trigger={<Progress progress className={className} percent={value} size={size} color={status} />}
+        content={`見通しは${this.statusToText(status)}です`}
+        trigger={view}
       />
     )
   }
@@ -36,10 +42,11 @@ ProgressRate.propTypes = {
   // container
   // component
   value: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
+  status: PropTypes.string,
   size: PropTypes.string,
 }
 ProgressRate.defaultProps = {
+  status: null,
   size: null,
 }
 

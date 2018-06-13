@@ -6,6 +6,7 @@ import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
 import { Segment, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import ProgressRate from '../util/ProgressRate'
 import KeyResult from './KeyResult';
 
 class OkrSidebar extends PureComponent {
@@ -79,7 +80,7 @@ class OkrSidebar extends PureComponent {
           <Segment className={objectiveCls} onClick={this.handleObjectiveClick}>
             <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
             <span className="sidebar__name">{objective.get('name')}</span>
-            <span className="sidebar__progress">{objective.get('progressRate')}%</span>
+            <span className="sidebar__progress"><ProgressRate value={objective.get('progressRate')} /></span>
           </Segment>
         </div>
 
