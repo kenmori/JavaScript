@@ -35,6 +35,27 @@ class NotificationMailer < ApplicationMailer
          subject: '[Resily] Key Result の見通しが変更されました'
   end
 
+  def self.send_add_kr_comment(current_user, key_result, comment)
+    add_kr_comment(current_user, key_result.objective.owner, key_result, comment).deliver_later
+    if key_result.objective.owner.id != key_result.owner.id
+      add_kr_comment(current_user, key_result.owner, key_result, comment).deliver_later
+    end
+  end
+
+  def add_kr_comment(current_user, user, key_result, comment)
+    return unless current_user
+    return if current_user.id == user.id
+
+    @author = "#{current_user.last_name} #{current_user.first_name}"
+    @receiver = "#{user.last_name} #{user.first_name}"
+    @key_result = key_result
+    @comment = comment
+    @url = url_for(controller: 'home')
+
+    mail to: user.email,
+         subject: '[Resily] Key Result に新しいコメントが投稿されました'
+  end
+
   private
 
   def status_to_text(status)
