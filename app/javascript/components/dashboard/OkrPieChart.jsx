@@ -51,15 +51,13 @@ class OkrPieChart extends PureComponent {
   }
 
   render() {
+    const { objective } = this.props
     return (
       <div className='okr-pie-chart'>
-        {(() => {
-          if (this.props.objective.get('keyResults').isEmpty()) {
-            return <div className='empty okr-pie-chart__progress'>{this.props.objective.get('progressRate')}%</div>;
-          } else {
-            return this.getPieChart(this.props.objective);
-          }
-        })()}
+        {objective.get('keyResults').isEmpty()
+          ? <div className='empty okr-pie-chart__progress'>{objective.get('progressRate')}%</div>
+          : this.getPieChart(objective)
+        }
       </div>
     );
   }
