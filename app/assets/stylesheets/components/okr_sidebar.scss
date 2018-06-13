@@ -2,10 +2,6 @@
   width: 30%;
   padding-right: 26px; // for swap-icons
 
-  .sidebar__items {
-    margin-bottom: 20px;
-  }
-
   .sidebar__item-wrapper {
     position: relative;
 
@@ -49,40 +45,18 @@
   }
 
   .sidebar__item {
-    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 1em 4px;
     cursor: pointer;
-    padding-right: 45px;
 
     &.is-current {
       background: rgba(239, 8, 3, 0.11);
     }
   }
 
-  .sidebar__title {
-    font-weight: bold;
-  }
-
-  .sidebar__avatar {
-    position: absolute;
-    top: 50%;
-    left: 4px;
-    margin-top: -18px;
-  }
-
   .sidebar__name {
-    display: block;
-    padding-left: 36px;
-  }
-
-  .sidebar__progress {
-    position: absolute;
-    top: 50%;
-    right: 7px;
-    margin-top: -10px;
-  }
-
-  .sidebar__add-keyresult {
-    width: 100%;
-    margin-top: 20px;
+    flex-grow: 1;
+    margin: 0 4px;
   }
 }

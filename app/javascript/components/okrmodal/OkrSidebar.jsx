@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Backend from '../../utils/backend';
 import { openObjective } from '../../utils/linker';
-import { Segment, Button } from 'semantic-ui-react';
+import { Segment, Button, Header, Divider } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
 import KeyResult from './KeyResult';
@@ -36,27 +36,6 @@ class OkrSidebar extends PureComponent {
     }
   }
 
-  keyResultListHTML() {
-    return (
-      <Segment.Group>
-        {this.props.objective.get('keyResults')
-          .sortBy(keyResult => this.state.keyResultOrder.indexOf(keyResult.get('id')))
-          .map((keyResult, index) => {
-            const keyResultId = keyResult.get('id');
-            return <KeyResult
-              key={keyResultId}
-              index={index}
-              isSelected={keyResultId === this.props.keyResultId}
-              keyResult={keyResult}
-              moveKeyResult={this.moveKeyResult}
-              updateKeyResultOrder={this.updateKeyResultOrder}
-              canMoveKeyResult={this.props.canMoveKeyResult}
-            />
-          })}
-      </Segment.Group>
-    )
-  }
-
   getNewKeyResultOrder = (fromIndex, toIndex) => {
     if (fromIndex >= 0 && toIndex >= 0) {
       const fromId = this.state.keyResultOrder.get(fromIndex);
@@ -71,25 +50,38 @@ class OkrSidebar extends PureComponent {
   handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
 
   render() {
-    const objective = this.props.objective;
-    const objectiveCls = this.props.keyResultId ? 'sidebar__item' : 'sidebar__item is-current';
+    const { objective, keyResultId, canMoveKeyResult } = this.props
+    const { keyResultOrder } = this.state
+    const isSelected = !keyResultId
     return (
       <div className='okr-sidebar'>
-        <div className="sidebar__items">
-          <div className="sidebar__title">Objective</div>
-          <Segment className={objectiveCls} onClick={this.handleObjectiveClick}>
-            <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
-            <span className="sidebar__name">{objective.get('name')}</span>
-            <span className="sidebar__progress"><ProgressRate value={objective.get('progressRate')} type='label' /></span>
-          </Segment>
-        </div>
+        <Header as="h4">Objective</Header>
+        <Segment className={`sidebar__item ${isSelected ? 'is-current' : ''}`} onClick={this.handleObjectiveClick}>
+          <OwnerAvatar owner={objective.get('owner')} />
+          <div className="sidebar__name">{objective.get('name')}</div>
+          <ProgressRate value={objective.get('progressRate')} type='label' />
+        </Segment>
 
-        <div className="sidebar__items">
-          <div className="sidebar__title">Key Result 一覧</div>
-          {this.keyResultListHTML()}
-          <Button className="sidebar__add-keyresult" content="Key Result を追加する" positive
-                  onClick={this.handleAddKeyResultClick} />
-        </div>
+        <Header as="h4">Key Result 一覧</Header>
+        <Segment.Group>
+          {objective.get('keyResults')
+            .sortBy(keyResult => keyResultOrder.indexOf(keyResult.get('id')))
+            .map((keyResult, index) => (
+              <KeyResult
+                key={keyResult.get('id')}
+                index={index}
+                isSelected={keyResult.get('id') === keyResultId}
+                keyResult={keyResult}
+                moveKeyResult={this.moveKeyResult}
+                updateKeyResultOrder={this.updateKeyResultOrder}
+                canMoveKeyResult={canMoveKeyResult}
+              />
+            ))}
+        </Segment.Group>
+
+        <Divider hidden />
+
+        <Button fluid positive content="Key Result を追加する" onClick={this.handleAddKeyResultClick} />
       </div>
     )
   }
