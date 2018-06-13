@@ -3,16 +3,21 @@
 
   &.ui.progress {
     margin: 0;
-  }
 
-  &.lt50 {
-    &.ui.progress .bar > .progress {
-      right: auto;
-      left: 110%;
-      color: #808080;
+    .bar > .progress {
+      right: 0;
+      padding: 0 4px;
+    }
+
+    &.lt50 {
+      .bar > .progress {
+        left: 100%;
+        color: #808080;
+      }
     }
   }
 }
 
 .progress-rate__label {
 }
+ 
