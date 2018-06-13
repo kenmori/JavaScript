@@ -74,7 +74,7 @@
           background-color: transparent !important;
         }
         &:focus:not(:hover) {
-          box-shadow: 0 0 0 1px rgba(34, 36, 38, .15) inset;
+          box-shadow: 0 0 0 1px $BORDER_COLOR inset;
         }
         &.active {
           background-color: rgba(0, 0, 0, .05) !important;
