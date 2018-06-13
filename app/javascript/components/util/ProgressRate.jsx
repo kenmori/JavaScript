@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Progress, Popup } from 'semantic-ui-react'
+import { Progress, Label, Popup } from 'semantic-ui-react'
 
 class ProgressRate extends PureComponent {
 
@@ -17,15 +17,20 @@ class ProgressRate extends PureComponent {
     }
   }
 
-  getProgressView = () => {
-    const { value, status, size } = this.props
-    const className = `progress-rate ${value < 50 ? 'lt50' : ''}`
-    return <Progress progress className={className} percent={value} size={size} color={status} />
+  getProgressBar = () => {
+    const { value, status } = this.props
+    const className = `progress-rate__bar ${value < 50 ? 'lt50' : ''}`
+    return <Progress progress className={className} percent={value} color={status} />
+  }
+
+  getProgressLabel = () => {
+    const { value, status } = this.props
+    return <Label className='progress-rate__label' content={`${value}%`} color={status} />
   }
 
   render() {
-    const { status } = this.props
-    const view = this.getProgressView()
+    const { status, type } = this.props
+    const view = type === 'bar' ? this.getProgressBar() : this.getProgressLabel()
     if (!status) return view
     return (
       <Popup
@@ -43,11 +48,11 @@ ProgressRate.propTypes = {
   // component
   value: PropTypes.number.isRequired,
   status: PropTypes.string,
-  size: PropTypes.string,
+  type: PropTypes.string, // bar or label
 }
 ProgressRate.defaultProps = {
   status: null,
-  size: null,
+  type: 'bar',
 }
 
 export default ProgressRate

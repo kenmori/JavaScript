@@ -81,7 +81,7 @@ class KeyResult extends PureComponent {
             <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
           </span>
           <span className="sidebar__name">{keyResult.get('name')}</span>
-          <span className="sidebar__progress"><ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} /></span>
+          <span className="sidebar__progress"><ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} type='label' /></span>
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
               <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'

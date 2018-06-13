@@ -1,4 +1,4 @@
-.progress-rate {
+.progress-rate__bar {
   min-width: 5.5rem;
 
   &.ui.progress {
@@ -12,4 +12,7 @@
       color: #808080;
     }
   }
+}
+
+.progress-rate__label {
 }

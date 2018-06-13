@@ -80,7 +80,7 @@ class OkrSidebar extends PureComponent {
           <Segment className={objectiveCls} onClick={this.handleObjectiveClick}>
             <span className="sidebar__avatar"><OwnerAvatar owner={objective.get('owner')} /></span>
             <span className="sidebar__name">{objective.get('name')}</span>
-            <span className="sidebar__progress"><ProgressRate value={objective.get('progressRate')} /></span>
+            <span className="sidebar__progress"><ProgressRate value={objective.get('progressRate')} type='label' /></span>
           </Segment>
         </div>
 
