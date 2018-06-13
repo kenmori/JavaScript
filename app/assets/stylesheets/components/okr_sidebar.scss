@@ -55,8 +55,12 @@
     padding: 8px 4px;
     cursor: pointer;
 
+    &:hover {
+      background: $SELECT_HOVER_COLOR;
+    }
+
     &.is-current {
-      background: rgba(239, 8, 3, 0.11);
+      background: $SELECT_BG_COLOR;
     }
   }
 
@@ -70,6 +74,7 @@
     > .segment {
       border: none;
       border-top: 1px solid $BORDER_COLOR;
+      box-shadow: none;
       border-radius: 0;
     }
     &:first-child > .segment {
