@@ -34,20 +34,25 @@
     height: 100%;
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 
     .swap-up,
     .swap-down {
-      margin: 2px 0;
       padding-left: 2px;
       width: 26px;
+    }
+    .swap-up {
+      margin-top: 4px;
+    }
+    .swap-down {
+      margin-bottom: 4px;
     }
   }
 
   .sidebar__item {
     display: flex;
     align-items: center;
-    padding: 1em 4px;
+    padding: 8px 4px;
     cursor: pointer;
 
     &.is-current {
