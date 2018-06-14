@@ -1,49 +1,72 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image } from 'semantic-ui-react';
+import { Button, Form, Image, Segment, Message } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
 class PasswordEditPage extends PureComponent {
-  editPassword = () => {
-    const passwordVal = this.passwordInput.inputRef.value;
-    const passwordValConfirm = this.passwordInputConfirm.inputRef.value;
-    if (passwordVal === passwordValConfirm) {
-      this.props.editPassword(
-        passwordVal,
-        this.props.location.search.split('reset_password_token=')[1].split('=')[0]
-      );
-    } else {
-      //TODO: エラーメッセージを出す
-      alert('パスワードが一致しません。');
+
+  constructor() {
+    super()
+    this.state = {
+      password: null,
+      passwordConfirmation: null,
     }
   }
+
   componentWillUpdate(props = this.props) {
     if (props.isEdited) {
       props.history.push(props.passwordEditedPath)
     }
   }
+
+  editPassword = () => {
+    const { password, passwordConfirmation } = this.state
+    if (password === passwordConfirmation) {
+      this.props.editPassword(password, this.props.token)
+    } else {
+      //TODO: エラーメッセージを出す
+      alert('パスワードが一致しません。')
+    }
+  }
+
   render() {
     return (
-      <div className='password-edit'>
-        <main className='center'>
-          <Image as='h1' src={logo_image} title='Resily' />
-          <p>アカウントに再設定する新しいパスワードを入力してください。</p>
-          <Form>
-            <Form.Group className='text-input-group'>
-              <Form.Field inline>
-                <div>新しいパスワード</div>
-                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInput = node;}}/>
-              </Form.Field>
-              <Form.Field inline>
-                <div>新しいパスワード（確認用）</div>
-                <Input type='password' size='mini' placeholder='英数字8文字以上' ref={(node) => {this.passwordInputConfirm = node;}}/>
-              </Form.Field>
-            </Form.Group>
-            <div>
-              <Button positive onClick={this.editPassword}>再設定する</Button>
-            </div>
+      <div className="password-edit">
+        <Image as="h1" src={logo_image} title="Resily" />
+
+        <Message content="アカウントに再設定する新しいパスワードを入力してください。" />
+
+        <Segment raised compact padded="very">
+          <Form className="password-edit__form">
+            <Form.Input
+              inline
+              label="新しいパスワード"
+              type="password"
+              name="new-password"
+              autoComplete="new-password"
+              placeholder="英数字8文字以上"
+              icon="lock"
+              iconPosition="left"
+              onChange={(e, { value }) => this.setState({ password: value })}
+            />
+
+            <Form.Input
+              inline
+              label="新しいパスワード (確認用)"
+              type="password"
+              placeholder="英数字8文字以上"
+              icon="lock"
+              iconPosition="left"
+              onChange={(e, { value }) => this.setState({ passwordConfirmation: value })}
+            />
           </Form>
-        </main>
+        </Segment>
+
+        <Button positive className="password-edit__submit" content="再設定する" onClick={this.editPassword} />
+
+        <Message className="password-edit__link">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
       </div>
     );
   }
@@ -51,6 +74,7 @@ class PasswordEditPage extends PureComponent {
 
 PasswordEditPage.propTypes = {
   // container
+  token: PropTypes.string.isRequired,
   passwordEditedPath: PropTypes.string.isRequired,
   isEdited: PropTypes.bool.isRequired,
   editPassword: PropTypes.func.isRequired,
