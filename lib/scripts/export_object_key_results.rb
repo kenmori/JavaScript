@@ -238,7 +238,7 @@ class ExportObjectKeyResultsCsvRow
     if source.first['o_order'].nil?
       ok_trees.sort_by! {|i| i[:objective][:created_at]}
     else
-      o_order = source.first['o_order'].split(',').map {|i| i.delete('[]"\\\\')}
+      o_order = source.first['o_order'].split(',').map {|i| i.delete('[]"\\\\')}.reverse
       order_sorted = []
 
       o_order.each do |id|
@@ -252,7 +252,7 @@ class ExportObjectKeyResultsCsvRow
       order_by_created_at_ok_trees = ok_trees.select {|i| no_order_ids.include?(i[:objective][:id].to_s)}
                                          .sort_by {|i| i[:objective][:created_at]}
 
-      ok_trees = order_by_created_at_ok_trees.concat(order_sorted)
+      ok_trees = order_sorted.concat(order_by_created_at_ok_trees)
     end
 
     ok_trees
