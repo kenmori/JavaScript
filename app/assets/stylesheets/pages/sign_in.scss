@@ -1,34 +1,21 @@
 .sign-in {
-  margin: 100px;
+  margin-top: -28px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 
-  form {
-    width: 100%;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .sign-in__form {
+    text-align: right;
   }
 
-  .ui.form .text-input-group {
-    flex-direction: column;
-
-    .ui.input {
-      input[type="email"], input[type="password"] {
-        width: 250px;
-      }
-    }
-
-    .field {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin: 5px 0;
-    }
+  .sign-in__submit {
+    margin-top: 12px;
   }
 
-  .user-create-link {
-    display: block;
-    margin-bottom: 20px;
+  .sign-in__link {
+    margin-top: 32px;
   }
 }
-
