@@ -4,9 +4,13 @@
   &.ui.progress {
     margin: 0;
 
-    .bar > .progress {
-      right: 0;
-      padding: 0 4px;
+    .bar {
+      min-width: 4px;
+
+      > .progress {
+        right: 0;
+        padding: 0 4px;
+      }
     }
 
     &.lt50 {
@@ -20,4 +24,3 @@
 
 .progress-rate__label {
 }
- 
