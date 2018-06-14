@@ -16,8 +16,6 @@
     cursor: pointer !important;
 
     path.recharts-sector {
-      fill-opacity: .5;
-
       &.green {
         fill: $GREEN_COLOR;
       }
@@ -28,7 +26,7 @@
         fill: $RED_COLOR;
       }
       &:hover {
-        fill: $SELECT_COLOR;
+        fill: $SELECT_ACTIVE_COLOR;
       }
     }
 

@@ -2,14 +2,16 @@ $PRIMARY_COLOR: rgba(191, 47, 47, 0.55);
 $SECONDARY_COLOR: rgba(0, 0, 0, .6);
 
 $SELECT_COLOR: #87BCF1;
+$SELECT_ACTIVE_COLOR: rgba(135, 188, 241, .7);
 $ALERT_COLOR: #CD5B5C;
 $SELECT_BG_COLOR: rgba(135, 188, 241, .2);
 $ALERT_BG_COLOR: #FFEFEA;
 $SELECT_HOVER_COLOR: rgba(135, 188, 241, .1);
 
-$GREEN_COLOR: #21ba45; // SUI green
-$YELLOW_COLOR: #fbbd08; // SUI yellow
-$RED_COLOR: #db2828; // SUI red
+$GREEN_COLOR: rgba(33, 186, 69, .7); // SUI green
+$YELLOW_COLOR: rgba(251, 189, 8, .7); // SUI yellow
+$RED_COLOR: rgba(219, 40, 40, .7); // SUI red
+$GREY_COLOR: rgba(136, 136, 136, .7); // SUI grey
 
 $BORDER_COLOR: rgba(34, 36, 38, .15); // SUI border
-$BORDER_HOVER_COLOR: rgba(34, 36, 38, .35); // SUI border
+$BORDER_HOVER_COLOR: rgba(34, 36, 38, .35);
