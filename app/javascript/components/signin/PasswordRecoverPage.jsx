@@ -1,36 +1,52 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image } from 'semantic-ui-react';
+import { Button, Form, Image, Segment, Message } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
 class PasswordRecoverPage extends PureComponent {
-  send = () => {
-    this.props.send(this.emailInput.inputRef.value);
+
+  constructor(props) {
+    super(props)
+    this.state = { email: props.email }
   }
+
   componentWillUpdate(props = this.props) {
     if (props.isRecovered) {
       props.history.push(props.passwordRecoveredPath)
     }
   }
+
+  send = () => this.props.send(this.state.email)
+
   render() {
     return (
-      <div className='password-recover'>
-        <main className='center'>
-          <Image as='h1' src={logo_image} title='Resily' />
-          <p>パスワードを再設定するためのメールを送信します。</p>
+      <div className="password-recover">
+        <Image as='h1' src={logo_image} title='Resily' />
+
+        <Message content="パスワードを再設定するためのメールを送信します。" />
+
+        <Segment raised compact padded="very">
           <Form>
-            <Form.Group className='text-input-group'>
-              <Form.Field inline>
-                <div>メールアドレス</div>
-                <Input type='email' size='mini' placeholder='name@example.com' ref={(node) => {this.emailInput = node;}}
-                       defaultValue={this.props.location.state && this.props.location.state.email} />
-              </Form.Field>
-            </Form.Group>
-            <div>
-              <Button positive onClick={this.send}>送信する</Button>
-            </div>
+            <Form.Input
+              inline
+              label="メールアドレス"
+              type="email"
+              name="email"
+              autoComplete="email"
+              placeholder="name@example.com"
+              icon="mail"
+              iconPosition="left"
+              onChange={(e, { value }) => this.setState({ email: value })}
+              defaultValue={this.props.email}
+            />
           </Form>
-        </main>
+        </Segment>
+
+        <Button positive className="password-recover__submit" content="送信する" onClick={this.send} />
+
+        <Message className="password-recover__link">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
       </div>
     );
   }
@@ -38,6 +54,7 @@ class PasswordRecoverPage extends PureComponent {
 
 PasswordRecoverPage.propTypes = {
   // container
+  email: PropTypes.string,
   passwordRecoveredPath: PropTypes.string.isRequired,
   isRecovered: PropTypes.bool.isRequired,
   send: PropTypes.func.isRequired,
