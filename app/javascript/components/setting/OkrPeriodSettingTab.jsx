@@ -173,7 +173,7 @@ class OkrPeriodSettingTab extends PureComponent {
                       </Form>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={this.handleRemoveClick(id, okrPeriodName)} title="削除" negative/>
+                      <Button icon="trash" onClick={this.handleRemoveClick(id, okrPeriodName)} content="削除する" negative/>
                     </Table.Cell>
                   </Table.Row>
                 );
