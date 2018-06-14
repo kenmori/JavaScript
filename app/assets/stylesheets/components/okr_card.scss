@@ -62,36 +62,6 @@
       background: $SELECT_BG_COLOR;
       font-weight: bold;
     }
-
-    .toggle {
-      .ui.basic.button {
-        margin: 0 0 0 8px;
-
-        &:focus {
-          background-color: transparent !important;
-          color: rgba(0, 0, 0, .6) !important;
-          box-shadow: 0 0 0 1px $BORDER_COLOR inset;
-        }
-        &:hover {
-          background-color: $SELECT_BG_COLOR !important;
-          color: rgba(0, 0, 0, .8) !important;
-          box-shadow: 0 0 0 1px $BORDER_HOVER_COLOR inset;
-        }
-        &.active {
-          background-color: $SELECT_COLOR !important;
-          color: white !important;
-          box-shadow: none;
-
-          &:hover {
-            box-shadow: 0 0 0 1px $BORDER_HOVER_COLOR inset;
-          }
-        }
-      }
-
-      &.no-child {
-        visibility: hidden;
-      }
-    }
   }
   .keyResults__item--add {
     .list {
