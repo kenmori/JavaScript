@@ -64,20 +64,27 @@
     }
 
     .toggle {
-      margin-left: .5rem;
-
       .ui.basic.button {
-        margin-right: 0;
-        color: rgba(0, 0, 0, .8) !important;
+        margin: 0 0 0 8px;
 
-        &:focus, &:hover {
+        &:focus {
           background-color: transparent !important;
-        }
-        &:focus:not(:hover) {
+          color: rgba(0, 0, 0, .6) !important;
           box-shadow: 0 0 0 1px $BORDER_COLOR inset;
         }
+        &:hover {
+          background-color: $SELECT_BG_COLOR !important;
+          color: rgba(0, 0, 0, .8) !important;
+          box-shadow: 0 0 0 1px $BORDER_HOVER_COLOR inset;
+        }
         &.active {
-          background-color: rgba(0, 0, 0, .05) !important;
+          background-color: $SELECT_COLOR !important;
+          color: white !important;
+          box-shadow: none;
+
+          &:hover {
+            box-shadow: 0 0 0 1px $BORDER_HOVER_COLOR inset;
+          }
         }
       }
 
