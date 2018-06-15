@@ -20,12 +20,12 @@ class ProgressRate extends PureComponent {
   getProgressBar = () => {
     const { value, status } = this.props
     const className = `progress-rate__bar ${value < 50 ? 'lt50' : ''}`
-    return <Progress progress className={className} percent={value} color={status} />
+    return <Progress progress className={className} percent={value} color={status || 'grey'} />
   }
 
   getProgressLabel = () => {
     const { value, status } = this.props
-    return <Label className='progress-rate__label' content={`${value}%`} color={status} />
+    return <Label className='progress-rate__label' content={`${value}%`} color={status || 'grey'} />
   }
 
   render() {

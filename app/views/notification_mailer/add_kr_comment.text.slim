@@ -1,0 +1,37 @@
+ruby:
+  def strip_insignificant_zeros(number)
+    (number == number.to_i) ? number.to_i : number
+  end
+
+| #{@receiver} さん
+
+  #{@author} さんが、Key Result に新しいコメントを投稿しました。
+
+  ------------------------------------------------------------
+  Key Result:
+    #{@key_result.name}
+- if @key_result.target_value
+  = "\r\n"
+  | 目標値:
+      #{strip_insignificant_zeros(@key_result.target_value)} #{@key_result.value_unit}
+= "\r\n"
+| 期限:
+    #{@key_result.expired_date}
+  責任者:
+    #{@key_result.owner.last_name} #{@key_result.owner.first_name}
+  コメント:
+    投稿者:
+      #{@author}
+    投稿日時:
+      #{@comment.created_at.strftime('%Y-%m-%d %H:%M:%S')}
+    内容:
+      #{@comment.text.gsub(/(\r\n|\r|\n)/, "\n    ")}
+  ------------------------------------------------------------
+
+  以下から Resily にアクセスして、内容を確認しましょう。
+
+  #{@url}
+
+  --
+  Resily株式会社 
+  https://resily.com

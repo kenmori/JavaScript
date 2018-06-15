@@ -60,10 +60,10 @@ class UsersTableRow extends PureComponent {
         </Table.Cell>
         <Table.Cell textAlign="center">
           {disabled
-            ? <Button icon='recycle' title='有効化' onClick={this.handleRestoreClick(user)} />
+            ? <Button icon='undo' content='有効化する' onClick={this.handleRestoreClick(user)} />
             : (
               <div className={isLoginUser ? 'disabled-box' : ''}>
-                <Button icon='trash' title='無効化' negative onClick={this.handleRemoveClick(user)} disabled={isLoginUser} />
+                <Button icon='dont' content='無効化する' negative onClick={this.handleRemoveClick(user)} disabled={isLoginUser} />
               </div>
             )
           }

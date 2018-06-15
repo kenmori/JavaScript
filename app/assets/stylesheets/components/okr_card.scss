@@ -62,29 +62,6 @@
       background: $SELECT_BG_COLOR;
       font-weight: bold;
     }
-
-    .toggle {
-      margin-left: .5rem;
-
-      .ui.basic.button {
-        margin-right: 0;
-        color: rgba(0, 0, 0, .8) !important;
-
-        &:focus, &:hover {
-          background-color: transparent !important;
-        }
-        &:focus:not(:hover) {
-          box-shadow: 0 0 0 1px $BORDER_COLOR inset;
-        }
-        &.active {
-          background-color: rgba(0, 0, 0, .05) !important;
-        }
-      }
-
-      &.no-child {
-        visibility: hidden;
-      }
-    }
   }
   .keyResults__item--add {
     .list {

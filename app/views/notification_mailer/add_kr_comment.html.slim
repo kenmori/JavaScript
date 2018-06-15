@@ -3,9 +3,9 @@ ruby:
     (number == number.to_i) ? number.to_i : number
   end
 
-p #{@assignee} さん
+p #{@receiver} さん
 
-p #{@assignor} さんが、あなたに新しい OKR を割り当てました。
+p #{@author} さんが、Key Result に新しいコメントを投稿しました。
 
 dl style="width: 600px; padding: 16px; border: 1px solid gray; border-radius: 8px;"
   dt Key Result
@@ -17,6 +17,15 @@ dl style="width: 600px; padding: 16px; border: 1px solid gray; border-radius: 8p
   dd #{@key_result.expired_date}
   dt 責任者
   dd #{@key_result.owner.last_name} #{@key_result.owner.first_name}
+  dt コメント
+  dd
+    dl style="margin-right: 16px; padding: 16px; border: 2px dashed gray; border-radius: 8px;"
+      dt 投稿者
+      dd #{@author}
+      dt 投稿日時
+      dd #{@comment.created_at.strftime('%Y-%m-%d %H:%M:%S')}
+      dt 内容
+      dd style="white-space: pre-wrap;" #{@comment.text}
 
 p 以下から Resily にアクセスして、内容を確認しましょう。
 

@@ -7,7 +7,7 @@ p #{@receiver} さん
 
 p #{@operator} さんが、Key Result の見通しを #{@status_before} から #{@status_after} に変更しました。
 
-dl style="width: 600px; padding: 8px; border: 1px solid black; border-radius: 8px;"
+dl style="width: 600px; padding: 16px; border: 1px solid gray; border-radius: 8px;"
   dt Key Result
   dd #{@key_result.name}
   - if @key_result.target_value
@@ -22,11 +22,11 @@ dl style="width: 600px; padding: 8px; border: 1px solid black; border-radius: 8p
 
 p 以下から Resily にアクセスして、内容を確認しましょう。
 
-p: a[href="#{@url}"] #{@url}
+p: a href="#{@url}" #{@url}
 
 br
 
 address
   | Resily株式会社
   br
-  a[href="https://resily.com"] https://resily.com
+  a href="https://resily.com" https://resily.com

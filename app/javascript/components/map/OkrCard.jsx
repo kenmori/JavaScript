@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { openObjective, openKeyResult } from '../../utils/linker';
-import { Card, Icon, List, Button } from 'semantic-ui-react';
+import { Card, Icon, List } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
+import ToggleButton from '../util/ToggleButton'
 import moment from 'moment';
 
 class OkrCard extends PureComponent {
@@ -26,7 +27,7 @@ class OkrCard extends PureComponent {
           {keyResults.map(keyResult => {
             const keyResultId = keyResult.get('id');
             const isSelected = keyResultId === this.props.selectedKeyResultId;
-            const isToggleOn = this.props.visibleKeyResultIds && this.props.visibleKeyResultIds.includes(keyResultId);
+            const isToggleOn = this.props.visibleKeyResultIds ? this.props.visibleKeyResultIds.includes(keyResultId) : false
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
@@ -34,15 +35,14 @@ class OkrCard extends PureComponent {
                   <a onClick={this.handleKeyResultClick(keyResultId)}>{keyResult.get('name')}</a>
                 </div>
                 <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} />
-                {
-                  showToggle &&
-                  <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
-                    <Button circular basic compact icon='sitemap' size='small'
-                            active={isToggleOn}
-                            onClick={this.handleToggleClick(keyResultId, isToggleOn)}
-                    />
-                  </div>
-                }
+
+                {showToggle && (
+                  <ToggleButton
+                    on={isToggleOn}
+                    visible={keyResult.get('childObjectiveIds').size > 0}
+                    onClick={this.handleToggleClick(keyResultId, isToggleOn)}
+                  />
+                )}
               </List.Item>
             );
           })}

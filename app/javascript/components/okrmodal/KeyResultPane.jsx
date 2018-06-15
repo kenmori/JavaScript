@@ -8,6 +8,7 @@ import AutoTextArea from '../form/AutoTextArea';
 import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
+import StatusRadio from '../util/StatusRadio'
 import moment from 'moment';
 
 class KeyResultPane extends PureComponent {
@@ -195,33 +196,7 @@ class KeyResultPane extends PureComponent {
         <Form.Field className="flex-field">
           <label>見通し</label>
           <div className="flex-field__item">
-            <Radio
-              className="status-radio green"
-              toggle
-              label="順調"
-              name="status"
-              value="green"
-              checked={keyResult.get('status') === 'green'}
-              onChange={this.handleStatusChange}
-            />
-            <Radio
-              className="status-radio yellow"
-              toggle
-              label="注意"
-              name="status"
-              value="yellow"
-              checked={keyResult.get('status') === 'yellow'}
-              onChange={this.handleStatusChange}
-            />
-            <Radio
-              className="status-radio red"
-              toggle
-              label="危険"
-              name="status"
-              value="red"
-              checked={keyResult.get('status') === 'red'}
-              onChange={this.handleStatusChange}
-            />
+            <StatusRadio status={keyResult.get('status')} onChange={this.handleStatusChange} />
           </div>
         </Form.Field>
 
