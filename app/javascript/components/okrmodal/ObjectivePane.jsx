@@ -94,7 +94,7 @@ class ObjectivePane extends PureComponent {
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
-          <div className="flex-field__item progress-rate">
+          <div className="flex-field__item">
             <NumberInput
               label='%'
               value={progressRate}

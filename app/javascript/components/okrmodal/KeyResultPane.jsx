@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label, Popup, Button, Divider } from 'semantic-ui-react';
+import { Form, Label, Popup, Button, Radio, Divider } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea';
@@ -50,6 +50,8 @@ class KeyResultPane extends PureComponent {
   handleSubProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
 
   handleExpiredDateChange = expiredDate => this.props.updateKeyResult({ expiredDate: expiredDate.format('YYYY-MM-DD') })
+
+  handleStatusChange = (e, { value }) => this.props.updateKeyResult({ status: value })
 
   handleDescriptionCommit = description => this.props.updateKeyResult({ description })
 
@@ -137,6 +139,7 @@ class KeyResultPane extends PureComponent {
                 />
               </div>
             </Form.Field>
+
             <Form.Field className='flex-field'>
               <label>実績値</label>
               <div className='flex-field__item'>
@@ -162,7 +165,7 @@ class KeyResultPane extends PureComponent {
 
         <Form.Field className='flex-field progress-rate-field'>
           <label>進捗</label>
-          <div className="flex-field__item progress-rate">
+          <div className="flex-field__item">
             <NumberInput label='%'
                          value={this.state.progressRate}
                          onChange={this.handleProgressRateChange}
@@ -188,6 +191,40 @@ class KeyResultPane extends PureComponent {
             />
           </div>
         </Form.Field>
+
+        <Form.Field className="flex-field">
+          <label>見通し</label>
+          <div className="flex-field__item">
+            <Radio
+              className="status-radio green"
+              toggle
+              label="順調"
+              name="status"
+              value="green"
+              checked={keyResult.get('status') === 'green'}
+              onChange={this.handleStatusChange}
+            />
+            <Radio
+              className="status-radio yellow"
+              toggle
+              label="注意"
+              name="status"
+              value="yellow"
+              checked={keyResult.get('status') === 'yellow'}
+              onChange={this.handleStatusChange}
+            />
+            <Radio
+              className="status-radio red"
+              toggle
+              label="危険"
+              name="status"
+              value="red"
+              checked={keyResult.get('status') === 'red'}
+              onChange={this.handleStatusChange}
+            />
+          </div>
+        </Form.Field>
+
         <Form.Field className='flex-field'>
           <label>責任者</label>
           <div className='flex-field__item'>
@@ -198,6 +235,7 @@ class KeyResultPane extends PureComponent {
             />
           </div>
         </Form.Field>
+
         <Form.Field className='flex-field'>
           <label>関係者</label>
           <div className='flex-field__item key-result-members'>
@@ -211,6 +249,7 @@ class KeyResultPane extends PureComponent {
             />
           </div>
         </Form.Field>
+
         <Form.Field>
           <label>説明</label>
           <AutoTextArea key={keyResult.get('id')} value={keyResult.get('description')}
@@ -218,6 +257,7 @@ class KeyResultPane extends PureComponent {
                         onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
+
         <Form.Field className='flex-field'>
           <label>結果</label>
           <div className='flex-field__item'>

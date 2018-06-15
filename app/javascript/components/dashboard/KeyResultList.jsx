@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Table } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import ProgressRate from '../util/ProgressRate'
 
 class KeyResultList extends PureComponent {
 
@@ -37,7 +38,7 @@ class KeyResultList extends PureComponent {
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell>{keyResult.get('actualValue')} {keyResult.get('valueUnit')}</Table.Cell>
-                <Table.Cell>{keyResult.get('progressRate')}%</Table.Cell>
+                <Table.Cell><ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} /></Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
               </Table.Row>
             )}

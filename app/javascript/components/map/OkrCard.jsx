@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { openObjective, openKeyResult } from '../../utils/linker';
 import { Card, Icon, List, Button } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import ProgressRate from '../util/ProgressRate'
 import moment from 'moment';
 
 class OkrCard extends PureComponent {
@@ -29,10 +30,10 @@ class OkrCard extends PureComponent {
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
-                <div className='name'>
+                <div className='okr-card__name'>
                   <a onClick={this.handleKeyResultClick(keyResultId)}>{keyResult.get('name')}</a>
                 </div>
-                <div className="progress">{keyResult.get('progressRate')}%</div>
+                <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} />
                 {
                   showToggle &&
                   <div className={`toggle ${keyResult.get('childObjectiveIds').size === 0 ? 'no-child' : ''}`}>
@@ -66,10 +67,10 @@ class OkrCard extends PureComponent {
         <Card.Content>
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
-            <div className="name">
+            <div className="okr-card__name">
               <a onClick={this.handleObjectiveClick}>{objective.get('name')}</a>
             </div>
-            <div className="progress">{objective.get('progressRate')}%</div>
+            <ProgressRate value={objective.get('progressRate')} />
           </Card.Header>
         </Card.Content>
         {this.generateKeyResultList(objective)}

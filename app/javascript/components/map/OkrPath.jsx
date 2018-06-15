@@ -7,7 +7,7 @@ import { Icon } from 'semantic-ui-react';
 class OkrPath extends PureComponent {
   static STEP_HEIGHT = 24; // 折れ線の段差の高さ
   static LINE_LENGTH = 24; // 折り畳まれた線分の長さ
-  static BYPASS_WIDTH = 315 / 2 + 16; // 迂回路の幅
+  static BYPASS_WIDTH = 424 / 2 + 16; // 迂回路の幅
 
   constructor(props) {
     super(props);

@@ -6,6 +6,8 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective, touch: true
 
+  enum status: {green: 0, yellow: 1, red: 2}
+
   validate :target_value_required_if_value_unit_exists, 
     :expired_date_can_be_converted_to_date
   validates :name, :objective_id, :okr_period_id, presence: true
@@ -25,6 +27,8 @@ class KeyResult < ApplicationRecord
       # 紐付け変更時は、変更前の上位進捗率も連動更新する
       Objective.find(objective_id_before_last_save).update_sub_progress_rate
     end
+
+    NotificationMailer.send_change_kr_status(Current.user, self, status_before_last_save) if saved_change_to_status?
   end
 
   after_destroy do

@@ -6,4 +6,12 @@
   .task-table {
     cursor: pointer;
   }
+
+  .ui.selectable.table tbody tr:hover {
+    background: $SELECT_HOVER_COLOR !important;
+  }
+  .ui.table tr.active,
+  .ui.selectable.table tr.active:hover {
+    background: $SELECT_BG_COLOR !important;
+  }
 }

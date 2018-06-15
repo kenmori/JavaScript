@@ -1,27 +1,39 @@
 .okr-pie-chart {
   .empty {
-    letter-spacing: .2rem;
     display: flex;
     align-items: center;
     height: 145px;
   }
 
-  .progress-rate {
+  .okr-pie-chart__progress {
     font-size: medium;
-    color: indianred;
-    fill: indianred;
+    font-weight: normal;
+    color: $SECONDARY_COLOR;
+    fill: $SECONDARY_COLOR;
   }
 
   .recharts-wrapper {
     cursor: pointer !important;
 
-    path.recharts-sector:hover {
-      fill: indianred;
+    path.recharts-sector {
       fill-opacity: .5;
+
+      &.green {
+        fill: $GREEN_COLOR;
+      }
+      &.yellow {
+        fill: $YELLOW_COLOR;
+      }
+      &.red {
+        fill: $RED_COLOR;
+      }
+      &:hover {
+        fill: $SELECT_COLOR;
+      }
     }
 
     .recharts-tooltip-item-value {
-      color: indianred;
+      color: $SECONDARY_COLOR;
     }
 
     .recharts-tooltip-wrapper {

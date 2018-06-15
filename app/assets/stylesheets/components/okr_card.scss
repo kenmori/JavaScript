@@ -2,20 +2,23 @@
   &.ui.card {
     margin-top: 24px;
     margin-bottom: 48px;
-    width: 315px; /* 4 cards in a row within 1366px */
+    width: 424px; /* 3 cards in a row within 1366px */
 
     &:hover {
       transform: translateY(-3px);
     }
 
     &.active {
-      border: 2px $ASSIST_COLOR solid;
-      background: rgba(239, 8, 3, 0.11);
+      border: 2px $SELECT_COLOR solid;
     }
 
     .content .header {
       display: flex;
       align-items: center;
+    }
+
+    .content.keyResults {
+      padding: .5em .5em;
     }
   }
 
@@ -24,16 +27,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 3px 1px;
+      padding: .25em .5em;
 
-      .name {
+      .okr-card__name {
         flex-grow: 1;
         margin: 0 .5rem;
-      }
-
-      .progress {
-        color: indianred;
-        text-align: right;
       }
     }
 
@@ -44,16 +42,11 @@
         flex-shrink: 0;
       }
 
-      .name {
+      .okr-card__name {
         flex-grow: 1;
         margin: 0 .5rem;
         font-size: smaller;
         text-align: center;
-      }
-
-      .progress {
-        color: indianred;
-        font-size: smaller;
       }
     }
   }
@@ -63,8 +56,10 @@
     }
   }
   .keyResults__item {
+    border-radius: 4px;
+
     &.active {
-      background: rgba(236, 95, 0, 0.3);
+      background: $SELECT_BG_COLOR;
       font-weight: bold;
     }
 
@@ -79,7 +74,7 @@
           background-color: transparent !important;
         }
         &:focus:not(:hover) {
-          box-shadow: 0 0 0 1px rgba(34, 36, 38, .15) inset;
+          box-shadow: 0 0 0 1px $BORDER_COLOR inset;
         }
         &.active {
           background-color: rgba(0, 0, 0, .05) !important;

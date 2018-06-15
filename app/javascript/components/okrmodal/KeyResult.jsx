@@ -5,6 +5,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import ProgressRate from '../util/ProgressRate'
 import { onTouch } from '../../utils/backend';
 
 const itemSource = {
@@ -74,13 +75,13 @@ class KeyResult extends PureComponent {
       <div className="sidebar__item-wrapper">
         <Segment
           className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
-          key={keyResult.get('id')} onClick={this.handleClick}
-        >
-          <span className="sidebar__avatar">
-            <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
-          </span>
-          <span className="sidebar__name">{keyResult.get('name')}</span>
-          <span className="progress-rate sidebar__progress">{keyResult.get('progressRate')}%</span>
+          key={keyResult.get('id')}
+          onClick={this.handleClick}>
+
+          <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
+          <div className="sidebar__name">{keyResult.get('name')}</div>
+          <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} type='label' />
+
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
               <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'

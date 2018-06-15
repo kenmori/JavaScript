@@ -1,0 +1,32 @@
+ruby:
+  def strip_insignificant_zeros(number)
+    (number == number.to_i) ? number.to_i : number
+  end
+
+p #{@receiver} さん
+
+p #{@operator} さんが、Key Result の見通しを #{@status_before} から #{@status_after} に変更しました。
+
+dl style="width: 600px; padding: 8px; border: 1px solid black; border-radius: 8px;"
+  dt Key Result
+  dd #{@key_result.name}
+  - if @key_result.target_value
+    dt 目標値
+    dd #{strip_insignificant_zeros(@key_result.target_value)} #{@key_result.value_unit}
+  dt 期限
+  dd #{@key_result.expired_date}
+  dt 見通し
+  dd #{@status_after}
+  dt 責任者
+  dd #{@key_result.owner.last_name} #{@key_result.owner.first_name}
+
+p 以下から Resily にアクセスして、内容を確認しましょう。
+
+p: a[href="#{@url}"] #{@url}
+
+br
+
+address
+  | Resily株式会社
+  br
+  a[href="https://resily.com"] https://resily.com

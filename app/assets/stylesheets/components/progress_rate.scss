@@ -1,0 +1,23 @@
+.progress-rate__bar {
+  min-width: 5.5rem;
+
+  &.ui.progress {
+    margin: 0;
+
+    .bar > .progress {
+      right: 0;
+      padding: 0 4px;
+    }
+
+    &.lt50 {
+      .bar > .progress {
+        left: 100%;
+        color: #808080;
+      }
+    }
+  }
+}
+
+.progress-rate__label {
+}
+ 

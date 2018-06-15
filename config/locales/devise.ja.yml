@@ -51,24 +51,24 @@ ja:
         action: "アカウントを確認する"
         greeting: "ようこそ %{recipient} さん"
         instruction: "次のリンクをクリックするとメールアドレスの確認が完了します。"
-        subject: "Resily アカウントを有効化してください"
+        subject: "[Resily] アカウントを有効化してください"
       password_change:
         greeting: "こんにちは %{recipient}さん"
         message: "あなたのパスワードが再設定されたことを通知します。"
-        subject: "Resily パスワードの変更について"
+        subject: "[Resily] パスワードの変更について"
       reset_password_instructions:
         action: "パスワードを変更する"
         greeting: "こんにちは %{recipient} さん"
         instruction: "あなたのパスワードの再設定がリクエストされました。次のリンクをクリックするとパスワードを再設定できます。"
         instruction_2: "このメールに心当たりがない場合は、このメールを無視してください。"
         instruction_3: "上のリンクにアクセスして新しいパスワードを設定するまで、パスワードは変更されません。"
-        subject: "Resily パスワードを再設定してください"
+        subject: "[Resily] パスワードを再設定してください"
       unlock_instructions:
         action: "アカウントのロックを解除する"
         greeting: "こんにちは %{recipient} さん"
         instruction: "次のリンクをクリックするとアカウントのロックが解除されます。"
         message: "ログイン失敗が複数回繰り返されたため、あなたのアカウントはロックされました。"
-        subject: "Resily アカウントがロックされました"
+        subject: "[Resily] アカウントがロックされました"
     omniauth_callbacks:
       failure: "%{kind} アカウントによる認証に失敗しました。理由：（%{reason}）"
       success: "%{kind} アカウントによる認証に成功しました。"

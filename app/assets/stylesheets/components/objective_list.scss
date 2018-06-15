@@ -15,21 +15,19 @@
     height: 195px;
     justify-content: center;
     align-items: center;
-    border: 2px rgba(34, 36, 38, 0.15) dashed;
+    border: 2px dashed $BORDER_COLOR;
     border-radius: 4px;
     vertical-align: middle;
     text-align: center;
     font-weight: bold;
-    color: #000000;
     cursor: pointer;
 
     &.active {
-      border: 2px $ASSIST_COLOR solid;
-      background: rgba(239, 8, 3, 0.11);
+      border: 2px $SELECT_COLOR solid;
     }
 
     &:hover:not(.drop) {
-      border-color: $ASSIST_COLOR;
+      border-color: $SELECT_COLOR;
 
       .swap-icons {
         display: flex;
