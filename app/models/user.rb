@@ -41,7 +41,7 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    :deleted_account
+    disabled ? :disabled : super
   end
 
   # Override devise notification method
