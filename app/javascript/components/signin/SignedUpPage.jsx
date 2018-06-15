@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { Image, Segment } from 'semantic-ui-react';
+import { Image, Segment, Message } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-class SignUpCompletedPage extends PureComponent {
+class SignedUpPage extends PureComponent {
   render() {
     return (
-      <div className="sign-up-completed">
+      <div className="sign-up completed">
         <Image as="h1" src={logo_image} title="Resily"/>
 
         <Segment raised compact padded="very">
@@ -13,15 +13,17 @@ class SignUpCompletedPage extends PureComponent {
           メール中の URL がクリックされると処理が完了します。
         </Segment>
 
-        <p className="link"><a href="/">トップに戻る</a></p>
+        <Message className="sign-up__link">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
       </div>
     );
   }
 }
 
-SignUpCompletedPage.propTypes = {
+SignedUpPage.propTypes = {
   // container
   // component
 }
 
-export default SignUpCompletedPage
+export default SignedUpPage

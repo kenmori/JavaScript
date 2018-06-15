@@ -12,7 +12,7 @@ const mapStateToProps = (state, { location }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    send(email) {
+    sendEmail(email) {
       dispatch(usersActions.recoverPassword({email}));
     }
   };

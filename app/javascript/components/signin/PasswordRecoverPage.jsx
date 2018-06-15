@@ -16,7 +16,7 @@ class PasswordRecoverPage extends PureComponent {
     }
   }
 
-  send = () => this.props.send(this.state.email)
+  sendEmail = () => this.props.sendEmail(this.state.email)
 
   render() {
     return (
@@ -42,7 +42,7 @@ class PasswordRecoverPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="password-recover__submit" content="送信する" onClick={this.send} />
+        <Button positive className="password-recover__submit" content="送信する" onClick={this.sendEmail} />
 
         <Message className="password-recover__link">
           <p><a href="/">トップに戻る</a></p>
@@ -57,7 +57,7 @@ PasswordRecoverPage.propTypes = {
   email: PropTypes.string,
   passwordRecoveredPath: PropTypes.string.isRequired,
   isRecovered: PropTypes.bool.isRequired,
-  send: PropTypes.func.isRequired,
+  sendEmail: PropTypes.func.isRequired,
   // component
 }
 

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react';
 import moment from 'moment';
 import logo_image from '../../images/logo_large.png';
 import DatePicker from '../form/DatePicker';
@@ -170,9 +170,11 @@ class SignUpPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button className="submit" positive onClick={this.addOrganization}>登録する</Button>
+        <Button positive className="sign-up__submit" content="登録する" onClick={this.addOrganization} />
 
-        <p className="link"><a href="/">トップに戻る</a></p>
+        <Message className="sign-up__link">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
       </div>
     );
   }
