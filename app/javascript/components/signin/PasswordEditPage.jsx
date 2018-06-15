@@ -24,8 +24,7 @@ class PasswordEditPage extends PureComponent {
     if (password === passwordConfirmation) {
       this.props.editPassword(password, this.props.token)
     } else {
-      //TODO: エラーメッセージを出す
-      alert('パスワードが一致しません。')
+      this.props.error({ message: '確認用パスワードとパスワードの入力が一致しません' })
     }
   }
 
@@ -78,6 +77,7 @@ PasswordEditPage.propTypes = {
   passwordEditedPath: PropTypes.string.isRequired,
   isEdited: PropTypes.bool.isRequired,
   editPassword: PropTypes.func.isRequired,
+  error: PropTypes.func.isRequired,
   // component
 }
 

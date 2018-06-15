@@ -1,6 +1,7 @@
 import PasswordEditPage from '../components/signin/PasswordEditPage';
 import { connect } from 'react-redux';
 import usersActions from '../actions/users';
+import dialogActions from '../actions/dialogs'
 
 const mapStateToProps = (state, { location }) => {
   return {
@@ -14,7 +15,10 @@ const mapDispatchToProps = dispatch => {
   return {
     editPassword(password, resetPasswordToken) {
       dispatch(usersActions.editPassword({password, resetPasswordToken}));
-    }
+    },
+    error: params => {
+      dispatch(dialogActions.openErrorModal(params))
+    },
   };
 };
 
