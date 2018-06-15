@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { camelizeKeys, decamelizeKeys } from 'humps';
-import queryString from 'querystring';
+import queryString from 'query-string';
 import { fromJS } from 'immutable';
 import isObject from 'isobject';
 
