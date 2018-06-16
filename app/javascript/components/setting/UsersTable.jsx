@@ -48,7 +48,7 @@ class UsersTable extends PureComponent {
   getUsers = (users) => (
     users.map((user, index) =>
       user.set('index', index + 1)
-        .set('email', user.get('unconfirmedEmail') || user.get('email'))
+        .set('email', user.get('email'))
         .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
     )
   )
