@@ -5,15 +5,7 @@ json.organization do
     json.partial! 'okr_periods/okr_period', collection: @organization.okr_periods.order(:month_start), as: :okr_period
   end
 
-  json.users @organization.users do |user|
-    json.id user.id
-    json.first_name user.first_name
-    json.last_name user.last_name
-    json.email user.email
-    json.avatar_url user.avatar_url
-    json.organization_name @organization.name
-    json.unconfirmed_email user.unconfirmed_email
-    json.disabled user.disabled
-    json.is_admin user.admin?
+  json.users do
+    json.partial! 'users/user', collection: @organization.users, as: :user
   end
 end
