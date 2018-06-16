@@ -1,1 +1,1 @@
-json.extract! okr_period, :id, :name, :organization_id, :month_start, :month_end
+json.extract! okr_period, :id, :name, :month_start, :month_end
