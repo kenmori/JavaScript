@@ -85,7 +85,6 @@ class UsersController < ApplicationController
                 :avatar,
                 :remove_avatar,
                 :current_organization_id,
-                :no_password_required,
                 :admin)
   end
 

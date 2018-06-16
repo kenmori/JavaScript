@@ -23,7 +23,6 @@ class UserSettingTab extends PureComponent {
           lastName: this.refs.lastName.inputRef.value,
           email: this.refs.email.inputRef.value,
           admin: this.refs.admin.inputRef.checked,
-          noPasswordRequired: true,
         });
         this.refs.lastName.inputRef.value = '';
         this.refs.firstName.inputRef.value = '';

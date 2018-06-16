@@ -22,18 +22,16 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :no_password_required
-
   def organization
     current_organization_id.present? ? organizations.find(current_organization_id) : organizations.first
   end
 
   def password_required?
-    super if need_confirmed?
+    super if confirmed?
   end
 
-  def need_confirmed?
-    !no_password_required
+  def has_password?
+    self.encrypted_password.present?
   end
 
   def active_for_authentication?
