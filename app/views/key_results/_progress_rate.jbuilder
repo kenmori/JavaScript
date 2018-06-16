@@ -1,4 +1,4 @@
-json.partial!(key_result)
+json.partial! key_result
 
 json.connected_objectives do
   json.array!(key_result.connected_objectives) do |objective|

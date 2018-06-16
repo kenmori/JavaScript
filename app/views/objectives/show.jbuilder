@@ -1,5 +1,5 @@
 json.objective do
-  json.partial!(@objective)
+  json.partial! @objective
 
   json.sub_progress_rate @objective.sub_progress_rate
 

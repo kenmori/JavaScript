@@ -1,5 +1,5 @@
 json.organization do
-  json.partial! 'organizations/organization', organization: @organization
+  json.partial! @organization
 
   json.okr_periods do
     json.partial! 'okr_periods/okr_period', collection: @organization.okr_periods.order(:month_start), as: :okr_period

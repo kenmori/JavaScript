@@ -1,3 +1,3 @@
 json.okr_period do
-  json.partial!(@okr_period)
+  json.partial! @okr_period
 end

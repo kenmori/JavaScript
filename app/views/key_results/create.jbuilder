@@ -1,5 +1,5 @@
 json.key_result do
-  json.partial!(@key_result)
+  json.partial! @key_result
 
   json.result @key_result.result
   json.is_processed @key_result.processed?
