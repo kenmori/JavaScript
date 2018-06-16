@@ -1,12 +1,10 @@
 json.organization do
   json.partial! 'organizations/organization', organization: @organization
-  json.okr_periods @organization.okr_periods.order(:month_start) do |period|
-    json.id period.id
-    json.name period.name
-    json.organization_id period.organization_id
-    json.month_start period.month_start
-    json.month_end period.month_end
+
+  json.okr_periods do
+    json.partial! 'okr_periods/okr_period', collection: @organization.okr_periods.order(:month_start), as: :okr_period
   end
+
   json.users @organization.users do |user|
     json.id user.id
     json.first_name user.first_name
