@@ -1,5 +1,13 @@
 ### styled-componentsの使い方をパッとわかりやすく、色々なパターンを説明することを目指す記事
 
+![styled-compoents](http://kenjimorita.jp/wp-content/uploads/2018/06/766758FB-FE5E-42D0-A1D3-017EBF60FE51.jpeg)
+
+
+[Document styled-components](https://www.styled-components.com/)
+
+
+
+
 
 #### 前提
 
@@ -20,6 +28,38 @@ cosnt Button = styled.button`
 //render
 <Button>ボタン</Button>
 ```
+
+#### ``は何??
+
+[styled-componentで使われているTaggedTemplateLiterals](https://mxstbr.blog/2016/11/styled-components-magic-explained/)
+
+```styled.button``  ```と```styled.button()```は同じ
+違いは引数を渡すと値になるかだけ
+
+
+```
+const logArgs = (...args) => console.log(...args)
+```
+
+これはただの引数を渡したら渡された引数を出力する関数。
+
+単純に
+
+```
+logArgs('a', 'b');
+//-> a b
+```
+
+じゃあtagged template literalで呼んでみる。
+
+```
+logArgs``
+//-> [""]
+```
+
+続きWIP
+
+
 
 ### defaultPropsとして指定する
 
