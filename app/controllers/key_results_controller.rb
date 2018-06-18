@@ -63,8 +63,8 @@ class KeyResultsController < ApplicationController
     forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
 
     ActiveRecord::Base.transaction do
+      update_objective if params[:key_result][:objective_id] # 再帰構造による無限ループ回避のため update! より先に処理する
       @key_result.update!(key_result_update_params)
-      update_objective if params[:key_result][:objective_id]
       update_key_result_members if params[:key_result][:member]
       update_comment if params[:key_result][:comment]
     end

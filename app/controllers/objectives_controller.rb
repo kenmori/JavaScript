@@ -80,8 +80,8 @@ class ObjectivesController < ApplicationController
     forbidden('Objective 責任者のみ編集できます') and return unless valid_user?(@objective.owner.id)
 
     ActiveRecord::Base.transaction do
+      update_parent_key_result if params[:objective][:parent_key_result_id] # 再帰構造による無限ループ回避のため update! より先に処理する 
       @objective.update!(objective_update_params)
-      update_parent_key_result if params[:objective][:parent_key_result_id]
       update_objective_members if params[:objective][:objective_member]
     end
     render action: :create, status: :ok
