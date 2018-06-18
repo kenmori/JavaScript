@@ -6,6 +6,9 @@ import { Button, Modal } from 'semantic-ui-react';
 
 class ErrorModal extends PureComponent {
   getErrorMessages(messages) {
+    if (messages.size === 1) {
+      return messages.first()
+    }
     return (
       <ul>
         {messages.map((message, index) => <li key={index}>{message}</li>)}
@@ -24,7 +27,7 @@ class ErrorModal extends PureComponent {
     if (List.isList(message)) {
       message = this.getErrorMessages(message)
     } else if (message.includes(', ')) {
-      message = this.getErrorMessages(message.split(', '))
+      message = this.getErrorMessages(List(message.split(', ')))
     }
     return (
       <Modal
