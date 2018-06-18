@@ -1,11 +1,22 @@
+テストの種類
+
+・単体テスト・・・関数の受け渡しが意図した通りになっているか検証するテスト。
+・結合テスト・・・モジュールを組み合わせて一連の流れを検証するテスト。「シナリオテスト」
+・E2Eテスト・・・End to End テスト。Webブラウザを操作して確認するテスト
+
 
 Enzymeとは
+
 ・ライブラリ
 ・React componentに対してのユニットテスト、utility functionを提供している(shallow renderringのような)
 ・Enzymeはどのテストランナーとも共存できる(Enzymeはテストランナーではない)
 ・React TestUnitのようなライブラリをラップしたもの
 ・JSDOMやCheerIOなどユニットテストを記述するためのシンプルなインターフェイスをもつ
 ・Enzyme自体がアサーションライブラリを持っていなく、ただUnitテストのAPIコレクションを提供している
+
+
+enzyme-adapter-react-16はreactとEnzymeを繋ぐアダプタ。reactのバージョンにあったアダプタを使う
+
 
 
 Jest
@@ -103,6 +114,13 @@ NodeJSを利用してテストを実行する
 
 Jestのsnapshotのみを使う場合を除きJestのrendererは必要ない
 https://github.com/airbnb/enzyme/blob/master/docs/guides/jest.md
+
+
+
+
+
+#### jest 
+
 
 
 
