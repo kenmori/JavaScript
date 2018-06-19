@@ -14,8 +14,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   def update
     confirmation_token = params[resource_name][:confirmation_token]
     self.resource = resource_class.find_by_confirmation_token!(confirmation_token)
-
-    if resource.update(confirmation_params)
+    if resource.update(update_params)
       self.resource = resource_class.confirm_by_token(confirmation_token)
       sign_in(resource)
     else
@@ -25,7 +24,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
   private
 
-  def confirmation_params
-    params.require(resource_name).permit(:password)
+  def update_params
+    params.require(resource_name).permit(:password, :password_confirmation).merge(require_password: true)
   end
 end

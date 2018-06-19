@@ -2,7 +2,7 @@ class Users::PasswordsController < Devise::PasswordsController
 
   # POST /users/password
   def create
-    if User.exists?(email: user_params['email'])
+    if User.exists?(email: create_params['email'])
       super
     else
       respond_with({}, location: new_user_password_path)
@@ -21,7 +21,7 @@ class Users::PasswordsController < Devise::PasswordsController
 
   private
 
-  def user_params
+  def create_params
     params.require(resource_name).permit(:email)
   end
 end

@@ -8,19 +8,12 @@ class PasswordSetPage extends PureComponent {
   constructor() {
     super()
     this.state = {
-      password: null,
-      passwordConfirmation: null,
+      password: '',
+      passwordConfirmation: '', // null だとバリデーション対象から外れるため空文字列を指定する
     }
   }
 
-  setPassword = () => {
-    const { password, passwordConfirmation } = this.state
-    if (password === passwordConfirmation) {
-      this.props.setPassword(password, this.props.token)
-    } else {
-      this.props.error({ message: '確認用パスワードとパスワードの入力が一致しません' })
-    }
-  }
+  setPassword = () => this.props.setPassword(this.state.password, this.state.passwordConfirmation, this.props.token)
 
   render() {
     return (
@@ -69,7 +62,6 @@ PasswordSetPage.propTypes = {
   // container
   token: PropTypes.string.isRequired,
   setPassword: PropTypes.func.isRequired,
-  error: PropTypes.func.isRequired,
   // component
 }
 

@@ -8,19 +8,12 @@ class PasswordEditPage extends PureComponent {
   constructor() {
     super()
     this.state = {
-      password: null,
-      passwordConfirmation: null,
+      password: '',
+      passwordConfirmation: '', // null だとバリデーション対象から外れるため空文字列を指定する
     }
   }
 
-  editPassword = () => {
-    const { password, passwordConfirmation } = this.state
-    if (password === passwordConfirmation) {
-      this.props.editPassword(password, this.props.token)
-    } else {
-      this.props.error({ message: '確認用パスワードとパスワードの入力が一致しません' })
-    }
-  }
+  editPassword = () => this.props.editPassword(this.state.password, this.state.passwordConfirmation, this.props.token)  
 
   render() {
     return (
@@ -69,7 +62,6 @@ PasswordEditPage.propTypes = {
   // container
   token: PropTypes.string.isRequired,
   editPassword: PropTypes.func.isRequired,
-  error: PropTypes.func.isRequired,
   // component
 }
 
