@@ -1,6 +1,6 @@
 class Users::PasswordsController < Devise::PasswordsController
 
-  # POST /resource/password
+  # POST /users/password
   def create
     if User.exists?(email: user_params['email'])
       super
@@ -9,7 +9,7 @@ class Users::PasswordsController < Devise::PasswordsController
     end
   end
 
-  # PUT /resource/password
+  # PUT /users/password
   def update
     super do |resource|
       if resource.errors.present?

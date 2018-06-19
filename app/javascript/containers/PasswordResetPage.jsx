@@ -1,6 +1,6 @@
 import PasswordResetPage from '../components/signin/PasswordResetPage';
 import { connect } from 'react-redux';
-import usersActions from '../actions/users'
+import deviseActions from '../actions/devise'
 
 const mapStateToProps = (state, { location }) => {
   return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state, { location }) => {
 const mapDispatchToProps = dispatch => {
   return {
     sendEmail(email) {
-      dispatch(usersActions.resetPassword({email}));
+      dispatch(deviseActions.resetPassword({ email }));
     }
   };
 };

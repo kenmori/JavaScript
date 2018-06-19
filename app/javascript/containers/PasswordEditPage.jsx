@@ -1,6 +1,6 @@
 import PasswordEditPage from '../components/signin/PasswordEditPage';
 import { connect } from 'react-redux';
-import usersActions from '../actions/users';
+import deviseActions from '../actions/devise';
 import dialogActions from '../actions/dialogs'
 import queryString from 'query-string'
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state, { location }) => {
 const mapDispatchToProps = dispatch => {
   return {
     editPassword(password, resetPasswordToken) {
-      dispatch(usersActions.editPassword({password, resetPasswordToken}));
+      dispatch(deviseActions.editPassword({password, resetPasswordToken}));
     },
     error: params => {
       dispatch(dialogActions.openErrorModal(params))
