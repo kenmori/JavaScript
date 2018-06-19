@@ -14,7 +14,7 @@ class SignInPage extends PureComponent {
     };
   }
 
-  signIn = () => this.props.signIn(this.state.email, this.state.password, true)
+  signIn = () => this.props.signIn(this.state.email, this.state.password)
 
   render() {
     const { email } = this.state

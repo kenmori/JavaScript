@@ -6,7 +6,7 @@ import deviseActions from '../actions/devise'
 import withLoading from '../utils/withLoading'
 
 function* signIn({ payload }) {
-  yield call(API.post, '/users/sign_in', { user: payload.params });
+  yield call(API.post, '/users/sign_in', { user: payload.user });
   location.href = '/';
 }
 
@@ -16,8 +16,8 @@ function* signOut() {
 }
 
 function* resetPassword({ payload }) {
-  const result = yield call(API.post, '/users/password', { user: payload.user })
-  yield put(deviseActions.resetPasswordCompleted(result))
+  yield call(API.post, '/users/password', { user: payload.user })
+  yield put(deviseActions.resetPasswordCompleted())
 }
 
 function* editPassword({ payload }) {
