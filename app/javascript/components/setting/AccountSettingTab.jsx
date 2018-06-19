@@ -6,11 +6,10 @@ import UserAvatar from '../../containers/UserAvatar';
 import AutoInput from '../form/AutoInput';
 
 class AccountSettingTab extends PureComponent {
+
   constructor(props) {
     super(props)
-    this.state = {
-      email: null
-    }
+    this.state = { email: props.loginUser.get('email') }
   }
 
   handleLastNameCommit = lastName => this.props.updateUser({ id: this.props.loginUser.get('id'), lastName })
@@ -45,24 +44,16 @@ class AccountSettingTab extends PureComponent {
     event.target.value = null;
   }
 
-  deleteAvatar = (event) => {
+  deleteAvatar = () => {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
       onConfirm: () => this.props.deleteAvatar({id: this.props.loginUser.get('id'), removeAvatar: true}),
     });
   }
 
-  componentDidMount() {
-    this.setState({
-      email: this.props.loginUser.get('email'),
-    });
-  }
-
   render() {
-    const loginUser = this.props.loginUser;
-    if (!loginUser || !this.state.email) {
-      return null;
-    }
+    const { loginUser } = this.props
+    const { email } = this.state
     return (
       <Tab.Pane attached={false} className="account-setting-tab">
         <dl>
@@ -75,7 +66,7 @@ class AccountSettingTab extends PureComponent {
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
+          <dd><AutoInput value={email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
 
           <dt>アバター</dt>
           <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
