@@ -18,13 +18,12 @@ class AccountSettingTab extends PureComponent {
   handleFistNameCommit = firstName => this.props.updateUser({ id: this.props.loginUser.get('id'), firstName })
 
   changeEmail = email => {
-    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？')) {
-      this.props.updateEmail({ id: this.props.loginUser.get('id'), email });
-    } else {
-      this.setState({
-        email: this.props.loginUser.get('email'),
-      });
-    }
+    this.setState({ email })
+    this.props.confirm({
+      content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
+      onConfirm: () => this.props.updateEmail({ id: this.props.loginUser.get('id'), email }),
+      onCancel: () => this.setState({ email: this.props.loginUser.get('email') }),
+    })
   }
 
   changePassword = () => {
