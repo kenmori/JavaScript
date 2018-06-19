@@ -16,7 +16,11 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     self.resource = resource_class.find_by_confirmation_token!(confirmation_token)
     if resource.update(update_params)
       self.resource = resource_class.confirm_by_token(confirmation_token)
-      sign_in(resource)
+      if resource.errors.empty?
+        sign_in(resource)
+      else
+        unprocessable_entity_with_errors(resource.errors.full_messages)
+      end
     else
       unprocessable_entity_with_errors(resource.errors.full_messages)
     end
