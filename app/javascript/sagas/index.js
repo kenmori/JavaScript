@@ -2,7 +2,7 @@ import { fork } from 'redux-saga/effects';
 import { objectiveSagas } from './objectives';
 import { keyResultSagas } from './keyResults';
 import { userSagas } from './users';
-import { sessionSagas } from './sessions';
+import { deviseSagas } from './devise';
 import { organizationSagas } from './organizations';
 import { okrPeriodSagas } from './okrPeriods';
 import { dialogSagas } from './dialogs';
@@ -12,7 +12,7 @@ const sagas = [
   objectiveSagas,
   keyResultSagas,
   userSagas,
-  sessionSagas,
+  deviseSagas,
   organizationSagas,
   okrPeriodSagas,
   dialogSagas,

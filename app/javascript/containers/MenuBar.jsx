@@ -4,7 +4,7 @@ import organizationActions from '../actions/organizations'
 import objectiveActions from '../actions/objectives'
 import userActions from '../actions/users';
 import currentActions from '../actions/current';
-import sessionActions from '../actions/sessions';
+import deviseActions from '../actions/devise';
 import history from '../utils/history';
 import { getEnabledUsers } from '../utils/selector'
 
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
     organization: state.organizations.get('selected'),
     loginUser: state.loginUser,
     isFetchedOrganization: state.organizations.get('isFetched'),
-    needLogout: state.signUp.get('needLogout'),
+    needLogout: state.devise.get('needLogout'),
   };
 };
 
@@ -50,7 +50,7 @@ const mapDispatchToProps = dispatch => {
       }, 300);
     },
     signOut: () => {
-      dispatch(sessionActions.signOut());
+      dispatch(deviseActions.signOut());
     }
   };
 };

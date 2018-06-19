@@ -13,7 +13,7 @@ function* signOut() {
   location.href = '/';
 }
 
-export function *sessionSagas() {
+export function *deviseSagas() {
   yield all([
     takeLatest(actionTypes.SIGN_IN, signIn),
     takeLatest(actionTypes.SIGN_OUT, signOut),
