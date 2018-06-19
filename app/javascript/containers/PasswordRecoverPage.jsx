@@ -5,7 +5,6 @@ import usersActions from '../actions/users'
 const mapStateToProps = (state, { location }) => {
   return {
     email: location.state && location.state.email,
-    passwordRecoveredPath: '/users/password/recover/completed',
     isRecovered: state.devise.get('isRecovered'),
   };
 };

@@ -24,12 +24,6 @@ class SignUpPage extends PureComponent {
     };
   }
 
-  componentWillUpdate(props = this.props) {
-    if (props.isCompleted) {
-      props.history.push(props.signUpCompleted)
-    }
-  }
-
   getEndDate = (startDate, okrSpan) => {
     return startDate.clone().add(okrSpan, 'months').subtract(1, 'days')
   }
@@ -50,7 +44,27 @@ class SignUpPage extends PureComponent {
     })
   }
 
+  completedView = () => {
+    return (
+      <div className="sign-up completed">
+        <Image as="h1" src={logo_image} title="Resily" />
+
+        <Segment raised compact padded="very">
+          入力されたメールアドレスに確認メールを送信しました。<br />
+          メール中の URL がクリックされると処理が完了します。
+        </Segment>
+
+        <Message className="sign-up__link">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
+      </div>
+    )
+  }
+
   render() {
+    if (this.props.isCompleted) {
+      return this.completedView()
+    }
     return (
       <div className="sign-up">
         <Image as="h1" src={logo_image} title="Resily"/>
@@ -182,7 +196,6 @@ class SignUpPage extends PureComponent {
 
 SignUpPage.propTypes = {
   // container
-  signUpCompleted: PropTypes.string.isRequired,
   isCompleted: PropTypes.bool.isRequired,
   addOrganization: PropTypes.func.isRequired,
   // component

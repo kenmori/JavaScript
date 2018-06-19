@@ -10,15 +10,29 @@ class PasswordRecoverPage extends PureComponent {
     this.state = { email: props.email }
   }
 
-  componentWillUpdate(props = this.props) {
-    if (props.isRecovered) {
-      props.history.push(props.passwordRecoveredPath)
-    }
-  }
-
   sendEmail = () => this.props.sendEmail(this.state.email)
 
+  completedView = () => {
+    return (
+      <div className="password-recover completed">
+        <Image as="h1" src={logo_image} title="Resily" />
+
+        <Segment raised compact padded="very">
+          入力されたメールアドレスにメールを送信しました。<br />
+          メールが届かない場合はアドレスを確かめて送信し直してください。
+        </Segment>
+
+        <Message className="password-recover__link">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
+      </div>
+    )
+  }
+
   render() {
+    if (this.props.isRecovered) {
+      return this.completedView()
+    }
     return (
       <div className="password-recover">
         <Image as='h1' src={logo_image} title='Resily' />
@@ -55,7 +69,6 @@ class PasswordRecoverPage extends PureComponent {
 PasswordRecoverPage.propTypes = {
   // container
   email: PropTypes.string,
-  passwordRecoveredPath: PropTypes.string.isRequired,
   isRecovered: PropTypes.bool.isRequired,
   sendEmail: PropTypes.func.isRequired,
   // component
