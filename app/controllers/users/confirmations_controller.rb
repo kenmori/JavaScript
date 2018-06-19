@@ -8,16 +8,15 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     end
   end
 
-  def confirm
+  def update
     confirmation_token = params[resource_name][:confirmation_token]
     self.resource = resource_class.find_by_confirmation_token!(confirmation_token)
   
     if resource.update(confirmation_params)
       self.resource = resource_class.confirm_by_token(confirmation_token)
-      set_flash_message :notice, :confirmed
-      sign_in_and_redirect resource_name, resource
+      sign_in(resource)
     else
-      render :show
+      unprocessable_entity_with_errors(resource.errors.full_messages)
     end
   end
   

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     :passwords => 'users/passwords'
   }
   devise_scope :user do
-    patch "users/confirmation", to: "users/confirmations#confirm"
+    put "users/confirmation", to: "users/confirmations#update"
   end
 
   root to: 'home#index', as: :root

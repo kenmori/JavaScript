@@ -46,6 +46,11 @@ function* editPassword({ payload }) {
   yield put(userActions.editedPassword(result));
 }
 
+function* setPassword({ payload }) {
+  yield call(API.put, '/users/confirmation', { user: payload.user })
+  location.href = '/'
+}
+
 function* updateEmail({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
   yield put(userActions.updatedEmail(result.get('user').set('notLogout', payload.user.notLogout)));
@@ -76,6 +81,7 @@ export function* userSagas() {
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
     takeLatest(actionTypes.RECOVER_PASSWORD, withLoading(recoverPassword)),
     takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),
+    takeLatest(actionTypes.SET_PASSWORD, withLoading(setPassword)),
     takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
     takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),

@@ -16,6 +16,7 @@ const actions = createActions({
   [actionTypes.RECOVERED_PASSWORD]: () => (true),
   [actionTypes.EDIT_PASSWORD]: (user) => ({ user }),
   [actionTypes.EDITED_PASSWORD]: () => (true),
+  [actionTypes.SET_PASSWORD]: user => ({ user }),
   [actionTypes.UPDATE_AVATAR]: user => ({ user }),
   [actionTypes.UPDATED_AVATAR]: user => ({ user }),
   [actionTypes.UPDATE_EMAIL]: user => ({ user }),

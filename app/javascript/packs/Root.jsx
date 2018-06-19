@@ -13,6 +13,7 @@ import PasswordRecoverPage from '../containers/PasswordRecoverPage';
 import PasswordRecoveredPage from '../components/signin/PasswordRecoveredPage';
 import PasswordEditPage from '../containers/PasswordEditPage';
 import PasswordEditedPage from '../components/signin/PasswordEditedPage';
+import PasswordSetPage from '../containers/PasswordSetPage'
 import SignInPage from '../containers/SignInPage';
 import SettingsPage from '../containers/SettingsPage';
 import Loading from '../containers/Loading';
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <Route exact path='/users/password/recover/completed' component={PasswordRecoveredPage}/>
             <Route exact path='/users/password/edit' component={PasswordEditPage}/>
             <Route exact path='/users/password/edit/completed' component={PasswordEditedPage}/>
+            <Route exact path='/users/confirmation' component={PasswordSetPage}/>
             <Route exact path='/users/sign_in' component={SignInPage}/>
             <Route exact path='/settings' component={SettingsPage}/>
             <Route exact path='/settings/:name' component={SettingsPage}/>
