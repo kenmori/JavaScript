@@ -4,15 +4,16 @@ import deviseActions from '../actions/devise'
 import queryString from 'query-string'
 
 const mapStateToProps = (state, { location }) => {
+  const query = queryString.parse(location.search)
   return {
-    token: queryString.parse(location.search).confirmation_token,
+    token: { resetPasswordToken: query.reset_password_token, confirmationToken: query.confirmation_token, }
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPassword(password, passwordConfirmation, confirmationToken) {
-      dispatch(deviseActions.setPassword({ password, passwordConfirmation, confirmationToken }))
+    setPassword(password, passwordConfirmation, token) {
+      dispatch(deviseActions.setPassword({ password, passwordConfirmation, ...token }))
     },
   }
 }

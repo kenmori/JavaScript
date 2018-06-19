@@ -60,7 +60,7 @@ class PasswordSetPage extends PureComponent {
 
 PasswordSetPage.propTypes = {
   // container
-  token: PropTypes.string.isRequired,
+  token: PropTypes.object.isRequired,
   setPassword: PropTypes.func.isRequired,
   // component
 }

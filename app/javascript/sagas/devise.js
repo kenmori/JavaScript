@@ -20,13 +20,9 @@ function* resetPassword({ payload }) {
   yield put(deviseActions.resetPasswordCompleted())
 }
 
-function* editPassword({ payload }) {
-  yield call(API.put, '/users/password', { user: payload.user })
-  location.href = '/'
-}
-
 function* setPassword({ payload }) {
-  yield call(API.put, '/users/confirmation', { user: payload.user })
+  const url = payload.user.resetPasswordToken ? '/users/password' : '/users/confirmation'
+  yield call(API.put, url, { user: payload.user })
   location.href = '/'
 }
 
@@ -35,7 +31,6 @@ export function *deviseSagas() {
     takeLatest(actionTypes.SIGN_IN, signIn),
     takeLatest(actionTypes.SIGN_OUT, signOut),
     takeLatest(actionTypes.RESET_PASSWORD, withLoading(resetPassword)),
-    takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),
     takeLatest(actionTypes.SET_PASSWORD, withLoading(setPassword)),
   ]);
 }
