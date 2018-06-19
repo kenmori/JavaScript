@@ -4,14 +4,14 @@ import ActionTypes from '../constants/actionTypes';
 
 const initialState = fromJS({
   needLogout: false,
-  isRecovered: false,
+  isResetPasswordCompleted: false,
 });
 
 export default handleActions({
   [ActionTypes.UPDATED_EMAIL]: (state, { payload }) => (
     payload.user.get('notLogout') ? state : state.set('needLogout', true)
   ),
-  [ActionTypes.RECOVERED_PASSWORD]: (state, { payload }) => (
-    state.set('isRecovered', payload)
+  [ActionTypes.RESET_PASSWORD_COMPLETED]: (state, { payload }) => (
+    state.set('isResetPasswordCompleted', payload)
   ),
 }, initialState);

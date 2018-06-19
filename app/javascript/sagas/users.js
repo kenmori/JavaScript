@@ -36,9 +36,9 @@ function* updatePassword({ payload }) {
   yield put(toastActions.showToast('パスワードを変更しました', 'success'));
 }
 
-function* recoverPassword({ payload }) {
+function* resetPassword({ payload }) {
   const result = yield call(API.post, '/users/password', { user: payload.user });
-  yield put(userActions.recoveredPassword(result));
+  yield put(userActions.resetPasswordCompleted(result));
 }
 
 function* editPassword({ payload }) {
@@ -79,7 +79,7 @@ export function* userSagas() {
     takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
     takeLatest(actionTypes.RESTORE_USER, withLoading(restoreUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
-    takeLatest(actionTypes.RECOVER_PASSWORD, withLoading(recoverPassword)),
+    takeLatest(actionTypes.RESET_PASSWORD, withLoading(resetPassword)),
     takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),
     takeLatest(actionTypes.SET_PASSWORD, withLoading(setPassword)),
     takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),

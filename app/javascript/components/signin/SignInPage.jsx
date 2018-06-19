@@ -54,7 +54,7 @@ class SignInPage extends PureComponent {
 
         <Message className="sign-in__link">
           {/*<p><Link to="/users/sign_up">新規ユーザー登録はこちら</Link></p>*/}
-          <p><Link to={{ pathname: '/users/password/recover', state: { email } }}>パスワードを忘れた方はこちら</Link></p>
+          <p><Link to={{ pathname: '/users/password/reset', state: { email } }}>パスワードを忘れた方はこちら</Link></p>
         </Message>
       </div>
     );

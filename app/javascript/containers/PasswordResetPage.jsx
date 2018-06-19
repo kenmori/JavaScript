@@ -1,18 +1,18 @@
-import PasswordRecoverPage from '../components/signin/PasswordRecoverPage';
+import PasswordResetPage from '../components/signin/PasswordResetPage';
 import { connect } from 'react-redux';
 import usersActions from '../actions/users'
 
 const mapStateToProps = (state, { location }) => {
   return {
     email: location.state && location.state.email,
-    isRecovered: state.devise.get('isRecovered'),
+    isCompleted: state.devise.get('isResetPasswordCompleted'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     sendEmail(email) {
-      dispatch(usersActions.recoverPassword({email}));
+      dispatch(usersActions.resetPassword({email}));
     }
   };
 };
@@ -20,4 +20,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PasswordRecoverPage);
+)(PasswordResetPage);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Form, Image, Segment, Message } from 'semantic-ui-react';
 import logo_image from '../../images/logo_large.png';
 
-class PasswordRecoverPage extends PureComponent {
+class PasswordResetPage extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -14,7 +14,7 @@ class PasswordRecoverPage extends PureComponent {
 
   completedView = () => {
     return (
-      <div className="password-recover completed">
+      <div className="password-reset completed">
         <Image as="h1" src={logo_image} title="Resily" />
 
         <Segment raised compact padded="very">
@@ -22,7 +22,7 @@ class PasswordRecoverPage extends PureComponent {
           メールが届かない場合はアドレスを確かめて送信し直してください。
         </Segment>
 
-        <Message className="password-recover__link">
+        <Message className="password-reset__link">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
@@ -30,11 +30,11 @@ class PasswordRecoverPage extends PureComponent {
   }
 
   render() {
-    if (this.props.isRecovered) {
+    if (this.props.isCompleted) {
       return this.completedView()
     }
     return (
-      <div className="password-recover">
+      <div className="password-reset">
         <Image as='h1' src={logo_image} title='Resily' />
 
         <Message content="パスワードを再設定するためのメールを送信します。" />
@@ -56,9 +56,9 @@ class PasswordRecoverPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="password-recover__submit" content="送信する" onClick={this.sendEmail} />
+        <Button positive className="password-reset__submit" content="送信する" onClick={this.sendEmail} />
 
-        <Message className="password-recover__link">
+        <Message className="password-reset__link">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
@@ -66,12 +66,12 @@ class PasswordRecoverPage extends PureComponent {
   }
 }
 
-PasswordRecoverPage.propTypes = {
+PasswordResetPage.propTypes = {
   // container
   email: PropTypes.string,
-  isRecovered: PropTypes.bool.isRequired,
+  isCompleted: PropTypes.bool.isRequired,
   sendEmail: PropTypes.func.isRequired,
   // component
 }
 
-export default PasswordRecoverPage
+export default PasswordResetPage

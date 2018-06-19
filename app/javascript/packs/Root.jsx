@@ -8,7 +8,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import history from '../utils/history';
 import ReactGA from '../utils/ga';
 import SignUpPage from '../containers/SignUpPage';
-import PasswordRecoverPage from '../containers/PasswordRecoverPage';
+import PasswordResetPage from '../containers/PasswordResetPage';
 import PasswordEditPage from '../containers/PasswordEditPage';
 import PasswordSetPage from '../containers/PasswordSetPage'
 import SignInPage from '../containers/SignInPage';
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <Router history={history}>
           <Switch>
             <Route exact path='/users/sign_up' component={SignUpPage}/>
-            <Route exact path='/users/password/recover' component={PasswordRecoverPage}/>
+            <Route exact path='/users/password/reset' component={PasswordResetPage}/>
             <Route exact path='/users/password/edit' component={PasswordEditPage}/>
             <Route exact path='/users/confirmation' component={PasswordSetPage}/>
             <Route exact path='/users/sign_in' component={SignInPage}/>
