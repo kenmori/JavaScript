@@ -1,4 +1,6 @@
 class Users::PasswordsController < Devise::PasswordsController
+
+  # POST /resource/password
   def create
     if User.exists?(email: user_params['email'])
       super
