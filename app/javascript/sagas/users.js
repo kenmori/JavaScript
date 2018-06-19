@@ -42,8 +42,8 @@ function* recoverPassword({ payload }) {
 }
 
 function* editPassword({ payload }) {
-  const result = yield call(API.put, '/users/password', { user: payload.user });
-  yield put(userActions.editedPassword(result));
+  yield call(API.put, '/users/password', { user: payload.user })
+  location.href = '/'
 }
 
 function* setPassword({ payload }) {

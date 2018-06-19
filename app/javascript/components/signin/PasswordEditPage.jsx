@@ -13,12 +13,6 @@ class PasswordEditPage extends PureComponent {
     }
   }
 
-  componentWillUpdate(props = this.props) {
-    if (props.isEdited) {
-      props.history.push(props.passwordEditedPath)
-    }
-  }
-
   editPassword = () => {
     const { password, passwordConfirmation } = this.state
     if (password === passwordConfirmation) {
@@ -74,8 +68,6 @@ class PasswordEditPage extends PureComponent {
 PasswordEditPage.propTypes = {
   // container
   token: PropTypes.string.isRequired,
-  passwordEditedPath: PropTypes.string.isRequired,
-  isEdited: PropTypes.bool.isRequired,
   editPassword: PropTypes.func.isRequired,
   error: PropTypes.func.isRequired,
   // component

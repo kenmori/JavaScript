@@ -7,8 +7,6 @@ import queryString from 'query-string'
 const mapStateToProps = (state, { location }) => {
   return {
     token: queryString.parse(location.search).reset_password_token,
-    passwordEditedPath: '/users/password/edit/completed',
-    isEdited: state.password.get('isEdited'),
   };
 };
 
