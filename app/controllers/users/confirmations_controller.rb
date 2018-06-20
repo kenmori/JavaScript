@@ -6,6 +6,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     if resource.nil? || resource.has_password?
       super do |resource|
         sign_in(resource)
+        resource.errors.clear # 使用済みトークンであってもエラー扱いにしない
       end
     end
   end
