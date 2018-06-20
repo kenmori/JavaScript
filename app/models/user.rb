@@ -22,7 +22,11 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :require_password
+  attr_accessor :require_password, :skip_notification
+
+  before_create do
+    skip_confirmation_notification! if skip_notification
+  end
 
   def organization
     current_organization_id.present? ? organizations.find(current_organization_id) : organizations.first
