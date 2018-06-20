@@ -18,7 +18,7 @@ class PasswordResetPage extends PureComponent {
         <Image as="h1" src={logo_image} title="Resily" />
 
         <Segment raised compact padded="very">
-          入力されたメールアドレスにメールを送信しました。<br />
+          {this.state.email} にメールを送信しました。<br />
           メールが届かない場合はアドレスを確かめて送信し直してください。
         </Segment>
 

@@ -16,7 +16,7 @@ class UserSettingTab extends PureComponent {
 
   addUser = () => {
     this.props.confirm({
-      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？',
+      content: `${this.refs.email.inputRef.value} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？`,
       onConfirm: () => {
         this.props.addUser({
           firstName: this.refs.firstName.inputRef.value,

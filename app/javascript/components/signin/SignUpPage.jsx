@@ -50,7 +50,7 @@ class SignUpPage extends PureComponent {
         <Image as="h1" src={logo_image} title="Resily" />
 
         <Segment raised compact padded="very">
-          入力されたメールアドレスに確認メールを送信しました。<br />
+          {this.state.email} に確認メールを送信しました。<br />
           メール中の URL がクリックされると処理が完了します。
         </Segment>
 
