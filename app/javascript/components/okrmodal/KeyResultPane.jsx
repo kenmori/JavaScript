@@ -67,8 +67,9 @@ class KeyResultPane extends PureComponent {
       member: { user: value, behavior: 'remove' }
     });
     if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
+      const user = this.props.users.find(user => user.get('id') === value)
       this.props.confirm({
-        content: '下位 Objective が紐付いています。関係者を削除しますか？',
+        content: `下位 Objective が紐付いています。関係者 "${user.get('lastName')} ${user.get('firstName')}" を削除しますか？`,
         onConfirm: removeAction,
       });
     } else {
@@ -90,9 +91,9 @@ class KeyResultPane extends PureComponent {
   }
 
   handleRemoveClick = () => {
+    const message = `Key Result "${this.props.keyResult.get('name')}" を削除しますか？`
     this.props.confirm({
-      content: this.props.keyResult.get('childObjectives').isEmpty()
-        ? 'Key Result を削除しますか？' : '下位 Objective が紐付いています。Key Result を削除しますか？',
+      content: this.props.keyResult.get('childObjectives').isEmpty() ? message : `下位 Objective が紐付いています。${message}`,
       onConfirm: () => this.props.removeKeyResult(this.props.keyResult.get('id')),
     });
   }
