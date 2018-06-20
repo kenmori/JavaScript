@@ -6,6 +6,7 @@ import Home from '../containers/Home';
 import configureStore from '../stores/index';
 import { Router, Switch, Route } from 'react-router-dom';
 import history from '../utils/history';
+import ReactGA from '../utils/ga';
 import SignUpPage from '../containers/SignUpPage';
 import SignUpCompletedPage from '../components/signin/SignUpCompletedPage';
 import PasswordRecoverPage from '../containers/PasswordRecoverPage';
@@ -20,6 +21,10 @@ import ErrorModal from '../containers/ErrorModal';
 import ConfirmModal from '../containers/ConfirmModal';
 
 const store = configureStore();
+history.listen((location, action) => {
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const bodyElement = document.createElement('div');
