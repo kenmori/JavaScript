@@ -1,4 +1,4 @@
-import ReactGA from 'react-ga';
+import ReactGA from '../utils/ga';
 
 const options = {}
 const trackPage = (page) => {
