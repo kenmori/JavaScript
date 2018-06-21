@@ -22,7 +22,7 @@ class PasswordResetPage extends PureComponent {
           メールが届かない場合はアドレスを確かめて送信し直してください。
         </Segment>
 
-        <Message className="password-reset__link">
+        <Message className="password-reset__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
@@ -58,7 +58,7 @@ class PasswordResetPage extends PureComponent {
 
         <Button positive className="password-reset__submit" content="送信する" onClick={this.sendEmail} />
 
-        <Message className="password-reset__link">
+        <Message className="password-reset__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>

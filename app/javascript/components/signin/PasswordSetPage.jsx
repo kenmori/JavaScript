@@ -50,7 +50,7 @@ class PasswordSetPage extends PureComponent {
 
         <Button positive className="password-set__submit" content="設定する" onClick={this.setPassword} />
 
-        <Message className="password-set__link">
+        <Message className="password-set__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>

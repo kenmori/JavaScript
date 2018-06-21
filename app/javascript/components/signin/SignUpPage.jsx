@@ -54,7 +54,7 @@ class SignUpPage extends PureComponent {
           メール中の URL がクリックされると処理が完了します。
         </Segment>
 
-        <Message className="sign-up__link">
+        <Message className="sign-up__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
@@ -186,7 +186,7 @@ class SignUpPage extends PureComponent {
 
         <Button positive className="sign-up__submit" content="登録する" onClick={this.addOrganization} />
 
-        <Message className="sign-up__link">
+        <Message className="sign-up__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
