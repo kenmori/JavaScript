@@ -6,7 +6,7 @@ class TrackingMailer < ApplicationMailer
     @okr_period = organization.okr_periods.first
     @url = url_for(controller: 'home')
 
-    mail to: 'contact@resily.com',
+    mail to: ENV.fetch('TRACKING_MAIL_TO', 'iwata@resily.com'),
          subject: '[Resily] 新しいアカウントが作成されました'
   end
 end
