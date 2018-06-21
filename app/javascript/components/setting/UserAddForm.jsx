@@ -14,18 +14,16 @@ class UserAddForm extends PureComponent {
     }
   }
 
-  addUser = () => {
+  handleAddClick = () => {
     const { firstName, lastName, email, admin } = this.state
+    const addUser = skipNotification => () => {
+      this.props.addUser({ firstName, lastName, email, admin, skipNotification })
+      this.setState({ firstName: '', lastName: '', email: '' }) // admin はリセットしない
+    }
     this.props.confirm({
-      content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？`,
-      onConfirm: () => {
-        this.props.addUser({ firstName, lastName, email, admin })
-        this.setState({
-          firstName: '',
-          lastName: '',
-          email: '',
-        })
-      },
+      content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。確認メールを送信しますか？ (確認メールはあとから再送信できます)`,
+      onConfirm: addUser(false),
+      onCancel: addUser(true),
     })
   }
 
@@ -76,7 +74,7 @@ class UserAddForm extends PureComponent {
               />
             </Table.Cell>
             <Table.Cell textAlign="center">
-              <Button icon="plus" content="追加する" onClick={this.addUser} disabled={!email} />
+              <Button icon="plus" content="追加する" onClick={this.handleAddClick} disabled={!email} />
             </Table.Cell>
           </Table.Row>
         </Table.Body>
