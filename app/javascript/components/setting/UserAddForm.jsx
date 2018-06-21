@@ -76,7 +76,7 @@ class UserAddForm extends PureComponent {
               />
             </Table.Cell>
             <Table.Cell textAlign="center">
-              <Button icon="plus" content="追加する" onClick={this.addUser} />
+              <Button icon="plus" content="追加する" onClick={this.addUser} disabled={!email} />
             </Table.Cell>
           </Table.Row>
         </Table.Body>
