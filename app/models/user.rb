@@ -22,18 +22,22 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :no_password_required
+  attr_accessor :require_password, :skip_notification
+
+  before_create do
+    skip_confirmation_notification! if skip_notification
+  end
 
   def organization
     current_organization_id.present? ? organizations.find(current_organization_id) : organizations.first
   end
 
   def password_required?
-    super if need_confirmed?
+    super if confirmed? || require_password
   end
 
-  def need_confirmed?
-    !no_password_required
+  def has_password?
+    self.encrypted_password.present?
   end
 
   def active_for_authentication?
@@ -41,12 +45,12 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    :deleted_account
+    disabled ? :disabled : super
   end
 
   # Override devise notification method
-  # def send_devise_notification(notification, *args)
-  #   devise_mailer.send(notification, self, *args).deliver_later
-  # end
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 
 end

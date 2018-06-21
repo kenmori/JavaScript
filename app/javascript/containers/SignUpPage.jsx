@@ -4,7 +4,6 @@ import organizationActions from '../actions/organizations';
 
 const mapStateToProps = (state) => {
   return {
-    signUpCompleted: '/users/sign_up/completed',
     isCompleted: state.organizations.get('isCompleted'),
   };
 };

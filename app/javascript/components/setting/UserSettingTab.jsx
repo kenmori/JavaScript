@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Table, Input, Checkbox, Button, Divider } from 'semantic-ui-react';
+import { Tab, Input, Button, Divider } from 'semantic-ui-react';
 import UsersTable from './UsersTable';
+import UserAddForm from './UserAddForm'
 
 class UserSettingTab extends PureComponent {
 
@@ -14,26 +15,7 @@ class UserSettingTab extends PureComponent {
     };
   }
 
-  addUser = () => {
-    this.props.confirm({
-      content: '入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。ユーザーを追加しますか？',
-      onConfirm: () => {
-        this.props.addUser({
-          firstName: this.refs.firstName.inputRef.value,
-          lastName: this.refs.lastName.inputRef.value,
-          email: this.refs.email.inputRef.value,
-          admin: this.refs.admin.inputRef.checked,
-          noPasswordRequired: true,
-        });
-        this.refs.lastName.inputRef.value = '';
-        this.refs.firstName.inputRef.value = '';
-        this.refs.email.inputRef.value = '';
-        this.refs.admin.inputRef.checked = false;
-      },
-    });
-  };
-
-  handleKeywordChange = (event, { value }) => this.setState({ keyword: value })
+  handleKeywordChange = (e, { value }) => this.setState({ keyword: value })
 
   handleShowDisabledUsersClick = () => this.setState({ showDisabledUsers: true })
 
@@ -43,31 +25,9 @@ class UserSettingTab extends PureComponent {
     const disabledUsers = this.props.users.filter(user => user.get('disabled'));
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
-        <Table singleLine sortable>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Input type="text" maxLength="255" required ref='lastName' placeholder="姓" />
-              </Table.Cell>
-              <Table.Cell>
-                <Input type="text" maxLength="255" required ref='firstName' placeholder="名" />
-              </Table.Cell>
-              <Table.Cell>
-                <Input type="email" maxLength="255" required ref='email' placeholder="name@example.com" />
-              </Table.Cell>
-              <Table.Cell>
-                <Checkbox label='管理者' required ref='admin' />
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加する" onClick={this.addUser}/>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
+        <UserAddForm addUser={this.props.addUser} confirm={this.props.confirm} />
 
-        <Input icon="search" placeholder="ユーザーを検索&#8230;"
-               onChange={this.handleKeywordChange}
-        />
+        <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={this.handleKeywordChange} />
 
         <UsersTable
           users={enabledUsers}

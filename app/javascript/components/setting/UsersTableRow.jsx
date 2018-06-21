@@ -45,7 +45,7 @@ class UsersTableRow extends PureComponent {
                      placeholder='name@example.com'
                      readOnly={disabled}
                      onCommit={this.handleEmailCommit} />
-          {user.get('unconfirmedEmail') && (
+          {user.get('isConfirming') && (
             disabled
               ? <Label pointing='left' icon='mail' content='確認中' />
               : <Label pointing='left' icon='mail' content='確認中' as='a' onClick={this.handleResendClick(user)} />

@@ -1,31 +1,35 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
+
+  # GET /users/confirmation?confirmation_token=abcdef
   def show
     self.resource = resource_class.find_by_confirmation_token(params[:confirmation_token])
-    if resource.nil? || params[:input_password].blank?
+    if resource.nil? || resource.has_password?
       super do |resource|
         sign_in(resource)
+        resource.errors.clear # 使用済みトークンであってもエラー扱いにしない
       end
-    else
-      render layout: 'ssr' 
     end
   end
 
-  def confirm
+  # PUT /users/confirmation
+  def update
     confirmation_token = params[resource_name][:confirmation_token]
     self.resource = resource_class.find_by_confirmation_token!(confirmation_token)
-  
-    if resource.update(confirmation_params)
+    if resource.update(update_params)
       self.resource = resource_class.confirm_by_token(confirmation_token)
-      set_flash_message :notice, :confirmed
-      sign_in_and_redirect resource_name, resource
+      if resource.errors.empty?
+        sign_in(resource)
+      else
+        unprocessable_entity_with_errors(resource.errors.full_messages)
+      end
     else
-      render :show
+      unprocessable_entity_with_errors(resource.errors.full_messages)
     end
   end
-  
+
   private
-  
-  def confirmation_params
-    params.require(resource_name).permit(:password)
+
+  def update_params
+    params.require(resource_name).permit(:password, :password_confirmation).merge(require_password: true)
   end
 end

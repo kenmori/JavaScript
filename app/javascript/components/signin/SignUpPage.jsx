@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react';
 import moment from 'moment';
 import logo_image from '../../images/logo_large.png';
 import DatePicker from '../form/DatePicker';
@@ -24,12 +24,6 @@ class SignUpPage extends PureComponent {
     };
   }
 
-  componentWillUpdate(props = this.props) {
-    if (props.isCompleted) {
-      props.history.push(props.signUpCompleted)
-    }
-  }
-
   getEndDate = (startDate, okrSpan) => {
     return startDate.clone().add(okrSpan, 'months').subtract(1, 'days')
   }
@@ -50,13 +44,33 @@ class SignUpPage extends PureComponent {
     })
   }
 
-  render() {
+  completedView = () => {
     return (
-      <div className="sign-up">
+      <div className="sign-in">
+        <Image as="h1" src={logo_image} title="Resily" />
+
+        <Segment raised compact padded="very">
+          {this.state.email} に確認メールを送信しました。<br />
+          メール中の URL がクリックされると処理が完了します。
+        </Segment>
+
+        <Message className="sign-in__link" size="small">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
+      </div>
+    )
+  }
+
+  render() {
+    if (this.props.isCompleted) {
+      return this.completedView()
+    }
+    return (
+      <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily"/>
 
         <Segment raised compact padded="very">
-          <Form>
+          <Form className="sign-in__form">
             <Form.Group>
               <Form.Input
                 inline
@@ -132,7 +146,7 @@ class SignUpPage extends PureComponent {
                     }
                   }}
                 />
-                <span className="between">-</span>
+                <span className="sign-in__between">-</span>
                 <DatePicker
                   dateFormat="YYYY/M/D"
                   locale="ja"
@@ -170,9 +184,11 @@ class SignUpPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button className="submit" positive onClick={this.addOrganization}>登録する</Button>
+        <Button positive className="sign-in__submit" content="登録する" onClick={this.addOrganization} />
 
-        <p className="link"><a href="/">トップに戻る</a></p>
+        <Message className="sign-in__link" size="small">
+          <p><a href="/">トップに戻る</a></p>
+        </Message>
       </div>
     );
   }
@@ -180,7 +196,6 @@ class SignUpPage extends PureComponent {
 
 SignUpPage.propTypes = {
   // container
-  signUpCompleted: PropTypes.string.isRequired,
   isCompleted: PropTypes.bool.isRequired,
   addOrganization: PropTypes.func.isRequired,
   // component

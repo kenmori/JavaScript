@@ -1,5 +1,7 @@
-json.extract! user, :id, :first_name, :last_name, :avatar_url, :email, :unconfirmed_email, :disabled
+json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled
 
-json.organization_name user.organization.name
+json.email user.unconfirmed_email || user.email
+
+json.is_confirming !user.confirmed? || user.unconfirmed_email
 
 json.is_admin user.admin?

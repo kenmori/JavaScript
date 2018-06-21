@@ -46,7 +46,7 @@ class ObjectivePane extends PureComponent {
 
   handleRemoveClick = () => {
     this.props.confirm({
-      content: `Objective ${this.props.objective.get('name')} を削除しますか？`,
+      content: `Objective "${this.props.objective.get('name')}" を削除しますか？`,
       onConfirm: () => this.props.removeObjective(this.props.objective.get('id')),
     });
   }
