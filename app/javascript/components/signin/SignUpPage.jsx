@@ -46,7 +46,7 @@ class SignUpPage extends PureComponent {
 
   completedView = () => {
     return (
-      <div className="sign-up completed">
+      <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
 
         <Segment raised compact padded="very">
@@ -54,7 +54,7 @@ class SignUpPage extends PureComponent {
           メール中の URL がクリックされると処理が完了します。
         </Segment>
 
-        <Message className="sign-up__link" size="small">
+        <Message className="sign-in__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
@@ -66,11 +66,11 @@ class SignUpPage extends PureComponent {
       return this.completedView()
     }
     return (
-      <div className="sign-up">
+      <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily"/>
 
         <Segment raised compact padded="very">
-          <Form>
+          <Form className="sign-in__form">
             <Form.Group>
               <Form.Input
                 inline
@@ -146,7 +146,7 @@ class SignUpPage extends PureComponent {
                     }
                   }}
                 />
-                <span className="between">-</span>
+                <span className="sign-in__between">-</span>
                 <DatePicker
                   dateFormat="YYYY/M/D"
                   locale="ja"
@@ -184,9 +184,9 @@ class SignUpPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="sign-up__submit" content="登録する" onClick={this.addOrganization} />
+        <Button positive className="sign-in__submit" content="登録する" onClick={this.addOrganization} />
 
-        <Message className="sign-up__link" size="small">
+        <Message className="sign-in__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>

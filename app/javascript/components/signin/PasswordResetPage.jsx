@@ -14,7 +14,7 @@ class PasswordResetPage extends PureComponent {
 
   completedView = () => {
     return (
-      <div className="password-reset completed">
+      <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
 
         <Segment raised compact padded="very">
@@ -22,7 +22,7 @@ class PasswordResetPage extends PureComponent {
           メールが届かない場合はアドレスを確かめて送信し直してください。
         </Segment>
 
-        <Message className="password-reset__link" size="small">
+        <Message className="sign-in__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
@@ -34,13 +34,13 @@ class PasswordResetPage extends PureComponent {
       return this.completedView()
     }
     return (
-      <div className="password-reset">
+      <div className="sign-in">
         <Image as='h1' src={logo_image} title='Resily' />
 
         <Message content="パスワードを再設定するためのメールを送信します。" />
 
         <Segment raised compact padded="very">
-          <Form>
+          <Form className="sign-in__form">
             <Form.Input
               inline
               label="メールアドレス"
@@ -56,9 +56,9 @@ class PasswordResetPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="password-reset__submit" content="送信する" onClick={this.sendEmail} />
+        <Button positive className="sign-in__submit" content="送信する" onClick={this.sendEmail} />
 
-        <Message className="password-reset__link" size="small">
+        <Message className="sign-in__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>

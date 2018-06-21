@@ -19,7 +19,51 @@
     margin-top: 48px;
   }
 
-  .ui.form .field .ui.input input {
-    width: 300px;
+  .ui.form .fields {
+    flex-direction: column;
+
+    .field {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 6px 0;
+    }
+  }
+
+  .ui.form .field {
+    .ui.input {
+      input {
+        width: 300px;
+      }
+    }
+
+    .ui.input.last-name {
+      input {
+        width: 146px;
+      }
+    }
+
+    .ui.input.first-name {
+      input {
+        width: 146px;
+        margin-left: 8px;
+      }
+    }
+
+    .react-datepicker__input-container {
+      input {
+        width: 142px;
+      }
+    }
+
+    .ui.selection.dropdown {
+      width: 300px;
+      margin-top: 6px;
+    }
+  }
+
+  .sign-in__between {
+    width: 16px;
+    text-align: center;
   }
 }

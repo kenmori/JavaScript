@@ -17,13 +17,13 @@ class PasswordSetPage extends PureComponent {
 
   render() {
     return (
-      <div className="password-set">
+      <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
 
         <Message content="アカウントに設定するパスワードを入力してください。" />
 
         <Segment raised compact padded="very">
-          <Form className="password-set__form">
+          <Form className="sign-in__form">
             <Form.Input
               inline
               label="パスワード"
@@ -48,9 +48,9 @@ class PasswordSetPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="password-set__submit" content="設定する" onClick={this.setPassword} />
+        <Button positive className="sign-in__submit" content="設定する" onClick={this.setPassword} />
 
-        <Message className="password-set__link" size="small">
+        <Message className="sign-in__link" size="small">
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
