@@ -21,7 +21,7 @@ class UserAddForm extends PureComponent {
       this.setState({ firstName: '', lastName: '', email: '' }) // admin はリセットしない
     }
     this.props.confirm({
-      content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。確認メールを送信しますか？ (確認メールはあとから再送信できます)`,
+      content: `${email} に確認メールを送信しますか？メール中の URL がクリックされると処理が完了します。確認メールはあとから再送信できます。`,
       onConfirm: addUser(false),
       onCancel: addUser(true),
     })
