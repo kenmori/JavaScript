@@ -23,6 +23,9 @@ const mapDispatchToProps = dispatch => {
     openObjectiveModal: () => {
       dispatch(dialogActions.openObjectiveModal());
     },
+    openOptionModal: () => {
+      dispatch(dialogActions.openOptionModal())
+    },
   };
 };
 
