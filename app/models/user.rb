@@ -29,7 +29,7 @@ class User < ApplicationRecord
   end
 
   def organization
-    current_organization_id.present? ? organizations.find(current_organization_id) : organizations.first
+    organizations.find_by(id: current_organization_id) || organizations.first
   end
 
   def password_required?
