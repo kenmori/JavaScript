@@ -2,7 +2,7 @@ class DeleteAccountPermanently
   def self.execute
     puts ''
     Organization.all.each do |organization|
-      puts "#{organization.id} - #{organization.name}"
+      puts "#{organization.id} - #{organization.name} (#{organization.users.first&.email})"
     end
     puts ''
 
