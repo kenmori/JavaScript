@@ -4,6 +4,7 @@ class CreateUserSettings < ActiveRecord::Migration[5.1]
       t.integer :user_id, null: false
       t.boolean :show_my_child_objectives, default: false
       t.boolean :show_my_key_results, default: false
+      t.boolean :show_members_key_results, default: true
       t.timestamps
     end
   end

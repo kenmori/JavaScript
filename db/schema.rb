@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20180622115809) do
     t.integer "user_id", null: false
     t.boolean "show_my_child_objectives", default: false
     t.boolean "show_my_key_results", default: false
+    t.boolean "show_members_key_results", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

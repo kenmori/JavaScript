@@ -10,6 +10,7 @@ class OptionModal extends PureComponent {
     this.state = {
       showMyChildObjectives: false,
       showMyKeyResults: false,
+      showMembersKeyResults: false,
     }
   }
 
@@ -18,17 +19,19 @@ class OptionModal extends PureComponent {
       this.setState({
         showMyChildObjectives: nextProps.userSetting.get('showMyChildObjectives'),
         showMyKeyResults: nextProps.userSetting.get('showMyKeyResults'),
+        showMembersKeyResults: nextProps.userSetting.get('showMembersKeyResults'),
       })
     }
   }
 
   update = () => {
     const { userSetting } = this.props
-    const { showMyChildObjectives, showMyKeyResults } = this.state
+    const { showMyChildObjectives, showMyKeyResults, showMembersKeyResults } = this.state
     const isDirty = userSetting.get('showMyChildObjectives') !== showMyChildObjectives
       || userSetting.get('showMyKeyResults') !== this.state.showMyKeyResults
+      || userSetting.get('showMembersKeyResults') !== this.state.showMembersKeyResults
     if (isDirty) {
-      this.props.updateUserSetting({ showMyChildObjectives, showMyKeyResults })
+      this.props.updateUserSetting({ showMyChildObjectives, showMyKeyResults, showMembersKeyResults })
     } else {
       this.props.closeModal()
     }
@@ -36,7 +39,7 @@ class OptionModal extends PureComponent {
 
   render() {
     const { isOpen, closeModal } = this.props
-    const { showMyChildObjectives, showMyKeyResults } = this.state
+    const { showMyChildObjectives, showMyKeyResults, showMembersKeyResults } = this.state
     return (
       <Modal closeIcon open={isOpen} size="small" onClose={closeModal}>
         <Modal.Content>
@@ -58,6 +61,13 @@ class OptionModal extends PureComponent {
                 label='自分の Objective に紐付く Key Result を表示する'
                 checked={showMyKeyResults}
                 onChange={(e, { checked }) => this.setState({ showMyKeyResults: checked })}
+              />
+            </List.Item>
+            <List.Item>
+              <Checkbox
+                label='自分が関係者になっている Key Result を表示する'
+                checked={showMembersKeyResults}
+                onChange={(e, { checked }) => this.setState({ showMembersKeyResults: checked })}
               />
             </List.Item>
           </List>

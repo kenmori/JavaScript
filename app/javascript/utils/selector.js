@@ -40,11 +40,16 @@ export const getMyKeyResults = createSelector(
   getKeyResults,
   state => state.loginUser.get('id'),
   state => state.loginUser.getIn(['userSetting', 'showMyKeyResults']),
-  (keyResults, loginUserId, showMyKeyResults) => {
-    return showMyKeyResults ? keyResults : keyResults.filterNot(keyResult => {
+  state => state.loginUser.getIn(['userSetting', 'showMembersKeyResults']),
+  (keyResults, loginUserId, showMyKeyResults, showMembersKeyResults) => {
+    keyResults = showMyKeyResults ? keyResults : keyResults.filterNot(keyResult => {
       const objective = keyResult.get('objective')
       return objective ? objective.get('owner').get('id') === loginUserId : false
     })
+    keyResults = showMembersKeyResults ? keyResults : keyResults.filter(keyResult =>
+      keyResult.get('owner').get('id') === loginUserId
+    )
+    return keyResults
   }
 )
 

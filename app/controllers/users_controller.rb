@@ -101,7 +101,7 @@ class UsersController < ApplicationController
 
   def user_setting_params
     params.require(:user_setting)
-        .permit(:show_my_child_objectives, :show_my_key_results)
+        .permit(:show_my_child_objectives, :show_my_key_results, :show_members_key_results)
   end
 
   def valid_operatable_user?
