@@ -4,6 +4,7 @@ import {
   denormalizeObjectives, denormalizeKeyResults,
   denormalizeObjectiveCandidates, denormalizeKeyResultCandidates,
 } from '../schemas'
+import { getParentObjective } from './okr'
 
 export const getEnabledUsers = createSelector(
   state => state.users,
@@ -20,6 +21,31 @@ export const getKeyResults = createSelector(
   state => state.keyResults.get('ids'),
   state => state.entities,
   (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
+)
+
+export const getMyObjectives = createSelector(
+  getObjectives,
+  state => state.entities,
+  state => state.loginUser.get('id'),
+  state => state.loginUser.getIn(['userSetting', 'showMyChildObjectives']),
+  (objectives, entities, loginUserId, showMyChildObjectives) => {
+    return showMyChildObjectives ? objectives : objectives.filterNot(objective => {
+      const parentObjective = getParentObjective(objective, entities)
+      return parentObjective ? parentObjective.get('owner').get('id') === loginUserId : false
+    })
+  }
+)
+
+export const getMyKeyResults = createSelector(
+  getKeyResults,
+  state => state.loginUser.get('id'),
+  state => state.loginUser.getIn(['userSetting', 'showMyKeyResults']),
+  (keyResults, loginUserId, showMyKeyResults) => {
+    return showMyKeyResults ? keyResults : keyResults.filterNot(keyResult => {
+      const objective = keyResult.get('objective')
+      return objective ? objective.get('owner').get('id') === loginUserId : false
+    })
+  }
 )
 
 export const getPreviousObjectives = createSelector(

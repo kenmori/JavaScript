@@ -17,3 +17,14 @@ export const okrOptions = (okrs, withNone) => {
   }
   return options.toArray();
 }
+
+export const getParentObjective = (objective, entities) => {
+  const parentKeyResultId = objective.get('parentKeyResultId')
+  if (parentKeyResultId) {
+    const parentKeyResult = entities.keyResults.get(parentKeyResultId)
+    if (parentKeyResult) {
+      return entities.objectives.get(parentKeyResult.get('objectiveId'))
+    }
+  }
+  return null
+}

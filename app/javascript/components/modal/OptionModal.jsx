@@ -44,7 +44,7 @@ class OptionModal extends PureComponent {
           <List relaxed>
             <List.Item>
               <Checkbox
-                label='自分の Key Result に紐付く下位 Objective を表示する'
+                label='自分の Objective に紐付く下位 Objective を表示する'
                 checked={showMyChildObjectives}
                 onChange={(e, { checked }) => this.setState({ showMyChildObjectives: checked })}
               />
