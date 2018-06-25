@@ -73,6 +73,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_user_setting
+    user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(user.organization.id)
+    forbidden and return unless current_user.id == user.id
+
+    @user_setting = user.user_setting
+    unless @user_setting.update(user_setting_params)
+      unprocessable_entity_with_errors(@user_setting.errors.full_messages)
+    end
+  end
+
   private
 
   def create_user_params
@@ -86,6 +97,11 @@ class UsersController < ApplicationController
   def password_params
     params.require(:user)
         .permit(:id, :password, :password_confirmation, :current_password)
+  end
+
+  def user_setting_params
+    params.require(:user_setting)
+        .permit(:show_my_child_objectives, :show_my_key_results)
   end
 
   def valid_operatable_user?
