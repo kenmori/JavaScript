@@ -29,6 +29,10 @@ class User < ApplicationRecord
     skip_confirmation_notification! if skip_notification
   end
 
+  after_create do
+    create_user_setting!
+  end
+
   def organization
     organizations.find_by(id: current_organization_id) || organizations.first
   end
