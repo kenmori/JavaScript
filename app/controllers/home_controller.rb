@@ -6,6 +6,7 @@ class HomeController < ApplicationController
     gon.organizations = current_user.organizations
     gon.organization = current_organization
     gon.okr_period = current_organization.current_okr_period
+    gon.user_setting = current_user.user_setting
   end
 
   def non_login
