@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Button, Modal, List, Checkbox, Header } from 'semantic-ui-react'
 
 class OptionModal extends PureComponent {
@@ -9,6 +10,27 @@ class OptionModal extends PureComponent {
     this.state = {
       showMyChildObjectives: false,
       showMyKeyResults: false,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isOpen && nextProps.isOpen) {
+      this.setState({
+        showMyChildObjectives: nextProps.userSetting.get('showMyChildObjectives'),
+        showMyKeyResults: nextProps.userSetting.get('showMyKeyResults'),
+      })
+    }
+  }
+
+  update = () => {
+    const { userSetting } = this.props
+    const { showMyChildObjectives, showMyKeyResults } = this.state
+    const isDirty = userSetting.get('showMyChildObjectives') !== showMyChildObjectives
+      || userSetting.get('showMyKeyResults') !== this.state.showMyKeyResults
+    if (isDirty) {
+      this.props.updateUserSetting({ showMyChildObjectives, showMyKeyResults })
+    } else {
+      this.props.closeModal()
     }
   }
 
@@ -42,7 +64,7 @@ class OptionModal extends PureComponent {
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={closeModal}>キャンセル</Button>
-          <Button primary onClick={closeModal}>OK</Button>
+          <Button primary onClick={this.update}>OK</Button>
         </Modal.Actions>
       </Modal>
     )
@@ -52,6 +74,8 @@ class OptionModal extends PureComponent {
 OptionModal.propTypes = {
   // container
   isOpen: PropTypes.bool.isRequired,
+  userSetting: ImmutablePropTypes.map.isRequired,
+  updateUserSetting: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   // component
 }
