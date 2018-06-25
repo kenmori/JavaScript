@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :organization_members, dependent: :destroy
   has_many :organizations, through: :organization_members
   has_many :objective_orders, dependent: :destroy
+  has_one :user_setting, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 
