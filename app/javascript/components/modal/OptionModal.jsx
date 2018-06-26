@@ -43,7 +43,7 @@ class OptionModal extends PureComponent {
     return (
       <Modal closeIcon open={isOpen} size="small" onClose={closeModal}>
         <Modal.Content>
-          <Header as='h3'>Objective</Header>
+          <Header as='h4'>Objective 一覧</Header>
           <List relaxed>
             <List.Item>
               <Checkbox
@@ -54,7 +54,7 @@ class OptionModal extends PureComponent {
             </List.Item>
           </List>
 
-          <Header as='h3'>Key Result</Header>
+          <Header as='h4'>Key Result 一覧</Header>
           <List relaxed>
             <List.Item>
               <Checkbox
