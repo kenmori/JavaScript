@@ -23,26 +23,24 @@ class OkrSidebar extends PureComponent {
     }
   }
 
-  moveKeyResult = (fromIndex, toIndex) => {
-    if (0 <= toIndex && toIndex < this.state.keyResultOrder.size) {
-      this.setState({ keyResultOrder: this.getNewKeyResultOrder(fromIndex, toIndex) });
+  moveKeyResult = (fromIndex, toIndex, toUpdate = false) => {
+    const newKeyResultOrder = this.getNewKeyResultOrder(fromIndex, toIndex)
+    if (toUpdate) {
+      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder)
+    } else {
+      this.setState({ keyResultOrder: newKeyResultOrder })
     }
   }
 
-  updateKeyResultOrder = (fromIndex, toIndex) => {
-    const newKeyResultOrder = this.getNewKeyResultOrder(fromIndex, toIndex);
-    if (!newKeyResultOrder.equals(this.props.keyResultOrder)) {
-      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder);
+  updateKeyResultOrder = () => {
+    if (!this.state.keyResultOrder.equals(this.props.keyResultOrder)) {
+      this.props.updateKeyResultOrder(this.props.objective.get('id'), this.state.keyResultOrder)
     }
   }
 
   getNewKeyResultOrder = (fromIndex, toIndex) => {
-    if (fromIndex >= 0 && toIndex >= 0) {
-      const fromId = this.state.keyResultOrder.get(fromIndex);
-      return this.state.keyResultOrder.delete(fromIndex).insert(toIndex, fromId);
-    } else {
-      return this.state.keyResultOrder;
-    }
+    const fromId = this.state.keyResultOrder.get(fromIndex)
+    return this.state.keyResultOrder.delete(fromIndex).insert(toIndex, fromId)
   }
 
   handleObjectiveClick = () => openObjective(this.props.objective.get('id'))

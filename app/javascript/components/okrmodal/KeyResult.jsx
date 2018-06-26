@@ -15,7 +15,7 @@ const itemSource = {
 
   beginDrag(props) {
     return {
-      id: props.keyResult.get('id'),
+      id: props.keyResult.get('id'), // required to update isDragging
       index: props.index,
     }
   },
@@ -56,7 +56,7 @@ class KeyResult extends PureComponent {
   swapKeyResult = toUp => event => {
     const fromIndex = this.props.index;
     const toIndex = toUp ? fromIndex - 1 : fromIndex + 1;
-    this.props.updateKeyResultOrder(fromIndex, toIndex);
+    this.props.moveKeyResult(fromIndex, toIndex, true);
     event.stopPropagation();
   }
 
