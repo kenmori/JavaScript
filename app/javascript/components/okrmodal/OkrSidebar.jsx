@@ -12,9 +12,7 @@ import KeyResult from './KeyResult';
 class OkrSidebar extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      keyResultOrder: props.keyResultOrder,
-    }
+    this.state = { keyResultOrder: props.keyResultOrder }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,7 +22,9 @@ class OkrSidebar extends PureComponent {
   }
 
   moveKeyResult = (fromIndex, toIndex, toUpdate = false) => {
-    const newKeyResultOrder = this.getNewKeyResultOrder(fromIndex, toIndex)
+    const { keyResultOrder } = this.state
+    const fromId = keyResultOrder.get(fromIndex)
+    const newKeyResultOrder = keyResultOrder.delete(fromIndex).insert(toIndex, fromId)
     if (toUpdate) {
       this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder)
     } else {
@@ -36,11 +36,6 @@ class OkrSidebar extends PureComponent {
     if (!this.state.keyResultOrder.equals(this.props.keyResultOrder)) {
       this.props.updateKeyResultOrder(this.props.objective.get('id'), this.state.keyResultOrder)
     }
-  }
-
-  getNewKeyResultOrder = (fromIndex, toIndex) => {
-    const fromId = this.state.keyResultOrder.get(fromIndex)
-    return this.state.keyResultOrder.delete(fromIndex).insert(toIndex, fromId)
   }
 
   handleObjectiveClick = () => openObjective(this.props.objective.get('id'))
