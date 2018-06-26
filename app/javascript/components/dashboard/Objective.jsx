@@ -4,7 +4,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
-import { onTouch } from '../../utils/backend';
 
 const boxSource = {
   canDrag(props) {
@@ -69,7 +68,7 @@ class Objective extends PureComponent {
     } = this.props;
     return (
       <div
-        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
+        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''}`}
         onClick={selectObjective(objective)}
       >
         <div>

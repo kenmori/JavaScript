@@ -6,7 +6,6 @@ import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
-import { onTouch } from '../../utils/backend';
 
 const itemSource = {
   canDrag(props) {
@@ -74,7 +73,7 @@ class KeyResult extends PureComponent {
     return (
       <div className="sidebar__item-wrapper">
         <Segment
-          className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
+          className={`sidebar__item ${isSelected ? 'is-current' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''}`}
           key={keyResult.get('id')}
           onClick={this.handleClick}>
 
