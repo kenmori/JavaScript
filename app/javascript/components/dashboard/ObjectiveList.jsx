@@ -18,26 +18,30 @@ class ObjectiveList extends PureComponent {
     }
   }
 
-  moveObjective = (fromIndex, toIndex) => {
-    if (0 <= toIndex && toIndex < this.state.objectiveOrder.size) {
-      this.setState({ objectiveOrder: this.getNewObjectiveOrder(fromIndex, toIndex) });
+  moveObjective = (fromIndex, toIndex, toUpdate = false) => {
+    const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex)
+    if (toUpdate) {
+      this.props.updateObjectiveOrder(newObjectiveOrder)
+    } else {
+      this.setState({ objectiveOrder: newObjectiveOrder })
     }
   }
 
-  updateObjectiveOrder = (fromIndex, toIndex) => {
-    const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex);
-    if (!newObjectiveOrder.equals(this.props.objectiveOrder)) {
-      this.props.updateObjectiveOrder(newObjectiveOrder);
+  updateObjectiveOrder = () => {
+    if (!this.state.objectiveOrder.equals(this.props.objectiveOrder)) {
+      this.props.updateObjectiveOrder(this.state.objectiveOrder)
     }
   }
 
   getNewObjectiveOrder = (fromIndex, toIndex) => {
-    if (fromIndex >= 0 && toIndex >= 0) {
-      const fromId = this.state.objectiveOrder.get(fromIndex);
-      return this.state.objectiveOrder.delete(fromIndex).insert(toIndex, fromId);
-    } else {
-      return this.state.objectiveOrder;
-    }
+    const filteredObjectiveOrder = this.props.objectives
+      .map(objective => objective.get('id'))
+      .sortBy(id => this.state.objectiveOrder.indexOf(id))
+    const fromId = filteredObjectiveOrder.get(fromIndex)
+    const toId = filteredObjectiveOrder.get(toIndex)
+    fromIndex = this.state.objectiveOrder.indexOf(fromId)
+    toIndex = this.state.objectiveOrder.indexOf(toId)
+    return this.state.objectiveOrder.delete(fromIndex).insert(toIndex, fromId)
   }
 
   selectObjective = objective => () => {
