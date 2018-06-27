@@ -18,7 +18,7 @@ export const okrOptions = (okrs, withNone) => {
   return options.toArray();
 }
 
-export const getParentObjective = (objective, entities) => {
+const getParentObjective = (objective, entities) => {
   const parentKeyResultId = objective.get('parentKeyResultId')
   if (parentKeyResultId) {
     const parentKeyResult = entities.keyResults.get(parentKeyResultId)
@@ -27,4 +27,9 @@ export const getParentObjective = (objective, entities) => {
     }
   }
   return null
+}
+
+export const isMyChildObjective = (objective, loginUserId, entities) => {
+  const parentObjective = getParentObjective(objective, entities)
+  return parentObjective ? parentObjective.get('owner').get('id') === loginUserId : false
 }
