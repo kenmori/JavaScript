@@ -8,6 +8,16 @@ import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 
+function* selectOkr({ payload }) {
+  const { objectiveId, keyResultId } = payload
+  const hasObjective = yield select(state => state.entities.objectives.has(objectiveId))
+  if (!hasObjective) {
+    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+    yield take(actionTypes.FETCHED_OBJECTIVE)
+  }
+  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
+}
+
 function* fetchOkrs({ payload }) {
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (payload.isOkrPeriodChanged) {
@@ -107,6 +117,7 @@ function* removeObjective({payload}) {
 
 export function *objectiveSagas() {
   yield all([
+    takeLatest(actionTypes.SELECT_OKR, selectOkr),
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),

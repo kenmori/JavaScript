@@ -91,7 +91,7 @@ export default handleActions({
       const objectiveOrder = JSON.parse(payload.order);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
-    [ActionTypes.SELECT_OKR]: (state, { payload }) => {
+    [ActionTypes.SELECTED_OKR]: (state, { payload }) => {
       const { objectiveId, keyResultId } = payload;
       return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId });
     },

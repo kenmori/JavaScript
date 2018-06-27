@@ -41,9 +41,7 @@ class ObjectiveList extends PureComponent {
     }
   }
 
-  selectObjective = objective => () => {
-    this.props.selectOkr(objective.get('id'));
-  }
+  selectObjective = objective => () => this.props.selectObjective(objective)
 
   render() {
     const { objectives, selectedObjectiveId, canMoveObjective } = this.props
@@ -74,7 +72,7 @@ ObjectiveList.propTypes = {
   selectedObjectiveId: PropTypes.number,
   objectiveOrder: ImmutablePropTypes.list.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,
-  selectOkr: PropTypes.func.isRequired,
+  selectObjective: PropTypes.func.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
   // component
   objectives: ImmutablePropTypes.list.isRequired,

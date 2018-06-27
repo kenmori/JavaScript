@@ -14,8 +14,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectOkr: objectiveId => {
-      dispatch(objectiveActions.selectOkr(objectiveId));
+    selectObjective: objective => {
+      dispatch(objectiveActions.selectOkr(objective.get('id')))
     },
     updateObjectiveOrder: order => {
       dispatch(objectiveOrderActions.updateObjectiveOrder(order))

@@ -4,6 +4,7 @@ import { normalizeObjective, normalizeObjectives } from '../schemas/index'
 
 const actions = createActions({
   [actionTypes.SELECT_OKR]: (objectiveId, keyResultId = null) => ({ objectiveId, keyResultId }),
+  [actionTypes.SELECTED_OKR]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.FETCH_OKRS]: (okrPeriodId, userId, isOkrPeriodChanged) => ({ okrPeriodId, userId, isOkrPeriodChanged }),
   [actionTypes.FETCH_OBJECTIVE]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.FETCH_OBJECTIVE_ASYNC]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
