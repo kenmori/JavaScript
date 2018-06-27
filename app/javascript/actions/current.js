@@ -2,8 +2,10 @@ import { createActions } from 'redux-actions';
 import actionTypes from '../constants/actionTypes';
 
 const actions = createActions({
-  [actionTypes.CHANGE_CURRENT_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
-  [actionTypes.CHANGE_CURRENT_USER]: userId => ({ userId }),
+  [actionTypes.SELECT_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
+  [actionTypes.SELECTED_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
+  [actionTypes.SELECT_USER]: userId => ({ userId }),
+  [actionTypes.SELECTED_USER]: userId => ({ userId }),
 });
 
 export default actions;

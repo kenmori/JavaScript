@@ -8,6 +8,7 @@ import { okrPeriodSagas } from './okrPeriods';
 import { dialogSagas } from './dialogs';
 import { objectiveOrderSagas } from "./objectiveOrders";
 import { loginUserSagas } from './loginUser'
+import { currentSagas } from './current'
 
 const sagas = [
   objectiveSagas,
@@ -19,6 +20,7 @@ const sagas = [
   dialogSagas,
   objectiveOrderSagas,
   loginUserSagas,
+  currentSagas,
 ];
 
 export default function* rootSaga() {
