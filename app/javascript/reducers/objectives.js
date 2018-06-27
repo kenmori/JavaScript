@@ -49,7 +49,6 @@ export default handleActions({
       const objectiveIds = payload.get('result');
       return state
         .set('ids', objectiveIds)
-        .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
         .set('isFetchedObjectives', true);
     },
     [ActionTypes.FETCH_PREVIOUS_OBJECTIVES]: state => {

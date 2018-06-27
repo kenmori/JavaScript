@@ -19,15 +19,23 @@ function* selectOkr({ payload }) {
 }
 
 function* fetchOkrs({ payload }) {
+  let isInitialOkrSelected = false
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (payload.isOkrPeriodChanged) {
     yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
     yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
+    isInitialOkrSelected = yield selectInitialKeyResult('unprocessedIds')
   }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)
+  if (!isInitialOkrSelected) {
+    isInitialOkrSelected = yield selectInitialObjective('ids')
+  }
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
+  if (!isInitialOkrSelected) {
+    yield selectInitialKeyResult('ids', true)
+  }
   if (payload.isOkrPeriodChanged) {
     // 前期 OKR の fetch
     const okrPeriods = yield select(state => state.okrPeriods)
@@ -48,6 +56,30 @@ function* fetchOkrs({ payload }) {
     yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId, userId)); // without loading
     yield take(actionTypes.FETCHED_OBJECTIVE_CANDIDATES)
   }
+}
+
+function* selectInitialObjective(ids) {
+  const objectiveId = yield select(state => state.objectives.get(ids).first())
+  if (objectiveId) {
+    yield put(objectiveActions.selectOkr(objectiveId, null, true))
+    yield take(actionTypes.SELECTED_OKR)
+    return true
+  }
+  return false
+}
+
+function* selectInitialKeyResult(ids, selectAnyway = false) {
+  const keyResultId = yield select(state => state.keyResults.get(ids).first())
+  if (keyResultId) {
+    const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
+    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId, true))
+    yield take(actionTypes.SELECTED_OKR)
+    return true
+  } else if (selectAnyway) {
+    yield put(objectiveActions.selectedOkr(null, null))
+    return true
+  }
+  return false
 }
 
 function* fetchObjective({ payload }) {
