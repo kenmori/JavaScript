@@ -33,3 +33,8 @@ export const isMyChildObjective = (objective, loginUserId, entities) => {
   const parentObjective = getParentObjective(objective, entities)
   return parentObjective ? parentObjective.get('owner').get('id') === loginUserId : false
 }
+
+export const isMyChildObjectiveById = (objectiveId, loginUserId, entities) => {
+  const objective = entities.objectives.get(objectiveId)
+  return isMyChildObjective(objective, loginUserId, entities)
+}

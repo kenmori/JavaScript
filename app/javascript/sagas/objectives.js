@@ -7,6 +7,7 @@ import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
+import { isMyChildObjectiveById } from '../utils/okr'
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
@@ -59,7 +60,13 @@ function* fetchOkrs({ payload }) {
 }
 
 function* selectInitialObjective(ids) {
-  const objectiveId = yield select(state => state.objectives.get(ids).first())
+  const objectiveId = yield select(state => {
+    const objectives = state.objectives.get(ids)
+    const loginUserId = state.loginUser.get('id')
+    const showMyChildObjectives = state.loginUser.getIn(['userSetting', 'showMyChildObjectives'])
+    return showMyChildObjectives ? objectives.first()
+      : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, loginUserId, state.entities))
+  })
   if (objectiveId) {
     yield put(objectiveActions.selectOkr(objectiveId, null, true))
     yield take(actionTypes.SELECTED_OKR)
