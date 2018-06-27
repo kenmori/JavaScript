@@ -62,10 +62,10 @@ function* fetchOkrs({ payload }) {
 function* selectInitialObjective(ids) {
   const objectiveId = yield select(state => {
     const objectives = state.objectives.get(ids)
-    const loginUserId = state.loginUser.get('id')
+    const ownerId = state.current.get('userId')
     const showMyChildObjectives = state.loginUser.getIn(['userSetting', 'showMyChildObjectives'])
     return showMyChildObjectives ? objectives.first()
-      : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, loginUserId, state.entities))
+      : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
     yield put(objectiveActions.selectOkr(objectiveId, null, true))

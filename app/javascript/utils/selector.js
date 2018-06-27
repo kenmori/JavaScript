@@ -26,26 +26,26 @@ export const getKeyResults = createSelector(
 export const getMyObjectives = createSelector(
   getObjectives,
   state => state.entities,
-  state => state.loginUser.get('id'),
+  state => state.current.get('userId'),
   state => state.loginUser.getIn(['userSetting', 'showMyChildObjectives']),
-  (objectives, entities, loginUserId, showMyChildObjectives) => {
+  (objectives, entities, ownerId, showMyChildObjectives) => {
     return showMyChildObjectives ? objectives
-      : objectives.filterNot(objective => isMyChildObjective(objective, loginUserId, entities))
+      : objectives.filterNot(objective => isMyChildObjective(objective, ownerId, entities))
   }
 )
 
 export const getMyKeyResults = createSelector(
   getKeyResults,
-  state => state.loginUser.get('id'),
+  state => state.current.get('userId'),
   state => state.loginUser.getIn(['userSetting', 'showMyKeyResults']),
   state => state.loginUser.getIn(['userSetting', 'showMembersKeyResults']),
-  (keyResults, loginUserId, showMyKeyResults, showMembersKeyResults) => {
+  (keyResults, ownerId, showMyKeyResults, showMembersKeyResults) => {
     keyResults = showMyKeyResults ? keyResults : keyResults.filterNot(keyResult => {
       const objective = keyResult.get('objective')
-      return objective ? objective.get('owner').get('id') === loginUserId : false
+      return objective ? objective.get('owner').get('id') === ownerId : false
     })
     keyResults = showMembersKeyResults ? keyResults : keyResults.filter(keyResult =>
-      keyResult.get('owner').get('id') === loginUserId
+      keyResult.get('owner').get('id') === ownerId
     )
     return keyResults
   }

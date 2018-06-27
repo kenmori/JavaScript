@@ -29,12 +29,12 @@ const getParentObjective = (objective, entities) => {
   return null
 }
 
-export const isMyChildObjective = (objective, loginUserId, entities) => {
+export const isMyChildObjective = (objective, ownerId, entities) => {
   const parentObjective = getParentObjective(objective, entities)
-  return parentObjective ? parentObjective.get('owner').get('id') === loginUserId : false
+  return parentObjective ? parentObjective.get('owner').get('id') === ownerId : false
 }
 
-export const isMyChildObjectiveById = (objectiveId, loginUserId, entities) => {
+export const isMyChildObjectiveById = (objectiveId, ownerId, entities) => {
   const objective = entities.objectives.get(objectiveId)
-  return isMyChildObjective(objective, loginUserId, entities)
+  return isMyChildObjective(objective, ownerId, entities)
 }
