@@ -1,7 +1,7 @@
 import ObjectiveList from '../components/dashboard/ObjectiveList';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
-import objectiveOrderActions from '../actions/objectiveOrders';
+import loginUserActions from '../actions/loginUser';
 
 const mapStateToProps = (state) => {
   return {
@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(objectiveActions.selectOkr(objective.get('id')))
     },
     updateObjectiveOrder: order => {
-      dispatch(objectiveOrderActions.updateObjectiveOrder(order))
+      dispatch(loginUserActions.updateObjectiveOrder(order))
     },
   };
 };
