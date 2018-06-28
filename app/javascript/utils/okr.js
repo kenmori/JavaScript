@@ -47,3 +47,8 @@ export const isMyKeyResult = (keyResult, ownerId) => {
 export const isMembersKeyResult = (keyResult, ownerId) => {
   return keyResult.get('owner').get('id') !== ownerId
 }
+
+export const isMembersKeyResultById = (keyResultId, ownerId, entities) => {
+  const keyResult = entities.keyResults.get(keyResultId)
+  return isMembersKeyResult(keyResult, ownerId)
+}
