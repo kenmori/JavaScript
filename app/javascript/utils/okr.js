@@ -38,3 +38,12 @@ export const isMyChildObjectiveById = (objectiveId, ownerId, entities) => {
   const objective = entities.objectives.get(objectiveId)
   return isMyChildObjective(objective, ownerId, entities)
 }
+
+export const isMyKeyResult = (keyResult, ownerId) => {
+  const objective = keyResult.get('objective')
+  return objective ? objective.get('owner').get('id') === ownerId : false
+}
+
+export const isMembersKeyResult = (keyResult, ownerId) => {
+  return keyResult.get('owner').get('id') !== ownerId
+}
