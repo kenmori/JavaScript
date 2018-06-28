@@ -26,7 +26,7 @@ export const getKeyResults = createSelector(
 export const getMyObjectives = createSelector(
   getObjectives,
   state => state.entities,
-  state => state.current.get('userId'),
+  state => state.current.get('userIdAtFetchedObjectives'),
   state => state.loginUser.getIn(['userSetting', 'showMyChildObjectives']),
   (objectives, entities, ownerId, showMyChildObjectives) => {
     return showMyChildObjectives ? objectives
@@ -36,7 +36,7 @@ export const getMyObjectives = createSelector(
 
 export const getMyKeyResults = createSelector(
   getKeyResults,
-  state => state.current.get('userId'),
+  state => state.current.get('userIdAtFetchedKeyResults'),
   state => state.loginUser.getIn(['userSetting', 'showMyKeyResults']),
   state => state.loginUser.getIn(['userSetting', 'showMembersKeyResults']),
   (keyResults, ownerId, showMyKeyResults, showMembersKeyResults) => {
