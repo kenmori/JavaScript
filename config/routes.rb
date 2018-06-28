@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   get 'users/sign_up(/*path)' => 'home#non_login'
   get 'users/password(/*path)' => 'home#non_login'
   get 'objectives/candidates', to: 'objectives#index_candidates'
-  put 'objective_orders', to: 'objective_orders#create_or_update'
   resources :objectives, only: %i[index show create update destroy] do
     post 'copy', to: 'objectives#create_copy'
   end
@@ -32,6 +31,7 @@ Rails.application.routes.draw do
     put 'current_organization_id', to: 'users#update_current_organization_id'
     put 'resend', to: 'users#resend'
     put :user_setting, to: 'users#update_user_setting'
+    put :objective_order, to: 'users#update_objective_order'
   end
   resources :organizations, only: %i[show create update]
   resources :okr_periods, only: %i[index create update destroy]

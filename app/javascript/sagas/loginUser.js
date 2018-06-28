@@ -15,8 +15,8 @@ function* updateUserSetting({ payload }) {
 
 function* updateObjectiveOrder({ payload }) {
   const [userId, okrPeriodId] = yield select(state => [state.current.get('userId'), state.current.get('okrPeriodId')])
-  const objectiveOrder = { userId, okrPeriodId, list: JSON.stringify(payload.order) }
-  const result = yield call(API.put, '/objective_orders', { objectiveOrder })
+  const objectiveOrder = { okrPeriodId, list: JSON.stringify(payload.order) }
+  const result = yield call(API.put, `/users/${userId}/objective_order`, { objectiveOrder })
   yield put(loginUserActions.updatedObjectiveOrder(result.get('list')))
 }
 

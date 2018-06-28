@@ -84,6 +84,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_objective_order
+    user = User.find(params[:user_id])
+    forbidden and return unless valid_permission?(user.organization.id)
+    forbidden and return unless current_user.id == user.id
+
+    @objective_order = user.objective_orders.find_or_initialize_by(okr_period_id: params[:objective_order][:okr_period_id])
+    unless @objective_order.update(objective_order_params)
+      unprocessable_entity_with_errors(@objective_order.errors.full_messages)
+    end
+  end
+
   private
 
   def create_user_params
@@ -102,6 +113,10 @@ class UsersController < ApplicationController
   def user_setting_params
     params.require(:user_setting)
         .permit(:show_my_child_objectives, :show_my_key_results, :show_members_key_results)
+  end
+
+  def objective_order_params
+    params.require(:objective_order).permit(:okr_period_id, :list)
   end
 
   def valid_operatable_user?
