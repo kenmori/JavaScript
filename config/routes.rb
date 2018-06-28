@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'home#index', as: :root
+
   resources :objectives, only: %i[index show create update destroy] do
     member do
       post 'copy', to: 'objectives#create_copy'
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
       get 'candidates', to: 'objectives#index_candidates'
     end
   end
+
   resources :key_results, only: %i[index create update destroy] do
     member do
       get 'objective', to: 'key_results#show_objective'
@@ -31,12 +33,13 @@ Rails.application.routes.draw do
       get 'unprocessed', to: 'key_results#index_unprocessed'
     end
   end
+
   resources :users, only: %i[create update destroy] do
     member do
-      put 'restore', to: 'users#restore'
+      put 'restore'
       put 'password', to: 'users#update_password'
       put 'current_organization_id', to: 'users#update_current_organization_id'
-      put 'resend', to: 'users#resend'
+      put 'resend'
       put :user_setting, to: 'users#update_user_setting'
       put :objective_order, to: 'users#update_objective_order'
     end
@@ -45,7 +48,10 @@ Rails.application.routes.draw do
       get 'password(/*path)' => 'home#non_login'
     end
   end
+
   resources :organizations, only: %i[show create update]
+
   resources :okr_periods, only: %i[index create update destroy]
+
   get '*path', to: 'home#index'
 end
