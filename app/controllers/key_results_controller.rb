@@ -31,7 +31,7 @@ class KeyResultsController < ApplicationController
   end
 
   def show_objective
-    key_result = KeyResult.find(params[:key_result_id])
+    key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(key_result.owner.organization.id)
     @objective = key_result.objective
     render 'objectives/show'
@@ -86,7 +86,7 @@ class KeyResultsController < ApplicationController
   end
 
   def update_processed
-    @key_result = KeyResult.find(params[:key_result_id])
+    @key_result = KeyResult.find(params[:id])
     key_result_member = @key_result.key_result_members.find_by(user_id: current_user.id)
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
     forbidden('Key Result 責任者または関係者のみ編集できます') and return unless key_result_member

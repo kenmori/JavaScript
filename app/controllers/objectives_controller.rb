@@ -49,7 +49,7 @@ class ObjectivesController < ApplicationController
     forbidden('Key Result 責任者または関係者のみ作成できます') and return unless valid_user_to_create?
 
     ActiveRecord::Base.transaction do
-      original_objective = Objective.find(params[:objective_id])
+      original_objective = Objective.find(params[:id])
       @objective = @user.objectives.new(objective_create_params)
       @user.save!
       update_parent_key_result if params[:objective][:parent_key_result_id]

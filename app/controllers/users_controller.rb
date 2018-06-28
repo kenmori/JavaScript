@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def restore
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update_attribute(:disabled, false)
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   end
 
   def update_current_organization_id
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update(current_organization_id: params['user'][:organization_id])
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
   end
 
   def resend
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
     if @user.resend_confirmation_instructions
       head :no_content
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
   end
 
   def update_user_setting
-    user = User.find(params[:user_id])
+    user = User.find(params[:id])
     forbidden and return unless valid_permission?(user.organization.id)
     forbidden and return unless current_user.id == user.id
 
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
   end
 
   def update_objective_order
-    user = User.find(params[:user_id])
+    user = User.find(params[:id])
     forbidden and return unless valid_permission?(user.organization.id)
     forbidden and return unless current_user.id == user.id
 
@@ -120,7 +120,7 @@ class UsersController < ApplicationController
   end
 
   def valid_operatable_user?
-    user_id = params[:id] || params[:user_id]
+    user_id = params[:id]
     forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
   end
   
