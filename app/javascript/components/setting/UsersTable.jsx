@@ -11,9 +11,9 @@ class UsersTable extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      column: 'index',
+      column: null,
       users: this.getUsers(props.users),
-      direction: 'ascending',
+      direction: null,
       activePage: 1,
     };
   }
