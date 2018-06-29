@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import moment from 'moment';
-import { Tab, Table, Form, Button, Input } from 'semantic-ui-react';
+import { Tab, Table, Button, Input } from 'semantic-ui-react';
 import SortableComponent from '../util/SortableComponent'
 import AutoInput from '../form/AutoInput';
 import DatePicker from '../form/DatePicker';
@@ -78,28 +78,24 @@ class OkrPeriodSettingTab extends SortableComponent {
     const okrPeriods = this.state.okrPeriods;
     return (
       <Tab.Pane attached={false} className="okr-setting-tab">
-        <Form>
-          <Form.Group>
-            <Table singleLine>
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>
-                    <Input type="text" maxLength="255" ref={node => { this.name = node; }} placeholder="期間名"/>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthStart} locale="ja" onChange={this.handleNewMonthStartChange} /></Form.Field>
-                  </Table.Cell>
-                  <Table.Cell>
-                  <Form.Field><DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={this.handleNewMonthEndChange} /></Form.Field>
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Button icon="plus" content="追加する" onClick={this.addOkrPeriod}/>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
-          </Form.Group>
-        </Form>
+        <Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>
+                <Input type="text" maxLength="255" ref={node => { this.name = node; }} placeholder="期間名"/>
+              </Table.Cell>
+              <Table.Cell>
+                <DatePicker dateFormat="YYYY/M/D" selected={this.state.monthStart} locale="ja" onChange={this.handleNewMonthStartChange} />
+                <span className='between'>〜</span>
+                <DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={this.handleNewMonthEndChange} />
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                <Button icon="plus" content="追加する" onClick={this.addOkrPeriod}/>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
@@ -107,12 +103,11 @@ class OkrPeriodSettingTab extends SortableComponent {
                 名前
               </Table.HeaderCell>
               <Table.HeaderCell sorted={this.isSorted('monthStart')} onClick={this.handleSort('monthStart')}>
-                期間 (開始日 - 終了日)
+                期間 (開始日 〜 終了日)
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
             </Table.Row>
           </Table.Header>
-
           <Table.Body>
             {
               okrPeriods.map(okrPeriod => {
@@ -126,17 +121,9 @@ class OkrPeriodSettingTab extends SortableComponent {
                       <AutoInput value={okrPeriodName} onCommit={this.handleNameCommit(id)}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Form>
-                        <Form.Group>
-                          <Form.Field>
-                            <div className="date-input">
-                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={this.handleMonthStartChange(id)} />
-                              <div className="date-input__between">〜</div>
-                              <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={this.handleMonthEndChange(id)} />
-                            </div>
-                          </Form.Field>
-                        </Form.Group>
-                      </Form>
+                      <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={this.handleMonthStartChange(id)} />
+                      <span className='between'>〜</span>
+                      <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={this.handleMonthEndChange(id)} />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button icon="trash" onClick={this.handleRemoveClick(id, okrPeriodName)} content="削除する" negative/>
