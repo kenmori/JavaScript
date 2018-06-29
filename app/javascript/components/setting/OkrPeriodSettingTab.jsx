@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import moment from 'moment';
 import { Tab, Table, Form, Button, Input } from 'semantic-ui-react';
+import SortableComponent from '../util/SortableComponent'
 import AutoInput from '../form/AutoInput';
 import DatePicker from '../form/DatePicker';
 
-class OkrPeriodSettingTab extends PureComponent {
+class OkrPeriodSettingTab extends SortableComponent {
   constructor(props) {
     super(props);
     this.name = '';
@@ -14,23 +15,18 @@ class OkrPeriodSettingTab extends PureComponent {
     const monthStart = this.getMonthStart(okrPeriods);
     const monthEnd = this.getMonthEnd(monthStart);
     this.state = {
-      column: null,
-      direction: null,
-      okrPeriods: this.props.okrPeriods,
+      ...this.state,
       monthStart: monthStart,
       monthEnd: monthEnd,
     };
   }
   componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(nextProps)
     if (nextProps.okrPeriods) {
-      const okrPeriods = this.state.column 
-                          ? this.getSortedOkrPeriods(nextProps.okrPeriods, this.state.column) 
-                          : nextProps.okrPeriods;
       const monthStart = this.getMonthStart(nextProps.okrPeriods);
       const monthEnd = this.getMonthEnd(monthStart);
 
       this.setState({
-        okrPeriods,
         monthStart,
         monthEnd,
       })
@@ -45,35 +41,6 @@ class OkrPeriodSettingTab extends PureComponent {
 
   getMonthEnd(monthStart) {
     return monthStart.clone().add(this.props.okrSpan - 1, 'month').endOf('month');
-  }
-
-  sort = column => () => {
-    if (this.state.column !== column) {
-      const sortedOkrPeriods = this.getSortedOkrPeriods(this.state.okrPeriods, column);
-      this.setState({
-        column: column,
-        okrPeriods: sortedOkrPeriods,
-        direction: 'ascending',
-      });
-      return;
-    }
-
-    this.setState({
-      okrPeriods: this.state.okrPeriods.reverse(),
-      direction: this.state.direction === 'ascending' ? 'descending' : 'ascending',
-    });
-  };
-
-  getSortedOkrPeriods = (okrPeriods, column) => {
-    return okrPeriods.sort((a, b) => {
-      if (typeof a.get(column) === 'string') {
-        return a.get(column).localeCompare(b.get(column));
-      } else {
-        if (a.get(column) < b.get(column)) { return -1; }
-        if (a.get(column) > b.get(column)) { return 1; }
-        if (a.get(column) === b.get(column)) { return 0; }
-      }
-    });
   }
 
   addOkrPeriod = () => {
@@ -105,7 +72,6 @@ class OkrPeriodSettingTab extends PureComponent {
   handleRemoveClick = (id, okrPeriodName) => () => this.removeOkrPeriod(id, okrPeriodName)
 
   render() {
-    const { column, direction } = this.state;
     if (!this.props.okrPeriods) {
       return null;
     }
@@ -114,7 +80,7 @@ class OkrPeriodSettingTab extends PureComponent {
       <Tab.Pane attached={false} className="okr-setting-tab">
         <Form>
           <Form.Group>
-            <Table singleLine sortable>
+            <Table singleLine>
               <Table.Body>
                 <Table.Row>
                   <Table.Cell>
@@ -137,10 +103,10 @@ class OkrPeriodSettingTab extends PureComponent {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={this.sort('name')}>
+              <Table.HeaderCell sorted={this.isSorted('name')} onClick={this.handleSort('name')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'month_start' ? direction : null} onClick={this.sort('month_start')}>
+              <Table.HeaderCell sorted={this.isSorted('month_start')} onClick={this.handleSort('month_start')}>
                 期間 (開始日 - 終了日)
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
@@ -196,6 +162,11 @@ OkrPeriodSettingTab.propTypes = {
   removeOkrPeriod: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
+  key: PropTypes.string.isRequired,
 };
+
+OkrPeriodSettingTab.defaultProps = {
+  key: 'okrPeriods',
+}
 
 export default OkrPeriodSettingTab;
