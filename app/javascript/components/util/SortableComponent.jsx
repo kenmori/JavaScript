@@ -21,6 +21,8 @@ class SortableComponent extends PureComponent {
   }
 
   sort = (items, column, direction) => {
+    if (!column) return items
+
     const sortedItems = items.sort((a, b) => {
       if (typeof a.get(column) === 'string') {
         return a.get(column).localeCompare(b.get(column))
