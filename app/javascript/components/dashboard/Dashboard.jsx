@@ -67,11 +67,11 @@ class Dashboard extends PureComponent {
   getTabContent = activeItem => {
     switch(activeItem) {
       case Dashboard.ITEM_TASK:
-        return <TaskList items={this.props.unprocessedKeyResults} />
+        return <TaskList keyResults={this.props.unprocessedKeyResults} />
       case Dashboard.ITEM_OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />
       case Dashboard.ITEM_KEY_RESULT:
-        return <KeyResultList items={this.props.keyResults} />
+        return <KeyResultList keyResults={this.props.keyResults} />
     }
   }
 

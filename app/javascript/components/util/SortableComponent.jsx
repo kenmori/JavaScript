@@ -1,20 +1,22 @@
 import { PureComponent } from 'react'
-import ImmutablePropTypes from 'react-immutable-proptypes'
+import PropTypes from 'prop-types'
 
 class SortableComponent extends PureComponent {
 
   constructor(props) {
     super(props)
+    const { key } = props
     this.state = {
       column: null,
       direction: null,
-      items: props.items,
+      [key]: props[key],
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.items !== nextProps.items) {
-      this.setState({ items: this.sort(nextProps.items, this.state.column, this.state.direction) })
+    const { key } = this.props
+    if (this.props[key] !== nextProps[key]) {
+      this.setState({ [key]: this.sort(nextProps[key], this.state.column, this.state.direction) })
     }
   }
 
@@ -32,12 +34,13 @@ class SortableComponent extends PureComponent {
   }
 
   handleSort = newColumn => () => {
-    const { column, direction, items } = this.state
+    const { key } = this.props
+    const { column, direction } = this.state
     const newDirection = column !== newColumn ? 'ascending' : direction === 'ascending' ? 'descending' : 'ascending'
     this.setState({
       column: newColumn,
       direction: newDirection,
-      items: this.sort(items, newColumn, newDirection),
+      [key]: this.sort(this.state[key], newColumn, newDirection),
     })
   };
 
@@ -46,7 +49,7 @@ class SortableComponent extends PureComponent {
 
 SortableComponent.propTypes = {
   // component
-  items: ImmutablePropTypes.list.isRequired,
+  key: PropTypes.string.isRequired,
 }
 
 export default SortableComponent

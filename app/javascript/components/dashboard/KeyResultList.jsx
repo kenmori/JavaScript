@@ -11,7 +11,7 @@ class KeyResultList extends SortableComponent {
   selectKeyResult = keyResult => () => this.props.selectKeyResult(keyResult)
 
   render() {
-    const { items } = this.state
+    const { keyResults } = this.state
     return (
       <div className="key-result-list">
         <Table basic='very' compact='very' selectable sortable>
@@ -36,7 +36,7 @@ class KeyResultList extends SortableComponent {
             </Table.Row>
           </Table.Header>
           <Table.Body className='key-result-table'>
-            {items.map(keyResult =>
+            {keyResults.map(keyResult =>
               <Table.Row key={keyResult.get('id')} active={keyResult.get('id') === this.props.selectedKeyResultId}
                          onClick={this.selectKeyResult(keyResult)}>
                 <Table.Cell textAlign='center'><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} /></Table.Cell>
@@ -59,7 +59,12 @@ KeyResultList.propTypes = {
   selectedKeyResultId: PropTypes.number,
   selectKeyResult: PropTypes.func.isRequired,
   // component
-  items: ImmutablePropTypes.list.isRequired,
+  key: PropTypes.string.isRequired,
+  keyResults: ImmutablePropTypes.list.isRequired,
 };
+
+KeyResultList.defaultProps = {
+  key: 'keyResults',
+}
 
 export default KeyResultList;

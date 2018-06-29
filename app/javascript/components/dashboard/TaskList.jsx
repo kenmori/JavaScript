@@ -20,7 +20,7 @@ class TaskList extends SortableComponent {
   }
 
   render() {
-    const { items } = this.state
+    const { keyResults } = this.state
     return (
       <div className="task-list">
         <Table basic='very' compact='very' selectable sortable>
@@ -40,7 +40,7 @@ class TaskList extends SortableComponent {
             </Table.Row>
           </Table.Header>
           <Table.Body className='task-table'>
-            {items.map(keyResult =>
+            {keyResults.map(keyResult =>
               <Table.Row key={keyResult.get('id')}
                          active={keyResult.get('id') === this.props.selectedKeyResultId}
                          onClick={this.selectKeyResult(keyResult)}>
@@ -73,7 +73,12 @@ TaskList.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   processKeyResult: PropTypes.func.isRequired,
   // component
-  items: ImmutablePropTypes.list.isRequired,
+  key: PropTypes.string.isRequired,
+  keyResults: ImmutablePropTypes.list.isRequired,
+}
+
+TaskList.defaultProps = {
+  key: 'keyResults',
 }
 
 export default TaskList
