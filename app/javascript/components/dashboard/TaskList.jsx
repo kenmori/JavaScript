@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Table, Button } from 'semantic-ui-react'
+import SortableComponent from '../util/SortableComponent'
 import OwnerAvatar from '../util/OwnerAvatar'
 
-class TaskList extends PureComponent {
+class TaskList extends SortableComponent {
 
   selectKeyResult = keyResult => () => this.props.selectKeyResult(keyResult)
 
@@ -19,20 +20,27 @@ class TaskList extends PureComponent {
   }
 
   render() {
+    const { items } = this.state
     return (
       <div className="task-list">
-        <Table basic='very' compact='very' selectable>
+        <Table basic='very' compact='very' selectable sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell />
-              <Table.HeaderCell>Key Result</Table.HeaderCell>
-              <Table.HeaderCell>目標値</Table.HeaderCell>
-              <Table.HeaderCell>期限</Table.HeaderCell>
-              <Table.HeaderCell />
+              <Table.HeaderCell disabled />
+              <Table.HeaderCell sorted={this.isSorted('name')} onClick={this.handleSort('name')}>
+                Key Result
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('targetValue')} onClick={this.handleSort('targetValue')}>
+                目標値
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('expiredDate')} onClick={this.handleSort('expiredDate')}>
+                期限
+              </Table.HeaderCell>
+              <Table.HeaderCell disabled />
             </Table.Row>
           </Table.Header>
           <Table.Body className='task-table'>
-            {this.props.keyResults.map(keyResult =>
+            {items.map(keyResult =>
               <Table.Row key={keyResult.get('id')}
                          active={keyResult.get('id') === this.props.selectedKeyResultId}
                          onClick={this.selectKeyResult(keyResult)}>
@@ -65,7 +73,7 @@ TaskList.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   processKeyResult: PropTypes.func.isRequired,
   // component
-  keyResults: ImmutablePropTypes.list.isRequired,
+  items: ImmutablePropTypes.list.isRequired,
 }
 
 export default TaskList
