@@ -71,7 +71,7 @@ class Dashboard extends PureComponent {
       case Dashboard.ITEM_OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />
       case Dashboard.ITEM_KEY_RESULT:
-        return <KeyResultList keyResults={this.props.keyResults} />
+        return <KeyResultList items={this.props.keyResults} />
     }
   }
 
