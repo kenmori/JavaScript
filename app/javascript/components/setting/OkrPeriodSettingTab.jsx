@@ -106,7 +106,7 @@ class OkrPeriodSettingTab extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('name')} onClick={this.handleSort('name')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={this.isSorted('month_start')} onClick={this.handleSort('month_start')}>
+              <Table.HeaderCell sorted={this.isSorted('monthStart')} onClick={this.handleSort('monthStart')}>
                 期間 (開始日 - 終了日)
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
