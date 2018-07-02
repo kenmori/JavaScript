@@ -2,66 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import moment from 'moment';
-import { Tab, Table, Button, Input } from 'semantic-ui-react';
+import { Tab, Table, Button, Divider } from 'semantic-ui-react';
 import SortableComponent from '../util/SortableComponent'
 import AutoInput from '../form/AutoInput';
 import DatePicker from '../form/DatePicker';
+import OkrPeriodAddForm from './OkrPeriodAddForm'
 
 class OkrPeriodSettingTab extends SortableComponent {
-  constructor(props) {
-    super(props);
-    this.name = '';
-    const okrPeriods = this.props.okrPeriods;
-    const monthStart = this.getMonthStart(okrPeriods);
-    const monthEnd = this.getMonthEnd(monthStart);
-    this.state = {
-      ...this.state,
-      monthStart: monthStart,
-      monthEnd: monthEnd,
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps(nextProps)
-    if (nextProps.okrPeriods) {
-      const monthStart = this.getMonthStart(nextProps.okrPeriods);
-      const monthEnd = this.getMonthEnd(monthStart);
-
-      this.setState({
-        monthStart,
-        monthEnd,
-      })
-    }
-  }
-
-  getMonthStart(okrPeriods) {
-    const endDateList = okrPeriods.map(item => item.get('monthEnd')).sort().toArray();
-    const endDate = endDateList[endDateList.length - 1]
-    return moment(endDate).add(1, 'day')
-  }
-
-  getMonthEnd(monthStart) {
-    return monthStart.clone().add(this.props.okrSpan - 1, 'month').endOf('month');
-  }
-
-  addOkrPeriod = () => {
-    this.props.addOkrPeriod({
-      name: this.name.inputRef.value,
-      monthStart: this.state.monthStart.format('YYYY-MM-DD'),
-      monthEnd: this.state.monthEnd.format('YYYY-MM-DD'),
-      organizationId: this.props.organizationId,
-    })
-  }
-
-  removeOkrPeriod(id, name){
-    this.props.confirm({
-      content: `OKR期間 "${name}" を削除しますか？`,
-      onConfirm: () => this.props.removeOkrPeriod({ id }),
-    });
-  };
-
-  handleNewMonthStartChange = date => this.setState({ monthStart: date })
-
-  handleNewMonthEndChange = date => this.setState({ monthEnd: date })
 
   handleNameCommit = id => name => this.props.updateOkrPeriod({ id, name })
 
@@ -69,32 +16,20 @@ class OkrPeriodSettingTab extends SortableComponent {
 
   handleMonthEndChange = id => date => this.props.updateOkrPeriod({ id, monthEnd: date.format('YYYY-MM-DD') })
 
-  handleRemoveClick = (id, okrPeriodName) => () => this.removeOkrPeriod(id, okrPeriodName)
+  handleRemoveClick = (id, name) => () => {
+    this.props.confirm({
+      content: `OKR期間 "${name}" を削除しますか？`,
+      onConfirm: () => this.props.removeOkrPeriod({ id }),
+    })
+  }
 
   render() {
-    if (!this.props.okrPeriods) {
-      return null;
-    }
-    const okrPeriods = this.state.okrPeriods;
+    const { okrPeriods } = this.state
     return (
-      <Tab.Pane attached={false} className="okr-setting-tab">
-        <Table>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Input type="text" maxLength="255" ref={node => { this.name = node; }} placeholder="期間名"/>
-              </Table.Cell>
-              <Table.Cell>
-                <DatePicker dateFormat="YYYY/M/D" selected={this.state.monthStart} locale="ja" onChange={this.handleNewMonthStartChange} />
-                <span className='between'>〜</span>
-                <DatePicker dateFormat="YYYY/M/D" selected={this.state.monthEnd} locale="ja" onChange={this.handleNewMonthEndChange} />
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                <Button icon="plus" content="追加する" onClick={this.addOkrPeriod}/>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
+      <Tab.Pane attached={false} className="okr-period-setting-tab">
+        <OkrPeriodAddForm {...this.props} />
+
+        <Divider />
 
         <Table singleLine sortable>
           <Table.Header>
@@ -112,13 +47,13 @@ class OkrPeriodSettingTab extends SortableComponent {
             {
               okrPeriods.map(okrPeriod => {
                 const id = okrPeriod.get('id');
-                const okrPeriodName = okrPeriod.get('name');
+                const name = okrPeriod.get('name');
                 const monthStart = okrPeriod.get('monthStart');
                 const monthEnd = okrPeriod.get('monthEnd');
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
-                      <AutoInput value={okrPeriodName} onCommit={this.handleNameCommit(id)}/>
+                      <AutoInput value={name} onCommit={this.handleNameCommit(id)}/>
                     </Table.Cell>
                     <Table.Cell>
                       <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={this.handleMonthStartChange(id)} />
@@ -126,7 +61,7 @@ class OkrPeriodSettingTab extends SortableComponent {
                       <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={this.handleMonthEndChange(id)} />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={this.handleRemoveClick(id, okrPeriodName)} content="削除する" negative/>
+                      <Button icon="trash" onClick={this.handleRemoveClick(id, name)} content="削除する" negative/>
                     </Table.Cell>
                   </Table.Row>
                 );
