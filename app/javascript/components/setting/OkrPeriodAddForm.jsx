@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Button, Input } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 import DatePicker from '../form/DatePicker'
 import moment from 'moment/moment'
 import ImmutablePropTypes from 'react-immutable-proptypes'
@@ -51,42 +51,39 @@ class OkrPeriodAddForm extends PureComponent {
   render() {
     const { name, monthStart, monthEnd } = this.state
     return (
-      <Table>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>
-              <Input
-                value={name}
-                maxLength="255"
-                placeholder="期間名"
-                onChange={this.handleNameChange}
-              />
-            </Table.Cell>
-            <Table.Cell>
-              <DatePicker
-                dateFormat="YYYY/M/D"
-                selected={monthStart}
-                locale="ja"
-                onChange={this.handleMonthStartChange}
-              />
-              <span className='between'>〜</span>
-              <DatePicker
-                dateFormat="YYYY/M/D"
-                selected={monthEnd}
-                locale="ja"
-                onChange={this.handleMonthEndChange}
-              />
-            </Table.Cell>
-            <Table.Cell textAlign="center">
-              <Button
-                icon="plus"
-                content="追加する"
-                onClick={this.handleAddClick}
-              />
-            </Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+      <Form className="okr-period-add-form">
+        <Form.Input
+          inline
+          label="名前"
+          value={name}
+          maxLength="255"
+          placeholder="期間を表す名称など"
+          onChange={this.handleNameChange}
+        />
+
+        <Form.Group inline>
+          <label>期間</label>
+          <DatePicker
+            dateFormat="YYYY/M/D"
+            selected={monthStart}
+            locale="ja"
+            onChange={this.handleMonthStartChange}
+          />
+          <span className='between'>〜</span>
+          <DatePicker
+            dateFormat="YYYY/M/D"
+            selected={monthEnd}
+            locale="ja"
+            onChange={this.handleMonthEndChange}
+          />
+        </Form.Group>
+
+        <Form.Button
+          icon="plus"
+          content="追加する"
+          onClick={this.handleAddClick}
+        />
+      </Form>
     )
   }
 }
