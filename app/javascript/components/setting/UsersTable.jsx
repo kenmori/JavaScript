@@ -140,7 +140,6 @@ class UsersTable extends SortableComponent {
 UsersTable.propTypes = {
   // container
   // component
-  key: PropTypes.string.isRequired,
   users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number,
   onUpdateUser: PropTypes.func,

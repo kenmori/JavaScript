@@ -59,7 +59,6 @@ KeyResultList.propTypes = {
   selectedKeyResultId: PropTypes.number,
   selectKeyResult: PropTypes.func.isRequired,
   // component
-  key: PropTypes.string.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
 };
 

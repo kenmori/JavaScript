@@ -149,7 +149,6 @@ OkrPeriodSettingTab.propTypes = {
   removeOkrPeriod: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-  key: PropTypes.string.isRequired,
 };
 
 OkrPeriodSettingTab.defaultProps = {

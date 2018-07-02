@@ -73,7 +73,6 @@ TaskList.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   processKeyResult: PropTypes.func.isRequired,
   // component
-  key: PropTypes.string.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
 }
 
