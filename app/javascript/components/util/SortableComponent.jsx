@@ -21,7 +21,7 @@ class SortableComponent extends PureComponent {
   }
 
   getItems = items => {
-    return items
+    return this.props.withIndex ? items.map((item, index) => item.set('index', index + 1)) : items
   }
 
   sort = (items, column, direction) => {
@@ -56,6 +56,11 @@ class SortableComponent extends PureComponent {
 SortableComponent.propTypes = {
   // component
   key: PropTypes.string.isRequired,
+  withIndex: PropTypes.bool,
+}
+
+SortableComponent.defaultProps = {
+  withIndex: false,
 }
 
 export default SortableComponent

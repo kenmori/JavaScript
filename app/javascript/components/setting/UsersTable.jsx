@@ -56,12 +56,6 @@ class UsersTable extends SortableComponent {
     }))
   }
 
-  getItems = (users) => (
-    users.map((user, index) =>
-      user.set('index', index + 1)
-    )
-  )
-
   getFilteredUsers = (users, keyword) => {
     if (!keyword) return users
     keyword = keyword.toLowerCase()
@@ -160,6 +154,7 @@ UsersTable.propTypes = {
 
 UsersTable.defaultProps = {
   key: 'users',
+  withIndex: true,
 }
 
 export default UsersTable;
