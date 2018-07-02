@@ -10,11 +10,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchObjective: id => {
-      dispatch(objectiveActions.fetchObjective(id));
-    },
-    selectOkr: (objectiveId, keyResultId) => {
-      dispatch(objectiveActions.selectOkr(objectiveId, keyResultId));
+    selectKeyResult: keyResult => {
+      dispatch(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResult.get('id')))
     },
   };
 };

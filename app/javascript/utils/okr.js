@@ -17,3 +17,38 @@ export const okrOptions = (okrs, withNone) => {
   }
   return options.toArray();
 }
+
+const getParentObjective = (objective, entities) => {
+  const parentKeyResultId = objective.get('parentKeyResultId')
+  if (parentKeyResultId) {
+    const parentKeyResult = entities.keyResults.get(parentKeyResultId)
+    if (parentKeyResult) {
+      return entities.objectives.get(parentKeyResult.get('objectiveId'))
+    }
+  }
+  return null
+}
+
+export const isMyChildObjective = (objective, ownerId, entities) => {
+  const parentObjective = getParentObjective(objective, entities)
+  return parentObjective ? parentObjective.get('owner').get('id') === ownerId : false
+}
+
+export const isMyChildObjectiveById = (objectiveId, ownerId, entities) => {
+  const objective = entities.objectives.get(objectiveId)
+  return isMyChildObjective(objective, ownerId, entities)
+}
+
+export const isMyKeyResult = (keyResult, ownerId) => {
+  const objective = keyResult.get('objective')
+  return objective ? objective.get('owner').get('id') === ownerId : false
+}
+
+export const isMembersKeyResult = (keyResult, ownerId) => {
+  return keyResult.get('owner').get('id') !== ownerId
+}
+
+export const isMembersKeyResultById = (keyResultId, ownerId, entities) => {
+  const keyResult = entities.keyResults.get(keyResultId)
+  return isMembersKeyResult(keyResult, ownerId)
+}

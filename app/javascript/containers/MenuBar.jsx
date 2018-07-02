@@ -28,20 +28,20 @@ const mapDispatchToProps = dispatch => {
     fetchOrganization: id => {
       dispatch(organizationActions.fetchOrganization(id))
     },
-    fetchOkrs: (okrPeriodId, userId, isOkrPeriodChanged = true) => {
-      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, isOkrPeriodChanged))
+    fetchOkrs: (okrPeriodId, userId) => {
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId))
     },
-    changeCurrentUser: (userId) => {
+    selectUser: (userId) => {
       if (location.pathname !== '/') {
         history.push('/');
       }
-      dispatch(currentActions.changeCurrentUser(userId));
+      dispatch(currentActions.selectUser(userId));
     },
-    changeCurrentOkrPeriod: (okrPeriodId) => {
+    selectOkrPeriod: (okrPeriodId) => {
       if (location.pathname !== '/') {
         history.push('/');
       }
-      dispatch(currentActions.changeCurrentOkrPeriod(okrPeriodId));
+      dispatch(currentActions.selectOkrPeriod(okrPeriodId));
     },
     changeCurrentOrganizationId: (id, organizationId) => {
       dispatch(userActions.updateCurrentOrganizationId({id, organizationId}));

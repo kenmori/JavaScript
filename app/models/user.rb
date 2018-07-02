@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :organization_members, dependent: :destroy
   has_many :organizations, through: :organization_members
   has_many :objective_orders, dependent: :destroy
+  has_one :user_setting, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 
@@ -28,8 +29,12 @@ class User < ApplicationRecord
     skip_confirmation_notification! if skip_notification
   end
 
+  after_create do
+    create_user_setting!
+  end
+
   def organization
-    current_organization_id.present? ? organizations.find(current_organization_id) : organizations.first
+    organizations.find_by(id: current_organization_id) || organizations.first
   end
 
   def password_required?

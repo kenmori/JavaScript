@@ -7,17 +7,36 @@ import dialogActions from '../actions/dialogs';
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
+import { isMyChildObjectiveById, isMembersKeyResultById } from '../utils/okr'
+
+function* selectOkr({ payload }) {
+  const { objectiveId, keyResultId } = payload
+  const hasObjective = yield select(state => state.entities.objectives.has(objectiveId))
+  if (!hasObjective) {
+    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+    yield take(actionTypes.FETCHED_OBJECTIVE)
+  }
+  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
+}
 
 function* fetchOkrs({ payload }) {
+  let isInitialOkrSelected = false
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (payload.isOkrPeriodChanged) {
     yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
     yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
+    isInitialOkrSelected = yield selectInitialKeyResult('unprocessedIds')
   }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)
+  if (!isInitialOkrSelected) {
+    isInitialOkrSelected = yield selectInitialObjective('ids')
+  }
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
+  if (!isInitialOkrSelected) {
+    yield selectInitialKeyResult('ids', true)
+  }
   if (payload.isOkrPeriodChanged) {
     // 前期 OKR の fetch
     const okrPeriods = yield select(state => state.okrPeriods)
@@ -38,6 +57,42 @@ function* fetchOkrs({ payload }) {
     yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId, userId)); // without loading
     yield take(actionTypes.FETCHED_OBJECTIVE_CANDIDATES)
   }
+}
+
+function* selectInitialObjective(ids) {
+  const objectiveId = yield select(state => {
+    const objectives = state.objectives.get(ids)
+    const ownerId = state.current.get('userId')
+    const showMyChildObjectives = state.loginUser.getIn(['userSetting', 'showMyChildObjectives'])
+    return showMyChildObjectives ? objectives.first()
+      : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
+  })
+  if (objectiveId) {
+    yield put(objectiveActions.selectOkr(objectiveId, null, true))
+    yield take(actionTypes.SELECTED_OKR)
+    return true
+  }
+  return false
+}
+
+function* selectInitialKeyResult(ids, selectAnyway = false) {
+  const keyResultId = yield select(state => {
+    const keyResults = state.keyResults.get(ids)
+    const ownerId = state.current.get('userId')
+    const showMembersKeyResults = state.loginUser.getIn(['userSetting', 'showMembersKeyResults'])
+    return showMembersKeyResults ? keyResults.first()
+      : keyResults.find(keyResultId => !isMembersKeyResultById(keyResultId, ownerId, state.entities))
+  })
+  if (keyResultId) {
+    const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
+    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId, true))
+    yield take(actionTypes.SELECTED_OKR)
+    return true
+  } else if (selectAnyway) {
+    yield put(objectiveActions.selectedOkr(null, null))
+    return true
+  }
+  return false
 }
 
 function* fetchObjective({ payload }) {
@@ -107,6 +162,7 @@ function* removeObjective({payload}) {
 
 export function *objectiveSagas() {
   yield all([
+    takeLatest(actionTypes.SELECT_OKR, selectOkr),
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),

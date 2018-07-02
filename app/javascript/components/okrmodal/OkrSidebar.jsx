@@ -12,9 +12,7 @@ import KeyResult from './KeyResult';
 class OkrSidebar extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      keyResultOrder: props.keyResultOrder,
-    }
+    this.state = { keyResultOrder: props.keyResultOrder }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,25 +21,20 @@ class OkrSidebar extends PureComponent {
     }
   }
 
-  moveKeyResult = (fromIndex, toIndex) => {
-    if (0 <= toIndex && toIndex < this.state.keyResultOrder.size) {
-      this.setState({ keyResultOrder: this.getNewKeyResultOrder(fromIndex, toIndex) });
-    }
-  }
-
-  updateKeyResultOrder = (fromIndex, toIndex) => {
-    const newKeyResultOrder = this.getNewKeyResultOrder(fromIndex, toIndex);
-    if (!newKeyResultOrder.equals(this.props.keyResultOrder)) {
-      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder);
-    }
-  }
-
-  getNewKeyResultOrder = (fromIndex, toIndex) => {
-    if (fromIndex >= 0 && toIndex >= 0) {
-      const fromId = this.state.keyResultOrder.get(fromIndex);
-      return this.state.keyResultOrder.delete(fromIndex).insert(toIndex, fromId);
+  moveKeyResult = (fromIndex, toIndex, toUpdate = false) => {
+    const { keyResultOrder } = this.state
+    const fromId = keyResultOrder.get(fromIndex)
+    const newKeyResultOrder = keyResultOrder.delete(fromIndex).insert(toIndex, fromId)
+    if (toUpdate) {
+      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder)
     } else {
-      return this.state.keyResultOrder;
+      this.setState({ keyResultOrder: newKeyResultOrder })
+    }
+  }
+
+  updateKeyResultOrder = () => {
+    if (!this.state.keyResultOrder.equals(this.props.keyResultOrder)) {
+      this.props.updateKeyResultOrder(this.props.objective.get('id'), this.state.keyResultOrder)
     }
   }
 

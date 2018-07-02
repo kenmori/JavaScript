@@ -59,6 +59,12 @@ export default handleActions({
     [ActionTypes.CLOSE_CONFIRM_MODAL]: (state) => {
       return state.setIn(['confirm', 'isOpen'], false);
     },
+    [ActionTypes.OPEN_OPTION_MODAL]: state => {
+      return state.setIn(['option', 'isOpen'], true)
+    },
+    [ActionTypes.CLOSE_OPTION_MODAL]: state => {
+      return state.setIn(['option', 'isOpen'], false)
+    },
   },
   fromJS({
     objectiveForm: {
@@ -87,5 +93,8 @@ export default handleActions({
     confirm: {
       isOpen: false,
     },
+    option: {
+      isOpen:false,
+    }
   }),
 );

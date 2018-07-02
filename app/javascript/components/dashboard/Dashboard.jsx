@@ -79,8 +79,8 @@ class Dashboard extends PureComponent {
     const activeItem = this.getActiveItem()
     return (
       <div className="dashboard">
-        <section className="okr-list-section">
-          <div className='okr-list-section__menu'>
+        <section className="okr-list">
+          <div className='okr-list__menu'>
             <Menu tabular>
               {this.props.showTask && (
                 <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
@@ -93,15 +93,16 @@ class Dashboard extends PureComponent {
               <Menu.Item name={Dashboard.ITEM_KEY_RESULT} active={activeItem === Dashboard.ITEM_KEY_RESULT} onClick={this.handleMenuItemClick}>
                 Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item className="okr-list__button">
                 <Button compact icon="plus" content='OKR を作成する' onClick={this.props.openObjectiveModal} />
+                <Button compact icon='setting' content='オプション' onClick={this.props.openOptionModal} />
               </Menu.Item>
             </Menu>
           </div>
           {this.getTabContent(activeItem)}
         </section>
-        <section className='okr-map-section'>
-          <div className='okr-map-section__menu'>
+        <section className='okr-map'>
+          <div className='okr-map__menu'>
             <Menu tabular compact>
               <Menu.Item header>OKR マップ</Menu.Item>
             </Menu>
@@ -127,6 +128,7 @@ Dashboard.propTypes = {
   isFetchedKeyResults: PropTypes.bool.isRequired,
   showTask: PropTypes.bool.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
+  openOptionModal: PropTypes.func.isRequired,
   // component
 }
 

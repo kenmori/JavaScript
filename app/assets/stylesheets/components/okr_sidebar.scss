@@ -12,7 +12,7 @@
         }
       }
 
-      &.drag:not(.touch) {
+      &.drag {
         visibility: hidden;
       }
 

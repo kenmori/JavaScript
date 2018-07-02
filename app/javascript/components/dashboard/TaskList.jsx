@@ -6,14 +6,7 @@ import OwnerAvatar from '../util/OwnerAvatar'
 
 class TaskList extends PureComponent {
 
-  selectKeyResult = keyResult => () => {
-    const objectiveId = keyResult.get('objectiveId')
-    if (!keyResult.get('objective')) {
-      // 他人の Objective の場合 (未 fetch)
-      this.props.fetchObjective(objectiveId)
-    }
-    this.props.selectOkr(objectiveId, keyResult.get('id'))
-  }
+  selectKeyResult = keyResult => () => this.props.selectKeyResult(keyResult)
 
   handleCreateClick = keyResult => event => {
     this.props.openObjectiveModal(keyResult)
@@ -68,8 +61,7 @@ class TaskList extends PureComponent {
 TaskList.propTypes = {
   // container
   selectedKeyResultId: PropTypes.number,
-  fetchObjective: PropTypes.func.isRequired,
-  selectOkr: PropTypes.func.isRequired,
+  selectKeyResult: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   processKeyResult: PropTypes.func.isRequired,
   // component

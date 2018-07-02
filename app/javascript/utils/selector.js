@@ -4,6 +4,7 @@ import {
   denormalizeObjectives, denormalizeKeyResults,
   denormalizeObjectiveCandidates, denormalizeKeyResultCandidates,
 } from '../schemas'
+import { isMyChildObjective, isMyKeyResult, isMembersKeyResult } from './okr'
 
 export const getEnabledUsers = createSelector(
   state => state.users,
@@ -20,6 +21,29 @@ export const getKeyResults = createSelector(
   state => state.keyResults.get('ids'),
   state => state.entities,
   (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
+)
+
+export const getMyObjectives = createSelector(
+  getObjectives,
+  state => state.entities,
+  state => state.current.get('userIdAtFetchedObjectives'),
+  state => state.loginUser.getIn(['userSetting', 'showMyChildObjectives']),
+  (objectives, entities, ownerId, showMyChildObjectives) => {
+    return showMyChildObjectives ? objectives
+      : objectives.filterNot(objective => isMyChildObjective(objective, ownerId, entities))
+  }
+)
+
+export const getMyKeyResults = createSelector(
+  getKeyResults,
+  state => state.current.get('userIdAtFetchedKeyResults'),
+  state => state.loginUser.getIn(['userSetting', 'showMyKeyResults']),
+  state => state.loginUser.getIn(['userSetting', 'showMembersKeyResults']),
+  (keyResults, ownerId, showMyKeyResults, showMembersKeyResults) => {
+    keyResults = showMyKeyResults ? keyResults : keyResults.filterNot(keyResult => isMyKeyResult(keyResult, ownerId))
+    keyResults = showMembersKeyResults ? keyResults : keyResults.filterNot(keyResult => isMembersKeyResult(keyResult, ownerId))
+    return keyResults
+  }
 )
 
 export const getPreviousObjectives = createSelector(
@@ -113,26 +137,5 @@ export const getObjectiveCandidates = createSelector(
       }
     }
     return objectives
-  }
-)
-
-// Objective 並び替えが可能かどうか
-// - 選択ユーザー = ログインユーザー = Objective 責任者 => true
-// - その他 => false
-// ※ 選択ユーザーと Objective 一覧の更新タイミングのずれを吸収するために用いる
-export const canMoveObjective = createSelector(
-  state => state.current.get('userId'),
-  state => state.loginUser.get('id'),
-  state => state.objectives.get('ids'),
-  state => state.entities,
-  (currentUserId, loginUserId, objectiveIds, entities) => {
-    if (currentUserId === loginUserId) {
-      const objective = entities.objectives.get(objectiveIds.first())
-      if (objective) {
-        const objectiveOwnerId = objective.get('owner').get('id')
-        return currentUserId === objectiveOwnerId
-      }
-    }
-    return false
   }
 )

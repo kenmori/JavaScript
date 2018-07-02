@@ -4,7 +4,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
-import { onTouch } from '../../utils/backend';
 
 const boxSource = {
   canDrag(props) {
@@ -13,7 +12,7 @@ const boxSource = {
 
   beginDrag(props) {
     return {
-      id: props.objective.get('id'),
+      id: props.objective.get('id'), // required to update isDragging
       index: props.index,
     }
   },
@@ -54,7 +53,7 @@ class Objective extends PureComponent {
   swapObjective = toLeft => event => {
     const fromIndex = this.props.index;
     const toIndex = toLeft ? fromIndex - 1 : fromIndex + 1;
-    this.props.updateObjectiveOrder(fromIndex, toIndex);
+    this.props.moveObjective(fromIndex, toIndex, true);
     event.stopPropagation();
   }
 
@@ -69,7 +68,7 @@ class Objective extends PureComponent {
     } = this.props;
     return (
       <div
-        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''} ${onTouch ? 'touch' : ''}`}
+        className={`objective-box ${isSelected ? 'active' : ''} ${isDragging ? 'drag' : ''} ${canDrop ? 'drop' : ''}`}
         onClick={selectObjective(objective)}
       >
         <div>
