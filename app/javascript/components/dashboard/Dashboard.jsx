@@ -79,7 +79,7 @@ class Dashboard extends PureComponent {
     const activeItem = this.getActiveItem()
     return (
       <div className="dashboard">
-        <section className="okr-list">
+        <section className="okr-list__section">
           <div className='okr-list__menu'>
             <Menu tabular>
               {this.props.showTask && (
@@ -101,7 +101,7 @@ class Dashboard extends PureComponent {
           </div>
           {this.getTabContent(activeItem)}
         </section>
-        <section className='okr-map'>
+        <section className='okr-map__section'>
           <div className='okr-map__menu'>
             <Menu tabular compact>
               <Menu.Item header>OKR マップ</Menu.Item>

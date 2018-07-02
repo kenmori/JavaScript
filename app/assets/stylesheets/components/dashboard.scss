@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100%;
 
-  .okr-list {
+  .okr-list__section {
     .okr-list__menu {
       margin-left: 16px;
       margin-right: 16px;
@@ -16,7 +16,7 @@
     }
   }
 
-  .okr-map {
+  .okr-map__section {
     height: 100%;
     background-color: #FAFAFA;
 
