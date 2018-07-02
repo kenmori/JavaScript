@@ -42,7 +42,7 @@ class UserSettingTab extends PureComponent {
           keyword={this.state.keyword}
         />
 
-        <Divider />
+        {disabledUsers.size > 0 && <Divider />}
 
         {disabledUsers.size > 0 && (
           this.state.showDisabledUsers ?
