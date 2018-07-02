@@ -23,10 +23,10 @@ class TaskList extends SortableComponent {
     const { keyResults } = this.state
     return (
       <div className="task-list">
-        <Table basic='very' compact='very' selectable sortable>
+        <Table basic='very' compact='very' size='small' selectable sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell disabled />
+              <Table.HeaderCell disabled width={1} />
               <Table.HeaderCell sorted={this.isSorted('name')} onClick={this.handleSort('name')}>
                 Key Result
               </Table.HeaderCell>
@@ -50,7 +50,7 @@ class TaskList extends SortableComponent {
                 <Table.Cell>{keyResult.get('name')}</Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
-                <Table.Cell>
+                <Table.Cell textAlign="center">
                   <Button.Group>
                     <Button content='下位 OKR を作成する' positive onClick={this.handleCreateClick(keyResult)} />
                     <Button.Or />

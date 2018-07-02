@@ -14,10 +14,10 @@ class KeyResultList extends SortableComponent {
     const { keyResults } = this.state
     return (
       <div className="key-result-list">
-        <Table basic='very' compact='very' selectable sortable>
+        <Table basic='very' compact='very' size='small' selectable sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell disabled />
+              <Table.HeaderCell disabled width={1} />
               <Table.HeaderCell sorted={this.isSorted('name')} onClick={this.handleSort('name')}>
                 Key Result
               </Table.HeaderCell>
