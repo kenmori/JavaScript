@@ -126,8 +126,8 @@ ActiveRecord::Schema.define(version: 20180622115809) do
 
   create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "user_id", null: false
-    t.boolean "show_my_child_objectives", default: false
-    t.boolean "show_my_key_results", default: false
+    t.boolean "show_my_child_objectives", default: true
+    t.boolean "show_my_key_results", default: true
     t.boolean "show_members_key_results", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
