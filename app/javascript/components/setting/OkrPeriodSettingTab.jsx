@@ -6,7 +6,7 @@ import { Tab, Table, Button, Divider } from 'semantic-ui-react';
 import SortableComponent from '../util/SortableComponent'
 import AutoInput from '../form/AutoInput';
 import DatePicker from '../form/DatePicker';
-import OkrPeriodAddForm from './OkrPeriodAddForm'
+import OkrPeriodAddForm from '../../containers/OkrPeriodAddForm'
 
 class OkrPeriodSettingTab extends SortableComponent {
 
@@ -27,7 +27,7 @@ class OkrPeriodSettingTab extends SortableComponent {
     const { okrPeriods } = this.state
     return (
       <Tab.Pane attached={false} className="okr-period-setting-tab">
-        <OkrPeriodAddForm {...this.props} />
+        <OkrPeriodAddForm />
 
         <Divider />
 
@@ -76,10 +76,7 @@ class OkrPeriodSettingTab extends SortableComponent {
 
 OkrPeriodSettingTab.propTypes = {
   // container
-  organizationId: PropTypes.number.isRequired,
-  okrSpan: PropTypes.number.isRequired,
   okrPeriods: ImmutablePropTypes.list.isRequired,
-  addOkrPeriod: PropTypes.func.isRequired,
   updateOkrPeriod: PropTypes.func.isRequired,
   removeOkrPeriod: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,

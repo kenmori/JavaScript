@@ -93,11 +93,11 @@ class OkrPeriodAddForm extends PureComponent {
 
 OkrPeriodAddForm.propTypes = {
   // container
-  // component
   organizationId: PropTypes.number.isRequired,
   okrSpan: PropTypes.number.isRequired,
   okrPeriods: ImmutablePropTypes.list.isRequired,
   addOkrPeriod: PropTypes.func.isRequired,
+  // component
 }
 
 export default OkrPeriodAddForm
