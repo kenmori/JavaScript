@@ -48,7 +48,6 @@ class OrganizationsController < ApplicationController
       new_owner = @organization.organization_members.find_by(user_id: user_id)
       new_owner.update!(role: :owner)
     end
-    render action: :create, status: :ok
   rescue => e
     unprocessable_entity(e.message)
   end

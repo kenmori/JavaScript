@@ -13,7 +13,7 @@ export const getEnabledUsers = createSelector(
 
 const getUsersForSetting = createSelector(
   state => state.users,
-  state => state.organizations.get('selected').get('ownerId'),
+  state => state.organizations.get('ownerId'),
   (users, ownerId) => users.map((user, index) =>
     user.set('index', index + 1)
       .set('isOwner', user.get('id') === ownerId)

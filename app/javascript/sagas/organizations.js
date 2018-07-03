@@ -25,7 +25,7 @@ function* updateOrganization({ payload }) {
 function* updateOrganizationOwner({ payload }) {
   const params = { organizationMember: { user: payload.userId } }
   const result = yield call(API.put, `/organizations/${payload.organizationId}/owner`, params)
-  yield put(organizationActions.updatedOrganizationOwner(result.get('organization')))
+  yield put(organizationActions.updatedOrganizationOwner(result.get('ownerId')))
   yield put(toastActions.showToast('組織の代表者を変更しました'))
 }
 
