@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def restore
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update_attribute(:disabled, false)
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   end
 
   def update_current_organization_id
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
     if @user.update(current_organization_id: params['user'][:organization_id])
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
   end
 
   def resend
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
     if @user.resend_confirmation_instructions
       head :no_content
@@ -74,13 +74,24 @@ class UsersController < ApplicationController
   end
 
   def update_user_setting
-    user = User.find(params[:user_id])
+    user = User.find(params[:id])
     forbidden and return unless valid_permission?(user.organization.id)
     forbidden and return unless current_user.id == user.id
 
     @user_setting = user.user_setting
     unless @user_setting.update(user_setting_params)
       unprocessable_entity_with_errors(@user_setting.errors.full_messages)
+    end
+  end
+
+  def update_objective_order
+    user = User.find(params[:id])
+    forbidden and return unless valid_permission?(user.organization.id)
+    forbidden and return unless current_user.id == user.id
+
+    @objective_order = user.objective_orders.find_or_initialize_by(okr_period_id: params[:objective_order][:okr_period_id])
+    unless @objective_order.update(objective_order_params)
+      unprocessable_entity_with_errors(@objective_order.errors.full_messages)
     end
   end
 
@@ -104,8 +115,12 @@ class UsersController < ApplicationController
         .permit(:show_my_child_objectives, :show_my_key_results, :show_members_key_results)
   end
 
+  def objective_order_params
+    params.require(:objective_order).permit(:okr_period_id, :list)
+  end
+
   def valid_operatable_user?
-    user_id = params[:id] || params[:user_id]
+    user_id = params[:id]
     forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
   end
   

@@ -27,6 +27,8 @@ class UserSettingTab extends PureComponent {
       <Tab.Pane attached={false} className="user-setting-tab">
         <UserAddForm addUser={this.props.addUser} confirm={this.props.confirm} />
 
+        <Divider />
+
         <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={this.handleKeywordChange} />
 
         <UsersTable
@@ -40,7 +42,7 @@ class UserSettingTab extends PureComponent {
           keyword={this.state.keyword}
         />
 
-        <Divider />
+        {disabledUsers.size > 0 && <Divider />}
 
         {disabledUsers.size > 0 && (
           this.state.showDisabledUsers ?

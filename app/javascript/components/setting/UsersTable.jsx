@@ -1,28 +1,32 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Table, Pagination } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import { Map } from 'immutable'
+import SortableComponent from '../util/SortableComponent'
 import UsersTableRow from './UsersTableRow';
 
-class UsersTable extends PureComponent {
+class UsersTable extends SortableComponent {
 
   static NUMBER_TO_DISPLAY = 50;
 
   constructor(props) {
     super(props);
     this.state = {
-      column: 'index',
-      users: this.getUsers(props.users),
-      direction: 'ascending',
+      ...this.state,
       activePage: 1,
+      searchTexts: this.buildSearchTexts(props.users),
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(nextProps)
     this.setState({
       activePage: this.props.keyword !== nextProps.keyword ? 1 : this.state.activePage,
-      users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
     });
+    if (this.props.users !== nextProps.users) {
+      this.setState({ searchTexts: this.buildSearchTexts(nextProps.users) })
+    }
   }
 
   updateUser = id => values => this.props.onUpdateUser({ id, ...values })
@@ -45,41 +49,17 @@ class UsersTable extends PureComponent {
     });
   }
 
-  getUsers = (users) => (
-    users.map((user, index) =>
-      user.set('index', index + 1)
-        .set('email', user.get('email'))
-        .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
-    )
-  )
-
-  getSortedUsers = (users, column, direction) => {
-    const sortedUsers = users.sort((a, b) => {
-      if (typeof a.get(column) === 'string') {
-        return a.get(column).localeCompare(b.get(column));
-      } else {
-        if (a.get(column) < b.get(column)) { return -1; }
-        if (a.get(column) > b.get(column)) { return 1; }
-        if (a.get(column) === b.get(column)) { return 0; }
-      }
-    });
-    return direction === 'ascending' ? sortedUsers : sortedUsers.reverse();
+  buildSearchTexts = users => {
+    return Map(users.map(user => {
+      const searchText = `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase()
+      return [user.get('id'), searchText]
+    }))
   }
-
-  sort = column => () => {
-    const direction = this.state.column !== column ? 'ascending'
-      : this.state.direction === 'ascending' ? 'descending' : 'ascending';
-    this.setState({
-      column: column,
-      users: this.getSortedUsers(this.state.users, column, direction),
-      direction: direction,
-    });
-  };
 
   getFilteredUsers = (users, keyword) => {
     if (!keyword) return users
     keyword = keyword.toLowerCase()
-    return users.filter(user => user.get('searchText').includes(keyword))
+    return users.filter(user => this.state.searchTexts.get(user.get('id')).includes(keyword))
   }
 
   removeUser = user => {
@@ -99,7 +79,7 @@ class UsersTable extends PureComponent {
   handlePageChange = (e, { activePage }) => this.setState({ activePage })
 
   render() {
-    const { column, direction, users, activePage } = this.state;
+    const { users, activePage } = this.state;
     const filteredUsers = this.getFilteredUsers(users, this.props.keyword);
     const begin = (activePage - 1) * UsersTable.NUMBER_TO_DISPLAY;
     const end = Math.min(filteredUsers.size, activePage * UsersTable.NUMBER_TO_DISPLAY);
@@ -109,15 +89,15 @@ class UsersTable extends PureComponent {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={this.sort('index')} textAlign='center' />
+              <Table.HeaderCell sorted={this.isSorted('index')} onClick={this.handleSort('index')} textAlign='center' />
               <Table.HeaderCell disabled />
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort('lastName')}>
+              <Table.HeaderCell sorted={this.isSorted('lastName')} onClick={this.handleSort('lastName')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
+              <Table.HeaderCell sorted={this.isSorted('email')} onClick={this.handleSort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={this.sort('isAdmin')}>
+              <Table.HeaderCell sorted={this.isSorted('isAdmin')} onClick={this.handleSort('isAdmin')}>
                 権限
               </Table.HeaderCell>
               <Table.HeaderCell disabled />
@@ -170,5 +150,10 @@ UsersTable.propTypes = {
   confirm: PropTypes.func.isRequired,
   keyword: PropTypes.string.isRequired,
 };
+
+UsersTable.defaultProps = {
+  key: 'users',
+  withIndex: true,
+}
 
 export default UsersTable;

@@ -6,7 +6,6 @@ import { deviseSagas } from './devise';
 import { organizationSagas } from './organizations';
 import { okrPeriodSagas } from './okrPeriods';
 import { dialogSagas } from './dialogs';
-import { objectiveOrderSagas } from "./objectiveOrders";
 import { loginUserSagas } from './loginUser'
 import { currentSagas } from './current'
 
@@ -18,7 +17,6 @@ const sagas = [
   organizationSagas,
   okrPeriodSagas,
   dialogSagas,
-  objectiveOrderSagas,
   loginUserSagas,
   currentSagas,
 ];
