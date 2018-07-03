@@ -51,7 +51,7 @@ class TaskList extends SortableComponent {
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
                 <Table.Cell textAlign="center">
-                  <Button.Group>
+                  <Button.Group size="small">
                     <Button content='下位 OKR を作成する' positive onClick={this.handleCreateClick(keyResult)} />
                     <Button.Or />
                     <Button content='作成しない' onClick={this.handleNotCreateClick(keyResult)} />
