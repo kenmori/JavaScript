@@ -5,7 +5,6 @@ import organizationActions from '../actions/organizations'
 const mapStateToProps = state => {
   return {
     organizationId: state.organizations.get('selected').get('id'),
-    ownerId: state.organizations.get('selected').get('ownerId'),
   }
 }
 

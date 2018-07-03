@@ -88,7 +88,7 @@ class UsersTable extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('isAdmin')} onClick={this.handleSort('isAdmin')}>
                 権限
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('isOwner')} onClick={this.handleSort('isOwner')}>
                 代表者
               </Table.HeaderCell>
               <Table.HeaderCell disabled />
@@ -130,6 +130,7 @@ class UsersTable extends SortableComponent {
 
 UsersTable.propTypes = {
   // container
+  ownerId: PropTypes.number.isRequired,
   // component
   users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number,
@@ -146,6 +147,7 @@ UsersTable.defaultProps = {
   key: 'users',
   getItems: props => props.users.map((user, index) =>
     user.set('index', index + 1)
+      .set('isOwner', user.get('id') === props.ownerId)
       .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
   ),
 }

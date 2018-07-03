@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Input, Button, Divider } from 'semantic-ui-react';
-import UsersTable from './UsersTable';
+import UsersTable from '../../containers/UsersTable';
 import UserAddForm from './UserAddForm'
 
 class UserSettingTab extends PureComponent {

@@ -24,7 +24,7 @@ class UsersTableRow extends PureComponent {
   handleRemoveClick = user => () => this.props.removeUser(user)
 
   render() {
-    const { user, isLoginUser, ownerId } = this.props;
+    const { user, isLoginUser } = this.props;
     const disabled = user.get('disabled');
     return (
       <Table.Row>
@@ -63,7 +63,7 @@ class UsersTableRow extends PureComponent {
         <Table.Cell>
           <Radio
             name="owner"
-            checked={user.get('id') === ownerId}
+            checked={user.get('isOwner')}
             onChange={this.handleOwnerChange}
             disabled={disabled}
           />
@@ -86,7 +86,6 @@ class UsersTableRow extends PureComponent {
 UsersTableRow.propTypes = {
   // container
   organizationId: PropTypes.number.isRequired,
-  ownerId: PropTypes.number.isRequired,
   setOrganizationOwner: PropTypes.func.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
