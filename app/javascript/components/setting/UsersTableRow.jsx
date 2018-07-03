@@ -17,6 +17,8 @@ class UsersTableRow extends PureComponent {
 
   handleAdminChange = (event, { checked }) => this.props.updateUser({ admin: checked })
 
+  handleOwnerChange = () => this.props.setOrganizationOwner(this.props.organizationId, this.props.user)
+
   handleRestoreClick = user => () => this.props.restoreUser(user)
 
   handleRemoveClick = user => () => this.props.removeUser(user)
@@ -61,7 +63,8 @@ class UsersTableRow extends PureComponent {
         <Table.Cell>
           <Radio
             name="owner"
-            defaultChecked={user.get('id') === ownerId}
+            checked={user.get('id') === ownerId}
+            onChange={this.handleOwnerChange}
             disabled={disabled}
           />
         </Table.Cell>
@@ -82,7 +85,9 @@ class UsersTableRow extends PureComponent {
 
 UsersTableRow.propTypes = {
   // container
+  organizationId: PropTypes.number.isRequired,
   ownerId: PropTypes.number.isRequired,
+  setOrganizationOwner: PropTypes.func.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
   isLoginUser: PropTypes.bool.isRequired,

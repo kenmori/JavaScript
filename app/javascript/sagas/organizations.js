@@ -22,6 +22,13 @@ function* updateOrganization({ payload }) {
   yield put(toastActions.showToast('組織情報を更新しました'));
 }
 
+function* updateOrganizationOwner({ payload }) {
+  const params = { organizationMember: { user: payload.userId } }
+  const result = yield call(API.put, `/organizations/${payload.organizationId}/owner`, params)
+  yield put(organizationActions.updatedOrganizationOwner(result.get('organization')))
+  yield put(toastActions.showToast('組織の代表者を変更しました'))
+}
+
 function* updateLogo({ payload }) {
   const result = yield call(API.put, '/organizations/' + payload.organization.id, { organization: payload.organization });
   yield put(organizationActions.updatedLogo(result.get('organization')));
@@ -32,6 +39,7 @@ export function* organizationSagas() {
     takeLatest(actionTypes.FETCH_ORGANIZATION, withLoading(fetchOrganization)),
     takeLatest(actionTypes.ADD_ORGANIZATION, withLoading(addOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION, withLoading(updateOrganization)),
+    takeLatest(actionTypes.UPDATE_ORGANIZATION_OWNER, withLoading(updateOrganizationOwner)),
     takeLatest(actionTypes.UPDATE_LOGO, withLoading(updateLogo)),
   ]);
 }

@@ -37,6 +37,9 @@ export default handleActions({
   [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => (
     newSelectedData(state, payload)
   ),
+  [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => (
+    newSelectedData(state, payload)
+  ),
   [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
     newSelectedData(state, payload)
   )

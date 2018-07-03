@@ -8,6 +8,8 @@ const actions = createActions({
   [actionTypes.ADDED_ORGANIZATION]: organization => ({ organization }),
   [actionTypes.UPDATE_ORGANIZATION]: organization => ({ organization }),
   [actionTypes.UPDATED_ORGANIZATION]: organization => ({ organization }),
+  [actionTypes.UPDATE_ORGANIZATION_OWNER]: (organizationId, userId) => ({ organizationId, userId }),
+  [actionTypes.UPDATED_ORGANIZATION_OWNER]: organization => ({ organization }),
   [actionTypes.UPDATE_LOGO]: organization => ({ organization }),
   [actionTypes.UPDATED_LOGO]: organization => ({ organization }),
 });
