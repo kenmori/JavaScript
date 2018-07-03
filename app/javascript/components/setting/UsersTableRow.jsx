@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
+import { Button, Checkbox, Radio, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import AutoInput from '../form/AutoInput';
@@ -22,7 +22,7 @@ class UsersTableRow extends PureComponent {
   handleRemoveClick = user => () => this.props.removeUser(user)
 
   render() {
-    const { user, isLoginUser } = this.props;
+    const { user, isLoginUser, ownerId } = this.props;
     const disabled = user.get('disabled');
     return (
       <Table.Row>
@@ -58,6 +58,13 @@ class UsersTableRow extends PureComponent {
                     disabled={disabled || isLoginUser}
           />
         </Table.Cell>
+        <Table.Cell>
+          <Radio
+            name="owner"
+            defaultChecked={user.get('id') === ownerId}
+            disabled={disabled}
+          />
+        </Table.Cell>
         <Table.Cell textAlign="center">
           {disabled
             ? <Button icon='undo' content='有効化する' onClick={this.handleRestoreClick(user)} />
@@ -75,6 +82,7 @@ class UsersTableRow extends PureComponent {
 
 UsersTableRow.propTypes = {
   // container
+  ownerId: PropTypes.number.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
   isLoginUser: PropTypes.bool.isRequired,

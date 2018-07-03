@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Map } from 'immutable'
 import SortableComponent from '../util/SortableComponent'
-import UsersTableRow from './UsersTableRow';
+import UsersTableRow from '../../containers/UsersTableRow';
 
 class UsersTable extends SortableComponent {
 
@@ -100,6 +100,9 @@ class UsersTable extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('isAdmin')} onClick={this.handleSort('isAdmin')}>
                 権限
               </Table.HeaderCell>
+              <Table.HeaderCell>
+                代表者
+              </Table.HeaderCell>
               <Table.HeaderCell disabled />
             </Table.Row>
           </Table.Header>
@@ -121,7 +124,7 @@ class UsersTable extends SortableComponent {
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan='6' textAlign='right'>
+              <Table.HeaderCell colSpan='7' textAlign='right'>
                 {totalPages > 0 && (
                   <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
                               prevItem={activePage === 1 ? null : undefined}
