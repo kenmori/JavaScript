@@ -35,6 +35,24 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def update_owner
+    forbidden and return unless valid_permission?(params[:id]) && current_user.admin?
+
+    @organization = Organization.find(params[:id])
+    ActiveRecord::Base.transaction do
+      @organization.organization_members.where(role: :owner).each do |owner|
+        owner.update!(role: :member)
+      end
+
+      user_id = params[:organization_member]['user']
+      new_owner = @organization.organization_members.find_by(user_id: user_id)
+      new_owner.update!(role: :owner)
+    end
+    render action: :create, status: :ok
+  rescue => e
+    unprocessable_entity(e.message)
+  end
+
   private
 
   def create_params

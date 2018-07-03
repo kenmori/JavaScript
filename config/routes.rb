@@ -49,7 +49,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organizations, only: %i[show create update]
+  resources :organizations, only: %i[show create update] do
+    member do
+      put 'owner', to: 'organizations#update_owner'
+    end
+  end
 
   resources :okr_periods, only: %i[index create update destroy]
 
