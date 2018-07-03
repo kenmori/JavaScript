@@ -2,12 +2,14 @@ import UserSettingTab from '../components/setting/UserSettingTab';
 import { connect } from 'react-redux';
 import userActions from '../actions/users';
 import dialogActions from '../actions/dialogs';
+import { getEnabledUsersForSetting, getDisabledUsersForSetting } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   return {
     loginUserId: state.loginUser.get('id'),
     organization: state.organizations.get('selected'),
-    users: state.users,
+    enabledUsers: getEnabledUsersForSetting(state),
+    disabledUsers: getDisabledUsersForSetting(state),
   };
 };
 

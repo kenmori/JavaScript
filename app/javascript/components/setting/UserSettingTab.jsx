@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Input, Button, Divider } from 'semantic-ui-react';
-import UsersTable from '../../containers/UsersTable';
+import UsersTable from './UsersTable';
 import UserAddForm from './UserAddForm'
 
 class UserSettingTab extends PureComponent {
@@ -20,9 +20,7 @@ class UserSettingTab extends PureComponent {
   handleShowDisabledUsersClick = () => this.setState({ showDisabledUsers: true })
 
   render() {
-    if (this.props.users.size === 0) return null;
-    const enabledUsers = this.props.users.filter(user => !user.get('disabled'));
-    const disabledUsers = this.props.users.filter(user => user.get('disabled'));
+    const { enabledUsers, disabledUsers } = this.props
     return (
       <Tab.Pane attached={false} className="user-setting-tab">
         <UserAddForm addUser={this.props.addUser} confirm={this.props.confirm} />
@@ -67,7 +65,8 @@ UserSettingTab.propTypes = {
   // container
   loginUserId: PropTypes.number.isRequired,
   organization: ImmutablePropTypes.map.isRequired,
-  users: ImmutablePropTypes.list.isRequired,
+  enabledUsers: ImmutablePropTypes.list.isRequired,
+  disabledUsers: ImmutablePropTypes.list.isRequired,
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   updateEmail: PropTypes.func.isRequired,

@@ -130,7 +130,6 @@ class UsersTable extends SortableComponent {
 
 UsersTable.propTypes = {
   // container
-  ownerId: PropTypes.number.isRequired,
   // component
   users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number,
@@ -145,11 +144,6 @@ UsersTable.propTypes = {
 
 UsersTable.defaultProps = {
   key: 'users',
-  getItems: props => props.users.map((user, index) =>
-    user.set('index', index + 1)
-      .set('isOwner', user.get('id') === props.ownerId)
-      .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
-  ),
 }
 
 export default UsersTable;
