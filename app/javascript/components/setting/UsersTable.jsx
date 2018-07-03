@@ -156,7 +156,7 @@ UsersTable.propTypes = {
 
 UsersTable.defaultProps = {
   key: 'users',
-  withIndex: true,
+  getItems: props => props.users.map((user, index) => user.set('index', index + 1)),
 }
 
 export default UsersTable;
