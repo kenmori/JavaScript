@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import {Dropdown, Menu} from 'semantic-ui-react';
+import {Dropdown, Menu, Icon} from 'semantic-ui-react';
 import UserSelect from './form/UserSelect';
 import UserAvatar from '../containers/UserAvatar';
 import Logo from './util/Logo';
@@ -33,6 +33,8 @@ class MenuBar extends PureComponent {
   userTrigger = loginUser => {
     return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
   }
+
+  handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId)
 
   handleOkrPeriodChange = (event, { value }) => {
     this.props.selectOkrPeriod(value);
@@ -75,7 +77,12 @@ class MenuBar extends PureComponent {
         <Menu.Item header href='/'>
           <Logo path={this.props.organization.get('logo').get('url')} size='tiny'/>
         </Menu.Item>
-        <Menu.Item href='/'>ホーム</Menu.Item>
+        <Menu.Item href='/'>
+          <Icon name="home" size="large" fitted />ホーム
+        </Menu.Item>
+        <Menu.Item onClick={this.handleOrganizationOkrClick}>
+          <Icon name="building" size='large' fitted />組織 OKR
+        </Menu.Item>
         {this.organizationTag()}
         <Menu.Item>
           {!this.props.okrPeriods.isEmpty() &&
@@ -113,6 +120,7 @@ class MenuBar extends PureComponent {
 MenuBar.propTypes = {
   // container
   organizationId: PropTypes.number.isRequired,
+  ownerId: PropTypes.number.isRequired,
   okrPeriodId: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
   organizations: ImmutablePropTypes.list.isRequired,
