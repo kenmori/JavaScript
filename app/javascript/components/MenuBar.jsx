@@ -72,13 +72,11 @@ class MenuBar extends PureComponent {
         </Menu.Item>
         {this.organizationTag()}
         <Menu.Item>
-          {!this.props.okrPeriods.isEmpty() && (
-            <OkrPeriodSelect
-              okrPeriods={this.props.okrPeriods}
-              value={this.props.okrPeriodId}
-              onChange={this.props.selectOkrPeriod}
-            />
-          )}
+          <OkrPeriodSelect
+            okrPeriods={this.props.okrPeriods}
+            value={this.props.okrPeriodId}
+            onChange={this.props.selectOkrPeriod}
+          />
         </Menu.Item>
         <Menu.Item>
           {!this.props.users.isEmpty() && (
