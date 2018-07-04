@@ -45,7 +45,7 @@ class MenuBar extends PureComponent {
     }
 
     return (
-      <Menu.Item>
+      <Menu.Item fitted="horizontally">
         <Dropdown
           scrolling
           pointing='top'
@@ -64,21 +64,21 @@ class MenuBar extends PureComponent {
         <Menu.Item header href='/'>
           <Logo path={this.props.organization.get('logo').get('url')} size='tiny'/>
         </Menu.Item>
-        <Menu.Item href='/'>
+        <Menu.Item className="menu-item__home" href='/'>
           <Icon name="home" size="large" fitted />ホーム
         </Menu.Item>
-        <Menu.Item onClick={this.handleOrganizationOkrClick}>
+        <Menu.Item className="menu-item__okr" onClick={this.handleOrganizationOkrClick}>
           <Icon name="building" size='large' fitted />組織 OKR
         </Menu.Item>
         {this.organizationTag()}
-        <Menu.Item>
+        <Menu.Item fitted="horizontally">
           <OkrPeriodSelect
             okrPeriods={this.props.okrPeriods}
             value={this.props.okrPeriodId}
             onChange={this.props.selectOkrPeriod}
           />
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item fitted="horizontally">
           {!this.props.users.isEmpty() && (
             <UserSelect
               users={this.props.users}
