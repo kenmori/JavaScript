@@ -25,6 +25,8 @@ function* fetchOkrs({ payload }) {
   if (payload.isOkrPeriodChanged) {
     yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
     yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
+  }
+  if (loginUserId === payload.userId) {
     isInitialOkrSelected = yield selectInitialKeyResult('unprocessedIds')
   }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
