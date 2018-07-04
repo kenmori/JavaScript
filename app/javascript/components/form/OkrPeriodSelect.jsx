@@ -14,7 +14,9 @@ class OkrPeriodSelect extends PureComponent {
   }
 
   handleChange = (e, { value }) => {
-    this.props.onChange(value)
+    if (this.props.value !== value) {
+      this.props.onChange(value)
+    }
   }
 
   render() {
@@ -24,7 +26,7 @@ class OkrPeriodSelect extends PureComponent {
         scrolling
         pointing="top"
         options={this.okrPeriodsOptions(okrPeriods)}
-        defaultValue={value}
+        value={value}
         onChange={this.handleChange}
         selectOnNavigation={false}
       />
