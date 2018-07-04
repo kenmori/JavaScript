@@ -2,9 +2,8 @@ import React from 'react';
 import { Table, Pagination } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Map } from 'immutable'
 import SortableComponent from '../util/SortableComponent'
-import UsersTableRow from './UsersTableRow';
+import UsersTableRow from '../../containers/UsersTableRow';
 
 class UsersTable extends SortableComponent {
 
@@ -15,7 +14,6 @@ class UsersTable extends SortableComponent {
     this.state = {
       ...this.state,
       activePage: 1,
-      searchTexts: this.buildSearchTexts(props.users),
     };
   }
 
@@ -24,9 +22,6 @@ class UsersTable extends SortableComponent {
     this.setState({
       activePage: this.props.keyword !== nextProps.keyword ? 1 : this.state.activePage,
     });
-    if (this.props.users !== nextProps.users) {
-      this.setState({ searchTexts: this.buildSearchTexts(nextProps.users) })
-    }
   }
 
   updateUser = id => values => this.props.onUpdateUser({ id, ...values })
@@ -49,17 +44,10 @@ class UsersTable extends SortableComponent {
     });
   }
 
-  buildSearchTexts = users => {
-    return Map(users.map(user => {
-      const searchText = `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase()
-      return [user.get('id'), searchText]
-    }))
-  }
-
   getFilteredUsers = (users, keyword) => {
     if (!keyword) return users
     keyword = keyword.toLowerCase()
-    return users.filter(user => this.state.searchTexts.get(user.get('id')).includes(keyword))
+    return users.filter(user => user.get('searchText').includes(keyword))
   }
 
   removeUser = user => {
@@ -100,6 +88,9 @@ class UsersTable extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('isAdmin')} onClick={this.handleSort('isAdmin')}>
                 権限
               </Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('isOwner')} onClick={this.handleSort('isOwner')}>
+                代表者
+              </Table.HeaderCell>
               <Table.HeaderCell disabled />
             </Table.Row>
           </Table.Header>
@@ -121,7 +112,7 @@ class UsersTable extends SortableComponent {
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan='6' textAlign='right'>
+              <Table.HeaderCell colSpan='7' textAlign='right'>
                 {totalPages > 0 && (
                   <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
                               prevItem={activePage === 1 ? null : undefined}
@@ -153,7 +144,6 @@ UsersTable.propTypes = {
 
 UsersTable.defaultProps = {
   key: 'users',
-  withIndex: true,
 }
 
 export default UsersTable;

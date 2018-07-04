@@ -11,6 +11,26 @@ export const getEnabledUsers = createSelector(
   users => users.filter(user => !user.get('disabled'))
 )
 
+const getUsersForSetting = createSelector(
+  state => state.users,
+  state => state.organizations.get('ownerId'),
+  (users, ownerId) => users.map((user, index) =>
+    user.set('index', index + 1)
+      .set('isOwner', user.get('id') === ownerId)
+      .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
+  )
+)
+
+export const getEnabledUsersForSetting = createSelector(
+  getUsersForSetting,
+  users => users.filter(user => !user.get('disabled'))
+)
+
+export const getDisabledUsersForSetting = createSelector(
+  getUsersForSetting,
+  users => users.filter(user => user.get('disabled'))
+)
+
 export const getObjectives = createSelector(
   state => state.objectives.get('ids'),
   state => state.entities,

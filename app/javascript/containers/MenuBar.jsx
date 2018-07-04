@@ -11,6 +11,7 @@ import { getEnabledUsers } from '../utils/selector'
 const mapStateToProps = (state) => {
   return {
     organizationId: state.organizations.get('selected').get('id'),
+    ownerId: state.organizations.get('ownerId'),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     organizations: state.organizations.get('list'),

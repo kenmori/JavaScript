@@ -11,6 +11,10 @@ class Organization < ApplicationRecord
 
   mount_uploader :logo, LogoUploader
 
+  def owner
+    organization_members.find_by(role: :owner)&.user
+  end
+
   def current_okr_period
     self.okr_periods.current.first || okr_periods.last
   end

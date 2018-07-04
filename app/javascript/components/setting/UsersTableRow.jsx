@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
+import { Button, Checkbox, Radio, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import AutoInput from '../form/AutoInput';
@@ -16,6 +16,8 @@ class UsersTableRow extends PureComponent {
   handleResendClick = user => () => this.props.resendEmail(user)
 
   handleAdminChange = (event, { checked }) => this.props.updateUser({ admin: checked })
+
+  handleOwnerChange = () => this.props.setOrganizationOwner(this.props.organizationId, this.props.user)
 
   handleRestoreClick = user => () => this.props.restoreUser(user)
 
@@ -53,9 +55,17 @@ class UsersTableRow extends PureComponent {
         </Table.Cell>
         <Table.Cell>
           <Checkbox label='管理者'
-                    defaultChecked={user.get('isAdmin')}
+                    checked={user.get('isAdmin')}
                     onChange={this.handleAdminChange}
                     disabled={disabled || isLoginUser}
+          />
+        </Table.Cell>
+        <Table.Cell>
+          <Radio
+            name="owner"
+            checked={user.get('isOwner')}
+            onChange={this.handleOwnerChange}
+            disabled={disabled}
           />
         </Table.Cell>
         <Table.Cell textAlign="center">
@@ -75,6 +85,8 @@ class UsersTableRow extends PureComponent {
 
 UsersTableRow.propTypes = {
   // container
+  organizationId: PropTypes.number.isRequired,
+  setOrganizationOwner: PropTypes.func.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
   isLoginUser: PropTypes.bool.isRequired,

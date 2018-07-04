@@ -9,19 +9,15 @@ class SortableComponent extends PureComponent {
     this.state = {
       column: null,
       direction: null,
-      [key]: this.getItems(props[key]),
+      [key]: props[key],
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { key } = this.props
     if (this.props[key] !== nextProps[key]) {
-      this.setState({ [key]: this.sort(this.getItems(nextProps[key]), this.state.column, this.state.direction) })
+      this.setState({ [key]: this.sort(nextProps[key], this.state.column, this.state.direction) })
     }
-  }
-
-  getItems = items => {
-    return this.props.withIndex ? items.map((item, index) => item.set('index', index + 1)) : items
   }
 
   sort = (items, column, direction) => {
@@ -56,11 +52,6 @@ class SortableComponent extends PureComponent {
 SortableComponent.propTypes = {
   // component
   key: PropTypes.string.isRequired,
-  withIndex: PropTypes.bool,
-}
-
-SortableComponent.defaultProps = {
-  withIndex: false,
 }
 
 export default SortableComponent
