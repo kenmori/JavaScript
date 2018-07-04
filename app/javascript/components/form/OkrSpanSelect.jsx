@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Select } from 'semantic-ui-react'
+import { Select, Form } from 'semantic-ui-react'
 
 class OkrSpanSelect extends PureComponent {
 
@@ -18,8 +18,16 @@ class OkrSpanSelect extends PureComponent {
   }
 
   render() {
-    const { value } = this.props
-    return (
+    const { value, isForm } = this.props
+    return isForm ? (
+      <Form.Select
+        inline
+        label="OKR 周期"
+        options={OkrSpanSelect.OKR_SPAN_OPTIONS}
+        value={value}
+        onChange={this.handleChange}
+      />
+    ) : (
       <Select
         options={OkrSpanSelect.OKR_SPAN_OPTIONS}
         value={value}
@@ -34,7 +42,12 @@ OkrSpanSelect.propTypes = {
   // container
   // component
   value: PropTypes.number,
+  isForm: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+}
+
+OkrSpanSelect.defaultProps = {
+  isForm: false,
 }
 
 export default OkrSpanSelect
