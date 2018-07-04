@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Dropdown } from 'semantic-ui-react'
+import { Select } from 'semantic-ui-react'
 
 class OkrPeriodSelect extends PureComponent {
 
@@ -22,9 +22,7 @@ class OkrPeriodSelect extends PureComponent {
   render() {
     const { okrPeriods, value } = this.props
     return (
-      <Dropdown
-        scrolling
-        pointing="top"
+      <Select
         options={this.okrPeriodsOptions(okrPeriods)}
         value={value}
         onChange={this.handleChange}
