@@ -1,20 +1,19 @@
 import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
+import { List } from 'immutable'
 import dialogActions from '../actions/dialogs';
 import { getMyObjectives, getMyKeyResults, getUnprocessedKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
-  const unprocessedKeyResults = getUnprocessedKeyResults(state)
   const isLoginUser = state.loginUser.get('id') === state.current.get('userId')
   return {
     mapObjective: getSelectedObjective(state),
     objectives: getMyObjectives(state),
     keyResults: getMyKeyResults(state),
-    unprocessedKeyResults,
+    unprocessedKeyResults: isLoginUser ? getUnprocessedKeyResults(state) : List(),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
-    isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
-    showTask: isLoginUser && !!unprocessedKeyResults.size,
+    activeItem: state.objectives.getIn(['selectedOkr', 'type']),
   };
 };
 

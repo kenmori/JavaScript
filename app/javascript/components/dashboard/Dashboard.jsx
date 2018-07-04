@@ -6,18 +6,15 @@ import TaskList from '../../containers/TaskList'
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
+import { OkrTypes } from '../../utils/okr'
 
 class Dashboard extends PureComponent {
-
-  static ITEM_TASK = 'task'
-  static ITEM_OBJECTIVE = 'objective'
-  static ITEM_KEY_RESULT = 'keyResult'
 
   constructor(props) {
     super(props);
     this.state = {
       mapObjective: props.mapObjective,
-      activeItem: Dashboard.ITEM_TASK,
+      activeItem: props.activeItem,
     };
   }
 
@@ -27,32 +24,20 @@ class Dashboard extends PureComponent {
         mapObjective: nextProps.mapObjective,
       });
     }
-    if (!this.props.isFetchedKeyResults && nextProps.isFetchedKeyResults && !nextProps.showTask) {
-      if (!nextProps.objectives.size && nextProps.keyResults.size) {
-        this.setActiveItem(Dashboard.ITEM_KEY_RESULT) // O = 0 かつ KR > 0 => KR タブ選択
-      } else if (!nextProps.keyResults.size) {
-        this.setActiveItem(Dashboard.ITEM_OBJECTIVE) //  KR = 0 => O タブ選択
-      }
+    if (this.props.activeItem !== nextProps.activeItem) {
+      this.setState({ activeItem: nextProps.activeItem })
     }
   }
 
-  handleMenuItemClick = (e, { name }) => {
-    if ((name === Dashboard.ITEM_OBJECTIVE && !this.props.objectives.size)
-      || (name === Dashboard.ITEM_KEY_RESULT && !this.props.keyResults.size)) {
-      return
-    }
-    this.setActiveItem(name)
-  }
+  handleMenuItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   getActiveItem = () => {
+    const { unprocessedKeyResults } = this.props
     const { activeItem } = this.state
-    return (activeItem === Dashboard.ITEM_TASK && !this.props.showTask) ? Dashboard.ITEM_OBJECTIVE : activeItem
-  }
-
-  setActiveItem = activeItem => {
-    if (this.state.activeItem !== activeItem) {
-      this.setState({ activeItem })
-    }
+    // activeItem やタスク KR がない場合に適切な activeItem を返す
+    return unprocessedKeyResults.isEmpty()
+      ? (activeItem && activeItem !== OkrTypes.TASK) ? activeItem : OkrTypes.OBJECTIVE
+      : activeItem ? activeItem : OkrTypes.TASK
   }
 
   emptyViewHtml() {
@@ -66,11 +51,11 @@ class Dashboard extends PureComponent {
 
   getTabContent = activeItem => {
     switch(activeItem) {
-      case Dashboard.ITEM_TASK:
+      case OkrTypes.TASK:
         return <TaskList keyResults={this.props.unprocessedKeyResults} />
-      case Dashboard.ITEM_OBJECTIVE:
+      case OkrTypes.OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />
-      case Dashboard.ITEM_KEY_RESULT:
+      case OkrTypes.KEY_RESULT:
         return <KeyResultList keyResults={this.props.keyResults} />
     }
   }
@@ -82,15 +67,15 @@ class Dashboard extends PureComponent {
         <section className="okr-list__section">
           <div className='okr-list__menu'>
             <Menu tabular>
-              {this.props.showTask && (
-                <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
+              {!this.props.unprocessedKeyResults.isEmpty() && (
+                <Menu.Item name={OkrTypes.TASK} active={activeItem === OkrTypes.TASK} onClick={this.handleMenuItemClick}>
                   タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
                 </Menu.Item>
               )}
-              <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={OkrTypes.OBJECTIVE} active={activeItem === OkrTypes.OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
-              <Menu.Item name={Dashboard.ITEM_KEY_RESULT} active={activeItem === Dashboard.ITEM_KEY_RESULT} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={OkrTypes.KEY_RESULT} active={activeItem === OkrTypes.KEY_RESULT} onClick={this.handleMenuItemClick}>
                 Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
               <Menu.Item className="okr-list__button">
@@ -125,8 +110,7 @@ Dashboard.propTypes = {
   unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
-  isFetchedKeyResults: PropTypes.bool.isRequired,
-  showTask: PropTypes.bool.isRequired,
+  activeItem: PropTypes.string,
   openObjectiveModal: PropTypes.func.isRequired,
   openOptionModal: PropTypes.func.isRequired,
   // component

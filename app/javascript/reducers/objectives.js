@@ -91,15 +91,15 @@ export default handleActions({
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
     [ActionTypes.SELECTED_OKR]: (state, { payload }) => {
-      const { objectiveId, keyResultId } = payload;
-      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId });
+      const { objectiveId, keyResultId, type } = payload;
+      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId, type });
     },
   },
   fromJS({
     ids: [],
     previousIds: [],
     candidateIds: [],
-    selectedOkr: { objectiveId: null, keyResultId: null },
+    selectedOkr: { objectiveId: null, keyResultId: null, type: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,
     isFetchedPreviousObjectives: true,
