@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import {Dropdown, Menu, Icon} from 'semantic-ui-react';
 import UserSelect from './form/UserSelect';
+import OkrPeriodSelect from './form/OkrPeriodSelect'
 import UserAvatar from '../containers/UserAvatar';
 import Logo from './util/Logo';
 
@@ -20,25 +21,11 @@ class MenuBar extends PureComponent {
     }
   }
 
-  okrPeriodsOption(okrPeriods) {
-    return okrPeriods.map(okrPeriod => {
-      return {
-        key: okrPeriod.get('id'),
-        value: okrPeriod.get('id'),
-        text: `${okrPeriod.get('name')}`,
-      }
-    }).toArray();
-  }
-
   userTrigger = loginUser => {
     return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
   }
 
   handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId)
-
-  handleOkrPeriodChange = (event, { value }) => {
-    this.props.selectOkrPeriod(value);
-  }
 
   handleChangeOrganization = (event, { value }) => {
     this.props.changeCurrentOrganizationId(this.props.loginUser.get('id'), value);
@@ -85,14 +72,13 @@ class MenuBar extends PureComponent {
         </Menu.Item>
         {this.organizationTag()}
         <Menu.Item>
-          {!this.props.okrPeriods.isEmpty() &&
-            <Dropdown scrolling pointing='top'
-                      options={this.okrPeriodsOption(this.props.okrPeriods)}
-                      defaultValue={this.props.okrPeriodId}
-                      onChange={this.handleOkrPeriodChange}
-                      selectOnNavigation={false}
+          {!this.props.okrPeriods.isEmpty() && (
+            <OkrPeriodSelect
+              okrPeriods={this.props.okrPeriods}
+              value={this.props.okrPeriodId}
+              onChange={this.props.selectOkrPeriod}
             />
-          }
+          )}
         </Menu.Item>
         <Menu.Item>
           {!this.props.users.isEmpty() && (
