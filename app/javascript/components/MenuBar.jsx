@@ -79,13 +79,11 @@ class MenuBar extends PureComponent {
           />
         </Menu.Item>
         <Menu.Item fitted="horizontally">
-          {!this.props.users.isEmpty() && (
-            <UserSelect
-              users={this.props.users}
-              value={this.props.userId}
-              onChange={this.props.selectUser}
-            />
-          )}
+          <UserSelect
+            users={this.props.users}
+            value={this.props.userId}
+            onChange={this.props.selectUser}
+          />
         </Menu.Item>
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
