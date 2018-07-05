@@ -2,6 +2,7 @@ import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
 import { List } from 'immutable'
 import dialogActions from '../actions/dialogs';
+import currentActions from '../actions/current'
 import { getMyObjectives, getMyKeyResults, getTaskKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
@@ -13,7 +14,7 @@ const mapStateToProps = state => {
     taskKeyResults: isLoginUser ? getTaskKeyResults(state) : List(),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
-    activeItem: state.objectives.getIn(['selectedOkr', 'type']),
+    selectedTab: state.current.get('selectedTab'),
   };
 };
 
@@ -25,6 +26,9 @@ const mapDispatchToProps = dispatch => {
     openOptionModal: () => {
       dispatch(dialogActions.openOptionModal())
     },
+    selectTab: type => {
+      dispatch(currentActions.selectTab(type))
+    }
   };
 };
 

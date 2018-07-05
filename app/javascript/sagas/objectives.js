@@ -4,6 +4,7 @@ import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
+import currentActions from '../actions/current'
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
@@ -11,13 +12,13 @@ import { isMyChildObjectiveById, isMembersKeyResultById } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
 
 function* selectOkr({ payload }) {
-  const { objectiveId, keyResultId, type } = payload
+  const { objectiveId, keyResultId } = payload
   const hasObjective = yield select(state => state.entities.objectives.has(objectiveId))
   if (!hasObjective) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(actionTypes.FETCHED_OBJECTIVE)
   }
-  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId, type))
+  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
 }
 
 function* fetchOkrs({ payload }) {
@@ -75,8 +76,9 @@ function* selectInitialObjective() {
       : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
-    yield put(objectiveActions.selectOkr(objectiveId, null, OkrTypes.OBJECTIVE))
+    yield put(objectiveActions.selectOkr(objectiveId, null))
     yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
   return false
@@ -92,11 +94,13 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
   })
   if (keyResultId) {
     const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
-    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId, type))
+    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
     yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectTab(type))
     return true
   } else if (selectAnyway) {
-    yield put(objectiveActions.selectedOkr(null, null, OkrTypes.OBJECTIVE))
+    yield put(objectiveActions.selectedOkr(null, null))
+    yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
   return false

@@ -14,7 +14,6 @@ class Dashboard extends PureComponent {
     super(props);
     this.state = {
       mapObjective: props.mapObjective,
-      activeItem: props.activeItem,
     };
   }
 
@@ -24,20 +23,14 @@ class Dashboard extends PureComponent {
         mapObjective: nextProps.mapObjective,
       });
     }
-    if (this.props.activeItem !== nextProps.activeItem) {
-      this.setState({ activeItem: nextProps.activeItem })
-    }
   }
 
-  handleMenuItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleMenuItemClick = (e, { name }) => this.props.selectTab(name)
 
-  getActiveItem = () => {
-    const { taskKeyResults } = this.props
-    const { activeItem } = this.state
-    // activeItem やタスク KR がない場合に適切な activeItem を返す
-    return taskKeyResults.isEmpty()
-      ? (activeItem && activeItem !== OkrTypes.TASK) ? activeItem : OkrTypes.OBJECTIVE
-      : activeItem ? activeItem : OkrTypes.TASK
+  getSelectedTab = () => {
+    const { selectedTab, taskKeyResults } = this.props
+    // selectedTab = TASK でタスク KR がない場合を考慮
+    return (selectedTab === OkrTypes.TASK && taskKeyResults.isEmpty()) ? OkrTypes.OBJECTIVE : selectedTab
   }
 
   emptyViewHtml() {
@@ -49,8 +42,8 @@ class Dashboard extends PureComponent {
     );
   }
 
-  getTabContent = activeItem => {
-    switch(activeItem) {
+  getTabContent = selectedTab => {
+    switch(selectedTab) {
       case OkrTypes.TASK:
         return <TaskList keyResults={this.props.taskKeyResults} />
       case OkrTypes.OBJECTIVE:
@@ -61,21 +54,21 @@ class Dashboard extends PureComponent {
   }
 
   render() {
-    const activeItem = this.getActiveItem()
+    const selectedTab = this.getSelectedTab()
     return (
       <div className="dashboard">
         <section className="okr-list__section">
           <div className='okr-list__menu'>
             <Menu tabular>
               {!this.props.taskKeyResults.isEmpty() && (
-                <Menu.Item name={OkrTypes.TASK} active={activeItem === OkrTypes.TASK} onClick={this.handleMenuItemClick}>
+                <Menu.Item name={OkrTypes.TASK} active={selectedTab === OkrTypes.TASK} onClick={this.handleMenuItemClick}>
                   タスク<Label>{this.props.taskKeyResults.size}</Label>
                 </Menu.Item>
               )}
-              <Menu.Item name={OkrTypes.OBJECTIVE} active={activeItem === OkrTypes.OBJECTIVE} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={OkrTypes.OBJECTIVE} active={selectedTab === OkrTypes.OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
-              <Menu.Item name={OkrTypes.KEY_RESULT} active={activeItem === OkrTypes.KEY_RESULT} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={OkrTypes.KEY_RESULT} active={selectedTab === OkrTypes.KEY_RESULT} onClick={this.handleMenuItemClick}>
                 Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
               <Menu.Item className="okr-list__button">
@@ -84,7 +77,7 @@ class Dashboard extends PureComponent {
               </Menu.Item>
             </Menu>
           </div>
-          {this.getTabContent(activeItem)}
+          {this.getTabContent(selectedTab)}
         </section>
         <section className='okr-map__section'>
           <div className='okr-map__menu'>
@@ -110,9 +103,10 @@ Dashboard.propTypes = {
   taskKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
-  activeItem: PropTypes.string,
+  selectedTab: PropTypes.string.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   openOptionModal: PropTypes.func.isRequired,
+  selectTab: PropTypes.func.isRequired,
   // component
 }
 
