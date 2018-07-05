@@ -92,7 +92,8 @@ export default handleActions({
     },
     [ActionTypes.SELECTED_OKR]: (state, { payload }) => {
       const { objectiveId, keyResultId, type } = payload;
-      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId, type });
+      const oldType = state.getIn(['selectedOkr', 'type'])
+      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId, type: type || oldType });
     },
   },
   fromJS({
