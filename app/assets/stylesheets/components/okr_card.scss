@@ -1,6 +1,6 @@
 .okr-card {
   &.ui.card {
-    margin: 24px 16px 48px;
+    margin: 24px 16px 48px; // 上下のカードのパスが接触しないように下側余白を大きくする
     width: 424px; /* 3 cards in a row within 1366px */
 
     &:hover {

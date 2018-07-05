@@ -5,8 +5,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Icon } from 'semantic-ui-react';
 
 class OkrPath extends PureComponent {
-  static STEP_HEIGHT = 24; // 折れ線の段差の高さ
-  static LINE_LENGTH = 24; // 折り畳まれた線分の長さ
+
+  static CARD_MARGIN = 24; // OKR カード余白 (= 折れ線の段差の高さ、折り畳まれた線分の長さ)
 
   constructor(props) {
     super(props);
@@ -28,14 +28,14 @@ class OkrPath extends PureComponent {
     const from = this.props.fromPoint;
     if (this.props.isExpanded) {
       return this.props.toPoints.map(to => {
-        const iconY = to.y - OkrPath.STEP_HEIGHT;
+        const iconY = to.y - OkrPath.CARD_MARGIN;
         return `${from.x},${from.y} ${from.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`;
       });
     } else {
       return this.props.toPoints.map(to => (
         this.props.toAncestor
-          ? `${to.x},${to.y - OkrPath.LINE_LENGTH} ${to.x},${to.y}`
-          : `${from.x},${from.y} ${from.x},${from.y + OkrPath.LINE_LENGTH}`
+          ? `${to.x},${to.y - OkrPath.CARD_MARGIN} ${to.x},${to.y}`
+          : `${from.x},${from.y} ${from.x},${from.y + OkrPath.CARD_MARGIN}`
       ));
     }
   }
@@ -56,14 +56,14 @@ class OkrPath extends PureComponent {
     let y;
     if (this.props.isExpanded) {
       x = from.x;
-      y = to.y - OkrPath.STEP_HEIGHT;
+      y = to.y - OkrPath.CARD_MARGIN;
     } else {
       if (this.props.toAncestor) {
         x = to.x;
-        y = to.y - OkrPath.LINE_LENGTH;
+        y = to.y - OkrPath.CARD_MARGIN;
       } else {
         x = from.x;
-        y = from.y + OkrPath.LINE_LENGTH;
+        y = from.y + OkrPath.CARD_MARGIN;
       }
     }
     return {
