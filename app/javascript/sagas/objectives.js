@@ -96,7 +96,7 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
     yield take(actionTypes.SELECTED_OKR)
     return true
   } else if (selectAnyway) {
-    yield put(objectiveActions.selectedOkr(null, null))
+    yield put(objectiveActions.selectedOkr(null, null, OkrTypes.OBJECTIVE))
     return true
   }
   return false
