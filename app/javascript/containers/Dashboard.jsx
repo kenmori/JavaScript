@@ -5,7 +5,7 @@ import dialogActions from '../actions/dialogs';
 import { getMyObjectives, getMyKeyResults, getUnprocessedKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
-  const isLoginUser = state.loginUser.get('id') === state.current.get('userId')
+  const isLoginUser = state.loginUser.get('id') === state.current.get('userIdAtFetchedTaskKeyResults')
   return {
     mapObjective: getSelectedObjective(state),
     objectives: getMyObjectives(state),

@@ -8,6 +8,7 @@ const initialState = fromJS({
   userId: gon.getIn(['loginUser', 'id']),
   userIdAtFetchedObjectives: gon.getIn(['loginUser', 'id']),
   userIdAtFetchedKeyResults: gon.getIn(['loginUser', 'id']),
+  userIdAtFetchedTaskKeyResults: gon.getIn(['loginUser', 'id']),
 });
 
 export default handleActions({
@@ -19,8 +20,12 @@ export default handleActions({
   ),
   [ActionTypes.FETCHED_OBJECTIVES]: state => {
     return state.set('userIdAtFetchedObjectives', state.get('userId'))
+      .set('userIdAtFetchedTaskKeyResults', state.get('userId')) // タスク KR の fetch 省略を考慮
   },
   [ActionTypes.FETCHED_KEY_RESULTS]: state => {
     return state.set('userIdAtFetchedKeyResults', state.get('userId'))
+  },
+  [ActionTypes.FETCHED_UNPROCESSED_KEY_RESULTS]: state => {
+    return state.set('userIdAtFetchedTaskKeyResults', state.get('userId'))
   },
 }, initialState);
