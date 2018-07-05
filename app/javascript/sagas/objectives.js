@@ -24,8 +24,8 @@ function* fetchOkrs({ payload }) {
   let isInitialOkrSelected = false
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (payload.isOkrPeriodChanged) {
-    yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
-    yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
+    yield put(keyResultActions.fetchTaskKeyResults(payload.okrPeriodId, loginUserId)) // with loading
+    yield take(actionTypes.FETCHED_TASK_KEY_RESULTS)
   }
   if (loginUserId === payload.userId) {
     isInitialOkrSelected = yield selectInitialTaskKeyResult()
@@ -63,7 +63,7 @@ function* fetchOkrs({ payload }) {
 }
 
 function* selectInitialTaskKeyResult() {
-  return yield selectInitialKeyResult('unprocessedIds', OkrTypes.TASK, false)
+  return yield selectInitialKeyResult('taskIds', OkrTypes.TASK, false)
 }
 
 function* selectInitialObjective() {

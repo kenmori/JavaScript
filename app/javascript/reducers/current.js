@@ -25,7 +25,7 @@ export default handleActions({
   [ActionTypes.FETCHED_KEY_RESULTS]: state => {
     return state.set('userIdAtFetchedKeyResults', state.get('userId'))
   },
-  [ActionTypes.FETCHED_UNPROCESSED_KEY_RESULTS]: state => {
+  [ActionTypes.FETCHED_TASK_KEY_RESULTS]: state => {
     return state.set('userIdAtFetchedTaskKeyResults', state.get('userId'))
   },
 }, initialState);

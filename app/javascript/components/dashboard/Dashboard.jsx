@@ -32,10 +32,10 @@ class Dashboard extends PureComponent {
   handleMenuItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   getActiveItem = () => {
-    const { unprocessedKeyResults } = this.props
+    const { taskKeyResults } = this.props
     const { activeItem } = this.state
     // activeItem やタスク KR がない場合に適切な activeItem を返す
-    return unprocessedKeyResults.isEmpty()
+    return taskKeyResults.isEmpty()
       ? (activeItem && activeItem !== OkrTypes.TASK) ? activeItem : OkrTypes.OBJECTIVE
       : activeItem ? activeItem : OkrTypes.TASK
   }
@@ -52,7 +52,7 @@ class Dashboard extends PureComponent {
   getTabContent = activeItem => {
     switch(activeItem) {
       case OkrTypes.TASK:
-        return <TaskList keyResults={this.props.unprocessedKeyResults} />
+        return <TaskList keyResults={this.props.taskKeyResults} />
       case OkrTypes.OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />
       case OkrTypes.KEY_RESULT:
@@ -67,9 +67,9 @@ class Dashboard extends PureComponent {
         <section className="okr-list__section">
           <div className='okr-list__menu'>
             <Menu tabular>
-              {!this.props.unprocessedKeyResults.isEmpty() && (
+              {!this.props.taskKeyResults.isEmpty() && (
                 <Menu.Item name={OkrTypes.TASK} active={activeItem === OkrTypes.TASK} onClick={this.handleMenuItemClick}>
-                  タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
+                  タスク<Label>{this.props.taskKeyResults.size}</Label>
                 </Menu.Item>
               )}
               <Menu.Item name={OkrTypes.OBJECTIVE} active={activeItem === OkrTypes.OBJECTIVE} onClick={this.handleMenuItemClick}>
@@ -107,7 +107,7 @@ Dashboard.propTypes = {
   mapObjective: ImmutablePropTypes.map,
   objectives: ImmutablePropTypes.list.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
-  unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
+  taskKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
   activeItem: PropTypes.string,
