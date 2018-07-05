@@ -259,15 +259,24 @@ class OkrMap extends PureComponent {
       <div className='okr-map' ref='map'>
         {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
-            {objectives.map(objective => (
-              <OkrCard
-                key={objective.get('id')}
-                objective={objective}
-                ref={`objective_${objective.get('id')}`}
-                visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
-                onToggleKeyResult={this.toggleKeyResult}
-              />
-            ))}
+            {objectives
+              .reduce((result, objective, index) => (
+                // OKR カードをペアにする (2個ずつ折り返すため)
+                index % 2 === 0 ? result.push(List.of(objective)) : result.pop().push(result.last().push(objective))
+              ), List())
+              .map((objectivePair, key) => (
+                <div className="okr-map__pair" key={key}>
+                  {objectivePair.map(objective => (
+                    <OkrCard
+                      key={objective.get('id')}
+                      objective={objective}
+                      ref={`objective_${objective.get('id')}`}
+                      visibleKeyResultIds={this.state.visibleIds.get(objective.get('id'))}
+                      onToggleKeyResult={this.toggleKeyResult}
+                    />
+                  ))}
+                </div>
+              ))}
           </Card.Group>
         ))}
         {this.state.okrPathPropsList && this.state.okrPathPropsList.map((okrPathProps, key) => (

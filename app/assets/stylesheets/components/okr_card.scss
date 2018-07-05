@@ -1,7 +1,6 @@
 .okr-card {
   &.ui.card {
-    margin-top: 24px;
-    margin-bottom: 48px;
+    margin: 24px 16px 48px;
     width: 424px; /* 3 cards in a row within 1366px */
 
     &:hover {
