@@ -7,7 +7,6 @@ import { Icon } from 'semantic-ui-react';
 class OkrPath extends PureComponent {
   static STEP_HEIGHT = 24; // 折れ線の段差の高さ
   static LINE_LENGTH = 24; // 折り畳まれた線分の長さ
-  static BYPASS_WIDTH = 424 / 2 + 16; // 迂回路の幅
 
   constructor(props) {
     super(props);
@@ -28,19 +27,9 @@ class OkrPath extends PureComponent {
   getPointsList() {
     const from = this.props.fromPoint;
     if (this.props.isExpanded) {
-      let wrapped = false;
-      const bypass = {
-        x: this.props.toPoints.maxBy(to => to.x).x + OkrPath.BYPASS_WIDTH,
-        y: this.props.toPoints.first().y - OkrPath.STEP_HEIGHT,
-      }
-      return this.props.toPoints.map((to, key, iter) => {
-        if (!wrapped && key > 0 && to.x < iter.get(key - 1).x) {
-          wrapped = true; // x 座標が前後している場合は折り返し表示と判定
-        }
+      return this.props.toPoints.map(to => {
         const iconY = to.y - OkrPath.STEP_HEIGHT;
-        return wrapped
-          ? `${from.x},${from.y} ${from.x},${bypass.y} ${bypass.x},${bypass.y} ${bypass.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`
-          : `${from.x},${from.y} ${from.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`;
+        return `${from.x},${from.y} ${from.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`;
       });
     } else {
       return this.props.toPoints.map(to => (
