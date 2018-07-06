@@ -79,7 +79,7 @@ class OkrPath extends PureComponent {
             />
           ))}
         </svg>
-        <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon'
+        <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon' fitted
               style={this.getIconStyle()} onClick={this.handleIconClick} />
       </div>
     );
