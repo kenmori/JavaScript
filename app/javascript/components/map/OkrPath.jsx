@@ -40,15 +40,6 @@ class OkrPath extends PureComponent {
     }
   }
 
-  getSvgStyle() {
-    return {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      pointerEvents: 'none',
-    };
-  }
-
   getIconStyle() {
     const from = this.props.fromPoint;
     const to = this.props.toPoints.first();
@@ -67,7 +58,6 @@ class OkrPath extends PureComponent {
       }
     }
     return {
-      position: 'absolute',
       top: y - this.state.iconTopDiff,
       left: x - this.state.iconLeftDiff,
     };
@@ -78,7 +68,7 @@ class OkrPath extends PureComponent {
   render() {
     return (
       <div className='okr-path'>
-        <svg width={this.props.width} height={this.props.height} style={this.getSvgStyle()}>
+        <svg>
           {this.getPointsList().map((points, key) => (
             <polyline
               key={key}
@@ -99,8 +89,6 @@ class OkrPath extends PureComponent {
 OkrPath.propTypes = {
   // container
   // component
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
   fromPoint: PropTypes.object.isRequired, // {x, y}
   toPoints: ImmutablePropTypes.list.isRequired,
   toAncestor: PropTypes.bool.isRequired,

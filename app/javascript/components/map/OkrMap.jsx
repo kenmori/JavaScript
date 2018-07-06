@@ -166,10 +166,7 @@ class OkrMap extends PureComponent {
         toPoints = toPoints.push({ x: 0, y: 0 });
       }
 
-      const mapElement = findDOMNode(this.refs.map);
       return {
-        width: mapElement.offsetWidth,
-        height: mapElement.offsetHeight,
         fromPoint: fromPoint,
         toPoints: toPoints,
         toAncestor: collapsedParent,
@@ -256,7 +253,7 @@ class OkrMap extends PureComponent {
 
   render() {
     return (
-      <div className='okr-map' ref='map'>
+      <div className='okr-map'>
         {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
             {objectives
