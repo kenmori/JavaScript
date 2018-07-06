@@ -10,62 +10,44 @@ class OkrPath extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      iconTopDiff: 0,
-      iconLeftDiff: 0,
-    };
+    this.state = { iconTopDiff: 0, iconLeftDiff: 0 }
   }
 
   componentDidMount() {
     const icon = findDOMNode(this.refs.icon);
-    this.setState({
-      iconTopDiff: icon.offsetHeight / 2,
-      iconLeftDiff: icon.offsetWidth / 2,
-    });
+    this.setState({ iconTopDiff: icon.offsetHeight / 2, iconLeftDiff: icon.offsetWidth / 2 })
   }
 
   getPointsList() {
-    const from = this.props.fromPoint;
-    if (this.props.isExpanded) {
-      return this.props.toPoints.map(to => {
+    const { fromPoint: from, toPoints, isExpanded, toAncestor } = this.props
+    return toPoints.map(to => {
+      if (isExpanded) {
         const iconY = to.y - OkrPath.CARD_MARGIN;
         return `${from.x},${from.y} ${from.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`;
-      });
-    } else {
-      return this.props.toPoints.map(to => (
-        this.props.toAncestor
+      } else {
+        return toAncestor
           ? `${to.x},${to.y - OkrPath.CARD_MARGIN} ${to.x},${to.y}`
           : `${from.x},${from.y} ${from.x},${from.y + OkrPath.CARD_MARGIN}`
-      ));
-    }
+      }
+    })
   }
 
   getIconStyle() {
-    const from = this.props.fromPoint;
-    const to = this.props.toPoints.first();
-    let x;
-    let y;
-    if (this.props.isExpanded) {
-      x = from.x;
-      y = to.y - OkrPath.CARD_MARGIN;
-    } else {
-      if (this.props.toAncestor) {
-        x = to.x;
-        y = to.y - OkrPath.CARD_MARGIN;
-      } else {
-        x = from.x;
-        y = from.y + OkrPath.CARD_MARGIN;
-      }
-    }
-    return {
-      top: y - this.state.iconTopDiff,
-      left: x - this.state.iconLeftDiff,
-    };
+    const { fromPoint: from, toPoints, isExpanded, toAncestor } = this.props
+    const to = toPoints.first()
+    const [x, y] = isExpanded
+      ? [from.x, to.y - OkrPath.CARD_MARGIN]
+      : toAncestor
+        ? [to.x, to.y - OkrPath.CARD_MARGIN]
+        : [from.x, from.y + OkrPath.CARD_MARGIN]
+    const { iconTopDiff, iconLeftDiff } = this.state
+    return { top: y - iconTopDiff, left: x - iconLeftDiff }
   }
 
   handleIconClick = () => this.props.onToggleObjective(this.props)
 
   render() {
+    const { isExpanded } = this.props
     return (
       <div className='okr-path'>
         <svg>
@@ -79,8 +61,15 @@ class OkrPath extends PureComponent {
             />
           ))}
         </svg>
-        <Icon link name={`${this.props.isExpanded ? 'minus' : 'plus'} square outline`} size='large' ref='icon' fitted
-              style={this.getIconStyle()} onClick={this.handleIconClick} />
+        <Icon
+          link
+          name={`${isExpanded ? 'minus' : 'plus'} square outline`}
+          size='large'
+          ref='icon'
+          fitted
+          style={this.getIconStyle()}
+          onClick={this.handleIconClick}
+        />
       </div>
     );
   }
