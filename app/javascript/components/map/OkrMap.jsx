@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrCard from '../../containers/OkrCard';
@@ -137,44 +136,12 @@ class OkrMap extends PureComponent {
     }, List());
 
     // リンク関係からパス情報を作成
-    const okrPathPropsList = links.map(link => {
-      let collapsedParent = false;
-      let expandedChild = false;
-
-      let fromPoint;
-      const fromRef = this.refs[`objective_${link.fromId}`];
-      if (fromRef) {
-        const element = findDOMNode(fromRef);
-        const x = element.offsetLeft + (element.offsetWidth / 2);
-        fromPoint = { x: x, y: element.offsetTop + element.offsetHeight };
-      } else {
-        collapsedParent = true;
-        fromPoint = { x: 0, y: 0 };
-      }
-
-      let toPoints = link.toIds.reduce((result, toId) => {
-        const toRef = this.refs[`objective_${toId}`];
-        if (toRef) {
-          const element = findDOMNode(toRef);
-          const x = element.offsetLeft + (element.offsetWidth / 2);
-          expandedChild = true;
-          result = result.push({ x: x, y: element.offsetTop });
-        }
-        return result;
-      }, List());
-      if (toPoints.isEmpty()) {
-        toPoints = toPoints.push({ x: 0, y: 0 });
-      }
-
-      return {
-        fromPoint: fromPoint,
-        toPoints: toPoints,
-        toAncestor: collapsedParent,
-        isExpanded: !collapsedParent && expandedChild,
-        objectiveId: link.fromId,
-        keyResultIds: link.fromKeyResultIds,
-      };
-    });
+    const okrPathPropsList = links.map(link => ({
+      fromRef: this.refs[`objective_${link.fromId}`],
+      toRefs: link.toIds.map(toId => this.refs[`objective_${toId}`]),
+      objectiveId: link.fromId,
+      keyResultIds: link.fromKeyResultIds,
+    }))
 
     this.setState({
       okrPathPropsList: okrPathPropsList,
@@ -198,7 +165,7 @@ class OkrMap extends PureComponent {
     window.removeEventListener('resize', this.onResize);
   }
 
-  toggleObjective = ({ toAncestor, isExpanded, objectiveId, keyResultIds }) => {
+  toggleObjective = (toAncestor, isExpanded, objectiveId, keyResultIds) => {
     let visibleIds;
     if (isExpanded) {
       // Objective が展開されている → 折り畳む
