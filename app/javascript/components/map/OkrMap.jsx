@@ -116,7 +116,7 @@ class OkrMap extends PureComponent {
           result = result.push({
             fromId: rootObjective.getIn(['parentKeyResult', 'objectiveId']),
             toIds: objectives.map(objective => objective.get('id')),
-            parentKeyResultId: parentKeyResultId,
+            fromKeyResultIds: Set.of(parentKeyResultId),
           });
         }
       }
@@ -128,7 +128,7 @@ class OkrMap extends PureComponent {
           result = result.push({
             fromId: objective.get('id'),
             toIds: childObjectiveIds,
-            keyResultIds: objective.get('keyResultIds'),
+            fromKeyResultIds: objective.get('keyResultIds').toSet(),
           });
         }
       });
@@ -171,9 +171,8 @@ class OkrMap extends PureComponent {
         toPoints: toPoints,
         toAncestor: collapsedParent,
         isExpanded: !collapsedParent && expandedChild,
-        fromId: link.fromId,
-        parentKeyResultId: link.parentKeyResultId,
-        keyResultIds: link.keyResultIds,
+        objectiveId: link.fromId,
+        keyResultIds: link.fromKeyResultIds,
       };
     });
 
@@ -199,11 +198,11 @@ class OkrMap extends PureComponent {
     window.removeEventListener('resize', this.onResize);
   }
 
-  toggleObjective = ({ toAncestor, isExpanded, fromId, parentKeyResultId, keyResultIds }) => {
+  toggleObjective = ({ toAncestor, isExpanded, objectiveId, keyResultIds }) => {
     let visibleIds;
     if (isExpanded) {
       // Objective が展開されている → 折り畳む
-      const index = this.state.visibleIds.keySeq().findIndex(id => id === fromId);
+      const index = this.state.visibleIds.keySeq().findIndex(id => id === objectiveId);
       if (toAncestor) {
         visibleIds = this.state.visibleIds.skip(index + 1);
       } else {
@@ -212,9 +211,9 @@ class OkrMap extends PureComponent {
     } else {
       // Objective が折り畳まれている → 展開する
       if (toAncestor) {
-        visibleIds = OrderedMap([[fromId, Set.of(parentKeyResultId)]]).merge(this.state.visibleIds);
+        visibleIds = OrderedMap([[objectiveId, keyResultIds]]).merge(this.state.visibleIds);
       } else {
-        visibleIds = this.getSwitchedVisibleIds(fromId, keyResultIds.toSet());
+        visibleIds = this.getSwitchedVisibleIds(objectiveId, keyResultIds);
       }
     }
     this.createObjectivesList(this.state.rootObjective, visibleIds);

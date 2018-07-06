@@ -82,10 +82,9 @@ OkrPath.propTypes = {
   toPoints: ImmutablePropTypes.list.isRequired,
   toAncestor: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
-  fromId: PropTypes.number,
   onToggleObjective: PropTypes.func.isRequired,
-  parentKeyResultId: PropTypes.number,
-  keyResultIds: ImmutablePropTypes.list,
+  objectiveId: PropTypes.number,        // トグル対象の O  (for OkrMap)
+  keyResultIds: ImmutablePropTypes.set, // トグル対象の KR (for OkrMap)
 };
 
 export default OkrPath;
