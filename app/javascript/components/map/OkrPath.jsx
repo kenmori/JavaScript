@@ -20,7 +20,7 @@ class OkrPath extends PureComponent {
   }
 
   componentDidMount() {
-    const icon = findDOMNode(this.refs.icon);
+    const icon = findDOMNode(this.icon);
     this.setState({
       iconTopDiff: icon.offsetHeight / 2,
       iconLeftDiff: icon.offsetWidth / 2,
@@ -95,6 +95,8 @@ class OkrPath extends PureComponent {
     return { top: y - iconTopDiff, left: x - iconLeftDiff }
   }
 
+  handleIconRef = node => this.icon = node
+
   handleIconClick = () => {
     const { objectiveId, keyResultIds } = this.props
     const { toAncestor, isExpanded } = this.state
@@ -120,7 +122,7 @@ class OkrPath extends PureComponent {
           link
           name={`${isExpanded ? 'minus' : 'plus'} square outline`}
           size='large'
-          ref='icon'
+          ref={this.handleIconRef}
           fitted
           style={this.getIconStyle()}
           onClick={this.handleIconClick}
