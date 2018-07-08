@@ -4,6 +4,7 @@ import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react'
 import moment from 'moment';
 import logo_image from '../../images/logo_large.png';
 import DatePicker from '../form/DatePicker';
+import OkrSpanSelect from '../form/OkrSpanSelect'
 
 class SignUpPage extends PureComponent {
 
@@ -157,18 +158,10 @@ class SignUpPage extends PureComponent {
                   }
                 />
               </Form.Field>
-              <Form.Select
-                inline
-                label="OKR 周期"
-                defaultValue={this.state.okrSpan}
-                options={[
-                  { key: 1, value: 1, text: '1ヶ月間' },
-                  { key: 3, value: 3, text: '3ヶ月間' },
-                  { key: 6, value: 6, text: '半年間' },
-                  { key: 12, value: 12, text: '1年間' }
-                ]}
-                onChange={(event, data) => {
-                  const okrSpan = data.value
+              <OkrSpanSelect
+                value={this.state.okrSpan}
+                isForm={true}
+                onChange={okrSpan => {
                   if (this.state.endDateChanged) {
                     this.setState({ okrSpan })
                   } else {

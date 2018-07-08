@@ -92,8 +92,8 @@ export const getParentKeyResults = createSelector(
   }
 )
 
-export const getUnprocessedKeyResults = createSelector(
-  state => state.keyResults.get('unprocessedIds'),
+export const getTaskKeyResults = createSelector(
+  state => state.keyResults.get('taskIds'),
   state => state.entities,
   (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
 )

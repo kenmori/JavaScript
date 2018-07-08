@@ -6,6 +6,7 @@ import dialogActions from '../actions/dialogs';
 const mapStateToProps = (state) => {
   return {
     okrPeriods: state.okrPeriods,
+    okrPeriodId: state.current.get('okrPeriodId'),
   };
 };
 

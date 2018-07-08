@@ -9,8 +9,7 @@ class OrganizationsController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       @organization = Organization.create!(create_params)
-      user = User.create!(create_user_params)
-      @organization.organization_members.create!(user_id: user.id, role: :owner)
+      @organization.users.create!(create_user_params)
       @organization.okr_periods.create!(create_okr_period_params)
     end
     # トラッキング：新規アカウント作成

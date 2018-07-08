@@ -4,10 +4,12 @@ import API from '../utils/api';
 import objectiveActions from '../actions/objectives';
 import keyResultActions from '../actions/keyResults';
 import dialogActions from '../actions/dialogs';
+import currentActions from '../actions/current'
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 import { isMyChildObjectiveById, isMembersKeyResultById } from '../utils/okr'
+import { OkrTypes } from '../utils/okr'
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
@@ -23,19 +25,21 @@ function* fetchOkrs({ payload }) {
   let isInitialOkrSelected = false
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (payload.isOkrPeriodChanged) {
-    yield put(keyResultActions.fetchUnprocessedKeyResults(payload.okrPeriodId, loginUserId)) // with loading
-    yield take(actionTypes.FETCHED_UNPROCESSED_KEY_RESULTS)
-    isInitialOkrSelected = yield selectInitialKeyResult('unprocessedIds')
+    yield put(keyResultActions.fetchTaskKeyResults(payload.okrPeriodId, loginUserId)) // with loading
+    yield take(actionTypes.FETCHED_TASK_KEY_RESULTS)
+  }
+  if (loginUserId === payload.userId) {
+    isInitialOkrSelected = yield selectInitialTaskKeyResult()
   }
   yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)
   if (!isInitialOkrSelected) {
-    isInitialOkrSelected = yield selectInitialObjective('ids')
+    isInitialOkrSelected = yield selectInitialObjective()
   }
   yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
   if (!isInitialOkrSelected) {
-    yield selectInitialKeyResult('ids', true)
+    yield selectInitialKeyResult()
   }
   if (payload.isOkrPeriodChanged) {
     // 前期 OKR の fetch
@@ -59,23 +63,28 @@ function* fetchOkrs({ payload }) {
   }
 }
 
-function* selectInitialObjective(ids) {
+function* selectInitialTaskKeyResult() {
+  return yield selectInitialKeyResult('taskIds', OkrTypes.TASK, false)
+}
+
+function* selectInitialObjective() {
   const objectiveId = yield select(state => {
-    const objectives = state.objectives.get(ids)
+    const objectives = state.objectives.get('ids')
     const ownerId = state.current.get('userId')
     const showMyChildObjectives = state.loginUser.getIn(['userSetting', 'showMyChildObjectives'])
     return showMyChildObjectives ? objectives.first()
       : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
-    yield put(objectiveActions.selectOkr(objectiveId, null, true))
+    yield put(objectiveActions.selectOkr(objectiveId, null))
     yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
   return false
 }
 
-function* selectInitialKeyResult(ids, selectAnyway = false) {
+function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, selectAnyway = true) {
   const keyResultId = yield select(state => {
     const keyResults = state.keyResults.get(ids)
     const ownerId = state.current.get('userId')
@@ -85,11 +94,13 @@ function* selectInitialKeyResult(ids, selectAnyway = false) {
   })
   if (keyResultId) {
     const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
-    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId, true))
+    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
     yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectTab(type))
     return true
   } else if (selectAnyway) {
     yield put(objectiveActions.selectedOkr(null, null))
+    yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
   return false

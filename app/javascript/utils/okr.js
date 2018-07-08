@@ -1,5 +1,11 @@
 import avatar_image from '../images/avatar.png';
 
+export const OkrTypes = {
+  TASK: 'task',
+  OBJECTIVE: 'objective',
+  KEY_RESULT: 'keyResult'
+}
+
 // O/KR 選択ドロップダウンに指定する O/KR 一覧データを返す
 export const okrOptions = (okrs, withNone) => {
   let options = okrs.map(okr => ({

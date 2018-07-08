@@ -1,20 +1,20 @@
 import Dashboard from '../components/dashboard/Dashboard';
 import { connect } from 'react-redux';
+import { List } from 'immutable'
 import dialogActions from '../actions/dialogs';
-import { getMyObjectives, getMyKeyResults, getUnprocessedKeyResults, getSelectedObjective } from '../utils/selector'
+import currentActions from '../actions/current'
+import { getMyObjectives, getMyKeyResults, getTaskKeyResults, getSelectedObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
-  const unprocessedKeyResults = getUnprocessedKeyResults(state)
-  const isLoginUser = state.loginUser.get('id') === state.current.get('userId')
+  const isLoginUser = state.loginUser.get('id') === state.current.get('userIdAtFetchedTaskKeyResults')
   return {
     mapObjective: getSelectedObjective(state),
     objectives: getMyObjectives(state),
     keyResults: getMyKeyResults(state),
-    unprocessedKeyResults,
+    taskKeyResults: isLoginUser ? getTaskKeyResults(state) : List(),
     isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
-    isFetchedKeyResults: state.keyResults.get('isFetchedKeyResults'),
-    showTask: isLoginUser && !!unprocessedKeyResults.size,
+    selectedTab: state.current.get('selectedTab'),
   };
 };
 
@@ -26,6 +26,9 @@ const mapDispatchToProps = dispatch => {
     openOptionModal: () => {
       dispatch(dialogActions.openOptionModal())
     },
+    selectTab: type => {
+      dispatch(currentActions.selectTab(type))
+    }
   };
 };
 

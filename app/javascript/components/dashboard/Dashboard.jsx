@@ -6,18 +6,14 @@ import TaskList from '../../containers/TaskList'
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
 import OkrMap from '../../containers/OkrMap';
+import { OkrTypes } from '../../utils/okr'
 
 class Dashboard extends PureComponent {
-
-  static ITEM_TASK = 'task'
-  static ITEM_OBJECTIVE = 'objective'
-  static ITEM_KEY_RESULT = 'keyResult'
 
   constructor(props) {
     super(props);
     this.state = {
       mapObjective: props.mapObjective,
-      activeItem: Dashboard.ITEM_TASK,
     };
   }
 
@@ -27,32 +23,14 @@ class Dashboard extends PureComponent {
         mapObjective: nextProps.mapObjective,
       });
     }
-    if (!this.props.isFetchedKeyResults && nextProps.isFetchedKeyResults && !nextProps.showTask) {
-      if (!nextProps.objectives.size && nextProps.keyResults.size) {
-        this.setActiveItem(Dashboard.ITEM_KEY_RESULT) // O = 0 かつ KR > 0 => KR タブ選択
-      } else if (!nextProps.keyResults.size) {
-        this.setActiveItem(Dashboard.ITEM_OBJECTIVE) //  KR = 0 => O タブ選択
-      }
-    }
   }
 
-  handleMenuItemClick = (e, { name }) => {
-    if ((name === Dashboard.ITEM_OBJECTIVE && !this.props.objectives.size)
-      || (name === Dashboard.ITEM_KEY_RESULT && !this.props.keyResults.size)) {
-      return
-    }
-    this.setActiveItem(name)
-  }
+  handleMenuItemClick = (e, { name }) => this.props.selectTab(name)
 
-  getActiveItem = () => {
-    const { activeItem } = this.state
-    return (activeItem === Dashboard.ITEM_TASK && !this.props.showTask) ? Dashboard.ITEM_OBJECTIVE : activeItem
-  }
-
-  setActiveItem = activeItem => {
-    if (this.state.activeItem !== activeItem) {
-      this.setState({ activeItem })
-    }
+  getSelectedTab = () => {
+    const { selectedTab, taskKeyResults } = this.props
+    // selectedTab = TASK でタスク KR がない場合を考慮
+    return (selectedTab === OkrTypes.TASK && taskKeyResults.isEmpty()) ? OkrTypes.OBJECTIVE : selectedTab
   }
 
   emptyViewHtml() {
@@ -64,33 +42,33 @@ class Dashboard extends PureComponent {
     );
   }
 
-  getTabContent = activeItem => {
-    switch(activeItem) {
-      case Dashboard.ITEM_TASK:
-        return <TaskList keyResults={this.props.unprocessedKeyResults} />
-      case Dashboard.ITEM_OBJECTIVE:
+  getTabContent = selectedTab => {
+    switch(selectedTab) {
+      case OkrTypes.TASK:
+        return <TaskList keyResults={this.props.taskKeyResults} />
+      case OkrTypes.OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />
-      case Dashboard.ITEM_KEY_RESULT:
+      case OkrTypes.KEY_RESULT:
         return <KeyResultList keyResults={this.props.keyResults} />
     }
   }
 
   render() {
-    const activeItem = this.getActiveItem()
+    const selectedTab = this.getSelectedTab()
     return (
       <div className="dashboard">
         <section className="okr-list__section">
           <div className='okr-list__menu'>
             <Menu tabular>
-              {this.props.showTask && (
-                <Menu.Item name={Dashboard.ITEM_TASK} active={activeItem === Dashboard.ITEM_TASK} onClick={this.handleMenuItemClick}>
-                  タスク<Label>{this.props.unprocessedKeyResults.size}</Label>
+              {!this.props.taskKeyResults.isEmpty() && (
+                <Menu.Item name={OkrTypes.TASK} active={selectedTab === OkrTypes.TASK} onClick={this.handleMenuItemClick}>
+                  タスク<Label>{this.props.taskKeyResults.size}</Label>
                 </Menu.Item>
               )}
-              <Menu.Item name={Dashboard.ITEM_OBJECTIVE} active={activeItem === Dashboard.ITEM_OBJECTIVE} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={OkrTypes.OBJECTIVE} active={selectedTab === OkrTypes.OBJECTIVE} onClick={this.handleMenuItemClick}>
                 Objective<Label>{this.props.objectives.size}</Label>
               </Menu.Item>
-              <Menu.Item name={Dashboard.ITEM_KEY_RESULT} active={activeItem === Dashboard.ITEM_KEY_RESULT} onClick={this.handleMenuItemClick}>
+              <Menu.Item name={OkrTypes.KEY_RESULT} active={selectedTab === OkrTypes.KEY_RESULT} onClick={this.handleMenuItemClick}>
                 Key Result<Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
               <Menu.Item className="okr-list__button">
@@ -99,7 +77,7 @@ class Dashboard extends PureComponent {
               </Menu.Item>
             </Menu>
           </div>
-          {this.getTabContent(activeItem)}
+          {this.getTabContent(selectedTab)}
         </section>
         <section className='okr-map__section'>
           <div className='okr-map__menu'>
@@ -122,13 +100,13 @@ Dashboard.propTypes = {
   mapObjective: ImmutablePropTypes.map,
   objectives: ImmutablePropTypes.list.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
-  unprocessedKeyResults: ImmutablePropTypes.list.isRequired,
+  taskKeyResults: ImmutablePropTypes.list.isRequired,
   isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
-  isFetchedKeyResults: PropTypes.bool.isRequired,
-  showTask: PropTypes.bool.isRequired,
+  selectedTab: PropTypes.string.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   openOptionModal: PropTypes.func.isRequired,
+  selectTab: PropTypes.func.isRequired,
   // component
 }
 

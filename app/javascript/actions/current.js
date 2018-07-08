@@ -6,6 +6,7 @@ const actions = createActions({
   [actionTypes.SELECTED_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
   [actionTypes.SELECT_USER]: userId => ({ userId }),
   [actionTypes.SELECTED_USER]: userId => ({ userId }),
+  [actionTypes.SELECT_TAB]: type => ({ type }),
 });
 
 export default actions;

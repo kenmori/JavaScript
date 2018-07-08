@@ -24,6 +24,7 @@ class OkrPeriodSettingTab extends SortableComponent {
   }
 
   render() {
+    const { okrPeriodId } = this.props
     const { okrPeriods } = this.state
     return (
       <Tab.Pane attached={false} className="okr-period-setting-tab">
@@ -50,6 +51,7 @@ class OkrPeriodSettingTab extends SortableComponent {
                 const name = okrPeriod.get('name');
                 const monthStart = okrPeriod.get('monthStart');
                 const monthEnd = okrPeriod.get('monthEnd');
+                const disabled = id === okrPeriodId
                 return (
                   <Table.Row key={id}>
                     <Table.Cell>
@@ -61,7 +63,7 @@ class OkrPeriodSettingTab extends SortableComponent {
                       <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={this.handleMonthEndChange(id)} />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      <Button icon="trash" onClick={this.handleRemoveClick(id, name)} content="削除する" negative/>
+                      <Button icon="trash" onClick={this.handleRemoveClick(id, name)} content="削除する" negative disabled={disabled} />
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -77,6 +79,7 @@ class OkrPeriodSettingTab extends SortableComponent {
 OkrPeriodSettingTab.propTypes = {
   // container
   okrPeriods: ImmutablePropTypes.list.isRequired,
+  okrPeriodId: PropTypes.number.isRequired,
   updateOkrPeriod: PropTypes.func.isRequired,
   removeOkrPeriod: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
