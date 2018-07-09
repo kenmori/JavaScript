@@ -4,8 +4,14 @@ import { Radio } from 'semantic-ui-react'
 
 class StatusRadio extends PureComponent {
 
+  handleChange = (e, { checked, value }) => {
+    if (checked) {
+      this.props.onChange(value)
+    }
+  }
+
   render() {
-    const { status, onChange } = this.props
+    const { status } = this.props
     return (
       <div className="status-radio">
         <Radio
@@ -15,7 +21,7 @@ class StatusRadio extends PureComponent {
           name="status"
           value="green"
           checked={status === 'green'}
-          onChange={onChange}
+          onChange={this.handleChange}
         />
         <Radio
           className="yellow"
@@ -24,7 +30,7 @@ class StatusRadio extends PureComponent {
           name="status"
           value="yellow"
           checked={status === 'yellow'}
-          onChange={onChange}
+          onChange={this.handleChange}
         />
         <Radio
           className="red"
@@ -33,7 +39,7 @@ class StatusRadio extends PureComponent {
           name="status"
           value="red"
           checked={status === 'red'}
-          onChange={onChange}
+          onChange={this.handleChange}
         />
       </div>
     )

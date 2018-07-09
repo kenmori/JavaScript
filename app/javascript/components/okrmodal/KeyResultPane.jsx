@@ -52,7 +52,7 @@ class KeyResultPane extends PureComponent {
 
   handleExpiredDateChange = expiredDate => this.props.updateKeyResult({ expiredDate: expiredDate.format('YYYY-MM-DD') })
 
-  handleStatusChange = (e, { value }) => this.props.updateKeyResult({ status: value })
+  handleStatusChange = status => this.props.updateKeyResult({ status })
 
   handleDescriptionCommit = description => this.props.updateKeyResult({ description })
 
