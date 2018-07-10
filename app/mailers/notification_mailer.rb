@@ -13,14 +13,14 @@ class NotificationMailer < ApplicationMailer
          subject: '[Resily] 新しい OKR が割当てられました'
   end
 
-  def self.send_change_kr_status(current_user, key_result, status_before)
-    change_kr_status(current_user, key_result.objective.owner, key_result, status_before).deliver_later
+  def self.send_change_kr_status(current_user, key_result, status_before, status_after)
+    change_kr_status(current_user, key_result.objective.owner, key_result, status_before, status_after).deliver_later
     if key_result.objective.owner.id != key_result.owner.id
-      change_kr_status(current_user, key_result.owner, key_result, status_before).deliver_later
+      change_kr_status(current_user, key_result.owner, key_result, status_before, status_after).deliver_later
     end
   end
 
-  def change_kr_status(current_user, user, key_result, status_before)
+  def change_kr_status(current_user, user, key_result, status_before, status_after)
     return unless current_user
     return if current_user.id == user.id
 
@@ -28,7 +28,7 @@ class NotificationMailer < ApplicationMailer
     @receiver = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
     @status_before = status_to_text(status_before)
-    @status_after = status_to_text(key_result.status)
+    @status_after = status_to_text(status_after) # キャッシュ時は key_result.status = status_before となるため使わない
     @url = url_for(controller: 'home')
 
     mail to: user.email,
