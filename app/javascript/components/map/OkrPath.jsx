@@ -29,12 +29,12 @@ class OkrPath extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.fromRef !== nextProps.fromRef || this.props.toRefs !== nextProps.toRefs) {
+    if (this.props.fromRef !== nextProps.fromRef || this.props.paths !== nextProps.paths) {
       this.setState(this.updateOkrPath(nextProps))
     }
   }
 
-  updateOkrPath = ({ fromRef, toRefs }) => {
+  updateOkrPath = ({ fromRef, paths }) => {
     let collapsedParent = false
     let expandedChild = false
 
@@ -48,6 +48,7 @@ class OkrPath extends PureComponent {
       fromPoint = OkrPath.POINT_ZERO
     }
 
+    const toRefs = paths.flatMap(path => path.toRefs)
     let toPoints = toRefs.reduce((result, toRef) => {
       if (toRef) {
         const element = findDOMNode(toRef)
@@ -98,8 +99,10 @@ class OkrPath extends PureComponent {
   handleIconRef = node => this.icon = node
 
   handleIconClick = () => {
-    const { objectiveId, keyResultIds } = this.props
+    const { fromId, paths } = this.props
     const { toAncestor, isExpanded } = this.state
+    const objectiveId = fromId
+    const keyResultIds = paths.map(path => path.fromKeyResultId).toSet()
     this.props.onToggleObjective(toAncestor, isExpanded, objectiveId, keyResultIds)
   }
 
@@ -135,11 +138,10 @@ class OkrPath extends PureComponent {
 OkrPath.propTypes = {
   // container
   // component
+  fromId: PropTypes.number.isRequired,
   fromRef: PropTypes.object,
-  toRefs: ImmutablePropTypes.list.isRequired,
+  paths: ImmutablePropTypes.list.isRequired,
   onToggleObjective: PropTypes.func.isRequired,
-  objectiveId: PropTypes.number,        // トグル対象の O  (for OkrMap)
-  keyResultIds: ImmutablePropTypes.set, // トグル対象の KR (for OkrMap)
 };
 
 export default OkrPath;

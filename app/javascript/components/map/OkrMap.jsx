@@ -114,20 +114,24 @@ class OkrMap extends PureComponent {
         if (parentKeyResultId) {
           result = result.push({
             fromId: rootObjective.getIn(['parentKeyResult', 'objectiveId']),
-            toIds: objectives.map(objective => objective.get('id')),
-            fromKeyResultIds: Set.of(parentKeyResultId),
+            paths: List.of({
+              toIds: List.of(rootObjective.get('id')),
+              fromKeyResultId: parentKeyResultId,
+            }),
           });
         }
       }
 
       // 子がいる場合は子とのリンクを追加する
       objectives.forEach(objective => {
-        const childObjectiveIds = objective.get('keyResults').flatMap(keyResult => keyResult.get('childObjectiveIds'));
-        if (!childObjectiveIds.isEmpty()) {
+        const keyResults = objective.get('keyResults');
+        if (keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())) {
           result = result.push({
             fromId: objective.get('id'),
-            toIds: childObjectiveIds,
-            fromKeyResultIds: objective.get('keyResultIds').toSet(),
+            paths: keyResults.map(keyResult => ({
+              toIds: keyResult.get('childObjectiveIds'),
+              fromKeyResultId: keyResult.get('id'),
+            })),
           });
         }
       });
@@ -137,10 +141,13 @@ class OkrMap extends PureComponent {
 
     // リンク関係からパス情報を作成
     const okrPathPropsList = links.map(link => ({
+      fromId: link.fromId,
       fromRef: this.refs[`objective_${link.fromId}`],
-      toRefs: link.toIds.map(toId => this.refs[`objective_${toId}`]),
-      objectiveId: link.fromId,
-      keyResultIds: link.fromKeyResultIds,
+      paths: link.paths.map(path => ({
+        toIds: path.toIds,
+        toRefs: path.toIds.map(toId => this.refs[`objective_${toId}`]),
+        fromKeyResultId: path.fromKeyResultId,
+      })),
     }))
 
     this.setState({
