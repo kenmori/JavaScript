@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrCard from '../../containers/OkrCard';
-import OkrPath from './OkrPath';
+import OkrLink from './OkrLink';
 import { Card } from 'semantic-ui-react';
 import { List, Set, OrderedMap } from 'immutable';
 
@@ -12,11 +12,11 @@ class OkrMap extends PureComponent {
     super(props);
     this.state = {
       visibleIds: null, // OrderedMap<ObjectiveId, Set<KeyResultId>>
-      okrPathPropsList: null,
+      okrLinkPropsList: null,
       objectivesList: null,
       rootObjective: null,
     };
-    this.onResize = () => this.updateOkrPathProps(this.state);
+    this.onResize = () => this.updateOkrLinkProps(this.state);
   }
 
   componentWillMount() {
@@ -104,7 +104,7 @@ class OkrMap extends PureComponent {
   }
 
   // 構築した Objective リストから OKR パス情報を生成する
-  updateOkrPathProps({ objectivesList }) {
+  updateOkrLinkProps({ objectivesList }) {
     // リンク関係の構築
     const links = objectivesList.reduce((result, objectives) => {
       if (result.isEmpty()) {
@@ -140,7 +140,7 @@ class OkrMap extends PureComponent {
     }, List());
 
     // リンク関係からパス情報を作成
-    const okrPathPropsList = links.map(link => ({
+    const okrLinkPropsList = links.map(link => ({
       fromId: link.fromId,
       fromRef: this.refs[`objective_${link.fromId}`],
       paths: link.paths.map(path => ({
@@ -151,12 +151,12 @@ class OkrMap extends PureComponent {
     }))
 
     this.setState({
-      okrPathPropsList: okrPathPropsList,
+      okrLinkPropsList: okrLinkPropsList,
     });
   }
 
   componentDidMount() {
-    this.updateOkrPathProps(this.state);
+    this.updateOkrLinkProps(this.state);
     window.addEventListener('resize', this.onResize);
   }
 
@@ -164,7 +164,7 @@ class OkrMap extends PureComponent {
     // componentDidUpdateではsetStateするべきではないが、コンポーネント間のパスを描画するには
     // コンポーネントをいったん描画してDOMの位置情報を取得する必要があるため許容する
     if (prevState.objectivesList !== this.state.objectivesList) { // 展開/折り畳みによる再描画
-      this.updateOkrPathProps(this.state);
+      this.updateOkrLinkProps(this.state);
     }
   }
 
@@ -249,8 +249,8 @@ class OkrMap extends PureComponent {
               ))}
           </Card.Group>
         ))}
-        {this.state.okrPathPropsList && this.state.okrPathPropsList.map((okrPathProps, key) => (
-          <OkrPath key={key} {...okrPathProps} onToggleObjective={this.toggleObjective} />
+        {this.state.okrLinkPropsList && this.state.okrLinkPropsList.map((okrLinkProps, key) => (
+          <OkrLink key={key} {...okrLinkProps} onToggleObjective={this.toggleObjective} />
         ))}
       </div>
     );
