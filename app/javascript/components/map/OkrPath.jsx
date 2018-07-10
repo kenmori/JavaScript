@@ -4,6 +4,8 @@ import OkrLink from './OkrLink'
 
 class OkrPath extends PureComponent {
 
+  static STROKE_DASHARRAY = 4
+
   getPoints = () => {
     const { fromPoint: from, toPoint: to, isExpanded, toAncestor } = this.props
     if (isExpanded) {
@@ -17,12 +19,14 @@ class OkrPath extends PureComponent {
   }
 
   render() {
+    const { isMember } = this.props
     return (
       <polyline
         points={this.getPoints()}
         strokeWidth="2"
         stroke="silver"
         fill="none"
+        strokeDasharray={isMember ? OkrPath.STROKE_DASHARRAY : undefined}
       />
     )
   }
@@ -30,6 +34,7 @@ class OkrPath extends PureComponent {
 
 OkrPath.propTypes = {
   // container
+  isMember: PropTypes.bool.isRequired,
   // component
   fromPoint: PropTypes.object.isRequired,
   toPoint: PropTypes.object.isRequired,

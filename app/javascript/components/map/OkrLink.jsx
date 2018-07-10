@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Icon } from 'semantic-ui-react';
 import { List } from 'immutable'
-import OkrPath from './OkrPath'
+import OkrPath from '../../containers/OkrPath'
 
 class OkrLink extends PureComponent {
 
@@ -35,7 +35,7 @@ class OkrLink extends PureComponent {
     }
   }
 
-  updateOkrLink = ({ fromRef, paths }) => {
+  updateOkrLink = ({ fromId, fromRef, paths }) => {
     let collapsedParent = false
     let expandedChild = false
 
@@ -43,22 +43,21 @@ class OkrLink extends PureComponent {
     if (fromRef) {
       const element = findDOMNode(fromRef)
       const x = element.offsetLeft + (element.offsetWidth / 2)
-      fromPoint = { x, y: element.offsetTop + element.offsetHeight }
+      fromPoint = { x, y: element.offsetTop + element.offsetHeight, id: fromId }
     } else {
       collapsedParent = true
       fromPoint = OkrLink.POINT_ZERO
     }
 
-    const toRefs = paths.flatMap(path => path.toRefs)
-    let toPoints = toRefs.reduce((result, toRef) => {
+    let toPoints = paths.flatMap(path => path.toRefs.reduce((result, toRef, index) => {
       if (toRef) {
         const element = findDOMNode(toRef)
         const x = element.offsetLeft + (element.offsetWidth / 2)
         expandedChild = true
-        result = result.push({ x, y: element.offsetTop })
+        result = result.push({ x, y: element.offsetTop, id: path.toIds.get(index) })
       }
       return result
-    }, List())
+    }, List()))
     if (toPoints.isEmpty()) {
       toPoints = toPoints.push(OkrLink.POINT_ZERO)
     }
@@ -125,7 +124,7 @@ class OkrLink extends PureComponent {
 OkrLink.propTypes = {
   // container
   // component
-  fromId: PropTypes.number.isRequired,
+  fromId: PropTypes.number,
   fromRef: PropTypes.object,
   paths: ImmutablePropTypes.list.isRequired,
   onToggleObjective: PropTypes.func.isRequired,
