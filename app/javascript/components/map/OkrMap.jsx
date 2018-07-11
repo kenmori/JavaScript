@@ -12,23 +12,23 @@ class OkrMap extends PureComponent {
     super(props);
     this.state = {
       visibleIds: null, // OrderedMap<ObjectiveId, Set<KeyResultId>>
-      okrLinkPropsList: null,
-      objectivesList: null,
+      links: null, // List<OkrLink.props>
+      groups: null, // List<objectives>
       rootObjective: null,
     };
-    this.onResize = () => this.updateOkrLinkProps(this.state);
+    this.onResize = () => this.updateOkrLinks(this.state);
   }
 
   componentWillMount() {
-    this.createObjectivesList(this.props.objective);
+    this.createGroups(this.props.objective);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.objective.get('id') !== nextProps.objective.get('id')
       || this.props.objective.get('parentKeyResultId') !== nextProps.objective.get('parentKeyResultId')) {
-      this.createObjectivesList(nextProps.objective);
+      this.createGroups(nextProps.objective);
     } else if (this.props.objective !== nextProps.objective) {
-      this.createObjectivesList(nextProps.objective, this.state.visibleIds);
+      this.createGroups(nextProps.objective, this.state.visibleIds);
     }
   }
 
@@ -41,7 +41,7 @@ class OkrMap extends PureComponent {
 
   // 基点 Objective と表示リストから上下方向に展開される Objective リストを構築する
   // ex. [[O1], [O2, O3], [O4, O5, O6], ...]
-  createObjectivesList(objective, visibleIds = this.getInitialVisibleIds(objective)) {
+  createGroups(objective, visibleIds = this.getInitialVisibleIds(objective)) {
     const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
@@ -87,26 +87,22 @@ class OkrMap extends PureComponent {
     };
 
     let rootObjective;
-    let objectivesList;
+    let groups;
     if (visibleIds.isEmpty()) {
       // 表示リストが空の場合はルート要素のみ表示する (子は表示しない)
       rootObjective = this.state.rootObjective;
-      objectivesList = List.of(List.of(rootObjective));
+      groups = List.of(List.of(rootObjective));
     } else {
       rootObjective = findRoot(objective, visibleIds.keySeq().first());
-      objectivesList = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
+      groups = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
     }
-    this.setState({
-      visibleIds: visibleIds,
-      objectivesList: objectivesList,
-      rootObjective: rootObjective,
-    });
+    this.setState({ visibleIds, groups, rootObjective })
   }
 
-  // 構築した Objective リストから OKR パス情報を生成する
-  updateOkrLinkProps({ objectivesList }) {
-    // リンク関係の構築
-    const links = objectivesList.reduce((result, objectives) => {
+  // 構築した Objective リストから OKR リンク情報を生成する
+  updateOkrLinks({ groups }) {
+    // O/KR ID からなるリンク情報の生成
+    const idLinks = groups.reduce((result, objectives) => {
       if (result.isEmpty()) {
         // ルート要素に親がいる場合は親とのリンクを追加する
         const rootObjective = objectives.first();
@@ -139,8 +135,8 @@ class OkrMap extends PureComponent {
       return result;
     }, List());
 
-    // リンク関係からパス情報を作成
-    const okrLinkPropsList = links.map(link => ({
+    // ID リンクから ref 付きのリンク情報に変換する
+    const links = idLinks.map(link => ({
       fromId: link.fromId,
       fromRef: this.refs[`objective_${link.fromId}`],
       paths: link.paths.map(path => ({
@@ -149,10 +145,7 @@ class OkrMap extends PureComponent {
         fromKeyResultId: path.fromKeyResultId,
       })),
     }))
-
-    this.setState({
-      okrLinkPropsList: okrLinkPropsList,
-    });
+    this.setState({ links })
   }
 
   componentDidMount() {
@@ -162,8 +155,8 @@ class OkrMap extends PureComponent {
   componentDidUpdate(prevProps, prevState) {
     // componentDidUpdateではsetStateするべきではないが、コンポーネント間のパスを描画するには
     // コンポーネントをいったん描画してDOMの位置情報を取得する必要があるため許容する
-    if (prevState.objectivesList !== this.state.objectivesList) { // 展開/折り畳みによる再描画
-      this.updateOkrLinkProps(this.state);
+    if (prevState.groups !== this.state.groups) { // 展開/折り畳みによる再描画
+      this.updateOkrLinks(this.state);
     }
   }
 
@@ -189,7 +182,7 @@ class OkrMap extends PureComponent {
         visibleIds = this.getSwitchedVisibleIds(objectiveId, keyResultIds);
       }
     }
-    this.createObjectivesList(this.state.rootObjective, visibleIds);
+    this.createGroups(this.state.rootObjective, visibleIds);
   }
 
   toggleKeyResult = (objectiveId, keyResultId, isToggleOn) => {
@@ -211,12 +204,12 @@ class OkrMap extends PureComponent {
         visibleIds = this.getSwitchedVisibleIds(objectiveId, Set.of(keyResultId));
       }
     }
-    this.createObjectivesList(this.state.rootObjective, visibleIds);
+    this.createGroups(this.state.rootObjective, visibleIds);
   }
 
   getSwitchedVisibleIds = (objectiveId, keyResultIds) => {
     // 表示系統を切り替えるため親の ID を検索する
-    const parentId = this.state.objectivesList
+    const parentId = this.state.groups
       .find(objectives => objectives.some(objective => objective.get('id') === objectiveId))
       .first().getIn(['parentKeyResult', 'objectiveId']);
     const index = this.state.visibleIds.keySeq().findIndex(id => id === parentId);
@@ -226,7 +219,7 @@ class OkrMap extends PureComponent {
   render() {
     return (
       <div className='okr-map'>
-        {this.state.objectivesList && this.state.objectivesList.map((objectives, key) => (
+        {this.state.groups && this.state.groups.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
             {objectives
               .reduce((result, objective, index) => (
@@ -248,8 +241,8 @@ class OkrMap extends PureComponent {
               ))}
           </Card.Group>
         ))}
-        {this.state.okrLinkPropsList && this.state.okrLinkPropsList.map((okrLinkProps, key) => (
-          <OkrLink key={key} {...okrLinkProps} onToggleObjective={this.toggleObjective} />
+        {this.state.links && this.state.links.map((link, key) => (
+          <OkrLink key={key} {...link} onToggleObjective={this.toggleObjective} />
         ))}
       </div>
     );
