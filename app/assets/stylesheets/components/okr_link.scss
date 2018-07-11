@@ -13,6 +13,11 @@
     pointer-events: none;
 
     polyline {
+      &.highlight {
+        stroke: $SELECT_ACTIVE_COLOR;
+        stroke-width: 4px;
+      }
+
       &.member {
         stroke-dasharray: 4;
       }

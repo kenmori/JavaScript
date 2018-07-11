@@ -17,10 +17,10 @@ class OkrPath extends PureComponent {
   }
 
   render() {
-    const { isMember } = this.props
+    const { isHighlighted, isMember } = this.props
     return (
       <polyline
-        className={`${isMember ? 'member' : ''}`}
+        className={`${isHighlighted ? 'highlight' : ''} ${isMember ? 'member' : ''}`}
         points={this.getPoints()}
         strokeWidth="2"
         stroke="silver"
@@ -32,6 +32,7 @@ class OkrPath extends PureComponent {
 
 OkrPath.propTypes = {
   // container
+  isHighlighted: PropTypes.bool.isRequired,
   isMember: PropTypes.bool.isRequired,
   // component
   fromKeyResultId: PropTypes.number.isRequired,
