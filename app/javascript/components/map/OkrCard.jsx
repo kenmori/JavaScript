@@ -18,7 +18,12 @@ class OkrCard extends PureComponent {
 
   handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
 
+  handleObjectiveEnter = () => this.props.highlightObjective(this.props.objective)
+
+  handleKeyResultEnter = keyResult => () => this.props.highlightKeyResult(keyResult)
+
   generateKeyResultList(objective) {
+    const { selectedKeyResultId, highlightedKeyResultId, visibleKeyResultIds, unhighlightOkr } = this.props
     const keyResults = objective.get('keyResults');
     const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
     return (
@@ -26,13 +31,18 @@ class OkrCard extends PureComponent {
         <List>
           {keyResults.map(keyResult => {
             const keyResultId = keyResult.get('id');
-            const isSelected = keyResultId === this.props.selectedKeyResultId;
-            const isToggleOn = this.props.visibleKeyResultIds ? this.props.visibleKeyResultIds.includes(keyResultId) : false
+            const isSelected = keyResultId === selectedKeyResultId
+            const isHighlighted = keyResultId === highlightedKeyResultId
+            const isToggleOn = visibleKeyResultIds ? visibleKeyResultIds.includes(keyResultId) : false
             return (
               <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
-                <div className='okr-card__name'>
-                  <a onClick={this.handleKeyResultClick(keyResultId)}>{keyResult.get('name')}</a>
+                <div className={`okr-card__name ${isHighlighted ? 'highlight' : ''}`}>
+                  <a
+                    onClick={this.handleKeyResultClick(keyResultId)}
+                    onMouseEnter={this.handleKeyResultEnter(keyResult)}
+                    onMouseLeave={unhighlightOkr}
+                  >{keyResult.get('name')}</a>
                 </div>
                 <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} />
 
@@ -60,15 +70,21 @@ class OkrCard extends PureComponent {
   }
 
   render() {
-    const objective = this.props.objective;
-    const isSelected = objective.get('id') === this.props.selectedObjectiveId;
+    const { objective, selectedObjectiveId, highlightedObjectiveIds, unhighlightOkr } = this.props
+    const objectiveId = objective.get('id')
+    const isSelected = objectiveId === selectedObjectiveId
+    const isHighlighted = highlightedObjectiveIds.includes(objectiveId)
     return (
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
         <Card.Content>
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
-            <div className="okr-card__name">
-              <a onClick={this.handleObjectiveClick}>{objective.get('name')}</a>
+            <div className={`okr-card__name ${isHighlighted ? 'highlight' : ''}`}>
+              <a
+                onClick={this.handleObjectiveClick}
+                onMouseEnter={this.handleObjectiveEnter}
+                onMouseLeave={unhighlightOkr}
+              >{objective.get('name')}</a>
             </div>
             <ProgressRate value={objective.get('progressRate')} />
           </Card.Header>
@@ -89,7 +105,12 @@ OkrCard.propTypes = {
   // container
   selectedObjectiveId: PropTypes.number.isRequired,
   selectedKeyResultId: PropTypes.number,
+  highlightedObjectiveIds: ImmutablePropTypes.list.isRequired,
+  highlightedKeyResultId: PropTypes.number,
   openKeyResultModal: PropTypes.func.isRequired,
+  highlightObjective: PropTypes.func.isRequired,
+  highlightKeyResult: PropTypes.func.isRequired,
+  unhighlightOkr: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
   visibleKeyResultIds: ImmutablePropTypes.set,
