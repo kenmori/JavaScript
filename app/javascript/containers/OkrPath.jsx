@@ -2,9 +2,9 @@ import OkrPath from '../components/map/OkrPath'
 import { connect } from 'react-redux'
 import { isMembersObjectiveById } from '../utils/okr'
 
-const mapStateToProps = (state, { toPoint }) => {
+const mapStateToProps = (state, { toObjectiveId }) => {
   return {
-    isMember: isMembersObjectiveById(toPoint.id, state.entities),
+    isMember: isMembersObjectiveById(toObjectiveId, state.entities),
   }
 }
 

@@ -3,7 +3,6 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Icon } from 'semantic-ui-react';
-import { List } from 'immutable'
 import OkrPath from '../../containers/OkrPath'
 
 class OkrLink extends PureComponent {
@@ -35,7 +34,7 @@ class OkrLink extends PureComponent {
     }
   }
 
-  updateOkrLink = ({ fromId, fromRef, paths }) => {
+  updateOkrLink = ({ fromRef, paths }) => {
     let collapsedParent = false
     let expandedChild = false
 
@@ -43,36 +42,36 @@ class OkrLink extends PureComponent {
     if (fromRef) {
       const element = findDOMNode(fromRef)
       const x = element.offsetLeft + (element.offsetWidth / 2)
-      fromPoint = { x, y: element.offsetTop + element.offsetHeight, id: fromId }
+      fromPoint = { x, y: element.offsetTop + element.offsetHeight }
     } else {
-      collapsedParent = true
       fromPoint = OkrLink.POINT_ZERO
+      collapsedParent = true
     }
 
-    let toPoints = paths.flatMap(path => path.toRefs.reduce((result, toRef, index) => {
+    const newPaths = paths.flatMap(path => path.toRefs.map((toRef, index) => {
+      let toPoint
       if (toRef) {
         const element = findDOMNode(toRef)
         const x = element.offsetLeft + (element.offsetWidth / 2)
+        toPoint = { x, y: element.offsetTop }
         expandedChild = true
-        result = result.push({ x, y: element.offsetTop, id: path.toIds.get(index) })
+      } else {
+        toPoint = OkrLink.POINT_ZERO
       }
-      return result
-    }, List()))
-    if (toPoints.isEmpty()) {
-      toPoints = toPoints.push(OkrLink.POINT_ZERO)
-    }
+      return { fromKeyResultId: path.fromKeyResultId, toObjectiveId: path.toIds.get(index), toPoint }
+    }))
 
     return {
       fromPoint,
-      toPoints,
+      paths: newPaths,
       toAncestor: collapsedParent,
       isExpanded: !collapsedParent && expandedChild,
     }
   }
 
   getIconStyle() {
-    const { fromPoint: from, toPoints, isExpanded, toAncestor } = this.state
-    const to = toPoints.first()
+    const { fromPoint: from, paths, isExpanded, toAncestor } = this.state
+    const to = paths.first().toPoint
     const [x, y] = isExpanded
       ? [from.x, to.y - OkrLink.CARD_MARGIN]
       : toAncestor
@@ -93,15 +92,15 @@ class OkrLink extends PureComponent {
   }
 
   render() {
-    const { fromPoint, toPoints, isExpanded, toAncestor } = this.state
+    const { fromPoint, paths, isExpanded, toAncestor } = this.state
     return (
       <div className='okr-link'>
         <svg>
-          {toPoints.map((toPoint, key) => (
+          {paths.map((path, key) => (
             <OkrPath
+              {...path}
               key={key}
               fromPoint={fromPoint}
-              toPoint={toPoint}
               isExpanded={isExpanded}
               toAncestor={toAncestor}
             />

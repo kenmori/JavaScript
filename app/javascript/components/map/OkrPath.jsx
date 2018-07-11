@@ -36,6 +36,8 @@ OkrPath.propTypes = {
   // container
   isMember: PropTypes.bool.isRequired,
   // component
+  fromKeyResultId: PropTypes.number.isRequired,
+  toObjectiveId: PropTypes.number.isRequired,
   fromPoint: PropTypes.object.isRequired,
   toPoint: PropTypes.object.isRequired,
   isExpanded: PropTypes.bool.isRequired,
