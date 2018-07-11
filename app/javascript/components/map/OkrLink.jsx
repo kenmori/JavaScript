@@ -21,10 +21,10 @@ class OkrLink extends PureComponent {
   }
 
   componentDidMount() {
-    const icon = findDOMNode(this.icon);
+    const element = findDOMNode(this.iconRef)
     this.setState({
-      iconTopDiff: icon.offsetHeight / 2,
-      iconLeftDiff: icon.offsetWidth / 2,
+      iconTopDiff: element.offsetHeight / 2,
+      iconLeftDiff: element.offsetWidth / 2,
     })
   }
 
@@ -84,7 +84,7 @@ class OkrLink extends PureComponent {
     return { top: y - iconTopDiff, left: x - iconLeftDiff }
   }
 
-  handleIconRef = node => this.icon = node
+  handleIconRef = node => this.iconRef = node
 
   handleIconClick = () => {
     const { fromId, paths } = this.props
