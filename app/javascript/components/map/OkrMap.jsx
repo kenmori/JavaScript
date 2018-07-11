@@ -124,8 +124,8 @@ class OkrMap extends PureComponent {
 
       // 子がいる場合は子とのリンクを追加する
       objectives.forEach(objective => {
-        const keyResults = objective.get('keyResults');
-        if (keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())) {
+        const keyResults = objective.get('keyResults').filterNot(keyResult => keyResult.get('childObjectiveIds').isEmpty())
+        if (!keyResults.isEmpty()) {
           result = result.push({
             fromId: objective.get('id'),
             paths: keyResults.map(keyResult => ({

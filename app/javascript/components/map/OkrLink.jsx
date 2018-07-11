@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Icon } from 'semantic-ui-react';
+import { List } from 'immutable'
 import OkrPath from '../../containers/OkrPath'
 
 class OkrLink extends PureComponent {
@@ -48,18 +49,21 @@ class OkrLink extends PureComponent {
       collapsedParent = true
     }
 
-    const newPaths = paths.flatMap(path => path.toRefs.map((toRef, index) => {
+    expandedChild = paths.some(path => path.toRefs.some(toRef => !!toRef))
+    const newPaths = paths.flatMap(path => path.toRefs.reduce((result, toRef, index) => {
       let toPoint
       if (toRef) {
         const element = findDOMNode(toRef)
         const x = element.offsetLeft + (element.offsetWidth / 2)
         toPoint = { x, y: element.offsetTop }
-        expandedChild = true
-      } else {
-        toPoint = OkrLink.POINT_ZERO
+      } else if (!expandedChild) {
+        toPoint = OkrLink.POINT_ZERO // 全パスが折り畳まれている場合
       }
-      return { fromKeyResultId: path.fromKeyResultId, toObjectiveId: path.toIds.get(index), toPoint }
-    }))
+      if (toPoint) {
+        result = result.push({ fromKeyResultId: path.fromKeyResultId, toObjectiveId: path.toIds.get(index), toPoint })
+      }
+      return result
+    }, List()))
 
     return {
       fromPoint,
