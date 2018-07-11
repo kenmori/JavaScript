@@ -25,7 +25,6 @@ class OkrLink extends PureComponent {
     this.setState({
       iconTopDiff: icon.offsetHeight / 2,
       iconLeftDiff: icon.offsetWidth / 2,
-      ...this.updateOkrLink(this.props),
     })
   }
 

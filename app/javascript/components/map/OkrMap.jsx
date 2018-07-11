@@ -156,7 +156,6 @@ class OkrMap extends PureComponent {
   }
 
   componentDidMount() {
-    this.updateOkrLinkProps(this.state);
     window.addEventListener('resize', this.onResize);
   }
 
