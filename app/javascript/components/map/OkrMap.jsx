@@ -12,8 +12,8 @@ class OkrMap extends PureComponent {
     super(props);
     this.state = {
       visibleIds: null, // OrderedMap<ObjectiveId, Set<KeyResultId>>
-      links: null, // List<OkrLink.props>
-      groups: null, // List<objectives>
+      links: List(), // List<OkrLink.props>
+      groups: List(), // List<objectives>
       rootObjective: null,
     };
     this.onResize = () => this.updateOkrLinks(this.state);
@@ -219,7 +219,7 @@ class OkrMap extends PureComponent {
   render() {
     return (
       <div className='okr-map'>
-        {this.state.groups && this.state.groups.map((objectives, key) => (
+        {this.state.groups.map((objectives, key) => (
           <Card.Group key={key} className='okr-map__group'>
             {objectives
               .reduce((result, objective, index) => (
@@ -241,7 +241,7 @@ class OkrMap extends PureComponent {
               ))}
           </Card.Group>
         ))}
-        {this.state.links && this.state.links.map((link, key) => (
+        {this.state.links.map((link, key) => (
           <OkrLink key={key} {...link} onToggleObjective={this.toggleObjective} />
         ))}
       </div>
