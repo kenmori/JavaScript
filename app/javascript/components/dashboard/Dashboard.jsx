@@ -10,21 +10,6 @@ import { OkrTypes } from '../../utils/okr'
 
 class Dashboard extends PureComponent {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      mapObjective: props.mapObjective,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.mapObjective !== nextProps.mapObjective && nextProps.isFetchedObjective) {
-      this.setState({
-        mapObjective: nextProps.mapObjective,
-      });
-    }
-  }
-
   handleMenuItemClick = (e, { name }) => this.props.selectTab(name)
 
   getSelectedTab = () => {
@@ -85,8 +70,8 @@ class Dashboard extends PureComponent {
               <Menu.Item header>OKR マップ</Menu.Item>
             </Menu>
           </div>
-          {this.state.mapObjective
-            ? <OkrMap objective={this.state.mapObjective} />
+          {this.props.mapObjective
+            ? <OkrMap objective={this.props.mapObjective} />
             : this.props.isFetchedObjectives && this.emptyViewHtml()
           }
         </section>
@@ -101,7 +86,6 @@ Dashboard.propTypes = {
   objectives: ImmutablePropTypes.list.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
   taskKeyResults: ImmutablePropTypes.list.isRequired,
-  isFetchedObjective: PropTypes.bool.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
   selectedTab: PropTypes.string.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,

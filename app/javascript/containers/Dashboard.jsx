@@ -12,7 +12,6 @@ const mapStateToProps = state => {
     objectives: getMyObjectives(state),
     keyResults: getMyKeyResults(state),
     taskKeyResults: isLoginUser ? getTaskKeyResults(state) : List(),
-    isFetchedObjective: state.objectives.get('isFetchedObjective'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
     selectedTab: state.current.get('selectedTab'),
   };
