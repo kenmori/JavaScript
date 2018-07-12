@@ -76,7 +76,7 @@ class OkrCard extends PureComponent {
     const isHighlighted = highlightedObjectiveIds.includes(objectiveId)
     return (
       <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
-        <Card.Content>
+        <Card.Content className="objective">
           <Card.Header>
             <OwnerAvatar owner={objective.get('owner')} size='large' />
             <div className={`okr-card__name ${isHighlighted ? 'highlight' : ''}`}>

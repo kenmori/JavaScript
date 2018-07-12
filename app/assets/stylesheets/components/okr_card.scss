@@ -16,6 +16,10 @@
       align-items: center;
     }
 
+    .content.objective {
+      flex-grow: 0;
+    }
+
     .content.keyResults {
       padding: .5em .5em;
     }
