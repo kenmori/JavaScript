@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrCard from '../../containers/OkrCard';
 import OkrLink from './OkrLink';
-import { Card, Segment, Header, Button } from 'semantic-ui-react';
+import EmptyMap from '../../containers/EmptyMap'
+import { Card } from 'semantic-ui-react';
 import { List, Set, OrderedMap } from 'immutable';
 
 class OkrMap extends PureComponent {
@@ -214,20 +215,9 @@ class OkrMap extends PureComponent {
     return this.state.visibleIds.take(index + 1).set(objectiveId, keyResultIds);
   }
 
-  emptyView() {
-    return (
-      <Segment compact padded="very" textAlign="center" className="okr-map__empty">
-        <Header as="h4">Objective がありません</Header>
-        <Button icon="plus" content="OKR を作成する" onClick={this.props.openObjectiveModal} />
-      </Segment>
-    )
-  }
-
   render() {
-    const { objective, isFetchedObjectives } = this.props
-    if (!objective) {
-      return isFetchedObjectives ? this.emptyView() : null
-    }
+    const { objective } = this.props
+    if (!objective) return <EmptyMap />
     return (
       <div className='okr-map'>
         {this.state.groups.map((objectives, key) => (
@@ -263,10 +253,8 @@ class OkrMap extends PureComponent {
 OkrMap.propTypes = {
   // container
   objective: ImmutablePropTypes.map,
-  isFetchedObjectives: PropTypes.bool.isRequired,
   fetchObjective: PropTypes.func.isRequired,
   fetchObjectiveByKeyResult: PropTypes.func.isRequired,
-  openObjectiveModal: PropTypes.func.isRequired,
   // component
 };
 
