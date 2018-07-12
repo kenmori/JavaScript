@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Menu, Button, Segment, Header, Label } from 'semantic-ui-react';
+import { Menu, Button, Label } from 'semantic-ui-react';
 import TaskList from '../../containers/TaskList'
 import ObjectiveList from '../../containers/ObjectiveList';
 import KeyResultList from '../../containers/KeyResultList';
@@ -16,15 +16,6 @@ class Dashboard extends PureComponent {
     const { selectedTab, taskKeyResults } = this.props
     // selectedTab = TASK でタスク KR がない場合を考慮
     return (selectedTab === OkrTypes.TASK && taskKeyResults.isEmpty()) ? OkrTypes.OBJECTIVE : selectedTab
-  }
-
-  emptyViewHtml() {
-    return (
-      <Segment compact padded='very' textAlign='center' className='empty-view'>
-        <Header as='h4'>Objective がありません</Header>
-        <Button icon="plus" content='OKR を作成する' onClick={this.props.openObjectiveModal} />
-      </Segment>
-    );
   }
 
   getTabContent = selectedTab => {
@@ -70,10 +61,7 @@ class Dashboard extends PureComponent {
               <Menu.Item header>OKR マップ</Menu.Item>
             </Menu>
           </div>
-          {this.props.mapObjective
-            ? <OkrMap objective={this.props.mapObjective} />
-            : this.props.isFetchedObjectives && this.emptyViewHtml()
-          }
+          <OkrMap />
         </section>
       </div>
     );
@@ -82,11 +70,9 @@ class Dashboard extends PureComponent {
 
 Dashboard.propTypes = {
   // container
-  mapObjective: ImmutablePropTypes.map,
   objectives: ImmutablePropTypes.list.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
   taskKeyResults: ImmutablePropTypes.list.isRequired,
-  isFetchedObjectives: PropTypes.bool.isRequired,
   selectedTab: PropTypes.string.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   openOptionModal: PropTypes.func.isRequired,

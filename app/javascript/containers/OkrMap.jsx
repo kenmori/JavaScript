@@ -1,9 +1,14 @@
 import OkrMap from '../components/map/OkrMap';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
+import dialogActions from '../actions/dialogs'
+import { getSelectedObjective } from '../utils/selector'
 
-const mapStateToProps = (state) => {
-  return {};
+const mapStateToProps = state => {
+  return {
+    objective: getSelectedObjective(state),
+    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
+  }
 };
 
 const mapDispatchToProps = dispatch => {
@@ -13,6 +18,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchObjectiveByKeyResult: keyResultId => {
       dispatch(objectiveActions.fetchObjective(null, keyResultId));
+    },
+    openObjectiveModal: () => {
+      dispatch(dialogActions.openObjectiveModal())
     },
   };
 };
