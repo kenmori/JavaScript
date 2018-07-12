@@ -20,7 +20,7 @@
       flex-grow: 0;
     }
 
-    .content.keyResults {
+    .content.key-results {
       padding: .5em .5em;
     }
   }
@@ -61,12 +61,12 @@
       }
     }
   }
-  .keyResults {
+  .key-results {
     .list {
       width: 100%;
     }
   }
-  .keyResults__item {
+  .key-results__item {
     border-radius: 4px;
 
     &.active {
@@ -74,7 +74,7 @@
       font-weight: bold;
     }
   }
-  .keyResults__item--add {
+  .key-results__item--add {
     .list {
       width: auto;
     }

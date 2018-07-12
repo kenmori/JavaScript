@@ -27,7 +27,7 @@ class OkrCard extends PureComponent {
     const keyResults = objective.get('keyResults');
     const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
     return (
-      <Card.Content className="keyResults">
+      <Card.Content className="key-results">
         <List>
           {keyResults.map(keyResult => {
             const keyResultId = keyResult.get('id');
@@ -35,7 +35,7 @@ class OkrCard extends PureComponent {
             const isHighlighted = keyResultId === highlightedKeyResultId
             const isToggleOn = visibleKeyResultIds ? visibleKeyResultIds.includes(keyResultId) : false
             return (
-              <List.Item className='keyResults__item' key={keyResultId} active={isSelected}>
+              <List.Item className="key-results__item" key={keyResultId} active={isSelected}>
                 <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')}/>
                 <div className={`okr-card__name ${isHighlighted ? 'highlight' : ''}`}>
                   <a
@@ -57,7 +57,7 @@ class OkrCard extends PureComponent {
             );
           })}
           {keyResults.isEmpty() && (
-            <List.Item className="keyResults__item--add">
+            <List.Item className="key-results__item--add">
               <List.List>
                 <List.Item as='a' icon='plus' content='Key Result を追加する'
                            onClick={this.handleAddKeyResultClick} />
