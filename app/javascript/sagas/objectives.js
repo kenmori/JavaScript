@@ -10,6 +10,7 @@ import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 import { isMyChildObjectiveById, isMembersKeyResultById } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
+import { List } from 'immutable'
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
@@ -18,7 +19,8 @@ function* selectOkr({ payload }) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(actionTypes.FETCHED_OBJECTIVE)
   }
-  yield put(currentActions.selectMapOkr(objectiveId, objective.get('keyResultIds')))
+  const keyResultIds = keyResultId ? List.of(keyResultId) : objective.get('keyResultIds')
+  yield put(currentActions.selectMapOkr(objectiveId, keyResultIds))
   yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
 }
 
