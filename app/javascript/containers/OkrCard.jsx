@@ -29,6 +29,9 @@ const mapDispatchToProps = dispatch => {
     unhighlightOkr: () => {
       dispatch(currentActions.unhighlightOkr())
     },
+    toggleKeyResult: (objective, keyResultId, isToggleOn) => {
+      dispatch(currentActions.toggleKeyResult(objective.get('id'), keyResultId, objective.get('parentKeyResultId'), isToggleOn))
+    },
   };
 };
 

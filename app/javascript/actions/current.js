@@ -9,7 +9,15 @@ const actions = createActions({
   [actionTypes.SELECT_TAB]: type => ({ type }),
   [actionTypes.HIGHLIGHT_OKR]: (objectiveIds, keyResultId) => ({ objectiveIds, keyResultId }),
   [actionTypes.UNHIGHLIGHT_OKR]: () => {},
-  [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds, parentKeyResultId) => ({ objectiveId, keyResultIds, parentKeyResultId }),
+  [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds, parentKeyResultId) => (
+    { objectiveId, keyResultIds, parentKeyResultId }
+  ),
+  [actionTypes.TOGGLE_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded) => (
+    { objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded }
+  ),
+  [actionTypes.TOGGLE_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId, isToggleOn) => (
+    { objectiveId, keyResultId, parentKeyResultId, isToggleOn }
+  ),
 });
 
 export default actions;

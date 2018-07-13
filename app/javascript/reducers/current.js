@@ -1,4 +1,4 @@
-import { fromJS, OrderedMap } from 'immutable';
+import { fromJS, OrderedMap, Set } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
@@ -14,6 +14,12 @@ const initialState = fromJS({
   highlightedOkr: { objectiveIds: [], keyResultId: null },
   mapOkr: {}, // OrderedMap<ObjectiveId, Set<KeyResultId>>
 });
+
+const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResultId) => {
+  // 表示系統を切り替えるため親の ID を検索する
+  const index = mapOkr.valueSeq().findIndex(ids => ids.includes(parentKeyResultId))
+  return mapOkr.take(index + 1).set(objectiveId, keyResultIds)
+}
 
 export default handleActions({
   [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) => (
@@ -47,5 +53,50 @@ export default handleActions({
     const isMapped = state.get('mapOkr').some((krIds, oId) => oId === objectiveId || krIds.includes(parentKeyResultId))
     return isMapped ? state // 既にマップ上に展開されている場合はマップ OKR を切り替えない
       : state.set('mapOkr', OrderedMap([[objectiveId, keyResultIds.toSet()]]))
+  },
+  [ActionTypes.TOGGLE_OBJECTIVE]: (state, { payload }) => {
+    const { objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded } = payload
+    const mapOkr = state.get('mapOkr')
+    let newMapOkr
+    if (isExpanded) {
+      // Objective が展開されている → 折り畳む
+      const index = mapOkr.keySeq().findIndex(id => id === objectiveId)
+      if (toAncestor) {
+        newMapOkr = mapOkr.skip(index + 1)
+      } else {
+        newMapOkr = mapOkr.take(index)
+      }
+    } else {
+      // Objective が折り畳まれている → 展開する
+      if (toAncestor) {
+        newMapOkr = OrderedMap([[objectiveId, keyResultIds.toSet()]]).merge(mapOkr)
+      } else {
+        newMapOkr = getSwitchedVisibleIds(mapOkr, objectiveId, keyResultIds.toSet(), parentKeyResultId)
+      }
+    }
+    return state.set('mapOkr', newMapOkr)
+  },
+  [ActionTypes.TOGGLE_KEY_RESULT]: (state, { payload }) => {
+    const { objectiveId, keyResultId, parentKeyResultId, isToggleOn } = payload
+    const mapOkr = state.get('mapOkr')
+    let newMapOkr
+    if (isToggleOn) {
+      // KR が展開されている → 折り畳む
+      newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId))
+      if (newMapOkr.get(objectiveId).isEmpty()) {
+        // 全ての KR を折り畳んだ場合は Objective も折り畳む
+        const index = newMapOkr.keySeq().findIndex(id => id === objectiveId)
+        newMapOkr = newMapOkr.take(index)
+      }
+    } else {
+      // KR が折り畳まれている → 展開する
+      if (mapOkr.has(objectiveId)) {
+        newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.add(keyResultId))
+      } else {
+        // 最初の KR を展開した場合は Objective も展開する 
+        newMapOkr = getSwitchedVisibleIds(mapOkr, objectiveId, Set.of(keyResultId), parentKeyResultId)
+      }
+    }
+    return state.set('mapOkr', newMapOkr)
   },
 }, initialState);

@@ -14,7 +14,7 @@ class OkrCard extends PureComponent {
 
   handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId)
 
-  handleToggleClick = (keyResultId, isToggleOn) => () => this.props.onToggleKeyResult(this.props.objective.get('id'), keyResultId, isToggleOn)
+  handleToggleClick = (keyResultId, isToggleOn) => () => this.props.toggleKeyResult(this.props.objective, keyResultId, isToggleOn)
 
   handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
 
@@ -111,10 +111,10 @@ OkrCard.propTypes = {
   highlightObjective: PropTypes.func.isRequired,
   highlightKeyResult: PropTypes.func.isRequired,
   unhighlightOkr: PropTypes.func.isRequired,
+  toggleKeyResult: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
   visibleKeyResultIds: ImmutablePropTypes.set,
-  onToggleKeyResult: PropTypes.func.isRequired,
 };
 
 export default OkrCard;
