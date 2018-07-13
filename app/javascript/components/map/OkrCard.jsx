@@ -103,7 +103,7 @@ class OkrCard extends PureComponent {
 
 OkrCard.propTypes = {
   // container
-  selectedObjectiveId: PropTypes.number.isRequired,
+  selectedObjectiveId: PropTypes.number,
   selectedKeyResultId: PropTypes.number,
   highlightedObjectiveIds: ImmutablePropTypes.list.isRequired,
   highlightedKeyResultId: PropTypes.number,

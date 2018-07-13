@@ -104,6 +104,7 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
   } else if (selectAnyway) {
     yield put(objectiveActions.selectedOkr(null, null))
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
+    yield put(currentActions.clearMapOkr())
     return true
   }
   return false

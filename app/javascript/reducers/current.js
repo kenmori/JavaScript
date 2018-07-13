@@ -54,6 +54,9 @@ export default handleActions({
     return isMapped ? state // 既にマップ上に展開されている場合はマップ OKR を切り替えない
       : state.set('mapOkr', OrderedMap([[objectiveId, keyResultIds.toSet()]]))
   },
+  [ActionTypes.CLEAR_MAP_OKR]: state => {
+    return state.set('mapOkr', OrderedMap())
+  },
   [ActionTypes.TOGGLE_OBJECTIVE]: (state, { payload }) => {
     const { objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor } = payload
     const mapOkr = state.get('mapOkr')
