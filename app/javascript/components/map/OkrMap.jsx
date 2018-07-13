@@ -14,27 +14,20 @@ class OkrMap extends PureComponent {
     this.state = {
       links: List(), // List<OkrLink.props>
       groups: List(), // List<objectives>
-      rootObjective: null,
     };
     this.onResize = () => this.updateOkrLinks(this.state);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.objective) return
-
-    if (!this.props.objective || this.props.objective.get('id') !== nextProps.objective.get('id')
-      || this.props.objective.get('parentKeyResultId') !== nextProps.objective.get('parentKeyResultId')) {
-      this.createGroups(nextProps.objective, nextProps.mapOkr);
-    } else if (this.props.objective !== nextProps.objective) {
-      this.createGroups(nextProps.objective, nextProps.mapOkr);
-    } else if (this.props.mapOkr !== nextProps.mapOkr) {
-      this.createGroups(this.state.rootObjective, nextProps.mapOkr)
+    if (this.props.objective !== nextProps.objective || this.props.mapOkr !== nextProps.mapOkr) {
+      this.createGroups(nextProps)
     }
   }
 
   // 基点 Objective と表示リストから上下方向に展開される Objective リストを構築する
   // ex. [[O1], [O2, O3], [O4, O5, O6], ...]
-  createGroups(objective, mapOkr) {
+  createGroups({ objective, mapOkr }) {
     const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
@@ -81,7 +74,7 @@ class OkrMap extends PureComponent {
 
     const rootObjective = findRoot(objective, mapOkr.keySeq().first())
     const groups = collectDescendants(List.of(List.of(rootObjective)), rootObjective)
-    this.setState({ groups, rootObjective, links: List() })
+    this.setState({ groups, links: List() })
   }
 
   // 構築した Objective リストから OKR リンク情報を生成する
