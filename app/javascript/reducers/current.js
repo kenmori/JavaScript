@@ -43,7 +43,9 @@ export default handleActions({
     return state.mergeIn(['highlightedOkr'], { objectiveIds: fromJS([]), keyResultId: null })
   },
   [ActionTypes.SELECT_MAP_OKR]: (state, { payload }) => {
-    const { objectiveId, keyResultIds } = payload
-    return state.set('mapOkr', OrderedMap([[objectiveId, keyResultIds.toSet()]]))
+    const { objectiveId, keyResultIds, parentKeyResultId } = payload
+    const isMapped = state.get('mapOkr').some((krIds, oId) => oId === objectiveId || krIds.includes(parentKeyResultId))
+    return isMapped ? state // 既にマップ上に展開されている場合はマップ OKR を切り替えない
+      : state.set('mapOkr', OrderedMap([[objectiveId, keyResultIds.toSet()]]))
   },
 }, initialState);

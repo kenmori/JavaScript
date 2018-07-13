@@ -9,7 +9,7 @@ const actions = createActions({
   [actionTypes.SELECT_TAB]: type => ({ type }),
   [actionTypes.HIGHLIGHT_OKR]: (objectiveIds, keyResultId) => ({ objectiveIds, keyResultId }),
   [actionTypes.UNHIGHLIGHT_OKR]: () => {},
-  [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds) => ({ objectiveId, keyResultIds }),
+  [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds, parentKeyResultId) => ({ objectiveId, keyResultIds, parentKeyResultId }),
 });
 
 export default actions;
