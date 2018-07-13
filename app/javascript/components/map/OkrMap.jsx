@@ -18,11 +18,27 @@ class OkrMap extends PureComponent {
     this.onResize = () => this.updateOkrLinks(this.state);
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.onResize)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!nextProps.objective) return
     if (this.props.objective !== nextProps.objective || this.props.mapOkr !== nextProps.mapOkr) {
       this.createGroups(nextProps)
     }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // componentDidUpdate では setState するべきではないが、コンポーネント間のパスを描画するには
+    // コンポーネントをいったん描画して DOM の位置情報を取得する必要があるため許容する
+    if (prevState.groups !== this.state.groups) { // 展開/折り畳みによる再描画
+      this.updateOkrLinks(this.state)
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
   }
 
   // 基点 Objective と表示リストから上下方向に展開される Objective リストを構築する
@@ -127,22 +143,6 @@ class OkrMap extends PureComponent {
       })),
     }))
     this.setState({ links })
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.onResize);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // componentDidUpdateではsetStateするべきではないが、コンポーネント間のパスを描画するには
-    // コンポーネントをいったん描画してDOMの位置情報を取得する必要があるため許容する
-    if (prevState.groups !== this.state.groups) { // 展開/折り畳みによる再描画
-      this.updateOkrLinks(this.state);
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
   }
 
   render() {
