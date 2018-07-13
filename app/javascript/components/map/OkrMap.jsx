@@ -161,7 +161,7 @@ class OkrMap extends PureComponent {
   }
 
   render() {
-    const { objective, mapOkr } = this.props
+    const { objective } = this.props
     if (!objective) return <EmptyMap />
     return (
       <div className='okr-map'>
@@ -179,7 +179,6 @@ class OkrMap extends PureComponent {
                       key={objective.get('id')}
                       objective={objective}
                       ref={`objective_${objective.get('id')}`}
-                      visibleKeyResultIds={mapOkr.get(objective.get('id'))}
                     />
                   ))}
                 </div>

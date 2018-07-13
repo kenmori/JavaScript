@@ -107,6 +107,7 @@ OkrCard.propTypes = {
   selectedKeyResultId: PropTypes.number,
   highlightedObjectiveIds: ImmutablePropTypes.list.isRequired,
   highlightedKeyResultId: PropTypes.number,
+  visibleKeyResultIds: ImmutablePropTypes.set,
   openKeyResultModal: PropTypes.func.isRequired,
   highlightObjective: PropTypes.func.isRequired,
   highlightKeyResult: PropTypes.func.isRequired,
@@ -114,7 +115,6 @@ OkrCard.propTypes = {
   toggleKeyResult: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
-  visibleKeyResultIds: ImmutablePropTypes.set,
 };
 
 export default OkrCard;

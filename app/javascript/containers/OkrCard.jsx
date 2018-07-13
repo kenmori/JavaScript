@@ -4,7 +4,7 @@ import { List } from 'immutable'
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, { objective }) => {
   const selectedOkr = state.objectives.get('selectedOkr');
   const highlightedOkr = state.current.get('highlightedOkr')
   return {
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
     selectedKeyResultId: selectedOkr.get('keyResultId'),
     highlightedObjectiveIds: highlightedOkr.get('objectiveIds'),
     highlightedKeyResultId: highlightedOkr.get('keyResultId'),
+    visibleKeyResultIds: state.current.get('mapOkr').get(objective.get('id')),
   };
 };
 
