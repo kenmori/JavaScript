@@ -152,6 +152,16 @@ function* addObjective({ payload }) {
   const result = yield call(API.post, url, { objective: payload.objective })
   const currentUserId = yield select(state => state.current.get('userId'));
   yield put(objectiveActions.addedObjective(result.get('objective'), payload.viaHome, currentUserId));
+  if (!payload.viaHome) {
+    // 下位 O 追加時は OKR マップ上で常に下位 O を表示する (上位 KR を強制的に展開する)
+    const keyResultId = payload.objective.parentKeyResultId
+    const [objectiveId, parentKeyResultId] = yield select(state => {
+      const objectiveId = state.entities.keyResults.get(keyResultId).get('objectiveId')
+      const parentKeyResultId = state.entities.objectives.get(objectiveId).get('parentKeyResultId')
+      return [objectiveId, parentKeyResultId]
+    })
+    yield put(currentActions.toggleKeyResult(objectiveId, keyResultId, parentKeyResultId, false))
+  }
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
 }
