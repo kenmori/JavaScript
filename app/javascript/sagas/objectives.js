@@ -19,9 +19,9 @@ function* selectOkr({ payload }) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(actionTypes.FETCHED_OBJECTIVE)
   }
+  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
   const keyResultIds = keyResultId ? List.of(keyResultId) : objective.get('keyResultIds')
   yield put(currentActions.selectMapOkr(objectiveId, keyResultIds))
-  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
 }
 
 function* fetchOkrs({ payload }) {

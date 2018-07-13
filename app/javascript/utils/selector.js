@@ -98,10 +98,10 @@ export const getTaskKeyResults = createSelector(
   (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
 )
 
-export const getSelectedObjective = createSelector(
-  state => state.objectives.getIn(['selectedOkr', 'objectiveId']),
+export const getMapObjective = createSelector(
+  state => state.current.get('mapOkr').keySeq().first(),
   state => state.entities,
-  (selectedId, entities) => denormalizeDeepObjective(selectedId, entities)
+  (objectiveId, entities) => denormalizeDeepObjective(objectiveId, entities)
 )
 
 export const getOkrModalObjective = createSelector(

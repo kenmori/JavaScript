@@ -1,11 +1,11 @@
 import OkrMap from '../components/map/OkrMap';
 import { connect } from 'react-redux';
 import objectiveActions from '../actions/objectives';
-import { getSelectedObjective } from '../utils/selector'
+import { getMapObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
   return {
-    objective: getSelectedObjective(state),
+    objective: getMapObjective(state),
     mapOkr: state.current.get('mapOkr'),
   }
 };
