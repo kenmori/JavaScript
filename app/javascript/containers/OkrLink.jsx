@@ -8,8 +8,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleObjective: (objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded) => {
-      dispatch(currentActions.toggleObjective(objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded))
+    toggleObjective: (objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor) => {
+      dispatch(currentActions.toggleObjective(objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor))
     },
   }
 }

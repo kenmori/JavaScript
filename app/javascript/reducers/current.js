@@ -55,7 +55,7 @@ export default handleActions({
       : state.set('mapOkr', OrderedMap([[objectiveId, keyResultIds.toSet()]]))
   },
   [ActionTypes.TOGGLE_OBJECTIVE]: (state, { payload }) => {
-    const { objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded } = payload
+    const { objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor } = payload
     const mapOkr = state.get('mapOkr')
     let newMapOkr
     if (isExpanded) {
@@ -77,10 +77,10 @@ export default handleActions({
     return state.set('mapOkr', newMapOkr)
   },
   [ActionTypes.TOGGLE_KEY_RESULT]: (state, { payload }) => {
-    const { objectiveId, keyResultId, parentKeyResultId, isToggleOn } = payload
+    const { objectiveId, keyResultId, parentKeyResultId, isExpanded } = payload
     const mapOkr = state.get('mapOkr')
     let newMapOkr
-    if (isToggleOn) {
+    if (isExpanded) {
       // KR が展開されている → 折り畳む
       newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId))
       if (newMapOkr.get(objectiveId).isEmpty()) {

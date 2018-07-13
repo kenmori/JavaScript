@@ -88,9 +88,9 @@ class OkrLink extends PureComponent {
 
   handleIconClick = () => {
     const { fromId: objectiveId, fromParentKeyResultId: parentKeyResultId, paths } = this.props
-    const { toAncestor, isExpanded } = this.state
+    const { isExpanded, toAncestor } = this.state
     const keyResultIds = paths.map(path => path.fromKeyResultId)
-    this.props.toggleObjective(objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded)
+    this.props.toggleObjective(objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor)
   }
 
   render() {

@@ -12,11 +12,11 @@ const actions = createActions({
   [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds, parentKeyResultId) => (
     { objectiveId, keyResultIds, parentKeyResultId }
   ),
-  [actionTypes.TOGGLE_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded) => (
-    { objectiveId, keyResultIds, parentKeyResultId, toAncestor, isExpanded }
+  [actionTypes.TOGGLE_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor) => (
+    { objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor }
   ),
-  [actionTypes.TOGGLE_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId, isToggleOn) => (
-    { objectiveId, keyResultId, parentKeyResultId, isToggleOn }
+  [actionTypes.TOGGLE_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId, isExpanded) => (
+    { objectiveId, keyResultId, parentKeyResultId, isExpanded }
   ),
 });
 
