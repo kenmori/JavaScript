@@ -64,7 +64,7 @@ export default handleActions({
       if (toAncestor) {
         newMapOkr = mapOkr.skip(index + 1)
       } else {
-        newMapOkr = mapOkr.take(index)
+        newMapOkr = mapOkr.take(index).set(objectiveId, Set())
       }
     } else {
       // Objective が折り畳まれている → 展開する
@@ -84,9 +84,9 @@ export default handleActions({
       // KR が展開されている → 折り畳む
       newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId))
       if (newMapOkr.get(objectiveId).isEmpty()) {
-        // 全ての KR を折り畳んだ場合は Objective も折り畳む
+        // 全ての KR を折り畳んだ場合は下位 Objective を折り畳む
         const index = newMapOkr.keySeq().findIndex(id => id === objectiveId)
-        newMapOkr = newMapOkr.take(index)
+        newMapOkr = newMapOkr.take(index + 1)
       }
     } else {
       // KR が折り畳まれている → 展開する

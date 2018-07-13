@@ -79,16 +79,8 @@ class OkrMap extends PureComponent {
       return result;
     };
 
-    let rootObjective;
-    let groups;
-    if (mapOkr.isEmpty()) {
-      // 表示リストが空の場合はルート要素のみ表示する (子は表示しない)
-      rootObjective = this.state.rootObjective;
-      groups = List.of(List.of(rootObjective));
-    } else {
-      rootObjective = findRoot(objective, mapOkr.keySeq().first());
-      groups = collectDescendants(List.of(List.of(rootObjective)), rootObjective);
-    }
+    const rootObjective = findRoot(objective, mapOkr.keySeq().first())
+    const groups = collectDescendants(List.of(List.of(rootObjective)), rootObjective)
     this.setState({ groups, rootObjective, links: List() })
   }
 
