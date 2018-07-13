@@ -1,7 +1,6 @@
 .okr-card {
   &.ui.card {
-    margin-top: 24px;
-    margin-bottom: 48px;
+    margin: 24px 16px 48px; // 上下のカードのパスが接触しないように下側余白を大きくする
     width: 424px; /* 3 cards in a row within 1366px */
 
     &:hover {
@@ -17,7 +16,11 @@
       align-items: center;
     }
 
-    .content.keyResults {
+    .content.objective {
+      flex-grow: 0;
+    }
+
+    .content.key-results {
       padding: .5em .5em;
     }
   }
@@ -32,6 +35,10 @@
       .okr-card__name {
         flex-grow: 1;
         margin: 0 .5rem;
+
+        &.highlight a {
+          background-color: $SELECT_BG_COLOR;
+        }
       }
     }
 
@@ -47,15 +54,19 @@
         margin: 0 .5rem;
         font-size: smaller;
         text-align: center;
+
+        &.highlight a {
+          background-color: $SELECT_BG_COLOR;
+        }
       }
     }
   }
-  .keyResults {
+  .key-results {
     .list {
       width: 100%;
     }
   }
-  .keyResults__item {
+  .key-results__item {
     border-radius: 4px;
 
     &.active {
@@ -63,7 +74,7 @@
       font-weight: bold;
     }
   }
-  .keyResults__item--add {
+  .key-results__item--add {
     .list {
       width: auto;
     }

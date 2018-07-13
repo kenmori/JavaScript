@@ -11,6 +11,7 @@ const initialState = fromJS({
   userIdAtFetchedKeyResults: gon.getIn(['loginUser', 'id']),
   userIdAtFetchedTaskKeyResults: gon.getIn(['loginUser', 'id']),
   selectedTab: OkrTypes.TASK,
+  highlightedOkr: { objectiveIds: [], keyResultId: null },
 });
 
 export default handleActions({
@@ -32,5 +33,12 @@ export default handleActions({
   },
   [ActionTypes.SELECT_TAB]: (state, { payload }) => {
     return state.set('selectedTab', payload.type)
+  },
+  [ActionTypes.HIGHLIGHT_OKR]: (state, { payload }) => {
+    const { objectiveIds, keyResultId } = payload
+    return state.mergeIn(['highlightedOkr'], { objectiveIds, keyResultId })
+  },
+  [ActionTypes.UNHIGHLIGHT_OKR]: state => {
+    return state.mergeIn(['highlightedOkr'], { objectiveIds: fromJS([]), keyResultId: null })
   },
 }, initialState);

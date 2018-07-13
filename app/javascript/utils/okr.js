@@ -24,13 +24,18 @@ export const okrOptions = (okrs, withNone) => {
   return options.toArray();
 }
 
-const getParentObjective = (objective, entities) => {
+const getParentKeyResult = (objective, entities) => {
   const parentKeyResultId = objective.get('parentKeyResultId')
   if (parentKeyResultId) {
-    const parentKeyResult = entities.keyResults.get(parentKeyResultId)
-    if (parentKeyResult) {
-      return entities.objectives.get(parentKeyResult.get('objectiveId'))
-    }
+    return entities.keyResults.get(parentKeyResultId)
+  }
+  return null
+}
+
+const getParentObjective = (objective, entities) => {
+  const parentKeyResult = getParentKeyResult(objective, entities)
+  if (parentKeyResult) {
+    return entities.objectives.get(parentKeyResult.get('objectiveId'))
   }
   return null
 }
@@ -57,4 +62,18 @@ export const isMembersKeyResult = (keyResult, ownerId) => {
 export const isMembersKeyResultById = (keyResultId, ownerId, entities) => {
   const keyResult = entities.keyResults.get(keyResultId)
   return isMembersKeyResult(keyResult, ownerId)
+}
+
+export const isMembersObjectiveById = (objectiveId, entities) => {
+  if (objectiveId) {
+    const objective = entities.objectives.get(objectiveId)
+    if (objective) {
+      const parentKeyResult = getParentKeyResult(objective, entities)
+      if (parentKeyResult) {
+        const ownerId = objective.get('owner').get('id')
+        return parentKeyResult.get('members').some(member => member.get('id') === ownerId)
+      }
+    }
+  }
+  return false
 }

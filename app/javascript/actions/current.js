@@ -7,6 +7,8 @@ const actions = createActions({
   [actionTypes.SELECT_USER]: userId => ({ userId }),
   [actionTypes.SELECTED_USER]: userId => ({ userId }),
   [actionTypes.SELECT_TAB]: type => ({ type }),
+  [actionTypes.HIGHLIGHT_OKR]: (objectiveIds, keyResultId) => ({ objectiveIds, keyResultId }),
+  [actionTypes.UNHIGHLIGHT_OKR]: () => {},
 });
 
 export default actions;
