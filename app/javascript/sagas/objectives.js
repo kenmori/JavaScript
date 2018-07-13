@@ -13,11 +13,12 @@ import { OkrTypes } from '../utils/okr'
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
-  const hasObjective = yield select(state => state.entities.objectives.has(objectiveId))
-  if (!hasObjective) {
+  const objective = yield select(state => state.entities.objectives.get(objectiveId))
+  if (!objective) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(actionTypes.FETCHED_OBJECTIVE)
   }
+  yield put(currentActions.selectMapOkr(objectiveId, objective.get('keyResultIds')))
   yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
 }
 

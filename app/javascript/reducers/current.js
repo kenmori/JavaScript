@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, OrderedMap } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
@@ -12,6 +12,7 @@ const initialState = fromJS({
   userIdAtFetchedTaskKeyResults: gon.getIn(['loginUser', 'id']),
   selectedTab: OkrTypes.TASK,
   highlightedOkr: { objectiveIds: [], keyResultId: null },
+  mapOkr: {}, // OrderedMap<ObjectiveId, Set<KeyResultId>>
 });
 
 export default handleActions({
@@ -40,5 +41,9 @@ export default handleActions({
   },
   [ActionTypes.UNHIGHLIGHT_OKR]: state => {
     return state.mergeIn(['highlightedOkr'], { objectiveIds: fromJS([]), keyResultId: null })
+  },
+  [ActionTypes.SELECT_MAP_OKR]: (state, { payload }) => {
+    const { objectiveId, keyResultIds } = payload
+    return state.set('mapOkr', OrderedMap([[objectiveId, keyResultIds.toSet()]]))
   },
 }, initialState);

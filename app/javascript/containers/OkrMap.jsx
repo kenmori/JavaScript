@@ -6,6 +6,7 @@ import { getSelectedObjective } from '../utils/selector'
 const mapStateToProps = state => {
   return {
     objective: getSelectedObjective(state),
+    mapOkr: state.current.get('mapOkr'),
   }
 };
 

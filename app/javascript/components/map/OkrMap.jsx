@@ -12,7 +12,7 @@ class OkrMap extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      visibleIds: null, // OrderedMap<ObjectiveId, Set<KeyResultId>>
+      visibleIds: props.mapOkr,
       links: List(), // List<OkrLink.props>
       groups: List(), // List<objectives>
       rootObjective: null,
@@ -25,22 +25,15 @@ class OkrMap extends PureComponent {
 
     if (!this.props.objective || this.props.objective.get('id') !== nextProps.objective.get('id')
       || this.props.objective.get('parentKeyResultId') !== nextProps.objective.get('parentKeyResultId')) {
-      this.createGroups(nextProps.objective);
+      this.createGroups(nextProps.objective, nextProps.mapOkr);
     } else if (this.props.objective !== nextProps.objective) {
       this.createGroups(nextProps.objective, this.state.visibleIds);
     }
   }
 
-  // 初期表示リスト (基点 Objective とその KR)
-  getInitialVisibleIds(objective) {
-    return OrderedMap([[
-      objective.get('id'), objective.get('keyResultIds').toSet()
-    ]]);
-  }
-
   // 基点 Objective と表示リストから上下方向に展開される Objective リストを構築する
   // ex. [[O1], [O2, O3], [O4, O5, O6], ...]
-  createGroups(objective, visibleIds = this.getInitialVisibleIds(objective)) {
+  createGroups(objective, visibleIds) {
     const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
         return objective;
@@ -253,6 +246,7 @@ class OkrMap extends PureComponent {
 OkrMap.propTypes = {
   // container
   objective: ImmutablePropTypes.map,
+  mapOkr: ImmutablePropTypes.map.isRequired,
   fetchObjective: PropTypes.func.isRequired,
   fetchObjectiveByKeyResult: PropTypes.func.isRequired,
   // component
