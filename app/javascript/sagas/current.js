@@ -1,4 +1,4 @@
-import { all, put, select, takeLatest } from 'redux-saga/effects'
+import { all, put, select, take, takeLatest } from 'redux-saga/effects'
 import currentActions from '../actions/current'
 import objectiveActions from '../actions/objectives'
 import ActionTypes from '../constants/actionTypes'
@@ -29,21 +29,25 @@ function* selectMapOkr({ payload }) {
 }
 
 function* expandObjective({ payload }) {
-  const { objectiveId, keyResultIds, toAncestor } = payload
+  const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload
   const isFetched = toAncestor
     ? yield select(state => state.entities.objectives.has(objectiveId))
     : yield isFetchedChildObjectives(keyResultIds)
   if (!isFetched) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+    yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
+  yield put(currentActions.expandedObjective(objectiveId, keyResultIds, parentKeyResultId, toAncestor))
 }
 
 function* expandKeyResult({ payload }) {
-  const { objectiveId, keyResultId } = payload
+  const { objectiveId, keyResultId, parentKeyResultId } = payload
   const isFetched = yield isFetchedChildObjectives(List.of(keyResultId))
   if (!isFetched) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+    yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
+  yield put(currentActions.expandedKeyResult(objectiveId, keyResultId, parentKeyResultId))
 }
 
 // KR 一覧に未 fetch の子 O が紐付いている場合は fetch する

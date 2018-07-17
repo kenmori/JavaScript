@@ -16,8 +16,14 @@ const actions = createActions({
   [actionTypes.EXPAND_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, toAncestor) => (
     { objectiveId, keyResultIds, parentKeyResultId, toAncestor }
   ),
+  [actionTypes.EXPANDED_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, toAncestor) => (
+    { objectiveId, keyResultIds, parentKeyResultId, toAncestor }
+  ),
   [actionTypes.COLLAPSE_OBJECTIVE]: (objectiveId, toAncestor) => ({ objectiveId, toAncestor }),
   [actionTypes.EXPAND_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId) => (
+    { objectiveId, keyResultId, parentKeyResultId }
+  ),
+  [actionTypes.EXPANDED_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId) => (
     { objectiveId, keyResultId, parentKeyResultId }
   ),
   [actionTypes.COLLAPSE_KEY_RESULT]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),

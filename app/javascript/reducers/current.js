@@ -57,7 +57,7 @@ export default handleActions({
   [ActionTypes.CLEAR_MAP_OKR]: state => {
     return state.set('mapOkr', OrderedMap())
   },
-  [ActionTypes.EXPAND_OBJECTIVE]: (state, { payload }) => {
+  [ActionTypes.EXPANDED_OBJECTIVE]: (state, { payload }) => {
     const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload
     const mapOkr = state.get('mapOkr')
     const newMapOkr = toAncestor
@@ -74,7 +74,7 @@ export default handleActions({
       : mapOkr.take(index).set(objectiveId, Set())
     return state.set('mapOkr', newMapOkr)
   },
-  [ActionTypes.EXPAND_KEY_RESULT]: (state, { payload }) => {
+  [ActionTypes.EXPANDED_KEY_RESULT]: (state, { payload }) => {
     const { objectiveId, keyResultId, parentKeyResultId } = payload
     const mapOkr = state.get('mapOkr')
     const newMapOkr = mapOkr.has(objectiveId)
