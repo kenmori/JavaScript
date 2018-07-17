@@ -9,7 +9,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     toggleObjective: (objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor) => {
-      dispatch(currentActions.toggleObjective(objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor))
+      if (isExpanded) {
+        dispatch(currentActions.collapseObjective(objectiveId, toAncestor))
+      } else {
+        dispatch(currentActions.expandObjective(objectiveId, keyResultIds, parentKeyResultId, toAncestor))
+      }
     },
   }
 }

@@ -57,48 +57,40 @@ export default handleActions({
   [ActionTypes.CLEAR_MAP_OKR]: state => {
     return state.set('mapOkr', OrderedMap())
   },
-  [ActionTypes.TOGGLE_OBJECTIVE]: (state, { payload }) => {
-    const { objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor } = payload
+  [ActionTypes.EXPAND_OBJECTIVE]: (state, { payload }) => {
+    const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload
     const mapOkr = state.get('mapOkr')
-    let newMapOkr
-    if (isExpanded) {
-      // Objective が展開されている → 折り畳む
-      const index = mapOkr.keySeq().findIndex(id => id === objectiveId)
-      if (toAncestor) {
-        newMapOkr = mapOkr.skip(index + 1)
-      } else {
-        newMapOkr = mapOkr.take(index).set(objectiveId, Set())
-      }
-    } else {
-      // Objective が折り畳まれている → 展開する
-      if (toAncestor) {
-        newMapOkr = OrderedMap([[objectiveId, keyResultIds.toSet()]]).merge(mapOkr)
-      } else {
-        newMapOkr = getSwitchedVisibleIds(mapOkr, objectiveId, keyResultIds.toSet(), parentKeyResultId)
-      }
-    }
+    const newMapOkr = toAncestor
+      ? OrderedMap([[objectiveId, keyResultIds.toSet()]]).merge(mapOkr)
+      : getSwitchedVisibleIds(mapOkr, objectiveId, keyResultIds.toSet(), parentKeyResultId)
     return state.set('mapOkr', newMapOkr)
   },
-  [ActionTypes.TOGGLE_KEY_RESULT]: (state, { payload }) => {
-    const { objectiveId, keyResultId, parentKeyResultId, isExpanded } = payload
+  [ActionTypes.COLLAPSE_OBJECTIVE]: (state, { payload }) => {
+    const { objectiveId, toAncestor } = payload
     const mapOkr = state.get('mapOkr')
-    let newMapOkr
-    if (isExpanded) {
-      // KR が展開されている → 折り畳む
-      newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId))
-      if (newMapOkr.get(objectiveId).isEmpty()) {
-        // 全ての KR を折り畳んだ場合は下位 Objective を折り畳む
-        const index = newMapOkr.keySeq().findIndex(id => id === objectiveId)
-        newMapOkr = newMapOkr.take(index + 1)
-      }
-    } else {
-      // KR が折り畳まれている → 展開する
-      if (mapOkr.has(objectiveId)) {
-        newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.add(keyResultId))
-      } else {
-        // 最初の KR を展開した場合は Objective も展開する 
-        newMapOkr = getSwitchedVisibleIds(mapOkr, objectiveId, Set.of(keyResultId), parentKeyResultId)
-      }
+    const index = mapOkr.keySeq().findIndex(id => id === objectiveId)
+    const newMapOkr = toAncestor
+      ? mapOkr.skip(index + 1)
+      : mapOkr.take(index).set(objectiveId, Set())
+    return state.set('mapOkr', newMapOkr)
+  },
+  [ActionTypes.EXPAND_KEY_RESULT]: (state, { payload }) => {
+    const { objectiveId, keyResultId, parentKeyResultId } = payload
+    const mapOkr = state.get('mapOkr')
+    const newMapOkr = mapOkr.has(objectiveId)
+      ? mapOkr.update(objectiveId, keyResultIds => keyResultIds.add(keyResultId))
+      // 最初の KR を展開した場合は Objective も展開する
+      : getSwitchedVisibleIds(mapOkr, objectiveId, Set.of(keyResultId), parentKeyResultId)
+    return state.set('mapOkr', newMapOkr)
+  },
+  [ActionTypes.COLLAPSE_KEY_RESULT]: (state, { payload }) => {
+    const { objectiveId, keyResultId } = payload
+    const mapOkr = state.get('mapOkr')
+    let newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId))
+    if (newMapOkr.get(objectiveId).isEmpty()) {
+      // 全ての KR を折り畳んだ場合は下位 Objective を折り畳む
+      const index = newMapOkr.keySeq().findIndex(id => id === objectiveId)
+      newMapOkr = newMapOkr.take(index + 1)
     }
     return state.set('mapOkr', newMapOkr)
   },

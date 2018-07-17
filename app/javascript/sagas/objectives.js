@@ -160,7 +160,7 @@ function* addObjective({ payload }) {
       const parentKeyResultId = state.entities.objectives.get(objectiveId).get('parentKeyResultId')
       return [objectiveId, parentKeyResultId]
     })
-    yield put(currentActions.toggleKeyResult(objectiveId, keyResultId, parentKeyResultId, false))
+    yield put(currentActions.expandKeyResult(objectiveId, keyResultId, parentKeyResultId))
   }
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));

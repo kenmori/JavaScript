@@ -13,12 +13,14 @@ const actions = createActions({
     { objectiveId, keyResultIds, parentKeyResultId }
   ),
   [actionTypes.CLEAR_MAP_OKR]: () => {},
-  [actionTypes.TOGGLE_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor) => (
-    { objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor }
+  [actionTypes.EXPAND_OBJECTIVE]: (objectiveId, keyResultIds, parentKeyResultId, toAncestor) => (
+    { objectiveId, keyResultIds, parentKeyResultId, toAncestor }
   ),
-  [actionTypes.TOGGLE_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId, isExpanded) => (
-    { objectiveId, keyResultId, parentKeyResultId, isExpanded }
+  [actionTypes.COLLAPSE_OBJECTIVE]: (objectiveId, toAncestor) => ({ objectiveId, toAncestor }),
+  [actionTypes.EXPAND_KEY_RESULT]: (objectiveId, keyResultId, parentKeyResultId) => (
+    { objectiveId, keyResultId, parentKeyResultId }
   ),
+  [actionTypes.COLLAPSE_KEY_RESULT]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
 });
 
 export default actions;
