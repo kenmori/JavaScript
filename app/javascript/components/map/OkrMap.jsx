@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrCard from '../../containers/OkrCard';
 import OkrLink from '../../containers/OkrLink';
@@ -48,42 +47,26 @@ class OkrMap extends PureComponent {
       if (objective.get('id') === rootId) {
         return objective;
       } else {
-        const parentKeyResult = objective.get('parentKeyResult');
-        if (parentKeyResult) {
-          const parent = parentKeyResult.get('objective');
-          if (parent) {
-            return findRoot(parent, rootId);
-          } else {
-            // 他人の親 Objective (未 fetch) の場合
-            this.props.fetchObjective(parentKeyResult.get('objectiveId'));
-          }
-        } else {
-          // 他人の親 KR (未 fetch) の場合
-          this.props.fetchObjectiveByKeyResult(objective.get('parentKeyResultId'));
-        }
-        return objective;
+        const parentObjective = objective.get('parentKeyResult').get('objective')
+        return findRoot(parentObjective, rootId)
       }
     };
 
     const collectDescendants = (result, objective) => {
       const keyResults = objective.get('keyResults');
-      const childObjectiveIds = keyResults.flatMap(keyResult => keyResult.get('childObjectiveIds'));
-      if (!childObjectiveIds.isEmpty()) {
-        let childObjectives = keyResults.flatMap(keyResult => keyResult.get('childObjectives'));
-        if (childObjectiveIds.size === childObjectives.size) {
-          // 親 KR が展開されている子 Objective のみに絞り込む
-          const visibleKeyResultIds = mapOkr.get(objective.get('id')) || Set();
-          childObjectives = childObjectives.filter(objective => visibleKeyResultIds.includes(objective.get('parentKeyResultId')));
-          result = result.push(childObjectives);
-          // 子 Objective をさらに展開するかどうかチェックする
-          const child = childObjectives.find(objective => mapOkr.has(objective.get('id')));
-          if (child) {
-            result = collectDescendants(result, child);
-          }
-        } else {
-          // 他人の子 Objective (未 fetch) が含まれている場合
-          this.props.fetchObjective(objective.get('id'));
-        }
+
+      // 親 KR が展開されている子 Objective のみに絞り込む
+      const visibleKeyResultIds = mapOkr.get(objective.get('id')) || Set()
+      const childObjectives = keyResults.flatMap(keyResult => keyResult.get('childObjectives'))
+        .filter(objective => visibleKeyResultIds.includes(objective.get('parentKeyResultId')))
+      if (!childObjectives.isEmpty()) {
+        result = result.push(childObjectives)
+      }
+
+      // 子 Objective をさらに展開するかどうかチェックする
+      const childObjective = childObjectives.find(objective => mapOkr.has(objective.get('id')))
+      if (childObjective) {
+        result = collectDescendants(result, childObjective)
       }
       return result;
     };
@@ -182,8 +165,6 @@ OkrMap.propTypes = {
   // container
   objective: ImmutablePropTypes.map,
   mapOkr: ImmutablePropTypes.map.isRequired,
-  fetchObjective: PropTypes.func.isRequired,
-  fetchObjectiveByKeyResult: PropTypes.func.isRequired,
   // component
 };
 
