@@ -10,19 +10,6 @@ import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 import { isMyChildObjectiveById, isMembersKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
-import { List } from 'immutable'
-
-function* selectOkr({ payload }) {
-  const { objectiveId, keyResultId } = payload
-  const objective = yield select(state => state.entities.objectives.get(objectiveId))
-  if (!objective) {
-    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
-    yield take(actionTypes.FETCHED_OBJECTIVE)
-  }
-  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
-  const keyResultIds = keyResultId ? List.of(keyResultId) : objective.get('keyResultIds')
-  yield put(currentActions.selectMapOkr(objectiveId, keyResultIds, objective.get('parentKeyResultId')))
-}
 
 function* fetchOkrs({ payload }) {
   let isInitialOkrSelected = false
@@ -79,7 +66,7 @@ function* selectInitialObjective() {
       : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
-    yield put(objectiveActions.selectOkr(objectiveId, null))
+    yield put(currentActions.selectOkr(objectiveId, null))
     yield take(actionTypes.SELECTED_OKR)
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
@@ -97,12 +84,12 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
   })
   if (keyResultId) {
     const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
-    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
+    yield put(currentActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
     yield take(actionTypes.SELECTED_OKR)
     yield put(currentActions.selectTab(type))
     return true
   } else if (selectAnyway) {
-    yield put(objectiveActions.selectedOkr(null, null))
+    yield put(currentActions.selectedOkr(null, null))
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     yield put(currentActions.clearMapOkr())
     return true
@@ -183,7 +170,6 @@ function* removeObjective({payload}) {
 
 export function *objectiveSagas() {
   yield all([
-    takeLatest(actionTypes.SELECT_OKR, selectOkr),
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),

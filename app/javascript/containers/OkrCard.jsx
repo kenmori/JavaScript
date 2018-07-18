@@ -5,7 +5,7 @@ import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current'
 
 const mapStateToProps = (state, { objective }) => {
-  const selectedOkr = state.objectives.get('selectedOkr');
+  const selectedOkr = state.current.get('selectedOkr');
   const highlightedOkr = state.current.get('highlightedOkr')
   return {
     selectedObjectiveId: selectedOkr.get('objectiveId'),
