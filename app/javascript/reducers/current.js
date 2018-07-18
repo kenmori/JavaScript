@@ -99,4 +99,13 @@ export default handleActions({
     }
     return state.set('mapOkr', newMapOkr)
   },
+  [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
+    const objectiveId = payload.get('result').first()
+    return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId: null })
+  },
+  [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
+    const objectiveId = payload.get('result').first()
+    const isSelected = state.getIn(['selectedOkr', 'objectiveId']) === objectiveId
+    return isSelected ? state.mergeIn(['selectedOkr'], { objectiveId: null, keyResultId: null }) : state
+  },
 }, initialState);
