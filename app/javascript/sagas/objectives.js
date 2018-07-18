@@ -8,7 +8,7 @@ import currentActions from '../actions/current'
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
-import { isMyChildObjectiveById, isMembersKeyResultById } from '../utils/okr'
+import { isMyChildObjectiveById, isMembersKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
 import { List } from 'immutable'
 
@@ -155,12 +155,8 @@ function* addObjective({ payload }) {
   if (!payload.viaHome) {
     // 下位 O 追加時は OKR マップ上で常に下位 O を表示する (上位 KR を強制的に展開する)
     const keyResultId = payload.objective.parentKeyResultId
-    const [objectiveId, parentKeyResultId] = yield select(state => {
-      const objectiveId = state.entities.keyResults.get(keyResultId).get('objectiveId')
-      const parentKeyResultId = state.entities.objectives.get(objectiveId).get('parentKeyResultId')
-      return [objectiveId, parentKeyResultId]
-    })
-    yield put(currentActions.expandKeyResult(objectiveId, keyResultId, parentKeyResultId))
+    const objective = yield select(state => getObjectiveByKeyResultId(keyResultId, state.entities))
+    yield put(currentActions.expandKeyResult(objective.get('id'), keyResultId, objective.get('parentKeyResultId')))
   }
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));

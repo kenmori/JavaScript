@@ -77,3 +77,8 @@ export const isMembersObjectiveById = (objectiveId, entities) => {
   }
   return false
 }
+
+export const getObjectiveByKeyResultId = (keyResultId, entities) => {
+  const keyResult = entities.keyResults.get(keyResultId)
+  return entities.objectives.get(keyResult.get('objectiveId'))
+}
