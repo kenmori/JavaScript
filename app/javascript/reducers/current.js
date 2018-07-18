@@ -89,13 +89,12 @@ export default handleActions({
     return state.set('mapOkr', newMapOkr)
   },
   [ActionTypes.COLLAPSE_KEY_RESULT]: (state, { payload }) => {
-    const { objectiveId, keyResultId } = payload
+    const { objectiveId, keyResultId, childObjectiveIds } = payload
     const mapOkr = state.get('mapOkr')
     let newMapOkr = mapOkr.update(objectiveId, keyResultIds => keyResultIds.delete(keyResultId))
-    if (newMapOkr.get(objectiveId).isEmpty()) {
-      // 全ての KR を折り畳んだ場合は下位 Objective を折り畳む
-      const index = newMapOkr.keySeq().findIndex(id => id === objectiveId)
-      newMapOkr = newMapOkr.take(index + 1)
+    const index = newMapOkr.keySeq().findIndex(id => childObjectiveIds.includes(id))
+    if (index > 0) {
+      newMapOkr = newMapOkr.take(index) // KR に紐付く下位 Objective も展開されている場合は折り畳む
     }
     return state.set('mapOkr', newMapOkr)
   },

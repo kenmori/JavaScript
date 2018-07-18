@@ -30,11 +30,13 @@ const mapDispatchToProps = dispatch => {
     unhighlightOkr: () => {
       dispatch(currentActions.unhighlightOkr())
     },
-    toggleKeyResult: (objective, keyResultId, isExpanded) => {
+    toggleKeyResult: (objective, keyResult, isExpanded) => {
+      const objectiveId = objective.get('id')
+      const keyResultId = keyResult.get('id')
       if (isExpanded) {
-        dispatch(currentActions.collapseKeyResult(objective.get('id'), keyResultId))
+        dispatch(currentActions.collapseKeyResult(objectiveId, keyResultId, keyResult.get('childObjectiveIds')))
       } else {
-        dispatch(currentActions.expandKeyResult(objective.get('id'), keyResultId, objective.get('parentKeyResultId')))
+        dispatch(currentActions.expandKeyResult(objectiveId, keyResultId, objective.get('parentKeyResultId')))
       }
     },
   };

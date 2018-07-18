@@ -14,7 +14,7 @@ class OkrCard extends PureComponent {
 
   handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId)
 
-  handleToggleClick = (keyResultId, isToggleOn) => () => this.props.toggleKeyResult(this.props.objective, keyResultId, isToggleOn)
+  handleToggleClick = (keyResult, isToggleOn) => () => this.props.toggleKeyResult(this.props.objective, keyResult, isToggleOn)
 
   handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
 
@@ -50,7 +50,7 @@ class OkrCard extends PureComponent {
                   <ToggleButton
                     on={isToggleOn}
                     visible={keyResult.get('childObjectiveIds').size > 0}
-                    onClick={this.handleToggleClick(keyResultId, isToggleOn)}
+                    onClick={this.handleToggleClick(keyResult, isToggleOn)}
                   />
                 )}
               </List.Item>
