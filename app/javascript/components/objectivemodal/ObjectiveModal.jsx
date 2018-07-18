@@ -43,7 +43,6 @@ class ObjectiveModal extends PureComponent {
 
   save(validData) {
     const parentKeyResultId = validData.parentKeyResultId !== -1 ? validData.parentKeyResultId : null
-    const viaHome = !this.props.parentKeyResult // 上位 KR (初期値) がない = ホーム画面経由の OKR 作成
     switch (this.state.activeIndex) {
       case ObjectiveModal.INDEX_NEW:
         this.props.addObjective({
@@ -52,7 +51,7 @@ class ObjectiveModal extends PureComponent {
           ownerId: this.state.ownerId,
           parentKeyResultId,
           okrPeriodId: this.props.okrPeriodId,
-        }, viaHome)
+        })
         break
       case ObjectiveModal.INDEX_LINK:
         this.props.updateObjective({
@@ -71,7 +70,7 @@ class ObjectiveModal extends PureComponent {
           ownerId: this.state.ownerId,
           parentKeyResultId,
           okrPeriodId: this.props.okrPeriodId,
-        }, viaHome, true)
+        }, true)
         break
     }
   }

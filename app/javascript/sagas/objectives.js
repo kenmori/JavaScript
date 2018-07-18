@@ -10,6 +10,7 @@ import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 import { isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
+import { List } from 'immutable'
 
 function* fetchOkrs({ payload }) {
   let isInitialOkrSelected = false
@@ -138,15 +139,28 @@ function* addObjective({ payload }) {
   const url = payload.isCopy ? `/objectives/${payload.objective.id}/copy` : '/objectives'
   const result = yield call(API.post, url, { objective: payload.objective })
   const currentUserId = yield select(state => state.current.get('userId'));
-  yield put(objectiveActions.addedObjective(result.get('objective'), payload.viaHome, currentUserId));
-  if (!payload.viaHome) {
-    // 下位 O 追加時は OKR マップ上で常に下位 O を表示する (上位 KR を強制的に展開する)
-    const keyResultId = payload.objective.parentKeyResultId
-    const objective = yield select(state => getObjectiveByKeyResultId(keyResultId, state.entities))
-    yield put(currentActions.expandKeyResult(objective.get('id'), keyResultId, objective.get('parentKeyResultId')))
-  }
+  const objective = result.get('objective')
+  yield put(objectiveActions.addedObjective(objective, currentUserId));
+  yield selectOrExpandMapOkr(objective)
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
+}
+
+function* selectOrExpandMapOkr(objective) {
+  const parentKeyResultId = objective.get('parentKeyResultId')
+  if (parentKeyResultId) {
+    const [entities, mapOkr] = yield select(state => [state.entities, state.current.get('mapOkr')])
+    const parentObjective = getObjectiveByKeyResultId(parentKeyResultId, entities)
+    const parentObjectiveId = parentObjective.get('id')
+    const grandParentKeyResultId = parentObjective.get('parentKeyResultId')
+    const isMapped = mapOkr.some((krIds, oId) => oId === parentObjectiveId || krIds.includes(grandParentKeyResultId))
+    if (isMapped) {
+      // 下位 O 追加時は OKR マップ上で常に下位 O を表示する (上位 KR を強制的に展開する)
+      yield put(currentActions.expandKeyResult(parentObjectiveId, parentKeyResultId, grandParentKeyResultId))
+      return
+    }
+  }
+  yield put(currentActions.selectMapOkr(objective.get('id'), List(), parentKeyResultId))
 }
 
 function* updateObjective({payload}) {
