@@ -8,30 +8,30 @@ class OptionModal extends PureComponent {
   constructor() {
     super()
     this.state = {
-      showMyChildObjectives: false,
-      showMyKeyResults: false,
-      showMembersKeyResults: false,
+      showChildObjectives: false,
+      showObjectiveKeyResults: false,
+      showMemberKeyResults: false,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
-        showMyChildObjectives: nextProps.userSetting.get('showMyChildObjectives'),
-        showMyKeyResults: nextProps.userSetting.get('showMyKeyResults'),
-        showMembersKeyResults: nextProps.userSetting.get('showMembersKeyResults'),
+        showChildObjectives: nextProps.userSetting.get('showChildObjectives'),
+        showObjectiveKeyResults: nextProps.userSetting.get('showObjectiveKeyResults'),
+        showMemberKeyResults: nextProps.userSetting.get('showMemberKeyResults'),
       })
     }
   }
 
   update = () => {
     const { userSetting } = this.props
-    const { showMyChildObjectives, showMyKeyResults, showMembersKeyResults } = this.state
-    const isDirty = userSetting.get('showMyChildObjectives') !== showMyChildObjectives
-      || userSetting.get('showMyKeyResults') !== this.state.showMyKeyResults
-      || userSetting.get('showMembersKeyResults') !== this.state.showMembersKeyResults
+    const { showChildObjectives, showObjectiveKeyResults, showMemberKeyResults } = this.state
+    const isDirty = userSetting.get('showChildObjectives') !== showChildObjectives
+      || userSetting.get('showObjectiveKeyResults') !== this.state.showObjectiveKeyResults
+      || userSetting.get('showMemberKeyResults') !== this.state.showMemberKeyResults
     if (isDirty) {
-      this.props.updateUserSetting({ showMyChildObjectives, showMyKeyResults, showMembersKeyResults })
+      this.props.updateUserSetting({ showChildObjectives, showObjectiveKeyResults, showMemberKeyResults })
     } else {
       this.props.closeModal()
     }
@@ -39,7 +39,7 @@ class OptionModal extends PureComponent {
 
   render() {
     const { isOpen, closeModal } = this.props
-    const { showMyChildObjectives, showMyKeyResults, showMembersKeyResults } = this.state
+    const { showChildObjectives, showObjectiveKeyResults, showMemberKeyResults } = this.state
     return (
       <Modal closeIcon open={isOpen} size="small" onClose={closeModal}>
         <Modal.Content>
@@ -48,8 +48,8 @@ class OptionModal extends PureComponent {
             <List.Item>
               <Checkbox
                 label='自分の Objective に紐付く下位 Objective を表示する'
-                checked={showMyChildObjectives}
-                onChange={(e, { checked }) => this.setState({ showMyChildObjectives: checked })}
+                checked={showChildObjectives}
+                onChange={(e, { checked }) => this.setState({ showChildObjectives: checked })}
               />
             </List.Item>
           </List>
@@ -59,15 +59,15 @@ class OptionModal extends PureComponent {
             <List.Item>
               <Checkbox
                 label='自分の Objective に紐付く Key Result を表示する'
-                checked={showMyKeyResults}
-                onChange={(e, { checked }) => this.setState({ showMyKeyResults: checked })}
+                checked={showObjectiveKeyResults}
+                onChange={(e, { checked }) => this.setState({ showObjectiveKeyResults: checked })}
               />
             </List.Item>
             <List.Item>
               <Checkbox
                 label='自分が関係者になっている Key Result を表示する'
-                checked={showMembersKeyResults}
-                onChange={(e, { checked }) => this.setState({ showMembersKeyResults: checked })}
+                checked={showMemberKeyResults}
+                onChange={(e, { checked }) => this.setState({ showMemberKeyResults: checked })}
               />
             </List.Item>
           </List>

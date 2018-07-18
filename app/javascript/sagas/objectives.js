@@ -8,7 +8,7 @@ import currentActions from '../actions/current'
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
-import { isMyChildObjectiveById, isMembersKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
+import { isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
 
 function* fetchOkrs({ payload }) {
@@ -61,9 +61,9 @@ function* selectInitialObjective() {
   const objectiveId = yield select(state => {
     const objectives = state.objectives.get('ids')
     const ownerId = state.current.get('userId')
-    const showMyChildObjectives = state.loginUser.getIn(['userSetting', 'showMyChildObjectives'])
-    return showMyChildObjectives ? objectives.first()
-      : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
+    const showChildObjectives = state.loginUser.getIn(['userSetting', 'showChildObjectives'])
+    return showChildObjectives ? objectives.first()
+      : objectives.find(objectiveId => !isChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
     yield put(currentActions.selectOkr(objectiveId, null))
@@ -78,9 +78,9 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
   const keyResultId = yield select(state => {
     const keyResults = state.keyResults.get(ids)
     const ownerId = state.current.get('userId')
-    const showMembersKeyResults = state.loginUser.getIn(['userSetting', 'showMembersKeyResults'])
-    return showMembersKeyResults ? keyResults.first()
-      : keyResults.find(keyResultId => !isMembersKeyResultById(keyResultId, ownerId, state.entities))
+    const showMemberKeyResults = state.loginUser.getIn(['userSetting', 'showMemberKeyResults'])
+    return showMemberKeyResults ? keyResults.first()
+      : keyResults.find(keyResultId => !isMemberKeyResultById(keyResultId, ownerId, state.entities))
   })
   if (keyResultId) {
     const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))

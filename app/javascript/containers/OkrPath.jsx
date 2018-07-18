@@ -1,6 +1,6 @@
 import OkrPath from '../components/map/OkrPath'
 import { connect } from 'react-redux'
-import { isMembersObjectiveById } from '../utils/okr'
+import { isMemberObjectiveById } from '../utils/okr'
 
 const mapStateToProps = (state, { fromKeyResultId, toObjectiveId }) => {
   const highlightedOkr = state.current.get('highlightedOkr')
@@ -8,7 +8,7 @@ const mapStateToProps = (state, { fromKeyResultId, toObjectiveId }) => {
   const highlightedKeyResultId = highlightedOkr.get('keyResultId')
   return {
     isHighlighted: highlightedKeyResultId === fromKeyResultId && highlightedObjectiveIds.includes(toObjectiveId),
-    isMember: isMembersObjectiveById(toObjectiveId, state.entities),
+    isMember: isMemberObjectiveById(toObjectiveId, state.entities),
   }
 }
 

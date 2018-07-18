@@ -4,7 +4,7 @@ import {
   denormalizeObjectives, denormalizeKeyResults,
   denormalizeObjectiveCandidates, denormalizeKeyResultCandidates,
 } from '../schemas'
-import { isMyChildObjective, isMyKeyResult, isMembersKeyResult } from './okr'
+import { isChildObjective, isObjectiveKeyResult, isMemberKeyResult } from './okr'
 
 export const getEnabledUsers = createSelector(
   state => state.users,
@@ -47,21 +47,21 @@ export const getMyObjectives = createSelector(
   getObjectives,
   state => state.entities,
   state => state.current.get('userIdAtFetchedObjectives'),
-  state => state.loginUser.getIn(['userSetting', 'showMyChildObjectives']),
-  (objectives, entities, ownerId, showMyChildObjectives) => {
-    return showMyChildObjectives ? objectives
-      : objectives.filterNot(objective => isMyChildObjective(objective, ownerId, entities))
+  state => state.loginUser.getIn(['userSetting', 'showChildObjectives']),
+  (objectives, entities, ownerId, showChildObjectives) => {
+    return showChildObjectives ? objectives
+      : objectives.filterNot(objective => isChildObjective(objective, ownerId, entities))
   }
 )
 
 export const getMyKeyResults = createSelector(
   getKeyResults,
   state => state.current.get('userIdAtFetchedKeyResults'),
-  state => state.loginUser.getIn(['userSetting', 'showMyKeyResults']),
-  state => state.loginUser.getIn(['userSetting', 'showMembersKeyResults']),
-  (keyResults, ownerId, showMyKeyResults, showMembersKeyResults) => {
-    keyResults = showMyKeyResults ? keyResults : keyResults.filterNot(keyResult => isMyKeyResult(keyResult, ownerId))
-    keyResults = showMembersKeyResults ? keyResults : keyResults.filterNot(keyResult => isMembersKeyResult(keyResult, ownerId))
+  state => state.loginUser.getIn(['userSetting', 'showObjectiveKeyResults']),
+  state => state.loginUser.getIn(['userSetting', 'showMemberKeyResults']),
+  (keyResults, ownerId, showObjectiveKeyResults, showMemberKeyResults) => {
+    keyResults = showObjectiveKeyResults ? keyResults : keyResults.filterNot(keyResult => isObjectiveKeyResult(keyResult, ownerId))
+    keyResults = showMemberKeyResults ? keyResults : keyResults.filterNot(keyResult => isMemberKeyResult(keyResult, ownerId))
     return keyResults
   }
 )
