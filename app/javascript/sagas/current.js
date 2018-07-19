@@ -36,12 +36,17 @@ function* selectMapOkr({ payload }) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
+
   const objective = yield select(state => state.entities.objectives.get(objectiveId))
   const keyResultIds = keyResultId ? List.of(keyResultId) : objective.get('keyResultIds')
   yield put(currentActions.selectedMapOkr(objectiveId, keyResultIds, objective.get('parentKeyResultId')))
-  isFetched = yield isFetchedChildObjectives(keyResultIds)
-  if (!isFetched) {
-    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+
+  if (isFetched) {
+    // O が fetch 済みで fetchObjective を呼び出していない場合は子 O も fetch 済みかチェックする
+    isFetched = yield isFetchedChildObjectives(keyResultIds)
+    if (!isFetched) {
+      yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+    }
   }
 }
 
@@ -69,7 +74,7 @@ function* isFetchedObjective(objectiveId) {
   return yield select(state => state.entities.objectives.has(objectiveId))
 }
 
-// KR 一覧に未 fetch の子 O が紐付いている場合は fetch する
+// KR 一覧に紐付いている子 O が全て fetch 済みの場合は true
 function* isFetchedChildObjectives(keyResultIds) {
   return yield select(state => keyResultIds.every(keyResultId => {
     const keyResult = state.entities.keyResults.get(keyResultId)
