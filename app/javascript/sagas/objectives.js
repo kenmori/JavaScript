@@ -160,7 +160,7 @@ function* selectOrExpandMapOkr(objective) {
       return
     }
   }
-  yield put(currentActions.selectMapOkr(objective.get('id'), List(), parentKeyResultId))
+  yield put(currentActions.selectMapOkr(objective.get('id'), List()))
 }
 
 function* updateObjective({payload}) {

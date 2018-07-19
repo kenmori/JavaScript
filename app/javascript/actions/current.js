@@ -11,7 +11,8 @@ const actions = createActions({
   [actionTypes.UNHIGHLIGHT_OKR]: () => {},
   [actionTypes.SELECT_OKR]: (objectiveId, keyResultId = null) => ({ objectiveId, keyResultId }),
   [actionTypes.SELECTED_OKR]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
-  [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds, parentKeyResultId) => (
+  [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultIds) => ({ objectiveId, keyResultIds }),
+  [actionTypes.SELECTED_MAP_OKR]: (objectiveId, keyResultIds, parentKeyResultId) => (
     { objectiveId, keyResultIds, parentKeyResultId }
   ),
   [actionTypes.CLEAR_MAP_OKR]: () => {},

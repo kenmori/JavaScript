@@ -53,7 +53,7 @@ export default handleActions({
     const { objectiveId, keyResultId } = payload
     return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId })
   },
-  [ActionTypes.SELECT_MAP_OKR]: (state, { payload }) => {
+  [ActionTypes.SELECTED_MAP_OKR]: (state, { payload }) => {
     const { objectiveId, keyResultIds, parentKeyResultId } = payload
     const isMapped = state.get('mapOkr').some((krIds, oId) => oId === objectiveId || krIds.includes(parentKeyResultId))
     return isMapped ? state // 既にマップ上に展開されている場合はマップ OKR を切り替えない
