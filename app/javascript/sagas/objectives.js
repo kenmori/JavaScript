@@ -10,7 +10,6 @@ import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
 import { isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
-import { List } from 'immutable'
 
 function* fetchOkrs({ payload }) {
   let isInitialOkrSelected = false
@@ -157,7 +156,7 @@ function* selectOrExpandMapOkr(objective) {
       return
     }
   }
-  yield put(currentActions.selectMapOkr(objective.get('id'), List()))
+  yield put(currentActions.selectMapOkr(objective.get('id')))
 }
 
 function* updateObjective({payload}) {

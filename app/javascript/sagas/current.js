@@ -22,9 +22,7 @@ function* selectUser({ payload }) {
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
-  const keyResultIds = keyResultId ? List.of(keyResultId)
-    : yield select(state => state.entities.objectives.get(objectiveId).get('keyResultIds'))
-  yield put(currentActions.selectMapOkr(objectiveId, keyResultIds))
+  yield put(currentActions.selectMapOkr(objectiveId, keyResultId))
 }
 
 function* clearSelectedOkr({ payload }) {
@@ -32,14 +30,15 @@ function* clearSelectedOkr({ payload }) {
 }
 
 function* selectMapOkr({ payload }) {
-  const { objectiveId, keyResultIds } = payload
+  const { objectiveId, keyResultId } = payload
   let isFetched = yield isFetchedObjective(objectiveId)
   if (!isFetched) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
-  const parentKeyResultId = yield select(state => state.entities.objectives.get(objectiveId).get('parentKeyResultId'))
-  yield put(currentActions.selectedMapOkr(objectiveId, keyResultIds, parentKeyResultId))
+  const objective = yield select(state => state.entities.objectives.get(objectiveId))
+  const keyResultIds = keyResultId ? List.of(keyResultId) : objective.get('keyResultIds')
+  yield put(currentActions.selectedMapOkr(objectiveId, keyResultIds, objective.get('parentKeyResultId')))
   isFetched = yield isFetchedChildObjectives(keyResultIds)
   if (!isFetched) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
