@@ -22,7 +22,7 @@ function* selectUser({ payload }) {
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
-  const hasObjective = yield select(state => state.entities.objectives.has(objectiveId))
+  const hasObjective = yield isFetchedObjective(objectiveId)
   if (!hasObjective) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(ActionTypes.FETCHED_OBJECTIVE)
@@ -44,9 +44,7 @@ function* selectMapOkr({ payload }) {
 
 function* expandObjective({ payload }) {
   const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload
-  const isFetched = toAncestor
-    ? yield select(state => state.entities.objectives.has(objectiveId))
-    : yield isFetchedChildObjectives(keyResultIds)
+  const isFetched = yield (toAncestor ? isFetchedObjective(objectiveId) : isFetchedChildObjectives(keyResultIds))
   if (!isFetched) {
     yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
     yield take(ActionTypes.FETCHED_OBJECTIVE)
@@ -62,6 +60,10 @@ function* expandKeyResult({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
   yield put(currentActions.expandedKeyResult(objectiveId, keyResultId, parentKeyResultId))
+}
+
+function* isFetchedObjective(objectiveId) {
+  return yield select(state => state.entities.objectives.has(objectiveId))
 }
 
 // KR 一覧に未 fetch の子 O が紐付いている場合は fetch する
