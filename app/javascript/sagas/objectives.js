@@ -67,8 +67,7 @@ function* selectInitialObjective() {
       : objectives.find(objectiveId => !isChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
-    yield put(currentActions.selectOkr(objectiveId, null))
-    yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectOkr(objectiveId))
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
@@ -86,13 +85,11 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
   if (keyResultId) {
     const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
     yield put(currentActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
-    yield take(actionTypes.SELECTED_OKR)
     yield put(currentActions.selectTab(type))
     return true
   } else if (selectAnyway) {
-    yield put(currentActions.selectedOkr(null, null))
+    yield put(currentActions.clearSelectedOkr())
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
-    yield put(currentActions.clearMapOkr())
     return true
   }
   return false

@@ -49,9 +49,12 @@ export default handleActions({
   [ActionTypes.UNHIGHLIGHT_OKR]: state => {
     return state.mergeIn(['highlightedOkr'], { objectiveIds: fromJS([]), keyResultId: null })
   },
-  [ActionTypes.SELECTED_OKR]: (state, { payload }) => {
+  [ActionTypes.SELECT_OKR]: (state, { payload }) => {
     const { objectiveId, keyResultId } = payload
     return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId })
+  },
+  [ActionTypes.CLEAR_SELECTED_OKR]: state => {
+    return state.mergeIn(['selectedOkr'], { objectiveId: null, keyResultId: null })
   },
   [ActionTypes.SELECTED_MAP_OKR]: (state, { payload }) => {
     const { objectiveId, keyResultIds, parentKeyResultId } = payload

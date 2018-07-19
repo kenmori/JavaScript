@@ -22,11 +22,13 @@ function* selectUser({ payload }) {
 
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
-  yield put(currentActions.selectedOkr(objectiveId, keyResultId))
-
   const keyResultIds = keyResultId ? List.of(keyResultId)
     : yield select(state => state.entities.objectives.get(objectiveId).get('keyResultIds'))
   yield put(currentActions.selectMapOkr(objectiveId, keyResultIds))
+}
+
+function* clearSelectedOkr({ payload }) {
+  yield put(currentActions.clearMapOkr())
 }
 
 function* selectMapOkr({ payload }) {
@@ -81,6 +83,7 @@ export function* currentSagas() {
     takeLatest(ActionTypes.SELECT_OKR_PERIOD, selectOkrPeriod),
     takeLatest(ActionTypes.SELECT_USER, selectUser),
     takeLatest(ActionTypes.SELECT_OKR, selectOkr),
+    takeLatest(ActionTypes.CLEAR_SELECTED_OKR, clearSelectedOkr),
     takeLatest(ActionTypes.SELECT_MAP_OKR, selectMapOkr),
     takeLatest(ActionTypes.EXPAND_OBJECTIVE, expandObjective),
     takeLatest(ActionTypes.EXPAND_KEY_RESULT, expandKeyResult),
