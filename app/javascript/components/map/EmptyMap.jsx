@@ -5,8 +5,8 @@ import { Segment, Header, Button } from 'semantic-ui-react'
 class EmptyMap extends PureComponent {
 
   render() {
-    const { isFetchedObjectives, openObjectiveModal } = this.props
-    if (!isFetchedObjectives) return null
+    const { isFetched, openObjectiveModal } = this.props
+    if (!isFetched) return null
     return (
       <Segment compact padded="very" textAlign="center" className="empty-map">
         <Header as="h4">Objective がありません</Header>
@@ -18,7 +18,7 @@ class EmptyMap extends PureComponent {
 
 EmptyMap.propTypes = {
   // container
-  isFetchedObjectives: PropTypes.bool.isRequired,
+  isFetched: PropTypes.bool.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   // component
 }

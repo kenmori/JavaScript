@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import dialogActions from '../actions/dialogs'
 
 const mapStateToProps = state => {
+  const { objectives, keyResults } = state
   return {
-    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
+    isFetched: objectives.get('isFetchedObjectives') && objectives.get('isFetchedObjective') && keyResults.get('isFetchedKeyResults'),
   }
 }
 
