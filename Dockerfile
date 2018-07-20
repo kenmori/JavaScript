@@ -17,5 +17,3 @@ RUN yarn install
 
 ARG RAILS_ENV
 ARG NODE_ENV
-
-RUN if [ $RAILS_ENV = "development" ]; then apt-get install -y --force-yes graphviz; fi

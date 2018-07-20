@@ -50,7 +50,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'rails-erd'
+  # Use 1.5.0 not 1.5.2 (see https://github.com/voormedia/rails-erd/issues/273)
+  gem 'rails-erd', '1.5.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
