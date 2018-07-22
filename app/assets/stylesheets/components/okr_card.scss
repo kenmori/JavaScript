@@ -34,8 +34,12 @@
 
       .okr-card__name {
         flex-grow: 1;
-        margin: 0 .5rem;
 
+        a {
+          margin: 0 4px;
+          padding: 4px;
+          display: inline-block;
+        }
         &.highlight a {
           background-color: $HIGHLIGHT_OKR_COLOR;
         }
@@ -51,10 +55,14 @@
 
       .okr-card__name {
         flex-grow: 1;
-        margin: 0 .5rem;
         font-size: smaller;
         text-align: center;
 
+        a {
+          margin: 0 4px;
+          padding: 4px;
+          display: inline-block;
+        }
         &.highlight a {
           background-color: $HIGHLIGHT_OKR_COLOR;
         }
