@@ -6,6 +6,7 @@ const mapStateToProps = state => {
   return {
     objective: getMapObjective(state),
     mapOkr: state.current.get('mapOkr'),
+    scrollToObjectiveId: state.current.get('scrollToObjectiveId'),
   }
 };
 

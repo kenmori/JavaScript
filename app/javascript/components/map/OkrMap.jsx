@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrCard from '../../containers/OkrCard';
 import OkrLink from '../../containers/OkrLink';
 import EmptyMap from '../../containers/EmptyMap'
 import { Card } from 'semantic-ui-react';
 import { List, Set } from 'immutable';
+import { scrollToElement } from '../../utils/scroll'
 
 class OkrMap extends PureComponent {
 
@@ -33,6 +35,10 @@ class OkrMap extends PureComponent {
     // コンポーネントをいったん描画して DOM の位置情報を取得する必要があるため許容する
     if (prevState.groups !== this.state.groups) { // 展開/折り畳みによる再描画
       this.updateOkrLinks(this.state)
+    }
+    // 対象 OKR カードが描画されてからスクロールする
+    if (prevProps.scrollToObjectiveId !== this.props.scrollToObjectiveId) {
+      scrollToElement(this.refs[`objective_${this.props.scrollToObjectiveId}`])
     }
   }
 
@@ -165,6 +171,7 @@ OkrMap.propTypes = {
   // container
   objective: ImmutablePropTypes.map,
   mapOkr: ImmutablePropTypes.map.isRequired,
+  scrollToObjectiveId: PropTypes.object,
   // component
 };
 
