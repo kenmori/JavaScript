@@ -8,18 +8,8 @@ import currentActions from '../actions/current'
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
-import { isMyChildObjectiveById, isMembersKeyResultById } from '../utils/okr'
+import { isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
-
-function* selectOkr({ payload }) {
-  const { objectiveId, keyResultId } = payload
-  const hasObjective = yield select(state => state.entities.objectives.has(objectiveId))
-  if (!hasObjective) {
-    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
-    yield take(actionTypes.FETCHED_OBJECTIVE)
-  }
-  yield put(objectiveActions.selectedOkr(objectiveId, keyResultId))
-}
 
 function* fetchOkrs({ payload }) {
   let isInitialOkrSelected = false
@@ -71,13 +61,12 @@ function* selectInitialObjective() {
   const objectiveId = yield select(state => {
     const objectives = state.objectives.get('ids')
     const ownerId = state.current.get('userId')
-    const showMyChildObjectives = state.loginUser.getIn(['userSetting', 'showMyChildObjectives'])
-    return showMyChildObjectives ? objectives.first()
-      : objectives.find(objectiveId => !isMyChildObjectiveById(objectiveId, ownerId, state.entities))
+    const showChildObjectives = state.loginUser.getIn(['userSetting', 'showChildObjectives'])
+    return showChildObjectives ? objectives.first()
+      : objectives.find(objectiveId => !isChildObjectiveById(objectiveId, ownerId, state.entities))
   })
   if (objectiveId) {
-    yield put(objectiveActions.selectOkr(objectiveId, null))
-    yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectOkr(objectiveId))
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
@@ -88,18 +77,17 @@ function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, select
   const keyResultId = yield select(state => {
     const keyResults = state.keyResults.get(ids)
     const ownerId = state.current.get('userId')
-    const showMembersKeyResults = state.loginUser.getIn(['userSetting', 'showMembersKeyResults'])
-    return showMembersKeyResults ? keyResults.first()
-      : keyResults.find(keyResultId => !isMembersKeyResultById(keyResultId, ownerId, state.entities))
+    const showMemberKeyResults = state.loginUser.getIn(['userSetting', 'showMemberKeyResults'])
+    return showMemberKeyResults ? keyResults.first()
+      : keyResults.find(keyResultId => !isMemberKeyResultById(keyResultId, ownerId, state.entities))
   })
   if (keyResultId) {
     const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
-    yield put(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
-    yield take(actionTypes.SELECTED_OKR)
+    yield put(currentActions.selectOkr(keyResult.get('objectiveId'), keyResultId))
     yield put(currentActions.selectTab(type))
     return true
   } else if (selectAnyway) {
-    yield put(objectiveActions.selectedOkr(null, null))
+    yield put(currentActions.clearSelectedOkr())
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
   }
@@ -147,9 +135,28 @@ function* addObjective({ payload }) {
   const url = payload.isCopy ? `/objectives/${payload.objective.id}/copy` : '/objectives'
   const result = yield call(API.post, url, { objective: payload.objective })
   const currentUserId = yield select(state => state.current.get('userId'));
-  yield put(objectiveActions.addedObjective(result.get('objective'), payload.viaHome, currentUserId));
+  const objective = result.get('objective')
+  yield put(objectiveActions.addedObjective(objective, currentUserId));
+  yield selectOrExpandMapOkr(objective)
   yield put(dialogActions.closeObjectiveModal());
   yield put(toastActions.showToast('Objective を作成しました'));
+}
+
+function* selectOrExpandMapOkr(objective) {
+  const parentKeyResultId = objective.get('parentKeyResultId')
+  if (parentKeyResultId) {
+    const [entities, mapOkr] = yield select(state => [state.entities, state.current.get('mapOkr')])
+    const parentObjective = getObjectiveByKeyResultId(parentKeyResultId, entities)
+    const parentObjectiveId = parentObjective.get('id')
+    const grandParentKeyResultId = parentObjective.get('parentKeyResultId')
+    const isMapped = mapOkr.some((krIds, oId) => oId === parentObjectiveId || krIds.includes(grandParentKeyResultId))
+    if (isMapped) {
+      // 下位 O 追加時は OKR マップ上で常に下位 O を表示する (上位 KR を強制的に展開する)
+      yield put(currentActions.expandKeyResult(parentObjectiveId, parentKeyResultId, grandParentKeyResultId))
+      return
+    }
+  }
+  yield put(currentActions.selectMapOkr(objective.get('id')))
 }
 
 function* updateObjective({payload}) {
@@ -173,7 +180,6 @@ function* removeObjective({payload}) {
 
 export function *objectiveSagas() {
   yield all([
-    takeLatest(actionTypes.SELECT_OKR, selectOkr),
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
     takeLatest(actionTypes.FETCH_OBJECTIVE, withLoading(fetchObjective)),
     takeLatest(actionTypes.FETCH_OBJECTIVE_ASYNC, fetchObjectiveAsync),

@@ -40,31 +40,31 @@ const getParentObjective = (objective, entities) => {
   return null
 }
 
-export const isMyChildObjective = (objective, ownerId, entities) => {
+export const isChildObjective = (objective, ownerId, entities) => {
   const parentObjective = getParentObjective(objective, entities)
   return parentObjective ? parentObjective.get('owner').get('id') === ownerId : false
 }
 
-export const isMyChildObjectiveById = (objectiveId, ownerId, entities) => {
+export const isChildObjectiveById = (objectiveId, ownerId, entities) => {
   const objective = entities.objectives.get(objectiveId)
-  return isMyChildObjective(objective, ownerId, entities)
+  return isChildObjective(objective, ownerId, entities)
 }
 
-export const isMyKeyResult = (keyResult, ownerId) => {
+export const isObjectiveKeyResult = (keyResult, ownerId) => {
   const objective = keyResult.get('objective')
   return objective ? objective.get('owner').get('id') === ownerId : false
 }
 
-export const isMembersKeyResult = (keyResult, ownerId) => {
+export const isMemberKeyResult = (keyResult, ownerId) => {
   return keyResult.get('owner').get('id') !== ownerId
 }
 
-export const isMembersKeyResultById = (keyResultId, ownerId, entities) => {
+export const isMemberKeyResultById = (keyResultId, ownerId, entities) => {
   const keyResult = entities.keyResults.get(keyResultId)
-  return isMembersKeyResult(keyResult, ownerId)
+  return isMemberKeyResult(keyResult, ownerId)
 }
 
-export const isMembersObjectiveById = (objectiveId, entities) => {
+export const isMemberObjectiveById = (objectiveId, entities) => {
   if (objectiveId) {
     const objective = entities.objectives.get(objectiveId)
     if (objective) {
@@ -76,4 +76,9 @@ export const isMembersObjectiveById = (objectiveId, entities) => {
     }
   }
   return false
+}
+
+export const getObjectiveByKeyResultId = (keyResultId, entities) => {
+  const keyResult = entities.keyResults.get(keyResultId)
+  return entities.objectives.get(keyResult.get('objectiveId'))
 }

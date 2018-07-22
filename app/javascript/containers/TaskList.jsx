@@ -1,19 +1,19 @@
 import TaskList from '../components/dashboard/TaskList'
 import { connect } from 'react-redux'
-import objectiveActions from '../actions/objectives'
+import currentActions from '../actions/current'
 import keyResultActions from '../actions/keyResults'
 import dialogActions from '../actions/dialogs'
 
 const mapStateToProps = (state) => {
   return {
-    selectedKeyResultId: state.objectives.getIn(['selectedOkr', 'keyResultId']),
+    selectedKeyResultId: state.current.getIn(['selectedOkr', 'keyResultId']),
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     selectKeyResult: keyResult => {
-      dispatch(objectiveActions.selectOkr(keyResult.get('objectiveId'), keyResult.get('id')))
+      dispatch(currentActions.selectOkr(keyResult.get('objectiveId'), keyResult.get('id')))
     },
     openObjectiveModal: parentKeyResult => {
       dispatch(dialogActions.openObjectiveModal(parentKeyResult))

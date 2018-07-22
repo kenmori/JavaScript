@@ -4,14 +4,15 @@ import { List } from 'immutable'
 import dialogActions from '../actions/dialogs';
 import currentActions from '../actions/current'
 
-const mapStateToProps = (state) => {
-  const selectedOkr = state.objectives.get('selectedOkr');
+const mapStateToProps = (state, { objective }) => {
+  const selectedOkr = state.current.get('selectedOkr');
   const highlightedOkr = state.current.get('highlightedOkr')
   return {
     selectedObjectiveId: selectedOkr.get('objectiveId'),
     selectedKeyResultId: selectedOkr.get('keyResultId'),
     highlightedObjectiveIds: highlightedOkr.get('objectiveIds'),
     highlightedKeyResultId: highlightedOkr.get('keyResultId'),
+    visibleKeyResultIds: state.current.get('mapOkr').get(objective.get('id')),
   };
 };
 
@@ -28,6 +29,15 @@ const mapDispatchToProps = dispatch => {
     },
     unhighlightOkr: () => {
       dispatch(currentActions.unhighlightOkr())
+    },
+    toggleKeyResult: (objective, keyResult, isExpanded) => {
+      const objectiveId = objective.get('id')
+      const keyResultId = keyResult.get('id')
+      if (isExpanded) {
+        dispatch(currentActions.collapseKeyResult(objectiveId, keyResultId, keyResult.get('childObjectiveIds')))
+      } else {
+        dispatch(currentActions.expandKeyResult(objectiveId, keyResultId, objective.get('parentKeyResultId')))
+      }
     },
   };
 };

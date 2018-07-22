@@ -87,11 +87,10 @@ class OkrLink extends PureComponent {
   handleIconRef = node => this.iconRef = node
 
   handleIconClick = () => {
-    const { fromId, paths } = this.props
-    const { toAncestor, isExpanded } = this.state
-    const objectiveId = fromId
-    const keyResultIds = paths.map(path => path.fromKeyResultId).toSet()
-    this.props.onToggleObjective(toAncestor, isExpanded, objectiveId, keyResultIds)
+    const { fromId: objectiveId, fromParentKeyResultId: parentKeyResultId, paths } = this.props
+    const { isExpanded, toAncestor } = this.state
+    const keyResultIds = paths.map(path => path.fromKeyResultId)
+    this.props.toggleObjective(objectiveId, keyResultIds, parentKeyResultId, isExpanded, toAncestor)
   }
 
   render() {
@@ -125,11 +124,12 @@ class OkrLink extends PureComponent {
 
 OkrLink.propTypes = {
   // container
+  toggleObjective: PropTypes.func.isRequired,
   // component
   fromId: PropTypes.number,
+  fromParentKeyResultId: PropTypes.number,
   fromRef: PropTypes.object,
   paths: ImmutablePropTypes.list.isRequired,
-  onToggleObjective: PropTypes.func.isRequired,
 };
 
 export default OkrLink;
