@@ -23,6 +23,12 @@ function* selectUser({ payload }) {
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
   yield put(currentActions.selectMapOkr(objectiveId, keyResultId))
+
+  yield take(ActionTypes.SELECTED_MAP_OKR)
+  const isRoot = yield select(state => state.current.get('mapOkr').keySeq().first() === objectiveId)
+  if (!isRoot) {
+    yield put(currentActions.scrollToObjective(objectiveId)) // ルート O でない場合はページスクロールする
+  }
 }
 
 function* clearSelectedOkr({ payload }) {
