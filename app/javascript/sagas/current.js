@@ -64,6 +64,11 @@ function* expandObjective({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
   yield put(currentActions.expandedObjective(objectiveId, keyResultIds, parentKeyResultId, toAncestor))
+
+  if (!toAncestor) {
+    const childObjectiveId = yield getChildObjectiveId(keyResultIds.first())
+    yield put(currentActions.scrollToObjective(childObjectiveId))
+  }
 }
 
 function* expandKeyResult({ payload }) {
@@ -74,6 +79,9 @@ function* expandKeyResult({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
   yield put(currentActions.expandedKeyResult(objectiveId, keyResultId, parentKeyResultId))
+
+  const childObjectiveId = yield getChildObjectiveId(keyResultId)
+  yield put(currentActions.scrollToObjective(childObjectiveId))
 }
 
 function* isFetchedObjective(objectiveId) {
@@ -86,6 +94,13 @@ function* isFetchedChildObjectives(keyResultIds) {
     const keyResult = state.entities.keyResults.get(keyResultId)
     return keyResult.get('childObjectiveIds').every(childObjectiveId => state.entities.objectives.has(childObjectiveId))
   }))
+}
+
+function* getChildObjectiveId(keyResultId) {
+  return yield select(state => {
+    const keyResult = state.entities.keyResults.get(keyResultId)
+    return keyResult.get('childObjectiveIds').first()
+  })
 }
 
 export function* currentSagas() {
