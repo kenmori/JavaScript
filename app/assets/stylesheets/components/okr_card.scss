@@ -37,7 +37,7 @@
         margin: 0 .5rem;
 
         &.highlight a {
-          background-color: $SELECT_BG_COLOR;
+          background-color: $HIGHLIGHT_OKR_COLOR;
         }
       }
     }
@@ -56,7 +56,7 @@
         text-align: center;
 
         &.highlight a {
-          background-color: $SELECT_BG_COLOR;
+          background-color: $HIGHLIGHT_OKR_COLOR;
         }
       }
     }
