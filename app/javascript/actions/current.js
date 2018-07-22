@@ -34,6 +34,7 @@ const actions = createActions({
   [actionTypes.COLLAPSE_KEY_RESULT]: (objectiveId, keyResultId, childObjectiveIds) => (
     { objectiveId, keyResultId, childObjectiveIds }
   ),
+  [actionTypes.SCROLL_TO_OBJECTIVE]: objectiveId => ({ objectiveId }),
 });
 
 export default actions;
