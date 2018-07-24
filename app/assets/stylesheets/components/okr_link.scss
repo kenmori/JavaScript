@@ -14,7 +14,7 @@
 
     polyline {
       &.highlight {
-        stroke: $SELECT_ACTIVE_COLOR;
+        stroke: $HIGHLIGHT_PATH_COLOR;
         stroke-width: 4px;
       }
 

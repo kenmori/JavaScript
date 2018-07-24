@@ -14,6 +14,7 @@ const initialState = fromJS({
   highlightedOkr: { objectiveIds: [], keyResultId: null },
   selectedOkr: { objectiveId: null, keyResultId: null },
   mapOkr: {}, // OrderedMap<ObjectiveId, Set<KeyResultId>>
+  scrollToObjectiveId: null,
 });
 
 const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResultId) => {
@@ -109,5 +110,10 @@ export default handleActions({
     const objectiveId = payload.get('result').first()
     const isSelected = state.getIn(['selectedOkr', 'objectiveId']) === objectiveId
     return isSelected ? state.mergeIn(['selectedOkr'], { objectiveId: null, keyResultId: null }) : state
+  },
+  [ActionTypes.SCROLL_TO_OBJECTIVE]: (state, { payload }) => {
+    // 選択中 O の再選択時にも props 変更イベントを飛ばすため String オブジェクト (別インスタンス) にする
+    // noinspection JSPrimitiveTypeWrapperUsage
+    return state.set('scrollToObjectiveId', new String(payload.objectiveId))
   },
 }, initialState);

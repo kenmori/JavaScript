@@ -3,7 +3,11 @@ import { connect } from 'react-redux'
 import currentActions from '../actions/current'
 
 const mapStateToProps = state => {
-  return {}
+  const highlightedOkr = state.current.get('highlightedOkr')
+  return {
+    highlightedObjectiveIds: highlightedOkr.get('objectiveIds'),
+    highlightedKeyResultId: highlightedOkr.get('keyResultId'),
+  }
 }
 
 const mapDispatchToProps = dispatch => {

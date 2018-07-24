@@ -94,11 +94,17 @@ class OkrLink extends PureComponent {
   }
 
   render() {
+    const { highlightedObjectiveIds, highlightedKeyResultId } = this.props
     const { fromPoint, paths, isExpanded, toAncestor } = this.state
     return (
       <div className='okr-link'>
         <svg>
-          {paths.map((path, key) => (
+          {paths.sortBy(path => {
+            // ハイライトされたパスを前面に描画する (SVG には z-index がなく要素順に描画されるため)
+            const { fromKeyResultId, toObjectiveId } = path
+            const isHighlighted = highlightedKeyResultId === fromKeyResultId && highlightedObjectiveIds.includes(toObjectiveId)
+            return isHighlighted ? 1 : -1
+          }).map((path, key) => (
             <OkrPath
               {...path}
               key={key}
@@ -125,6 +131,8 @@ class OkrLink extends PureComponent {
 OkrLink.propTypes = {
   // container
   toggleObjective: PropTypes.func.isRequired,
+  highlightedObjectiveIds: ImmutablePropTypes.list.isRequired,
+  highlightedKeyResultId: PropTypes.number,
   // component
   fromId: PropTypes.number,
   fromParentKeyResultId: PropTypes.number,

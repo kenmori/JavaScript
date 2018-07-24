@@ -23,6 +23,12 @@ function* selectUser({ payload }) {
 function* selectOkr({ payload }) {
   const { objectiveId, keyResultId } = payload
   yield put(currentActions.selectMapOkr(objectiveId, keyResultId))
+
+  yield take(ActionTypes.SELECTED_MAP_OKR)
+  const isRoot = yield select(state => state.current.get('mapOkr').keySeq().first() === objectiveId)
+  if (!isRoot) {
+    yield put(currentActions.scrollToObjective(objectiveId)) // ルート O でない場合はページスクロールする
+  }
 }
 
 function* clearSelectedOkr({ payload }) {
@@ -58,6 +64,11 @@ function* expandObjective({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
   yield put(currentActions.expandedObjective(objectiveId, keyResultIds, parentKeyResultId, toAncestor))
+
+  if (!toAncestor) {
+    const childObjectiveId = yield getChildObjectiveId(keyResultIds.first())
+    yield put(currentActions.scrollToObjective(childObjectiveId))
+  }
 }
 
 function* expandKeyResult({ payload }) {
@@ -68,6 +79,9 @@ function* expandKeyResult({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
   yield put(currentActions.expandedKeyResult(objectiveId, keyResultId, parentKeyResultId))
+
+  const childObjectiveId = yield getChildObjectiveId(keyResultId)
+  yield put(currentActions.scrollToObjective(childObjectiveId))
 }
 
 function* isFetchedObjective(objectiveId) {
@@ -80,6 +94,13 @@ function* isFetchedChildObjectives(keyResultIds) {
     const keyResult = state.entities.keyResults.get(keyResultId)
     return keyResult.get('childObjectiveIds').every(childObjectiveId => state.entities.objectives.has(childObjectiveId))
   }))
+}
+
+function* getChildObjectiveId(keyResultId) {
+  return yield select(state => {
+    const keyResult = state.entities.keyResults.get(keyResultId)
+    return keyResult.get('childObjectiveIds').first()
+  })
 }
 
 export function* currentSagas() {
