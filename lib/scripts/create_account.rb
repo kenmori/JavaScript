@@ -46,7 +46,7 @@ class CreateAccount
             email: email,
             password: password,
             admin: true,
-            confirmed_at: Time.now,
+            confirmed_at: Time.current,
         )
         organization.okr_periods.create!(
             month_start: month_start,
