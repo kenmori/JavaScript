@@ -53,6 +53,10 @@ class User < ApplicationRecord
     disabled ? :disabled : super
   end
 
+  def disabled
+    !!disabled_at
+  end
+
   # Override devise notification method
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later

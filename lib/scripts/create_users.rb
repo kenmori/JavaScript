@@ -61,7 +61,7 @@ class CreateUsers
               last_name: name,
               email: "#{name}#{index}@example.com",
               password: 'Pass0123',
-              disabled: true,
+              disabled_at: Time.current,
               confirmed_at: Time.current,
               )
         end

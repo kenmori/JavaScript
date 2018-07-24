@@ -1,6 +1,6 @@
 class PrintOrganizations
   def self.execute
-    enabled_user_count = User.where(disabled: false).count
+    enabled_user_count = User.where(disabled_at: nil).count
     active_user_count_last_month = User.where(last_sign_in_at: 1.month.ago..Date.today).count
     active_user_count_last_week = User.where(last_sign_in_at: 1.week.ago..Date.today).count
     new_user_count_last_month = User.where(created_at: 1.month.ago..Date.today).count
@@ -13,7 +13,7 @@ class PrintOrganizations
     puts 'Showing organization information...'
     puts ''
     puts "- #{Organization.count} organizations"
-    puts "- #{User.count} users (#{enabled_user_count} enabled, #{User.where(disabled: true).count} disabled)"
+    puts "- #{User.count} users (#{enabled_user_count} enabled, #{User.where.not(disabled_at: nil).count} disabled)"
     puts "  - #{active_user_count_last_month} active users in the last month (#{active_user_rate_last_month}%)"
     puts "    - #{active_user_count_last_week} active users in the last week (#{active_user_rate_last_week}%)"
     puts "  - #{new_user_count_last_month} new users in the last month (#{new_user_rate_last_month}%)"
@@ -25,7 +25,7 @@ class PrintOrganizations
       puts "#{index}. #{organization.name} (id=#{organization.id})"
 
       users = organization.users
-      puts "  - #{users.count} users (#{users.where(disabled: false).count} enabled, #{users.where(disabled: true).count} disabled)"
+      puts "  - #{users.count} users (#{users.where(disabled_at: nil).count} enabled, #{users.where.not(disabled_at: nil).count} disabled)"
 
       organization.okr_periods.each do |okr_period|
         objective_count = okr_period.objectives.count

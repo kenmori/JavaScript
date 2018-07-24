@@ -21,7 +21,7 @@ class PrintUsers
     organization.users.each do |user|
       index += 1
       created_at = ", created at #{user.created_at.strftime('%Y-%m-%d')}"
-      disabled_at = user.disabled ? ", disabled (updated) at #{user.updated_at.strftime('%Y-%m-%d')}" : ''
+      disabled_at = user.disabled ? ", disabled at #{user.disabled_at.strftime('%Y-%m-%d')}" : ''
       puts "#{index}. #{user.email}#{created_at}#{disabled_at}"
     end
     puts ''
