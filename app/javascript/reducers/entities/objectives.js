@@ -13,6 +13,13 @@ function merge(state, { payload }) {
   );
 }
 
+function resetParentKeyResult(state, removedKeyResultId) {
+  // 上位 KR = 削除した KR な下位 O がある場合は上位 KR を null にリセットする (孤立 O になる) 
+  const childObjectives = state.filter(objective => objective.get('parentKeyResultId') === removedKeyResultId)
+  return childObjectives.isEmpty() ? state
+    : state.merge(childObjectives.map(objective => objective.set('parentKeyResultId', null)))
+}
+
 export default handleActions({
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
@@ -26,13 +33,15 @@ export default handleActions({
     },
     [ActionTypes.ADDED_KEY_RESULT]: merge,
     [ActionTypes.UPDATED_KEY_RESULT]: merge,
-    [ActionTypes.REMOVED_KEY_RESULT]: merge,
+    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+      state = merge(state, { payload })
+      const keyResultId = payload.get('result').first()
+      return resetParentKeyResult(state, keyResultId)
+    },
     [ActionTypes.REMOVED_KEY_RESULT_IDS]: (state, { payload }) => {
       const { keyResultIds } = payload
-      // 上位 KR = 削除した KR な下位 O がある場合は上位 KR を null にリセットする 
-      const childObjectives = state.filter(objective => keyResultIds.includes(objective.get('parentKeyResultId')))
-      return childObjectives.isEmpty() ? state
-        : state.merge(childObjectives.map(objective => objective.set('parentKeyResultId', null)))
+      keyResultIds.forEach(keyResultId => state = resetParentKeyResult(state, keyResultId))
+      return state
     },
   },
   Map()
