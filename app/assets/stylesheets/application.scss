@@ -14,7 +14,6 @@
  */
 @import 'variable';
 
-@import url(//mplus-fonts.osdn.jp/webfonts/general-j/mplus_webfonts.css);
 @import url(//cdnjs.cloudflare.com/ajax/libs/react-datepicker/0.60.2/react-datepicker.min.css);
 @import '~semantic-ui-css/semantic.min';
 
@@ -52,7 +51,9 @@
 
 body {
   margin: 0;
-  font-family: 'M+ Type-1 (general-j) Regular', sans-serif;
+  font-family: Lato, 游ゴシック体, YuGothic, 游ゴシック, 'Yu Gothic', メイリオ, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-weight: 500;
+
   > div#body {
     height: 100%;
 
