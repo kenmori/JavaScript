@@ -14,8 +14,8 @@
  */
 @import 'variable';
 
-@import url(//cdnjs.cloudflare.com/ajax/libs/react-datepicker/0.60.2/react-datepicker.min.css);
 @import '~semantic-ui-css/semantic.min';
+@import '~react-datepicker/dist/react-datepicker.min';
 
 @import 'pages/account_setting_tab';
 @import 'pages/okr_period_setting_tab';
