@@ -19,15 +19,11 @@
 .byebug_history
 /public/packs
 /public/assets/
-/node_modules
 
 .idea/*
 
 # Ignore encrypted secrets key file.
 config/secrets.yml.key
-/public/packs
-/public/packs-test
-/node_modules
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
