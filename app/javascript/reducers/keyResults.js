@@ -102,7 +102,7 @@ export default handleActions({
       const keyResultId = payload.get('result').first();
       return removeAll(state, keyResultId);
     },
-    [ActionTypes.REMOVED_KEY_RESULT_IDS]: (state, { payload }) => {
+    [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
       const { keyResultIds } = payload
       keyResultIds.forEach(keyResultId => state = removeAll(state, keyResultId))
       return state

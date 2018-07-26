@@ -46,7 +46,7 @@ export default handleActions({
       const { keyResultId, removedMemberId } = payload
       return resetParentKeyResult(state, keyResultId, removedMemberId)
     },
-    [ActionTypes.REMOVED_KEY_RESULT_IDS]: (state, { payload }) => {
+    [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
       const { keyResultIds } = payload
       keyResultIds.forEach(keyResultId => state = resetParentKeyResult(state, keyResultId))
       return state
