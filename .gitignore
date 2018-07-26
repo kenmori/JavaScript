@@ -35,3 +35,6 @@ config/secrets.yml.key
 !.elasticbeanstalk/*.global.yml
 
 package-lock.json
+
+# Environment normalization
+/vendor/bundle
