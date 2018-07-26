@@ -13,9 +13,13 @@ function merge(state, { payload }) {
   );
 }
 
-function resetParentKeyResult(state, removedKeyResultId) {
+function resetParentKeyResult(state, removedKeyResultId, removedMemberId = null) {
   // 上位 KR = 削除した KR な下位 O がある場合は上位 KR を null にリセットする (孤立 O になる) 
-  const childObjectives = state.filter(objective => objective.get('parentKeyResultId') === removedKeyResultId)
+  const childObjectives = state.filter(objective => {
+    // 上位 KR が削除されたか (関係者削除時は、さらに上位 KR 関係者 = 下位 O 責任者か)
+    const isRemoved = objective.get('parentKeyResultId') === removedKeyResultId
+    return isRemoved && (removedMemberId ? objective.get('owner').get('id') === removedMemberId : true)
+  })
   return childObjectives.isEmpty() ? state
     : state.merge(childObjectives.map(objective => objective.set('parentKeyResultId', null)))
 }
@@ -37,6 +41,10 @@ export default handleActions({
       state = merge(state, { payload })
       const keyResultId = payload.get('result').first()
       return resetParentKeyResult(state, keyResultId)
+    },
+    [ActionTypes.REMOVED_KEY_RESULT_MEMBER]: (state, { payload }) => {
+      const { keyResultId, removedMemberId } = payload
+      return resetParentKeyResult(state, keyResultId, removedMemberId)
     },
     [ActionTypes.REMOVED_KEY_RESULT_IDS]: (state, { payload }) => {
       const { keyResultIds } = payload
