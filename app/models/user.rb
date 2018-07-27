@@ -57,6 +57,10 @@ class User < ApplicationRecord
     !!disabled_at
   end
 
+  def sign_in_at
+    current_sign_in_at # 注：last_sign_in_at は最終1つ前のログイン日時
+  end
+
   # Override devise notification method
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later

@@ -91,7 +91,7 @@ class UsersTable extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('isOwner')} onClick={this.handleSort('isOwner')}>
                 代表者
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={this.isSorted('lastSignInAt')} onClick={this.handleSort('lastSignInAt')}>
+              <Table.HeaderCell sorted={this.isSorted('signInAt')} onClick={this.handleSort('signInAt')}>
                 最終ログイン
               </Table.HeaderCell>
               <Table.HeaderCell disabled />

@@ -13,7 +13,7 @@ json.organization do
     # TODO: partial! が激遅なのでインライン展開する
     # json.partial! 'users/user', collection: @organization.users, as: :user
     json.array! @organization.users do |user|
-      json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled, :last_sign_in_at
+      json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled, :sign_in_at
       json.email user.unconfirmed_email || user.email
       json.is_confirming !user.confirmed? || user.unconfirmed_email
       json.is_admin user.admin?
