@@ -6,6 +6,12 @@
 
 .okr-period-add-form {
   display: flex;
-  justify-content: space-evenly;
   align-items: baseline;
+
+  &.ui.form {
+    .field, .fields {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
 }
