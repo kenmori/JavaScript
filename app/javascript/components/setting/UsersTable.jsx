@@ -91,6 +91,9 @@ class UsersTable extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('isOwner')} onClick={this.handleSort('isOwner')}>
                 代表者
               </Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('lastSignInAt')} onClick={this.handleSort('lastSignInAt')}>
+                最終ログイン
+              </Table.HeaderCell>
               <Table.HeaderCell disabled />
             </Table.Row>
           </Table.Header>
@@ -112,7 +115,7 @@ class UsersTable extends SortableComponent {
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan='7' textAlign='right'>
+              <Table.HeaderCell colSpan='8' textAlign='right'>
                 {totalPages > 0 && (
                   <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
                               prevItem={activePage === 1 ? null : undefined}

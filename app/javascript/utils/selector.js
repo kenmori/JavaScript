@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import moment from 'moment/moment'
 import {
   denormalizeObjective, denormalizeDeepObjective,
   denormalizeObjectives, denormalizeKeyResults,
@@ -18,6 +19,7 @@ const getUsersForSetting = createSelector(
     user.set('index', index + 1)
       .set('isOwner', user.get('id') === ownerId)
       .set('searchText', `${user.get('firstName')} ${user.get('lastName')} ${user.get('email')}`.toLowerCase())
+      .update('lastSignInAt', lastSignInAt => lastSignInAt ? moment(lastSignInAt).format('YYYY/M/D H:mm') : 'なし')
   )
 )
 
