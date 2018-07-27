@@ -43,7 +43,6 @@ class SettingsPage extends PureComponent {
       <div className='settings-page'>
         <MenuBar/>
         <main>
-          <h2>設定</h2>
           <Tab activeIndex={activeIndex} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange}/>
         </main>
         <AvatarModal/>
