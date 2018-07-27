@@ -1,10 +1,10 @@
 class PrintOrganizations
   def self.execute
     enabled_user_count = User.where(disabled_at: nil).count
-    active_user_count_last_month = User.where(current_sign_in_at: 1.month.ago..Date.today).count
-    active_user_count_last_week = User.where(current_sign_in_at: 1.week.ago..Date.today).count
-    new_user_count_last_month = User.where(created_at: 1.month.ago..Date.today).count
-    new_user_count_last_week = User.where(created_at: 1.week.ago..Date.today).count
+    active_user_count_last_month = User.where(current_sign_in_at: 1.month.ago..Time.current).count
+    active_user_count_last_week = User.where(current_sign_in_at: 1.week.ago..Time.current).count
+    new_user_count_last_month = User.where(created_at: 1.month.ago..Time.current).count
+    new_user_count_last_week = User.where(created_at: 1.week.ago..Time.current).count
     active_user_rate_last_month = (active_user_count_last_month * 100.0 / enabled_user_count).round(1)
     active_user_rate_last_week = (active_user_count_last_week * 100.0 / enabled_user_count).round(1)
     new_user_rate_last_month = (new_user_count_last_month * 100.0 / enabled_user_count).round(1)
