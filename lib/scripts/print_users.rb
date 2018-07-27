@@ -21,8 +21,9 @@ class PrintUsers
     organization.users.each do |user|
       index += 1
       created_at = ", created at #{user.created_at.strftime('%Y-%m-%d')}"
+      sign_in_at = user.sign_in_at ? ", sign in at #{user.sign_in_at.strftime('%Y-%m-%d %H:%M')}" : ''
       disabled_at = user.disabled ? ", disabled at #{user.disabled_at.strftime('%Y-%m-%d')}" : ''
-      puts "#{index}. #{user.email}#{created_at}#{disabled_at}"
+      puts "#{index}. #{user.email}#{created_at}#{sign_in_at}#{disabled_at}"
     end
     puts ''
     puts 'Done.'
