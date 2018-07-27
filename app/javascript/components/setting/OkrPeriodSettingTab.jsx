@@ -27,7 +27,7 @@ class OkrPeriodSettingTab extends SortableComponent {
     const { okrPeriodId } = this.props
     const { okrPeriods } = this.state
     return (
-      <Tab.Pane attached={false} className="okr-period-setting-tab">
+      <Tab.Pane className="okr-period-setting-tab">
         <OkrPeriodAddForm />
 
         <Divider />

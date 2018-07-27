@@ -55,7 +55,7 @@ class AccountSettingTab extends PureComponent {
     const { loginUser } = this.props
     const { email } = this.state
     return (
-      <Tab.Pane attached={false} className="account-setting-tab">
+      <Tab.Pane className="account-setting-tab">
         <dl>
           <dt>名前</dt>
           <dd>

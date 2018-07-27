@@ -22,7 +22,7 @@ class UserSettingTab extends PureComponent {
   render() {
     const { enabledUsers, disabledUsers } = this.props
     return (
-      <Tab.Pane attached={false} className="user-setting-tab">
+      <Tab.Pane className="user-setting-tab">
         <UserAddForm addUser={this.props.addUser} confirm={this.props.confirm} />
 
         <Divider />

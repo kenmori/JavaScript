@@ -125,15 +125,7 @@ a.active {
 }
 
 .setting-tabs {
-  .tab {
-    border: none;
-  }
-}
-
-.setting-tabs > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0 16px 16px;
 }
 
 #console {

@@ -34,7 +34,7 @@ class OrganizationSettingTab extends PureComponent {
     const path = organization.get('logo').get('url');
     const okrSpan = organization.get('okrSpan');
     return (
-      <Tab.Pane attached={false} className="organization-setting-tab">
+      <Tab.Pane className="organization-setting-tab">
         <dl>
           <dt>組織名</dt>
           <dd><AutoInput value={organization.get('name')} placeholder='会社名やチーム名など' onCommit={this.handleNameCommit}/></dd>
