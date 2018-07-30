@@ -11,7 +11,9 @@ import Logo from './util/Logo';
 class MenuBar extends PureComponent {
 
   componentDidMount() {
-    this.props.fetchOrganization(this.props.organizationId)
+    if (!this.props.isFetchedOrganization) {
+      this.props.fetchOrganization(this.props.organizationId)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
