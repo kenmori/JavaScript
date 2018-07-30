@@ -61,9 +61,7 @@ class AccountSettingTab extends PureComponent {
         <dl>
           <dt>名前</dt>
           <dd>
-            <span style={{marginRight: '5px'}}>
-              <AutoInput value={loginUser.get('lastName')} onCommit={this.handleLastNameCommit}/>
-            </span>
+            <AutoInput value={loginUser.get('lastName')} onCommit={this.handleLastNameCommit}/>
             <AutoInput value={loginUser.get('firstName')} onCommit={this.handleFistNameCommit}/>
           </dd>
 
@@ -80,18 +78,13 @@ class AccountSettingTab extends PureComponent {
         </dl>
 
         <dl>
-          <dt>パスワード</dt>
-          <dd>
-            <dl>
-              <dt>現在のパスワード</dt>
-              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node; }}/></dd>
-              <dt>新しいパスワード</dt>
-              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node; }}/></dd>
-              <dt>新しいパスワード (確認用)</dt>
-              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node; }}/></dd>
-              <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
-            </dl>
-          </dd>
+          <dt>現在のパスワード</dt>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node; }}/></dd>
+          <dt>新しいパスワード</dt>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node; }}/></dd>
+          <dt>新しいパスワード (確認用)</dt>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node; }}/></dd>
+          <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
         </dl>
       </Tab.Pane>
     );
