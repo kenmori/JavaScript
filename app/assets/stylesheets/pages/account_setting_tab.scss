@@ -1,4 +1,13 @@
 .account-setting-tab {
+  &.ui.tab.active {
+    display: inline-flex;
+  }
+  dl {
+    margin-left: 16px;
+  }
+  dl + dl {
+    margin-left: 60px;
+  }
   dt {
     font-weight: bold;
   }

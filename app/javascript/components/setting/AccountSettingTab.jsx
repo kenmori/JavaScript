@@ -82,7 +82,9 @@ class AccountSettingTab extends PureComponent {
           <dd>
 
           </dd>
+        </dl>
 
+        <dl>
           <dt>パスワード</dt>
           <dd>
             <dl>
