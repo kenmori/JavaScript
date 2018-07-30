@@ -13,28 +13,7 @@
     margin-bottom: 2em;
   }
 
-  .logo-img-button {
-    margin-top: 20px;
-    position: relative;
-  }
-  .file-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 98px;
-    height: 36px;
-    cursor: pointer;
-    border-radius: 3px;
-    &:hover {
-      opacity: .1;
-      background: #000;
-    }
-    &:active {
-      opacity: .15;
-      background: #000;
-    }
-  }
-  .change-button {
+  .file-input {
+    display: none;
   }
 }

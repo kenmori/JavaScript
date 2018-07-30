@@ -44,6 +44,8 @@ class AccountSettingTab extends PureComponent {
     event.target.value = null;
   }
 
+  clickFileInput = () => this.refs.fileInput.click()
+
   deleteAvatar = () => {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
@@ -71,16 +73,9 @@ class AccountSettingTab extends PureComponent {
           <dt>アバター</dt>
           <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
           <dd>
-            <div className="avatar-img-button">
-              <label className="file-button">
-                <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
-              </label>
-              <Button className="change-button" content="変更する" positive />
-              {loginUser.get('avatarUrl') && <Button className="change-button" content="削除する" negative onClick={this.deleteAvatar} />}
-            </div>
-          </dd>
-          <dd>
-
+            <input type="file" className="file-input" ref="fileInput" onChange={this.changeAvatarImage} />
+            <Button content="変更する" positive onClick={this.clickFileInput} />
+            {loginUser.get('avatarUrl') && <Button content="削除する" negative onClick={this.deleteAvatar} />}
           </dd>
         </dl>
 
