@@ -16,6 +16,8 @@ const actions = createActions({
   [actionTypes.REMOVE_KEY_RESULT]: id => ({ id }),
   [actionTypes.REMOVED_KEY_RESULT]: keyResult => normalizeKeyResult(keyResult),
   [actionTypes.REMOVED_KEY_RESULT_MEMBER]: (keyResultId, removedMemberId) => ({ keyResultId, removedMemberId }),
+  [actionTypes.DISABLE_KEY_RESULT]: (id, toDisable) => ({ id, toDisable }),
+  [actionTypes.DISABLED_KEY_RESULT]: keyResult => normalizeKeyResult(keyResult),
   [actionTypes.PROCESS_KEY_RESULT]: id => ({ id }),
   [actionTypes.PROCESSED_KEY_RESULT]: id => ({ id }),
 });

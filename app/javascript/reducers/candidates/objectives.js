@@ -21,6 +21,7 @@ export default handleActions({
       const objectiveId = payload.get('result').first();
       return state.delete(objectiveId);
     },
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
   },
   Map(),
 );

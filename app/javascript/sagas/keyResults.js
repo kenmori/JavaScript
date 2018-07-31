@@ -47,6 +47,12 @@ function* removeKeyResult({payload}) {
   yield put(toastActions.showToast('Key Result を削除しました'));
 }
 
+function* disableKeyResult({ payload: { id, toDisable } }) {
+  const result = yield call(API.put, `/key_results/${id}/disable`, { disabled: toDisable })
+  yield put(keyResultActions.disabledKeyResult(result.get('keyResult')))
+  yield put(toastActions.showToast(`Key Result を${toDisable ? '無効化' : '有効化'}しました`))
+}
+
 function* processKeyResult({ payload }) {
   yield call(API.put, `/key_results/${payload.id}/process`, {})
   yield put(keyResultActions.processedKeyResult(payload.id))
@@ -60,6 +66,7 @@ export function *keyResultSagas() {
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),
+    takeLatest(actionTypes.DISABLE_KEY_RESULT, withLoading(disableKeyResult)),
     takeLatest(actionTypes.PROCESS_KEY_RESULT, withLoading(processKeyResult)),
   ]);
 }

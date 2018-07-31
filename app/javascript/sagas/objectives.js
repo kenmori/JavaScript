@@ -180,6 +180,12 @@ function* removeObjective({payload}) {
   yield put(toastActions.showToast('Objective を削除しました'));
 }
 
+function* disableObjective({ payload: { id, toDisable } }) {
+  const result = yield call(API.put, `/objectives/${id}/disable`, { disabled: toDisable })
+  yield put(objectiveActions.disabledObjective(result.get('objective')))
+  yield put(toastActions.showToast(`Objective を${toDisable ? '無効化' : '有効化'}しました`))
+}
+
 export function *objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
@@ -191,5 +197,6 @@ export function *objectiveSagas() {
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
+    takeLatest(actionTypes.DISABLE_OBJECTIVE, withLoading(disableObjective)),
   ]);
 }
