@@ -73,6 +73,19 @@ class KeyResultsController < ApplicationController
     unprocessable_entity_with_errors(@key_result.errors.full_messages)
   end
 
+  def update_disabled
+    @key_result = KeyResult.find(params[:id])
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
+
+    disabled = params[:disabled]
+    if @key_result.update_attribute(:disabled_at, disabled ? Time.current : nil)
+      render action: :create, status: :ok
+    else
+      unprocessable_entity_with_errors(@key_result.errors.full_messages)
+    end
+  end
+
   def destroy
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
