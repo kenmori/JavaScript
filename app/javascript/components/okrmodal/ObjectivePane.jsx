@@ -58,6 +58,17 @@ class ObjectivePane extends PureComponent {
     });
   }
 
+  handleDisableClick = () => {
+    const { objective, disableObjective, confirm } = this.props
+    const isDisabled = objective.get('disabled')
+    const message = `Objective "${objective.get('name')}" を${isDisabled ? '有効化' : '無効化'}しますか？`
+    const hasChild = objective.get('keyResults').some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
+    confirm({
+      content: hasChild ? `Key Result に下位 Objective が紐付いています。${message}` : message,
+      onConfirm: () => disableObjective(objective),
+    })
+  }
+
   subProgressRateHtml(objective) {
     const progressRate = objective.get('progressRate')
     const subProgressRate = objective.get('subProgressRate')
@@ -94,6 +105,7 @@ class ObjectivePane extends PureComponent {
     const objective = this.props.objective;
     if (!objective) return null;
     const { progressRate } = this.state
+    const isDisabled = objective.get('disabled')
     return (
       <Form>
         <Form.Field>
@@ -142,6 +154,14 @@ class ObjectivePane extends PureComponent {
 
         <div>
           <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
+          <Button
+            icon={isDisabled ? 'undo' : 'dont'}
+            content={isDisabled ? '有効化する' : '無効化する'}
+            onClick={this.handleDisableClick}
+            as="span"
+            negative={!isDisabled}
+            floated='right'
+          />
         </div>
 
         <Divider hidden clearing />
@@ -152,6 +172,7 @@ class ObjectivePane extends PureComponent {
 
 ObjectivePane.propTypes = {
   // container
+  disableObjective: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,

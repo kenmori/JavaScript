@@ -98,6 +98,17 @@ class KeyResultPane extends PureComponent {
       onConfirm: () => this.props.removeKeyResult(this.props.keyResult.get('id')),
     });
   }
+
+  handleDisableClick = () => {
+    const { keyResult, disableKeyResult, confirm } = this.props
+    const isDisabled = keyResult.get('disabled')
+    const message = `Key Result "${keyResult.get('name')}" を${isDisabled ? '有効化' : '無効化'}しますか？`
+    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
+    confirm({
+      content: hasChild ? `下位 Objective が紐付いています。${message}` : message,
+      onConfirm: () => disableKeyResult(keyResult),
+    })
+  }
   
   subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate');
@@ -119,6 +130,7 @@ class KeyResultPane extends PureComponent {
     const keyResult = this.props.keyResult;
     const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner;
     const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
+    const isDisabled = keyResult.get('disabled')
     return (
       <Form>
         <Form.Field>
@@ -250,6 +262,14 @@ class KeyResultPane extends PureComponent {
 
         <div>
           <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
+          <Button
+            icon={isDisabled ? 'undo' : 'dont'}
+            content={isDisabled ? '有効化する' : '無効化する'}
+            onClick={this.handleDisableClick}
+            as="span"
+            negative={!isDisabled}
+            floated='right'
+          />
           <Button content="下位 OKR を作成する" onClick={this.handleCreateClick} as="span" positive floated='right' />
         </div>
 
@@ -262,6 +282,7 @@ class KeyResultPane extends PureComponent {
 KeyResultPane.propTypes = {
   // container
   isKeyResultOwner: PropTypes.bool.isRequired,
+  disableKeyResult: PropTypes.func.isRequired,
   // component
   keyResult: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,
