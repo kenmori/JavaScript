@@ -98,4 +98,8 @@ class KeyResult < ApplicationRecord
       errors.add(:expired_date, "の値が不正です")  
     end
   end
+
+  def disabled
+    !!disabled_at
+  end
 end

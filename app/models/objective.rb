@@ -55,4 +55,8 @@ class Objective < ApplicationRecord
     # KR 一覧を key_result_order 順に並べる (順番のない KR は後ろに並べていく)
     key_results.sort_by { |key_result| order.index(key_result.id) || index + 1 }
   end
+
+  def disabled
+    !!disabled_at
+  end
 end
