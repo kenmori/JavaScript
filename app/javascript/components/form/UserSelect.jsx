@@ -10,10 +10,11 @@ class UserSelect extends PureComponent {
   userOptions = () => {
     return this.props.users.map(user => {
       const fullName = `${user.get('lastName')} ${user.get('firstName')}`
+      const isDisabled = user.get('disabled')
       return {
         key: user.get('id'),
         value: user.get('id'),
-        text: fullName,
+        text: (isDisabled ? '[無効] ' : '') + fullName,
         image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
         searchtext: `${fullName} ${user.get('email')}`.toLowerCase(),
       }

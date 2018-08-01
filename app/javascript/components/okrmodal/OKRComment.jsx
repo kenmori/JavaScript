@@ -5,6 +5,7 @@ import { Form, Icon, Button, TextArea, Divider, Comment } from 'semantic-ui-reac
 import AutoTextArea from '../form/AutoTextArea';
 import moment from 'moment';
 import avatar_image from '../../images/avatar.png';
+import UserName from '../util/UserName'
 
 class OKRComment extends Component {
 
@@ -19,12 +20,13 @@ class OKRComment extends Component {
   commentText() {
     const user = this.props.item.get('user')
     const avatarUrl = user ? user.get('avatarUrl') : null
+    const isDisabled = user.get('disabled')
     return (
       <Comment.Group className='okr-comment'>
         <Comment>
-          <Comment.Avatar src={avatarUrl || avatar_image} className='avatar__inner'/>
+          <Comment.Avatar src={avatarUrl || avatar_image} className={isDisabled ? 'disabled' : ''} />
           <Comment.Content>
-            <Comment.Author as='span'>{`${user.get('lastName')} ${user.get('firstName')}`}</Comment.Author>
+            <Comment.Author><UserName user={user} /></Comment.Author>
             <Comment.Metadata>
               <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')} {this.props.item.get('isEdited') ? '(編集済)' : null}</div>
             </Comment.Metadata>

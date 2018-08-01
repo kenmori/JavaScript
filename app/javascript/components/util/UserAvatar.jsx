@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Popup, Icon } from 'semantic-ui-react';
 import Avatar from './Avatar';
+import UserName from './UserName'
 
 const sizeToIconSize = {
   mini: 'small',
@@ -39,7 +40,7 @@ class UserAvatar extends PureComponent {
   }
 
   popupContent = () => {
-    return `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
+    return <UserName user={this.props.user} />
   }
 
   render() {
