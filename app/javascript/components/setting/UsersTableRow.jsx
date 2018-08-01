@@ -76,14 +76,15 @@ class UsersTableRow extends PureComponent {
         </Table.Cell>
         <Table.Cell>{user.get('signInAt')}</Table.Cell>
         <Table.Cell textAlign="center">
-          {disabled
-            ? <Button icon='undo' content='有効化する' onClick={this.handleDisableClick} />
-            : (
-              <div className={isLoginUser ? 'disabled-box' : ''}>
-                <Button icon='dont' content='無効化する' negative onClick={this.handleDisableClick} disabled={isLoginUser} />
-              </div>
-            )
-          }
+          <div className={isLoginUser ? 'disabled-box' : ''}>
+            <Button
+              icon={disabled ? 'undo' : 'dont'}
+              content={disabled ? '有効化する' : '無効化する'}
+              negative={!disabled}
+              onClick={this.handleDisableClick}
+              disabled={isLoginUser}
+            />
+          </div>
         </Table.Cell>
       </Table.Row>
     );
