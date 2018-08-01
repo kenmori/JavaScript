@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import UserAvatar from 'react-user-avatar';
 import { Icon } from 'semantic-ui-react';
 import avatar_image from '../../images/avatar.png';
+import UserName from './UserName'
 
 const sizeToNum = {
   mini: 18,
@@ -30,7 +31,6 @@ class Avatar extends PureComponent {
     let name = this.props.user.get('lastName');
     let path = this.props.user.get('avatarUrl');
     const size = this.props.size;
-    const fullName = `${this.props.user.get('lastName')} ${this.props.user.get('firstName')}`;
     const disabled = this.props.user.get('disabled');
 
     if (size === 'tiny' || size === 'mini') {
@@ -49,7 +49,7 @@ class Avatar extends PureComponent {
                     color='transparent'
         />
         {disabled && <Icon disabled name='dont' size={sizeToIconSize[this.props.size]} />}
-        {this.props.withName && <span className='avatar__name'>{disabled ? `${fullName} (無効)` : fullName}</span>}
+        {this.props.withName && <span className='avatar__name'><UserName user={this.props.user} /></span>}
       </div>
     );
   }
