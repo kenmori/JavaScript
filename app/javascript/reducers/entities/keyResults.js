@@ -13,6 +13,10 @@ function merge(state, { payload }) {
   );
 }
 
+function remove(state, keyResultId) {
+  return state.delete(keyResultId)
+}
+
 export default handleActions({
     [ActionTypes.FETCHED_KEY_RESULTS]: merge,
     [ActionTypes.FETCHED_TASK_KEY_RESULTS]: merge,
@@ -21,7 +25,12 @@ export default handleActions({
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       state = merge(state, { payload });
       const keyResultId = payload.get('result').first();
-      return state.delete(keyResultId);
+      return remove(state, keyResultId);
+    },
+    [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
+      const { keyResultIds } = payload
+      keyResultIds.forEach(keyResultId => state = remove(state, keyResultId))
+      return state
     },
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,

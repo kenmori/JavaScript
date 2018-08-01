@@ -16,7 +16,6 @@ import Loading from '../containers/Loading';
 import Toast from '../containers/Toast';
 import ErrorModal from '../containers/ErrorModal';
 import ConfirmModal from '../containers/ConfirmModal';
-import OptionModal from '../containers/OptionModal'
 
 const store = configureStore();
 history.listen((location, action) => {
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <Toast />
         <ErrorModal />
         <ConfirmModal />
-        <OptionModal />
       </div>
     </Provider>,
     document.body.appendChild(bodyElement),

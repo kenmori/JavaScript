@@ -173,8 +173,12 @@ function* updateObjective({payload}) {
 }
 
 function* removeObjective({payload}) {
+  const keyResultIds = yield select(state => state.entities.objectives.get(payload.id).get('keyResultIds'))
   const result = yield call(API.delete, '/objectives/' + payload.id);
   yield put(objectiveActions.removedObjective(result.get('objective')));
+  if (!keyResultIds.isEmpty()) {
+    yield put(objectiveActions.removedObjectiveKeyResults(keyResultIds))
+  }
   yield put(toastActions.showToast('Objective を削除しました'));
 }
 

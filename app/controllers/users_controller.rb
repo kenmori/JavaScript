@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    if @user.update_attribute(:disabled, true)
+    if @user.update_attribute(:disabled_at, Time.current)
       render action: :show, status: :ok
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    if @user.update_attribute(:disabled, false)
+    if @user.update_attribute(:disabled_at, nil)
       render action: :show, status: :ok
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)

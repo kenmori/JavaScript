@@ -31,6 +31,12 @@ function removeFromTask(state, keyResultId) {
   return state.update('taskIds', ids => ids.filter(id => id !== keyResultId))
 }
 
+function removeAll(state, keyResultId) {
+  state = removeFromCandidates(state, keyResultId)
+  state = removeFromTask(state, keyResultId)
+  return remove(state, keyResultId)
+}
+
 function removeParentFromTask(state, payload) {
   const objectiveId = payload.get('result').first()
   const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`])
@@ -94,9 +100,12 @@ export default handleActions({
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
       const keyResultId = payload.get('result').first();
-      state = removeFromCandidates(state, keyResultId);
-      state = removeFromTask(state, keyResultId)
-      return remove(state, keyResultId);
+      return removeAll(state, keyResultId);
+    },
+    [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
+      const { keyResultIds } = payload
+      keyResultIds.forEach(keyResultId => state = removeAll(state, keyResultId))
+      return state
     },
     [ActionTypes.PROCESSED_KEY_RESULT]: (state, { payload }) => {
       return removeFromTask(state, payload.id)

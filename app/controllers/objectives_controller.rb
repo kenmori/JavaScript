@@ -94,7 +94,7 @@ class ObjectivesController < ApplicationController
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
     forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
-    if can_delete? && @objective.destroy
+    if @objective.destroy
       render action: :create, status: :ok
     else
       unprocessable_entity_with_errors(@objective.errors.full_messages)
@@ -112,12 +112,6 @@ class ObjectivesController < ApplicationController
     return true if valid_user?(parent_key_result.owner.id)
     return true if parent_key_result.key_result_members.exists?(user_id: current_user.id)
 
-    return false
-  end
-
-  def can_delete?
-    return true if @objective.key_results.empty?
-    @objective.errors[:base] << 'Key Result が紐付いているため削除できません'
     return false
   end
 

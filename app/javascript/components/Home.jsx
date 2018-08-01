@@ -6,6 +6,7 @@ import Dashboard from '../containers/Dashboard';
 import KeyResultModal from '../containers/KeyResultModal';
 import ObjectiveModal from '../containers/ObjectiveModal';
 import OkrModal from '../containers/OkrModal';
+import OptionModal from '../containers/OptionModal'
 
 class Home extends PureComponent {
 
@@ -42,6 +43,7 @@ class Home extends PureComponent {
           <KeyResultModal/>
           <ObjectiveModal/>
           <OkrModal/>
+          <OptionModal />
         </main>
       </div>
     );

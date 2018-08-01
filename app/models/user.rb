@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :require_password, :skip_notification
+  attr_reader :require_password, :skip_notification
 
   before_create do
     skip_confirmation_notification! if skip_notification
@@ -51,6 +51,14 @@ class User < ApplicationRecord
 
   def inactive_message
     disabled ? :disabled : super
+  end
+
+  def disabled
+    !!disabled_at
+  end
+
+  def sign_in_at
+    current_sign_in_at # 注：last_sign_in_at は最終1つ前のログイン日時
   end
 
   # Override devise notification method

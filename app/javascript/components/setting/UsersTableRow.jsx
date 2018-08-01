@@ -68,6 +68,7 @@ class UsersTableRow extends PureComponent {
             disabled={disabled}
           />
         </Table.Cell>
+        <Table.Cell>{user.get('signInAt')}</Table.Cell>
         <Table.Cell textAlign="center">
           {disabled
             ? <Button icon='undo' content='有効化する' onClick={this.handleRestoreClick(user)} />

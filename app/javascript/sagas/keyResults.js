@@ -31,9 +31,13 @@ function* addKeyResult({ payload }) {
 }
 
 function* updateKeyResult({payload}) {
-  const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
+  const { keyResult } = payload
+  const result = yield call(API.put, '/key_results/' + keyResult.id, { keyResult });
   const currentUserId = yield select(state => state.current.get('userId'));
   yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), currentUserId));
+  if (keyResult.member && keyResult.member.behavior === 'remove') {
+    yield put(keyResultActions.removedKeyResultMember(keyResult.id, keyResult.member.user))
+  }
   yield put(toastActions.showToast('Key Result を更新しました'));
 }
 

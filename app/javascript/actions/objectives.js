@@ -21,6 +21,7 @@ const actions = createActions({
   [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
   [actionTypes.REMOVE_OBJECTIVE]: id => ({ id }),
   [actionTypes.REMOVED_OBJECTIVE]: objective => normalizeObjective(objective),
+  [actionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: keyResultIds => ({ keyResultIds }),
 });
 
 export default actions;

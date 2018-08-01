@@ -51,7 +51,7 @@ class CreateUsers
               last_name: name,
               email: "#{name}#{index}@example.com",
               password: 'Pass0123',
-              confirmed_at: Time.now,
+              confirmed_at: Time.current,
           )
         end
         disabled_number.times do |i|
@@ -61,8 +61,8 @@ class CreateUsers
               last_name: name,
               email: "#{name}#{index}@example.com",
               password: 'Pass0123',
-              disabled: true,
-              confirmed_at: Time.now,
+              disabled_at: Time.current,
+              confirmed_at: Time.current,
               )
         end
       end

@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import {Dropdown, Menu, Icon} from 'semantic-ui-react';
@@ -10,7 +11,9 @@ import Logo from './util/Logo';
 class MenuBar extends PureComponent {
 
   componentDidMount() {
-    this.props.fetchOrganization(this.props.organizationId)
+    if (!this.props.isFetchedOrganization) {
+      this.props.fetchOrganization(this.props.organizationId)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,7 +91,7 @@ class MenuBar extends PureComponent {
         <Menu.Item position='right'>
           <Dropdown trigger={this.userTrigger(this.props.loginUser)} pointing='top right'>
             <Dropdown.Menu>
-              <Dropdown.Item as='a' href='/settings/account' icon='setting' text='設定'/>
+              <Dropdown.Item as={Link} to='/settings/account' icon='setting' text='設定'/>
               <Dropdown.Item as='a' href='https://help.resily.com/' target='_blank' icon='help circle' text='ヘルプ'/>
               <Dropdown.Item onClick={this.props.signOut} icon='sign out' text='ログアウト'/>
             </Dropdown.Menu>
