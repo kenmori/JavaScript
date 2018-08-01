@@ -2,12 +2,13 @@ import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label, Popup } from 'semantic-ui-react';
+import { Form, Label } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import NumberInput from '../form/NumberInput'
 import UserSelect from '../form/UserSelect';
 import PopupButton from '../util/PopupButton'
+import PopupLabel from '../util/PopupLabel'
 
 class ObjectivePane extends PureComponent {
 
@@ -75,17 +76,11 @@ class ObjectivePane extends PureComponent {
     const subProgressRate = objective.get('subProgressRate')
     return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
-        <Popup
-          trigger={<Label
-            pointing='left'
-            as='a'
-            icon='unlinkify'
-            content={`Key Result 一覧 の進捗は ${subProgressRate}% です`}
-            onClick={this.handleSubProgressRateClick}
-          />}
-          position='bottom left'
-          size='tiny'
-          content='クリックすると Key Result 一覧の進捗が設定されます'
+        <PopupLabel
+          icon="unlinkify"
+          text={`Key Result 一覧 の進捗は ${subProgressRate}% です`}
+          tips="クリックすると Key Result 一覧の進捗が設定されます"
+          onClick={this.handleSubProgressRateClick}
         />
       </div>
     )

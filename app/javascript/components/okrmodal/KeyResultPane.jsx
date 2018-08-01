@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label, Popup } from 'semantic-ui-react';
+import { Form, Label } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea';
@@ -10,6 +10,7 @@ import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import StatusRadio from '../util/StatusRadio'
 import PopupButton from '../util/PopupButton'
+import PopupLabel from '../util/PopupLabel'
 import moment from 'moment';
 
 class KeyResultPane extends PureComponent {
@@ -116,12 +117,11 @@ class KeyResultPane extends PureComponent {
     const subProgressRate = keyResult.get('subProgressRate');
     return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
-        <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
-                               content={`下位 OKR の進捗は ${subProgressRate}% です`}
-                               onClick={this.handleSubProgressRateClick} />}
-               position='bottom left'
-               size='tiny'
-               content='クリックすると下位 OKR の進捗が設定されます'
+        <PopupLabel
+          icon="unlinkify"
+          text={`下位 OKR の進捗は ${subProgressRate}% です`}
+          tips="クリックすると下位 OKR の進捗が設定されます"
+          onClick={this.handleSubProgressRateClick}
         />
       </div>
     );
