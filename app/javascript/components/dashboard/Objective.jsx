@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { DragSource, DropTarget } from 'react-dnd';
 import { Icon } from 'semantic-ui-react';
 import OkrPieChart from './OkrPieChart';
+import OkrName from '../util/OkrName'
 
 const boxSource = {
   canDrag(props) {
@@ -72,7 +73,7 @@ class Objective extends PureComponent {
         onClick={selectObjective(objective)}
       >
         <div>
-          <div className='name'>{objective.get('name')}</div>
+          <div className='name'><OkrName okr={objective} /></div>
         </div>
         <OkrPieChart objective={objective} />
         {canMoveObjective && (

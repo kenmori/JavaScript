@@ -6,6 +6,7 @@ import { openKeyResult } from '../../utils/linker';
 import { Segment, Icon } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
+import OkrName from '../util/OkrName'
 
 const itemSource = {
   canDrag(props) {
@@ -78,7 +79,7 @@ class KeyResult extends PureComponent {
           onClick={this.handleClick}>
 
           <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
-          <div className="sidebar__name">{keyResult.get('name')}</div>
+          <div className="sidebar__name"><OkrName okr={keyResult} /></div>
           <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} type='label' />
 
           {canMoveKeyResult && (

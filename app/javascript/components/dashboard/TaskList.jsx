@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Table, Button } from 'semantic-ui-react'
 import SortableComponent from '../util/SortableComponent'
 import OwnerAvatar from '../util/OwnerAvatar'
+import OkrName from '../util/OkrName'
 
 class TaskList extends SortableComponent {
 
@@ -47,7 +48,7 @@ class TaskList extends SortableComponent {
                 <Table.Cell textAlign='center'>
                   <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
                 </Table.Cell>
-                <Table.Cell>{keyResult.get('name')}</Table.Cell>
+                <Table.Cell><OkrName okr={keyResult} /></Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
                 <Table.Cell textAlign="center">

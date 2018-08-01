@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { List } from 'semantic-ui-react'
+import OkrName from '../util/OkrName'
 
 class KeyResultSidebar extends PureComponent {
 
@@ -17,7 +18,7 @@ class KeyResultSidebar extends PureComponent {
               <List>
                 <List.Item>
                   <List.Content>
-                    <List.Header>{parentKeyResult.get('name')}</List.Header>
+                    <List.Header><OkrName okr={parentKeyResult} /></List.Header>
                     <List.Description>{parentKeyResult.get('description')}</List.Description>
                   </List.Content>
                 </List.Item>
@@ -31,7 +32,7 @@ class KeyResultSidebar extends PureComponent {
             <List>
               <List.Item>
                 <List.Content>
-                  <List.Header>{objective.get('name')}</List.Header>
+                  <List.Header><OkrName okr={objective} /></List.Header>
                   <List.Description>{objective.get('description')}</List.Description>
                 </List.Content>
               </List.Item>

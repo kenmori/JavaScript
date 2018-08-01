@@ -11,7 +11,7 @@ export const okrOptions = (okrs, withNone) => {
   let options = okrs.map(okr => ({
     key: okr.get('id'),
     value: okr.get('id'),
-    text: okr.get('name'),
+    text: (okr.get('disabled') ? '[無効] ' : '') + okr.get('name'),
     image: { avatar: true, src: okr.get('owner').get('avatarUrl') || avatar_image },
   }));
   if (withNone) { // なしの選択肢を追加

@@ -7,6 +7,7 @@ import { openObjective } from '../../utils/linker';
 import { Segment, Button, Header, Divider } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
+import OkrName from '../util/OkrName'
 import KeyResult from './KeyResult';
 
 class OkrSidebar extends PureComponent {
@@ -51,7 +52,7 @@ class OkrSidebar extends PureComponent {
         <Header as="h4">Objective</Header>
         <Segment className={`sidebar__item ${isSelected ? 'is-current' : ''}`} onClick={this.handleObjectiveClick}>
           <OwnerAvatar owner={objective.get('owner')} />
-          <div className="sidebar__name">{objective.get('name')}</div>
+          <div className="sidebar__name"><OkrName okr={objective} /></div>
           <ProgressRate value={objective.get('progressRate')} type='label' />
         </Segment>
 
