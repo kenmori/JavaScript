@@ -7,6 +7,7 @@ import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import NumberInput from '../form/NumberInput'
 import UserSelect from '../form/UserSelect';
+import PopupButton from '../util/PopupButton'
 
 class ObjectivePane extends PureComponent {
 
@@ -151,7 +152,7 @@ class ObjectivePane extends PureComponent {
         </Form.Field>
 
         <Form.Group className="okr-buttons">
-          <Form.Button content="削除する" onClick={this.handleRemoveClick} negative />
+          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
           <Form.Button
             icon={isDisabled ? 'undo' : 'dont'}
             content={isDisabled ? '有効化する' : '無効化する'}

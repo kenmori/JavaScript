@@ -9,6 +9,7 @@ import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import StatusRadio from '../util/StatusRadio'
+import PopupButton from '../util/PopupButton'
 import moment from 'moment';
 
 class KeyResultPane extends PureComponent {
@@ -257,7 +258,7 @@ class KeyResultPane extends PureComponent {
         </Form.Field>
 
         <Form.Group className="okr-buttons">
-          <Form.Button content="削除する" onClick={this.handleRemoveClick} negative />
+          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
           <Form.Button
             icon={isDisabled ? 'undo' : 'dont'}
             content={isDisabled ? '有効化する' : '無効化する'}
