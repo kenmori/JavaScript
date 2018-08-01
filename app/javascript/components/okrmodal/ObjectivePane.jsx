@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Button, Label, Popup, Divider } from 'semantic-ui-react';
+import { Form, Label, Popup } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import NumberInput from '../form/NumberInput'
@@ -150,21 +150,15 @@ class ObjectivePane extends PureComponent {
           />
         </Form.Field>
 
-        <Divider hidden />
-
-        <div>
-          <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
-          <Button
+        <Form.Group className="okr-buttons">
+          <Form.Button content="削除する" onClick={this.handleRemoveClick} negative />
+          <Form.Button
             icon={isDisabled ? 'undo' : 'dont'}
             content={isDisabled ? '有効化する' : '無効化する'}
             onClick={this.handleDisableClick}
-            as="span"
             negative={!isDisabled}
-            floated='right'
           />
-        </div>
-
-        <Divider hidden clearing />
+        </Form.Group>
       </Form>
     );
   }
