@@ -15,8 +15,7 @@ export default handleActions({
       state.push(payload.user)
     ),
     [ActionTypes.UPDATED_USER]: set,
-    [ActionTypes.REMOVED_USER]: set,
-    [ActionTypes.RESTORED_USER]: set,
+    [ActionTypes.DISABLED_USER]: set,
   },
   fromJS([])
 );

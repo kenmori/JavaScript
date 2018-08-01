@@ -36,9 +36,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: %i[create update destroy] do
+  resources :users, only: %i[create update] do
     member do
-      put 'restore'
+      put 'disable', to: 'users#update_disabled'
       put 'password', to: 'users#update_password'
       put 'current_organization_id', to: 'users#update_current_organization_id'
       put 'resend'

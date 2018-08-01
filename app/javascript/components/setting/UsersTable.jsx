@@ -47,20 +47,6 @@ class UsersTable extends SortableComponent {
     return users.filter(user => user.get('searchText').includes(keyword))
   }
 
-  removeUser = user => {
-    this.props.confirm({
-      content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を無効化しますか？`,
-      onConfirm: () => this.props.onRemove(user.get('id')),
-    });
-  };
-
-  restoreUser = user => {
-    this.props.confirm({
-      content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を有効化しますか？`,
-      onConfirm: () => this.props.onRestore(user.get('id')),
-    });
-  };
-
   handlePageChange = (e, { activePage }) => this.setState({ activePage })
 
   render() {
@@ -104,8 +90,6 @@ class UsersTable extends SortableComponent {
                                     updateUser={this.updateUser(id)}
                                     changeEmail={this.changeEmail(id)}
                                     resendEmail={this.resendEmail}
-                                    removeUser={this.removeUser}
-                                    restoreUser={this.restoreUser}
               />
             })}
           </Table.Body>
@@ -136,8 +120,6 @@ UsersTable.propTypes = {
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
   onResendEmail: PropTypes.func,
-  onRemove: PropTypes.func,
-  onRestore: PropTypes.func,
   confirm: PropTypes.func.isRequired,
   keyword: PropTypes.string.isRequired,
 };
