@@ -18,8 +18,8 @@ class OkrSpanSelect extends PureComponent {
   }
 
   render() {
-    const { value, isForm } = this.props
-    return isForm ? (
+    const { value, inForm } = this.props
+    return inForm ? (
       <Form.Select
         inline
         label="OKR 周期"
@@ -42,12 +42,12 @@ OkrSpanSelect.propTypes = {
   // container
   // component
   value: PropTypes.number,
-  isForm: PropTypes.bool,
+  inForm: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 }
 
 OkrSpanSelect.defaultProps = {
-  isForm: false,
+  inForm: false,
 }
 
 export default OkrSpanSelect
