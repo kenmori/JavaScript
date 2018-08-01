@@ -265,7 +265,7 @@ class KeyResultPane extends PureComponent {
             onClick={this.handleDisableClick}
             negative={!isDisabled}
           />
-          <Form.Button content="下位 OKR を作成する" onClick={this.handleCreateClick} positive />
+          <Form.Button icon="plus" content="下位 OKR を作成する" onClick={this.handleCreateClick} positive />
         </Form.Group>
       </Form>
     );

@@ -74,7 +74,7 @@ class OkrSidebar extends PureComponent {
 
         <Divider hidden />
 
-        <Button fluid positive content="Key Result を追加する" onClick={this.handleAddKeyResultClick} />
+        <Button fluid positive icon="plus" content="Key Result を追加する" onClick={this.handleAddKeyResultClick} />
       </div>
     )
   }
