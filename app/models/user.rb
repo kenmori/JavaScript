@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_reader :require_password, :skip_notification
+  attr_accessor :require_password, :skip_notification
 
   before_create do
     skip_confirmation_notification! if skip_notification
