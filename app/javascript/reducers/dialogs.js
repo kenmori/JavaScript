@@ -41,9 +41,6 @@ export default handleActions({
     [ActionTypes.CLOSE_LOGO_MODAL]: (state) => (
       state.set('logoImage', fromJS({ isOpen: false, imageData: null, targetId: null }))
     ),
-    [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
-      state.set('logoImage', fromJS({ isOpen: false, imageData: null }))
-    ),
     [ActionTypes.OPEN_ERROR_MODAL]: (state, { payload }) => (
       state.set('error', fromJS(payload.params).merge({ isOpen: true }))
     ),

@@ -31,7 +31,7 @@ class LogoModal extends PureComponent {
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
 
-  handleClick = () => this.props.uploadLogoImage(this.props.targetId, this.props.imageData)
+  handleClick = () => this.props.updateLogo(this.props.targetId, this.props.imageData)
 
   render() {
     return (
@@ -62,7 +62,7 @@ LogoModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   imageData: PropTypes.object, // File
   targetId: PropTypes.number,
-  uploadLogoImage: PropTypes.func.isRequired,
+  updateLogo: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   // component
 }
