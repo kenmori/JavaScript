@@ -32,8 +32,7 @@ function* restoreUser({ payload }) {
 }
 
 function* updatePassword({ payload }) {
-  const result = yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
-  yield put(userActions.updatedUser(result));
+  yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
   yield put(toastActions.showToast('パスワードを変更しました', 'success'));
 }
 

@@ -11,7 +11,6 @@ const actions = createActions({
   [actionTypes.RESTORE_USER]: id => ({ id }),
   [actionTypes.RESTORED_USER]: user => ({ user }),
   [actionTypes.UPDATE_PASSWORD]: user => ({ user }),
-  [actionTypes.UPDATED_PASSWORD]: user => ({ user }),
   [actionTypes.UPDATE_AVATAR]: user => ({ user }),
   [actionTypes.UPDATED_AVATAR]: user => ({ user }),
   [actionTypes.UPDATE_EMAIL]: user => ({ user }),

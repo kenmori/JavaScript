@@ -16,7 +16,6 @@ export default handleActions({
     ),
     [ActionTypes.UPDATED_USER]: set,
     [ActionTypes.UPDATED_EMAIL]: set,
-    [ActionTypes.UPDATED_PASSWORD]: set,
     [ActionTypes.UPDATED_AVATAR]: set,
     [ActionTypes.REMOVED_USER]: set,
     [ActionTypes.RESTORED_USER]: set,
