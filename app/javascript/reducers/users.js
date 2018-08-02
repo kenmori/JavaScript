@@ -15,7 +15,6 @@ export default handleActions({
       state.push(payload.user)
     ),
     [ActionTypes.UPDATED_USER]: set,
-    [ActionTypes.UPDATED_AVATAR]: set,
     [ActionTypes.REMOVED_USER]: set,
     [ActionTypes.RESTORED_USER]: set,
   },

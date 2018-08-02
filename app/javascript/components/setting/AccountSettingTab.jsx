@@ -49,7 +49,7 @@ class AccountSettingTab extends PureComponent {
   deleteAvatar = () => {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
-      onConfirm: () => this.props.deleteAvatar({id: this.props.loginUser.get('id'), removeAvatar: true}),
+      onConfirm: () => this.props.deleteAvatar(this.props.loginUser.get('id')),
     });
   }
 

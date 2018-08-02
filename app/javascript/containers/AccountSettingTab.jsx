@@ -23,8 +23,8 @@ const mapDispatchToProps = dispatch => {
     openAvatarModal: (targetId, imageData) => {
       dispatch(dialogActions.openAvatarModal(targetId, imageData));
     },
-    deleteAvatar: user => {
-      dispatch(userActions.updateAvatar(user));
+    deleteAvatar: id => {
+      dispatch(userActions.updateUser({id, removeAvatar: true}));
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));

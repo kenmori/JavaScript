@@ -35,9 +35,6 @@ export default handleActions({
     [ActionTypes.CLOSE_AVATAR_MODAL]: (state) => (
       state.set('avatarImage', fromJS({ isOpen: false, imageData: null, targetId: null }))
     ),
-    [ActionTypes.UPDATED_AVATAR]: (state, { payload }) => (
-      state.set('avatarImage', fromJS({ isOpen: false, imageData: null }))
-    ),
     [ActionTypes.OPEN_LOGO_MODAL]: (state, { payload }) => (
       state.set('logoImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
     ),
