@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import Fetcher from '../../containers/Fetcher'
 import MenuBar from '../../containers/MenuBar';
 import AccountSettingTab from '../../containers/AccountSettingTab'
 import UserSettingTab from '../../containers/UserSettingTab'
@@ -41,6 +42,7 @@ class SettingsPage extends PureComponent {
     const activeIndex = targetPane.id;
     return (
       <div className='settings-page'>
+        <Fetcher />
         <MenuBar/>
         <main>
           <Tab activeIndex={activeIndex} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange}/>

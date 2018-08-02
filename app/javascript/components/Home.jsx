@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
 import { getOkrId } from '../utils/linker';
+import Fetcher from '../containers/Fetcher'
 import MenuBar from '../containers/MenuBar';
 import Dashboard from '../containers/Dashboard';
 import KeyResultModal from '../containers/KeyResultModal';
@@ -37,6 +38,7 @@ class Home extends PureComponent {
   render() {
     return (
       <div className='home'>
+        <Fetcher />
         <MenuBar />
         <main>
           <Dashboard />
