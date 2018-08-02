@@ -13,10 +13,19 @@ function* addUser({ payload }) {
   yield put(toastActions.showToast('ユーザーを追加しました'));
 }
 
-function* updateUser({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
+function* updateUser({ payload: { user } }) {
+  const result = yield call(API.put, '/users/' + user.id, { user });
   yield put(userActions.updatedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザー情報を更新しました'));
+  if (user.email) {
+    yield put(toastActions.showToast('メールアドレスを変更しました', 'success'))
+    // ログインユーザーのメールアドレスを変更した場合はログアウトする
+    const loginUserId = yield select(state => state.loginUser.get('id'))
+    if (user.id === loginUserId) {
+      yield put(deviseActions.signOut())
+    }
+  } else {
+    yield put(toastActions.showToast('ユーザー情報を更新しました'))
+  }
 }
 
 function* removeUser({ payload }) {
@@ -34,18 +43,6 @@ function* restoreUser({ payload }) {
 function* updatePassword({ payload }) {
   yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
   yield put(toastActions.showToast('パスワードを変更しました', 'success'));
-}
-
-function* updateEmail({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result.get('user')));
-  yield put(toastActions.showToast('メールアドレスを変更しました', 'success'));
-
-  // ログインユーザーのメールアドレスを変更した場合はログアウトする
-  const loginUserId = yield select(state => state.loginUser.get('id'))
-  if (payload.user.id === loginUserId) {
-    yield put(deviseActions.signOut())
-  }
 }
 
 function* updateAvatar({ payload }) {
@@ -70,7 +67,6 @@ export function* userSagas() {
     takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
     takeLatest(actionTypes.RESTORE_USER, withLoading(restoreUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
-    takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
     takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
     takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),

@@ -20,7 +20,7 @@ class AccountSettingTab extends PureComponent {
     this.setState({ email })
     this.props.confirm({
       content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
-      onConfirm: () => this.props.updateEmail({ id: this.props.loginUser.get('id'), email }),
+      onConfirm: () => this.props.updateEmail(this.props.loginUser.get('id'), email),
       onCancel: () => this.setState({ email: this.props.loginUser.get('email') }),
     })
   }

@@ -14,8 +14,8 @@ const mapDispatchToProps = dispatch => {
     updateUser: user => {
       dispatch(userActions.updateUser(user));
     },
-    updateEmail: user => {
-      dispatch(userActions.updateEmail(user));
+    updateEmail: (id, email) => {
+      dispatch(userActions.updateUser({ id, email }));
     },
     updatePassword: user => {
       dispatch(userActions.updatePassword(user));
