@@ -1,10 +1,11 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, put, select, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
 import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
+import deviseActions from '../actions/devise'
 
 function* addUser({ payload }) {
   const result = yield call(API.post, '/users', { user: payload.user });
@@ -38,8 +39,14 @@ function* updatePassword({ payload }) {
 
 function* updateEmail({ payload }) {
   const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result.get('user').set('notLogout', payload.user.notLogout)));
+  yield put(userActions.updatedEmail(result.get('user')));
   yield put(toastActions.showToast('メールアドレスを変更しました', 'success'));
+
+  // ログインユーザーのメールアドレスを変更した場合はログアウトする
+  const loginUserId = yield select(state => state.loginUser.get('id'))
+  if (payload.user.id === loginUserId) {
+    yield put(deviseActions.signOut())
+  }
 }
 
 function* updateAvatar({ payload }) {

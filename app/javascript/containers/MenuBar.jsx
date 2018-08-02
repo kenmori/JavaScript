@@ -16,7 +16,6 @@ const mapStateToProps = (state) => {
     users: getEnabledUsers(state),
     organization: state.organizations.get('selected'),
     loginUser: state.loginUser,
-    needLogout: state.devise.get('needLogout'),
   };
 };
 

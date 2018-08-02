@@ -10,12 +10,6 @@ import Logo from './util/Logo';
 
 class MenuBar extends PureComponent {
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.needLogout) {
-      this.props.signOut()
-    }
-  }
-
   userTrigger = loginUser => {
     return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
   }
@@ -104,7 +98,6 @@ MenuBar.propTypes = {
   users: ImmutablePropTypes.list.isRequired,
   organization: ImmutablePropTypes.map.isRequired,
   loginUser: ImmutablePropTypes.map.isRequired,
-  needLogout: PropTypes.bool.isRequired,
   selectUser: PropTypes.func.isRequired,
   selectOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,
