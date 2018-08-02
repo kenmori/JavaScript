@@ -5,28 +5,11 @@ import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import history from '../utils/history';
 
-function* openOkrModal({ payload }) {
-
-  function* fetchObjective(objectiveId, keyResultId) {
-    yield put(objectiveActions.fetchObjective(objectiveId, keyResultId));
-    const action = yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR]);
-    if (action.type === actionTypes.FETCHED_OBJECTIVE) {
-      yield put(dialogActions.openedOkrModal(objectiveId, keyResultId));
-    } else {
-      yield openErrorModal();
-    }
-  }
-
-  function* openErrorModal() {
-    yield put(dialogActions.openErrorModal({
-      message: '指定された OKR は存在しません',
-      onCloseBefore: () => history.push('/'),
-    }));
-  }
-
+function* openOkrModal({ payload: { objectiveId, keyResultId } }) {
   const entities = yield select(state => state.entities);
-  const keyResultId = payload.keyResultId;
-  const objectiveId = keyResultId ? entities.keyResults.getIn([keyResultId, 'objectiveId'], null) : payload.objectiveId;
+  if (keyResultId) {
+    objectiveId = entities.keyResults.getIn([keyResultId, 'objectiveId'], null)
+  }
   if (objectiveId) {
     const hasObjectiveId = entities.objectives.has(objectiveId);
     const hasKeyResultId = entities.keyResults.has(keyResultId);
@@ -44,6 +27,23 @@ function* openOkrModal({ payload }) {
   } else {
     yield openErrorModal();
   }
+}
+
+function* fetchObjective(objectiveId, keyResultId) {
+  yield put(objectiveActions.fetchObjective(objectiveId, keyResultId))
+  const action = yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR])
+  if (action.type === actionTypes.FETCHED_OBJECTIVE) {
+    yield put(dialogActions.openedOkrModal(objectiveId, keyResultId))
+  } else {
+    yield openErrorModal()
+  }
+}
+
+function* openErrorModal() {
+  yield put(dialogActions.openErrorModal({
+    message: '指定された OKR は存在しません',
+    onCloseBefore: () => history.push('/'),
+  }))
 }
 
 export function* dialogSagas() {
