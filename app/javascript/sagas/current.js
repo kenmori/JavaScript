@@ -12,6 +12,14 @@ function* selectOkrPeriod({ payload }) {
   yield put(objectiveActions.fetchOkrs(okrPeriodId, userId))
 }
 
+function* selectOkrPeriodByOkr({ payload: { objectiveId, keyResultId } }) {
+  const okrPeriodId = yield select(state => state.entities.objectives.get(objectiveId).get('okrPeriodId'))
+  yield put(currentActions.selectedOkrPeriod(okrPeriodId))
+
+  const userId = yield select(state => state.current.get('userId'))
+  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId))
+}
+
 function* selectUser({ payload }) {
   const { userId } = payload
   yield put(currentActions.selectedUser(userId))
@@ -106,6 +114,7 @@ function* getChildObjectiveId(keyResultId) {
 export function* currentSagas() {
   yield all([
     takeLatest(ActionTypes.SELECT_OKR_PERIOD, selectOkrPeriod),
+    takeLatest(ActionTypes.SELECT_OKR_PERIOD_BY_OKR, selectOkrPeriodByOkr),
     takeLatest(ActionTypes.SELECT_USER, selectUser),
     takeLatest(ActionTypes.SELECT_OKR, selectOkr),
     takeLatest(ActionTypes.CLEAR_SELECTED_OKR, clearSelectedOkr),

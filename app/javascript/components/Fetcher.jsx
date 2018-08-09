@@ -29,9 +29,16 @@ class Fetcher extends PureComponent {
         }
       }
     } else {
-      if (nextProps.isFetchedOrganization && (!nextProps.okrHash || nextProps.isOpenOkrModal)) {
-        this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
-        this.setState({ isFetchedOkrs: true })
+      if (nextProps.isFetchedOrganization) {
+        if (nextProps.okrHash) {
+          if (nextProps.isOpenOkrModal) {
+            this.props.selectOkrPeriod(nextProps.okrHash)
+            this.setState({ isFetchedOkrs: true })
+          }
+        } else {
+          this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
+          this.setState({ isFetchedOkrs: true })
+        }
       }
     }
   }
@@ -50,6 +57,7 @@ Fetcher.propTypes = {
   isOpenOkrModal: PropTypes.bool.isRequired,
   fetchOrganization: PropTypes.func.isRequired,
   fetchOkrs: PropTypes.func.isRequired,
+  selectOkrPeriod: PropTypes.func.isRequired,
   openOkrModal: PropTypes.func.isRequired,
   closeOkrModal: PropTypes.func.isRequired,
   // component

@@ -2,6 +2,7 @@ import Fetcher from '../components/Fetcher'
 import { connect } from 'react-redux'
 import organizationActions from '../actions/organizations'
 import objectiveActions from '../actions/objectives'
+import currentActions from '../actions/current'
 import dialogActions from '../actions/dialogs'
 import { getOkrId } from '../utils/linker'
 
@@ -22,6 +23,10 @@ const mapDispatchToProps = dispatch => {
     },
     fetchOkrs: (okrPeriodId, userId) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId))
+    },
+    selectOkrPeriod: okrHash => {
+      const { objectiveId, keyResultId } = getOkrId(okrHash)
+      dispatch(currentActions.selectOkrPeriodByOkr(objectiveId, keyResultId))
     },
     openOkrModal: okrHash => {
       const { objectiveId, keyResultId } = getOkrId(okrHash)
