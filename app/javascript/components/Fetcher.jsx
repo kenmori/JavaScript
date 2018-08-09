@@ -36,7 +36,7 @@ class Fetcher extends PureComponent {
             this.setState({ isFetchedOkrs: true })
           }
         } else {
-          this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
+          this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId)
           this.setState({ isFetchedOkrs: true })
         }
       }
