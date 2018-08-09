@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20180731083205) do
     t.boolean "show_member_key_results", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show_disabled_okrs", default: false, null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
