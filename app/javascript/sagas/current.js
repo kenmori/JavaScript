@@ -13,6 +13,9 @@ function* selectOkrPeriod({ payload }) {
 }
 
 function* selectOkrPeriodByOkr({ payload: { objectiveId, keyResultId } }) {
+  if (!objectiveId) {
+    objectiveId = yield select(state => state.entities.keyResults.getIn([keyResultId, 'objectiveId']))
+  }
   const okrPeriodId = yield select(state => state.entities.objectives.get(objectiveId).get('okrPeriodId'))
   yield put(currentActions.selectedOkrPeriod(okrPeriodId))
 
