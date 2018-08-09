@@ -11,30 +11,29 @@ import toastActions from '../actions/toasts';
 import { isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
 
-function* fetchOkrs({ payload }) {
-  let isInitialOkrSelected = false
+function* fetchOkrs({ payload: { okrPeriodId, userId, isOkrPeriodChanged, isInitialOkrSelected } }) {
   const loginUserId = yield select(state => state.loginUser.get('id'))
-  if (payload.isOkrPeriodChanged) {
-    yield put(keyResultActions.fetchTaskKeyResults(payload.okrPeriodId, loginUserId)) // with loading
+  if (isOkrPeriodChanged) {
+    yield put(keyResultActions.fetchTaskKeyResults(okrPeriodId, loginUserId)) // with loading
     yield take(actionTypes.FETCHED_TASK_KEY_RESULTS)
   }
-  if (loginUserId === payload.userId) {
+  if (!isInitialOkrSelected && loginUserId === userId) {
     isInitialOkrSelected = yield selectInitialTaskKeyResult()
   }
-  yield put(objectiveActions.fetchObjectives(payload.okrPeriodId, payload.userId)); // with loading
+  yield put(objectiveActions.fetchObjectives(okrPeriodId, userId)); // with loading
   yield take(actionTypes.FETCHED_OBJECTIVES)
   if (!isInitialOkrSelected) {
     isInitialOkrSelected = yield selectInitialObjective()
   }
-  yield put(keyResultActions.fetchKeyResults(payload.okrPeriodId, payload.userId)); // without loading
+  yield put(keyResultActions.fetchKeyResults(okrPeriodId, userId)); // without loading
   yield take(actionTypes.FETCHED_KEY_RESULTS)
   if (!isInitialOkrSelected) {
     yield selectInitialKeyResult()
   }
-  if (payload.isOkrPeriodChanged) {
+  if (isOkrPeriodChanged) {
     // 前期 OKR の fetch
     const okrPeriods = yield select(state => state.okrPeriods)
-    const okrPeriodIndex = okrPeriods.findIndex(okrPeriod => okrPeriod.get('id') === payload.okrPeriodId)
+    const okrPeriodIndex = okrPeriods.findIndex(okrPeriod => okrPeriod.get('id') === okrPeriodId)
     if (okrPeriodIndex > 0) {
       const previousOkrPeriodId = okrPeriods.get(okrPeriodIndex - 1).get('id')
       yield put(objectiveActions.fetchPreviousObjectives(previousOkrPeriodId, loginUserId)); // without loading
@@ -44,11 +43,10 @@ function* fetchOkrs({ payload }) {
     }
     // 上位 KR や紐付く Objective の紐付け変更用に O/KR 候補一覧を取得する
     const isAdmin = yield select(state => state.loginUser.get('isAdmin'))
-    const userId = isAdmin ? undefined : loginUserId;
     // Objective に紐付く上位 KR の変更のほうがよく行われるとの推測から先に KR を fetch する
-    yield put(keyResultActions.fetchKeyResultCandidates(payload.okrPeriodId, userId)); // without loading
+    yield put(keyResultActions.fetchKeyResultCandidates(okrPeriodId, isAdmin ? undefined : loginUserId)); // without loading
     yield take(actionTypes.FETCHED_KEY_RESULT_CANDIDATES)
-    yield put(objectiveActions.fetchObjectiveCandidates(payload.okrPeriodId, userId)); // without loading
+    yield put(objectiveActions.fetchObjectiveCandidates(okrPeriodId, isAdmin ? undefined : loginUserId)); // without loading
     yield take(actionTypes.FETCHED_OBJECTIVE_CANDIDATES)
   }
 }

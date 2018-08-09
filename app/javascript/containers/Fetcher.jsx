@@ -22,7 +22,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(organizationActions.fetchOrganization(id))
     },
     fetchOkrs: (okrPeriodId, userId) => {
-      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId))
+      dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true))
     },
     selectOkrPeriod: okrHash => {
       const { objectiveId, keyResultId } = getOkrId(okrHash)
