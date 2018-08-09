@@ -5,6 +5,7 @@ class Fetcher extends PureComponent {
 
   constructor(props) {
     super(props)
+    this.state = { isFetchedOkrs: false }
     if (props.okrHash) {
       this.props.openOkrModal(props.okrHash)
     }
@@ -17,16 +18,20 @@ class Fetcher extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.isFetchedOrganization && nextProps.isFetchedOrganization) {
-      this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
-    }
-    if (nextProps.okrHash) {
-      if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
-        this.props.openOkrModal(nextProps.okrHash)
+    if (this.state.isFetchedOkrs) {
+      if (nextProps.okrHash) {
+        if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
+          this.props.openOkrModal(nextProps.okrHash)
+        }
+      } else {
+        if (nextProps.isOpenOkrModal) {
+          this.props.closeOkrModal()
+        }
       }
     } else {
-      if (nextProps.isOpenOkrModal) {
-        this.props.closeOkrModal()
+      if (nextProps.isFetchedOrganization && (!nextProps.okrHash || nextProps.isOpenOkrModal)) {
+        this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
+        this.setState({ isFetchedOkrs: true })
       }
     }
   }
