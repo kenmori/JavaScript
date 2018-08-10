@@ -82,3 +82,11 @@ export const getObjectiveByKeyResultId = (keyResultId, entities) => {
   const keyResult = entities.keyResults.get(keyResultId)
   return entities.objectives.get(keyResult.get('objectiveId'))
 }
+
+export const getEnabledObjectiveIds = (objectiveIds, showDisabledOkrs, entities) => {
+  return showDisabledOkrs ? objectiveIds : objectiveIds.filter(id => !entities.objectives.get(id).get('disabled'))
+}
+
+export const getEnabledKeyResultIds = (keyResultIds, showDisabledOkrs, entities) => {
+  return showDisabledOkrs ? keyResultIds : keyResultIds.filter(id => !entities.keyResults.get(id).get('disabled'))
+}
