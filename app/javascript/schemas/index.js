@@ -54,13 +54,14 @@ function denormalizeObjective(objectiveId, entities) {
     .set('keyResults', objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value));
 }
 
-function denormalizeObjectives(objectiveIds, entities) {
-  return objectiveIds.map(objectiveId => {
+function denormalizeObjectives(objectiveIds, showDisabledOkrs, entities) {
+  const objectives = objectiveIds.map(objectiveId => {
     const objective = getObjective(objectiveId, entities);
     if (!objective) return null;
     return objective
       .set('keyResults', objective.get('keyResultIds').map(id => getKeyResult(id, entities)).filter(value => !!value));
   });
+  return showDisabledOkrs ? objectives : objectives.filter(objective => !objective.get('disabled'))
 }
 
 function denormalizeKeyResult(keyResultId, entities, objective) {
@@ -71,13 +72,14 @@ function denormalizeKeyResult(keyResultId, entities, objective) {
     .set('childObjectives', keyResult.get('childObjectiveIds').map(id => getObjective(id, entities)).filter(value => !!value));
 }
 
-function denormalizeKeyResults(keyResultIds, entities) {
-  return keyResultIds.map(keyResultId => {
+function denormalizeKeyResults(keyResultIds, showDisabledOkrs, entities) {
+  const keyResults = keyResultIds.map(keyResultId => {
     const keyResult = getKeyResult(keyResultId, entities);
     if (!keyResult) return null;
     return keyResult
       .set('objective', getObjective(keyResult.get('objectiveId'), entities));
   });
+  return showDisabledOkrs ? keyResults : keyResults.filter(keyResult => !keyResult.get('disabled'))
 }
 
 function denormalizeDeepObjective(objectiveId, entities, parentKeyResult) {
@@ -106,12 +108,14 @@ function denormalizeDeepKeyResults(keyResultIds, entities, objective) {
   return keyResultIds.map(id => denormalizeDeepKeyResult(id, entities, objective));
 }
 
-function denormalizeObjectiveCandidates(objectiveIds, entities) {
-  return objectiveIds.map(objectiveId => getObjective(objectiveId, entities));
+function denormalizeObjectiveCandidates(objectiveIds, showDisabledOkrs, entities) {
+  const objectives = objectiveIds.map(objectiveId => getObjective(objectiveId, entities));
+  return showDisabledOkrs ? objectives : objectives.filter(objective => !objective.get('disabled'))
 }
 
-function denormalizeKeyResultCandidates(keyResultIds, entities) {
-  return keyResultIds.map(keyResultId => getKeyResult(keyResultId, entities));
+function denormalizeKeyResultCandidates(keyResultIds, showDisabledOkrs, entities) {
+  const keyResults = keyResultIds.map(keyResultId => getKeyResult(keyResultId, entities));
+  return showDisabledOkrs ? keyResults : keyResults.filter(keyResult => !keyResult.get('disabled'))
 }
 
 export {
