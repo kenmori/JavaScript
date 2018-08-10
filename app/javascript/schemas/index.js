@@ -58,8 +58,9 @@ function denormalizeObjectives(objectiveIds, showDisabledOkrs, entities) {
   const objectives = objectiveIds.map(objectiveId => {
     const objective = getObjective(objectiveId, entities);
     if (!objective) return null;
+    const keyResults = objective.get('keyResultIds').map(id => getKeyResult(id, entities)).filter(value => !!value)
     return objective
-      .set('keyResults', objective.get('keyResultIds').map(id => getKeyResult(id, entities)).filter(value => !!value));
+      .set('keyResults', showDisabledOkrs ? keyResults : keyResults.filter(keyResult => !keyResult.get('disabled')));
   });
   return showDisabledOkrs ? objectives : objectives.filter(objective => !objective.get('disabled'))
 }
