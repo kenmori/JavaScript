@@ -85,30 +85,32 @@ function denormalizeKeyResults(keyResultIds, showDisabledOkrs, entities) {
   return showDisabledOkrs ? keyResults : keyResults.filter(keyResult => !keyResult.get('disabled'))
 }
 
-function denormalizeDeepObjective(objectiveId, entities, parentKeyResult) {
+function denormalizeDeepObjective(objectiveId, showDisabledOkrs, entities, parentKeyResult) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return objective
-    .set('parentKeyResult', parentKeyResult || denormalizeDeepKeyResult(objective.get('parentKeyResultId'), entities))
-    .set('keyResults', denormalizeDeepKeyResults(objective.get('keyResultIds'), entities, objective).filter(value => !!value));
+    .set('parentKeyResult', parentKeyResult || denormalizeDeepKeyResult(objective.get('parentKeyResultId'), showDisabledOkrs, entities))
+    .set('keyResults', denormalizeDeepKeyResults(objective.get('keyResultIds'), showDisabledOkrs, entities, objective));
 }
 
-function denormalizeDeepObjectives(objectiveIds, entities, parentKeyResult) {
-  return objectiveIds.map(id => denormalizeDeepObjective(id, entities, parentKeyResult));
+function denormalizeDeepObjectives(objectiveIds, showDisabledOkrs, entities, parentKeyResult) {
+  const objectives = objectiveIds.map(id => denormalizeDeepObjective(id, showDisabledOkrs, entities, parentKeyResult)).filter(value => !!value);
+  return showDisabledOkrs ? objectives : objectives.filter(objective => !objective.get('disabled'))
 }
 
-function denormalizeDeepKeyResult(keyResultId, entities, objective) {
+function denormalizeDeepKeyResult(keyResultId, showDisabledOkrs, entities, objective) {
   const keyResult = getKeyResult(keyResultId, entities);
   if (!keyResult) return null;
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   return keyResult
-    .set('objective', objective || denormalizeDeepObjective(keyResult.get('objectiveId'), entities))
-    .set('childObjectives', denormalizeDeepObjectives(keyResult.get('childObjectiveIds'), entities, keyResult).filter(value => !!value));
+    .set('objective', objective || denormalizeDeepObjective(keyResult.get('objectiveId'), showDisabledOkrs, entities))
+    .set('childObjectives', denormalizeDeepObjectives(keyResult.get('childObjectiveIds'), showDisabledOkrs, entities, keyResult));
 }
 
-function denormalizeDeepKeyResults(keyResultIds, entities, objective) {
-  return keyResultIds.map(id => denormalizeDeepKeyResult(id, entities, objective));
+function denormalizeDeepKeyResults(keyResultIds, showDisabledOkrs, entities, objective) {
+  const keyResults = keyResultIds.map(id => denormalizeDeepKeyResult(id, showDisabledOkrs, entities, objective)).filter(value => !!value);
+  return showDisabledOkrs ? keyResults : keyResults.filter(keyResult => !keyResult.get('disabled'))
 }
 
 function denormalizeObjectiveCandidates(objectiveIds, showDisabledOkrs, entities) {

@@ -106,8 +106,9 @@ export const getTaskKeyResults = createSelector(
 
 export const getMapObjective = createSelector(
   state => state.current.get('mapOkr').keySeq().first(),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (objectiveId, entities) => denormalizeDeepObjective(objectiveId, entities)
+  (objectiveId, showDisabledOkrs, entities) => denormalizeDeepObjective(objectiveId, showDisabledOkrs, entities)
 )
 
 export const getOkrModalObjective = createSelector(
