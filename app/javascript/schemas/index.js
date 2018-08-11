@@ -46,12 +46,14 @@ function getKeyResult(keyResultId, entities) {
   return entities.keyResults.get(keyResultId);
 }
 
-function denormalizeObjective(objectiveId, entities) {
+function denormalizeObjective(objectiveId, showDisabledOkrs, entities) {
   const objective = getObjective(objectiveId, entities);
   if (!objective) return null;
+  const keyResults = objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value)
   return objective
     .set('parentKeyResult', denormalizeKeyResult(objective.get('parentKeyResultId'), entities))
-    .set('keyResults', objective.get('keyResultIds').map(id => denormalizeKeyResult(id, entities, objective)).filter(value => !!value));
+    .set('keyResults', keyResults)
+    .set('enabledKeyResults', showDisabledOkrs ? keyResults : keyResults.filter(keyResult => !keyResult.get('disabled')));
 }
 
 function denormalizeObjectives(objectiveIds, showDisabledOkrs, entities) {

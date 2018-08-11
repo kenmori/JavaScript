@@ -13,7 +13,11 @@ import KeyResult from './KeyResult';
 class OkrSidebar extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { keyResultOrder: props.keyResultOrder }
+    const { objective, keyResultOrder } = props
+    this.state = {
+      keyResultOrder,
+      showDisabledOkrs: objective.get('keyResults').size === objective.get('enabledKeyResults').size || objective.get('disabled'),
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,9 +47,11 @@ class OkrSidebar extends PureComponent {
 
   handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
 
+  handleShowDisabledOkrsClick = () => this.setState({ showDisabledOkrs: true })
+
   render() {
     const { objective, keyResultId, canMoveKeyResult } = this.props
-    const { keyResultOrder } = this.state
+    const { keyResultOrder, showDisabledOkrs } = this.state
     const isSelected = !keyResultId
     return (
       <div className='okr-sidebar'>
@@ -58,7 +64,7 @@ class OkrSidebar extends PureComponent {
 
         <Header as="h4">Key Result 一覧</Header>
         <Segment.Group>
-          {objective.get('keyResults')
+          {(showDisabledOkrs ? objective.get('keyResults') : objective.get('enabledKeyResults'))
             .sortBy(keyResult => keyResultOrder.indexOf(keyResult.get('id')))
             .map((keyResult, index) => (
               <KeyResult
@@ -72,6 +78,8 @@ class OkrSidebar extends PureComponent {
               />
             ))}
         </Segment.Group>
+
+        {!showDisabledOkrs && <Button fluid content="無効な Key Result を表示する" onClick={this.handleShowDisabledOkrsClick} />}
 
         <Divider hidden />
 

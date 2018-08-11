@@ -114,12 +114,13 @@ export const getOkrModalObjective = createSelector(
   state => state.dialogs.getIn(['okrForm', 'objectiveId']),
   state => state.dialogs.getIn(['okrForm', 'keyResultId']),
   state => state.dialogs.getIn(['okrForm', 'removedKeyResultId']),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (modalObjectiveId, modalKeyResultId, removedKeyResultId, entities) => {
+  (modalObjectiveId, modalKeyResultId, removedKeyResultId, showDisabledOkrs, entities) => {
     const objectiveId = modalKeyResultId && modalKeyResultId !== removedKeyResultId
       ? entities.keyResults.getIn([modalKeyResultId, 'objectiveId']) // KR に紐付く Objective を指定する
       : modalObjectiveId
-    return objectiveId && denormalizeObjective(objectiveId, entities)
+    return objectiveId && denormalizeObjective(objectiveId, showDisabledOkrs, entities)
   }
 )
 
