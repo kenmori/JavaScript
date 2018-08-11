@@ -3,6 +3,7 @@ import currentActions from '../actions/current'
 import objectiveActions from '../actions/objectives'
 import ActionTypes from '../constants/actionTypes'
 import { List } from 'immutable'
+import { getEnabledObjective } from '../utils/okr'
 
 function* selectOkrPeriod({ payload }) {
   const { okrPeriodId } = payload
@@ -56,7 +57,10 @@ function* selectMapOkr({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
 
-  const objective = yield select(state => state.entities.objectives.get(objectiveId))
+  const objective = yield select(state => {
+    const showDisabledOkrs = state.loginUser.getIn(['userSetting', 'showDisabledOkrs'])
+    return getEnabledObjective(objectiveId, showDisabledOkrs, state.entities)
+  })
   const keyResultIds = keyResultId ? List.of(keyResultId) : objective.get('keyResultIds')
   yield put(currentActions.selectedMapOkr(objectiveId, keyResultIds, objective.get('parentKeyResultId')))
 
