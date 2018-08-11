@@ -1,9 +1,10 @@
 import { all, put, select, take, takeLatest } from 'redux-saga/effects'
 import currentActions from '../actions/current'
 import objectiveActions from '../actions/objectives'
+import toastActions from '../actions/toasts'
 import ActionTypes from '../constants/actionTypes'
 import { List } from 'immutable'
-import { getEnabledObjective } from '../utils/okr'
+import { getEnabledObjective, isDisabledChildObjectives } from '../utils/okr'
 
 function* selectOkrPeriod({ payload }) {
   const { okrPeriodId } = payload
@@ -85,6 +86,8 @@ function* expandObjective({ payload }) {
   if (!toAncestor) {
     const childObjectiveId = yield getChildObjectiveId(keyResultIds.first())
     yield put(currentActions.scrollToObjective(childObjectiveId))
+
+    yield showUnexpandedMessage(keyResultIds)
   }
 }
 
@@ -99,6 +102,8 @@ function* expandKeyResult({ payload }) {
 
   const childObjectiveId = yield getChildObjectiveId(keyResultId)
   yield put(currentActions.scrollToObjective(childObjectiveId))
+
+  yield showUnexpandedMessage(List.of(keyResultId))
 }
 
 function* isFetchedObjective(objectiveId) {
@@ -118,6 +123,16 @@ function* getChildObjectiveId(keyResultId) {
     const keyResult = state.entities.keyResults.get(keyResultId)
     return keyResult.get('childObjectiveIds').first()
   })
+}
+
+function* showUnexpandedMessage(keyResultIds) {
+  const showMessage = yield select(state => {
+    const showDisabledOkrs = state.loginUser.getIn(['userSetting', 'showDisabledOkrs'])
+    return !showDisabledOkrs && isDisabledChildObjectives(keyResultIds, state.entities)
+  })
+  if (showMessage) {
+    yield put(toastActions.showToast('無効な OKR のため展開されませんでした'))
+  }
 }
 
 export function* currentSagas() {

@@ -99,3 +99,14 @@ export const getEnabledObjectiveIds = (objectiveIds, showDisabledOkrs, entities)
 export const getEnabledKeyResultIds = (keyResultIds, showDisabledOkrs, entities) => {
   return showDisabledOkrs ? keyResultIds : keyResultIds.filter(id => !entities.keyResults.get(id).get('disabled'))
 }
+
+// KR 一覧に紐付いている子 O が全て disabled の場合は true
+export const isDisabledChildObjectives = (keyResultIds, entities) => {
+  return keyResultIds.every(keyResultId => {
+    const keyResult = entities.keyResults.get(keyResultId)
+    return keyResult.get('childObjectiveIds').every(childObjectiveId => {
+      const childObjective = entities.objectives.get(childObjectiveId)
+      return childObjective.get('disabled')
+    })
+  })
+}
