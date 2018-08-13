@@ -31,6 +31,7 @@ export default handleActions({
       return state
     },
     [ActionTypes.DISABLED_KEY_RESULT]: merge,
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
   },
   Map(),
 );

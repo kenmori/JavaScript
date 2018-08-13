@@ -21,6 +21,14 @@ class KeyResult < ApplicationRecord
     self.okr_period_id = objective.okr_period_id
   end
 
+  after_update do
+    if saved_change_to_disabled_at?
+      child_objectives.each do |objective|
+        objective.update_attribute(:disabled_at, disabled_at) if disabled != objective.disabled
+      end
+    end
+  end
+
   after_save do
     objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
     if saved_change_to_objective_id? & objective_id_before_last_save

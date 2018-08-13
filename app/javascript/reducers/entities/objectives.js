@@ -52,6 +52,7 @@ export default handleActions({
       keyResultIds.forEach(keyResultId => state = resetParentKeyResult(state, keyResultId))
       return state
     },
+    [ActionTypes.DISABLED_KEY_RESULT]: merge,
   },
   Map()
 );

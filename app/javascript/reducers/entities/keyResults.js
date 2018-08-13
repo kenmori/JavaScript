@@ -39,5 +39,6 @@ export default handleActions({
     [ActionTypes.ADDED_OBJECTIVE]: merge,
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: merge,
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
   }, Map()
 )

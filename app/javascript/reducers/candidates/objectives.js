@@ -22,6 +22,7 @@ export default handleActions({
       return state.delete(objectiveId);
     },
     [ActionTypes.DISABLED_OBJECTIVE]: merge,
+    [ActionTypes.DISABLED_KEY_RESULT]: merge,
   },
   Map(),
 );

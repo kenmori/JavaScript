@@ -24,6 +24,14 @@ module KeyResultDecorator
     end
   end
 
+  def descendant_objectives(objectives = [])
+    objectives.concat(child_objectives)
+    child_objectives.each do |objective|
+      objective.descendant_objectives(objectives)
+    end
+    return objectives
+  end
+
   def sorted_child_objective_ids
     sorted_child_objectives.map(&:id)
   end

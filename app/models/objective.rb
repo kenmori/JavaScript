@@ -10,6 +10,14 @@ class Objective < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  after_update do
+    if saved_change_to_disabled_at?
+      key_results.each do |key_result|
+        key_result.update_attribute(:disabled_at, disabled_at) if disabled != key_result.disabled
+      end
+    end
+  end
+
   after_save do
     parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
     if saved_change_to_parent_key_result_id? & parent_key_result_id_before_last_save

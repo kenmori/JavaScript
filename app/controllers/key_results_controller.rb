@@ -79,9 +79,7 @@ class KeyResultsController < ApplicationController
     forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
 
     disabled = params[:disabled]
-    if @key_result.update_attribute(:disabled_at, disabled ? Time.current : nil)
-      render action: :create, status: :ok
-    else
+    unless @key_result.update_attribute(:disabled_at, disabled ? Time.current : nil)
       unprocessable_entity_with_errors(@key_result.errors.full_messages)
     end
   end

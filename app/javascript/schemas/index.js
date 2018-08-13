@@ -11,6 +11,7 @@ keyResultSchema.define({
   childObjectives: objectiveListSchema,
   connectedObjectives: objectiveListSchema,
   detachedObjective: objectiveSchema,
+  descendantObjectives: objectiveListSchema,
 });
 
 objectiveSchema.define({
@@ -20,6 +21,7 @@ objectiveSchema.define({
   childObjectives: objectiveListSchema,
   connectedKeyResults: keyResultListSchema,
   detachedParentKeyResult: keyResultSchema,
+  descendantObjectives: objectiveListSchema,
 });
 
 function normalizeObjective(objective) {
