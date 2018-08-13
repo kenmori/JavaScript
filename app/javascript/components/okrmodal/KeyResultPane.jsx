@@ -108,11 +108,14 @@ class KeyResultPane extends PureComponent {
 
   handleDisableClick = () => {
     const { keyResult, disableKeyResult, confirm } = this.props
-    const isDisabled = keyResult.get('disabled')
-    const message = `Key Result "${keyResult.get('name')}" を${isDisabled ? '有効化' : '無効化'}しますか？`
+    const enabledOrDisabled = keyResult.get('disabled') ? '有効化' : '無効化'
+    let message = `Key Result "${keyResult.get('name')}" を${enabledOrDisabled}しますか？`
     const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
+    if (hasChild) {
+      message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
+    }
     confirm({
-      content: hasChild ? `下位 Objective が紐付いています。${message}` : message,
+      content: message,
       onConfirm: () => disableKeyResult(keyResult),
     })
   }

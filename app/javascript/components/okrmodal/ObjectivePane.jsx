@@ -66,11 +66,18 @@ class ObjectivePane extends PureComponent {
 
   handleDisableClick = () => {
     const { objective, disableObjective, confirm } = this.props
-    const isDisabled = objective.get('disabled')
-    const message = `Objective "${objective.get('name')}" を${isDisabled ? '有効化' : '無効化'}しますか？`
-    const hasChild = objective.get('keyResults').some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
+    const enabledOrDisabled = objective.get('disabled') ? '有効化' : '無効化'
+    let message = `Objective "${objective.get('name')}" を${enabledOrDisabled}しますか？`
+    const keyResults = objective.get('keyResults')
+    if (!keyResults.isEmpty()) {
+      message += `Objective に紐付く Key Result も${enabledOrDisabled}されます。`
+      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
+      if (hasChild) {
+        message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
+      }
+    }
     confirm({
-      content: hasChild ? `Key Result に下位 Objective が紐付いています。${message}` : message,
+      content: message,
       onConfirm: () => disableObjective(objective),
     })
   }
