@@ -40,11 +40,9 @@ class Objective < ApplicationRecord
       enabled_key_results = key_results.where(disabled_at: nil)
       new_sub_progress_rate = enabled_key_results.size == 0 ? nil
           : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
+      update_column(:sub_progress_rate, new_sub_progress_rate)
       if progress_rate_in_database.nil?
-        self.sub_progress_rate = new_sub_progress_rate
-        save!(touch: false) # after_save コールバックを呼び出す
-      else
-        update_column(:sub_progress_rate, new_sub_progress_rate)
+        parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
       end
     end
   end
