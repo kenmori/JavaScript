@@ -35,15 +35,12 @@ class Objective < ApplicationRecord
   end
 
   def update_sub_progress_rate
-    # 下位進捗率を更新する (updated_at は更新しない)
-    Objective.no_touching do
-      enabled_key_results = key_results.where(disabled_at: nil)
-      new_sub_progress_rate = enabled_key_results.size == 0 ? nil
-          : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
-      update_column(:sub_progress_rate, new_sub_progress_rate)
-      if progress_rate_in_database.nil?
-        parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
-      end
+    enabled_key_results = key_results.where(disabled_at: nil)
+    new_sub_progress_rate = enabled_key_results.size == 0 ? nil
+        : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
+    update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)
+    if progress_rate_in_database.nil?
+      parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
     end
   end
 

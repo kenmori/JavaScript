@@ -66,15 +66,12 @@ class KeyResult < ApplicationRecord
   end
 
   def update_sub_progress_rate
-    # 下位進捗率を更新する (updated_at は更新しない)
-    KeyResult.no_touching do
-      enabled_child_objectives = child_objectives.where(disabled_at: nil)
-      new_sub_progress_rate = enabled_child_objectives.size == 0 ? nil
-          : enabled_child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / enabled_child_objectives.size
-      update_column(:sub_progress_rate, new_sub_progress_rate)
-      if progress_rate_in_database.nil?
-        objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
-      end
+    enabled_child_objectives = child_objectives.where(disabled_at: nil)
+    new_sub_progress_rate = enabled_child_objectives.size == 0 ? nil
+        : enabled_child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / enabled_child_objectives.size
+    update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)
+    if progress_rate_in_database.nil?
+      objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
     end
   end
 
