@@ -82,6 +82,7 @@ class KeyResultsController < ApplicationController
     unless @key_result.update_attribute(:disabled_at, disabled ? Time.current : nil)
       unprocessable_entity_with_errors(@key_result.errors.full_messages)
     end
+    @key_result.reload # 変更前の進捗率が返るためクエリキャッシュをクリア
   end
 
   def destroy

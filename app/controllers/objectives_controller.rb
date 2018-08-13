@@ -98,6 +98,7 @@ class ObjectivesController < ApplicationController
     unless @objective.update_attribute(:disabled_at, disabled ? Time.current : nil)
       unprocessable_entity_with_errors(@objective.errors.full_messages)
     end
+    @objective.reload # 変更前の進捗率が返るためクエリキャッシュをクリア
   end
 
   def destroy
