@@ -37,8 +37,9 @@ class Objective < ApplicationRecord
   def update_sub_progress_rate
     # 下位進捗率を更新する (updated_at は更新しない)
     Objective.no_touching do
-      new_sub_progress_rate = key_results.size == 0 ? nil
-          : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.size
+      enabled_key_results = key_results.where(disabled_at: nil)
+      new_sub_progress_rate = enabled_key_results.size == 0 ? nil
+          : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
       if progress_rate_in_database.nil?
         self.sub_progress_rate = new_sub_progress_rate
         save!(touch: false) # after_save コールバックを呼び出す

@@ -68,8 +68,9 @@ class KeyResult < ApplicationRecord
   def update_sub_progress_rate
     # 下位進捗率を更新する (updated_at は更新しない)
     KeyResult.no_touching do
-      new_sub_progress_rate = child_objectives.size == 0 ? nil
-          : child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / child_objectives.size
+      enabled_child_objectives = child_objectives.where(disabled_at: nil)
+      new_sub_progress_rate = enabled_child_objectives.size == 0 ? nil
+          : enabled_child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / enabled_child_objectives.size
       if progress_rate_in_database.nil?
         self.sub_progress_rate = new_sub_progress_rate
         save!(touch: false) # after_save コールバックを呼び出す
