@@ -20,9 +20,9 @@ class Objective < ApplicationRecord
 
   after_save do
     parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
-    if saved_change_to_parent_key_result_id? & parent_key_result_id_before_last_save
+    if saved_change_to_parent_key_result_id?
       # 紐付け変更時は、変更前の上位進捗率も連動更新する
-      KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate
+      KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate if parent_key_result_id_before_last_save
     end
   end
 

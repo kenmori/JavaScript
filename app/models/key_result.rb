@@ -31,9 +31,9 @@ class KeyResult < ApplicationRecord
 
   after_save do
     objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
-    if saved_change_to_objective_id? & objective_id_before_last_save
+    if saved_change_to_objective_id?
       # 紐付け変更時は、変更前の上位進捗率も連動更新する
-      Objective.find(objective_id_before_last_save).update_sub_progress_rate
+      Objective.find(objective_id_before_last_save).update_sub_progress_rate if objective_id_before_last_save
     end
 
     NotificationMailer.send_change_kr_status(Current.user, self, status_before_last_save, status) if saved_change_to_status?
