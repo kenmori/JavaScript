@@ -26,6 +26,8 @@ class KeyResult < ApplicationRecord
       child_objectives.each do |objective|
         objective.update_attribute(:disabled_at, disabled_at) if disabled != objective.disabled
       end
+
+      NotificationMailer.change_kr_disabled(Current.user, self, disabled).deliver_later
     end
   end
 

@@ -35,6 +35,36 @@ class NotificationMailer < ApplicationMailer
          subject: '[Resily] Key Result の見通しが変更されました'
   end
 
+  def change_o_disabled(current_user, objective, disabled)
+    user = objective.owner
+    return unless current_user
+    return if current_user.id == user.id
+
+    @operator = "#{current_user.last_name} #{current_user.first_name}"
+    @receiver = "#{user.last_name} #{user.first_name}"
+    @objective = objective
+    @enabled_or_disabled = disabled ? '無効化' : '有効化'
+    @url = url_for(controller: 'home')
+
+    mail to: user.email,
+         subject: "[Resily] Objective が#{@enabled_or_disabled}されました"
+  end
+
+  def change_kr_disabled(current_user, key_result, disabled)
+    user = key_result.owner
+    return unless current_user
+    return if current_user.id == user.id
+
+    @operator = "#{current_user.last_name} #{current_user.first_name}"
+    @receiver = "#{user.last_name} #{user.first_name}"
+    @key_result = key_result
+    @enabled_or_disabled = disabled ? '無効化' : '有効化'
+    @url = url_for(controller: 'home')
+
+    mail to: user.email,
+         subject: "[Resily] Key Result が#{@enabled_or_disabled}されました"
+  end
+
   def self.send_add_kr_comment(current_user, key_result, comment)
     add_kr_comment(current_user, key_result.objective.owner, key_result, comment).deliver_later
     if key_result.objective.owner.id != key_result.owner.id
