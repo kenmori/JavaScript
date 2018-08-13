@@ -41,7 +41,4 @@ export default handleActions({
   [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => (
     state.set('ownerId', payload.ownerId)
   ),
-  [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
-    newSelectedData(state, payload)
-  )
 }, initialState);

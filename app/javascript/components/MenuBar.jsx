@@ -10,20 +10,6 @@ import Logo from './util/Logo';
 
 class MenuBar extends PureComponent {
 
-  componentDidMount() {
-    if (!this.props.isFetchedOrganization) {
-      this.props.fetchOrganization(this.props.organizationId)
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.needLogout) {
-      this.props.signOut()
-    } else if (!this.props.isFetchedOrganization && nextProps.isFetchedOrganization) {
-      this.props.fetchOkrs(this.props.okrPeriodId, this.props.userId)
-    }
-  }
-
   userTrigger = loginUser => {
     return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
   }
@@ -104,7 +90,6 @@ class MenuBar extends PureComponent {
 
 MenuBar.propTypes = {
   // container
-  organizationId: PropTypes.number.isRequired,
   ownerId: PropTypes.number.isRequired,
   okrPeriodId: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
@@ -113,9 +98,6 @@ MenuBar.propTypes = {
   users: ImmutablePropTypes.list.isRequired,
   organization: ImmutablePropTypes.map.isRequired,
   loginUser: ImmutablePropTypes.map.isRequired,
-  isFetchedOrganization: PropTypes.bool.isRequired,
-  needLogout: PropTypes.bool.isRequired,
-  fetchOrganization: PropTypes.func.isRequired,
   selectUser: PropTypes.func.isRequired,
   selectOkrPeriod: PropTypes.func.isRequired,
   changeCurrentOrganizationId: PropTypes.func.isRequired,

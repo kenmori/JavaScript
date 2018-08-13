@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    uploadLogoImage: (id, logo) => {
-      dispatch(organizationActions.updateLogo({id, logo}));
+    updateLogo: (id, logo) => {
+      dispatch(organizationActions.updateOrganization({id, logo}));
     },
     closeModal: () => {
       dispatch(dialogActions.closeLogoModal());

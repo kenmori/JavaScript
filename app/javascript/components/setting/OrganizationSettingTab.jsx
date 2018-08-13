@@ -15,10 +15,10 @@ class OrganizationSettingTab extends PureComponent {
 
   clickFileInput = () => this.refs.fileInput.click()
 
-  deleteLogo = (event) => {
+  deleteLogo = () => {
     this.props.confirm({
       content: '設定済みのロゴを削除しますか？',
-      onConfirm: () => this.props.deleteLogo({id: this.props.organization.get('id'), removeLogo: true}),
+      onConfirm: () => this.props.deleteLogo(this.props.organization.get('id')),
     });
   }
 

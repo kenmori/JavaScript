@@ -3,6 +3,7 @@ import actionTypes from '../constants/actionTypes';
 
 const actions = createActions({
   [actionTypes.SELECT_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
+  [actionTypes.SELECT_OKR_PERIOD_BY_OKR]: (objectiveId, keyResultId) => ({ objectiveId, keyResultId }),
   [actionTypes.SELECTED_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
   [actionTypes.SELECT_USER]: userId => ({ userId }),
   [actionTypes.SELECTED_USER]: userId => ({ userId }),

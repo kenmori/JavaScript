@@ -20,7 +20,7 @@ class AccountSettingTab extends PureComponent {
     this.setState({ email })
     this.props.confirm({
       content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
-      onConfirm: () => this.props.updateEmail({ id: this.props.loginUser.get('id'), email }),
+      onConfirm: () => this.props.updateEmail(this.props.loginUser.get('id'), email),
       onCancel: () => this.setState({ email: this.props.loginUser.get('email') }),
     })
   }
@@ -49,7 +49,7 @@ class AccountSettingTab extends PureComponent {
   deleteAvatar = () => {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
-      onConfirm: () => this.props.deleteAvatar({id: this.props.loginUser.get('id'), removeAvatar: true}),
+      onConfirm: () => this.props.deleteAvatar(this.props.loginUser.get('id')),
     });
   }
 

@@ -29,10 +29,7 @@ class UsersTable extends SortableComponent {
   changeEmail = id => email => {
     this.props.confirm({
       content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
-      onConfirm: () => {
-        const notLogout = id !== this.props.loginUserId;
-        this.props.onUpdateEmail({ id, email, notLogout });
-      },
+      onConfirm: () => this.props.onUpdateEmail(id, email),
       onCancel: () => this.forceUpdate(), // 入力内容を破棄する
     });
   }

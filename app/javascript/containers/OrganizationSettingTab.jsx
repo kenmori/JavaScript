@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => {
     openLogoModal: (targetId, imageData) => {
       dispatch(dialogActions.openLogoModal(targetId, imageData));
     },
-    deleteLogo: (organization) => {
-      dispatch(organizationActions.updateLogo(organization));
+    deleteLogo: id => {
+      dispatch(organizationActions.updateOrganization({ id, removeLogo: true }));
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));

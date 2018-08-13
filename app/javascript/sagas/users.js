@@ -1,10 +1,12 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, put, select, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
 import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
+import deviseActions from '../actions/devise'
+import dialogActions from '../actions/dialogs'
 
 function* addUser({ payload }) {
   const result = yield call(API.post, '/users', { user: payload.user });
@@ -12,10 +14,25 @@ function* addUser({ payload }) {
   yield put(toastActions.showToast('ユーザーを追加しました'));
 }
 
-function* updateUser({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
+function* updateUser({ payload: { user } }) {
+  const result = yield call(API.put, '/users/' + user.id, { user });
   yield put(userActions.updatedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザー情報を更新しました'));
+
+  if (user.email) {
+    yield put(toastActions.showToast('メールアドレスを変更しました', 'success'))
+    // ログインユーザーのメールアドレスを変更した場合はログアウトする
+    const loginUserId = yield select(state => state.loginUser.get('id'))
+    if (user.id === loginUserId) {
+      yield put(deviseActions.signOut())
+    }
+  } else if (user.avatar || user.removeAvatar) {
+    // アバター更新時はトーストを表示しない
+    if (user.avatar) {
+      yield put(dialogActions.closeAvatarModal())
+    }
+  } else {
+    yield put(toastActions.showToast('ユーザー情報を更新しました'))
+  }
 }
 
 function* removeUser({ payload }) {
@@ -31,20 +48,8 @@ function* restoreUser({ payload }) {
 }
 
 function* updatePassword({ payload }) {
-  const result = yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
-  yield put(userActions.updatedUser(result));
+  yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
   yield put(toastActions.showToast('パスワードを変更しました', 'success'));
-}
-
-function* updateEmail({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result.get('user').set('notLogout', payload.user.notLogout)));
-  yield put(toastActions.showToast('メールアドレスを変更しました', 'success'));
-}
-
-function* updateAvatar({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedAvatar(result.get('user')));
 }
 
 function* updateCurrentOrganizationId({ payload }) {
@@ -64,8 +69,6 @@ export function* userSagas() {
     takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
     takeLatest(actionTypes.RESTORE_USER, withLoading(restoreUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
-    takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
-    takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
     takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),
   ]);
