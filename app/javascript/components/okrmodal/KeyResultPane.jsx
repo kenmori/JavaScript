@@ -93,11 +93,16 @@ class KeyResultPane extends PureComponent {
   }
 
   handleRemoveClick = () => {
-    const message = `Key Result "${this.props.keyResult.get('name')}" を削除しますか？`
-    const hasChild = !this.props.keyResult.get('childObjectiveIds').isEmpty()
-    this.props.confirm({
-      content: hasChild ? `下位 Objective が紐付いています。${message}` : message,
-      onConfirm: () => this.props.removeKeyResult(this.props.keyResult.get('id')),
+    const { keyResult, removeKeyResult, confirm } = this.props
+    let message = `Key Result "${keyResult.get('name')}" を完全に削除しますか？`
+    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
+    if (hasChild) {
+      message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
+    }
+    message += ' (この操作は元に戻せません)'
+    confirm({
+      content: message,
+      onConfirm: () => removeKeyResult(keyResult.get('id')),
     });
   }
 

@@ -48,12 +48,16 @@ class ObjectivePane extends PureComponent {
 
   handleRemoveClick = () => {
     const { objective, removeObjective, confirm } = this.props
-    let message = `Objective "${objective.get('name')}" を削除しますか？`
+    let message = `Objective "${objective.get('name')}" を完全に削除しますか？`
     const keyResults = objective.get('keyResults')
     if (!keyResults.isEmpty()) {
+      message += 'Objective に紐付く Key Result も削除されます。'
       const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
-      message = `${hasChild ? 'Key Result に下位 Objective が紐付いています。' : 'Key Result が紐付いています。'}${message}`
+      if (hasChild) {
+        message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
+      }
     }
+    message += ' (この操作は元に戻せません)'
     confirm({
       content: message,
       onConfirm: () => removeObjective(objective.get('id')),
