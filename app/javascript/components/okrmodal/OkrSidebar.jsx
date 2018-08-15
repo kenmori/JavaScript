@@ -27,11 +27,20 @@ class OkrSidebar extends PureComponent {
   }
 
   moveKeyResult = (fromIndex, toIndex, toUpdate = false) => {
-    const { keyResultOrder } = this.state
-    const fromId = keyResultOrder.get(fromIndex)
+    const { objective, updateKeyResultOrder } = this.props
+    const { keyResultOrder, showDisabledOkrs } = this.state
+
+    // フィルタリング状態の index を非フィルタリング状態の index に変換する
+    const filteredKeyResultOrder = (showDisabledOkrs ? objective.get('keyResults') : objective.get('enabledKeyResults'))
+      .map(keyResult => keyResult.get('id')).sortBy(id => keyResultOrder.indexOf(id))
+    const fromId = filteredKeyResultOrder.get(fromIndex)
+    const toId = filteredKeyResultOrder.get(toIndex)
+    fromIndex = keyResultOrder.indexOf(fromId)
+    toIndex = keyResultOrder.indexOf(toId)
+
     const newKeyResultOrder = keyResultOrder.delete(fromIndex).insert(toIndex, fromId)
     if (toUpdate) {
-      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder)
+      updateKeyResultOrder(objective.get('id'), newKeyResultOrder)
     } else {
       this.setState({ keyResultOrder: newKeyResultOrder })
     }
