@@ -21,6 +21,9 @@ class User < ApplicationRecord
   has_many :objective_orders, dependent: :destroy
   has_one :user_setting, dependent: :destroy
 
+  scope :enabled, -> { where(disabled_at: nil) }
+  scope :disabled, -> { where.not(disabled_at: nil) }
+
   mount_uploader :avatar, AvatarUploader
 
   attr_accessor :require_password, :skip_notification
