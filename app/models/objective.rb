@@ -5,6 +5,9 @@ class Objective < ApplicationRecord
   belongs_to :okr_period
   belongs_to :parent_key_result, class_name: 'KeyResult', optional: true
 
+  scope :enabled, -> { where(disabled_at: nil) }
+  scope :disabled, -> { where.not(disabled_at: nil) }
+
   validates :name, :okr_period_id, presence: true
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
@@ -37,7 +40,7 @@ class Objective < ApplicationRecord
   end
 
   def update_sub_progress_rate
-    enabled_key_results = key_results.where(disabled_at: nil)
+    enabled_key_results = key_results.enabled
     new_sub_progress_rate = enabled_key_results.size == 0 ? nil
         : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
     update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)

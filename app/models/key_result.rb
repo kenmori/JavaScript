@@ -8,6 +8,9 @@ class KeyResult < ApplicationRecord
 
   enum status: {green: 0, yellow: 1, red: 2}
 
+  scope :enabled, -> { where(disabled_at: nil) }
+  scope :disabled, -> { where.not(disabled_at: nil) }
+
   validate :target_value_required_if_value_unit_exists, 
     :expired_date_can_be_converted_to_date
   validates :name, :objective_id, :okr_period_id, presence: true
@@ -68,7 +71,7 @@ class KeyResult < ApplicationRecord
   end
 
   def update_sub_progress_rate
-    enabled_child_objectives = child_objectives.where(disabled_at: nil)
+    enabled_child_objectives = child_objectives.enabled
     new_sub_progress_rate = enabled_child_objectives.size == 0 ? nil
         : enabled_child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / enabled_child_objectives.size
     update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)
