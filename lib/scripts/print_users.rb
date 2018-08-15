@@ -22,10 +22,9 @@ class PrintUsers
       index += 1
       objectives = user.objectives
       key_results = user.key_results
-      unprocessed_count = user.unprocessed_key_results.count
       puts "#{index}. #{user.last_name} #{user.first_name} (#{user.email})"
       puts "   - #{objectives.count} objectives (#{objectives.enabled.count} enabled, #{objectives.disabled.count} disabled)"
-      puts "   - #{key_results.count} key results (#{key_results.enabled.count} enabled, #{key_results.disabled.count} disabled, #{unprocessed_count} unprocessed)"
+      puts "   - #{key_results.count} key results (#{key_results.enabled.count} enabled, #{key_results.disabled.count} disabled, #{key_results.unprocessed.count} unprocessed)"
       puts "   - created at #{user.created_at.strftime('%Y-%m-%d')}"
       puts "   - sign in at #{user.sign_in_at.strftime('%Y-%m-%d %H:%M')}" if user.sign_in_at
       puts "   - disabled at #{user.disabled_at.strftime('%Y-%m-%d')}" if user.disabled_at

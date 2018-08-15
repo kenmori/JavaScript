@@ -10,6 +10,7 @@ class KeyResult < ApplicationRecord
 
   scope :enabled, -> { where(disabled_at: nil) }
   scope :disabled, -> { where.not(disabled_at: nil) }
+  scope :unprocessed, -> { where(key_result_members: { processed: false }) }
 
   validate :target_value_required_if_value_unit_exists, 
     :expired_date_can_be_converted_to_date
