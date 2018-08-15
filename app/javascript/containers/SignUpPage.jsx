@@ -1,9 +1,17 @@
 import { connect } from 'react-redux';
 import SignUpPage from '../components/signin/SignUpPage';
 import organizationActions from '../actions/organizations';
+import queryString from 'query-string'
 
-const mapStateToProps = (state) => {
+const isValidToken = token => {
+  // URL を推測した第三者による意図しないユーザー登録を簡易的に避けるためトークンの有無をチェックする
+  return !!token && token.length >= 8 // 8文字以上であれば OK とする (中身は何でも良い)
+}
+
+const mapStateToProps = (state, { location }) => {
+  const query = queryString.parse(location.search)
   return {
+    hasValidToken: isValidToken(query.registration_token),
     isCompleted: state.organizations.get('isCompleted'),
   };
 };
