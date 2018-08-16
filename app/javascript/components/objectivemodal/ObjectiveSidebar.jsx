@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { List } from 'semantic-ui-react';
+import { Item, Segment } from 'semantic-ui-react';
 import OkrName from '../util/OkrName'
 
 class ObjectiveSidebar extends PureComponent {
@@ -11,32 +11,25 @@ class ObjectiveSidebar extends PureComponent {
     const parentObjective = parentKeyResult.get('objective')
     return (
       <div className="objective-modal__sidebar">
-        <div className="sidebar__item">
-          <div className="sidebar__title">上位 Objective</div>
-          <div className="sidebar__content">
-            <List>
-              <List.Item>
-                <List.Content>
-                  <List.Header><OkrName okr={parentObjective} /></List.Header>
-                  <List.Description>{parentObjective.get('description')}</List.Description>
-                </List.Content>
-              </List.Item>
-            </List>
-          </div>
-        </div>
-        <div className="sidebar__item">
-          <div className="sidebar__title">上位 Key Result</div>
-          <div className="sidebar__content">
-            <List>
-              <List.Item>
-                <List.Content>
-                  <List.Header><OkrName okr={parentKeyResult} /></List.Header>
-                  <List.Description>{parentKeyResult.get('description')}</List.Description>
-                </List.Content>
-              </List.Item>
-            </List>
-          </div>
-        </div>
+        <Segment>
+          <Item>
+            <Item.Content>
+              <Item.Header className="sidebar__title">上位 Objective</Item.Header>
+              <Item.Header className="sidebar__name"><OkrName okr={parentObjective} /></Item.Header>
+              <Item.Description className="sidebar__desc">{parentObjective.get('description')}</Item.Description>
+            </Item.Content>
+          </Item>
+        </Segment>
+
+        <Segment>
+          <Item>
+            <Item.Content>
+              <Item.Header className="sidebar__title">上位 Key Result</Item.Header>
+              <Item.Header className="sidebar__name"><OkrName okr={parentKeyResult} /></Item.Header>
+              <Item.Description className="sidebar__desc">{parentKeyResult.get('description')}</Item.Description>
+            </Item.Content>
+          </Item>
+        </Segment>
       </div>
     );
   }
