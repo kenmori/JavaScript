@@ -46,6 +46,7 @@ class OkrPeriodAddForm extends PureComponent {
       monthEnd: monthEnd.format('YYYY-MM-DD'),
       organizationId,
     })
+    this.setState({ name: '' })
   }
 
   render() {
