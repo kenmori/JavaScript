@@ -40,6 +40,7 @@ function* updateOrganizationOwner({ payload }) {
 
 function* exportOkrs({ payload: { organizationId, okrPeriodId } }) {
   yield call(API.put, `/organizations/${organizationId}/export`, { okrPeriodId })
+  yield put(organizationActions.exportedOkrs())
 }
 
 export function* organizationSagas() {

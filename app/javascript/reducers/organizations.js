@@ -9,6 +9,7 @@ const initialState = fromJS({
   ownerId: gon.get('ownerId'),
   isFetched: false,
   isCompleted: false,
+  isExporting: false,
 });
 
 function newSelectedData(state, payload) {
@@ -40,5 +41,11 @@ export default handleActions({
   ),
   [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => (
     state.set('ownerId', payload.ownerId)
+  ),
+  [ActionTypes.EXPORT_OKRS]: state => (
+    state.set('isExporting', true)
+  ),
+  [ActionTypes.EXPORTED_OKRS]: state => (
+    state.set('isExporting', false)
   ),
 }, initialState);

@@ -19,6 +19,9 @@
       font-weight: bold;
       margin-right: 1rem;
     }
+    button {
+      width: auto; // workaround for expanding width while loading
+    }
   }
 
   .file-input {

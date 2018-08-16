@@ -11,6 +11,7 @@ const actions = createActions({
   [actionTypes.UPDATE_ORGANIZATION_OWNER]: (organizationId, userId) => ({ organizationId, userId }),
   [actionTypes.UPDATED_ORGANIZATION_OWNER]: ownerId => ({ ownerId }),
   [actionTypes.EXPORT_OKRS]: (organizationId, okrPeriodId) => ({ organizationId, okrPeriodId }),
+  [actionTypes.EXPORTED_OKRS]: () => {},
 });
 
 export default actions;

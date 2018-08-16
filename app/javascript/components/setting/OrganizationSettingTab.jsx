@@ -52,7 +52,7 @@ class OrganizationSettingTab extends PureComponent {
   }
 
   render() {
-    const { organization, okrPeriods } = this.props;
+    const { organization, okrPeriods, isExporting } = this.props;
     const { okrPeriodId } = this.state
     const path = organization.get('logo').get('url');
     const okrSpan = organization.get('okrSpan');
@@ -82,7 +82,7 @@ class OrganizationSettingTab extends PureComponent {
               onChange={this.handleOkrPeriodChange}
             />
           </dd>
-          <dd><Button content="エクスポート" onClick={this.handleExportClick} /></dd>
+          <dd><Button content="エクスポート" onClick={this.handleExportClick} loading={isExporting} /></dd>
         </dl>
       </Tab.Pane>
     );
@@ -94,6 +94,7 @@ OrganizationSettingTab.propTypes = {
   organization: ImmutablePropTypes.map.isRequired,
   okrPeriods: ImmutablePropTypes.list.isRequired,
   okrPeriodId: PropTypes.number.isRequired,
+  isExporting: PropTypes.bool.isRequired,
   updateOrganization: PropTypes.func.isRequired,
   openLogoModal: PropTypes.func.isRequired,
   deleteLogo: PropTypes.func.isRequired,
