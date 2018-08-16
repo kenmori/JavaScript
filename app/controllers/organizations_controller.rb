@@ -50,6 +50,9 @@ class OrganizationsController < ApplicationController
   rescue => e
     unprocessable_entity(e.message)
   end
+  
+  def export_okrs
+  end
 
   private
 

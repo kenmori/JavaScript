@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   resources :organizations, only: %i[show create update] do
     member do
       put 'owner', to: 'organizations#update_owner'
+      put 'export', to: 'organizations#export_okrs'
     end
   end
 

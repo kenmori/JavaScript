@@ -23,6 +23,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(organizationActions.updateOrganization({ id, removeLogo: true }));
     },
     exportOkrs: (organization, okrPeriod) => {
+      dispatch(organizationActions.exportOkrs(organization.get('id'), okrPeriod.get('id')))
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));
