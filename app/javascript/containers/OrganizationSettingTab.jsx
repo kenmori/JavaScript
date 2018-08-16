@@ -5,7 +5,9 @@ import organizationActions from '../actions/organizations';
 
 const mapStateToProps = (state) => {
   return {
-    organization: state.organizations.get('selected')
+    organization: state.organizations.get('selected'),
+    okrPeriods: state.okrPeriods,
+    okrPeriodId: state.current.get('okrPeriodId'),
   };
 };
 
@@ -19,6 +21,8 @@ const mapDispatchToProps = dispatch => {
     },
     deleteLogo: id => {
       dispatch(organizationActions.updateOrganization({ id, removeLogo: true }));
+    },
+    exportOkrs: (organization, okrPeriod) => {
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));

@@ -4,9 +4,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Button } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import OkrSpanSelect from '../form/OkrSpanSelect'
+import OkrPeriodSelect from '../form/OkrPeriodSelect'
 import Logo from '../util/Logo';
 
 class OrganizationSettingTab extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = { okrPeriodId: props.okrPeriodId }
+  }
+
   changeLogoImage = (event) => {
     if (!event.target.files.length) { return; }
     this.props.openLogoModal(this.props.organization.get('id'), event.target.files[0]);
@@ -31,8 +38,22 @@ class OrganizationSettingTab extends PureComponent {
     }
   }
 
+  handleOkrPeriodChange = okrPeriodId => this.setState({ okrPeriodId })
+
+  handleExportClick = () => {
+    const { organization, okrPeriods, exportOkrs, confirm } = this.props
+    const { okrPeriodId } = this.state
+    const okrPeriod = okrPeriods.find(okrPeriod => okrPeriod.get('id') === okrPeriodId)
+    const okrPeriodName = `${okrPeriod.get('name')} (${okrPeriod.get('monthStart')} 〜 ${okrPeriod.get('monthEnd')})`
+    confirm({
+      content: `OKR 期間 "${okrPeriodName}" に属する OKR 一覧をエクスポートしますか？エクスポートされたデータは CSV 形式のファイルとしてダウンロードされます。`,
+      onConfirm: () => exportOkrs(organization, okrPeriod),
+    })
+  }
+
   render() {
-    const organization = this.props.organization;
+    const { organization, okrPeriods } = this.props;
+    const { okrPeriodId } = this.state
     const path = organization.get('logo').get('url');
     const okrSpan = organization.get('okrSpan');
     return (
@@ -50,6 +71,19 @@ class OrganizationSettingTab extends PureComponent {
             {path && <Button content="削除する" negative onClick={this.deleteLogo} />}
           </dd>
         </dl>
+
+        <dl>
+          <dt>OKR エクスポート</dt>
+          <dd>
+            <label>OKR 期間</label>
+            <OkrPeriodSelect
+              okrPeriods={okrPeriods}
+              value={okrPeriodId}
+              onChange={this.handleOkrPeriodChange}
+            />
+          </dd>
+          <dd><Button content="エクスポート" onClick={this.handleExportClick} /></dd>
+        </dl>
       </Tab.Pane>
     );
   }
@@ -58,9 +92,12 @@ class OrganizationSettingTab extends PureComponent {
 OrganizationSettingTab.propTypes = {
   // container
   organization: ImmutablePropTypes.map.isRequired,
+  okrPeriods: ImmutablePropTypes.list.isRequired,
+  okrPeriodId: PropTypes.number.isRequired,
   updateOrganization: PropTypes.func.isRequired,
   openLogoModal: PropTypes.func.isRequired,
   deleteLogo: PropTypes.func.isRequired,
+  exportOkrs: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
 };
