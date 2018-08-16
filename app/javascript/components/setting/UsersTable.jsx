@@ -96,7 +96,8 @@ class UsersTable extends SortableComponent {
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan='8' textAlign='right'>
+              <Table.HeaderCell colSpan='3'>{`${begin + 1} - ${end} / ${filteredUsers.size} 人`}</Table.HeaderCell>
+              <Table.HeaderCell colSpan='5' textAlign='right'>
                 {totalPages > 0 && (
                   <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
                               prevItem={activePage === 1 ? null : undefined}
