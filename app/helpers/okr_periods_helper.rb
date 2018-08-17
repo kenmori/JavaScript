@@ -43,9 +43,9 @@ module OkrPeriodsHelper
         , own_key_results.p_kr_target_value as kr_p_kr_target_value
         , own_key_results.p_kr_actual_value as kr_p_kr_actual_value
         , own_key_results.p_kr_user_id as kr_p_kr_user_id
-        , own_key_results.p_kr_user_last_name as kr_p_kr_last_name
-        , own_key_results.p_kr_user_first_name as kr_p_kr_first_name
-        , own_key_results.p_kr_user_disabled_at as kr_p_kr_disabled_at
+        , own_key_results.p_kr_user_last_name as kr_p_kr_user_last_name
+        , own_key_results.p_kr_user_first_name as kr_p_kr_user_first_name
+        , own_key_results.p_kr_user_disabled_at as kr_p_kr_user_disabled_at
         , own_objectives.o_id as o_o_id
         , own_objectives.o_name as o_o_name
         , own_objectives.o_progress as o_o_progress
@@ -310,7 +310,7 @@ module OkrPeriodsHelper
                           target_value: first['kr_p_kr_target_value'],
                           actual_value: first['kr_p_kr_actual_value'],
                           owner_id: first['kr_p_kr_user_id'],
-                          owner: to_full_name(first['kr_p_kr_last_name'], first['kr_p_kr_first_name'], first['kr_p_kr_disabled_at'])
+                          owner: to_full_name(first['kr_p_kr_user_last_name'], first['kr_p_kr_user_first_name'], first['kr_p_kr_user_disabled_at'])
                       }
                     end
 
