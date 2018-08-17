@@ -41,13 +41,13 @@ class OrganizationSettingTab extends PureComponent {
   handleOkrPeriodChange = okrPeriodId => this.setState({ okrPeriodId })
 
   handleExportClick = () => {
-    const { okrPeriods, exportOkrs, confirm } = this.props
+    const { okrPeriods, confirm } = this.props
     const { okrPeriodId } = this.state
     const okrPeriod = okrPeriods.find(okrPeriod => okrPeriod.get('id') === okrPeriodId)
     const okrPeriodName = `${okrPeriod.get('name')} (${okrPeriod.get('monthStart')} 〜 ${okrPeriod.get('monthEnd')})`
     confirm({
       content: `OKR 期間 "${okrPeriodName}" に属する OKR 一覧をエクスポートしますか？エクスポートされたデータは CSV 形式のファイルとしてダウンロードされます。`,
-      onConfirm: () => exportOkrs(okrPeriod),
+      onConfirm: () => this.refs.downloadLink.click(),
     })
   }
 
@@ -82,7 +82,10 @@ class OrganizationSettingTab extends PureComponent {
               onChange={this.handleOkrPeriodChange}
             />
           </dd>
-          <dd><Button content="エクスポート" onClick={this.handleExportClick} /></dd>
+          <dd>
+            <a href={`/okr_periods/${okrPeriodId}/export`} download className="download-link" ref="downloadLink" />
+            <Button content="エクスポート" onClick={this.handleExportClick} />
+          </dd>
         </dl>
       </Tab.Pane>
     );
@@ -97,7 +100,6 @@ OrganizationSettingTab.propTypes = {
   updateOrganization: PropTypes.func.isRequired,
   openLogoModal: PropTypes.func.isRequired,
   deleteLogo: PropTypes.func.isRequired,
-  exportOkrs: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
 };
