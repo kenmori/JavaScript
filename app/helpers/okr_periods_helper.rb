@@ -446,7 +446,7 @@ module OkrPeriodsHelper
       return key_results_value if count.zero?
 
       key_results.each_with_index do |key_result, index|
-        tree_symbol = index + 1 == count ? '└' : '├'
+        tree_symbol = index + 1 == count ? '┗' : '┣'
         target_value = key_result[:target_value]
         actual_value = key_result[:actual_value]
         value_unit = key_result[:value_unit]
@@ -464,7 +464,7 @@ module OkrPeriodsHelper
         end
 
         key_results_value += <<~"EOS"
-#{tree_symbol}KR#{index + 1}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限#{key_result[:expired_date]}]
+#{tree_symbol} KR#{index + 1}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限#{key_result[:expired_date]}]
         EOS
       end
 
