@@ -2,7 +2,6 @@ import OrganizationSettingTab from '../components/setting/OrganizationSettingTab
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 import organizationActions from '../actions/organizations';
-import okrPeriodActions from '../actions/okrPeriods'
 
 const mapStateToProps = (state) => {
   return {
@@ -24,7 +23,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(organizationActions.updateOrganization({ id, removeLogo: true }));
     },
     exportOkrs: okrPeriod => {
-      dispatch(okrPeriodActions.exportOkrs(okrPeriod.get('id')))
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));
