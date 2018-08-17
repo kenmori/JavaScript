@@ -435,7 +435,7 @@ module OkrPeriodsHelper
       if achievement_rate.nil? || progress_rate == achievement_rate
         "#{progress_rate}%"
       else
-        "#{progress_rate}% (達成率#{achievement_rate}%)"
+        "#{progress_rate}% (達成率: #{achievement_rate}%)"
       end
     end
 
@@ -457,14 +457,14 @@ module OkrPeriodsHelper
         rate = get_key_result_rate_value(achievement_rate, progress_rate)
 
         target_actual = ''
-        target_actual += " 目標値#{format_float(target_value)}#{value_unit}," if target_value.present?
+        target_actual += " 目標値: #{format_float(target_value)}#{value_unit}," if target_value.present?
         unless target_value.nil?
           value = actual_value.nil? ? '-' : "#{format_float(actual_value)}"
-          target_actual += " 実績値#{value}#{value_unit},"
+          target_actual += " 実績値: #{value}#{value_unit},"
         end
 
         key_results_value += <<~"EOS"
-#{tree_symbol} KR#{index + 1}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限#{key_result[:expired_date]}]
+#{tree_symbol} KR#{index + 1}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限: #{key_result[:expired_date]}]
         EOS
       end
 
