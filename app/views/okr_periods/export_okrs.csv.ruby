@@ -1,4 +1,1 @@
-require 'csv'
-
-CSV.generate do |csv|
-end
+execute_export(@okr_period)
