@@ -193,6 +193,7 @@ module OkrPeriodsHelper
         key_results = okr[:key_results]
 
         objective_value = get_objective_value(objective, index)
+        key_results_value = get_key_results_value(key_results)
 
         unless parent_kr.nil?
           parent_kr_value = get_parent_kr_value(parent_kr)
@@ -200,7 +201,7 @@ module OkrPeriodsHelper
         end
 
         result += "#{objective_value}\n"
-        result += get_key_results_value(key_results)
+        result += "#{key_results_value}"
         result += "\n" if index + 1 != @okrs.count
       end
 
@@ -438,10 +439,10 @@ module OkrPeriodsHelper
     end
 
     def get_key_results_value(key_results)
-      key_results_value = ''
+      result = ''
       count = key_results.count
 
-      return key_results_value if count.zero?
+      return result if count.zero?
 
       key_results.each_with_index do |key_result, index|
         tree_symbol = index + 1 == count ? '┗' : '┣'
@@ -461,12 +462,12 @@ module OkrPeriodsHelper
           target_actual += " 実績値: #{value} #{value_unit},"
         end
 
-        key_results_value += <<~"EOS"
-#{tree_symbol} KR#{index + 1}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限: #{key_result[:expired_date]}]
-        EOS
+        prefix = "KR#{index + 1}"
+
+        result += "#{tree_symbol} #{prefix}: #{key_result[:name]} [#{rate}, #{@user_name},#{target_actual} 期限: #{key_result[:expired_date]}]\n"
       end
 
-      key_results_value
+      result
     end
 
     def format_float(value)
