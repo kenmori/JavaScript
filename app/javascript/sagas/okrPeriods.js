@@ -26,7 +26,6 @@ function* removeOkrPeriod({ payload }) {
 
 function* exportOkrs({ payload: { okrPeriodId } }) {
   yield call(API.get, `/okr_periods/${okrPeriodId}/export`,)
-  yield put(okrPeriodActions.exportedOkrs())
 }
 
 export function* okrPeriodSagas() {

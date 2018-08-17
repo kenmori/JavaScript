@@ -9,7 +9,6 @@ const mapStateToProps = (state) => {
     organization: state.organizations.get('selected'),
     okrPeriods: state.okrPeriods,
     okrPeriodId: state.current.get('okrPeriodId'),
-    isExporting: state.current.get('isExporting'),
   };
 };
 
