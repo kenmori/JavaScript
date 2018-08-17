@@ -7,12 +7,17 @@ import { openObjective } from '../../utils/linker';
 import { Segment, Button, Header, Divider } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
+import OkrName from '../util/OkrName'
 import KeyResult from './KeyResult';
 
 class OkrSidebar extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { keyResultOrder: props.keyResultOrder }
+    const { objective, keyResultOrder } = props
+    this.state = {
+      keyResultOrder,
+      showDisabledOkrs: objective.get('keyResults').size === objective.get('enabledKeyResults').size || objective.get('disabled'),
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,11 +27,20 @@ class OkrSidebar extends PureComponent {
   }
 
   moveKeyResult = (fromIndex, toIndex, toUpdate = false) => {
-    const { keyResultOrder } = this.state
-    const fromId = keyResultOrder.get(fromIndex)
+    const { objective, updateKeyResultOrder } = this.props
+    const { keyResultOrder, showDisabledOkrs } = this.state
+
+    // フィルタリング状態の index を非フィルタリング状態の index に変換する
+    const filteredKeyResultOrder = (showDisabledOkrs ? objective.get('keyResults') : objective.get('enabledKeyResults'))
+      .map(keyResult => keyResult.get('id')).sortBy(id => keyResultOrder.indexOf(id))
+    const fromId = filteredKeyResultOrder.get(fromIndex)
+    const toId = filteredKeyResultOrder.get(toIndex)
+    fromIndex = keyResultOrder.indexOf(fromId)
+    toIndex = keyResultOrder.indexOf(toId)
+
     const newKeyResultOrder = keyResultOrder.delete(fromIndex).insert(toIndex, fromId)
     if (toUpdate) {
-      this.props.updateKeyResultOrder(this.props.objective.get('id'), newKeyResultOrder)
+      updateKeyResultOrder(objective.get('id'), newKeyResultOrder)
     } else {
       this.setState({ keyResultOrder: newKeyResultOrder })
     }
@@ -42,22 +56,24 @@ class OkrSidebar extends PureComponent {
 
   handleAddKeyResultClick = () => this.props.openKeyResultModal(this.props.objective)
 
+  handleShowDisabledOkrsClick = () => this.setState({ showDisabledOkrs: true })
+
   render() {
     const { objective, keyResultId, canMoveKeyResult } = this.props
-    const { keyResultOrder } = this.state
+    const { keyResultOrder, showDisabledOkrs } = this.state
     const isSelected = !keyResultId
     return (
       <div className='okr-sidebar'>
         <Header as="h4">Objective</Header>
         <Segment className={`sidebar__item ${isSelected ? 'is-current' : ''}`} onClick={this.handleObjectiveClick}>
           <OwnerAvatar owner={objective.get('owner')} />
-          <div className="sidebar__name">{objective.get('name')}</div>
+          <div className="sidebar__name"><OkrName okr={objective} /></div>
           <ProgressRate value={objective.get('progressRate')} type='label' />
         </Segment>
 
         <Header as="h4">Key Result 一覧</Header>
         <Segment.Group>
-          {objective.get('keyResults')
+          {(showDisabledOkrs ? objective.get('keyResults') : objective.get('enabledKeyResults'))
             .sortBy(keyResult => keyResultOrder.indexOf(keyResult.get('id')))
             .map((keyResult, index) => (
               <KeyResult
@@ -72,9 +88,11 @@ class OkrSidebar extends PureComponent {
             ))}
         </Segment.Group>
 
+        {!showDisabledOkrs && <Button fluid content="無効な Key Result を表示する" onClick={this.handleShowDisabledOkrsClick} />}
+
         <Divider hidden />
 
-        <Button fluid positive content="Key Result を追加する" onClick={this.handleAddKeyResultClick} />
+        <Button fluid positive icon="plus" content="Key Result を追加する" onClick={this.handleAddKeyResultClick} />
       </div>
     )
   }

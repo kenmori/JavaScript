@@ -19,4 +19,11 @@ module ObjectiveDecorator
       KeyResult.find(parent_key_result_id_before_last_save)
     end
   end
+
+  def descendant_objectives(objectives = [])
+    key_results.each do |key_result|
+      key_result.descendant_objectives(objectives)
+    end
+    return objectives
+  end
 end

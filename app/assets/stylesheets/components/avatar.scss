@@ -17,7 +17,9 @@
   }
 
   &.disabled {
-    opacity: .38;
+    .avatar__inner {
+      opacity: .38;
+    }
 
     i.icon {
       visibility: visible;

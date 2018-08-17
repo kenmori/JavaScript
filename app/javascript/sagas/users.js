@@ -35,16 +35,10 @@ function* updateUser({ payload: { user } }) {
   }
 }
 
-function* removeUser({ payload }) {
-  const result = yield call(API.delete, '/users/' + payload.id);
-  yield put(userActions.removedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザーを無効化しました'));
-}
-
-function* restoreUser({ payload }) {
-  const result = yield call(API.put, `/users/${payload.id}/restore`, {});
-  yield put(userActions.restoredUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザーを有効化しました'));
+function* disableUser({ payload: { id, toDisable } }) {
+  const result = yield call(API.put, `/users/${id}/disable`, { disabled: toDisable })
+  yield put(userActions.disabledUser(result.get('user')))
+  yield put(toastActions.showToast(`ユーザーを${toDisable ? '無効化' : '有効化'}しました`))
 }
 
 function* updatePassword({ payload }) {
@@ -66,8 +60,7 @@ export function* userSagas() {
   yield all([
     takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
-    takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
-    takeLatest(actionTypes.RESTORE_USER, withLoading(restoreUser)),
+    takeLatest(actionTypes.DISABLE_USER, withLoading(disableUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
     takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),

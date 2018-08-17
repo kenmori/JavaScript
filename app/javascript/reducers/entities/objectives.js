@@ -35,6 +35,7 @@ export default handleActions({
       const objectiveId = payload.get('result').first();
       return state.delete(objectiveId);
     },
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
     [ActionTypes.ADDED_KEY_RESULT]: merge,
     [ActionTypes.UPDATED_KEY_RESULT]: merge,
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
@@ -51,6 +52,7 @@ export default handleActions({
       keyResultIds.forEach(keyResultId => state = resetParentKeyResult(state, keyResultId))
       return state
     },
+    [ActionTypes.DISABLED_KEY_RESULT]: merge,
   },
   Map()
 );

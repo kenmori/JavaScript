@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label, Popup, Button, Radio, Divider } from 'semantic-ui-react';
+import { Form, Label } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea';
@@ -9,6 +9,8 @@ import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
 import StatusRadio from '../util/StatusRadio'
+import PopupButton from '../util/PopupButton'
+import PopupLabel from '../util/PopupLabel'
 import moment from 'moment';
 
 class KeyResultPane extends PureComponent {
@@ -91,12 +93,31 @@ class KeyResultPane extends PureComponent {
   }
 
   handleRemoveClick = () => {
-    const message = `Key Result "${this.props.keyResult.get('name')}" を削除しますか？`
-    const hasChild = !this.props.keyResult.get('childObjectiveIds').isEmpty()
-    this.props.confirm({
-      content: hasChild ? `下位 Objective が紐付いています。${message}` : message,
-      onConfirm: () => this.props.removeKeyResult(this.props.keyResult.get('id')),
+    const { keyResult, removeKeyResult, confirm } = this.props
+    let message = `Key Result "${keyResult.get('name')}" を完全に削除しますか？`
+    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
+    if (hasChild) {
+      message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
+    }
+    message += ' (この操作は元に戻せません)'
+    confirm({
+      content: message,
+      onConfirm: () => removeKeyResult(keyResult.get('id')),
     });
+  }
+
+  handleDisableClick = () => {
+    const { keyResult, disableKeyResult, confirm } = this.props
+    const enabledOrDisabled = keyResult.get('disabled') ? '有効化' : '無効化'
+    let message = `Key Result "${keyResult.get('name')}" を${enabledOrDisabled}しますか？`
+    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
+    if (hasChild) {
+      message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
+    }
+    confirm({
+      content: message,
+      onConfirm: () => disableKeyResult(keyResult),
+    })
   }
   
   subProgressRateHtml(keyResult) {
@@ -104,12 +125,11 @@ class KeyResultPane extends PureComponent {
     const subProgressRate = keyResult.get('subProgressRate');
     return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
-        <Popup trigger={<Label pointing='left' as='a' icon='unlinkify'
-                               content={`下位 OKR の進捗は ${subProgressRate}% です`}
-                               onClick={this.handleSubProgressRateClick} />}
-               position='bottom left'
-               size='tiny'
-               content='クリックすると下位 OKR の進捗が設定されます'
+        <PopupLabel
+          icon="unlinkify"
+          text={`下位 OKR の進捗は ${subProgressRate}% です`}
+          tips="クリックすると下位 OKR の進捗が設定されます"
+          onClick={this.handleSubProgressRateClick}
         />
       </div>
     );
@@ -119,6 +139,7 @@ class KeyResultPane extends PureComponent {
     const keyResult = this.props.keyResult;
     const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner;
     const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
+    const isDisabled = keyResult.get('disabled')
     return (
       <Form>
         <Form.Field>
@@ -161,9 +182,7 @@ class KeyResultPane extends PureComponent {
             </Form.Field>
           </Form.Group>
         ) : (
-          <div>
-            <Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} floated='right' />
-          </div>
+          <Form.Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} floated='right' />
         )}
 
         <Form.Field className='flex-field progress-rate-field'>
@@ -246,14 +265,16 @@ class KeyResultPane extends PureComponent {
           </div>
         </Form.Field>
 
-        <Divider hidden />
-
-        <div>
-          <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
-          <Button content="下位 OKR を作成する" onClick={this.handleCreateClick} as="span" positive floated='right' />
-        </div>
-
-        <Divider hidden clearing />
+        <Form.Group className="okr-buttons">
+          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
+          <Form.Button
+            icon={isDisabled ? 'undo' : 'dont'}
+            content={isDisabled ? '有効化する' : '無効化する'}
+            onClick={this.handleDisableClick}
+            negative={!isDisabled}
+          />
+          <Form.Button icon="plus" content="下位 OKR を作成する" onClick={this.handleCreateClick} positive />
+        </Form.Group>
       </Form>
     );
   }
@@ -262,6 +283,7 @@ class KeyResultPane extends PureComponent {
 KeyResultPane.propTypes = {
   // container
   isKeyResultOwner: PropTypes.bool.isRequired,
+  disableKeyResult: PropTypes.func.isRequired,
   // component
   keyResult: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,

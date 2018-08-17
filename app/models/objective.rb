@@ -5,16 +5,29 @@ class Objective < ApplicationRecord
   belongs_to :okr_period
   belongs_to :parent_key_result, class_name: 'KeyResult', optional: true
 
+  scope :enabled, -> { where(disabled_at: nil) }
+  scope :disabled, -> { where.not(disabled_at: nil) }
+
   validates :name, :okr_period_id, presence: true
   validates :progress_rate,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  after_update do
+    if saved_change_to_disabled_at?
+      key_results.each do |key_result|
+        key_result.update_attribute(:disabled_at, disabled_at) if disabled != key_result.disabled
+      end
+
+      NotificationMailer.change_o_disabled(Current.user, self, disabled).deliver_later
+    end
+  end
+
   after_save do
     parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
-    if saved_change_to_parent_key_result_id? & parent_key_result_id_before_last_save
+    if saved_change_to_parent_key_result_id?
       # 紐付け変更時は、変更前の上位進捗率も連動更新する
-      KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate
+      KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate if parent_key_result_id_before_last_save
     end
   end
 
@@ -27,16 +40,12 @@ class Objective < ApplicationRecord
   end
 
   def update_sub_progress_rate
-    # 下位進捗率を更新する (updated_at は更新しない)
-    Objective.no_touching do
-      new_sub_progress_rate = key_results.size == 0 ? nil
-          : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.size
-      if progress_rate_in_database.nil?
-        self.sub_progress_rate = new_sub_progress_rate
-        save!(touch: false) # after_save コールバックを呼び出す
-      else
-        update_column(:sub_progress_rate, new_sub_progress_rate)
-      end
+    enabled_key_results = key_results.enabled
+    new_sub_progress_rate = enabled_key_results.size == 0 ? nil
+        : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
+    update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)
+    if progress_rate_in_database.nil?
+      parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
     end
   end
 
@@ -54,5 +63,9 @@ class Objective < ApplicationRecord
     index = order.size
     # KR 一覧を key_result_order 順に並べる (順番のない KR は後ろに並べていく)
     key_results.sort_by { |key_result| order.index(key_result.id) || index + 1 }
+  end
+
+  def disabled
+    !!disabled_at
   end
 end

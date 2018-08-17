@@ -11,6 +11,7 @@ class OptionModal extends PureComponent {
       showChildObjectives: false,
       showObjectiveKeyResults: false,
       showMemberKeyResults: false,
+      showDisabledOkrs: false,
     }
   }
 
@@ -20,18 +21,20 @@ class OptionModal extends PureComponent {
         showChildObjectives: nextProps.userSetting.get('showChildObjectives'),
         showObjectiveKeyResults: nextProps.userSetting.get('showObjectiveKeyResults'),
         showMemberKeyResults: nextProps.userSetting.get('showMemberKeyResults'),
+        showDisabledOkrs: nextProps.userSetting.get('showDisabledOkrs'),
       })
     }
   }
 
   update = () => {
     const { userSetting } = this.props
-    const { showChildObjectives, showObjectiveKeyResults, showMemberKeyResults } = this.state
+    const { showChildObjectives, showObjectiveKeyResults, showMemberKeyResults, showDisabledOkrs } = this.state
     const isDirty = userSetting.get('showChildObjectives') !== showChildObjectives
-      || userSetting.get('showObjectiveKeyResults') !== this.state.showObjectiveKeyResults
-      || userSetting.get('showMemberKeyResults') !== this.state.showMemberKeyResults
+      || userSetting.get('showObjectiveKeyResults') !== showObjectiveKeyResults
+      || userSetting.get('showMemberKeyResults') !== showMemberKeyResults
+      || userSetting.get('showDisabledOkrs') !== showDisabledOkrs
     if (isDirty) {
-      this.props.updateUserSetting({ showChildObjectives, showObjectiveKeyResults, showMemberKeyResults })
+      this.props.updateUserSetting({ showChildObjectives, showObjectiveKeyResults, showMemberKeyResults, showDisabledOkrs })
     } else {
       this.props.closeModal()
     }
@@ -39,10 +42,21 @@ class OptionModal extends PureComponent {
 
   render() {
     const { isOpen, closeModal } = this.props
-    const { showChildObjectives, showObjectiveKeyResults, showMemberKeyResults } = this.state
+    const { showChildObjectives, showObjectiveKeyResults, showMemberKeyResults, showDisabledOkrs } = this.state
     return (
       <Modal closeIcon open={isOpen} size="small" onClose={closeModal}>
         <Modal.Content>
+          <Header as='h4'>全般</Header>
+          <List relaxed>
+            <List.Item>
+              <Checkbox
+                label='無効な OKR (Objective, Key Result) を表示する'
+                checked={showDisabledOkrs}
+                onChange={(e, { checked }) => this.setState({ showDisabledOkrs: checked })}
+              />
+            </List.Item>
+          </List>
+
           <Header as='h4'>Objective 一覧</Header>
           <List relaxed>
             <List.Item>

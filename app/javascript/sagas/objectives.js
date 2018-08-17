@@ -8,7 +8,9 @@ import currentActions from '../actions/current'
 import actionTypes from '../constants/actionTypes';
 import withLoading from '../utils/withLoading';
 import toastActions from '../actions/toasts';
-import { isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId } from '../utils/okr'
+import {
+  isChildObjectiveById, isMemberKeyResultById, getObjectiveByKeyResultId, getEnabledObjectiveIds, getEnabledKeyResultIds
+} from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
 
 function* fetchOkrs({ payload: { okrPeriodId, userId, isOkrPeriodChanged, isInitialOkrSelected } }) {
@@ -57,7 +59,8 @@ function* selectInitialTaskKeyResult() {
 
 function* selectInitialObjective() {
   const objectiveId = yield select(state => {
-    const objectives = state.objectives.get('ids')
+    const showDisabledOkrs = state.loginUser.getIn(['userSetting', 'showDisabledOkrs'])
+    const objectives = getEnabledObjectiveIds(state.objectives.get('ids'), showDisabledOkrs, state.entities)
     const ownerId = state.current.get('userId')
     const showChildObjectives = state.loginUser.getIn(['userSetting', 'showChildObjectives'])
     return showChildObjectives ? objectives.first()
@@ -73,7 +76,8 @@ function* selectInitialObjective() {
 
 function* selectInitialKeyResult(ids = 'ids', type = OkrTypes.KEY_RESULT, selectAnyway = true) {
   const keyResultId = yield select(state => {
-    const keyResults = state.keyResults.get(ids)
+    const showDisabledOkrs = state.loginUser.getIn(['userSetting', 'showDisabledOkrs'])
+    const keyResults = getEnabledKeyResultIds(state.keyResults.get(ids), showDisabledOkrs, state.entities)
     const ownerId = state.current.get('userId')
     const showMemberKeyResults = state.loginUser.getIn(['userSetting', 'showMemberKeyResults'])
     return showMemberKeyResults ? keyResults.first()
@@ -180,6 +184,12 @@ function* removeObjective({payload}) {
   yield put(toastActions.showToast('Objective を削除しました'));
 }
 
+function* disableObjective({ payload: { id, toDisable } }) {
+  const result = yield call(API.put, `/objectives/${id}/disable`, { disabled: toDisable })
+  yield put(objectiveActions.disabledObjective(result.get('objective')))
+  yield put(toastActions.showToast(`Objective を${toDisable ? '無効化' : '有効化'}しました`))
+}
+
 export function *objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
@@ -191,5 +201,6 @@ export function *objectiveSagas() {
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
+    takeLatest(actionTypes.DISABLE_OBJECTIVE, withLoading(disableObjective)),
   ]);
 }

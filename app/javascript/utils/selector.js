@@ -35,14 +35,16 @@ export const getDisabledUsersForSetting = createSelector(
 
 export const getObjectives = createSelector(
   state => state.objectives.get('ids'),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (objectiveIds, entities) => denormalizeObjectives(objectiveIds, entities)
+  (objectiveIds, showDisabledOkrs, entities) => denormalizeObjectives(objectiveIds, showDisabledOkrs, entities)
 )
 
 export const getKeyResults = createSelector(
   state => state.keyResults.get('ids'),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
+  (keyResultIds, showDisabledOkrs, entities) => denormalizeKeyResults(keyResultIds, showDisabledOkrs, entities)
 )
 
 export const getMyObjectives = createSelector(
@@ -70,8 +72,9 @@ export const getMyKeyResults = createSelector(
 
 export const getPreviousObjectives = createSelector(
   state => state.objectives.get('previousIds'),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (objectiveIds, entities) => denormalizeObjectives(objectiveIds, entities)
+  (objectiveIds, showDisabledOkrs, entities) => denormalizeObjectives(objectiveIds, showDisabledOkrs, entities)
 )
 
 // 孤立 (親のいない) Objective 一覧を返す
@@ -96,26 +99,29 @@ export const getParentKeyResults = createSelector(
 
 export const getTaskKeyResults = createSelector(
   state => state.keyResults.get('taskIds'),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (keyResultIds, entities) => denormalizeKeyResults(keyResultIds, entities)
+  (keyResultIds, showDisabledOkrs, entities) => denormalizeKeyResults(keyResultIds, showDisabledOkrs, entities)
 )
 
 export const getMapObjective = createSelector(
   state => state.current.get('mapOkr').keySeq().first(),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (objectiveId, entities) => denormalizeDeepObjective(objectiveId, entities)
+  (objectiveId, showDisabledOkrs, entities) => denormalizeDeepObjective(objectiveId, showDisabledOkrs, entities)
 )
 
 export const getOkrModalObjective = createSelector(
   state => state.dialogs.getIn(['okrForm', 'objectiveId']),
   state => state.dialogs.getIn(['okrForm', 'keyResultId']),
   state => state.dialogs.getIn(['okrForm', 'removedKeyResultId']),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
-  (modalObjectiveId, modalKeyResultId, removedKeyResultId, entities) => {
+  (modalObjectiveId, modalKeyResultId, removedKeyResultId, showDisabledOkrs, entities) => {
     const objectiveId = modalKeyResultId && modalKeyResultId !== removedKeyResultId
       ? entities.keyResults.getIn([modalKeyResultId, 'objectiveId']) // KR に紐付く Objective を指定する
       : modalObjectiveId
-    return objectiveId && denormalizeObjective(objectiveId, entities)
+    return objectiveId && denormalizeObjective(objectiveId, showDisabledOkrs, entities)
   }
 )
 
@@ -123,10 +129,11 @@ export const getOkrModalObjective = createSelector(
 export const getParentKeyResultCandidates = createSelector(
   getOkrModalObjective,
   state => state.keyResults.get('candidateIds'),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
   state => state.candidates,
-  (modalObjective, keyResultIds, entities, candidates) => {
-    const keyResults = denormalizeKeyResultCandidates(keyResultIds, candidates)
+  (modalObjective, keyResultIds, showDisabledOkrs, entities, candidates) => {
+    const keyResults = denormalizeKeyResultCandidates(keyResultIds, showDisabledOkrs, candidates)
     const parentKeyResultId = modalObjective && modalObjective.get('parentKeyResultId')
     if (parentKeyResultId && !keyResults.find(keyResult => keyResult.get('id') === parentKeyResultId)) {
       // 候補一覧に指定された上位 KR が存在しない場合は一覧に含める
@@ -146,10 +153,11 @@ export const getParentKeyResultCandidates = createSelector(
 export const getObjectiveCandidates = createSelector(
   getOkrModalObjective,
   state => state.objectives.get('candidateIds'),
+  state => state.loginUser.getIn(['userSetting', 'showDisabledOkrs']),
   state => state.entities,
   state => state.candidates,
-  (modalObjective, objectiveIds, entities, candidates) => {
-    const objectives = denormalizeObjectiveCandidates(objectiveIds, candidates)
+  (modalObjective, objectiveIds, showDisabledOkrs, entities, candidates) => {
+    const objectives = denormalizeObjectiveCandidates(objectiveIds, showDisabledOkrs, candidates)
     const objectiveId = modalObjective && modalObjective.get('id')
     if (objectiveId && !objectives.find(objective => objective.get('id') === objectiveId)) {
       // 候補一覧に指定された Objective が存在しない場合は一覧に含める

@@ -32,11 +32,13 @@ export default handleActions({
       keyResultIds.forEach(keyResultId => state = remove(state, keyResultId))
       return state
     },
+    [ActionTypes.DISABLED_KEY_RESULT]: merge,
     [ActionTypes.FETCHED_OBJECTIVE]: merge,
     [ActionTypes.FETCHED_OBJECTIVES]: merge,
     [ActionTypes.FETCHED_PREVIOUS_OBJECTIVES]: merge,
     [ActionTypes.ADDED_OBJECTIVE]: merge,
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: merge,
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
   }, Map()
 )

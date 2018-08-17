@@ -89,6 +89,18 @@ class ObjectivesController < ApplicationController
     unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
 
+  def update_disabled
+    @objective = Objective.find(params[:id])
+    forbidden and return unless valid_permission?(@objective.owner.organization.id)
+    forbidden('Objective 責任者のみ編集できます') and return unless valid_user?(@objective.owner.id)
+
+    disabled = params[:disabled]
+    unless @objective.update_attribute(:disabled_at, disabled ? Time.current : nil)
+      unprocessable_entity_with_errors(@objective.errors.full_messages)
+    end
+    @objective.reload # 変更前の進捗率が返るためクエリキャッシュをクリア
+  end
+
   def destroy
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)

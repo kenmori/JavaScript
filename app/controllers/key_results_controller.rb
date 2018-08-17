@@ -24,7 +24,7 @@ class KeyResultsController < ApplicationController
     @user = User.find(params[:user_id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    @key_results = @user.unprocessed_key_results
+    @key_results = @user.key_results.unprocessed
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
     render action: :index
@@ -71,6 +71,18 @@ class KeyResultsController < ApplicationController
     render action: :create, status: :ok
   rescue
     unprocessable_entity_with_errors(@key_result.errors.full_messages)
+  end
+
+  def update_disabled
+    @key_result = KeyResult.find(params[:id])
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
+
+    disabled = params[:disabled]
+    unless @key_result.update_attribute(:disabled_at, disabled ? Time.current : nil)
+      unprocessable_entity_with_errors(@key_result.errors.full_messages)
+    end
+    @key_result.reload # 変更前の進捗率が返るためクエリキャッシュをクリア
   end
 
   def destroy

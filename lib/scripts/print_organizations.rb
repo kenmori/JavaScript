@@ -1,7 +1,7 @@
 class PrintOrganizations
   def self.execute
-    enabled_user_count = User.where(disabled_at: nil).count
-    disabled_user_count = User.where.not(disabled_at: nil).count
+    enabled_user_count = User.enabled.count
+    disabled_user_count = User.disabled.count
     active_user_count_last_month = User.where(current_sign_in_at: 1.month.ago..Time.current).count
     active_user_count_last_week = User.where(current_sign_in_at: 1.week.ago..Time.current).count
     new_user_count_last_month = User.where(created_at: 1.month.ago..Time.current).count
@@ -26,8 +26,8 @@ class PrintOrganizations
       puts "#{index}. #{organization.name} (id=#{organization.id})"
 
       users = organization.users
-      enabled_user_count = users.where(disabled_at: nil).count
-      disabled_user_count = users.where.not(disabled_at: nil).count
+      enabled_user_count = users.enabled.count
+      disabled_user_count = users.disabled.count
       active_user_count_last_month = users.where(current_sign_in_at: 1.month.ago..Time.current).count
       active_user_count_last_week = users.where(current_sign_in_at: 1.week.ago..Time.current).count
       active_user_rate_last_month = (active_user_count_last_month * 100.0 / enabled_user_count).round(1)
@@ -37,16 +37,16 @@ class PrintOrganizations
       puts "    - #{active_user_count_last_week} active users in the last week (#{active_user_rate_last_week}%)"
 
       organization.okr_periods.each do |okr_period|
-        objective_count = okr_period.objectives.count
-        objective_progress_rate_average = objective_count == 0 ? '-'
-            : okr_period.objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / objective_count
-        key_result_count = okr_period.key_results.count
-        key_result_progress_rate_average = key_result_count == 0 ? '-'
-            : okr_period.key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_result_count
+        objectives = okr_period.objectives.enabled
+        objective_progress_rate_average = objectives.count == 0 ? '-'
+            : objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / objectives.count
+        key_results = okr_period.key_results.enabled
+        key_result_progress_rate_average = key_results.count == 0 ? '-'
+            : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.count
 
         puts "  - [#{okr_period.name}]"
-        puts "    - #{objective_count} objectives (average progress rate: #{objective_progress_rate_average}%)"
-        puts "    - #{key_result_count} key results (average progress rate: #{key_result_progress_rate_average}%)"
+        puts "    - #{objectives.count} objectives (average progress rate: #{objective_progress_rate_average}%)"
+        puts "    - #{key_results.count} key results (average progress rate: #{key_result_progress_rate_average}%)"
       end
     end
     puts ''

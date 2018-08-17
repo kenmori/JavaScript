@@ -6,6 +6,7 @@ import { Card, Icon, List } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
 import ProgressRate from '../util/ProgressRate'
 import ToggleButton from '../util/ToggleButton'
+import OkrName from '../util/OkrName'
 import moment from 'moment';
 
 class OkrCard extends PureComponent {
@@ -42,7 +43,7 @@ class OkrCard extends PureComponent {
                     onClick={this.handleKeyResultClick(keyResultId)}
                     onMouseEnter={this.handleKeyResultEnter(keyResult)}
                     onMouseLeave={unhighlightOkr}
-                  >{keyResult.get('name')}</a>
+                  ><OkrName okr={keyResult} /></a>
                 </div>
                 <ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} />
 
@@ -84,7 +85,7 @@ class OkrCard extends PureComponent {
                 onClick={this.handleObjectiveClick}
                 onMouseEnter={this.handleObjectiveEnter}
                 onMouseLeave={unhighlightOkr}
-              >{objective.get('name')}</a>
+              ><OkrName okr={objective} /></a>
             </div>
             <ProgressRate value={objective.get('progressRate')} />
           </Card.Header>

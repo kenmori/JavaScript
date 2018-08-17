@@ -24,6 +24,8 @@ const actions = createActions({
   [actionTypes.REMOVE_OBJECTIVE]: id => ({ id }),
   [actionTypes.REMOVED_OBJECTIVE]: objective => normalizeObjective(objective),
   [actionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: keyResultIds => ({ keyResultIds }),
+  [actionTypes.DISABLE_OBJECTIVE]: (id, toDisable) => ({ id, toDisable }),
+  [actionTypes.DISABLED_OBJECTIVE]: objective => normalizeObjective(objective),
 });
 
 export default actions;

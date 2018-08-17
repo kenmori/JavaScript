@@ -160,7 +160,7 @@ class SignUpPage extends PureComponent {
               </Form.Field>
               <OkrSpanSelect
                 value={this.state.okrSpan}
-                isForm={true}
+                inForm
                 onChange={okrSpan => {
                   if (this.state.endDateChanged) {
                     this.setState({ okrSpan })

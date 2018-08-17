@@ -35,7 +35,6 @@ class UserSettingTab extends PureComponent {
           onUpdateUser={this.props.updateUser}
           onUpdateEmail={this.props.updateEmail}
           onResendEmail={this.props.resendEmail}
-          onRemove={this.props.removeUser}
           confirm={this.props.confirm}
           keyword={this.state.keyword}
         />
@@ -48,7 +47,6 @@ class UserSettingTab extends PureComponent {
               <h3>無効なユーザー</h3>
               <UsersTable
                 users={disabledUsers}
-                onRestore={this.props.restoreUser}
                 confirm={this.props.confirm}
                 keyword={this.state.keyword}
               />
@@ -70,8 +68,6 @@ UserSettingTab.propTypes = {
   addUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   updateEmail: PropTypes.func.isRequired,
-  removeUser: PropTypes.func.isRequired,
-  restoreUser: PropTypes.func.isRequired,
   resendEmail: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component

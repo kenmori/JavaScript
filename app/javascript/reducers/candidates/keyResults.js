@@ -30,6 +30,8 @@ export default handleActions({
       keyResultIds.forEach(keyResultId => state = remove(state, keyResultId))
       return state
     },
+    [ActionTypes.DISABLED_KEY_RESULT]: merge,
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
   },
   Map(),
 );

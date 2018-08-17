@@ -24,12 +24,6 @@ const mapDispatchToProps = dispatch => {
     updateEmail: (id, email) => {
       dispatch(userActions.updateUser({ id, email }));
     },
-    removeUser: id => {
-      dispatch(userActions.removeUser(id));
-    },
-    restoreUser: id => {
-      dispatch(userActions.restoreUser(id));
-    },
     resendEmail: id => {
       dispatch(userActions.resendEmail(id));
     },

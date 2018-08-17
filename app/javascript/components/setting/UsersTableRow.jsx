@@ -19,9 +19,15 @@ class UsersTableRow extends PureComponent {
 
   handleOwnerChange = () => this.props.setOrganizationOwner(this.props.organizationId, this.props.user)
 
-  handleRestoreClick = user => () => this.props.restoreUser(user)
-
-  handleRemoveClick = user => () => this.props.removeUser(user)
+  handleDisableClick = () => {
+    const { user, confirm, disableUser } = this.props
+    const fullName = `${user.get('lastName')} ${user.get('firstName')}`
+    const isDisabled = user.get('disabled')
+    confirm({
+      content: `ユーザー "${fullName}" を${isDisabled ? '有効化' : '無効化'}しますか？`,
+      onConfirm: () => disableUser(user),
+    })
+  }
 
   render() {
     const { user, isLoginUser } = this.props;
@@ -70,14 +76,15 @@ class UsersTableRow extends PureComponent {
         </Table.Cell>
         <Table.Cell>{user.get('signInAt')}</Table.Cell>
         <Table.Cell textAlign="center">
-          {disabled
-            ? <Button icon='undo' content='有効化する' onClick={this.handleRestoreClick(user)} />
-            : (
-              <div className={isLoginUser ? 'disabled-box' : ''}>
-                <Button icon='dont' content='無効化する' negative onClick={this.handleRemoveClick(user)} disabled={isLoginUser} />
-              </div>
-            )
-          }
+          <div className={isLoginUser ? 'disabled-box' : ''}>
+            <Button
+              icon={disabled ? 'undo' : 'dont'}
+              content={disabled ? '有効化する' : '無効化する'}
+              negative={!disabled}
+              onClick={this.handleDisableClick}
+              disabled={isLoginUser}
+            />
+          </div>
         </Table.Cell>
       </Table.Row>
     );
@@ -88,14 +95,14 @@ UsersTableRow.propTypes = {
   // container
   organizationId: PropTypes.number.isRequired,
   setOrganizationOwner: PropTypes.func.isRequired,
+  disableUser: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
   isLoginUser: PropTypes.bool.isRequired,
   updateUser: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,
   resendEmail: PropTypes.func.isRequired,
-  removeUser: PropTypes.func.isRequired,
-  restoreUser: PropTypes.func.isRequired,
 };
 
 export default UsersTableRow;

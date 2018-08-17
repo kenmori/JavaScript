@@ -10,11 +10,11 @@ class OkrPieChart extends PureComponent {
     const minAngle = 10;
 
     const data = objective.get('keyResults').map(keyResult => {
-      if (keyResult.get('progressRate') === 0) {
+      if (keyResult.get('progressRate') === 0 || keyResult.get('disabled')) {
         endAngle -= minAngle; // 進捗率0%の KR は minAngle 幅で表示されるためその分の幅を追加する
       }
       return {
-        name: keyResult.get('name'),
+        name: (keyResult.get('disabled') ? '[無効] ' : '') + keyResult.get('name'),
         value: Math.max(0.1, keyResult.get('progressRate')), // 進捗率0%の KR を表示するため nonzero の値を指定する
         className: keyResult.get('status'),
       }

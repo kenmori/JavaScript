@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :objectives, only: %i[index show create update destroy] do
     member do
       post 'copy', to: 'objectives#create_copy'
+      put 'disable', to: 'objectives#update_disabled'
     end
     collection do
       get 'candidates', to: 'objectives#index_candidates'
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
     member do
       get 'objective', to: 'key_results#show_objective'
       put 'process', to: 'key_results#update_processed'
+      put 'disable', to: 'key_results#update_disabled'
     end
     collection do
       get 'candidates', to: 'key_results#index_candidates'
@@ -34,9 +36,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: %i[create update destroy] do
+  resources :users, only: %i[create update] do
     member do
-      put 'restore'
+      put 'disable', to: 'users#update_disabled'
       put 'password', to: 'users#update_password'
       put 'current_organization_id', to: 'users#update_current_organization_id'
       put 'resend'

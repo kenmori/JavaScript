@@ -37,6 +37,11 @@
       .flex-field:not(:first-child) {
         margin-left: .5rem;
       }
+
+      &.okr-buttons {
+        margin-top: 20px;
+        flex-direction: row-reverse;
+      }
     }
   }
 
@@ -115,9 +120,19 @@
   }
 
   .okr-comment {
-    &.ui.comments .comment .text {
-      margin: .5rem 0 .75rem;
-      white-space: pre-wrap;
+    &.ui.comments .comment {
+      .avatar.disabled {
+        opacity: .38;
+      }
+
+      .author {
+        display: inline-block;
+      }
+
+      .text {
+        margin: .5rem 0 .75rem;
+        white-space: pre-wrap;
+      }
     }
   }
 

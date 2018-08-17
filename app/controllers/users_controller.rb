@@ -30,22 +30,12 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
+  def update_disabled
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    if @user.update_attribute(:disabled_at, Time.current)
-      render action: :show, status: :ok
-    else
-      unprocessable_entity_with_errors(@user.errors.full_messages)
-    end
-  end
-
-  def restore
-    @user = User.find(params[:id])
-    forbidden and return unless valid_permission?(@user.organization.id)
-
-    if @user.update_attribute(:disabled_at, nil)
+    disabled = params[:disabled]
+    if @user.update_attribute(:disabled_at, disabled ? Time.current : nil)
       render action: :show, status: :ok
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
@@ -112,7 +102,7 @@ class UsersController < ApplicationController
 
   def user_setting_params
     params.require(:user_setting)
-        .permit(:show_child_objectives, :show_objective_key_results, :show_member_key_results)
+        .permit(:show_child_objectives, :show_objective_key_results, :show_member_key_results, :show_disabled_okrs)
   end
 
   def objective_order_params
