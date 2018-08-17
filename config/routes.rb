@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
   resources :okr_periods, only: %i[index create update destroy] do
     member do
-      get 'export', to: 'okr_periods#export_okrs'
+      get 'export', to: 'okr_periods#export_okrs', defaults: { format: 'csv' }
     end
   end
 
