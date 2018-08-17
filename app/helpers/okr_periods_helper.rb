@@ -459,8 +459,8 @@ module OkrPeriodsHelper
         target_actual = ''
         target_actual += " 目標値#{format_float(target_value)}#{value_unit}," if target_value.present?
         unless target_value.nil?
-          value = actual_value.nil? ? '-' : "#{format_float(actual_value)}#{value_unit}"
-          target_actual += " 実績値#{value},"
+          value = actual_value.nil? ? '-' : "#{format_float(actual_value)}"
+          target_actual += " 実績値#{value}#{value_unit},"
         end
 
         key_results_value += <<~"EOS"
