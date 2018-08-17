@@ -192,14 +192,14 @@ module OkrPeriodsHelper
         objective = okr[:objective]
         key_results = okr[:key_results]
 
-        objective_value = get_objective_value(objective)
+        objective_value = get_objective_value(objective, index)
 
         unless parent_kr.nil?
           parent_kr_value = get_parent_kr_value(parent_kr)
-          result += "┌ 上位 KR: #{parent_kr_value}\n"
+          result += "#{parent_kr_value}\n"
         end
 
-        result += "O#{index + 1}: #{objective_value}\n"
+        result += "#{objective_value}\n"
         result += get_key_results_value(key_results)
         result += "\n" if index + 1 != @okrs.count
       end
@@ -408,21 +408,19 @@ module OkrPeriodsHelper
 
       rate = get_key_result_rate_value(achievement_rate, progress_rate)
 
-      parent_kr_format = "#{parent_kr[:name]} [#{rate}, #{parent_kr[:owner]}]"
+      prefix = '上位 KR'
+      prefix = "(#{prefix})" if parent_kr[:owner_id] != @user_id
 
-      return "(#{parent_kr_format})" if parent_kr[:owner_id] != @user_id
-
-      parent_kr_format
+      "┌ #{prefix}: #{parent_kr[:name]} [#{rate}, #{parent_kr[:owner]}]"
     end
 
-    def get_objective_value(objective)
+    def get_objective_value(objective, index)
       progress = objective[:progress] || objective[:sub_progress] || 0
 
-      objective_format = "#{objective[:name]} [#{progress}%, #{objective[:owner]}]"
+      prefix = "O#{index + 1}"
+      prefix = "(#{prefix})" if objective[:owner_id] != @user_id
 
-      return "(#{objective_format})" if objective[:owner_id] != @user_id
-
-      objective_format
+      "#{prefix}: #{objective[:name]} [#{progress}%, #{objective[:owner]}]"
     end
 
     def get_achievement_rate(target_value, actual_value)
