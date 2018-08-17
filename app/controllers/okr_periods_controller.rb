@@ -31,6 +31,9 @@ class OkrPeriodsController < ApplicationController
   
   end
 
+  def export_okrs
+  end
+
   private
 
   def can_delete?

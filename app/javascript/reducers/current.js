@@ -15,6 +15,7 @@ const initialState = fromJS({
   selectedOkr: { objectiveId: null, keyResultId: null },
   mapOkr: {}, // OrderedMap<ObjectiveId, Set<KeyResultId>>
   scrollToObjectiveId: null,
+  isExporting: false,
 });
 
 const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResultId) => {
@@ -115,5 +116,11 @@ export default handleActions({
     // 選択中 O の再選択時にも props 変更イベントを飛ばすため String オブジェクト (別インスタンス) にする
     // noinspection JSPrimitiveTypeWrapperUsage
     return state.set('scrollToObjectiveId', new String(payload.objectiveId))
+  },
+  [ActionTypes.EXPORT_OKRS]: state => {
+    return state.set('isExporting', true)
+  },
+  [ActionTypes.EXPORTED_OKRS]: state => {
+    return state.set('isExporting', false)
   },
 }, initialState);

@@ -2,13 +2,14 @@ import OrganizationSettingTab from '../components/setting/OrganizationSettingTab
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
 import organizationActions from '../actions/organizations';
+import okrPeriodActions from '../actions/okrPeriods'
 
 const mapStateToProps = (state) => {
   return {
     organization: state.organizations.get('selected'),
     okrPeriods: state.okrPeriods,
     okrPeriodId: state.current.get('okrPeriodId'),
-    isExporting: state.organizations.get('isExporting'),
+    isExporting: state.current.get('isExporting'),
   };
 };
 
@@ -23,8 +24,8 @@ const mapDispatchToProps = dispatch => {
     deleteLogo: id => {
       dispatch(organizationActions.updateOrganization({ id, removeLogo: true }));
     },
-    exportOkrs: (organization, okrPeriod) => {
-      dispatch(organizationActions.exportOkrs(organization.get('id'), okrPeriod.get('id')))
+    exportOkrs: okrPeriod => {
+      dispatch(okrPeriodActions.exportOkrs(okrPeriod.get('id')))
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params));

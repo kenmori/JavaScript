@@ -24,10 +24,16 @@ function* removeOkrPeriod({ payload }) {
   yield put(toastActions.showToast('OKR 期間を削除しました'));
 }
 
+function* exportOkrs({ payload: { okrPeriodId } }) {
+  yield call(API.get, `/okr_periods/${okrPeriodId}/export`,)
+  yield put(okrPeriodActions.exportedOkrs())
+}
+
 export function* okrPeriodSagas() {
   yield all([
     takeLatest(actionTypes.ADD_OKR_PERIOD, withLoading(addOkrPeriod)),
     takeLatest(actionTypes.UPDATE_OKR_PERIOD, withLoading(updateOkrPeriod)),
     takeLatest(actionTypes.REMOVE_OKR_PERIOD, withLoading(removeOkrPeriod)),
+    takeLatest(actionTypes.EXPORT_OKRS, exportOkrs),
   ]);
 }

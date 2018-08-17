@@ -38,17 +38,11 @@ function* updateOrganizationOwner({ payload }) {
   yield put(toastActions.showToast('組織の代表者を変更しました'))
 }
 
-function* exportOkrs({ payload: { organizationId, okrPeriodId } }) {
-  yield call(API.put, `/organizations/${organizationId}/export`, { okrPeriodId })
-  yield put(organizationActions.exportedOkrs())
-}
-
 export function* organizationSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_ORGANIZATION, withLoading(fetchOrganization)),
     takeLatest(actionTypes.ADD_ORGANIZATION, withLoading(addOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION, withLoading(updateOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION_OWNER, withLoading(updateOrganizationOwner)),
-    takeLatest(actionTypes.EXPORT_OKRS, exportOkrs),
   ]);
 }

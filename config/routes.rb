@@ -54,11 +54,14 @@ Rails.application.routes.draw do
   resources :organizations, only: %i[show create update] do
     member do
       put 'owner', to: 'organizations#update_owner'
-      put 'export', to: 'organizations#export_okrs'
     end
   end
 
-  resources :okr_periods, only: %i[index create update destroy]
+  resources :okr_periods, only: %i[index create update destroy] do
+    member do
+      get 'export', to: 'okr_periods#export_okrs'
+    end
+  end
 
   get '*path', to: 'home#index'
 end

@@ -41,13 +41,13 @@ class OrganizationSettingTab extends PureComponent {
   handleOkrPeriodChange = okrPeriodId => this.setState({ okrPeriodId })
 
   handleExportClick = () => {
-    const { organization, okrPeriods, exportOkrs, confirm } = this.props
+    const { okrPeriods, exportOkrs, confirm } = this.props
     const { okrPeriodId } = this.state
     const okrPeriod = okrPeriods.find(okrPeriod => okrPeriod.get('id') === okrPeriodId)
     const okrPeriodName = `${okrPeriod.get('name')} (${okrPeriod.get('monthStart')} 〜 ${okrPeriod.get('monthEnd')})`
     confirm({
       content: `OKR 期間 "${okrPeriodName}" に属する OKR 一覧をエクスポートしますか？エクスポートされたデータは CSV 形式のファイルとしてダウンロードされます。`,
-      onConfirm: () => exportOkrs(organization, okrPeriod),
+      onConfirm: () => exportOkrs(okrPeriod),
     })
   }
 
