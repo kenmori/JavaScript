@@ -499,7 +499,8 @@ module OkrPeriodsHelper
           force_quotes: true
       }
 
-      CSV.generate(csv_options) do |csv|
+      bom = "\uFEFF"
+      CSV.generate(bom, csv_options) do |csv|
         user_grouped.each_with_index do |(_, source), index|
           row = ExportObjectKeyResultsCsvRow.new(source, okr_period)
 
