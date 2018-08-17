@@ -6,10 +6,6 @@ module OkrPeriodsHelper
 
   # DataAccessLayer
   class ExportObjectKeyResultsDataAccessor
-    def self.find_okr_period(period_id)
-      OkrPeriod.find(period_id)
-    end
-
     def self.get_export_data(organization_id, period_id)
       connection = ActiveRecord::Base.connection
 
@@ -482,14 +478,12 @@ module OkrPeriodsHelper
 
   # ServiceLayer
   class ExportObjectKeyResultsService
-    def self.create_csv_value(organization_id, period_id)
-      export_data = ExportObjectKeyResultsDataAccessor.get_export_data(organization_id, period_id)
+    def self.create_csv_value(okr_period)
+      export_data = ExportObjectKeyResultsDataAccessor.get_export_data(okr_period.organization_id, okr_period.id)
 
       return if export_data.count.zero?
 
       user_grouped = export_data.group_by { |item| item['user_id'] }
-
-      okr_period = ExportObjectKeyResultsDataAccessor.find_okr_period(period_id)
 
       headers = ['', 'ユーザー名', 'メールアドレス', 'OKR']
       csv_options = {
@@ -514,6 +508,6 @@ module OkrPeriodsHelper
 
   # execute export
   def execute_export(okr_period)
-    ExportObjectKeyResultsService.create_csv_value(okr_period.organization_id, okr_period.id)
+    ExportObjectKeyResultsService.create_csv_value(okr_period)
   end
 end
