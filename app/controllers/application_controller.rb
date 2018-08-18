@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::InvalidAuthenticityToken, with: :unprocessable_entity
 
   before_action :authenticate_user!
+  around_action :set_current_user
 
   protected
 
@@ -75,5 +76,14 @@ class ApplicationController < ActionController::Base
     # errors.messageを展開するだけであれば展開した文字列を引数として
     # 直接renderせずにrender_with_errorを呼び出す方式に変える
     render json: {error: errors}, status: code
+  end
+
+  # Devise の current_user に Model からアクセスするための hack
+  # @see https://stackoverflow.com/a/2513456
+  def set_current_user
+    Current.user = current_user
+    yield
+  ensure
+    Current.user = nil
   end
 end

@@ -1,27 +1,26 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Table, Pagination } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import UsersTableRow from './UsersTableRow';
+import SortableComponent from '../util/SortableComponent'
+import UsersTableRow from '../../containers/UsersTableRow';
 
-class UsersTable extends PureComponent {
+class UsersTable extends SortableComponent {
 
   static NUMBER_TO_DISPLAY = 50;
 
   constructor(props) {
     super(props);
     this.state = {
-      column: 'index',
-      users: this.getUsers(props.users),
-      direction: 'ascending',
+      ...this.state,
       activePage: 1,
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(nextProps)
     this.setState({
       activePage: this.props.keyword !== nextProps.keyword ? 1 : this.state.activePage,
-      users: this.getSortedUsers(this.getUsers(nextProps.users), this.state.column, this.state.direction),
     });
   }
 
@@ -30,10 +29,7 @@ class UsersTable extends PureComponent {
   changeEmail = id => email => {
     this.props.confirm({
       content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
-      onConfirm: () => {
-        const notLogout = id !== this.props.loginUserId;
-        this.props.onUpdateEmail({ id, email, notLogout });
-      },
+      onConfirm: () => this.props.onUpdateEmail(id, email),
       onCancel: () => this.forceUpdate(), // 入力内容を破棄する
     });
   }
@@ -45,60 +41,16 @@ class UsersTable extends PureComponent {
     });
   }
 
-  getUsers = (users) => (
-    users.map((user, index) =>
-      user.set('index', index + 1)
-        .set('email', user.get('unconfirmedEmail') || user.get('email'))
-    )
-  )
-
-  getSortedUsers = (users, column, direction) => {
-    const sortedUsers = users.sort((a, b) => {
-      if (typeof a.get(column) === 'string') {
-        return a.get(column).localeCompare(b.get(column));
-      } else {
-        if (a.get(column) < b.get(column)) { return -1; }
-        if (a.get(column) > b.get(column)) { return 1; }
-        if (a.get(column) === b.get(column)) { return 0; }
-      }
-    });
-    return direction === 'ascending' ? sortedUsers : sortedUsers.reverse();
-  }
-
-  sort = column => () => {
-    const direction = this.state.column !== column ? 'ascending'
-      : this.state.direction === 'ascending' ? 'descending' : 'ascending';
-    this.setState({
-      column: column,
-      users: this.getSortedUsers(this.state.users, column, direction),
-      direction: direction,
-    });
-  };
-
   getFilteredUsers = (users, keyword) => {
-    return keyword ? users.filter(user => (
-      user.get('firstName').includes(keyword) || user.get('lastName').includes(keyword) || user.get('email').includes(keyword)
-    )) : users;
+    if (!keyword) return users
+    keyword = keyword.toLowerCase()
+    return users.filter(user => user.get('searchText').includes(keyword))
   }
-
-  removeUser = user => {
-    this.props.confirm({
-      content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を無効化しますか？`,
-      onConfirm: () => this.props.onRemove(user.get('id')),
-    });
-  };
-
-  restoreUser = user => {
-    this.props.confirm({
-      content: `ユーザー "${user.get('lastName')} ${user.get('firstName')}" を有効化しますか？`,
-      onConfirm: () => this.props.onRestore(user.get('id')),
-    });
-  };
 
   handlePageChange = (e, { activePage }) => this.setState({ activePage })
 
   render() {
-    const { column, direction, users, activePage } = this.state;
+    const { users, activePage } = this.state;
     const filteredUsers = this.getFilteredUsers(users, this.props.keyword);
     const begin = (activePage - 1) * UsersTable.NUMBER_TO_DISPLAY;
     const end = Math.min(filteredUsers.size, activePage * UsersTable.NUMBER_TO_DISPLAY);
@@ -108,16 +60,22 @@ class UsersTable extends PureComponent {
         <Table singleLine sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'index' ? direction : null} onClick={this.sort('index')} textAlign='center' />
+              <Table.HeaderCell sorted={this.isSorted('index')} onClick={this.handleSort('index')} textAlign='center' />
               <Table.HeaderCell disabled />
-              <Table.HeaderCell sorted={column === 'lastName' ? direction : null} onClick={this.sort('lastName')}>
+              <Table.HeaderCell sorted={this.isSorted('lastName')} onClick={this.handleSort('lastName')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'email' ? direction : null} onClick={this.sort('email')}>
+              <Table.HeaderCell sorted={this.isSorted('email')} onClick={this.handleSort('email')}>
                 メールアドレス
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'isAdmin' ? direction : null} onClick={this.sort('isAdmin')}>
+              <Table.HeaderCell sorted={this.isSorted('isAdmin')} onClick={this.handleSort('isAdmin')}>
                 権限
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('isOwner')} onClick={this.handleSort('isOwner')}>
+                代表者
+              </Table.HeaderCell>
+              <Table.HeaderCell sorted={this.isSorted('signInAt')} onClick={this.handleSort('signInAt')}>
+                最終ログイン
               </Table.HeaderCell>
               <Table.HeaderCell disabled />
             </Table.Row>
@@ -132,15 +90,13 @@ class UsersTable extends PureComponent {
                                     updateUser={this.updateUser(id)}
                                     changeEmail={this.changeEmail(id)}
                                     resendEmail={this.resendEmail}
-                                    removeUser={this.removeUser}
-                                    restoreUser={this.restoreUser}
               />
             })}
           </Table.Body>
 
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan='6' textAlign='right'>
+              <Table.HeaderCell colSpan='8' textAlign='right'>
                 {totalPages > 0 && (
                   <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
                               prevItem={activePage === 1 ? null : undefined}
@@ -164,10 +120,12 @@ UsersTable.propTypes = {
   onUpdateUser: PropTypes.func,
   onUpdateEmail: PropTypes.func,
   onResendEmail: PropTypes.func,
-  onRemove: PropTypes.func,
-  onRestore: PropTypes.func,
   confirm: PropTypes.func.isRequired,
   keyword: PropTypes.string.isRequired,
 };
+
+UsersTable.defaultProps = {
+  key: 'users',
+}
 
 export default UsersTable;

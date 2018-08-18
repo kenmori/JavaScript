@@ -1,0 +1,13 @@
+.okr-name {
+  &.disabled {
+    opacity: .38;
+
+    &:before {
+      content: '[無効] ';
+    }
+
+    .okr-name__text {
+      text-decoration: line-through;
+    }
+  }
+}

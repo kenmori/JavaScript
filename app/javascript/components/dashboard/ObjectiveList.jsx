@@ -7,9 +7,7 @@ import Objective from './Objective';
 class ObjectiveList extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      objectiveOrder: props.objectiveOrder,
-    };
+    this.state = { objectiveOrder: props.objectiveOrder }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,47 +16,50 @@ class ObjectiveList extends PureComponent {
     }
   }
 
-  moveObjective = (fromIndex, toIndex) => {
-    if (0 <= toIndex && toIndex < this.state.objectiveOrder.size) {
-      this.setState({ objectiveOrder: this.getNewObjectiveOrder(fromIndex, toIndex) });
-    }
-  }
+  moveObjective = (fromIndex, toIndex, toUpdate = false) => {
+    const { objectiveOrder } = this.state
 
-  updateObjectiveOrder = (fromIndex, toIndex) => {
-    const newObjectiveOrder = this.getNewObjectiveOrder(fromIndex, toIndex);
-    if (!newObjectiveOrder.equals(this.props.objectiveOrder)) {
-      this.props.updateObjectiveOrder(newObjectiveOrder);
-    }
-  }
+    // フィルタリング状態の index を非フィルタリング状態の index に変換する
+    const filteredObjectiveOrder = this.props.objectives
+      .map(objective => objective.get('id')).sortBy(id => objectiveOrder.indexOf(id))
+    const fromId = filteredObjectiveOrder.get(fromIndex)
+    const toId = filteredObjectiveOrder.get(toIndex)
+    fromIndex = objectiveOrder.indexOf(fromId)
+    toIndex = objectiveOrder.indexOf(toId)
 
-  getNewObjectiveOrder = (fromIndex, toIndex) => {
-    if (fromIndex >= 0 && toIndex >= 0) {
-      const fromId = this.state.objectiveOrder.get(fromIndex);
-      return this.state.objectiveOrder.delete(fromIndex).insert(toIndex, fromId);
+    const newObjectiveOrder = objectiveOrder.delete(fromIndex).insert(toIndex, fromId)
+    if (toUpdate) {
+      this.props.updateObjectiveOrder(newObjectiveOrder)
     } else {
-      return this.state.objectiveOrder;
+      this.setState({ objectiveOrder: newObjectiveOrder })
     }
   }
 
-  selectObjective = objective => () => {
-    this.props.selectOkr(objective.get('id'));
+  updateObjectiveOrder = () => {
+    if (!this.state.objectiveOrder.equals(this.props.objectiveOrder)) {
+      this.props.updateObjectiveOrder(this.state.objectiveOrder)
+    }
   }
+
+  selectObjective = objective => () => this.props.selectObjective(objective)
 
   render() {
+    const { objectives, selectedObjectiveId, canMoveObjective } = this.props
+    const { objectiveOrder } = this.state
     return (
       <div className='objective-list'>
-        {this.props.objectives
-          .sortBy(objective => this.state.objectiveOrder.indexOf(objective.get('id')))
+        {objectives
+          .sortBy(objective => objectiveOrder.indexOf(objective.get('id')))
           .map((objective, index) => {
             const objectiveId = objective.get('id');
             return <Objective
               key={objectiveId}
               index={index}
               objective={objective}
-              isSelected={objectiveId === this.props.selectedObjectiveId}
+              isSelected={objectiveId === selectedObjectiveId}
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
-              canMoveObjective={this.props.canMoveObjective}
+              canMoveObjective={canMoveObjective}
               selectObjective={this.selectObjective} />
           })}
       </div>
@@ -71,7 +72,7 @@ ObjectiveList.propTypes = {
   selectedObjectiveId: PropTypes.number,
   objectiveOrder: ImmutablePropTypes.list.isRequired,
   canMoveObjective: PropTypes.bool.isRequired,
-  selectOkr: PropTypes.func.isRequired,
+  selectObjective: PropTypes.func.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
   // component
   objectives: ImmutablePropTypes.list.isRequired,

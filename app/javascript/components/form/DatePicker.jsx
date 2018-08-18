@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 class DatePicker extends PureComponent {
   render() {
     return (
-      <div className='date-picker'>
+      <div className='ui input date-picker'>
         <ReactDatePicker {...this.props} highlightDates={[moment()]} />
       </div>
     )

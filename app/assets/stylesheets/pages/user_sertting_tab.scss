@@ -1,0 +1,23 @@
+.users-table {
+  margin-top: 15px;
+  
+  .auto-input + .label {
+    margin-left: 1em;
+  }
+}
+
+.user-add-form {
+  display: flex;
+  align-items: baseline;
+
+  &.ui.form {
+    .field, .fields {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+
+    .inline.fields .field:last-child {
+      padding-right: 0;
+    }
+  }
+}

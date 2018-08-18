@@ -17,9 +17,9 @@ function* fetchKeyResultCandidates({ payload }) {
   yield put(keyResultActions.fetchedKeyResultCandidates(result));
 }
 
-function* fetchUnprocessedKeyResults({ payload }) {
+function* fetchTaskKeyResults({ payload }) {
   const result = yield call(API.get, '/key_results/unprocessed', { okrPeriodId: payload.okrPeriodId, userId: payload.userId })
-  yield put(keyResultActions.fetchedUnprocessedKeyResults(result.get('keyResults')))
+  yield put(keyResultActions.fetchedTaskKeyResults(result.get('keyResults')))
 }
 
 function* addKeyResult({ payload }) {
@@ -31,9 +31,13 @@ function* addKeyResult({ payload }) {
 }
 
 function* updateKeyResult({payload}) {
-  const result = yield call(API.put, '/key_results/' + payload.keyResult.id, { keyResult: payload.keyResult });
+  const { keyResult } = payload
+  const result = yield call(API.put, '/key_results/' + keyResult.id, { keyResult });
   const currentUserId = yield select(state => state.current.get('userId'));
   yield put(keyResultActions.updatedKeyResult(result.get('keyResult'), currentUserId));
+  if (keyResult.member && keyResult.member.behavior === 'remove') {
+    yield put(keyResultActions.removedKeyResultMember(keyResult.id, keyResult.member.user))
+  }
   yield put(toastActions.showToast('Key Result を更新しました'));
 }
 
@@ -41,6 +45,12 @@ function* removeKeyResult({payload}) {
   const result = yield call(API.delete, '/key_results/' + payload.id);
   yield put(keyResultActions.removedKeyResult(result.get('keyResult')));
   yield put(toastActions.showToast('Key Result を削除しました'));
+}
+
+function* disableKeyResult({ payload: { id, toDisable } }) {
+  const result = yield call(API.put, `/key_results/${id}/disable`, { disabled: toDisable })
+  yield put(keyResultActions.disabledKeyResult(result.get('keyResult')))
+  yield put(toastActions.showToast(`Key Result を${toDisable ? '無効化' : '有効化'}しました`))
 }
 
 function* processKeyResult({ payload }) {
@@ -52,10 +62,11 @@ export function *keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
     takeLatest(actionTypes.FETCH_KEY_RESULT_CANDIDATES, fetchKeyResultCandidates),
-    takeLatest(actionTypes.FETCH_UNPROCESSED_KEY_RESULTS, withLoading(fetchUnprocessedKeyResults)),
+    takeLatest(actionTypes.FETCH_TASK_KEY_RESULTS, withLoading(fetchTaskKeyResults)),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),
+    takeLatest(actionTypes.DISABLE_KEY_RESULT, withLoading(disableKeyResult)),
     takeLatest(actionTypes.PROCESS_KEY_RESULT, withLoading(processKeyResult)),
   ]);
 }

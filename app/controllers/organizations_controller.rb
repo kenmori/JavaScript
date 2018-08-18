@@ -12,9 +12,15 @@ class OrganizationsController < ApplicationController
       @organization.users.create!(create_user_params)
       @organization.okr_periods.create!(create_okr_period_params)
     end
+    # トラッキング：新規アカウント作成
+    TrackingMailer.create_account(@organization).deliver_later
     render status: :created
-  rescue
-    unprocessable_entity_with_errors(@organization.errors.full_messages)
+  rescue => e
+    if @organization && @organization.errors.any?
+      unprocessable_entity_with_errors(@organization.errors.full_messages)
+    else
+      unprocessable_entity(e.message)
+    end
   end
 
   def update
@@ -28,10 +34,27 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def update_owner
+    forbidden and return unless valid_permission?(params[:id]) && current_user.admin?
+
+    @organization = Organization.find(params[:id])
+    ActiveRecord::Base.transaction do
+      @organization.organization_members.where(role: :owner).each do |owner|
+        owner.update!(role: :member)
+      end
+
+      user_id = params[:organization_member]['user']
+      new_owner = @organization.organization_members.find_by(user_id: user_id)
+      new_owner.update!(role: :owner)
+    end
+  rescue => e
+    unprocessable_entity(e.message)
+  end
+
   private
 
   def create_params
-    params.require(:organization).permit(:name, :uniq_name, :okr_span)
+    params.require(:organization).permit(:name, :okr_span)
   end
 
   def create_user_params
@@ -43,7 +66,7 @@ class OrganizationsController < ApplicationController
   end
 
   def update_params
-    params.require(:organization).permit(:id, :name, :logo, :remove_logo)
+    params.require(:organization).permit(:id, :name, :logo, :remove_logo, :okr_span)
   end
   
 end

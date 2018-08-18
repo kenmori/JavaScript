@@ -1,20 +1,17 @@
 import OkrMap from '../components/map/OkrMap';
 import { connect } from 'react-redux';
-import objectiveActions from '../actions/objectives';
+import { getMapObjective } from '../utils/selector'
 
-const mapStateToProps = (state) => {
-  return {};
+const mapStateToProps = state => {
+  return {
+    objective: getMapObjective(state),
+    mapOkr: state.current.get('mapOkr'),
+    scrollToObjectiveId: state.current.get('scrollToObjectiveId'),
+  }
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchObjective: objectiveId => {
-      dispatch(objectiveActions.fetchObjective(objectiveId));
-    },
-    fetchObjectiveByKeyResult: keyResultId => {
-      dispatch(objectiveActions.fetchObjective(null, keyResultId));
-    },
-  };
+  return {}
 };
 
 export default connect(

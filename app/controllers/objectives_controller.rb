@@ -4,20 +4,17 @@ class ObjectivesController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       objectives = @user.objectives
-                       .includes(key_results: { child_objectives: [key_results: :child_objectives] })
+                       .includes(:key_results)
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
       objective_order = @user.objective_orders.find_by(okr_period_id: params[:okr_period_id])&.list
       @objectives = sort_objectives(objectives, objective_order)
     else
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @objectives = current_organization
                         .okr_periods
                         .find(params[:okr_period_id])
                         .objectives
-                        .includes(key_results: { child_objectives: [key_results: :child_objectives] })
                         .order(created_at: :desc)
     end
   end
@@ -52,7 +49,7 @@ class ObjectivesController < ApplicationController
     forbidden('Key Result 責任者または関係者のみ作成できます') and return unless valid_user_to_create?
 
     ActiveRecord::Base.transaction do
-      original_objective = Objective.find(params[:objective_id])
+      original_objective = Objective.find(params[:id])
       @objective = @user.objectives.new(objective_create_params)
       @user.save!
       update_parent_key_result if params[:objective][:parent_key_result_id]
@@ -83,8 +80,8 @@ class ObjectivesController < ApplicationController
     forbidden('Objective 責任者のみ編集できます') and return unless valid_user?(@objective.owner.id)
 
     ActiveRecord::Base.transaction do
+      update_parent_key_result if params[:objective][:parent_key_result_id] # 再帰構造による無限ループ回避のため update! より先に処理する 
       @objective.update!(objective_update_params)
-      update_parent_key_result if params[:objective][:parent_key_result_id]
       update_objective_members if params[:objective][:objective_member]
     end
     render action: :create, status: :ok
@@ -92,12 +89,24 @@ class ObjectivesController < ApplicationController
     unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
 
+  def update_disabled
+    @objective = Objective.find(params[:id])
+    forbidden and return unless valid_permission?(@objective.owner.organization.id)
+    forbidden('Objective 責任者のみ編集できます') and return unless valid_user?(@objective.owner.id)
+
+    disabled = params[:disabled]
+    unless @objective.update_attribute(:disabled_at, disabled ? Time.current : nil)
+      unprocessable_entity_with_errors(@objective.errors.full_messages)
+    end
+    @objective.reload # 変更前の進捗率が返るためクエリキャッシュをクリア
+  end
+
   def destroy
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
     forbidden('Objective 責任者のみ削除できます') and return unless valid_user?(@objective.owner.id)
 
-    if can_delete? && @objective.destroy
+    if @objective.destroy
       render action: :create, status: :ok
     else
       unprocessable_entity_with_errors(@objective.errors.full_messages)
@@ -115,12 +124,6 @@ class ObjectivesController < ApplicationController
     return true if valid_user?(parent_key_result.owner.id)
     return true if parent_key_result.key_result_members.exists?(user_id: current_user.id)
 
-    return false
-  end
-
-  def can_delete?
-    return true if @objective.key_results.empty?
-    @objective.errors[:base] << 'Key Result が紐付いているため削除できません'
     return false
   end
 

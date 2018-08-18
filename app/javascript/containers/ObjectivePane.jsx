@@ -1,5 +1,6 @@
 import ObjectivePane from '../components/okrmodal/ObjectivePane'
 import { connect } from 'react-redux'
+import objectiveActions from '../actions/objectives'
 
 const mapStateToProps = state => {
   return {
@@ -8,7 +9,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    disableObjective: objective => {
+      dispatch(objectiveActions.disableObjective(objective.get('id'), !objective.get('disabled')))
+    },
+  }
 }
 
 export default connect(

@@ -1,0 +1,89 @@
+.okr-sidebar {
+  width: 30%;
+  padding-right: 26px; // for swap-icons
+
+  .sidebar__item-wrapper {
+    position: relative;
+
+    .sidebar__item {
+      &:hover:not(.drop) {
+        .sidebar__swap-icons {
+          display: flex;
+        }
+      }
+
+      &.drag {
+        visibility: hidden;
+      }
+
+      &.drop {
+        cursor: default !important;
+      }
+    }
+
+    &:first-child .swap-up,
+    &:last-child .swap-down {
+      visibility: hidden;
+    }
+  }
+
+  .sidebar__swap-icons {
+    position: absolute;
+    top: 0;
+    right: -26px; // = swap icon width
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .swap-up,
+    .swap-down {
+      padding-left: 2px;
+      width: 26px;
+    }
+    .swap-up {
+      margin-top: 4px;
+    }
+    .swap-down {
+      margin-bottom: 4px;
+    }
+  }
+
+  .sidebar__item {
+    display: flex;
+    align-items: center;
+    padding: 8px 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: $SELECT_HOVER_COLOR;
+    }
+
+    &.is-current {
+      background: $SELECT_BG_COLOR;
+    }
+  }
+
+  .sidebar__name {
+    flex-grow: 1;
+    margin: 0 4px;
+  }
+
+  // Copied from ".ui.segments > .segment" style of SUI
+  .ui.segments > .sidebar__item-wrapper {
+    > .segment {
+      border: none;
+      border-top: 1px solid $BORDER_COLOR;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    &:first-child > .segment {
+      border-top: none;
+      border-radius: 4px 4px 0 0;
+    }
+    &:last-child > .segment {
+      box-shadow: 0 1px 2px 0 $BORDER_COLOR;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+}

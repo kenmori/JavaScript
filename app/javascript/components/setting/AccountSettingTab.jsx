@@ -6,11 +6,10 @@ import UserAvatar from '../../containers/UserAvatar';
 import AutoInput from '../form/AutoInput';
 
 class AccountSettingTab extends PureComponent {
+
   constructor(props) {
     super(props)
-    this.state = {
-      email: null
-    }
+    this.state = { email: props.loginUser.get('email') }
   }
 
   handleLastNameCommit = lastName => this.props.updateUser({ id: this.props.loginUser.get('id'), lastName })
@@ -18,13 +17,12 @@ class AccountSettingTab extends PureComponent {
   handleFistNameCommit = firstName => this.props.updateUser({ id: this.props.loginUser.get('id'), firstName })
 
   changeEmail = email => {
-    if(confirm('入力したメールアドレスに確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？')) {
-      this.props.updateEmail({ id: this.props.loginUser.get('id'), email });
-    } else {
-      this.setState({
-        email: this.props.loginUser.get('email'),
-      });
-    }
+    this.setState({ email })
+    this.props.confirm({
+      content: `${email} に確認メールを送信します。メール中の URL がクリックされると処理が完了します。メールアドレスを変更しますか？`,
+      onConfirm: () => this.props.updateEmail(this.props.loginUser.get('id'), email),
+      onCancel: () => this.setState({ email: this.props.loginUser.get('email') }),
+    })
   }
 
   changePassword = () => {
@@ -46,65 +44,47 @@ class AccountSettingTab extends PureComponent {
     event.target.value = null;
   }
 
-  deleteAvatar = (event) => {
+  clickFileInput = () => this.refs.fileInput.click()
+
+  deleteAvatar = () => {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
-      onConfirm: () => this.props.deleteAvatar({id: this.props.loginUser.get('id'), removeAvatar: true}),
-    });
-  }
-
-  componentDidMount() {
-    this.setState({
-      email: this.props.loginUser.get('email'),
+      onConfirm: () => this.props.deleteAvatar(this.props.loginUser.get('id')),
     });
   }
 
   render() {
-    const loginUser = this.props.loginUser;
-    if (!loginUser || !this.state.email) {
-      return null;
-    }
+    const { loginUser } = this.props
+    const { email } = this.state
     return (
-      <Tab.Pane attached={false} className="account-setting-tab">
+      <Tab.Pane className="account-setting-tab">
         <dl>
           <dt>名前</dt>
           <dd>
-            <span style={{marginRight: '5px'}}>
-              <AutoInput value={loginUser.get('lastName')} onCommit={this.handleLastNameCommit}/>
-            </span>
+            <AutoInput value={loginUser.get('lastName')} onCommit={this.handleLastNameCommit}/>
             <AutoInput value={loginUser.get('firstName')} onCommit={this.handleFistNameCommit}/>
           </dd>
 
           <dt>メールアドレス</dt>
-          <dd><AutoInput value={this.state.email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
+          <dd><AutoInput value={email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
 
           <dt>アバター</dt>
           <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
           <dd>
-            <div className="avatar-img-button">
-              <label className="file-button">
-                <input type="file" style={{display: "none"}} onChange={this.changeAvatarImage} />
-              </label>
-              <Button className="change-button" content="変更する" positive />
-              {loginUser.get('avatarUrl') && <Button className="change-button" content="削除する" negative onClick={this.deleteAvatar} />}
-            </div>
+            <input type="file" className="file-input" ref="fileInput" onChange={this.changeAvatarImage} />
+            <Button content="変更する" positive onClick={this.clickFileInput} />
+            {loginUser.get('avatarUrl') && <Button content="削除する" negative onClick={this.deleteAvatar} />}
           </dd>
-          <dd>
+        </dl>
 
-          </dd>
-
-          <dt>パスワード</dt>
-          <dd>
-            <dl>
-              <dt>現在のパスワード</dt>
-              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node; }}/></dd>
-              <dt>新しいパスワード</dt>
-              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node; }}/></dd>
-              <dt>新しいパスワード (確認用)</dt>
-              <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node; }}/></dd>
-              <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
-            </dl>
-          </dd>
+        <dl>
+          <dt>現在のパスワード</dt>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node; }}/></dd>
+          <dt>新しいパスワード</dt>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node; }}/></dd>
+          <dt>新しいパスワード (確認用)</dt>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node; }}/></dd>
+          <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
         </dl>
       </Tab.Pane>
     );

@@ -4,18 +4,14 @@ class KeyResultsController < ApplicationController
       @user = User.find(params[:user_id])
       forbidden and return unless valid_permission?(@user.organization.id)
 
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @key_results = @user.key_results
-                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                          .where(okr_period_id: params[:okr_period_id])
                          .order(created_at: :desc)
     else
-      # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
       @key_results = current_organization
                          .okr_periods
                          .find(params[:okr_period_id])
                          .key_results
-                         .includes(child_objectives: { key_results: [child_objectives: :key_results] })
                          .order(created_at: :desc)
     end
   end
@@ -28,16 +24,14 @@ class KeyResultsController < ApplicationController
     @user = User.find(params[:user_id])
     forbidden and return unless valid_permission?(@user.organization.id)
 
-    # 大規模環境でパフォーマンスが最適化されるように3階層下までネストして includes する
-    @key_results = @user.unprocessed_key_results
-                       .includes(child_objectives: { key_results: [child_objectives: :key_results] })
+    @key_results = @user.key_results.unprocessed
                        .where(okr_period_id: params[:okr_period_id])
                        .order(created_at: :desc)
     render action: :index
   end
 
   def show_objective
-    key_result = KeyResult.find(params[:key_result_id])
+    key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(key_result.owner.organization.id)
     @objective = key_result.objective
     render 'objectives/show'
@@ -69,14 +63,26 @@ class KeyResultsController < ApplicationController
     forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
 
     ActiveRecord::Base.transaction do
+      update_objective if params[:key_result][:objective_id] # 再帰構造による無限ループ回避のため update! より先に処理する
       @key_result.update!(key_result_update_params)
-      update_objective if params[:key_result][:objective_id]
       update_key_result_members if params[:key_result][:member]
       update_comment if params[:key_result][:comment]
     end
     render action: :create, status: :ok
   rescue
     unprocessable_entity_with_errors(@key_result.errors.full_messages)
+  end
+
+  def update_disabled
+    @key_result = KeyResult.find(params[:id])
+    forbidden and return unless valid_permission?(@key_result.owner.organization.id)
+    forbidden('Objective 責任者または Key Result 責任者のみ編集できます') and return unless valid_user_to_update?
+
+    disabled = params[:disabled]
+    unless @key_result.update_attribute(:disabled_at, disabled ? Time.current : nil)
+      unprocessable_entity_with_errors(@key_result.errors.full_messages)
+    end
+    @key_result.reload # 変更前の進捗率が返るためクエリキャッシュをクリア
   end
 
   def destroy
@@ -92,7 +98,7 @@ class KeyResultsController < ApplicationController
   end
 
   def update_processed
-    @key_result = KeyResult.find(params[:key_result_id])
+    @key_result = KeyResult.find(params[:id])
     key_result_member = @key_result.key_result_members.find_by(user_id: current_user.id)
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
     forbidden('Key Result 責任者または関係者のみ編集できます') and return unless key_result_member
@@ -211,6 +217,6 @@ class KeyResultsController < ApplicationController
 
   def key_result_update_params
     params.require(:key_result)
-      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :objective_id, :result)
+      .permit(:id, :name, :description, :progress_rate, :target_value, :actual_value, :value_unit, :expired_date, :status, :objective_id, :result)
   end
 end

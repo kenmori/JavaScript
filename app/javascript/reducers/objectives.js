@@ -2,23 +2,12 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import ActionTypes from '../constants/actionTypes';
 
-function add(state, objectiveId, viaHome) {
-  return state
-    .update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
-    .update('selectedOkr', selectedOkr => viaHome ? selectedOkr.merge({ objectiveId, keyResultId: null }) : selectedOkr);
+function add(state, objectiveId) {
+  return state.update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
 }
 
 function remove(state, objectiveId) {
-  const objectiveIds = state.get('ids').filter(id => id !== objectiveId);
-  const index = state.get('ids').indexOf(objectiveId);
-  return state
-    .set('ids', objectiveIds)
-    .update('selectedOkr', selectedOkr => {
-      const isRemoved = selectedOkr.get('objectiveId') === objectiveId;
-      return isRemoved
-        ? selectedOkr.merge({ objectiveId: objectiveIds.get(index, objectiveIds.last()), keyResultId: null })
-        : selectedOkr;
-    });
+  return state.update('ids', ids => ids.filter(id => id !== objectiveId))
 }
 
 function addToCandidates(state, objectiveId) {
@@ -49,7 +38,6 @@ export default handleActions({
       const objectiveIds = payload.get('result');
       return state
         .set('ids', objectiveIds)
-        .mergeIn(['selectedOkr'], { objectiveId: objectiveIds.first(), keyResultId: null })
         .set('isFetchedObjectives', true);
     },
     [ActionTypes.FETCH_PREVIOUS_OBJECTIVES]: state => {
@@ -75,7 +63,7 @@ export default handleActions({
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
       state = addToCandidates(state, objectiveId);
-      return isMine(objectiveId, payload) ? add(state, objectiveId, payload.get('viaHome')) : state;
+      return isMine(objectiveId, payload) ? add(state, objectiveId) : state;
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
       const objectiveId = payload.get('result').first();
@@ -91,16 +79,11 @@ export default handleActions({
       const objectiveOrder = JSON.parse(payload.order);
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
     },
-    [ActionTypes.SELECT_OKR]: (state, { payload }) => {
-      const { objectiveId, keyResultId } = payload;
-      return state.mergeIn(['selectedOkr'], { objectiveId, keyResultId });
-    },
   },
   fromJS({
     ids: [],
     previousIds: [],
     candidateIds: [],
-    selectedOkr: { objectiveId: null, keyResultId: null },
     isFetchedObjective: true,
     isFetchedObjectives: false,
     isFetchedPreviousObjectives: true,

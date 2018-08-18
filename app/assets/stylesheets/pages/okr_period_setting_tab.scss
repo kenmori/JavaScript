@@ -1,0 +1,17 @@
+.okr-period-setting-tab {
+  .between {
+    margin: 0 4px;
+  }
+}
+
+.okr-period-add-form {
+  display: flex;
+  align-items: baseline;
+
+  &.ui.form {
+    .field, .fields {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+}

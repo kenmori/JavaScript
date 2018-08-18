@@ -4,6 +4,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { openObjective, openKeyResult } from '../../utils/linker';
 import { List } from 'semantic-ui-react';
 import OwnerAvatar from '../util/OwnerAvatar';
+import ProgressRate from '../util/ProgressRate'
+import OkrName from '../util/OkrName'
 
 class OkrList extends PureComponent {
 
@@ -17,10 +19,10 @@ class OkrList extends PureComponent {
         {this.props.okrs.map(okr =>
           <List.Item key={okr.get('id')} className='okr-item'>
             <OwnerAvatar owner={okr.get('owner')} members={okr.get('members')} />
-            <List.Content className='name'>
-              <a onClick={this.handleClick(okr.get('id'))}>{okr.get('name')}</a>
+            <List.Content className='okr-list__name'>
+              <a onClick={this.handleClick(okr.get('id'))}><OkrName okr={okr} /></a>
             </List.Content>
-            <List.Content className='progress-rate'>{okr.get('progressRate')}%</List.Content>
+            <List.Content><ProgressRate value={okr.get('progressRate')} status={okr.get('status')} /></List.Content>
           </List.Item>
         )}
       </List>

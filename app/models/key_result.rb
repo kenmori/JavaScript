@@ -6,6 +6,12 @@ class KeyResult < ApplicationRecord
   belongs_to :okr_period
   belongs_to :objective, touch: true
 
+  enum status: {green: 0, yellow: 1, red: 2}
+
+  scope :enabled, -> { where(disabled_at: nil) }
+  scope :disabled, -> { where.not(disabled_at: nil) }
+  scope :unprocessed, -> { where(key_result_members: { processed: false }) }
+
   validate :target_value_required_if_value_unit_exists, 
     :expired_date_can_be_converted_to_date
   validates :name, :objective_id, :okr_period_id, presence: true
@@ -17,6 +23,34 @@ class KeyResult < ApplicationRecord
 
   before_validation do
     self.okr_period_id = objective.okr_period_id
+  end
+
+  after_update do
+    if saved_change_to_disabled_at?
+      child_objectives.each do |objective|
+        objective.update_attribute(:disabled_at, disabled_at) if disabled != objective.disabled
+      end
+
+      NotificationMailer.change_kr_disabled(Current.user, self, disabled).deliver_later
+    end
+  end
+
+  after_save do
+    objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
+    if saved_change_to_objective_id?
+      # 紐付け変更時は、変更前の上位進捗率も連動更新する
+      Objective.find(objective_id_before_last_save).update_sub_progress_rate if objective_id_before_last_save
+    end
+
+    NotificationMailer.send_change_kr_status(Current.user, self, status_before_last_save, status) if saved_change_to_status?
+  end
+
+  after_destroy do
+    objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
+  end
+
+  def progress_rate
+    super || sub_progress_rate || 0
   end
 
   def target_value=(value)
@@ -32,8 +66,18 @@ class KeyResult < ApplicationRecord
   end
   
   def update_progress_rate
-    if target_value.present? && actual_value.present? && target_value > 0
+    if target_value.present? && actual_value.present? && target_value > 0 && actual_value >= 0
       self.progress_rate = [(actual_value * 100 / target_value).round, 100].min
+    end
+  end
+
+  def update_sub_progress_rate
+    enabled_child_objectives = child_objectives.enabled
+    new_sub_progress_rate = enabled_child_objectives.size == 0 ? nil
+        : enabled_child_objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / enabled_child_objectives.size
+    update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)
+    if progress_rate_in_database.nil?
+      objective.update_sub_progress_rate if objective # 上位進捗率の連動更新
     end
   end
 
@@ -63,5 +107,9 @@ class KeyResult < ApplicationRecord
     if expired_date&.to_date.blank?
       errors.add(:expired_date, "の値が不正です")  
     end
+  end
+
+  def disabled
+    !!disabled_at
   end
 end

@@ -5,10 +5,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Button, Modal } from 'semantic-ui-react';
 
 class ErrorModal extends PureComponent {
-  getErrorMessages(messages) {
-    return messages.toArray().map((message, idx) => (
-      <p key={idx}>{message}</p>
-    ))
+
+  getErrorMessage(messages) {
+    if (messages.size === 1) {
+      return messages.first()
+    }
+    return (
+      <ul>
+        {messages.map((message, index) => <li key={index}>{message}</li>)}
+      </ul>
+    )
   }
 
   handleClose = () => {
@@ -18,27 +24,22 @@ class ErrorModal extends PureComponent {
   }
 
   render() {
-    let message = this.props.message;
-    if (List.isList(message)) {
-      message = this.getErrorMessages(message)
-    }
+    const { isOpen, message } = this.props
     return (
       <Modal
-        open={this.props.isOpen} 
+        open={isOpen} 
         size='small' 
         closeOnEscape={false}
         closeOnDimmerClick={false}
         onClose={this.handleClose}
       >
-        <Modal.Content style={{ margin: '10px 0', textAlign: 'center' }}>
-          {message}
+        <Modal.Content style={{ margin: '10px 0' }}>
+          {this.getErrorMessage(List.isList(message) ? message : List(message.split(', ')))}
         </Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button positive onClick={this.handleClose}>OK</Button>
-          </div>
-        </ Modal.Actions >
-      </ Modal >
+          <Button negative onClick={this.handleClose}>OK</Button>
+        </Modal.Actions>
+      </Modal>
     );
   }
 }

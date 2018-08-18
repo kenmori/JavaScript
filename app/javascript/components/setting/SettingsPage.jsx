@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Tab } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import Fetcher from '../../containers/Fetcher'
 import MenuBar from '../../containers/MenuBar';
 import AccountSettingTab from '../../containers/AccountSettingTab'
 import UserSettingTab from '../../containers/UserSettingTab'
@@ -15,7 +16,7 @@ class SettingsPage extends PureComponent {
     const panes = [{ id: 0, menuItem: 'アカウント', render: () => <AccountSettingTab/>, name: 'account' }];
     const adminPanes = [
       { id: 1, menuItem: '組織', render: () => <OrganizationSettingTab/> , name: 'organization'},
-      { id: 2, menuItem: 'OKR期間', render: () => <OkrPeriodSettingTab/>, name: 'okr_periods' },
+      { id: 2, menuItem: 'OKR 期間', render: () => <OkrPeriodSettingTab/>, name: 'okr_periods' },
       { id: 3, menuItem: 'ユーザー', render: () => <UserSettingTab/>, name: 'users' },
     ]
     this.panes = this.props.isAdmin ? panes.concat(adminPanes) : panes;
@@ -41,10 +42,10 @@ class SettingsPage extends PureComponent {
     const activeIndex = targetPane.id;
     return (
       <div className='settings-page'>
+        <Fetcher />
         <MenuBar/>
         <main>
-          <h2>設定</h2>
-          <Tab activeIndex={activeIndex} menu={{ secondary: true, pointing: true }} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange}/>
+          <Tab activeIndex={activeIndex} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange}/>
         </main>
         <AvatarModal/>
         <LogoModal/>

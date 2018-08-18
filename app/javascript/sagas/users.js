@@ -1,10 +1,12 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { all, put, select, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
 import userActions from '../actions/users';
 import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
+import deviseActions from '../actions/devise'
+import dialogActions from '../actions/dialogs'
 
 function* addUser({ payload }) {
   const result = yield call(API.post, '/users', { user: payload.user });
@@ -12,49 +14,36 @@ function* addUser({ payload }) {
   yield put(toastActions.showToast('ユーザーを追加しました'));
 }
 
-function* updateUser({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
+function* updateUser({ payload: { user } }) {
+  const result = yield call(API.put, '/users/' + user.id, { user });
   yield put(userActions.updatedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザー情報を更新しました'));
+
+  if (user.email) {
+    yield put(toastActions.showToast('メールアドレスを変更しました', 'success'))
+    // ログインユーザーのメールアドレスを変更した場合はログアウトする
+    const loginUserId = yield select(state => state.loginUser.get('id'))
+    if (user.id === loginUserId) {
+      yield put(deviseActions.signOut())
+    }
+  } else if (user.avatar || user.removeAvatar) {
+    // アバター更新時はトーストを表示しない
+    if (user.avatar) {
+      yield put(dialogActions.closeAvatarModal())
+    }
+  } else {
+    yield put(toastActions.showToast('ユーザー情報を更新しました'))
+  }
 }
 
-function* removeUser({ payload }) {
-  const result = yield call(API.delete, '/users/' + payload.id);
-  yield put(userActions.removedUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザーを無効化しました'));
-}
-
-function* restoreUser({ payload }) {
-  const result = yield call(API.put, `/users/${payload.id}/restore`, {});
-  yield put(userActions.restoredUser(result.get('user')));
-  yield put(toastActions.showToast('ユーザーを有効化しました'));
+function* disableUser({ payload: { id, toDisable } }) {
+  const result = yield call(API.put, `/users/${id}/disable`, { disabled: toDisable })
+  yield put(userActions.disabledUser(result.get('user')))
+  yield put(toastActions.showToast(`ユーザーを${toDisable ? '無効化' : '有効化'}しました`))
 }
 
 function* updatePassword({ payload }) {
-  const result = yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
-  yield put(userActions.updatedUser(result));
+  yield call(API.put, `/users/${payload.user.id}/password`, { user: payload.user });
   yield put(toastActions.showToast('パスワードを変更しました', 'success'));
-}
-
-function* recoverPassword({ payload }) {
-  const result = yield call(API.post, '/users/password', { user: payload.user });
-  yield put(userActions.recoveredPassword(result));
-}
-
-function* editPassword({ payload }) {
-  const result = yield call(API.put, '/users/password', { user: payload.user });
-  yield put(userActions.editedPassword(result));
-}
-
-function* updateEmail({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedEmail(result.get('user').set('notLogout', payload.user.notLogout)));
-  yield put(toastActions.showToast('メールアドレスを変更しました', 'success'));
-}
-
-function* updateAvatar({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id, { user: payload.user });
-  yield put(userActions.updatedAvatar(result.get('user')));
 }
 
 function* updateCurrentOrganizationId({ payload }) {
@@ -71,13 +60,8 @@ export function* userSagas() {
   yield all([
     takeLatest(actionTypes.ADD_USER, withLoading(addUser)),
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
-    takeLatest(actionTypes.REMOVE_USER, withLoading(removeUser)),
-    takeLatest(actionTypes.RESTORE_USER, withLoading(restoreUser)),
+    takeLatest(actionTypes.DISABLE_USER, withLoading(disableUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
-    takeLatest(actionTypes.RECOVER_PASSWORD, withLoading(recoverPassword)),
-    takeLatest(actionTypes.EDIT_PASSWORD, withLoading(editPassword)),
-    takeLatest(actionTypes.UPDATE_EMAIL, withLoading(updateEmail)),
-    takeLatest(actionTypes.UPDATE_AVATAR, withLoading(updateAvatar)),
     takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
     takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),
   ]);

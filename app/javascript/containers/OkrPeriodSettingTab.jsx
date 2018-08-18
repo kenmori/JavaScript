@@ -5,17 +5,13 @@ import dialogActions from '../actions/dialogs';
 
 const mapStateToProps = (state) => {
   return {
-    organizationId: state.organizations.get('selected').get('id'),
-    okrSpan: state.organizations.get('selected').get('okrSpan'),
     okrPeriods: state.okrPeriods,
+    okrPeriodId: state.current.get('okrPeriodId'),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addOkrPeriod: okrPeriod => {
-      dispatch(okrPeriodActions.addOkrPeriod(okrPeriod));
-    },
     updateOkrPeriod: okrPeriod => {
       dispatch(okrPeriodActions.updateOkrPeriod(okrPeriod));
     },

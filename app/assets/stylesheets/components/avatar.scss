@@ -3,7 +3,7 @@
 
   .avatar__inner {
     display: inline-block;
-    border: 2px rgba(34, 36, 38, 0.15) solid;
+    border: 2px solid $BORDER_COLOR;
     border-radius: 50%;
     vertical-align: middle;
 
@@ -17,7 +17,9 @@
   }
 
   &.disabled {
-    opacity: .38;
+    .avatar__inner {
+      opacity: .38;
+    }
 
     i.icon {
       visibility: visible;

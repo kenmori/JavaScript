@@ -1,0 +1,13 @@
+.user-name {
+  &.disabled {
+    opacity: .38;
+
+    &:before {
+      content: '[無効] ';
+    }
+
+    .user-name__text {
+      text-decoration: line-through;
+    }
+  }
+}

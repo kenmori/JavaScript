@@ -15,7 +15,6 @@ ApplicationRecord.transaction do
   # 組織を作成
   organization = Organization.create!(
       name: 'Test',
-      uniq_name: 'test',
   )
 
   # ユーザーを作成
@@ -25,14 +24,14 @@ ApplicationRecord.transaction do
       email: 'yamada@example.com',
       password: 'Pass0123',
       admin: true,
-      confirmed_at: Time.now,
+      confirmed_at: Time.current,
   )
   another = organization.users.create!(
       last_name: '鈴木',
       first_name: '花子',
       email: 'suzuki@example.com',
       password: 'Pass0123',
-      confirmed_at: Time.now,
+      confirmed_at: Time.current,
   )
   horie = organization.users.create!(
       last_name: '堀江',
@@ -40,14 +39,14 @@ ApplicationRecord.transaction do
       email: 'horie@example.com',
       password: 'Pass0123',
       admin: true,
-      confirmed_at: Time.now,
+      confirmed_at: Time.current,
   )
   guest = organization.users.create!(
       last_name: 'ゲスト',
       first_name: 'ユーザー',
       email: 'guest@example.com',
       password: 'Ke4nQVXL',
-      confirmed_at: Time.now,
+      confirmed_at: Time.current,
   )
 
   # OKR 期間を作成

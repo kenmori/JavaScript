@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    uploadAvatarImage: (id, avatar) => {
-      dispatch(usersActions.updateAvatar({id, avatar}));
+    updateAvatar: (id, avatar) => {
+      dispatch(usersActions.updateUser({id, avatar}));
     },
     closeModal: () => {
       dispatch(dialogActions.closeAvatarModal());

@@ -3,28 +3,26 @@
   flex-direction: column;
   height: 100%;
 
-  .okr-list-section {
-    .okr-list-section__menu {
+  .okr-list__section {
+    .okr-list__menu {
       margin-left: 16px;
       margin-right: 16px;
+    }
+
+    .okr-list__button {
+      .button + .button {
+        margin-left: 12px;
+      }
     }
   }
 
-  .okr-map-section {
+  .okr-map__section {
     height: 100%;
     background-color: #FAFAFA;
 
-    .okr-map-section__menu {
+    .okr-map__menu {
       margin-left: 16px;
       margin-right: 16px;
-    }
-
-    .empty-view {
-      margin: 32px auto 0;
-
-      .button {
-        margin-top: 8px;
-      }
     }
   }
 }

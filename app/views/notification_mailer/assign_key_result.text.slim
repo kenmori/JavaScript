@@ -1,0 +1,30 @@
+ruby:
+  def strip_insignificant_zeros(number)
+    (number == number.to_i) ? number.to_i : number
+  end
+
+| #{@assignee} さん
+
+  #{@assignor} さんが、あなたに新しい OKR を割り当てました。
+
+  ------------------------------------------------------------
+  Key Result:
+    #{@key_result.name}
+- if @key_result.target_value
+  = "\r\n"
+  | 目標値:
+      #{strip_insignificant_zeros(@key_result.target_value)} #{@key_result.value_unit}
+= "\r\n"
+| 期限:
+    #{@key_result.expired_date}
+  責任者:
+    #{@key_result.owner.last_name} #{@key_result.owner.first_name}
+  ------------------------------------------------------------
+
+  以下から Resily にアクセスして、内容を確認しましょう。
+
+  #{@url}
+
+  --
+  Resily株式会社 
+  https://resily.com

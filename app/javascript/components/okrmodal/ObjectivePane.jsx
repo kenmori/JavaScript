@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Button, Label, Popup, Divider } from 'semantic-ui-react';
+import { Form, Label } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
 import AutoTextArea from '../form/AutoTextArea'
 import NumberInput from '../form/NumberInput'
 import UserSelect from '../form/UserSelect';
+import PopupButton from '../util/PopupButton'
+import PopupLabel from '../util/PopupLabel'
 
 class ObjectivePane extends PureComponent {
 
@@ -27,7 +29,7 @@ class ObjectivePane extends PureComponent {
 
   handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate: progressRate || null })
 
-  handleKeyResultProgressRateClick = () => this.props.updateObjective({ progressRate: null })
+  handleSubProgressRateClick = () => this.props.updateObjective({ progressRate: null })
 
   handleDescriptionCommit = description => this.props.updateObjective({ description })
 
@@ -45,28 +47,51 @@ class ObjectivePane extends PureComponent {
   }
 
   handleRemoveClick = () => {
-    this.props.confirm({
-      content: `Objective ${this.props.objective.get('name')} を削除しますか？`,
-      onConfirm: () => this.props.removeObjective(this.props.objective.get('id')),
+    const { objective, removeObjective, confirm } = this.props
+    let message = `Objective "${objective.get('name')}" を完全に削除しますか？`
+    const keyResults = objective.get('keyResults')
+    if (!keyResults.isEmpty()) {
+      message += 'Objective に紐付く Key Result も削除されます。'
+      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
+      if (hasChild) {
+        message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
+      }
+    }
+    message += ' (この操作は元に戻せません)'
+    confirm({
+      content: message,
+      onConfirm: () => removeObjective(objective.get('id')),
     });
   }
 
-  keyResultProgressRateHtml(objective) {
+  handleDisableClick = () => {
+    const { objective, disableObjective, confirm } = this.props
+    const enabledOrDisabled = objective.get('disabled') ? '有効化' : '無効化'
+    let message = `Objective "${objective.get('name')}" を${enabledOrDisabled}しますか？`
+    const keyResults = objective.get('keyResults')
+    if (!keyResults.isEmpty()) {
+      message += `Objective に紐付く Key Result も${enabledOrDisabled}されます。`
+      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
+      if (hasChild) {
+        message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
+      }
+    }
+    confirm({
+      content: message,
+      onConfirm: () => disableObjective(objective),
+    })
+  }
+
+  subProgressRateHtml(objective) {
     const progressRate = objective.get('progressRate')
-    const keyResultProgressRate = objective.get('keyResultProgressRate')
-    return (typeof keyResultProgressRate === 'number') && progressRate !== keyResultProgressRate && (
+    const subProgressRate = objective.get('subProgressRate')
+    return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
-        <Popup
-          trigger={<Label
-            pointing='left'
-            as='a'
-            icon='unlinkify'
-            content={`Key Result 一覧 の進捗は ${keyResultProgressRate}% です`}
-            onClick={this.handleKeyResultProgressRateClick}
-          />}
-          position='bottom left'
-          size='tiny'
-          content='クリックすると Key Result 一覧の進捗が設定されます'
+        <PopupLabel
+          icon="unlinkify"
+          text={`Key Result 一覧 の進捗は ${subProgressRate}% です`}
+          tips="クリックすると Key Result 一覧の進捗が設定されます"
+          onClick={this.handleSubProgressRateClick}
         />
       </div>
     )
@@ -75,10 +100,10 @@ class ObjectivePane extends PureComponent {
   parentKeyResultProgressRateHtml(parentKeyResult) {
     if (!parentKeyResult) return null;
     const progressRate = parentKeyResult.get('progressRate');
-    const childProgressRate = parentKeyResult.get('childProgressRate');
-    return (typeof childProgressRate === 'number') && progressRate !== childProgressRate && (
+    const subProgressRate = parentKeyResult.get('subProgressRate');
+    return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item--block'>
-        <Label pointing='above' content={`上位 Key Result の進捗は ${childProgressRate}% から ${progressRate}% に変更されています`} />
+        <Label pointing='above' content={`上位 Key Result の進捗は ${subProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
     );
   }
@@ -87,6 +112,7 @@ class ObjectivePane extends PureComponent {
     const objective = this.props.objective;
     if (!objective) return null;
     const { progressRate } = this.state
+    const isDisabled = objective.get('disabled')
     return (
       <Form>
         <Form.Field>
@@ -94,7 +120,7 @@ class ObjectivePane extends PureComponent {
         </Form.Field>
         <Form.Field className='flex-field'>
           <label>進捗</label>
-          <div className="flex-field__item progress-rate">
+          <div className="flex-field__item">
             <NumberInput
               label='%'
               value={progressRate}
@@ -110,7 +136,7 @@ class ObjectivePane extends PureComponent {
               onMouseUp={this.handleProgressRateCommit}
             />
           </div>
-          {this.keyResultProgressRateHtml(objective)}
+          {this.subProgressRateHtml(objective)}
           {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
         <Form.Field className='flex-field'>
@@ -131,13 +157,15 @@ class ObjectivePane extends PureComponent {
           />
         </Form.Field>
 
-        <Divider hidden />
-
-        <div>
-          <Button content="削除する" onClick={this.handleRemoveClick} as="span" negative floated='right' />
-        </div>
-
-        <Divider hidden clearing />
+        <Form.Group className="okr-buttons">
+          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
+          <Form.Button
+            icon={isDisabled ? 'undo' : 'dont'}
+            content={isDisabled ? '有効化する' : '無効化する'}
+            onClick={this.handleDisableClick}
+            negative={!isDisabled}
+          />
+        </Form.Group>
       </Form>
     );
   }
@@ -145,6 +173,7 @@ class ObjectivePane extends PureComponent {
 
 ObjectivePane.propTypes = {
   // container
+  disableObjective: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,

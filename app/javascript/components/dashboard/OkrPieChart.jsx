@@ -10,12 +10,13 @@ class OkrPieChart extends PureComponent {
     const minAngle = 10;
 
     const data = objective.get('keyResults').map(keyResult => {
-      if (keyResult.get('progressRate') === 0) {
+      if (keyResult.get('progressRate') === 0 || keyResult.get('disabled')) {
         endAngle -= minAngle; // 進捗率0%の KR は minAngle 幅で表示されるためその分の幅を追加する
       }
       return {
-        name: keyResult.get('name'),
+        name: (keyResult.get('disabled') ? '[無効] ' : '') + keyResult.get('name'),
         value: Math.max(0.1, keyResult.get('progressRate')), // 進捗率0%の KR を表示するため nonzero の値を指定する
+        className: keyResult.get('status'),
       }
     });
 
@@ -41,9 +42,8 @@ class OkrPieChart extends PureComponent {
              minAngle={minAngle}
              innerRadius={50}
              outerRadius={70}
-             fill="lightgray"
              paddingAngle={2}>
-          <Label value={label} position="center" className="progress-rate" />
+          <Label value={label} position="center" className="okr-pie-chart__progress" />
         </Pie>
         <Tooltip formatter={this.formatter} />
       </PieChart>
@@ -51,15 +51,13 @@ class OkrPieChart extends PureComponent {
   }
 
   render() {
+    const { objective } = this.props
     return (
       <div className='okr-pie-chart'>
-        {(() => {
-          if (this.props.objective.get('keyResults').isEmpty()) {
-            return <div className='empty progress-rate'>-%</div>;
-          } else {
-            return this.getPieChart(this.props.objective);
-          }
-        })()}
+        {objective.get('keyResults').isEmpty()
+          ? <div className='empty okr-pie-chart__progress'>{objective.get('progressRate')}%</div>
+          : this.getPieChart(objective)
+        }
       </div>
     );
   }

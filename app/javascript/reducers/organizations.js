@@ -6,6 +6,7 @@ import gon from '../utils/gon';
 const initialState = fromJS({
   selected: gon.get('organization'),
   list: gon.get('organizations'),
+  ownerId: gon.get('ownerId'),
   isFetched: false,
   isCompleted: false,
 });
@@ -37,7 +38,7 @@ export default handleActions({
   [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => (
     newSelectedData(state, payload)
   ),
-  [ActionTypes.UPDATED_LOGO]: (state, { payload }) => (
-    newSelectedData(state, payload)
-  )
+  [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => (
+    state.set('ownerId', payload.ownerId)
+  ),
 }, initialState);

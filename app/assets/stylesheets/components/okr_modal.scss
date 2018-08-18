@@ -1,17 +1,5 @@
 .okr-modal {
   .content {
-    .progress-rate {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: $PRIMARY_COLOR;
-
-      input {
-        font-size: 1.1rem !important;
-        font-weight: bold !important;
-        color: $PRIMARY_COLOR !important;
-      }
-    }
-
     .slider {
       .ui.input input[type="range"] {
         margin: 0 8px;
@@ -49,6 +37,11 @@
       .flex-field:not(:first-child) {
         margin-left: .5rem;
       }
+
+      &.okr-buttons {
+        margin-top: 20px;
+        flex-direction: row-reverse;
+      }
     }
   }
 
@@ -56,85 +49,6 @@
     display: flex;
     justify-content: space-between;
     min-height: 606px;
-  }
-
-  .sidebar {
-    width: 30%;
-    padding-right: 26px; /* for swap-icons */
-    .sidebar__items {
-      margin-bottom: 20px;
-    }
-    .sidebar__item-wrapper {
-      position: relative;
-
-      .sidebar__item {
-        &:hover:not(.drop) {
-          .sidebar__swap-icons {
-            display: flex;
-          }
-        }
-
-        &.drag:not(.touch) {
-          visibility: hidden;
-        }
-
-        &.drop {
-          cursor: default !important;
-        }
-      }
-
-      &:first-child .swap-up,
-      &:last-child .swap-down {
-        visibility: hidden;
-      }
-    }
-    .sidebar__swap-icons {
-      position: absolute;
-      top: 0;
-      right: -26px; /* = swap icon width */
-      height: 100%;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-
-      .swap-up,
-      .swap-down {
-        margin: 2px 0;
-        padding-left: 2px;
-        width: 26px;
-      }
-    }
-    .sidebar__item {
-      position: relative;
-      cursor: pointer;
-      padding-right: 45px;
-      &.is-current {
-        background: rgba(239, 8, 3, 0.11);
-      }
-    }
-    .sidebar__title {
-      font-weight: bold;
-    }
-    .sidebar__avatar {
-      position: absolute;
-      top: 50%;
-      left: 4px;
-      margin-top: -18px;
-    }
-    .sidebar__name {
-      display: block;
-      padding-left: 36px;
-    }
-    .sidebar__progress {
-      position: absolute;
-      top: 50%;
-      right: 7px;
-      margin-top: -10px;
-    }
-    .sidebar__add-keyresult {
-      width: 100%;
-      margin-top: 20px;
-    }
   }
 
   .okr-main {
@@ -206,9 +120,19 @@
   }
 
   .okr-comment {
-    &.ui.comments .comment .text {
-      margin: .5rem 0 .75rem;
-      white-space: pre-wrap;
+    &.ui.comments .comment {
+      .avatar.disabled {
+        opacity: .38;
+      }
+
+      .author {
+        display: inline-block;
+      }
+
+      .text {
+        margin: .5rem 0 .75rem;
+        white-space: pre-wrap;
+      }
     }
   }
 

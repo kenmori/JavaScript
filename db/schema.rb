@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180514095037) do
+ActiveRecord::Schema.define(version: 20180731083205) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -59,6 +59,9 @@ ActiveRecord::Schema.define(version: 20180514095037) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "result"
+    t.integer "sub_progress_rate"
+    t.integer "status", limit: 1, default: 0, null: false
+    t.datetime "disabled_at"
     t.index ["created_at"], name: "index_key_results_on_created_at"
     t.index ["objective_id"], name: "index_key_results_on_objective_id"
   end
@@ -90,6 +93,8 @@ ActiveRecord::Schema.define(version: 20180514095037) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "key_result_order"
+    t.integer "sub_progress_rate"
+    t.datetime "disabled_at"
     t.index ["created_at"], name: "index_objectives_on_created_at"
     t.index ["parent_key_result_id"], name: "index_objectives_on_parent_key_result_id"
   end
@@ -109,6 +114,7 @@ ActiveRecord::Schema.define(version: 20180514095037) do
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
     t.integer "user_id", null: false
+    t.integer "role", limit: 1, default: 1, null: false
     t.index ["organization_id", "user_id"], name: "index_organization_members_on_organization_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_organization_members_on_user_id"
   end
@@ -117,9 +123,18 @@ ActiveRecord::Schema.define(version: 20180514095037) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
-    t.string "uniq_name", null: false
     t.string "logo"
     t.integer "okr_span", default: 3, null: false
+  end
+
+  create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "user_id", null: false
+    t.boolean "show_child_objectives", default: true
+    t.boolean "show_objective_key_results", default: true
+    t.boolean "show_member_key_results", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "show_disabled_okrs", default: false, null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -147,8 +162,7 @@ ActiveRecord::Schema.define(version: 20180514095037) do
     t.boolean "admin", default: false
     t.string "avatar"
     t.integer "current_organization_id"
-    t.boolean "disabled", default: false
-    t.string "objective_order"
+    t.datetime "disabled_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

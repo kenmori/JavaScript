@@ -1,7 +1,7 @@
 json.objective do
-  json.partial!(@objective)
+  json.partial! @objective
 
-  json.key_result_progress_rate @objective.key_result_progress_rate
+  json.sub_progress_rate @objective.sub_progress_rate
 
   parent_key_result = @objective.parent_key_result
   json.parent_key_result do
@@ -15,15 +15,7 @@ json.objective do
       json.result key_result.result
 
       json.comments do
-        json.array!(key_result.comments) do |comment|
-          json.extract! comment, :id, :text, :updated_at
-          json.editable comment.editable?
-          json.full_name comment.user.full_name
-          json.is_edited comment.created_at != comment.updated_at
-          json.user do
-            json.extract! comment.user, :id, :first_name, :last_name, :full_name, :avatar_url, :disabled
-          end
-        end
+        json.partial! 'comments/comment', collection: key_result.comments, as: :comment
       end
     end
   end

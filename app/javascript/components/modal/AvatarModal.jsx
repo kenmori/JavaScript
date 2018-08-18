@@ -31,7 +31,7 @@ class AvatarModal extends PureComponent {
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
 
-  handleClick = () => this.props.uploadAvatarImage(this.props.targetId, this.props.imageData)
+  handleClick = () => this.props.updateAvatar(this.props.targetId, this.props.imageData)
 
   render() {
     return (
@@ -62,7 +62,7 @@ AvatarModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   imageData: PropTypes.object, // File
   targetId: PropTypes.number,
-  uploadAvatarImage: PropTypes.func.isRequired,
+  updateAvatar: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   // component
 }

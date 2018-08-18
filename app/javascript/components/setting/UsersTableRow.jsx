@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Checkbox, Table, Label } from 'semantic-ui-react';
+import { Button, Checkbox, Radio, Table, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import AutoInput from '../form/AutoInput';
@@ -17,9 +17,17 @@ class UsersTableRow extends PureComponent {
 
   handleAdminChange = (event, { checked }) => this.props.updateUser({ admin: checked })
 
-  handleRestoreClick = user => () => this.props.restoreUser(user)
+  handleOwnerChange = () => this.props.setOrganizationOwner(this.props.organizationId, this.props.user)
 
-  handleRemoveClick = user => () => this.props.removeUser(user)
+  handleDisableClick = () => {
+    const { user, confirm, disableUser } = this.props
+    const fullName = `${user.get('lastName')} ${user.get('firstName')}`
+    const isDisabled = user.get('disabled')
+    confirm({
+      content: `ユーザー "${fullName}" を${isDisabled ? '有効化' : '無効化'}しますか？`,
+      onConfirm: () => disableUser(user),
+    })
+  }
 
   render() {
     const { user, isLoginUser } = this.props;
@@ -45,7 +53,7 @@ class UsersTableRow extends PureComponent {
                      placeholder='name@example.com'
                      readOnly={disabled}
                      onCommit={this.handleEmailCommit} />
-          {user.get('unconfirmedEmail') && (
+          {user.get('isConfirming') && (
             disabled
               ? <Label pointing='left' icon='mail' content='確認中' />
               : <Label pointing='left' icon='mail' content='確認中' as='a' onClick={this.handleResendClick(user)} />
@@ -53,20 +61,30 @@ class UsersTableRow extends PureComponent {
         </Table.Cell>
         <Table.Cell>
           <Checkbox label='管理者'
-                    defaultChecked={user.get('isAdmin')}
+                    checked={user.get('isAdmin')}
                     onChange={this.handleAdminChange}
                     disabled={disabled || isLoginUser}
           />
         </Table.Cell>
+        <Table.Cell>
+          <Radio
+            name="owner"
+            checked={user.get('isOwner')}
+            onChange={this.handleOwnerChange}
+            disabled={disabled}
+          />
+        </Table.Cell>
+        <Table.Cell>{user.get('signInAt')}</Table.Cell>
         <Table.Cell textAlign="center">
-          {disabled
-            ? <Button icon='recycle' title='有効化' onClick={this.handleRestoreClick(user)} />
-            : (
-              <div className={isLoginUser ? 'disabled-box' : ''}>
-                <Button icon='trash' title='無効化' negative onClick={this.handleRemoveClick(user)} disabled={isLoginUser} />
-              </div>
-            )
-          }
+          <div className={isLoginUser ? 'disabled-box' : ''}>
+            <Button
+              icon={disabled ? 'undo' : 'dont'}
+              content={disabled ? '有効化する' : '無効化する'}
+              negative={!disabled}
+              onClick={this.handleDisableClick}
+              disabled={isLoginUser}
+            />
+          </div>
         </Table.Cell>
       </Table.Row>
     );
@@ -75,14 +93,16 @@ class UsersTableRow extends PureComponent {
 
 UsersTableRow.propTypes = {
   // container
+  organizationId: PropTypes.number.isRequired,
+  setOrganizationOwner: PropTypes.func.isRequired,
+  disableUser: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
   isLoginUser: PropTypes.bool.isRequired,
   updateUser: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,
   resendEmail: PropTypes.func.isRequired,
-  removeUser: PropTypes.func.isRequired,
-  restoreUser: PropTypes.func.isRequired,
 };
 
 export default UsersTableRow;

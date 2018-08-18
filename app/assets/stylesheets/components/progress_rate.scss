@@ -1,0 +1,52 @@
+.progress-rate__bar {
+  min-width: 5.5rem;
+
+  &.ui.progress {
+    margin: 0;
+
+    .bar {
+      min-width: 4px;
+
+      > .progress {
+        right: 0;
+        padding: 0 4px;
+        color: rgba(255, 255, 255, .9);
+      }
+    }
+
+    &.lt50 {
+      .bar > .progress {
+        left: 100%;
+        color: #808080;
+      }
+    }
+  }
+
+  &.ui.green.progress .bar {
+    background-color: $GREEN_COLOR;
+  }
+  &.ui.yellow.progress .bar {
+    background-color: $YELLOW_COLOR;
+  }
+  &.ui.red.progress .bar {
+    background-color: $RED_COLOR;
+  }
+  &.ui.grey.progress .bar {
+    background-color: $GREY_COLOR;
+  }
+}
+
+.progress-rate__label {
+  &.ui.green.label {
+    background-color: $GREEN_COLOR !important;
+  }
+  &.ui.yellow.label {
+    background-color: $YELLOW_COLOR !important;
+  }
+  &.ui.red.label {
+    background-color: $RED_COLOR !important;
+  }
+  &.ui.grey.label {
+    background-color: $GREY_COLOR !important;
+  }
+}

@@ -1,4 +1,13 @@
 .account-setting-tab {
+  &.ui.tab.active {
+    display: inline-flex;
+  }
+  dl {
+    margin-left: 16px;
+  }
+  dl + dl {
+    margin-left: 60px;
+  }
   dt {
     font-weight: bold;
   }
@@ -7,27 +16,7 @@
     margin-bottom: 2em;
   }
 
-  .avatar-img-button {
-    position: relative;
-  }
-  .file-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 98px;
-    height: 36px;
-    cursor: pointer;
-    border-radius: 3px;
-    &:hover {
-      opacity: .1;
-      background: #000;
-    }
-    &:active {
-      opacity: .15;
-      background: #000;
-    }
-  }
-  .change-button {
+  .file-input {
+    display: none;
   }
 }

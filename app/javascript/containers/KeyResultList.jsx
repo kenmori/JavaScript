@@ -1,20 +1,17 @@
 import KeyResultList from '../components/dashboard/KeyResultList';
 import { connect } from 'react-redux';
-import objectiveActions from '../actions/objectives';
+import currentActions from '../actions/current';
 
 const mapStateToProps = (state) => {
   return {
-    selectedKeyResultId: state.objectives.getIn(['selectedOkr', 'keyResultId']),
+    selectedKeyResultId: state.current.getIn(['selectedOkr', 'keyResultId']),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchObjective: id => {
-      dispatch(objectiveActions.fetchObjective(id));
-    },
-    selectOkr: (objectiveId, keyResultId) => {
-      dispatch(objectiveActions.selectOkr(objectiveId, keyResultId));
+    selectKeyResult: keyResult => {
+      dispatch(currentActions.selectOkr(keyResult.get('objectiveId'), keyResult.get('id')))
     },
   };
 };

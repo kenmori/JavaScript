@@ -8,13 +8,17 @@ import avatar_image from '../../images/avatar.png';
 class UserSelect extends PureComponent {
 
   userOptions = () => {
-    return this.props.users.map(user => ({
-      key: user.get('id'),
-      value: user.get('id'),
-      text: `${user.get('lastName')} ${user.get('firstName')}`,
-      image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
-      email: user.get('email'),
-    })).toArray();
+    return this.props.users.map(user => {
+      const fullName = `${user.get('lastName')} ${user.get('firstName')}`
+      const isDisabled = user.get('disabled')
+      return {
+        key: user.get('id'),
+        value: user.get('id'),
+        text: (isDisabled ? '[無効] ' : '') + fullName,
+        image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
+        searchtext: `${fullName} ${user.get('email')}`.toLowerCase(),
+      }
+    }).toArray()
   }
 
   handleChange = (event, { value }) => {
@@ -31,7 +35,9 @@ class UserSelect extends PureComponent {
   }
 
   search = (options, query) => {
-    return options.filter(option => option.text.includes(query) || option.email.includes(query))
+    if (!query) return options
+    query = query.toLowerCase()
+    return options.filter(option => option.searchtext.includes(query))
   }
 
   render() {
@@ -44,7 +50,6 @@ class UserSelect extends PureComponent {
           value={value}
           multiple={this.props.multiple}
           onChange={this.handleChange}
-          loading={this.props.users.isEmpty()}
           selectOnNavigation={false}
           noResultsMessage='結果が見つかりません'
         />

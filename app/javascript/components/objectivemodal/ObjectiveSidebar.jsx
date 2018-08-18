@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { List } from 'semantic-ui-react';
+import OkrName from '../util/OkrName'
 
 class ObjectiveSidebar extends PureComponent {
 
   render() {
     const { parentKeyResult } = this.props;
     if (!parentKeyResult) return null;
+    const parentObjective = parentKeyResult.get('objective')
     return (
       <div className="objective-modal__sidebar">
         <div className="sidebar__item">
@@ -15,8 +17,8 @@ class ObjectiveSidebar extends PureComponent {
             <List>
               <List.Item>
                 <List.Content>
-                  <List.Header>{parentKeyResult.getIn(['objective', 'name'])}</List.Header>
-                  <List.Description>{parentKeyResult.getIn(['objective', 'description'])}</List.Description>
+                  <List.Header><OkrName okr={parentObjective} /></List.Header>
+                  <List.Description>{parentObjective.get('description')}</List.Description>
                 </List.Content>
               </List.Item>
             </List>
@@ -28,7 +30,7 @@ class ObjectiveSidebar extends PureComponent {
             <List>
               <List.Item>
                 <List.Content>
-                  <List.Header>{parentKeyResult.get('name')}</List.Header>
+                  <List.Header><OkrName okr={parentKeyResult} /></List.Header>
                   <List.Description>{parentKeyResult.get('description')}</List.Description>
                 </List.Content>
               </List.Item>

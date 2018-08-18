@@ -1,0 +1,25 @@
+.status-radio {
+  .ui.toggle.checkbox {
+    &.green {
+      input:checked ~ label:before {
+        background-color: $GREEN_COLOR !important;
+      }
+    }
+
+    &.yellow {
+      margin-left: 40px;
+
+      input:checked ~ label:before {
+        background-color: $YELLOW_COLOR !important;
+      }
+    }
+
+    &.red {
+      margin-left: 40px;
+
+      input:checked ~ label:before {
+        background-color: $RED_COLOR !important;
+      }
+    }
+  }
+}
