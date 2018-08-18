@@ -186,7 +186,7 @@ module OkrPeriodsHelper
       first = source.first
 
       @user_id = first['user_id']
-      @user_name = to_full_name(first['user_last_name'], first['user_first_name'], first['user_disabled_at'])
+      @user_name = get_user_name(first['user_last_name'], first['user_first_name'], first['user_disabled_at'])
       @email = first['user_email']
       @okr_start_period = okr_period.month_start
       @okr_end_period = okr_period.month_end
@@ -272,7 +272,7 @@ module OkrPeriodsHelper
                 sub_progress: record['kr_o_sub_progress'],
                 created_at: record['kr_o_created_at'],
                 owner_id: record['kr_o_user_id'],
-                owner: to_full_name(record['kr_o_user_last_name'], record['kr_o_user_first_name'], record['kr_o_user_disabled_at'])
+                owner: get_user_name(record['kr_o_user_last_name'], record['kr_o_user_first_name'], record['kr_o_user_disabled_at'])
             },
             key_results: [{
                               name: record['kr_kr_name'],
@@ -310,7 +310,7 @@ module OkrPeriodsHelper
                           target_value: first['kr_p_kr_target_value'],
                           actual_value: first['kr_p_kr_actual_value'],
                           owner_id: first['kr_p_kr_user_id'],
-                          owner: to_full_name(first['kr_p_kr_user_last_name'], first['kr_p_kr_user_first_name'], first['kr_p_kr_user_disabled_at'])
+                          owner: get_user_name(first['kr_p_kr_user_last_name'], first['kr_p_kr_user_first_name'], first['kr_p_kr_user_disabled_at'])
                       }
                     end
 
@@ -321,7 +321,7 @@ module OkrPeriodsHelper
             sub_progress: first['kr_o_sub_progress'],
             created_at: first['kr_o_created_at'],
             owner_id: first['kr_o_user_id'],
-            owner: to_full_name(first['kr_o_user_last_name'], first['kr_o_user_first_name'], first['kr_o_user_disabled_at'])
+            owner: get_user_name(first['kr_o_user_last_name'], first['kr_o_user_first_name'], first['kr_o_user_disabled_at'])
         }
 
         kr_source = records.uniq { |i| i['kr_kr_id'] }
@@ -385,7 +385,7 @@ module OkrPeriodsHelper
                           target_value: record['o_p_kr_target_value'],
                           actual_value: record['o_p_kr_actual_value'],
                           owner_id: record['o_p_kr_user_id'],
-                          owner: to_full_name(record['o_p_kr_user_last_name'], record['o_p_kr_user_first_name'], record['o_p_kr_user_disabled_at'])
+                          owner: get_user_name(record['o_p_kr_user_last_name'], record['o_p_kr_user_first_name'], record['o_p_kr_user_disabled_at'])
                       }
                     end
 
@@ -396,7 +396,7 @@ module OkrPeriodsHelper
             sub_progress: record['o_o_sub_progress'],
             created_at: record['o_o_created_at'],
             owner_id: record['o_o_user_id'],
-            owner: to_full_name(record['o_o_user_last_name'], record['o_o_user_first_name'], record['o_o_user_disabled_at'])
+            owner: get_user_name(record['o_o_user_last_name'], record['o_o_user_first_name'], record['o_o_user_disabled_at'])
         }
 
         {
@@ -407,7 +407,7 @@ module OkrPeriodsHelper
       end
     end
 
-    def to_full_name(last_name, first_name, disabled_at)
+    def get_user_name(last_name, first_name, disabled_at)
       "#{disabled_at ? '(無効) ' : ''}#{last_name} #{first_name}"
     end
 
