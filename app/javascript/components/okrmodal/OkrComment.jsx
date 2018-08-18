@@ -8,7 +8,7 @@ import avatar_image from '../../images/avatar.png';
 import Markdown from '../util/Markdown';
 import UserName from '../util/UserName'
 
-class OKRComment extends Component {
+class OkrComment extends Component {
 
   constructor(props) {
     super(props);
@@ -71,16 +71,16 @@ class OKRComment extends Component {
   }
 }
 
-OKRComment.propTypes = {
+OkrComment.propTypes = {
   item: PropTypes.object.isRequired,
   editing: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 }
 
-OKRComment.defaultProps = {
+OkrComment.defaultProps = {
   editing: false,
 }
 
 
-export default OKRComment
+export default OkrComment

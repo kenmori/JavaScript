@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Icon, Button, TextArea, Divider } from 'semantic-ui-react';
-import OKRComment from './OKRComment';
+import OkrComment from './OkrComment';
 
 class CommentPane extends PureComponent {
 
@@ -12,7 +12,7 @@ class CommentPane extends PureComponent {
     const commentTags = comments.map((item) => {
       return (
         <div className="comments" key={item.get('id')}>
-          <OKRComment item={item}
+          <OkrComment item={item}
                       onDelete={this.removeComment.bind(this)}
                       onUpdate={this.editComment.bind(this)}/>
         </div>
