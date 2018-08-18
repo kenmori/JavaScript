@@ -13,15 +13,15 @@ class CommentPane extends PureComponent {
       return (
         <div className="comments" key={item.get('id')}>
           <OkrComment item={item}
-                      onDelete={this.removeComment.bind(this)}
-                      onUpdate={this.editComment.bind(this)}/>
+                      onDelete={this.removeComment}
+                      onUpdate={this.editComment}/>
         </div>
       )
     });
     return <div>{commentTags}</div>;
   }
 
-  addComment() {
+  addComment = () => {
     const value = findDOMNode(this.refs.commentArea).value;
     if (!value) {
       return;
@@ -32,7 +32,7 @@ class CommentPane extends PureComponent {
     findDOMNode(this.refs.commentArea).value = '';
   }
 
-  editComment(id, text) {
+  editComment = (id, text) => {
     if (!text) {
       return;
     }
@@ -41,7 +41,7 @@ class CommentPane extends PureComponent {
     });
   }
 
-  removeComment(id) {
+  removeComment = id => {
     this.props.confirm({
       content: 'コメントを削除しますか？',
       onConfirm: () => {
@@ -63,7 +63,7 @@ class CommentPane extends PureComponent {
             />
           </div>
           <div>
-            <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />
+            <Button content="投稿する" onClick={this.addComment} as="div" floated='right' />
           </div>
           <Divider hidden clearing />
           {this.commentList(keyResult.get('comments'))}

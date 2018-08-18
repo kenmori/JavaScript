@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Icon, Button, TextArea, Divider, Comment } from 'semantic-ui-react';
@@ -8,7 +8,7 @@ import avatar_image from '../../images/avatar.png';
 import Markdown from '../util/Markdown';
 import UserName from '../util/UserName'
 
-class OkrComment extends Component {
+class OkrComment extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -16,6 +16,19 @@ class OkrComment extends Component {
       text: props.item.get('text'),
       editing: false,
     }
+  }
+
+  handleEditClick = () => this.setState({ editing: true })
+
+  handleDeleteClick = () => this.props.onDelete(this.props.item.get('id'))
+
+  handleTextCommit = text => this.setState({ text })
+
+  handleCancelClick = () => this.setState({ editing: false })
+
+  handleUpdateClick = () => {
+    this.props.onUpdate(this.props.item.get('id'), this.state.text)
+    this.setState({ editing: false })
   }
 
   commentText() {
@@ -37,8 +50,8 @@ class OkrComment extends Component {
             {this.props.item.get('editable') ?
               (
                 <Comment.Actions>
-                  <a onClick={() => this.setState({editing: true})}>編集</a>
-                  <a onClick={() => this.props.onDelete(this.props.item.get('id'))}>削除</a>
+                  <a onClick={this.handleEditClick}>編集</a>
+                  <a onClick={this.handleDeleteClick}>削除</a>
                 </Comment.Actions>
               ) : null}
           </Comment.Content>
@@ -52,14 +65,11 @@ class OkrComment extends Component {
     return (
       <div className="comments__item">
         <AutoTextArea value={item.get('text')}
-                      onCommit={value => this.setState({text: value})}
+                      onCommit={this.handleTextCommit}
                       readOnly={!item.get('editable')}/>
         <div className="comments__item-meta">
-          <Button content="キャンセル" onClick={() => this.setState({editing: false})} floated='right' />
-          <Button content="更新する" onClick={() => {
-            this.props.onUpdate(item.get('id'), this.state.text)
-            this.setState({editing: false})
-          }} as="div" floated='right' />
+          <Button content="キャンセル" onClick={this.handleCancelClick} floated='right' />
+          <Button content="更新する" onClick={this.handleUpdateClick} as="div" floated='right' />
         </div>
       </div>
     );
