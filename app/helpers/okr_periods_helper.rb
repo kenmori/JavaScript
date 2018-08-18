@@ -22,6 +22,7 @@ module OkrPeriodsHelper
         , own_key_results.kr_progress as kr_kr_progress
         , own_key_results.kr_sub_progress as kr_kr_sub_progress
         , own_key_results.kr_created_at as kr_kr_created_at
+        , own_key_results.kr_disabled_at as kr_kr_disabled_at
         , own_key_results.target_value as kr_target_value
         , own_key_results.actual_value as kr_actual_value
         , own_key_results.value_unit as kr_value_unit
@@ -31,6 +32,7 @@ module OkrPeriodsHelper
         , own_key_results.o_progress as kr_o_progress
         , own_key_results.o_sub_progress as kr_o_sub_progress
         , own_key_results.o_created_at as kr_o_created_at
+        , own_key_results.o_disabled_at as kr_o_disabled_at
         , own_key_results.o_kr_order as kr_o_kr_order
         , own_key_results.o_user_id as kr_o_user_id
         , own_key_results.o_user_last_name as kr_o_user_last_name
@@ -40,6 +42,7 @@ module OkrPeriodsHelper
         , own_key_results.p_kr_name as kr_p_kr_name
         , own_key_results.p_kr_progress as kr_p_kr_progress
         , own_key_results.p_kr_sub_progress as kr_p_kr_sub_progress
+        , own_key_results.p_kr_disabled_at as kr_p_kr_disabled_at
         , own_key_results.p_kr_target_value as kr_p_kr_target_value
         , own_key_results.p_kr_actual_value as kr_p_kr_actual_value
         , own_key_results.p_kr_user_id as kr_p_kr_user_id
@@ -51,6 +54,7 @@ module OkrPeriodsHelper
         , own_objectives.o_progress as o_o_progress
         , own_objectives.o_sub_progress as o_o_sub_progress
         , own_objectives.o_created_at as o_o_created_at
+        , own_objectives.o_disabled_at as o_o_disabled_at
         , own_objectives.o_user_id as o_o_user_id
         , own_objectives.o_user_last_name as o_o_user_last_name
         , own_objectives.o_user_first_name as o_o_user_first_name
@@ -59,6 +63,7 @@ module OkrPeriodsHelper
         , own_objectives.p_kr_name as o_p_kr_name
         , own_objectives.p_kr_progress as o_p_kr_progress
         , own_objectives.p_kr_sub_progress as o_p_kr_sub_progress
+        , own_objectives.p_kr_disabled_at as o_p_kr_disabled_at
         , own_objectives.p_kr_target_value as o_p_kr_target_value
         , own_objectives.p_kr_actual_value as o_p_kr_actual_value
         , own_objectives.p_kr_user_id as o_p_kr_user_id
@@ -86,6 +91,7 @@ module OkrPeriodsHelper
              , kr.value_unit
              , kr.expired_date
              , kr.created_at as kr_created_at
+             , kr.disabled_at as kr_disabled_at
              , o.id as o_id
              , o.key_result_order
              , o.name as o_name
@@ -93,6 +99,7 @@ module OkrPeriodsHelper
              , o.sub_progress_rate as o_sub_progress
              , o.key_result_order as o_kr_order
              , o.created_at as o_created_at
+             , o.disabled_at as o_disabled_at
              , ou.id as o_user_id
              , ou.last_name as o_user_last_name
              , ou.first_name as o_user_first_name
@@ -103,6 +110,7 @@ module OkrPeriodsHelper
              , parent_kr.sub_progress_rate as p_kr_sub_progress
              , parent_kr.target_value as p_kr_target_value
              , parent_kr.actual_value as p_kr_actual_value
+             , parent_kr.disabled_at as p_kr_disabled_at
              , parent_kr_user.id as p_kr_user_id
              , parent_kr_user.last_name as p_kr_user_last_name
              , parent_kr_user.first_name as p_kr_user_first_name
@@ -139,6 +147,7 @@ module OkrPeriodsHelper
              , oo.progress_rate  as o_progress
              , oo.sub_progress_rate as o_sub_progress
              , oo.created_at as o_created_at
+             , oo.disabled_at as o_disabled_at
              , oou.id as o_user_id
              , oou.last_name as o_user_last_name
              , oou.first_name as o_user_first_name
@@ -149,6 +158,7 @@ module OkrPeriodsHelper
              , o_parent_kr.sub_progress_rate as p_kr_sub_progress
              , o_parent_kr.target_value as p_kr_target_value
              , o_parent_kr.actual_value as p_kr_actual_value
+             , o_parent_kr.disabled_at as p_kr_disabled_at
              , o_parent_kr_user.id as p_kr_user_id
              , o_parent_kr_user.last_name as p_kr_user_last_name
              , o_parent_kr_user.first_name as p_kr_user_first_name
@@ -267,7 +277,7 @@ module OkrPeriodsHelper
             parent_kr: nil,
             objective: {
                 id: record['kr_o_id'],
-                name: record['kr_o_name'],
+                name: get_okr_name(record['kr_o_name'], record['kr_o_disabled_at']),
                 progress: record['kr_o_progress'],
                 sub_progress: record['kr_o_sub_progress'],
                 created_at: record['kr_o_created_at'],
@@ -275,7 +285,7 @@ module OkrPeriodsHelper
                 owner: get_user_name(record['kr_o_user_last_name'], record['kr_o_user_first_name'], record['kr_o_user_disabled_at'])
             },
             key_results: [{
-                              name: record['kr_kr_name'],
+                              name: get_okr_name(record['kr_kr_name'], record['kr_kr_disabled_at']),
                               progress: record['kr_kr_progress'],
                               sub_progress: record['kr_kr_sub_progress'],
                               owner: @user_name,
@@ -304,7 +314,7 @@ module OkrPeriodsHelper
                       nil
                     else
                       {
-                          name: first['kr_p_kr_name'],
+                          name: get_okr_name(first['kr_p_kr_name'], first['kr_p_kr_disabled_at']),
                           progress: first['kr_p_kr_progress'],
                           sub_progress: first['kr_p_kr_sub_progress'],
                           target_value: first['kr_p_kr_target_value'],
@@ -316,7 +326,7 @@ module OkrPeriodsHelper
 
         objective = {
             id: first['kr_o_id'],
-            name: first['kr_o_name'],
+            name: get_okr_name(first['kr_o_name'], first['kr_o_disabled_at']),
             progress: first['kr_o_progress'],
             sub_progress: first['kr_o_sub_progress'],
             created_at: first['kr_o_created_at'],
@@ -347,7 +357,7 @@ module OkrPeriodsHelper
 
         key_results = kr_source.map do |record|
           {
-              name: record['kr_kr_name'],
+              name: get_okr_name(record['kr_kr_name'], record['kr_kr_disabled_at']),
               progress: record['kr_kr_progress'],
               sub_progress: record['kr_kr_sub_progress'],
               owner: @user_name,
@@ -379,7 +389,7 @@ module OkrPeriodsHelper
                       nil
                     else
                       {
-                          name: record['o_p_kr_name'],
+                          name: get_okr_name(record['o_p_kr_name'], record['o_p_kr_disabled_at']),
                           progress: record['o_p_kr_progress'],
                           sub_progress: record['o_p_kr_sub_progress'],
                           target_value: record['o_p_kr_target_value'],
@@ -391,7 +401,7 @@ module OkrPeriodsHelper
 
         objective = {
             id: record['o_o_id'],
-            name: record['o_o_name'],
+            name: get_okr_name(record['o_o_name'], record['o_o_disabled_at']),
             progress: record['o_o_progress'],
             sub_progress: record['o_o_sub_progress'],
             created_at: record['o_o_created_at'],
@@ -409,6 +419,10 @@ module OkrPeriodsHelper
 
     def get_user_name(last_name, first_name, disabled_at)
       "#{disabled_at ? '(無効) ' : ''}#{last_name} #{first_name}"
+    end
+
+    def get_okr_name(okr_name, disabled_at)
+      "#{disabled_at ? '(無効) ' : ''}#{okr_name}"
     end
 
     def get_parent_kr_value(parent_kr)
