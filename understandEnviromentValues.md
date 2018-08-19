@@ -130,6 +130,74 @@ JAVA_PATH=/opt/jdk/bin
 export JAVA_PATH`
 ```
 
+## 実験
+
+環境変数がすぐにで使われる様子をテスト
+
+```
+cd /env
+```
+
+以下の順で叩く
+
+```
+node test.js
+undefined
+```
+and then
+
+```
+hello=world node test.js
+Env( hello ): undefined
+```
+and then
+
+```
+hello=world debug=log node test.js
+Env( hello ): world
+```
+
+and then
+
+```
+hello=world debug=trace node test.js
+Env( hello ): world
+Trace: This is me debugging!
+    at Object.<anonymous> (/Git/javascript/env/test.js:13:1)
+    at Module._compile (module.js:570:32)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+    at Module.runMain (module.js:604:10)
+    at run (bootstrap_node.js:393:7)
+    at startup (bootstrap_node.js:150:9)
+    at bootstrap_node.js:508:3
+```
+が出力される
+
+
+## What is the difference between ```process.env.USER` and `process.env.USERNAME``` in Node?
+Nodeにおいてのprocess.env.USERNAMEとprocess.env.USERの違い
+
+This object can really contain just about anything, as specified the OS and the process that launches it, but by default Windows stores the username in USERNAME and Unix-like systems (Linux, macOS, etc.) store it in USER
+
+```process.env```はOSのprocessが提供するprocessのenvironment variablesです
+これはOSに記述されそれが起動する際のprocessのすべてを含まれます。
+
+ユーザーネームははdefaultではWindowsはUSERNAMEの中に保存し、
+Unixのような(Linux,macOS等)はUSERの中に保存します
+
+
+ process.env is not meant to be normative.  process.env can be basically anything -- its values generally have OS defaults provided by the shell, but ultimately they are controlled by the user and/or the process that launched your process.
+
+
+process.envは規範的なものではなく、基本的には何でもかまいません。
+
+その値には一般的にシェルが提供するOSのデフォルトがありますが、
+
+最終的にはプロセスを起動したユーザーやプロセスによって制御されます。
+
 
 ## /etc/profileと$HOME/.profileとshell起動時の挙動
 
@@ -405,10 +473,20 @@ require('dotenv').config()
 
 
 
+### おまけ
+
+[Differnce between sh and bash](https://stackoverflow.com/questions/5725296/difference-between-sh-and-bash?rq=1)
+・shは[POSIX標準](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)によって書かれているShellコマンドのプログラミング言語。
+bashもshを考慮されている。
+shは仕様で実装ではない。/bin/shはPOSX上の実装への実体へのシンボルリンク。
+bashはPOSIXより数年前にsh互換の実装として先行して始められた
+
 
 
 
 *ref*
+
+[https://en.wikipedia.org/wiki/Environment_variable](https://en.wikipedia.org/wiki/Environment_variable)
 
 [Serverlessでnode-configを使う](https://qiita.com/70_10/items/31ecaf802ec885c35ca3)
 
@@ -426,3 +504,4 @@ require('dotenv').config()
 
 [https://www.cyberciti.biz/faq/set-environment-variable-unix/](https://www.cyberciti.biz/faq/set-environment-variable-unix/)
 
+[https://www.bennadel.com/blog/2688-providing-environment-variables-when-executing-node-js-program.htm](https://www.bennadel.com/blog/2688-providing-environment-variables-when-executing-node-js-program.htm)
