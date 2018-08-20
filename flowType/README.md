@@ -377,6 +377,25 @@ this.はFunctionType。この場合ExtractProptype
 引数としてObjを渡している型。PropType。
 PropTypeはnumber型が返ってくる型になる
 
+````
+(5: PropType)//ok
+(true: PropType);  // Error: PropType is a number
+(5: Nope);  // Error {nope: number}と{prop: number}のオブジェクト型が一致していないのでError
+```
+下記は引数にFuntionを取る型
+
+```js
+type ExtractReturnType = <R>(() => R) => R;
+type Fn = () => number;
+type ReturnType = $Call<ExtractReturnType, Fn> // Call `ExtractReturnType` with `Fn` as an argument
+
+(5: ReturnType);  // OK
+```
+
+
+
+
+
 
 もうちょっとわかりやすく
 
@@ -529,9 +548,31 @@ function add(o: O):O {
  return o;
 }
 
+
+Aはprops
+Bはdefaultprops
+```
+
+```js
+type A  = {//Props
+ name: string,//defaultで渡ってくる
+ content: number//ここは持っていないといけない。必須
+}
+type B = {//DefaultProps
+  name: string,//default
+}
+function Func<T:$Diff<A, B>>(u:T){
+}
+Func({content:90})
+```
+
+このdefaultPropsのpropertyはPropsには渡ってくる前提
+Propsに増える分の差が必須property
+
 渡す際に
 add({name: "fafa", id: 40, add:"fafafa"})//Oだとok
 余分なものは渡して欲しくない。。。
+
 
 
 function add(o: $Shape<O>):O {
@@ -649,6 +690,26 @@ type O = {
 }
 type T = $Values<O>;
 
+
+
+### React
+
+WIP
+
+・defualtPropsに定義したpropertyは{hoge?: string}としなくていい
+・defaultPropsに持っているpropertyをnullにする必要はない。flowはfooをdefaultPropsとして持っている場合optionalだと知っている
+
+```js
+type Props = {
+  foo: number
+}
+Component = defaultProps({
+  foo: 42
+})(Component)
+<Component /> //ここに記述する必要はない
+```
+
+```js
 //same as  string | number
 var o = {
   name: "kenji",
@@ -724,6 +785,7 @@ type Arr = Array<boolean>
 ### $ObjMap<T, F>
 
 WIP
+
 
 TはObjectType、FはFunctionType、
 戻り値はTの中で提供されたFで「ぞれぞれのvalueに対して取得(maping)」された型のオブジェクト
