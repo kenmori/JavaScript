@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Icon, Button, TextArea, Divider } from 'semantic-ui-react';
 import OkrComment from './OkrComment';
 
 class CommentPane extends PureComponent {
+
+  constructor() {
+    super()
+    this.state = { text: '' }
+  }
 
   commentList(comments) {
     if (!comments) return null;
@@ -22,14 +26,14 @@ class CommentPane extends PureComponent {
   }
 
   addComment = () => {
-    const value = findDOMNode(this.refs.commentArea).value;
+    const value = this.state.text;
     if (!value) {
       return;
     }
     this.props.updateKeyResult({
       comment: {data: value, behavior: 'add'}
     });
-    findDOMNode(this.refs.commentArea).value = '';
+    this.setState({ text: '' })
   }
 
   editComment = (id, text) => {
@@ -52,13 +56,16 @@ class CommentPane extends PureComponent {
     })
   }
 
+  handleTextChange = (e, { value }) => this.setState({ text: value })
+
   render() {
     const keyResult = this.props.keyResult;
+    const { text } = this.state
     return (
       <Form>
         <Form.Field className="wide-field">
           <div className="comments__text-box">
-            <TextArea autoHeight rows={3} ref='commentArea'
+            <TextArea autoHeight rows={3} value={text} onChange={this.handleTextChange}
                       placeholder='進捗状況や、次のアクションなどをメモしてください'
             />
           </div>
