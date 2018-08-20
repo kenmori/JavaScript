@@ -89,37 +89,14 @@
     }
   }
 
-  .wide-field {
-    width: 100%;
+  .comment-pane {
+    .comment-pane__button {
+      text-align: right;
+      margin-bottom: 16px;
+    }
   }
 
-  .comments {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  .comments__item {
-    width: 100%;
-  }
-  .comments__text-box {
-    margin-bottom: 10px;
-  }
-  .comments__item-meta {
-    display: flex;
-    justify-content: flex-end;
-    color: #666;
-    font-size: smaller;
-    margin-top: 4px;
-  }
-  .comments__item-name {
-    padding-left: 10px;
-  }
-  .comments__item-icon {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-
-  .okr-comment {
+  .okr-comment-text-only {
     &.ui.comments .comment {
       .avatar.disabled {
         opacity: .38;
@@ -127,12 +104,20 @@
 
       .author {
         display: inline-block;
+        margin-right: 4px;
       }
 
       .text {
         margin: .5rem 0 .75rem;
         white-space: pre-wrap;
       }
+    }
+  }
+
+  .okr-comment-text-area {
+    .okr-comment-text-area__buttons {
+      text-align: right;
+      margin: 8px 0 16px;
     }
   }
 

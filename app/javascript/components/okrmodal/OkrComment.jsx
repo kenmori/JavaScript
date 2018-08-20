@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Form, Icon, Button, TextArea, Divider, Comment } from 'semantic-ui-react';
+import ImmutablePropTypes from 'react-immutable-proptypes'
+import { Button, Comment } from 'semantic-ui-react';
 import AutoTextArea from '../form/AutoTextArea';
 import moment from 'moment';
 import avatar_image from '../../images/avatar.png';
@@ -13,84 +13,80 @@ class OkrComment extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      text: props.item.get('text'),
-      editing: false,
+      text: props.comment.get('text'),
+      isEditing: false,
     }
   }
 
-  handleEditClick = () => this.setState({ editing: true })
+  handleEditClick = () => this.setState({ isEditing: true })
 
-  handleDeleteClick = () => this.props.onDelete(this.props.item.get('id'))
+  handleDeleteClick = () => this.props.onDelete(this.props.comment.get('id'))
 
   handleTextCommit = text => this.setState({ text })
 
-  handleCancelClick = () => this.setState({ editing: false })
+  handleCancelClick = () => this.setState({ isEditing: false })
 
   handleUpdateClick = () => {
-    this.props.onUpdate(this.props.item.get('id'), this.state.text)
-    this.setState({ editing: false })
+    this.props.onUpdate(this.props.comment.get('id'), this.state.text)
+    this.setState({ isEditing: false })
   }
 
-  commentText() {
-    const user = this.props.item.get('user')
+  renderTextOnly() {
+    const { comment } = this.props
+    const user = comment.get('user')
     const avatarUrl = user ? user.get('avatarUrl') : null
     const isDisabled = user.get('disabled')
     return (
-      <Comment.Group className='okr-comment'>
+      <Comment.Group className="okr-comment-text-only">
         <Comment>
           <Comment.Avatar src={avatarUrl || avatar_image} className={isDisabled ? 'disabled' : ''} />
           <Comment.Content>
             <Comment.Author><UserName user={user} /></Comment.Author>
             <Comment.Metadata>
-              <div>{moment(this.props.item.get('updatedAt')).format('YYYY/M/D H:mm')} {this.props.item.get('isEdited') ? '(編集済)' : null}</div>
+              {moment(comment.get('updatedAt')).format('YYYY/M/D H:mm')} {comment.get('isEdited') ? '(編集済)' : null}
             </Comment.Metadata>
             <Comment.Text>
-              <Markdown text={this.props.item.get('text')}></Markdown>
+              <Markdown text={comment.get('text')} />
             </Comment.Text>
-            {this.props.item.get('editable') ?
-              (
-                <Comment.Actions>
-                  <a onClick={this.handleEditClick}>編集</a>
-                  <a onClick={this.handleDeleteClick}>削除</a>
-                </Comment.Actions>
-              ) : null}
+            {comment.get('editable') && (
+              <Comment.Actions>
+                <Comment.Action onClick={this.handleEditClick}>編集</Comment.Action>
+                <Comment.Action onClick={this.handleDeleteClick}>削除</Comment.Action>
+              </Comment.Actions>
+            )}
           </Comment.Content>
         </Comment>
       </Comment.Group>
     )
   }
 
-  commentTextArea() {
-    const {item} = this.props
+  renderTextArea() {
+    const { comment } = this.props
     return (
-      <div className="comments__item">
-        <AutoTextArea value={item.get('text')}
-                      onCommit={this.handleTextCommit}
-                      readOnly={!item.get('editable')}/>
-        <div className="comments__item-meta">
-          <Button content="キャンセル" onClick={this.handleCancelClick} floated='right' />
-          <Button content="更新する" onClick={this.handleUpdateClick} as="div" floated='right' />
+      <div className="okr-comment-text-area">
+        <AutoTextArea
+          value={comment.get('text')}
+          onCommit={this.handleTextCommit}
+          readOnly={!comment.get('editable')}
+        />
+        <div className="okr-comment-text-area__buttons">
+          <Button content="キャンセル" onClick={this.handleCancelClick} size="small" />
+          <Button content="更新する" onClick={this.handleUpdateClick} size="small" />
         </div>
       </div>
     );
   }
 
   render() {
-    const editing = this.state.editing;
-    return editing ? this.commentTextArea() : this.commentText()
+    const { isEditing } = this.state;
+    return isEditing ? this.renderTextArea() : this.renderTextOnly()
   }
 }
 
 OkrComment.propTypes = {
-  item: PropTypes.object.isRequired,
-  editing: PropTypes.bool,
+  comment: ImmutablePropTypes.map.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 }
-
-OkrComment.defaultProps = {
-  editing: false,
-}
-
 
 export default OkrComment

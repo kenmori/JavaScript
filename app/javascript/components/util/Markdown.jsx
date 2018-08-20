@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import remark from 'remark';
 import reactRemark from 'remark-react'
@@ -9,16 +8,14 @@ import style from 'github-markdown-css/github-markdown.css'
 class Markdown extends PureComponent {
 
   render() {
-
     const options = {
       gfm: true,
       pedantic: true,
       breaks: true,
       sanitize: false,
     }
-
     return (
-      <div className={`${'markdown-body'}`}>
+      <div className="markdown-body">
         {remark()
           .use(emoji)
           .use(reactRemark, options)
