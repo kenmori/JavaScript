@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import remark from 'remark';
 import reactRemark from 'remark-react'
 import emoji from 'remark-emoji'
-import style from 'github-markdown-css/github-markdown.css'
 
 class Markdown extends PureComponent {
 
@@ -15,7 +14,7 @@ class Markdown extends PureComponent {
       sanitize: false,
     }
     return (
-      <div className="markdown-body">
+      <div className="markdown markdown-body">
         {remark()
           .use(emoji)
           .use(reactRemark, options)

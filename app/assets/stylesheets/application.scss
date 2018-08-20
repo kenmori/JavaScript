@@ -16,6 +16,7 @@
 
 @import '~semantic-ui-css/semantic.min';
 @import '~react-datepicker/dist/react-datepicker.min';
+@import '~github-markdown-css/github-markdown';
 
 @import 'pages/account_setting_tab';
 @import 'pages/okr_period_setting_tab';
@@ -30,6 +31,7 @@
 @import 'components/key_result_list';
 @import 'components/key_result_modal';
 @import 'components/loading';
+@import 'components/markdown';
 @import 'components/menu_bar';
 @import 'components/modal';
 @import 'components/objective_list';
@@ -54,7 +56,7 @@
 
 body {
   margin: 0;
-  font-family: Lato, 游ゴシック体, YuGothic, 游ゴシック, 'Yu Gothic', メイリオ, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: $DEFAULT_FONT;
   font-weight: 500;
 
   > div#body {
