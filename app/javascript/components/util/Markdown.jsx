@@ -5,6 +5,7 @@ import reactRemark from 'remark-react'
 import emoji from 'remark-emoji'
 import breaks from 'remark-breaks'
 import externalLinks from 'remark-external-links'
+import highlight from 'remark-highlight.js'
 
 class Markdown extends PureComponent {
 
@@ -18,6 +19,7 @@ class Markdown extends PureComponent {
           .use(emoji)
           .use(breaks)
           .use(externalLinks)
+          .use(highlight)
           .use(reactRemark, options)
           .processSync(this.props.text)
           .contents}
