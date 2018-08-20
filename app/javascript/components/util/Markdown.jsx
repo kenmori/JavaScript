@@ -9,19 +9,32 @@ import highlight from 'remark-highlight.js'
 
 class Markdown extends PureComponent {
 
+  constructor() {
+    super()
+    this.state = { key: new Date().getTime() }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.text !== nextProps.text) {
+      this.setState({ key: new Date().getTime() })
+    }
+  }
+
   render() {
+    const { text } = this.props
+    const { key } = this.state
     const options = {
       sanitize: false, // to use GFM task list (https://github.com/mapbox/remark-react/issues/44) 
     }
     return (
-      <div className="markdown markdown-body">
+      <div className="markdown markdown-body" key={key}>
         {remark()
           .use(emoji)
           .use(breaks)
           .use(externalLinks)
           .use(highlight)
           .use(reactRemark, options)
-          .processSync(this.props.text)
+          .processSync(text)
           .contents}
       </div>
     )
