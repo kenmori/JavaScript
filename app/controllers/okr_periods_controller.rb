@@ -31,6 +31,14 @@ class OkrPeriodsController < ApplicationController
   
   end
 
+  def export_okrs
+    @okr_period = OkrPeriod.find(params[:id])
+    forbidden and return unless valid_permission?(@okr_period.organization_id) && current_user.admin?
+
+    filename = "OKR_#{@okr_period.organization.name}_#{@okr_period.month_start}_#{@okr_period.month_end}.csv"
+    send_data render_to_string, filename: filename, type: :csv
+  end
+
   private
 
   def can_delete?

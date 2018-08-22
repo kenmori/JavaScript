@@ -14,7 +14,6 @@ class OkrLink extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      centerX: 0,
       iconTopDiff: 0,
       iconLeftDiff: 0,
       ...this.updateOkrLink(props),
@@ -22,26 +21,17 @@ class OkrLink extends PureComponent {
   }
 
   componentDidMount() {
-    const iconElement = findDOMNode(this.iconRef)
+    const element = findDOMNode(this.iconRef)
     this.setState({
-      centerX: this.getCenterX(),
-      iconTopDiff: iconElement.offsetHeight / 2,
-      iconLeftDiff: iconElement.offsetWidth / 2,
+      iconTopDiff: element.offsetHeight / 2,
+      iconLeftDiff: element.offsetWidth / 2,
     })
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.fromRef !== nextProps.fromRef || this.props.paths !== nextProps.paths) {
-      this.setState({
-        centerX: this.getCenterX(),
-        ...this.updateOkrLink(nextProps),
-      })
+      this.setState(this.updateOkrLink(nextProps))
     }
-  }
-
-  getCenterX = () => {
-    const linkElement = findDOMNode(this.linkRef)
-    return Math.round(linkElement.offsetWidth / 2)
   }
 
   updateOkrLink = ({ fromRef, paths }) => {
@@ -83,18 +73,16 @@ class OkrLink extends PureComponent {
   }
 
   getIconStyle() {
-    const { fromPoint: from, paths, isExpanded, toAncestor, centerX } = this.state
+    const { fromPoint: from, paths, isExpanded, toAncestor } = this.state
     const to = paths.first().toPoint
     const [x, y] = isExpanded
-      ? [centerX, to.y - OkrLink.CARD_MARGIN]
+      ? [from.x, to.y - OkrLink.CARD_MARGIN]
       : toAncestor
         ? [to.x, to.y - OkrLink.CARD_MARGIN]
         : [from.x, from.y + OkrLink.CARD_MARGIN]
     const { iconTopDiff, iconLeftDiff } = this.state
     return { top: y - iconTopDiff, left: x - iconLeftDiff }
   }
-
-  handleLinkRef = node => this.linkRef = node
 
   handleIconRef = node => this.iconRef = node
 
@@ -107,9 +95,9 @@ class OkrLink extends PureComponent {
 
   render() {
     const { highlightedObjectiveIds, highlightedKeyResultId } = this.props
-    const { fromPoint, paths, isExpanded, toAncestor, centerX } = this.state
+    const { fromPoint, paths, isExpanded, toAncestor } = this.state
     return (
-      <div className='okr-link' ref={this.handleLinkRef}>
+      <div className='okr-link'>
         <svg>
           {paths.sortBy(path => {
             // ハイライトされたパスを前面に描画する (SVG には z-index がなく要素順に描画されるため)
@@ -123,7 +111,6 @@ class OkrLink extends PureComponent {
               fromPoint={fromPoint}
               isExpanded={isExpanded}
               toAncestor={toAncestor}
-              centerX={centerX}
             />
           ))}
         </svg>
