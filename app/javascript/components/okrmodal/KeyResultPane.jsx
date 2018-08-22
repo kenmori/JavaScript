@@ -260,7 +260,7 @@ class KeyResultPane extends PureComponent {
           <div className='flex-field__item'>
             <AutoInput
               value={keyResult.get('result') || ''}
-              placeholder='Key Result の最終的な進捗を補足する結果を入力します'
+              placeholder='Key Result の最終的な進捗を補足する結果を入力してください'
               onCommit={this.handleResultCommit}
             />
           </div>
