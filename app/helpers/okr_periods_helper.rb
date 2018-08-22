@@ -224,11 +224,8 @@ module OkrPeriodsHelper
         result += "\n" if index + 1 != @okrs.count
       end
 
+      result += 'OKR がありません' if @okrs.empty?
       result
-    end
-
-    def has_okr?
-      !@okrs.empty?
     end
 
     private
@@ -519,9 +516,6 @@ module OkrPeriodsHelper
       CSV.generate(bom, csv_options) do |csv|
         user_grouped.each_with_index do |(_, source), index|
           row = ExportObjectKeyResultsCsvRow.new(source, okr_period)
-
-          next unless row.has_okr?
-
           csv << [index + 1, row.user_name, row.email, row.okr_column_value]
         end
       end
