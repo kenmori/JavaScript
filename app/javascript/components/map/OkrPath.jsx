@@ -5,11 +5,10 @@ import OkrLink from './OkrLink'
 class OkrPath extends PureComponent {
 
   getPoints = () => {
-    const { fromPoint: from, toPoint: to, isExpanded, toAncestor, centerX } = this.props
+    const { fromPoint: from, toPoint: to, isExpanded, toAncestor } = this.props
     if (isExpanded) {
-      const centerY1 = from.y + OkrLink.CARD_MARGIN
-      const centerY2 = to.y - OkrLink.CARD_MARGIN
-      return `${from.x},${from.y} ${from.x},${centerY1} ${centerX},${centerY1} ${centerX},${centerY2} ${to.x},${centerY2} ${to.x},${to.y}`
+      const iconY = to.y - OkrLink.CARD_MARGIN
+      return `${from.x},${from.y} ${from.x},${iconY} ${to.x},${iconY} ${to.x},${to.y}`
     } else {
       return toAncestor
         ? `${to.x},${to.y - OkrLink.CARD_MARGIN} ${to.x},${to.y}`
@@ -42,7 +41,6 @@ OkrPath.propTypes = {
   toPoint: PropTypes.object.isRequired,
   isExpanded: PropTypes.bool.isRequired,
   toAncestor: PropTypes.bool.isRequired,
-  centerX: PropTypes.number.isRequired,
 }
 
 export default OkrPath
