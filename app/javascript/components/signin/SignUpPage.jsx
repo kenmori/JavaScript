@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react';
 import moment from 'moment';
@@ -63,7 +64,11 @@ class SignUpPage extends PureComponent {
   }
 
   render() {
-    if (this.props.isCompleted) {
+    const { hasValidToken, isCompleted } = this.props
+    if (!hasValidToken) {
+      return <Redirect to='/users/sign_in' />
+    }
+    if (isCompleted) {
       return this.completedView()
     }
     return (
@@ -189,6 +194,7 @@ class SignUpPage extends PureComponent {
 
 SignUpPage.propTypes = {
   // container
+  hasValidToken: PropTypes.bool.isRequired,
   isCompleted: PropTypes.bool.isRequired,
   addOrganization: PropTypes.func.isRequired,
   // component

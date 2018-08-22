@@ -45,8 +45,8 @@ class PrintOrganizations
             : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.count
 
         puts "  - [#{okr_period.name}]"
-        puts "    - #{objectives.count} objectives (average progress rate: #{objective_progress_rate_average}%)"
-        puts "    - #{key_results.count} key results (average progress rate: #{key_result_progress_rate_average}%)"
+        puts "    - #{objectives.count} objectives (enabled, average progress rate: #{objective_progress_rate_average}%)"
+        puts "    - #{key_results.count} key results (enabled, average progress rate: #{key_result_progress_rate_average}%)"
       end
     end
     puts ''

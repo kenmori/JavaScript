@@ -12,9 +12,17 @@ class OkrPeriodSettingTab extends SortableComponent {
 
   handleNameCommit = id => name => this.props.updateOkrPeriod({ id, name })
 
-  handleMonthStartChange = id => date => this.props.updateOkrPeriod({ id, monthStart: date.format('YYYY-MM-DD') })
+  handleMonthStartChange = id => date => {
+    if (date) {
+      this.props.updateOkrPeriod({ id, monthStart: date.format('YYYY-MM-DD') })
+    }
+  }
 
-  handleMonthEndChange = id => date => this.props.updateOkrPeriod({ id, monthEnd: date.format('YYYY-MM-DD') })
+  handleMonthEndChange = id => date => {
+    if (date) {
+      this.props.updateOkrPeriod({ id, monthEnd: date.format('YYYY-MM-DD') })
+    }
+  }
 
   handleRemoveClick = (id, name) => () => {
     this.props.confirm({
