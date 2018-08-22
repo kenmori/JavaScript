@@ -19,6 +19,7 @@ class CommentPane extends PureComponent {
       comment: {data: text, behavior: 'add'}
     });
     this.setState({ text: '' })
+    this.props.setDirty(false)
   }
 
   editComment = (id, text) => {
@@ -38,7 +39,10 @@ class CommentPane extends PureComponent {
     })
   }
 
-  handleTextChange = (e, { value }) => this.setState({ text: value })
+  handleTextChange = (e, { value }) => {
+    this.setState({ text: value })
+    this.props.setDirty(!!value)
+  }
 
   render() {
     const { keyResult } = this.props
@@ -78,6 +82,7 @@ CommentPane.propTypes = {
   // component
   keyResult: ImmutablePropTypes.map.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
+  setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 
