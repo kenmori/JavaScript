@@ -27,7 +27,11 @@ class OkrComment extends PureComponent {
   handleCancelClick = () => this.setEditingFalse()
 
   handleUpdateClick = () => {
-    this.props.onUpdate(this.props.comment.get('id'), this.state.text)
+    const { comment, onUpdate } = this.props
+    const { text } = this.state
+    if (comment.get('text') !== text) {
+      onUpdate(comment.get('id'), text)
+    }
     this.setEditingFalse()
   }
 
