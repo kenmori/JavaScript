@@ -18,20 +18,19 @@
 
     .keyresult-modal__sidebar {
         width: 30%;
-        .sidebar__item {
-            margin-bottom: 20px;
-            border-radius: 5px;
-            padding: 10px;
-            border: 1px solid $BORDER_COLOR;
+        .sidebar__name {
+            margin-left: .5rem;
+            font-weight: bold;
+            margin-bottom: 4px;
         }
-        .sidebar__content {
-            padding-left: 1rem;
+        .sidebar__desc {
+            margin-left: .5rem;
         }
         .sidebar__title {
             font-weight: bold;
             border-bottom: 1px solid $BORDER_COLOR;
-            margin-bottom: 10px;
-            padding-bottom: 3px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
         }
     }
   }

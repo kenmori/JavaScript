@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { List } from 'semantic-ui-react'
+import { Item, Segment } from 'semantic-ui-react'
 import OkrName from '../util/OkrName'
 
 class KeyResultSidebar extends PureComponent {
@@ -12,33 +12,26 @@ class KeyResultSidebar extends PureComponent {
     return (
       <div className="keyresult-modal__sidebar">
         {parentKeyResult && (
-          <div className="sidebar__item">
-            <div className="sidebar__title">上位 Key Result</div>
-            <div className="sidebar__content">
-              <List>
-                <List.Item>
-                  <List.Content>
-                    <List.Header><OkrName okr={parentKeyResult} /></List.Header>
-                    <List.Description>{parentKeyResult.get('description')}</List.Description>
-                  </List.Content>
-                </List.Item>
-              </List>
-            </div>
-          </div>
+          <Segment>
+            <Item>
+              <Item.Content>
+                <Item.Header className="sidebar__title">上位 Key Result</Item.Header>
+                <Item.Header className="sidebar__name"><OkrName okr={parentKeyResult} /></Item.Header>
+                <Item.Description className="sidebar__desc">{parentKeyResult.get('description')}</Item.Description>
+              </Item.Content>
+            </Item>
+          </Segment>
         )}
-        <div className="sidebar__item">
-          <div className="sidebar__title">紐付く Objective</div>
-          <div className="sidebar__content">
-            <List>
-              <List.Item>
-                <List.Content>
-                  <List.Header><OkrName okr={objective} /></List.Header>
-                  <List.Description>{objective.get('description')}</List.Description>
-                </List.Content>
-              </List.Item>
-            </List>
-          </div>
-        </div>
+
+        <Segment>
+          <Item>
+            <Item.Content>
+              <Item.Header className="sidebar__title">紐付く Objective</Item.Header>
+              <Item.Header className="sidebar__name"><OkrName okr={objective} /></Item.Header>
+              <Item.Description className="sidebar__desc">{objective.get('description')}</Item.Description>
+            </Item.Content>
+          </Item>
+        </Segment>
       </div>
     )
   }

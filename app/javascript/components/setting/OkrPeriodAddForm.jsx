@@ -33,9 +33,17 @@ class OkrPeriodAddForm extends PureComponent {
 
   handleNameChange = (e, { value }) => this.setState({ name: value })
 
-  handleMonthStartChange = date => this.setState({ monthStart: date })
+  handleMonthStartChange = date => {
+    if (date) {
+      this.setState({ monthStart: date })
+    }
+  }
 
-  handleMonthEndChange = date => this.setState({ monthEnd: date })
+  handleMonthEndChange = date => {
+    if (date) {
+      this.setState({ monthEnd: date })
+    }
+  }
 
   handleAddClick = () => {
     const { organizationId } = this.props
@@ -46,6 +54,7 @@ class OkrPeriodAddForm extends PureComponent {
       monthEnd: monthEnd.format('YYYY-MM-DD'),
       organizationId,
     })
+    this.setState({ name: '' })
   }
 
   render() {
