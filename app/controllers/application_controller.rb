@@ -62,6 +62,15 @@ class ApplicationController < ActionController::Base
     current_user.admin? || owner_id == current_user.id
   end
 
+  # Windows IE/Edge によるダウンロードで日本語ファイル名が文字化けする
+  # https://qiita.com/rorensu2236/items/638d181e155b5dc5e35c
+  def send_file_headers!(options)
+    super(options)
+    match = /(.+); filename="(.+)"/.match(headers['Content-Disposition'])
+    encoded = URI.encode_www_form_component(match[2])
+    headers['Content-Disposition'] = "#{match[1]}; filename*=UTF-8''#{encoded}" unless encoded == match[2]
+  end
+
   private
 
   # render_with_error is render json of error.
