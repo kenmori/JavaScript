@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Item, Segment } from 'semantic-ui-react';
 import OkrName from '../util/OkrName'
+import Markdown from '../util/Markdown'
 
 class ObjectiveSidebar extends PureComponent {
 
@@ -16,7 +17,7 @@ class ObjectiveSidebar extends PureComponent {
             <Item.Content>
               <Item.Header className="sidebar__title">上位 Objective</Item.Header>
               <Item.Header className="sidebar__name"><OkrName okr={parentObjective} /></Item.Header>
-              <Item.Description className="sidebar__desc">{parentObjective.get('description')}</Item.Description>
+              <Item.Description className="sidebar__desc"><Markdown text={parentObjective.get('description')} /></Item.Description>
             </Item.Content>
           </Item>
         </Segment>
@@ -26,7 +27,7 @@ class ObjectiveSidebar extends PureComponent {
             <Item.Content>
               <Item.Header className="sidebar__title">上位 Key Result</Item.Header>
               <Item.Header className="sidebar__name"><OkrName okr={parentKeyResult} /></Item.Header>
-              <Item.Description className="sidebar__desc">{parentKeyResult.get('description')}</Item.Description>
+              <Item.Description className="sidebar__desc"><Markdown text={parentKeyResult.get('description')} /></Item.Description>
             </Item.Content>
           </Item>
         </Segment>
