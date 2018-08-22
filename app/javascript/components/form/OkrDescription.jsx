@@ -40,7 +40,7 @@ class OkrDescription extends PureComponent {
       <div className="okr-description-text-area">
         <AutoTextArea
           value={text}
-          placeholder={`${okr} についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+          placeholder={`${okr} についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)`}
           onCommit={this.handleTextCommit}
           verbose={true}
         />

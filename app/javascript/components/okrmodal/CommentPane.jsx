@@ -52,7 +52,7 @@ class CommentPane extends PureComponent {
             rows={3}
             value={text}
             onChange={this.handleTextChange}
-            placeholder="進捗状況や、次のアクションなどをメモしてください"
+            placeholder={`進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)`}
           />
 
           <div className="comment-pane__button">

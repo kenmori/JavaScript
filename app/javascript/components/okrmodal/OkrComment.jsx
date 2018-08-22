@@ -75,6 +75,7 @@ class OkrComment extends PureComponent {
       <Form className="okr-comment-text-area">
         <AutoTextArea
           value={comment.get('text')}
+          placeholder={`進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)`}
           onCommit={this.handleTextCommit}
           readOnly={!comment.get('editable')}
         />
