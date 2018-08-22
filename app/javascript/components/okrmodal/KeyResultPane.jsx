@@ -182,7 +182,7 @@ class KeyResultPane extends PureComponent {
             </Form.Field>
           </Form.Group>
         ) : (
-          <Form.Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} floated='right' />
+          <Form.Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} size="small" floated='right' />
         )}
 
         <Form.Field className='flex-field progress-rate-field'>
