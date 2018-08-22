@@ -1,13 +1,16 @@
-# 環境変数とnpm scriptとかpackage.json周りの話
+# 環境変数(UnixやNode)とnpm scriptとかpackage.json周りの話
+
+
 
 nodeでいう環境変数
-グローバル変数とすることもできるが、nodeの環境変数は実行する特定のプロセスで頻繁に利用する変数です
+グローバル変数とすることもできるが、
+nodeの環境変数は実行する特定のプロセスで頻繁に利用する変数です
 
 Webapplicationを持っていたら
 PORT
-DBCOnection
+DBCONECTION
 JAVA_HOME
-の脈絡の中ではenvironment valuesは設定のようなものだが、
+の脈絡の中ではenvironment variablesは設定のようなものだが、
 
 nodeの環境変数はハードコードしたくない情報を渡すための手段です
 
@@ -46,7 +49,7 @@ SECRET_KEY="b6264fca-8adf-457f-a94f-5a4b0d1ca2b9"
 一番簡単にenvファイルを読み込む方法は
 
 ```dotenv```
-を使う方法だ
+を使う方法。
 
 どこからでもそれを使えるようにpackage.jsonに必須にする
 
@@ -71,6 +74,179 @@ MongoClient.connect(process.env.DB_CONN, function(err, db) {
 このように使う
 envはgithubに上げないように。
 秘密にする
+
+
+
+## Display Environment Variable
+
+```
+$ set
+```
+or
+
+```
+$ printenv
+```
+
+or
+
+```
+$ env
+```
+
+<img src="https://kenjimorita.jp/wp-content/uploads/2018/08/12.png">
+
+
+```
+PATH – Display lists directories the shell searches, for the commands.
+HOME – User’s home directory to store files.
+TERM – Set terminal emulator being used by UNIX.
+PS1 – Display shell prompt in the Bourne shell and variants.
+MAIL – Path to user’s mailbox.
+TEMP – Path to where processes can store temporary files.
+JAVA_HOME – Sun (now Oracle) JDK path.
+ORACLE_HOME – Oracle database installation path.
+TZ – Timezone settings
+PWD – Path to the current directory.
+HISTFILE – The name of the file in which command history is saved
+HISTFILESIZE -The maximum number of lines contained in the history file
+HOSTNAME -The system’s host name
+LD_LIBRARY_PATH -It is a colon-separated set of directories where libraries should be searched for.
+USER -Current logged in user’s name.
+DISPLAY -Network name of the X11 display to connect to, if available.
+SHELL -The current shell.
+TERMCAP – Database entry of the terminal escape codes to perform various terminal functions.
+OSTYPE – Type of operating system.
+MACHTYPE – The CPU architecture that the system is running on.
+EDITOR – The user’s preferred text editor.
+PAGER – The user’s preferred text pager.
+MANPATH – Colon separated list of directories to search for manual pages.
+```
+
+以下はshell毎の現在のsessionに対して設定されているenviroment variableを変更している
+
+```
+JAVA_PATH=/opt/jdk/bin
+export JAVA_PATH`
+```
+
+
+## /etc/profileと$HOME/.profileとshell起動時の挙動
+
+EnvironmentVariableは
+いくつかはシステムによって設定、
+他はあなたによって
+またはshell、他のプログラムをロードする際のプログラムによって設定される。
+
+値は文字列です。
+
+$HOGEでアサインする
+
+shellがアウトするまで値は保持される
+
+systemへログインする際に、
+
+shellは下層でinitialzationを呼び環境を設定するために解析する
+
+それは2つの過程を踏みます
+```
+/etc/profile
+.profile
+````
+
+shellは/etc/profileファイルが存在するかどうかみる
+
+もし存在していれば
+
+shellはそれを読み、
+そうでない場合はスキップする
+
+エラーメッセージは出ない
+
+shellは.profileがhomeディレクトリに存在するかどうかみる
+
+homeディレクトリはログインの後に始まるディレクトリです
+
+もし存在すれば
+shellはそれを読み、
+
+そうでなければshellはそれをスキップする
+
+エラーは出ない
+
+そして両方読んだらすぐ、
+
+shellは
+```
+$
+```
+プロンプトを表示する
+
+これはコマンドを実行するために入力できるプロンプトです
+
+```/etc/profile```はUnixのシステム管理者によって維持され
+システム上のすべてのユーザーによって求められているshellの初期設定情報
+を含む
+
+.profileはあなたのコントロール下にある
+あなたは多くのshellへのカスタマイズ情報を追加できる
+
+あなたが設置を含む必要がある最小限の情報設定を追加できる
+あなたが使うtermnaiのタイプ
+コマンドを配置するためのディレクトリリスト
+ターミナルの参照に影響する値のリスト
+など
+
+```.profile```をhomeディレクトリで```.profile```をチェックで.きます
+
+あなたの環境に対して設定されているすべての値をエディタでチェックできます
+あなたが使っているターミナルの型は自動的にgetterやloginかどちらかによって設定されます
+たまに自動設定過程であなたのターミナルは間違って予想Dします
+
+もしあなたのターミナルが間違って設定されたら
+コマンドのアウトプットは不思議に見えるかもしれないし
+shellはインタラクトできないかもしれない
+
+これを確認するケースを確認するために
+多くのユーザーは
+下のようにデモンストレートする
+
+```
+$TERM=vt100
+```
+
+コマンドプロンプト上のどんなコマンドもタイプする時は
+シェルはそれを実行可能な前にコマンドへの参照を持つ
+
+PATHの値はコマンドラインに対して見るべきか場所を記述する
+
+通常Pathの値は下のように設定する
+
+```
+$PATH=/bin:/usr/bin
+```
+
+それそれの分岐はコロン文字によって分けられたている
+
+もしあなたがシェルにコマンドを実行するためにリクエストし、
+
+それがパスの値としてどの与えられたディレクトリにもみつからない場合
+
+同じようなメッセージが出現する
+
+```
+$hello
+hello: not found
+$
+```
+
+
+
+
+
+
+
+
 
 
 ---
@@ -248,5 +424,5 @@ require('dotenv').config()
 
 [Working with Environment Variables in Node.js](https://www.twilio.com/blog/2017/08/working-with-environment-variables-in-node-js.html)
 
-
+[https://www.cyberciti.biz/faq/set-environment-variable-unix/](https://www.cyberciti.biz/faq/set-environment-variable-unix/)
 
