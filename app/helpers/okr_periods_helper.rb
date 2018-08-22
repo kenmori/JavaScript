@@ -502,7 +502,8 @@ module OkrPeriodsHelper
 
       return if export_data.count.zero?
 
-      user_grouped = export_data.group_by { |item| item['user_id'] }
+      # 無効なユーザーは出力しない
+      user_grouped = export_data.select { |item| item['user_disabled_at'].nil? }.group_by { |item| item['user_id'] }
 
       headers = ['', 'ユーザー名', 'メールアドレス', 'OKR']
       csv_options = {
