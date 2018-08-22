@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Button, Comment } from 'semantic-ui-react';
+import { Form, Comment } from 'semantic-ui-react';
 import AutoTextArea from '../form/AutoTextArea';
 import moment from 'moment';
 import avatar_image from '../../images/avatar.png';
@@ -24,11 +24,16 @@ class OkrComment extends PureComponent {
 
   handleTextCommit = text => this.setState({ text })
 
-  handleCancelClick = () => this.setState({ isEditing: false })
+  handleCancelClick = () => this.setEditingFalse()
 
   handleUpdateClick = () => {
     this.props.onUpdate(this.props.comment.get('id'), this.state.text)
-    this.setState({ isEditing: false })
+    this.setEditingFalse()
+  }
+
+  setEditingFalse = () => {
+    // setTimeout: workaround for "Form submission canceled because the form is not connected"
+    setTimeout(() => this.setState({ isEditing: false }), 0)
   }
 
   renderTextOnly() {
@@ -63,17 +68,17 @@ class OkrComment extends PureComponent {
   renderTextArea() {
     const { comment } = this.props
     return (
-      <div className="okr-comment-text-area">
+      <Form className="okr-comment-text-area">
         <AutoTextArea
           value={comment.get('text')}
           onCommit={this.handleTextCommit}
           readOnly={!comment.get('editable')}
         />
-        <div className="okr-comment-text-area__buttons">
-          <Button content="キャンセル" onClick={this.handleCancelClick} size="small" />
-          <Button content="更新する" onClick={this.handleUpdateClick} size="small" />
-        </div>
-      </div>
+        <Form.Group className="okr-comment-text-area__buttons">
+          <Form.Button content="キャンセル" onClick={this.handleCancelClick} size="small" />
+          <Form.Button content="更新する" onClick={this.handleUpdateClick} size="small" />
+        </Form.Group>
+      </Form>
     );
   }
 

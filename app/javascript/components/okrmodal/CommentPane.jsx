@@ -45,18 +45,20 @@ class CommentPane extends PureComponent {
     const { text } = this.state
     const comments = keyResult.get('comments')
     return (
-      <Form className="comment-pane">
-        <Form.TextArea
-          autoHeight
-          rows={3}
-          value={text}
-          onChange={this.handleTextChange}
-          placeholder="進捗状況や、次のアクションなどをメモしてください"
-        />
+      <div className="comment-pane">
+        <Form>
+          <Form.TextArea
+            autoHeight
+            rows={3}
+            value={text}
+            onChange={this.handleTextChange}
+            placeholder="進捗状況や、次のアクションなどをメモしてください"
+          />
 
-        <div className="comment-pane__button">
-          <Form.Button content="投稿する" onClick={this.addComment} />
-        </div>
+          <div className="comment-pane__button">
+            <Form.Button content="投稿する" onClick={this.addComment} />
+          </div>
+        </Form>
 
         {comments && comments.map(comment => (
           <OkrComment
@@ -66,7 +68,7 @@ class CommentPane extends PureComponent {
             onUpdate={this.editComment}
           />
         ))}
-      </Form>
+      </div>
     );
   }
 }
