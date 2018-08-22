@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label } from 'semantic-ui-react';
 import AutoInput from '../form/AutoInput';
-import AutoTextArea from '../form/AutoTextArea'
 import NumberInput from '../form/NumberInput'
 import UserSelect from '../form/UserSelect';
+import OkrDescription from '../form/OkrDescription'
 import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
 
@@ -151,9 +151,9 @@ class ObjectivePane extends PureComponent {
         </Form.Field>
         <Form.Field>
           <label>説明</label>
-          <AutoTextArea value={objective.get('description')}
-                        placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={this.handleDescriptionCommit}
+          <OkrDescription
+            text={objective.get('description')}
+            onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
 

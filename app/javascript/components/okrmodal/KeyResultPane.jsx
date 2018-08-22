@@ -4,10 +4,10 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
-import AutoTextArea from '../form/AutoTextArea';
 import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
+import OkrDescription from '../form/OkrDescription'
 import StatusRadio from '../util/StatusRadio'
 import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
@@ -248,9 +248,10 @@ class KeyResultPane extends PureComponent {
 
         <Form.Field>
           <label>説明</label>
-          <AutoTextArea key={keyResult.get('id')} value={keyResult.get('description')}
-                        placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={this.handleDescriptionCommit}
+          <OkrDescription
+            key={keyResult.get('id')}
+            text={keyResult.get('description')}
+            onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
 
