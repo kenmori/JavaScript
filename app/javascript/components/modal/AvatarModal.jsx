@@ -38,7 +38,7 @@ class AvatarModal extends PureComponent {
       <Modal
         closeIcon 
         open={this.props.isOpen} 
-        size='small' 
+        size="mini"
         onClose={this.props.closeModal}
       >
         <Modal.Content>{this.avatarImage()}</Modal.Content>

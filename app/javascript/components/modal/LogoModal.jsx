@@ -38,7 +38,7 @@ class LogoModal extends PureComponent {
       <Modal
         closeIcon 
         open={this.props.isOpen} 
-        size='small' 
+        size="mini" 
         onClose={this.props.closeModal}
       >
         <Modal.Content>{this.logoImage()}</Modal.Content>
