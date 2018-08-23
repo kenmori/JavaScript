@@ -3,10 +3,10 @@ import { Map } from 'immutable'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Modal } from 'semantic-ui-react'
-import { openObjective, goToRoot } from "../../utils/linker"
+import { openObjective, goToRoot } from '../../utils/linker'
 import OkrSidebar from './OkrSidebar'
-import ObjectiveTab from "./ObjectiveTab"
-import KeyResultTab from "./KeyResultTab"
+import ObjectiveTab from './ObjectiveTab'
+import KeyResultTab from './KeyResultTab'
 
 class OkrModal extends PureComponent {
 

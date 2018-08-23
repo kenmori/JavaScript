@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Field } from 'redux-form'
-import RenderField from "../form/RenderField"
+import RenderField from '../form/RenderField'
 import UserSelect from '../form/UserSelect'
 import RenderOkrSelect from '../form/RenderOkrSelect'
 import RequiredLabel from '../form/RequiredLabel'
 import { Form, TextArea, Divider } from 'semantic-ui-react'
 import {
   validateObjectiveName, validateParentKeyResultId, validateIsolatedObjectiveId, validatePreviousObjectiveId,
-} from "../../utils/validator"
+} from '../../utils/validator'
 
 class ObjectiveForm extends PureComponent {
 
@@ -70,7 +70,7 @@ class ObjectiveForm extends PureComponent {
             autoHeight
             rows={3}
             onChange={this.handleDescriptionChange}
-            placeholder={`Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)`}
+            placeholder={'Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)'}
             value={this.props.description}
           />
         </Form.Field>

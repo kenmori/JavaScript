@@ -19,7 +19,7 @@ class OwnerAvatar extends PureComponent {
   trigger = () => {
     const hasMembers = this.props.members && this.props.members.size > 0
     return (
-      <div className={`owner_avatar`}>
+      <div className="owner_avatar">
         <Avatar user={this.props.owner} size={this.props.size} />
         {hasMembers && <Icon name='plus' size={sizeToIconSize[this.props.size]} color='grey' />}
       </div>

@@ -44,16 +44,16 @@ class KeyResultForm extends PureComponent {
               autoHeight
               rows={3}
               onChange={this.handleDescriptionChange}
-              placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)`}
+              placeholder={'Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)'}
             />
           </Form.Field>
         </Form.Group>
         <Form.Group>
           <Form.Field>
             <div className="flex-start">
-              <div style={{ marginRight: "10px" }}>
+              <div style={{ marginRight: '10px' }}>
                 <RequiredLabel text='目標値' required={this.props.isRequiredTargetValue} />
-                <div style={{ width: "177px" }}>
+                <div style={{ width: '177px' }}>
                   <Field
                     name='targetValue'
                     component={RenderField}

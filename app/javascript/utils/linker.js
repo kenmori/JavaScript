@@ -7,7 +7,7 @@ const URL_TYPE = {
   COMMENT: 2,
 }
 
-const hashids = new Hashids("NDRGMTdGMEIyRUM0RjJFQTk0Mjg0NDk2MEMyODY4RkQ2QUZFQUYzNg==")
+const hashids = new Hashids('NDRGMTdGMEIyRUM0RjJFQTk0Mjg0NDk2MEMyODY4RkQ2QUZFQUYzNg==')
 
 export const openObjective = objectiveId => {
   history.push(`/okr/${hashids.encode(URL_TYPE.OBJECTIVE, objectiveId)}`)

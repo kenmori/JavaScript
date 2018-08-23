@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Select, Label } from 'semantic-ui-react'
-import { okrOptions } from "../../utils/okr"
+import { okrOptions } from '../../utils/okr'
 
 class RenderOkrSelect extends PureComponent {
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Select, Button } from 'semantic-ui-react'
 import OkrList from './OkrList'
-import { okrOptions } from "../../utils/okr"
+import { okrOptions } from '../../utils/okr'
 
 class OkrSelect extends PureComponent {
 
