@@ -6,7 +6,7 @@ let connectingCounter = 0
 
 function wait(time) {
   return () => (
-    new Promise((resolve, reject) => {
+    new Promise(resolve => {
       setTimeout(() => {
         resolve()
       }, time)

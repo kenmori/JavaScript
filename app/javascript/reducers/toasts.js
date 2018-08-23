@@ -13,7 +13,7 @@ export default handleActions({
     // noinspection JSPrimitiveTypeWrapperUsage
     return state.set('message', new String(payload.message)).set('type', payload.type)
   },
-  [ActionTypes.CLEAR_TOAST]: (state, { payload }) => {
+  [ActionTypes.CLEAR_TOAST]: state => {
     return state.set('message', null).set('type', null)
   },
 }, initialState)

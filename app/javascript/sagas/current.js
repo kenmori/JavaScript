@@ -46,7 +46,7 @@ function* selectOkr({ payload }) {
   }
 }
 
-function* clearSelectedOkr({ payload }) {
+function* clearSelectedOkr() {
   yield put(currentActions.clearMapOkr())
 }
 

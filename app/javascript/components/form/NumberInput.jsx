@@ -66,9 +66,9 @@ NumberInput.defaultProps = {
   label: null,
   value: 0,
   readOnly: false,
-  onChange: value => {},
-  onCommit: value => {},
-  onMouseUp: value => {},
+  onChange: () => {},
+  onCommit: () => {},
+  onMouseUp: () => {},
 }
 
 export default NumberInput

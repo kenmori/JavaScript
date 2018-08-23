@@ -92,7 +92,7 @@ OkrSelect.defaultProps = {
   readOnly: false,
   disabled: false,
   loading: false,
-  onChange: value => {},
+  onChange: () => {},
 }
 
 export default OkrSelect

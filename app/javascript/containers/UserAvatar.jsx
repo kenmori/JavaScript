@@ -2,7 +2,7 @@ import UserAvatar from '../components/util/UserAvatar'
 import { connect } from 'react-redux'
 import dialogActions from '../actions/dialogs'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
   return {}
 }
 

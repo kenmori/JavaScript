@@ -44,7 +44,7 @@ AutoTextArea.defaultProps = {
   autoHeight: true,
   readOnly: false,
   verbose: false,
-  onCommit: value => {},
+  onCommit: () => {},
 }
 
 export default AutoTextArea

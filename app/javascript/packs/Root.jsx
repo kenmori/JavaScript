@@ -18,7 +18,7 @@ import ErrorModal from '../containers/ErrorModal'
 import ConfirmModal from '../containers/ConfirmModal'
 
 const store = configureStore()
-history.listen((location, action) => {
+history.listen(location => {
   ReactGA.set({ page: location.pathname })
   ReactGA.pageview(location.pathname)
 })

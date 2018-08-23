@@ -2,9 +2,8 @@ import SignInPage from '../components/signin/SignInPage'
 import { connect } from 'react-redux'
 import deviseActions from '../actions/devise'
 
-const mapStateToProps = (_state) => {
-  return {
-  }
+const mapStateToProps = () => {
+  return {}
 }
 
 const mapDispatchToProps = dispatch => {

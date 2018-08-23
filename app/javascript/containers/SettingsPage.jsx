@@ -9,7 +9,7 @@ const mapStateToProps = (state, {match}) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {
     changeURL: (url) => {
       history.push(url)

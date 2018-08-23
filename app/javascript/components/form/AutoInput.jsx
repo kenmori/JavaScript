@@ -61,7 +61,7 @@ AutoInput.defaultProps = {
   value: '',
   placeholder: null,
   readOnly: false,
-  onCommit: value => {},
+  onCommit: () => {},
 }
 
 export default AutoInput

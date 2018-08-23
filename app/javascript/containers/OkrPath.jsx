@@ -12,7 +12,7 @@ const mapStateToProps = (state, { fromKeyResultId, toObjectiveId }) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {}
 }
 

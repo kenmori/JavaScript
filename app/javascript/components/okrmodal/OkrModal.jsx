@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Map } from 'immutable'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Modal } from 'semantic-ui-react'
