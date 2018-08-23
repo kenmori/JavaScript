@@ -42,7 +42,11 @@ class Markdown extends PureComponent {
 }
 
 Markdown.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
+}
+
+Markdown.defaultProps = {
+  text: '',
 }
 
 export default Markdown

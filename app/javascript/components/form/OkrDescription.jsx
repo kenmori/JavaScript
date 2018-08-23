@@ -58,12 +58,13 @@ class OkrDescription extends PureComponent {
 OkrDescription.propTypes = {
   // container
   // component
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   isObjective: PropTypes.bool,
   onCommit: PropTypes.func.isRequired,
 }
 
 OkrDescription.defaultProps = {
+  text: '',
   isObjective: true,
 }
 
