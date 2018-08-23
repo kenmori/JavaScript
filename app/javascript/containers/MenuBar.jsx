@@ -7,12 +7,12 @@ import { getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
   return {
-    ownerId: state.organizations.get('ownerId'),
+    ownerId: state.organization.get('ownerId'),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     okrPeriods: state.okrPeriods,
     users: getEnabledUsers(state),
-    organization: state.organizations.get('selected'),
+    organization: state.organization.get('current'),
     loginUser: state.loginUser,
   };
 };

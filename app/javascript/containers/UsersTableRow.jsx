@@ -1,12 +1,12 @@
 import UsersTableRow from '../components/setting/UsersTableRow'
 import { connect } from 'react-redux'
-import organizationActions from '../actions/organizations'
+import organizationActions from '../actions/organization'
 import userActions from '../actions/users'
 import dialogActions from '../actions/dialogs'
 
 const mapStateToProps = state => {
   return {
-    organizationId: state.organizations.get('selected').get('id'),
+    organizationId: state.organization.get('current').get('id'),
   }
 }
 

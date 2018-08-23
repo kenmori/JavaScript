@@ -8,7 +8,7 @@ import users from './users';
 import dialogs from './dialogs';
 import loginUser from './loginUser';
 import current from './current';
-import organizations from './organizations';
+import organization from './organization';
 import okrPeriods from './okrPeriods';
 import devise from './devise';
 import loading from './loading';
@@ -24,7 +24,7 @@ const reducers = combineReducers({
   dialogs,
   loginUser,
   current,
-  organizations,
+  organization,
   okrPeriods,
   devise,
   loading,

@@ -7,7 +7,7 @@ import { getEnabledUsersForSetting, getDisabledUsersForSetting } from '../utils/
 const mapStateToProps = (state) => {
   return {
     loginUserId: state.loginUser.get('id'),
-    organization: state.organizations.get('selected'),
+    organization: state.organization.get('current'),
     enabledUsers: getEnabledUsersForSetting(state),
     disabledUsers: getDisabledUsersForSetting(state),
   };

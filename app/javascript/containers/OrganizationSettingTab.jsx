@@ -1,11 +1,11 @@
 import OrganizationSettingTab from '../components/setting/OrganizationSettingTab';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
-import organizationActions from '../actions/organizations';
+import organizationActions from '../actions/organization';
 
 const mapStateToProps = (state) => {
   return {
-    organization: state.organizations.get('selected'),
+    organization: state.organization.get('current'),
     okrPeriods: state.okrPeriods,
     okrPeriodId: state.current.get('okrPeriodId'),
   };

@@ -3,7 +3,7 @@ import { objectiveSagas } from './objectives';
 import { keyResultSagas } from './keyResults';
 import { userSagas } from './users';
 import { deviseSagas } from './devise';
-import { organizationSagas } from './organizations';
+import { organizationSagas } from './organization';
 import { okrPeriodSagas } from './okrPeriods';
 import { dialogSagas } from './dialogs';
 import { loginUserSagas } from './loginUser'

@@ -4,15 +4,14 @@ import ActionTypes from '../constants/actionTypes';
 import gon from '../utils/gon';
 
 const initialState = fromJS({
-  selected: gon.get('organization'),
+  current: gon.get('organization'),
   ownerId: gon.get('ownerId'),
   isFetched: false,
   isCompleted: false,
 });
 
-function newSelectedData(state, payload) {
-  const newData = state.get('selected').merge(payload.organization);
-  return state.set('selected', newData);
+function merge(state, { payload }) {
+  return state.update('current', current => current.merge(payload.organization));
 }
 
 export default handleActions({
@@ -20,14 +19,12 @@ export default handleActions({
     state.set('isFetched', false)
   ),
   [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => (
-    newSelectedData(state, payload).set('isFetched', true)
+    merge(state, { payload }).set('isFetched', true)
   ),
   [ActionTypes.ADDED_ORGANIZATION]: state => (
     state.set('isCompleted', true)
   ),
-  [ActionTypes.UPDATED_ORGANIZATION]: (state, { payload }) => (
-    newSelectedData(state, payload)
-  ),
+  [ActionTypes.UPDATED_ORGANIZATION]: merge,
   [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => (
     state.set('ownerId', payload.ownerId)
   ),

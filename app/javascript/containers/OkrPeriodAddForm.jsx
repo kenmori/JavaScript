@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import okrPeriodActions from '../actions/okrPeriods';
 
 const mapStateToProps = (state) => {
-  const organization = state.organizations.get('selected')
+  const organization = state.organization.get('current')
   return {
     organizationId: organization.get('id'),
     okrSpan: organization.get('okrSpan'),
