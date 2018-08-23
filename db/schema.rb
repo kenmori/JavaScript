@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180823041912) do
+ActiveRecord::Schema.define(version: 20180823064438) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20180823041912) do
     t.string "name", null: false
     t.string "logo"
     t.integer "okr_span", default: 3, null: false
+    t.datetime "disabled_at"
   end
 
   create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

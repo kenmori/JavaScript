@@ -19,6 +19,10 @@ class Organization < ApplicationRecord
     self.okr_periods.current.first || okr_periods.last
   end
 
+  def disabled
+    !!disabled_at
+  end
+
   private
 
   def destroy_users

@@ -52,7 +52,7 @@ class User < ApplicationRecord
   end
 
   def disabled
-    !!disabled_at
+    !!disabled_at || organization.disabled
   end
 
   def sign_in_at
