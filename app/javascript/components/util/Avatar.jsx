@@ -42,11 +42,12 @@ class Avatar extends PureComponent {
 
     return (
       <div className={`avatar ${disabled ? 'disabled' : ''}`}>
-        <UserAvatar className={`avatar__inner is-${size}`}
-                    src={path}
-                    name={name}
-                    size={sizeToNum[size]}
-                    color='transparent'
+        <UserAvatar
+          className={`avatar__inner is-${size}`}
+          src={path}
+          name={name}
+          size={sizeToNum[size]}
+          color="transparent"
         />
         {disabled && <Icon disabled name='dont' size={sizeToIconSize[this.props.size]} />}
         {this.props.withName && <span className='avatar__name'><UserName user={this.props.user} /></span>}

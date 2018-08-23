@@ -72,58 +72,56 @@ function isMine(keyResultId, payload) {
 }
 
 export default handleActions({
-    [ActionTypes.FETCH_KEY_RESULTS]: state => {
-      return state.set('isFetchedKeyResults', false)
-    },
-    [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
-      return state.set('ids', payload.get('result')).set('isFetchedKeyResults', true)
-    },
-    [ActionTypes.FETCH_KEY_RESULT_CANDIDATES]: state => {
-      return state.set('isFetchedCandidates', false)
-    },
-    [ActionTypes.FETCHED_KEY_RESULT_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true)
-    },
-    [ActionTypes.FETCHED_TASK_KEY_RESULTS]: (state, { payload }) => {
-      return state.set('taskIds', payload.get('result'))
-    },
-    [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first()
-      state = addToCandidates(state, keyResultId)
-      state = addToTask(state, keyResultId, payload)
-      return isMine(keyResultId, payload) ? add(state, keyResultId) : state
-    },
-    [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first()
-      state = addToTask(state, keyResultId, payload, true)
-      return isMine(keyResultId, payload) ? add(state, keyResultId) : remove(state, keyResultId)
-    },
-    [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first()
-      return removeAll(state, keyResultId)
-    },
-    [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
-      const { keyResultIds } = payload
-      keyResultIds.forEach(keyResultId => state = removeAll(state, keyResultId))
-      return state
-    },
-    [ActionTypes.PROCESSED_KEY_RESULT]: (state, { payload }) => {
-      return removeFromTask(state, payload.id)
-    },
-    [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      state = removeParentFromTask(state, payload)
-      return addParentAndKeyResults(state, payload)
-    },
-    [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      state = removeParentFromTask(state, payload)
-      return addParentAndKeyResults(state, payload)
-    },
+  [ActionTypes.FETCH_KEY_RESULTS]: state => {
+    return state.set('isFetchedKeyResults', false)
   },
-  fromJS({
-    ids: [],
-    candidateIds: [],
-    taskIds: [],
-    isFetchedKeyResults: false,
-    isFetchedCandidates: false,
-  }),
-)
+  [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
+    return state.set('ids', payload.get('result')).set('isFetchedKeyResults', true)
+  },
+  [ActionTypes.FETCH_KEY_RESULT_CANDIDATES]: state => {
+    return state.set('isFetchedCandidates', false)
+  },
+  [ActionTypes.FETCHED_KEY_RESULT_CANDIDATES]: (state, { payload }) => {
+    return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true)
+  },
+  [ActionTypes.FETCHED_TASK_KEY_RESULTS]: (state, { payload }) => {
+    return state.set('taskIds', payload.get('result'))
+  },
+  [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
+    const keyResultId = payload.get('result').first()
+    state = addToCandidates(state, keyResultId)
+    state = addToTask(state, keyResultId, payload)
+    return isMine(keyResultId, payload) ? add(state, keyResultId) : state
+  },
+  [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
+    const keyResultId = payload.get('result').first()
+    state = addToTask(state, keyResultId, payload, true)
+    return isMine(keyResultId, payload) ? add(state, keyResultId) : remove(state, keyResultId)
+  },
+  [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
+    const keyResultId = payload.get('result').first()
+    return removeAll(state, keyResultId)
+  },
+  [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
+    const { keyResultIds } = payload
+    keyResultIds.forEach(keyResultId => state = removeAll(state, keyResultId))
+    return state
+  },
+  [ActionTypes.PROCESSED_KEY_RESULT]: (state, { payload }) => {
+    return removeFromTask(state, payload.id)
+  },
+  [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
+    state = removeParentFromTask(state, payload)
+    return addParentAndKeyResults(state, payload)
+  },
+  [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
+    state = removeParentFromTask(state, payload)
+    return addParentAndKeyResults(state, payload)
+  },
+}, fromJS({
+  ids: [],
+  candidateIds: [],
+  taskIds: [],
+  isFetchedKeyResults: false,
+  isFetchedCandidates: false,
+}))

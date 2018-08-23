@@ -25,17 +25,19 @@ class NumberInput extends PureComponent {
 
   render() {
     return (
-      <Input className='number-input'
-             type={this.props.type}
-             min={this.props.min} max={this.props.max} step={this.props.step}
-             label={this.props.label ? { basic: true, content: this.props.label } : null} labelPosition='right'
-             value={this.props.value}
-             readOnly={this.props.readOnly}
-             onChange={this.handleChange}
-             onBlur={this.handleCommit}
-             onKeyPress={this.handleKeyPress}
-             onMouseUp={this.handleMouseUp}
-             onTouchEnd={this.handleMouseUp}
+      <Input
+        className="number-input"
+        type={this.props.type}
+        min={this.props.min} max={this.props.max} step={this.props.step}
+        label={this.props.label ? { basic: true, content: this.props.label } : null}
+        labelPosition="right"
+        value={this.props.value}
+        readOnly={this.props.readOnly}
+        onChange={this.handleChange}
+        onBlur={this.handleCommit}
+        onKeyPress={this.handleKeyPress}
+        onMouseUp={this.handleMouseUp}
+        onTouchEnd={this.handleMouseUp}
       />
     )
   }

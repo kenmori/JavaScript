@@ -10,8 +10,13 @@ class RequiredLabel extends PureComponent {
       <label className='common-label'>
         <span>{this.props.text}</span>
         {this.props.required && (
-          <Popup inverted size='tiny' position='right center' content='必須'
-                 trigger={<Icon name='asterisk' color='red' size='small' style={style} />} />
+          <Popup
+            inverted
+            size="tiny"
+            position="right center"
+            content="必須"
+            trigger={<Icon name="asterisk" color="red" size="small" style={style} />}
+          />
         )}
       </label>
     )

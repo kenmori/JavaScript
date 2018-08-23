@@ -24,11 +24,12 @@ class ObjectiveTab extends PureComponent {
         {
           menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
-            <LinkPane okr={this.props.objective}
-                      candidates={this.props.parentKeyResultCandidates}
-                      isObjectiveOwner={this.props.isObjectiveOwner}
-                      isFetchedCandidates={this.props.isFetchedKeyResultCandidates}
-                      updateOkr={this.updateObjective}
+            <LinkPane
+              okr={this.props.objective}
+              candidates={this.props.parentKeyResultCandidates}
+              isObjectiveOwner={this.props.isObjectiveOwner}
+              isFetchedCandidates={this.props.isFetchedKeyResultCandidates}
+              updateOkr={this.updateObjective}
             />
           </Tab.Pane>
         },

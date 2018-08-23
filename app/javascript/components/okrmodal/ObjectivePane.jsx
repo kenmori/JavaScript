@@ -142,11 +142,11 @@ class ObjectivePane extends PureComponent {
         <Form.Field className='flex-field'>
           <label>責任者</label>
           <div className='flex-field__item'>
-          <UserSelect
-            users={this.props.users}
-            value={objective.get('owner').get('id')}
-            onChange={this.handleOwnerChange}
-          />
+            <UserSelect
+              users={this.props.users}
+              value={objective.get('owner').get('id')}
+              onChange={this.handleOwnerChange}
+            />
           </div>
         </Form.Field>
         <Form.Field>

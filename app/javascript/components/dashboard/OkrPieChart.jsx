@@ -35,14 +35,16 @@ class OkrPieChart extends PureComponent {
     const { data, startAngle, endAngle, minAngle, label } = this.getPieChartProperties(objective)
     return (
       <PieChart width={145} height={145}>
-        <Pie data={data}
-             dataKey="value"
-             startAngle={startAngle} // 時計回りのアニメーションにするため startAngle/endAngle の値を指定する
-             endAngle={endAngle}
-             minAngle={minAngle}
-             innerRadius={50}
-             outerRadius={70}
-             paddingAngle={2}>
+        <Pie
+          data={data}
+          dataKey="value"
+          startAngle={startAngle} // 時計回りのアニメーションにするため startAngle/endAngle の値を指定する
+          endAngle={endAngle}
+          minAngle={minAngle}
+          innerRadius={50}
+          outerRadius={70}
+          paddingAngle={2}
+        >
           <Label value={label} position="center" className="okr-pie-chart__progress" />
         </Pie>
         <Tooltip formatter={this.formatter} />

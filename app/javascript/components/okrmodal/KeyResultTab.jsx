@@ -49,12 +49,13 @@ class KeyResultTab extends PureComponent {
         {
           menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
-            <LinkPane okr={this.props.keyResult}
-                      candidates={this.props.objectiveCandidates}
-                      isObjective={false}
-                      isObjectiveOwner={this.props.isObjectiveOwner}
-                      isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
-                      updateOkr={this.updateKeyResult}
+            <LinkPane
+              okr={this.props.keyResult}
+              candidates={this.props.objectiveCandidates}
+              isObjective={false}
+              isObjectiveOwner={this.props.isObjectiveOwner}
+              isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
+              updateOkr={this.updateKeyResult}
             />
           </Tab.Pane>
         },

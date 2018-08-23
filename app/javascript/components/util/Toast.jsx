@@ -31,11 +31,12 @@ class Toast extends PureComponent {
     return (
       <Transition visible={this.state.visible} onHide={this.props.clearToast}>
         <div className='toast'>
-          <Message compact
-                   info={this.props.type === 'info'}
-                   warning={this.props.type === 'warning'}
-                   error={this.props.type === 'error'}
-                   success={this.props.type === 'success'}
+          <Message
+            compact
+            info={this.props.type === 'info'}
+            warning={this.props.type === 'warning'}
+            error={this.props.type === 'error'}
+            success={this.props.type === 'success'}
           >{this.props.message}</Message>
         </div>
       </Transition>

@@ -84,10 +84,22 @@ class KeyResult extends PureComponent {
 
           {canMoveKeyResult && (
             <div className="sidebar__swap-icons">
-              <Icon name='arrow circle up' size='large' color='grey' fitted className='swap-up'
-                    onClick={this.swapKeyResult(true)} />
-              <Icon name='arrow circle down' size='large' color='grey' fitted className='swap-down'
-                    onClick={this.swapKeyResult(false)} />
+              <Icon
+                name="arrow circle up"
+                size="large"
+                color="grey"
+                fitted
+                className="swap-up"
+                onClick={this.swapKeyResult(true)}
+              />
+              <Icon
+                name="arrow circle down"
+                size="large"
+                color="grey"
+                fitted
+                className="swap-down"
+                onClick={this.swapKeyResult(false)}
+              />
             </div>
           )}
         </Segment>

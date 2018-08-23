@@ -12,13 +12,14 @@ class AutoTextArea extends PureComponent {
 
   render() {
     return (
-      <TextArea className='auto-text-area'
-                defaultValue={this.props.value}
-                placeholder={this.props.placeholder}
-                rows={this.props.rows}
-                autoHeight={this.props.autoHeight}
-                readOnly={this.props.readOnly}
-                onBlur={this.handleCommit}
+      <TextArea
+        className="auto-text-area"
+        defaultValue={this.props.value}
+        placeholder={this.props.placeholder}
+        rows={this.props.rows}
+        autoHeight={this.props.autoHeight}
+        readOnly={this.props.readOnly}
+        onBlur={this.handleCommit}
       />
     )
   }

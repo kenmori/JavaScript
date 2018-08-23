@@ -35,13 +35,14 @@ class AutoInput extends PureComponent {
 
   render() {
     return (
-      <AutosizeInput className="ui input auto-input"
-                     value={this.state.value}
-                     placeholder={this.props.placeholder}
-                     readOnly={this.props.readOnly}
-                     onChange={this.handleChange}
-                     onBlur={this.handleCommit}
-                     onKeyPress={this.handleKeyPress}
+      <AutosizeInput
+        className="ui input auto-input"
+        value={this.state.value}
+        placeholder={this.props.placeholder}
+        readOnly={this.props.readOnly}
+        onChange={this.handleChange}
+        onBlur={this.handleCommit}
+        onKeyPress={this.handleKeyPress}
       />
     )
   }

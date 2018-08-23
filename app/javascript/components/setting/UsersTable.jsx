@@ -84,13 +84,16 @@ class UsersTable extends SortableComponent {
           <Table.Body>
             {filteredUsers.slice(begin, end).map(user => {
               const id = user.get('id')
-              return <UsersTableRow key={id}
-                                    user={user}
-                                    isLoginUser={id === this.props.loginUserId}
-                                    updateUser={this.updateUser(id)}
-                                    changeEmail={this.changeEmail(id)}
-                                    resendEmail={this.resendEmail}
-              />
+              return (
+                <UsersTableRow
+                  key={id}
+                  user={user}
+                  isLoginUser={id === this.props.loginUserId}
+                  updateUser={this.updateUser(id)}
+                  changeEmail={this.changeEmail(id)}
+                  resendEmail={this.resendEmail}
+                />
+              )
             })}
           </Table.Body>
 
@@ -99,10 +102,15 @@ class UsersTable extends SortableComponent {
               <Table.HeaderCell colSpan='3'>{`${begin + 1} - ${end} / ${filteredUsers.size} 人`}</Table.HeaderCell>
               <Table.HeaderCell colSpan='5' textAlign='right'>
                 {totalPages > 0 && (
-                  <Pagination activePage={activePage} firstItem={null} lastItem={null} totalPages={totalPages}
-                              prevItem={activePage === 1 ? null : undefined}
-                              nextItem={activePage === totalPages ? null : undefined}
-                              onPageChange={this.handlePageChange} />
+                  <Pagination
+                    activePage={activePage}
+                    firstItem={null}
+                    lastItem={null}
+                    totalPages={totalPages}
+                    prevItem={activePage === 1 ? null : undefined}
+                    nextItem={activePage === totalPages ? null : undefined}
+                    onPageChange={this.handlePageChange}
+                  />
                 )}
               </Table.HeaderCell>
             </Table.Row>

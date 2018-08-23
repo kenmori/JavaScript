@@ -13,16 +13,14 @@ function merge(state, { payload }) {
 }
 
 export default handleActions({
-    [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: merge,
-    [ActionTypes.ADDED_OBJECTIVE]: merge,
-    [ActionTypes.UPDATED_OBJECTIVE]: merge,
-    [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      state = merge(state, { payload })
-      const objectiveId = payload.get('result').first()
-      return state.delete(objectiveId)
-    },
-    [ActionTypes.DISABLED_OBJECTIVE]: merge,
-    [ActionTypes.DISABLED_KEY_RESULT]: merge,
+  [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: merge,
+  [ActionTypes.ADDED_OBJECTIVE]: merge,
+  [ActionTypes.UPDATED_OBJECTIVE]: merge,
+  [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
+    state = merge(state, { payload })
+    const objectiveId = payload.get('result').first()
+    return state.delete(objectiveId)
   },
-  Map(),
-)
+  [ActionTypes.DISABLED_OBJECTIVE]: merge,
+  [ActionTypes.DISABLED_KEY_RESULT]: merge,
+}, Map())

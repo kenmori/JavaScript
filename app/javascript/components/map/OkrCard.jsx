@@ -60,8 +60,7 @@ class OkrCard extends PureComponent {
           {keyResults.isEmpty() && (
             <List.Item className="key-results__item--add">
               <List.List>
-                <List.Item as='a' icon='plus' content='Key Result を追加する'
-                           onClick={this.handleAddKeyResultClick} />
+                <List.Item as="a" icon="plus" content="Key Result を追加する" onClick={this.handleAddKeyResultClick} />
               </List.List>
             </List.Item>
           )}

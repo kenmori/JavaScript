@@ -38,8 +38,11 @@ class KeyResultList extends SortableComponent {
           </Table.Header>
           <Table.Body className='key-result-table'>
             {keyResults.map(keyResult =>
-              <Table.Row key={keyResult.get('id')} active={keyResult.get('id') === this.props.selectedKeyResultId}
-                         onClick={this.selectKeyResult(keyResult)}>
+              <Table.Row
+                key={keyResult.get('id')}
+                active={keyResult.get('id') === this.props.selectedKeyResultId}
+                onClick={this.selectKeyResult(keyResult)}
+              >
                 <Table.Cell textAlign='center'><OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} /></Table.Cell>
                 <Table.Cell><OkrName okr={keyResult} /></Table.Cell>
                 <Table.Cell>{keyResult.get('targetValue')} {keyResult.get('valueUnit')}</Table.Cell>

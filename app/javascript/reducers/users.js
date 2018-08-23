@@ -8,14 +8,12 @@ function set (state, { payload }) {
 }
 
 export default handleActions({
-    [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
-      return payload.organization.get('users')
-    },
-    [ActionTypes.ADDED_USER]: (state, { payload }) => (
-      state.push(payload.user)
-    ),
-    [ActionTypes.UPDATED_USER]: set,
-    [ActionTypes.DISABLED_USER]: set,
+  [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
+    return payload.organization.get('users')
   },
-  fromJS([])
-)
+  [ActionTypes.ADDED_USER]: (state, { payload }) => (
+    state.push(payload.user)
+  ),
+  [ActionTypes.UPDATED_USER]: set,
+  [ActionTypes.DISABLED_USER]: set,
+}, fromJS([]))

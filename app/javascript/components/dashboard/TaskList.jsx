@@ -42,9 +42,11 @@ class TaskList extends SortableComponent {
           </Table.Header>
           <Table.Body className='task-table'>
             {keyResults.map(keyResult =>
-              <Table.Row key={keyResult.get('id')}
-                         active={keyResult.get('id') === this.props.selectedKeyResultId}
-                         onClick={this.selectKeyResult(keyResult)}>
+              <Table.Row
+                key={keyResult.get('id')}
+                active={keyResult.get('id') === this.props.selectedKeyResultId}
+                onClick={this.selectKeyResult(keyResult)}
+              >
                 <Table.Cell textAlign='center'>
                   <OwnerAvatar owner={keyResult.get('owner')} members={keyResult.get('members')} />
                 </Table.Cell>

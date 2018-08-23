@@ -78,10 +78,22 @@ class Objective extends PureComponent {
         <OkrPieChart objective={objective} />
         {canMoveObjective && (
           <div className='swap-icons'>
-            <Icon name='arrow circle left' size='large' color='grey' fitted className='swap-left'
-                  onClick={this.swapObjective(true)} />
-            <Icon name='arrow circle right' size='large' color='grey' fitted className='swap-right'
-                  onClick={this.swapObjective(false)} />
+            <Icon
+              name="arrow circle left"
+              size="large"
+              color="grey"
+              fitted
+              className="swap-left"
+              onClick={this.swapObjective(true)}
+            />
+            <Icon
+              name="arrow circle right"
+              size="large"
+              color="grey"
+              fitted
+              className="swap-right"
+              onClick={this.swapObjective(false)}
+            />
           </div>
         )}
       </div>

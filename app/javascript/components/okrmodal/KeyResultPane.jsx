@@ -188,17 +188,19 @@ class KeyResultPane extends PureComponent {
         <Form.Field className='flex-field progress-rate-field'>
           <label>進捗</label>
           <div className="flex-field__item">
-            <NumberInput label='%'
-                         value={this.state.progressRate}
-                         onChange={this.handleProgressRateChange}
-                         onCommit={this.handleProgressRateCommit}
+            <NumberInput
+              label="%"
+              value={this.state.progressRate}
+              onChange={this.handleProgressRateChange}
+              onCommit={this.handleProgressRateCommit}
             />
           </div>
           <div className='flex-field__item slider'>
-            <NumberInput type='range'
-                         value={this.state.progressRate}
-                         onChange={this.handleProgressRateChange}
-                         onMouseUp={this.handleProgressRateCommit}
+            <NumberInput
+              type="range"
+              value={this.state.progressRate}
+              onChange={this.handleProgressRateChange}
+              onMouseUp={this.handleProgressRateCommit}
             />
           </div>
           {this.subProgressRateHtml(keyResult)}
@@ -207,9 +209,11 @@ class KeyResultPane extends PureComponent {
         <Form.Field className='flex-field input-date-picker'>
           <label>期限</label>
           <div className='flex-field__item'>
-            <DatePicker dateFormat="YYYY/M/D" locale="ja"
-                        selected={moment(keyResult.get('expiredDate'))}
-                        onChange={this.handleExpiredDateChange}
+            <DatePicker
+              dateFormat="YYYY/M/D"
+              locale="ja"
+              selected={moment(keyResult.get('expiredDate'))}
+              onChange={this.handleExpiredDateChange}
             />
           </div>
         </Form.Field>
