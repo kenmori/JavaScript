@@ -46,7 +46,7 @@ class KeyResultMemberSelect extends PureComponent {
         <UserSelect
           users={selectableUsers}
           value={members}
-          multiple={true}
+          multiple
           onChange={this.handleChange}
         />
       </div>

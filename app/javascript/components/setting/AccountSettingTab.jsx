@@ -69,7 +69,7 @@ class AccountSettingTab extends PureComponent {
           <dd><AutoInput value={email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
 
           <dt>アバター</dt>
-          <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
+          <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable /></dd>
           <dd>
             <input type="file" className="file-input" ref="fileInput" onChange={this.changeAvatarImage} />
             <Button content="変更する" positive onClick={this.clickFileInput} />
