@@ -5,7 +5,7 @@ json.organization do
     # TODO: partial! が激遅なのでインライン展開する
     # json.partial! 'okr_periods/okr_period', collection: @organization.okr_periods, as: :okr_period
     json.array! @organization.okr_periods do |okr_period|
-      json.extract! okr_period, :id, :name, :month_start, :month_end
+      json.extract! okr_period, :id, :name, :start_date, :end_date
     end
   end
 

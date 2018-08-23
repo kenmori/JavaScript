@@ -62,7 +62,7 @@ class OrganizationsController < ApplicationController
   end
 
   def create_okr_period_params
-    params.require(:okr_period).permit(:month_start, :month_end)
+    params.require(:okr_period).permit(:start_date, :end_date)
   end
 
   def update_params

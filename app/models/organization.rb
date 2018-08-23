@@ -7,7 +7,7 @@ class Organization < ApplicationRecord
   has_many :groups, dependent: :destroy
   has_many :organization_members, dependent: :destroy
   has_many :users, through: :organization_members
-  has_many :okr_periods, -> { order(:month_start) }, dependent: :destroy
+  has_many :okr_periods, -> { order(:start_date) }, dependent: :destroy
 
   mount_uploader :logo, LogoUploader
 

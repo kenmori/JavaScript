@@ -198,8 +198,8 @@ module OkrPeriodsHelper
       @user_id = first['user_id']
       @user_name = get_user_name(first['user_last_name'], first['user_first_name'], first['user_disabled_at'])
       @email = first['user_email']
-      @okr_start_period = okr_period.month_start
-      @okr_end_period = okr_period.month_end
+      @okr_start_period = okr_period.start_date
+      @okr_end_period = okr_period.end_date
       @okrs = to_objective_key_results(source)
     end
 

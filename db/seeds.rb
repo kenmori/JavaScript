@@ -51,13 +51,13 @@ ApplicationRecord.transaction do
 
   # OKR 期間を作成
   active_okr_period = organization.okr_periods.create!(
-      month_start: '2017-12-01',
-      month_end: '2018-02-28',
+      start_date: '2017-12-01',
+      end_date: '2018-02-28',
       name: '3Q',
   )
   inactive_okr_period = organization.okr_periods.create!(
-      month_start: '2017-09-01',
-      month_end: '2017-11-30',
+      start_date: '2017-09-01',
+      end_date: '2017-11-30',
   )
 
   # 今期 OKR を作成
