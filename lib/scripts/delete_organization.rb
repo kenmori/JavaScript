@@ -1,4 +1,4 @@
-class DeleteAccountPermanently
+class DeleteOrganization
   def self.execute
     puts ''
     Organization.all.each do |organization|
@@ -6,7 +6,7 @@ class DeleteAccountPermanently
     end
     puts ''
 
-    puts 'Enter the ID of the organization you want to delete permanently.'
+    puts 'Enter the ID of the organization to delete permanently.'
     print 'ID: '
     organization_id = gets.chomp!
     organization = Organization.find_by(id: organization_id)
@@ -31,7 +31,7 @@ class DeleteAccountPermanently
 
     begin
       ActiveRecord::Base.transaction do
-        # Organization (OkrPeriod, Objective, KeyResult, Comment, Group, User, ObjectiveOrder)
+        # Organization (OkrPeriod, Objective, KeyResult, Comment, Group, User, UserSetting, ObjectiveOrder)
         organization.destroy!
       end
     rescue => e
@@ -43,4 +43,4 @@ class DeleteAccountPermanently
   end
 end
 
-DeleteAccountPermanently.execute
+DeleteOrganization.execute

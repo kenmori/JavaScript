@@ -1,4 +1,4 @@
-class CreateAccount
+class CreateOrganization
   def self.execute
     print 'Organization Name: '
     organization_name = gets.chomp!
@@ -62,4 +62,4 @@ class CreateAccount
   end
 end
 
-CreateAccount.execute
+CreateOrganization.execute
