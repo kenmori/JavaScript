@@ -68,7 +68,7 @@ class KeyResultPane extends PureComponent {
     const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
     })
-    if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
+    if (this.props.keyResult.get('childObjectives').some(objective => objective.getIn(['owner', 'id']) === value)) {
       const user = this.props.users.find(user => user.get('id') === value)
       this.props.confirm({
         content: `下位 Objective が紐付いています。関係者 "${user.get('lastName')} ${user.get('firstName')}" を削除しますか？`,
@@ -230,7 +230,7 @@ class KeyResultPane extends PureComponent {
           <div className='flex-field__item'>
             <UserSelect
               users={this.props.users}
-              value={keyResult.get('owner').get('id')}
+              value={keyResult.getIn(['owner', 'id'])}
               onChange={this.handleOwnerChange}
             />
           </div>
@@ -243,7 +243,7 @@ class KeyResultPane extends PureComponent {
               users={this.props.users}
               members={keyResult.get('members').map(member => member.get('id'))}
               includedId={isOwner ? null : this.props.loginUserId}
-              excludedId={keyResult.get('owner').get('id')}
+              excludedId={keyResult.getIn(['owner', 'id'])}
               add={this.handleKeyResultMemberAdd}
               remove={this.handleKeyResultMemberRemove}
             />

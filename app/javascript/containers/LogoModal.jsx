@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['logoImage', 'isOpen']),
     imageData: state.dialogs.getIn(['logoImage', 'imageData']),
-    targetId: state.organization.get('current').get('id'),
+    targetId: state.organization.getIn(['current', 'id']),
   }
 }
 

@@ -18,7 +18,7 @@ function resetParentKeyResult(state, removedKeyResultId, removedMemberId = null)
   const childObjectives = state.filter(objective => {
     // 上位 KR が削除されたか (関係者削除時は、さらに上位 KR 関係者 = 下位 O 責任者か)
     const isRemoved = objective.get('parentKeyResultId') === removedKeyResultId
-    return isRemoved && (removedMemberId ? objective.get('owner').get('id') === removedMemberId : true)
+    return isRemoved && (removedMemberId ? objective.getIn(['owner', 'id']) === removedMemberId : true)
   })
   return childObjectives.isEmpty() ? state
     : state.merge(childObjectives.map(objective => objective.set('parentKeyResultId', null)))

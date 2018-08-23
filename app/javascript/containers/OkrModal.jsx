@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
   const okrForm = state.dialogs.get('okrForm')
   const objective = getOkrModalObjective(state)
   const loginUserId = state.loginUser.get('id')
-  const objectiveOwnerId = objective && objective.get('owner').get('id')
+  const objectiveOwnerId = objective && objective.getIn(['owner', 'id'])
   return {
     isOpen: okrForm.get('isOpen'),
     objectiveId: objective && objective.get('id'),

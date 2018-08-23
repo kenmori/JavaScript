@@ -8,7 +8,7 @@ import { getOkrId } from '../utils/linker'
 
 const mapStateToProps = state => {
   return {
-    organizationId: state.organization.get('current').get('id'),
+    organizationId: state.organization.getIn(['current', 'id']),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     isFetchedOrganization: state.organization.get('isFetched'),

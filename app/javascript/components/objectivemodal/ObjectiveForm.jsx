@@ -17,7 +17,7 @@ class ObjectiveForm extends PureComponent {
     const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId)
     this.props.onChange({
       description: objective.get('description'),
-      ownerId: objective.get('owner').get('id'),
+      ownerId: objective.getIn(['owner', 'id']),
     })
     this.props.fieldChange('name', objective.get('name'))
   }

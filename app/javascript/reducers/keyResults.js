@@ -75,7 +75,7 @@ function addParentAndKeyResults(state, payload) {
 function isMine(keyResultId, payload) {
   const userId = payload.get('currentUserId')
   const keyResult = payload.getIn(['entities', 'keyResults', `${keyResultId}`])
-  return userId === keyResult.get('owner').get('id')
+  return userId === keyResult.getIn(['owner', 'id'])
     || keyResult.get('members').some(member => member.get('id') === userId)
 }
 

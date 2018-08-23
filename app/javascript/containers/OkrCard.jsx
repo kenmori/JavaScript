@@ -12,7 +12,7 @@ const mapStateToProps = (state, { objective }) => {
     selectedKeyResultId: selectedOkr.get('keyResultId'),
     highlightedObjectiveIds: highlightedOkr.get('objectiveIds'),
     highlightedKeyResultId: highlightedOkr.get('keyResultId'),
-    visibleKeyResultIds: state.current.get('mapOkr').get(objective.get('id')),
+    visibleKeyResultIds: state.current.getIn(['mapOkr', objective.get('id')]),
   }
 }
 

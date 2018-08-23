@@ -20,7 +20,7 @@ class MenuBar extends PureComponent {
     return (
       <Menu secondary className='menu-bar'>
         <Menu.Item header href='/'>
-          <Logo path={this.props.organization.get('logo').get('url')} size='tiny'/>
+          <Logo path={this.props.organization.getIn(['logo', 'url'])} size='tiny'/>
         </Menu.Item>
         <Menu.Item className="menu-item__home" href='/'>
           <Icon name="home" size="large" fitted />ホーム

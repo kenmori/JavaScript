@@ -31,7 +31,7 @@ function removeFromCandidates(state, objectiveId) {
 function isMine(objectiveId, payload) {
   const userId = payload.get('currentUserId')
   const objective = payload.getIn(['entities', 'objectives', `${objectiveId}`])
-  return userId === objective.get('owner').get('id')
+  return userId === objective.getIn(['owner', 'id'])
 }
 
 export default handleActions({

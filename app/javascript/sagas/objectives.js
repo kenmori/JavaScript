@@ -37,7 +37,7 @@ function* fetchOkrs({ payload: { okrPeriodId, userId, isOkrPeriodChanged, isInit
     const okrPeriods = yield select(state => state.okrPeriods)
     const okrPeriodIndex = okrPeriods.findIndex(okrPeriod => okrPeriod.get('id') === okrPeriodId)
     if (okrPeriodIndex > 0) {
-      const previousOkrPeriodId = okrPeriods.get(okrPeriodIndex - 1).get('id')
+      const previousOkrPeriodId = okrPeriods.getIn([okrPeriodIndex - 1, 'id'])
       yield put(objectiveActions.fetchPreviousObjectives(previousOkrPeriodId, loginUserId)) // without loading
       yield take(actionTypes.FETCHED_PREVIOUS_OBJECTIVES)
     } else {
@@ -175,7 +175,7 @@ function* updateObjective({payload}) {
 }
 
 function* removeObjective({payload}) {
-  const keyResultIds = yield select(state => state.entities.objectives.get(payload.id).get('keyResultIds'))
+  const keyResultIds = yield select(state => state.entities.objectives.getIn([payload.id, 'keyResultIds']))
   const result = yield call(API.delete, '/objectives/' + payload.id)
   yield put(objectiveActions.removedObjective(result.get('objective')))
   if (!keyResultIds.isEmpty()) {

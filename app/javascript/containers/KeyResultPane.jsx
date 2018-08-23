@@ -4,7 +4,7 @@ import keyResultActions from '../actions/keyResults'
 
 const mapStateToProps = (state, { keyResult }) => {
   return {
-    isKeyResultOwner: keyResult.get('owner').get('id') === state.loginUser.get('id'),
+    isKeyResultOwner: keyResult.getIn(['owner', 'id']) === state.loginUser.get('id'),
   }
 }
 

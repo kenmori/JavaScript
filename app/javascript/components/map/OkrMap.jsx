@@ -53,7 +53,7 @@ class OkrMap extends PureComponent {
       if (objective.get('id') === rootId) {
         return objective
       } else {
-        const parentObjective = objective.get('parentKeyResult').get('objective')
+        const parentObjective = objective.getIn(['parentKeyResult', 'objective'])
         return findRoot(parentObjective, rootId)
       }
     }

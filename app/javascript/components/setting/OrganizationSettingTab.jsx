@@ -54,7 +54,7 @@ class OrganizationSettingTab extends PureComponent {
   render() {
     const { organization, okrPeriods } = this.props
     const { okrPeriodId } = this.state
-    const path = organization.get('logo').get('url')
+    const path = organization.getIn(['logo', 'url'])
     const okrSpan = organization.get('okrSpan')
     return (
       <Tab.Pane className="organization-setting-tab">

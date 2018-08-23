@@ -37,7 +37,7 @@ class KeyResultModal extends PureComponent {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         members: List(),
-        ownerId: nextProps.objective.get('owner').get('id'),
+        ownerId: nextProps.objective.getIn(['owner', 'id']),
         description: '',
         isRequiredTargetValue: false,
       })
@@ -53,7 +53,7 @@ class KeyResultModal extends PureComponent {
   isEditing() {
     return this.props.dirty
       || this.state.description !== ''
-      || this.state.ownerId !== this.props.objective.get('owner').get('id')
+      || this.state.ownerId !== this.props.objective.getIn(['owner', 'id'])
       || this.state.members.size
   }
 

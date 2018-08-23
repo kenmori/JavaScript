@@ -6,7 +6,7 @@ import dialogActions from '../actions/dialogs'
 
 const mapStateToProps = state => {
   return {
-    organizationId: state.organization.get('current').get('id'),
+    organizationId: state.organization.getIn(['current', 'id']),
   }
 }
 
