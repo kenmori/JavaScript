@@ -110,7 +110,6 @@ class ObjectivePane extends PureComponent {
 
   render() {
     const objective = this.props.objective
-    if (!objective) return null
     const { progressRate } = this.state
     const isDisabled = objective.get('disabled')
     return (
@@ -183,10 +182,6 @@ ObjectivePane.propTypes = {
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-}
-
-ObjectivePane.defaultProps = {
-  objective: Map(),
 }
 
 export default ObjectivePane

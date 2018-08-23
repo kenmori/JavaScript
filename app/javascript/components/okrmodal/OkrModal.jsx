@@ -139,8 +139,4 @@ OkrModal.propTypes = {
   // component
 }
 
-OkrModal.defaultProps = {
-  objective: Map(),
-}
-
 export default OkrModal

@@ -109,8 +109,4 @@ OkrSidebar.propTypes = {
   openKeyResultModal: PropTypes.func.isRequired,
 }
 
-OkrSidebar.defaultProps = {
-  objective: Map(),
-}
-
 export default Backend(OkrSidebar)
