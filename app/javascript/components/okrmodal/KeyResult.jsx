@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { DragSource, DropTarget } from 'react-dnd';
-import { openKeyResult } from '../../utils/linker';
-import { Segment, Icon } from 'semantic-ui-react';
-import OwnerAvatar from '../util/OwnerAvatar';
+import { DragSource, DropTarget } from 'react-dnd'
+import { openKeyResult } from '../../utils/linker'
+import { Segment, Icon } from 'semantic-ui-react'
+import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import OkrName from '../util/OkrName'
 
 const itemSource = {
   canDrag(props) {
-    return props.canMoveKeyResult;
+    return props.canMoveKeyResult
   },
 
   beginDrag(props) {
@@ -21,7 +21,7 @@ const itemSource = {
   },
 
   endDrag(props) {
-    props.updateKeyResultOrder();
+    props.updateKeyResultOrder()
   },
 }
 
@@ -34,13 +34,13 @@ const collectSource = (connect, monitor) => {
 
 const itemTarget = {
   hover(props, monitor) {
-    const dragIndex = monitor.getItem().index;
-    const hoverIndex = props.index;
+    const dragIndex = monitor.getItem().index
+    const hoverIndex = props.index
     if (dragIndex !== hoverIndex) {
-      props.moveKeyResult(dragIndex, hoverIndex);
+      props.moveKeyResult(dragIndex, hoverIndex)
 
       // https://github.com/react-dnd/react-dnd/blob/master/packages/documentation/examples/04%20Sortable/Simple/Card.js#L63
-      monitor.getItem().index = hoverIndex;
+      monitor.getItem().index = hoverIndex
     }
   },
 }
@@ -54,10 +54,10 @@ const collectTarget = (connect, monitor) => {
 
 class KeyResult extends PureComponent {
   swapKeyResult = toUp => event => {
-    const fromIndex = this.props.index;
-    const toIndex = toUp ? fromIndex - 1 : fromIndex + 1;
-    this.props.moveKeyResult(fromIndex, toIndex, true);
-    event.stopPropagation();
+    const fromIndex = this.props.index
+    const toIndex = toUp ? fromIndex - 1 : fromIndex + 1
+    this.props.moveKeyResult(fromIndex, toIndex, true)
+    event.stopPropagation()
   }
 
   handleClick = () => openKeyResult(this.props.keyResult.get('id'))
@@ -69,7 +69,7 @@ class KeyResult extends PureComponent {
       canMoveKeyResult,
       isDragging,
       canDrop,
-    } = this.props;
+    } = this.props
     // Wrap Segment by div because only native element nodes can now be passed to React DnD connectors
     return (
       <div className="sidebar__item-wrapper">
@@ -99,8 +99,8 @@ class KeyResult extends PureComponent {
     const {
       connectDragSource,
       connectDropTarget,
-    } = this.props;
-    return connectDragSource(connectDropTarget(this.keyResultHtml()));
+    } = this.props
+    return connectDragSource(connectDropTarget(this.keyResultHtml()))
   }
 }
 
@@ -115,6 +115,6 @@ KeyResult.propTypes = {
   updateKeyResultOrder: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-};
+}
 
-export default DropTarget('item', itemTarget, collectTarget)(DragSource('item', itemSource, collectSource)(KeyResult));
+export default DropTarget('item', itemTarget, collectTarget)(DragSource('item', itemSource, collectSource)(KeyResult))

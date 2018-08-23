@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { openObjective, openKeyResult } from '../../utils/linker';
-import { List } from 'semantic-ui-react';
-import OwnerAvatar from '../util/OwnerAvatar';
+import { openObjective, openKeyResult } from '../../utils/linker'
+import { List } from 'semantic-ui-react'
+import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import OkrName from '../util/OkrName'
 
 class OkrList extends PureComponent {
 
   handleClick = id => () => {
-    this.props.isObjective ? openObjective(id) : openKeyResult(id);
+    this.props.isObjective ? openObjective(id) : openKeyResult(id)
   }
 
   render() {
@@ -26,7 +26,7 @@ class OkrList extends PureComponent {
           </List.Item>
         )}
       </List>
-    );
+    )
   }
 }
 
@@ -35,10 +35,10 @@ OkrList.propTypes = {
   // component
   okrs: ImmutablePropTypes.list.isRequired,
   isObjective: PropTypes.bool,
-};
+}
 
 OkrList.defaultProps = {
   isObjective: true,
-};
+}
 
-export default OkrList;
+export default OkrList

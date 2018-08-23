@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Menu, Button, Label } from 'semantic-ui-react';
+import { Menu, Button, Label } from 'semantic-ui-react'
 import TaskList from '../../containers/TaskList'
-import ObjectiveList from '../../containers/ObjectiveList';
-import KeyResultList from '../../containers/KeyResultList';
-import OkrMap from '../../containers/OkrMap';
+import ObjectiveList from '../../containers/ObjectiveList'
+import KeyResultList from '../../containers/KeyResultList'
+import OkrMap from '../../containers/OkrMap'
 import { OkrTypes } from '../../utils/okr'
 
 class Dashboard extends PureComponent {
@@ -64,7 +64,7 @@ class Dashboard extends PureComponent {
           <OkrMap />
         </section>
       </div>
-    );
+    )
   }
 }
 

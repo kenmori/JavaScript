@@ -1,18 +1,18 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Menu, Label } from 'semantic-ui-react';
-import ObjectivePane from '../../containers/ObjectivePane';
-import LinkPane from './LinkPane';
+import { Tab, Menu, Label } from 'semantic-ui-react'
+import ObjectivePane from '../../containers/ObjectivePane'
+import LinkPane from './LinkPane'
 
 class ObjectiveTab extends PureComponent {
 
   updateObjective = values => {
-    this.props.updateObjective({ id: this.props.objective.get('id'), ...values });
+    this.props.updateObjective({ id: this.props.objective.get('id'), ...values })
   }
 
   render() {
-    const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
+    const dummyLabel = <Label className='zero-width'>&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
     return (
       <Tab panes={[
         {
@@ -33,7 +33,7 @@ class ObjectiveTab extends PureComponent {
           </Tab.Pane>
         },
       ]} />
-    );
+    )
   }
 }
 
@@ -48,6 +48,6 @@ ObjectiveTab.propTypes = {
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-};
+}
 
-export default ObjectiveTab;
+export default ObjectiveTab

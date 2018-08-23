@@ -1,13 +1,13 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { openObjective, openKeyResult } from '../../utils/linker';
-import { Card, Icon, List } from 'semantic-ui-react';
-import OwnerAvatar from '../util/OwnerAvatar';
+import { openObjective, openKeyResult } from '../../utils/linker'
+import { Card, Icon, List } from 'semantic-ui-react'
+import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import ToggleButton from '../util/ToggleButton'
 import OkrName from '../util/OkrName'
-import moment from 'moment';
+import moment from 'moment'
 
 class OkrCard extends PureComponent {
 
@@ -25,13 +25,13 @@ class OkrCard extends PureComponent {
 
   generateKeyResultList(objective) {
     const { selectedKeyResultId, highlightedKeyResultId, visibleKeyResultIds, unhighlightOkr } = this.props
-    const keyResults = objective.get('keyResults');
-    const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0);
+    const keyResults = objective.get('keyResults')
+    const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0)
     return (
       <Card.Content className="key-results">
         <List>
           {keyResults.map(keyResult => {
-            const keyResultId = keyResult.get('id');
+            const keyResultId = keyResult.get('id')
             const isSelected = keyResultId === selectedKeyResultId
             const isHighlighted = keyResultId === highlightedKeyResultId
             const isToggleOn = visibleKeyResultIds ? visibleKeyResultIds.includes(keyResultId) : false
@@ -55,7 +55,7 @@ class OkrCard extends PureComponent {
                   />
                 )}
               </List.Item>
-            );
+            )
           })}
           {keyResults.isEmpty() && (
             <List.Item className="key-results__item--add">
@@ -67,7 +67,7 @@ class OkrCard extends PureComponent {
           )}
         </List>
       </Card.Content>
-    );
+    )
   }
 
   render() {
@@ -98,7 +98,7 @@ class OkrCard extends PureComponent {
           </div>
         </Card.Content>
       </Card>
-    );
+    )
   }
 }
 
@@ -116,6 +116,6 @@ OkrCard.propTypes = {
   toggleKeyResult: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
-};
+}
 
-export default OkrCard;
+export default OkrCard

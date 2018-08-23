@@ -1,6 +1,6 @@
-import OkrPeriodAddForm from '../components/setting/OkrPeriodAddForm';
-import { connect } from 'react-redux';
-import okrPeriodActions from '../actions/okrPeriods';
+import OkrPeriodAddForm from '../components/setting/OkrPeriodAddForm'
+import { connect } from 'react-redux'
+import okrPeriodActions from '../actions/okrPeriods'
 
 const mapStateToProps = (state) => {
   const organization = state.organization.get('current')

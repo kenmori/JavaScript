@@ -1,18 +1,18 @@
-import React, { PureComponent } from 'react';
-import { Map } from 'immutable';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import { Map } from 'immutable'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import Backend from '../../utils/backend';
-import { openObjective } from '../../utils/linker';
-import { Segment, Button, Header, Divider } from 'semantic-ui-react';
-import OwnerAvatar from '../util/OwnerAvatar';
+import Backend from '../../utils/backend'
+import { openObjective } from '../../utils/linker'
+import { Segment, Button, Header, Divider } from 'semantic-ui-react'
+import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import OkrName from '../util/OkrName'
-import KeyResult from './KeyResult';
+import KeyResult from './KeyResult'
 
 class OkrSidebar extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     const { objective, keyResultOrder } = props
     this.state = {
       keyResultOrder,
@@ -22,7 +22,7 @@ class OkrSidebar extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.keyResultOrder.equals(this.props.keyResultOrder)) {
-      this.setState({ keyResultOrder: nextProps.keyResultOrder });
+      this.setState({ keyResultOrder: nextProps.keyResultOrder })
     }
   }
 
@@ -107,10 +107,10 @@ OkrSidebar.propTypes = {
   keyResultOrder: ImmutablePropTypes.list.isRequired,
   updateKeyResultOrder: PropTypes.func.isRequired,
   openKeyResultModal: PropTypes.func.isRequired,
-};
+}
 
 OkrSidebar.defaultProps = {
   objective: Map(),
-};
+}
 
-export default Backend(OkrSidebar);
+export default Backend(OkrSidebar)

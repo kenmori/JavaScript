@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Field } from 'redux-form';
-import RenderField from "../form/RenderField";
-import UserSelect from '../form/UserSelect';
-import RenderOkrSelect from '../form/RenderOkrSelect';
-import RequiredLabel from '../form/RequiredLabel';
-import { Form, TextArea, Divider } from 'semantic-ui-react';
+import { Field } from 'redux-form'
+import RenderField from "../form/RenderField"
+import UserSelect from '../form/UserSelect'
+import RenderOkrSelect from '../form/RenderOkrSelect'
+import RequiredLabel from '../form/RequiredLabel'
+import { Form, TextArea, Divider } from 'semantic-ui-react'
 import {
   validateObjectiveName, validateParentKeyResultId, validateIsolatedObjectiveId, validatePreviousObjectiveId,
 } from "../../utils/validator"
@@ -14,12 +14,12 @@ import {
 class ObjectiveForm extends PureComponent {
 
   handleObjectiveChange = (e, objectiveId) => {
-    const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId);
+    const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId)
     this.props.onChange({
       description: objective.get('description'),
       ownerId: objective.get('owner').get('id'),
-    });
-    this.props.fieldChange('name', objective.get('name'));
+    })
+    this.props.fieldChange('name', objective.get('name'))
   }
 
   handleDescriptionChange = (e, { value }) => this.props.onChange({ description: value })
@@ -83,7 +83,7 @@ class ObjectiveForm extends PureComponent {
           />
         </Form.Field>
       </Form>
-    );
+    )
   }
 }
 
@@ -102,6 +102,6 @@ ObjectiveForm.propTypes = {
   isFetchedObjectives: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   fieldChange: PropTypes.func.isRequired,
-};
+}
 
-export default ObjectiveForm;
+export default ObjectiveForm

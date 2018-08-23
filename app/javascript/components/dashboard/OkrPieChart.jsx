@@ -1,24 +1,24 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { PieChart, Pie, Tooltip, Label } from 'recharts';
+import { PieChart, Pie, Tooltip, Label } from 'recharts'
 
 class OkrPieChart extends PureComponent {
 
   getPieChartProperties(objective) {
-    const startAngle = 90;
-    let endAngle = startAngle;
-    const minAngle = 10;
+    const startAngle = 90
+    let endAngle = startAngle
+    const minAngle = 10
 
     const data = objective.get('keyResults').map(keyResult => {
       if (keyResult.get('progressRate') === 0 || keyResult.get('disabled')) {
-        endAngle -= minAngle; // 進捗率0%の KR は minAngle 幅で表示されるためその分の幅を追加する
+        endAngle -= minAngle // 進捗率0%の KR は minAngle 幅で表示されるためその分の幅を追加する
       }
       return {
         name: (keyResult.get('disabled') ? '[無効] ' : '') + keyResult.get('name'),
         value: Math.max(0.1, keyResult.get('progressRate')), // 進捗率0%の KR を表示するため nonzero の値を指定する
         className: keyResult.get('status'),
       }
-    });
+    })
 
     return {
       data: data.toArray(),
@@ -26,13 +26,13 @@ class OkrPieChart extends PureComponent {
       endAngle: endAngle - Math.round(objective.get('progressRate') / 100 * 360),
       minAngle: minAngle,
       label: `${this.props.objective.get('progressRate')}%`,
-    };
+    }
   }
 
   formatter = value => `${Math.round(value)}%`
 
   getPieChart = (objective) => {
-    const { data, startAngle, endAngle, minAngle, label } = this.getPieChartProperties(objective);
+    const { data, startAngle, endAngle, minAngle, label } = this.getPieChartProperties(objective)
     return (
       <PieChart width={145} height={145}>
         <Pie data={data}
@@ -47,7 +47,7 @@ class OkrPieChart extends PureComponent {
         </Pie>
         <Tooltip formatter={this.formatter} />
       </PieChart>
-    );
+    )
   }
 
   render() {
@@ -59,7 +59,7 @@ class OkrPieChart extends PureComponent {
           : this.getPieChart(objective)
         }
       </div>
-    );
+    )
   }
 }
 
@@ -67,6 +67,6 @@ OkrPieChart.propTypes = {
   // container
   // component
   objective: ImmutablePropTypes.map.isRequired,
-};
+}
 
-export default OkrPieChart;
+export default OkrPieChart

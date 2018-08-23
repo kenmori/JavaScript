@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { reduxForm } from 'redux-form'
@@ -29,8 +29,8 @@ class KeyResultModal extends PureComponent {
       valueUnit: validData.valueUnit,
       expiredDate: validData.expiredDate,
       members: this.state.members.toArray(),
-    };
-    this.props.addKeyResult(keyResult);
+    }
+    this.props.addKeyResult(keyResult)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +40,7 @@ class KeyResultModal extends PureComponent {
         ownerId: nextProps.objective.get('owner').get('id'),
         description: '',
         isRequiredTargetValue: false,
-      });
+      })
       this.props.initialize({
         name: '',
         targetValue: '',
@@ -54,7 +54,7 @@ class KeyResultModal extends PureComponent {
     return this.props.dirty
       || this.state.description !== ''
       || this.state.ownerId !== this.props.objective.get('owner').get('id')
-      || this.state.members.size;
+      || this.state.members.size
   }
 
   handleClose = () => {
@@ -64,14 +64,14 @@ class KeyResultModal extends PureComponent {
         onConfirm: () => this.closeModal(),
       })
     } else {
-      this.closeModal();
+      this.closeModal()
     }
   }
 
   closeModal() {
     // FIXME: キャンセルボタンで背面の OKR 編集モーダルごと閉じてしまう現象を setTimeout で回避する
     // 背面の OKR 編集モーダルのモーダル外クリックが発生している (おそらく Semantic-UI のバグ)
-    setTimeout(() => this.props.closeModal(), 0);
+    setTimeout(() => this.props.closeModal(), 0)
   }
   
   handleFormChange = values => this.setState({ ...values })
@@ -110,7 +110,7 @@ class KeyResultModal extends PureComponent {
           </div>
         </Modal.Actions>
       </Modal>
-    );
+    )
   }
 }
 

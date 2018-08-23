@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { reduxForm } from 'redux-form';
-import { Button, Modal, Tab } from 'semantic-ui-react';
-import ObjectiveSidebar from './ObjectiveSidebar';
-import ObjectiveForm from './ObjectiveForm';
+import { reduxForm } from 'redux-form'
+import { Button, Modal, Tab } from 'semantic-ui-react'
+import ObjectiveSidebar from './ObjectiveSidebar'
+import ObjectiveForm from './ObjectiveForm'
 
 class ObjectiveModal extends PureComponent {
 
-  static INDEX_NEW = 0;
-  static INDEX_LINK = 1;
-  static INDEX_COPY = 2;
+  static INDEX_NEW = 0
+  static INDEX_LINK = 1
+  static INDEX_COPY = 2
 
   constructor() {
     super()
@@ -32,12 +32,12 @@ class ObjectiveModal extends PureComponent {
         ownerId: this.getInitialOwnerId(nextProps),
         description: '',
         activeIndex: ObjectiveModal.INDEX_NEW,
-      });
+      })
       this.props.initialize({
         name: '',
         parentKeyResultId: nextProps.parentKeyResult ? nextProps.parentKeyResult.get('id') : -1,
         objectiveId: null,
-      });
+      })
     }
   }
 
@@ -86,7 +86,7 @@ class ObjectiveModal extends PureComponent {
   isEditing() {
     return this.props.dirty
       || this.state.ownerId !== this.getInitialOwnerId()
-      || this.state.description !== '';
+      || this.state.description !== ''
   }
 
   handleClose = () => {
@@ -94,9 +94,9 @@ class ObjectiveModal extends PureComponent {
       this.props.confirm({
         content: '編集中の内容を破棄します。よろしいですか？',
         onConfirm: () => this.closeModal(),
-      });
+      })
     } else {
-      this.closeModal();
+      this.closeModal()
     }
   }
 
@@ -128,17 +128,17 @@ class ObjectiveModal extends PureComponent {
           isFetchedObjectives={isLink ? this.props.isFetchedObjectives : (isCopy ? this.props.isFetchedPreviousObjectives : undefined)}
         />
       </Tab.Pane>
-    );
+    )
   }
 
   render() {
-    const { parentKeyResult, isOpen, handleSubmit } = this.props;
-    const hasParentKeyResult = !!parentKeyResult;
-    let modalSize = 'small';
-    let wrapperClassName = 'objective-modal';
+    const { parentKeyResult, isOpen, handleSubmit } = this.props
+    const hasParentKeyResult = !!parentKeyResult
+    let modalSize = 'small'
+    let wrapperClassName = 'objective-modal'
     if (hasParentKeyResult) {
-      modalSize = 'large';
-      wrapperClassName += ' is-keyresult';
+      modalSize = 'large'
+      wrapperClassName += ' is-keyresult'
     }
     return (
       <Modal
@@ -166,7 +166,7 @@ class ObjectiveModal extends PureComponent {
           </div>
         </Modal.Actions>
       </Modal>
-    );
+    )
   }
 }
 
@@ -188,8 +188,8 @@ ObjectiveModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-};
+}
 
 export default reduxForm({
   form: 'objectiveModal',
-})(ObjectiveModal);
+})(ObjectiveModal)

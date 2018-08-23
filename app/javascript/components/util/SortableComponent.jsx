@@ -44,7 +44,7 @@ class SortableComponent extends PureComponent {
       direction: newDirection,
       [key]: this.sort(this.state[key], newColumn, newDirection),
     })
-  };
+  }
 
   isSorted = newColumn => this.state.column === newColumn ? this.state.direction : null
 }

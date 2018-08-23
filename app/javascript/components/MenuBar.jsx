@@ -1,17 +1,17 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent} from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import {Dropdown, Menu, Icon} from 'semantic-ui-react';
-import UserSelect from './form/UserSelect';
+import {Dropdown, Menu, Icon} from 'semantic-ui-react'
+import UserSelect from './form/UserSelect'
 import OkrPeriodSelect from './form/OkrPeriodSelect'
-import UserAvatar from '../containers/UserAvatar';
-import Logo from './util/Logo';
+import UserAvatar from '../containers/UserAvatar'
+import Logo from './util/Logo'
 
 class MenuBar extends PureComponent {
 
   userTrigger = loginUser => {
-    return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />;
+    return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName={true} />
   }
 
   handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId)
@@ -69,6 +69,6 @@ MenuBar.propTypes = {
   selectOkrPeriod: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
   // component
-};
+}
 
-export default MenuBar;
+export default MenuBar

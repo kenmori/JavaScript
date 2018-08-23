@@ -1,22 +1,22 @@
-import React, { PureComponent } from 'react';
-import { Button, Modal } from 'semantic-ui-react';
+import React, { PureComponent } from 'react'
+import { Button, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 class AvatarModal extends PureComponent {
   constructor() {
-    super();
+    super()
     this.state = {
       base64data: null
     }
   }
   toBase64(file) {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (data) => {
       this.setState({
         base64data: data.target.result
-      });
+      })
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
   }
   avatarImage() {
     return this.state.base64data ?
@@ -24,8 +24,8 @@ class AvatarModal extends PureComponent {
       <span>Loading...</span>
   }
   closeModal = () => {
-    this.state.base64data = null;
-    this.props.closeModal();
+    this.state.base64data = null
+    this.props.closeModal()
   }
   componentWillReceiveProps(nextProps) {
     nextProps.imageData && this.toBase64(nextProps.imageData)
@@ -53,7 +53,7 @@ class AvatarModal extends PureComponent {
           </div>
         </ Modal.Actions >
       </ Modal >
-    );
+    )
   }
 }
 
@@ -67,4 +67,4 @@ AvatarModal.propTypes = {
   // component
 }
 
-export default AvatarModal;
+export default AvatarModal

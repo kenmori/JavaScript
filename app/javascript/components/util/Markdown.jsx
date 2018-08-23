@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import remark from 'remark';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import remark from 'remark'
 import reactRemark from 'remark-react'
 import emoji from 'remark-emoji'
 import breaks from 'remark-breaks'

@@ -1,4 +1,4 @@
-import avatar_image from '../images/avatar.png';
+import avatar_image from '../images/avatar.png'
 
 export const OkrTypes = {
   TASK: 'task',
@@ -13,15 +13,15 @@ export const okrOptions = (okrs, withNone) => {
     value: okr.get('id'),
     text: (okr.get('disabled') ? '[無効] ' : '') + okr.get('name'),
     image: { avatar: true, src: okr.get('owner').get('avatarUrl') || avatar_image },
-  }));
+  }))
   if (withNone) { // なしの選択肢を追加
     options = options.insert(0, ({
       key: -1,
       value: -1,
       text: 'なし',
-    }));
+    }))
   }
-  return options.toArray();
+  return options.toArray()
 }
 
 const getParentKeyResult = (objective, entities) => {

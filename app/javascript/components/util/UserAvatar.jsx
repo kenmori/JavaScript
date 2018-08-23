@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Popup, Icon } from 'semantic-ui-react';
-import Avatar from './Avatar';
+import { Popup, Icon } from 'semantic-ui-react'
+import Avatar from './Avatar'
 import UserName from './UserName'
 
 const sizeToIconSize = {
@@ -13,20 +13,20 @@ const sizeToIconSize = {
   big: 'large',
   huge: 'big',
   massive: 'huge',
-};
+}
 
 class UserAvatar extends PureComponent {
 
   clickFileInput = () => {
     if (this.props.editable) {
-      this.refs.fileInput.click();
+      this.refs.fileInput.click()
     }
   }
 
   openAvatarModal = event => {
-    if (!event.target.files.length) return;
-    this.props.openAvatarModal(this.props.user.get('id'), event.target.files[0]);
-    event.target.value = null;
+    if (!event.target.files.length) return
+    this.props.openAvatarModal(this.props.user.get('id'), event.target.files[0])
+    event.target.value = null
   }
 
   trigger = () => {
@@ -36,7 +36,7 @@ class UserAvatar extends PureComponent {
         <input type='file' ref='fileInput' onChange={this.openAvatarModal} />
         {this.props.editable && <Icon name='pencil' size={sizeToIconSize[this.props.size]} color='grey' />}
       </div>
-    );
+    )
   }
 
   popupContent = () => {
@@ -48,7 +48,7 @@ class UserAvatar extends PureComponent {
       <Popup hoverable size='tiny' trigger={this.trigger()} open={this.props.withPopup ? undefined : false}>
         <Popup.Content>{this.popupContent()}</Popup.Content>
       </Popup>
-    );
+    )
   }
 }
 
@@ -62,13 +62,13 @@ UserAvatar.propTypes = {
   withName: PropTypes.bool,
   withPopup: PropTypes.bool,
   editable: PropTypes.bool,
-};
+}
 UserAvatar.defaultProps = {
   size: 'small',
   withInitial: true,
   withName: false,
   withPopup: false,
   editable: false,
-};
+}
 
-export default UserAvatar;
+export default UserAvatar

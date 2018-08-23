@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import moment from 'moment'
-import ReactDatePicker from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker'
 import PropTypes from 'prop-types'
 
 class DatePicker extends PureComponent {
@@ -22,4 +22,4 @@ DatePicker.propTypes = {
   onChange: PropTypes.func,
 }
 
-export default DatePicker;
+export default DatePicker

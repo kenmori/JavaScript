@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Table } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react'
 import SortableComponent from '../util/SortableComponent'
-import OwnerAvatar from '../util/OwnerAvatar';
+import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import OkrName from '../util/OkrName'
 
@@ -51,7 +51,7 @@ class KeyResultList extends SortableComponent {
           </Table.Body>
         </Table>
       </div>
-    );
+    )
   }
 }
 
@@ -61,10 +61,10 @@ KeyResultList.propTypes = {
   selectKeyResult: PropTypes.func.isRequired,
   // component
   keyResults: ImmutablePropTypes.list.isRequired,
-};
+}
 
 KeyResultList.defaultProps = {
   key: 'keyResults',
 }
 
-export default KeyResultList;
+export default KeyResultList

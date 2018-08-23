@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react';
-import moment from 'moment';
-import logo_image from '../../images/logo_large.png';
-import DatePicker from '../form/DatePicker';
+import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react'
+import moment from 'moment'
+import logo_image from '../../images/logo_large.png'
+import DatePicker from '../form/DatePicker'
 import OkrSpanSelect from '../form/OkrSpanSelect'
 
 class SignUpPage extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     const startDate = moment().startOf('month')
     const okrSpan = 3
     this.state = {
@@ -23,7 +23,7 @@ class SignUpPage extends PureComponent {
       endDate: this.getEndDate(startDate, okrSpan),
       endDateChanged: false,
       okrSpan,
-    };
+    }
   }
 
   getEndDate = (startDate, okrSpan) => {
@@ -188,7 +188,7 @@ class SignUpPage extends PureComponent {
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
-    );
+    )
   }
 }
 

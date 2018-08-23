@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Image, Segment, Message } from 'semantic-ui-react';
-import logo_image from '../../images/logo_large.png';
+import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
+import logo_image from '../../images/logo_large.png'
 
 class PasswordResetPage extends PureComponent {
 
@@ -62,7 +62,7 @@ class PasswordResetPage extends PureComponent {
           <p><a href="/">トップに戻る</a></p>
         </Message>
       </div>
-    );
+    )
   }
 }
 

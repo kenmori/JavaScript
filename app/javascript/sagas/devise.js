@@ -1,18 +1,18 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
-import call from '../utils/call';
-import API from '../utils/api';
-import actionTypes from '../constants/actionTypes';
+import { all, put, takeLatest } from 'redux-saga/effects'
+import call from '../utils/call'
+import API from '../utils/api'
+import actionTypes from '../constants/actionTypes'
 import deviseActions from '../actions/devise'
 import withLoading from '../utils/withLoading'
 
 function* signIn({ payload }) {
-  yield call(API.post, '/users/sign_in', { user: payload.user });
-  location.href = '/';
+  yield call(API.post, '/users/sign_in', { user: payload.user })
+  location.href = '/'
 }
 
 function* signOut() {
-  yield call(API.delete, '/users/sign_out');
-  location.href = '/';
+  yield call(API.delete, '/users/sign_out')
+  location.href = '/'
 }
 
 function* resetPassword({ payload }) {
@@ -32,5 +32,5 @@ export function *deviseSagas() {
     takeLatest(actionTypes.SIGN_OUT, signOut),
     takeLatest(actionTypes.RESET_PASSWORD, withLoading(resetPassword)),
     takeLatest(actionTypes.SET_PASSWORD, withLoading(setPassword)),
-  ]);
+  ])
 }

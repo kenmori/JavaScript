@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions';
-import actionTypes from '../constants/actionTypes';
+import { createActions } from 'redux-actions'
+import actionTypes from '../constants/actionTypes'
 
 const actions = createActions({
   [actionTypes.OPEN_KEY_RESULT_MODAL]: (objective) => ({ objective }),
@@ -19,6 +19,6 @@ const actions = createActions({
   [actionTypes.CLOSE_CONFIRM_MODAL]: () => {},
   [actionTypes.OPEN_OPTION_MODAL]: () => {},
   [actionTypes.CLOSE_OPTION_MODAL]: () => {},
-});
+})
 
-export default actions;
+export default actions

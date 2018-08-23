@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Button } from 'semantic-ui-react';
-import AutoInput from '../form/AutoInput';
+import { Tab, Button } from 'semantic-ui-react'
+import AutoInput from '../form/AutoInput'
 import OkrSpanSelect from '../form/OkrSpanSelect'
 import OkrPeriodSelect from '../form/OkrPeriodSelect'
-import Logo from '../util/Logo';
+import Logo from '../util/Logo'
 
 class OrganizationSettingTab extends PureComponent {
 
@@ -15,9 +15,9 @@ class OrganizationSettingTab extends PureComponent {
   }
 
   changeLogoImage = (event) => {
-    if (!event.target.files.length) { return; }
-    this.props.openLogoModal(this.props.organization.get('id'), event.target.files[0]);
-    event.target.value = null;
+    if (!event.target.files.length) { return }
+    this.props.openLogoModal(this.props.organization.get('id'), event.target.files[0])
+    event.target.value = null
   }
 
   clickFileInput = () => this.refs.fileInput.click()
@@ -26,7 +26,7 @@ class OrganizationSettingTab extends PureComponent {
     this.props.confirm({
       content: '設定済みのロゴを削除しますか？',
       onConfirm: () => this.props.deleteLogo(this.props.organization.get('id')),
-    });
+    })
   }
 
   handleNameCommit = name => this.props.updateOrganization({id: this.props.organization.get('id'), name})
@@ -52,10 +52,10 @@ class OrganizationSettingTab extends PureComponent {
   }
 
   render() {
-    const { organization, okrPeriods } = this.props;
+    const { organization, okrPeriods } = this.props
     const { okrPeriodId } = this.state
-    const path = organization.get('logo').get('url');
-    const okrSpan = organization.get('okrSpan');
+    const path = organization.get('logo').get('url')
+    const okrSpan = organization.get('okrSpan')
     return (
       <Tab.Pane className="organization-setting-tab">
         <dl>
@@ -88,7 +88,7 @@ class OrganizationSettingTab extends PureComponent {
           </dd>
         </dl>
       </Tab.Pane>
-    );
+    )
   }
 }
 
@@ -102,6 +102,6 @@ OrganizationSettingTab.propTypes = {
   deleteLogo: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-};
+}
 
-export default OrganizationSettingTab;
+export default OrganizationSettingTab

@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Menu, Label } from 'semantic-ui-react';
-import KeyResultPane from '../../containers/KeyResultPane';
-import LinkPane from './LinkPane';
-import CommentPane from './CommentPane';
+import { Tab, Menu, Label } from 'semantic-ui-react'
+import KeyResultPane from '../../containers/KeyResultPane'
+import LinkPane from './LinkPane'
+import CommentPane from './CommentPane'
 
 class KeyResultTab extends PureComponent {
 
@@ -14,7 +14,7 @@ class KeyResultTab extends PureComponent {
   }
 
   updateKeyResult = values => {
-    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
+    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values })
   }
 
   handleTabChange = (e, { activeIndex }) => {
@@ -36,8 +36,8 @@ class KeyResultTab extends PureComponent {
   render() {
     const { setDirty } = this.props
     const { activeIndex } = this.state
-    const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
-    const comments = this.props.keyResult.get('comments');
+    const dummyLabel = <Label className='zero-width'>&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
+    const comments = this.props.keyResult.get('comments')
     return (
       <Tab panes={[
         {
@@ -65,7 +65,7 @@ class KeyResultTab extends PureComponent {
           </Tab.Pane>
         },
       ]} activeIndex={activeIndex} onTabChange={this.handleTabChange} />
-    );
+    )
   }
 }
 
@@ -84,6 +84,6 @@ KeyResultTab.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-};
+}
 
-export default KeyResultTab;
+export default KeyResultTab

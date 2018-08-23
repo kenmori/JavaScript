@@ -1,22 +1,22 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import OkrCard from '../../containers/OkrCard';
-import OkrLink from '../../containers/OkrLink';
+import OkrCard from '../../containers/OkrCard'
+import OkrLink from '../../containers/OkrLink'
 import EmptyMap from '../../containers/EmptyMap'
-import { Card } from 'semantic-ui-react';
-import { List, Set } from 'immutable';
+import { Card } from 'semantic-ui-react'
+import { List, Set } from 'immutable'
 import { scrollToElement } from '../../utils/scroll'
 
 class OkrMap extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       links: List(), // List<OkrLink.props>
       groups: List(), // List<objectives>
-    };
-    this.onResize = () => this.updateOkrLinks(this.state);
+    }
+    this.onResize = () => this.updateOkrLinks(this.state)
   }
 
   componentDidMount() {
@@ -51,15 +51,15 @@ class OkrMap extends PureComponent {
   createGroups({ objective, mapOkr }) {
     const findRoot = (objective, rootId) => {
       if (objective.get('id') === rootId) {
-        return objective;
+        return objective
       } else {
         const parentObjective = objective.get('parentKeyResult').get('objective')
         return findRoot(parentObjective, rootId)
       }
-    };
+    }
 
     const collectDescendants = (result, objective) => {
-      const keyResults = objective.get('keyResults');
+      const keyResults = objective.get('keyResults')
 
       // 親 KR が展開されている子 Objective のみに絞り込む
       const visibleKeyResultIds = mapOkr.get(objective.get('id')) || Set()
@@ -74,8 +74,8 @@ class OkrMap extends PureComponent {
       if (childObjective) {
         result = collectDescendants(result, childObjective)
       }
-      return result;
-    };
+      return result
+    }
 
     const rootObjective = findRoot(objective, mapOkr.keySeq().first())
     const groups = collectDescendants(List.of(List.of(rootObjective)), rootObjective)
@@ -88,8 +88,8 @@ class OkrMap extends PureComponent {
     const idLinks = groups.reduce((result, objectives) => {
       if (result.isEmpty()) {
         // ルート要素に親がいる場合は親とのリンクを追加する
-        const rootObjective = objectives.first();
-        const parentKeyResultId = rootObjective.get('parentKeyResultId');
+        const rootObjective = objectives.first()
+        const parentKeyResultId = rootObjective.get('parentKeyResultId')
         if (parentKeyResultId) {
           result = result.push({
             fromId: rootObjective.getIn(['parentKeyResult', 'objectiveId']),
@@ -98,7 +98,7 @@ class OkrMap extends PureComponent {
               toIds: List.of(rootObjective.get('id')),
               fromKeyResultId: parentKeyResultId,
             }),
-          });
+          })
         }
       }
 
@@ -113,12 +113,12 @@ class OkrMap extends PureComponent {
               toIds: keyResult.get('childObjectiveIds'),
               fromKeyResultId: keyResult.get('id'),
             })),
-          });
+          })
         }
-      });
+      })
 
-      return result;
-    }, List());
+      return result
+    }, List())
 
     // ID リンクから ref 付きのリンク情報に変換する
     const links = idLinks.map(link => ({
@@ -163,7 +163,7 @@ class OkrMap extends PureComponent {
           <OkrLink key={key} {...link} />
         ))}
       </div>
-    );
+    )
   }
 }
 
@@ -173,6 +173,6 @@ OkrMap.propTypes = {
   mapOkr: ImmutablePropTypes.map.isRequired,
   scrollToObjectiveId: PropTypes.object,
   // component
-};
+}
 
-export default OkrMap;
+export default OkrMap

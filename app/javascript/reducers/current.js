@@ -1,7 +1,7 @@
-import { fromJS, OrderedMap, Set } from 'immutable';
-import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
-import gon from '../utils/gon';
+import { fromJS, OrderedMap, Set } from 'immutable'
+import { handleActions } from 'redux-actions'
+import ActionTypes from '../constants/actionTypes'
+import gon from '../utils/gon'
 import { OkrTypes } from '../utils/okr'
 
 const initialState = fromJS({
@@ -15,7 +15,7 @@ const initialState = fromJS({
   selectedOkr: { objectiveId: null, keyResultId: null },
   mapOkr: {}, // OrderedMap<ObjectiveId, Set<KeyResultId>>
   scrollToObjectiveId: null,
-});
+})
 
 const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResultId) => {
   // 表示系統を切り替えるため親の ID を検索する
@@ -116,4 +116,4 @@ export default handleActions({
     // noinspection JSPrimitiveTypeWrapperUsage
     return state.set('scrollToObjectiveId', new String(payload.objectiveId))
   },
-}, initialState);
+}, initialState)

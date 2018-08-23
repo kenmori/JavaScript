@@ -1,18 +1,18 @@
-import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react'
 import { List } from 'immutable'
 import OkrPath from '../../containers/OkrPath'
 
 class OkrLink extends PureComponent {
 
-  static CARD_MARGIN = 24; // OKR カード余白 (= 折れ線の段差の高さ、折り畳まれた線分の長さ)
+  static CARD_MARGIN = 24 // OKR カード余白 (= 折れ線の段差の高さ、折り畳まれた線分の長さ)
   static POINT_ZERO = { x: 0, y: 0 }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       iconTopDiff: 0,
       iconLeftDiff: 0,
@@ -124,7 +124,7 @@ class OkrLink extends PureComponent {
           onClick={this.handleIconClick}
         />
       </div>
-    );
+    )
   }
 }
 
@@ -138,6 +138,6 @@ OkrLink.propTypes = {
   fromParentKeyResultId: PropTypes.number,
   fromRef: PropTypes.object,
   paths: ImmutablePropTypes.list.isRequired,
-};
+}
 
-export default OkrLink;
+export default OkrLink

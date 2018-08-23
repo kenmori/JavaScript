@@ -1,17 +1,17 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Comment } from 'semantic-ui-react';
-import AutoTextArea from '../form/AutoTextArea';
-import moment from 'moment';
-import avatar_image from '../../images/avatar.png';
-import Markdown from '../util/Markdown';
+import { Form, Comment } from 'semantic-ui-react'
+import AutoTextArea from '../form/AutoTextArea'
+import moment from 'moment'
+import avatar_image from '../../images/avatar.png'
+import Markdown from '../util/Markdown'
 import UserName from '../util/UserName'
 
 class OkrComment extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       text: props.comment.get('text'),
       isEditing: false,
@@ -84,11 +84,11 @@ class OkrComment extends PureComponent {
           <Form.Button content="更新する" onClick={this.handleUpdateClick} size="small" />
         </Form.Group>
       </Form>
-    );
+    )
   }
 
   render() {
-    const { isEditing } = this.state;
+    const { isEditing } = this.state
     return isEditing ? this.renderTextArea() : this.renderTextOnly()
   }
 }

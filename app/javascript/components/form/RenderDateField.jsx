@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import moment from 'moment'
 import { Label } from 'semantic-ui-react'
-import DatePicker from './DatePicker';
+import DatePicker from './DatePicker'
 
 class RenderDateField extends PureComponent {
 

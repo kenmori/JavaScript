@@ -1,26 +1,26 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label } from 'semantic-ui-react';
-import DatePicker from '../form/DatePicker';
-import AutoInput from '../form/AutoInput';
-import NumberInput from '../form/NumberInput';
-import UserSelect from '../form/UserSelect';
-import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
+import { Form, Label } from 'semantic-ui-react'
+import DatePicker from '../form/DatePicker'
+import AutoInput from '../form/AutoInput'
+import NumberInput from '../form/NumberInput'
+import UserSelect from '../form/UserSelect'
+import KeyResultMemberSelect from '../form/KeyResultMemberSelect'
 import OkrDescription from '../form/OkrDescription'
 import StatusRadio from '../util/StatusRadio'
 import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
-import moment from 'moment';
+import moment from 'moment'
 
 class KeyResultPane extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       progressRate: props.keyResult.get('progressRate'),
       isTargetValueVisible: typeof props.keyResult.get('targetValue') === 'number',
-    };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,15 +67,15 @@ class KeyResultPane extends PureComponent {
   handleKeyResultMemberRemove = value => {
     const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
-    });
+    })
     if (this.props.keyResult.get('childObjectives').some(objective => objective.get('owner').get('id') === value)) {
       const user = this.props.users.find(user => user.get('id') === value)
       this.props.confirm({
         content: `下位 Objective が紐付いています。関係者 "${user.get('lastName')} ${user.get('firstName')}" を削除しますか？`,
         onConfirm: removeAction,
-      });
+      })
     } else {
-      removeAction();
+      removeAction()
     }
   }
 
@@ -103,7 +103,7 @@ class KeyResultPane extends PureComponent {
     confirm({
       content: message,
       onConfirm: () => removeKeyResult(keyResult.get('id')),
-    });
+    })
   }
 
   handleDisableClick = () => {
@@ -121,8 +121,8 @@ class KeyResultPane extends PureComponent {
   }
   
   subProgressRateHtml(keyResult) {
-    const progressRate = keyResult.get('progressRate');
-    const subProgressRate = keyResult.get('subProgressRate');
+    const progressRate = keyResult.get('progressRate')
+    const subProgressRate = keyResult.get('subProgressRate')
     return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item'>
         <PopupLabel
@@ -132,12 +132,12 @@ class KeyResultPane extends PureComponent {
           onClick={this.handleSubProgressRateClick}
         />
       </div>
-    );
+    )
   }
 
   render() {
-    const keyResult = this.props.keyResult;
-    const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner;
+    const keyResult = this.props.keyResult
+    const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner
     const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
     const isDisabled = keyResult.get('disabled')
     return (
@@ -277,7 +277,7 @@ class KeyResultPane extends PureComponent {
           <Form.Button icon="plus" content="下位 OKR を作成する" onClick={this.handleCreateClick} positive />
         </Form.Group>
       </Form>
-    );
+    )
   }
 }
 
@@ -294,6 +294,6 @@ KeyResultPane.propTypes = {
   removeKeyResult: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-};
+}
 
-export default KeyResultPane;
+export default KeyResultPane

@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Fetcher from '../containers/Fetcher'
-import MenuBar from '../containers/MenuBar';
-import Dashboard from '../containers/Dashboard';
-import KeyResultModal from '../containers/KeyResultModal';
-import ObjectiveModal from '../containers/ObjectiveModal';
-import OkrModal from '../containers/OkrModal';
+import MenuBar from '../containers/MenuBar'
+import Dashboard from '../containers/Dashboard'
+import KeyResultModal from '../containers/KeyResultModal'
+import ObjectiveModal from '../containers/ObjectiveModal'
+import OkrModal from '../containers/OkrModal'
 import OptionModal from '../containers/OptionModal'
 
 class Home extends PureComponent {
@@ -23,7 +23,7 @@ class Home extends PureComponent {
           <OptionModal />
         </main>
       </div>
-    );
+    )
   }
 }
 
@@ -33,4 +33,4 @@ Home.propTypes = {
   // component
 }
 
-export default Home;
+export default Home

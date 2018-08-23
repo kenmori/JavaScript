@@ -1,17 +1,17 @@
-import { fromJS } from 'immutable';
-import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
-import gon from '../utils/gon';
+import { fromJS } from 'immutable'
+import { handleActions } from 'redux-actions'
+import ActionTypes from '../constants/actionTypes'
+import gon from '../utils/gon'
 
 const initialState = fromJS({
   current: gon.get('organization'),
   ownerId: gon.get('ownerId'),
   isFetched: false,
   isCompleted: false,
-});
+})
 
 function merge(state, { payload }) {
-  return state.update('current', current => current.merge(payload.organization));
+  return state.update('current', current => current.merge(payload.organization))
 }
 
 export default handleActions({
@@ -28,4 +28,4 @@ export default handleActions({
   [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => (
     state.set('ownerId', payload.ownerId)
   ),
-}, initialState);
+}, initialState)

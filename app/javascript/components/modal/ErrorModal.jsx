@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import { List } from 'immutable';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import { List } from 'immutable'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react'
 
 class ErrorModal extends PureComponent {
 
@@ -18,9 +18,9 @@ class ErrorModal extends PureComponent {
   }
 
   handleClose = () => {
-    this.props.onCloseBefore();
-    this.props.closeModal();
-    this.props.onClose();
+    this.props.onCloseBefore()
+    this.props.closeModal()
+    this.props.onClose()
   }
 
   render() {
@@ -40,7 +40,7 @@ class ErrorModal extends PureComponent {
           <Button negative onClick={this.handleClose}>OK</Button>
         </Modal.Actions>
       </Modal>
-    );
+    )
   }
 }
 
@@ -52,12 +52,12 @@ ErrorModal.propTypes = {
   onCloseBefore: PropTypes.func,
   closeModal: PropTypes.func.isRequired,
   // component
-};
+}
 
 ErrorModal.defaultProps = {
   message: 'エラーが発生しました',
   onClose: () => {},
   onCloseBefore: () => {},
-};
+}
 
-export default ErrorModal;
+export default ErrorModal

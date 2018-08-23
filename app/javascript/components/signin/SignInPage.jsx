@@ -1,17 +1,17 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
-import { Button, Form, Image, Segment, Message } from 'semantic-ui-react';
-import logo_image from '../../images/logo_large.png';
+import { Link } from 'react-router-dom'
+import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
+import logo_image from '../../images/logo_large.png'
 
 class SignInPage extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       email: null,
       password: null,
-    };
+    }
   }
 
   signIn = () => this.props.signIn(this.state.email, this.state.password)
@@ -56,7 +56,7 @@ class SignInPage extends PureComponent {
           <p><Link to={{ pathname: '/users/password/reset', state: { email } }}>パスワードを忘れた方はこちら</Link></p>
         </Message>
       </div>
-    );
+    )
   }
 }
 

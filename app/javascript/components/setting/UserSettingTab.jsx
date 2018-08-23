@@ -1,18 +1,18 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Input, Button, Divider } from 'semantic-ui-react';
-import UsersTable from './UsersTable';
+import { Tab, Input, Button, Divider } from 'semantic-ui-react'
+import UsersTable from './UsersTable'
 import UserAddForm from './UserAddForm'
 
 class UserSettingTab extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       keyword: '',
       showDisabledUsers: false,
-    };
+    }
   }
 
   handleKeywordChange = (e, { value }) => this.setState({ keyword: value })
@@ -55,7 +55,7 @@ class UserSettingTab extends PureComponent {
             <Button content="無効なユーザーを表示する" onClick={this.handleShowDisabledUsersClick} />
         )}
       </Tab.Pane>
-    );
+    )
   }
 }
 
@@ -71,6 +71,6 @@ UserSettingTab.propTypes = {
   resendEmail: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-};
+}
 
-export default UserSettingTab;
+export default UserSettingTab

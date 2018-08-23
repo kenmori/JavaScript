@@ -1,6 +1,6 @@
-import { fromJS } from 'immutable';
-import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
+import { fromJS } from 'immutable'
+import { handleActions } from 'redux-actions'
+import ActionTypes from '../constants/actionTypes'
 
 function add(state, keyResultId) {
   return state.update('ids', ids => ids.includes(keyResultId) ? ids : ids.insert(0, keyResultId))
@@ -11,11 +11,11 @@ function remove(state, keyResultId) {
 }
 
 function addToCandidates(state, keyResultId) {
-  return state.update('candidateIds', ids => ids.insert(0, keyResultId));
+  return state.update('candidateIds', ids => ids.insert(0, keyResultId))
 }
 
 function removeFromCandidates(state, keyResultId) {
-  return state.update('candidateIds', ids => ids.filter(id => id !== keyResultId));
+  return state.update('candidateIds', ids => ids.filter(id => id !== keyResultId))
 }
 
 function addToTask(state, keyResultId, payload, orRemove = false) {
@@ -73,34 +73,34 @@ function isMine(keyResultId, payload) {
 
 export default handleActions({
     [ActionTypes.FETCH_KEY_RESULTS]: state => {
-      return state.set('isFetchedKeyResults', false);
+      return state.set('isFetchedKeyResults', false)
     },
     [ActionTypes.FETCHED_KEY_RESULTS]: (state, { payload }) => {
-      return state.set('ids', payload.get('result')).set('isFetchedKeyResults', true);
+      return state.set('ids', payload.get('result')).set('isFetchedKeyResults', true)
     },
     [ActionTypes.FETCH_KEY_RESULT_CANDIDATES]: state => {
-      return state.set('isFetchedCandidates', false);
+      return state.set('isFetchedCandidates', false)
     },
     [ActionTypes.FETCHED_KEY_RESULT_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true);
+      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true)
     },
     [ActionTypes.FETCHED_TASK_KEY_RESULTS]: (state, { payload }) => {
       return state.set('taskIds', payload.get('result'))
     },
     [ActionTypes.ADDED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first();
-      state = addToCandidates(state, keyResultId);
+      const keyResultId = payload.get('result').first()
+      state = addToCandidates(state, keyResultId)
       state = addToTask(state, keyResultId, payload)
-      return isMine(keyResultId, payload) ? add(state, keyResultId) : state;
+      return isMine(keyResultId, payload) ? add(state, keyResultId) : state
     },
     [ActionTypes.UPDATED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first();
+      const keyResultId = payload.get('result').first()
       state = addToTask(state, keyResultId, payload, true)
       return isMine(keyResultId, payload) ? add(state, keyResultId) : remove(state, keyResultId)
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first();
-      return removeAll(state, keyResultId);
+      const keyResultId = payload.get('result').first()
+      return removeAll(state, keyResultId)
     },
     [ActionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: (state, { payload }) => {
       const { keyResultIds } = payload
@@ -126,4 +126,4 @@ export default handleActions({
     isFetchedKeyResults: false,
     isFetchedCandidates: false,
   }),
-);
+)

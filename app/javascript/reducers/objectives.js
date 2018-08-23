@@ -1,6 +1,6 @@
-import { fromJS } from 'immutable';
-import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
+import { fromJS } from 'immutable'
+import { handleActions } from 'redux-actions'
+import ActionTypes from '../constants/actionTypes'
 
 function add(state, objectiveId) {
   return state.update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
@@ -11,11 +11,11 @@ function remove(state, objectiveId) {
 }
 
 function addToCandidates(state, objectiveId) {
-  return state.update('candidateIds', ids => ids.insert(0, objectiveId));
+  return state.update('candidateIds', ids => ids.insert(0, objectiveId))
 }
 
 function removeFromCandidates(state, objectiveId) {
-  return state.update('candidateIds', ids => ids.filter(id => id !== objectiveId));
+  return state.update('candidateIds', ids => ids.filter(id => id !== objectiveId))
 }
 
 function isMine(objectiveId, payload) {
@@ -26,19 +26,19 @@ function isMine(objectiveId, payload) {
 
 export default handleActions({
     [ActionTypes.FETCH_OBJECTIVE]: state => {
-      return state.set('isFetchedObjective', false);
+      return state.set('isFetchedObjective', false)
     },
     [ActionTypes.FETCHED_OBJECTIVE]: state => {
-      return state.set('isFetchedObjective', true);
+      return state.set('isFetchedObjective', true)
     },
     [ActionTypes.FETCH_OBJECTIVES]: state => {
-      return state.set('isFetchedObjectives', false);
+      return state.set('isFetchedObjectives', false)
     },
     [ActionTypes.FETCHED_OBJECTIVES]: (state, { payload }) => {
-      const objectiveIds = payload.get('result');
+      const objectiveIds = payload.get('result')
       return state
         .set('ids', objectiveIds)
-        .set('isFetchedObjectives', true);
+        .set('isFetchedObjectives', true)
     },
     [ActionTypes.FETCH_PREVIOUS_OBJECTIVES]: state => {
       return state.set('isFetchedPreviousObjectives', false)
@@ -55,29 +55,29 @@ export default handleActions({
         .set('isFetchedPreviousObjectives', true)
     },
     [ActionTypes.FETCH_OBJECTIVE_CANDIDATES]: state => {
-      return state.set('isFetchedCandidates', false);
+      return state.set('isFetchedCandidates', false)
     },
     [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: (state, { payload }) => {
-      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true);
+      return state.set('candidateIds', payload.get('result')).set('isFetchedCandidates', true)
     },
     [ActionTypes.ADDED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      state = addToCandidates(state, objectiveId);
-      return isMine(objectiveId, payload) ? add(state, objectiveId) : state;
+      const objectiveId = payload.get('result').first()
+      state = addToCandidates(state, objectiveId)
+      return isMine(objectiveId, payload) ? add(state, objectiveId) : state
     },
     [ActionTypes.UPDATED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      return isMine(objectiveId, payload) ? add(state, objectiveId) : remove(state, objectiveId);
+      const objectiveId = payload.get('result').first()
+      return isMine(objectiveId, payload) ? add(state, objectiveId) : remove(state, objectiveId)
     },
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      state = removeFromCandidates(state, objectiveId);
-      return remove(state, objectiveId);
+      const objectiveId = payload.get('result').first()
+      state = removeFromCandidates(state, objectiveId)
+      return remove(state, objectiveId)
     },
     [ActionTypes.UPDATED_OBJECTIVE_ORDER]: (state, { payload }) => {
-      if (!payload.order) return state;
-      const objectiveOrder = JSON.parse(payload.order);
-      return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)));
+      if (!payload.order) return state
+      const objectiveOrder = JSON.parse(payload.order)
+      return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)))
     },
   },
   fromJS({
@@ -89,4 +89,4 @@ export default handleActions({
     isFetchedPreviousObjectives: true,
     isFetchedCandidates: false,
   }),
-);
+)

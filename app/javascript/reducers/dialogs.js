@@ -1,6 +1,6 @@
-import { fromJS, Map } from 'immutable';
-import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
+import { fromJS, Map } from 'immutable'
+import { handleActions } from 'redux-actions'
+import ActionTypes from '../constants/actionTypes'
 
 export default handleActions({
     [ActionTypes.OPEN_OBJECTIVE_MODAL]: (state, { payload }) => (
@@ -22,12 +22,12 @@ export default handleActions({
       state.set('okrForm', fromJS({ isOpen: false, objectiveId: null, keyResultId: null }))
     ),
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first();
-      return state.setIn(['okrForm', 'removedObjectiveId'], objectiveId);
+      const objectiveId = payload.get('result').first()
+      return state.setIn(['okrForm', 'removedObjectiveId'], objectiveId)
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first();
-      return state.setIn(['okrForm', 'removedKeyResultId'], keyResultId);
+      const keyResultId = payload.get('result').first()
+      return state.setIn(['okrForm', 'removedKeyResultId'], keyResultId)
     },
     [ActionTypes.OPEN_AVATAR_MODAL]: (state, { payload }) => (
       state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
@@ -48,10 +48,10 @@ export default handleActions({
       state.setIn(['error', 'isOpen'], false)
     ),
     [ActionTypes.OPEN_CONFIRM_MODAL]: (state, { payload }) => {
-      return state.set('confirm', fromJS(payload.params).merge({ isOpen: true }));
+      return state.set('confirm', fromJS(payload.params).merge({ isOpen: true }))
     },
     [ActionTypes.CLOSE_CONFIRM_MODAL]: (state) => {
-      return state.setIn(['confirm', 'isOpen'], false);
+      return state.setIn(['confirm', 'isOpen'], false)
     },
     [ActionTypes.OPEN_OPTION_MODAL]: state => {
       return state.setIn(['option', 'isOpen'], true)
@@ -91,4 +91,4 @@ export default handleActions({
       isOpen:false,
     }
   }),
-);
+)

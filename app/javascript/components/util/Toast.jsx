@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Transition, Message } from 'semantic-ui-react';
+import React, { PureComponent } from 'react'
+import { Transition, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 class Toast extends PureComponent {
@@ -9,21 +9,21 @@ class Toast extends PureComponent {
     this.state = {
       visible: false,
       timeoutId: -1,
-    };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.message) {
-      clearTimeout(this.state.timeoutId); // 現在表示中のトーストを非表示にするタイマーをキャンセルする
+      clearTimeout(this.state.timeoutId) // 現在表示中のトーストを非表示にするタイマーをキャンセルする
       this.setState({
         visible: true,
         timeoutId: setTimeout(() => {
           this.setState({
             visible: false,
             timeoutId: -1,
-          });
+          })
         }, 3000),
-      });
+      })
     }
   }
 
@@ -39,7 +39,7 @@ class Toast extends PureComponent {
           >{this.props.message}</Message>
         </div>
       </Transition>
-    );
+    )
   }
 }
 
@@ -51,4 +51,4 @@ Toast.propTypes = {
   // component
 }
 
-export default Toast;
+export default Toast
