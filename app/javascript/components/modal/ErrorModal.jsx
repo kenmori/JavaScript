@@ -33,7 +33,7 @@ class ErrorModal extends PureComponent {
         closeOnDimmerClick={false}
         onClose={this.handleClose}
       >
-        <Modal.Content style={{ margin: '10px 0' }}>
+        <Modal.Content>
           {this.getErrorMessage(List.isList(message) ? message : List(message.split(', ')))}
         </Modal.Content>
         <Modal.Actions>

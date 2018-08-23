@@ -41,11 +41,7 @@ class AvatarModal extends PureComponent {
         size='small' 
         onClose={this.props.closeModal}
       >
-        <Modal.Content style={{ margin: '10px 0' }}>
-          <div style={{textAlign: 'center'}}>
-            {this.avatarImage()}
-          </div>
-        </Modal.Content>
+        <Modal.Content>{this.avatarImage()}</Modal.Content>
         <Modal.Actions>
           <div className='center'>
             <Button onClick={this.closeModal}>キャンセル</Button>

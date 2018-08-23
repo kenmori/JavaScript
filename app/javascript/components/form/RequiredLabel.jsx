@@ -5,9 +5,8 @@ import { Icon, Popup } from 'semantic-ui-react'
 class RequiredLabel extends PureComponent {
 
   render() {
-    const style = { verticalAlign: 'super', marginLeft: '2px' }
     return (
-      <label className='common-label'>
+      <label className="required-label">
         <span>{this.props.text}</span>
         {this.props.required && (
           <Popup
@@ -15,7 +14,7 @@ class RequiredLabel extends PureComponent {
             size="tiny"
             position="right center"
             content="必須"
-            trigger={<Icon name="asterisk" color="red" size="small" style={style} />}
+            trigger={<Icon name="asterisk" color="red" size="small" className="required-label__icon" />}
           />
         )}
       </label>
