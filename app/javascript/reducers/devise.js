@@ -7,7 +7,7 @@ const initialState = fromJS({
 })
 
 export default handleActions({
-  [ActionTypes.RESET_PASSWORD_COMPLETED]: state => (
-    state.set('isResetPasswordCompleted', true)
-  ),
+  [ActionTypes.RESET_PASSWORD_COMPLETED]: state => {
+    return state.set('isResetPasswordCompleted', true)
+  },
 }, initialState)

@@ -10,13 +10,10 @@ export default handleActions({
     return state.push(payload.okrPeriod)
   },
   [ActionTypes.UPDATED_OKR_PERIOD]: (state, { payload }) => {
-    return state.set(state.findIndex((okrPeriod) => {
-      return okrPeriod.get('id') === payload.okrPeriod.get('id')
-    }), payload.okrPeriod)
+    const okrPeriodId = payload.okrPeriod.get('id')
+    return state.set(state.findIndex(okrPeriod => okrPeriod.get('id') === okrPeriodId), payload.okrPeriod)
   },
   [ActionTypes.REMOVED_OKR_PERIOD]: (state, { payload }) => {
-    return state.filter((okrPeriod) => {
-      return okrPeriod.get('id') !== payload.okrPeriod.id
-    })
+    return state.filter((okrPeriod) => okrPeriod.get('id') !== payload.okrPeriod.id)
   },
 }, fromJS([]))

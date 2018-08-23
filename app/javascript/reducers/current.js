@@ -24,12 +24,12 @@ const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResul
 }
 
 export default handleActions({
-  [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) => (
-    state.set('okrPeriodId', payload.okrPeriodId)
-  ),
-  [ActionTypes.SELECTED_USER]: (state, { payload }) => (
-    state.set('userId', payload.userId)
-  ),
+  [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) => {
+    return state.set('okrPeriodId', payload.okrPeriodId)
+  },
+  [ActionTypes.SELECTED_USER]: (state, { payload }) => {
+    return state.set('userId', payload.userId)
+  },
   [ActionTypes.FETCHED_OBJECTIVES]: state => {
     return state.set('userIdAtFetchedObjectives', state.get('userId'))
       .set('userIdAtFetchedTaskKeyResults', state.get('userId')) // タスク KR の fetch 省略を考慮
