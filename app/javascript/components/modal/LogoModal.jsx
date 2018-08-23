@@ -43,10 +43,8 @@ class LogoModal extends PureComponent {
       >
         <Modal.Content>{this.logoImage()}</Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button onClick={this.closeModal}>キャンセル</Button>
-            <Button positive onClick={this.handleClick}>OK</Button>
-          </div>
+          <Button onClick={this.closeModal}>キャンセル</Button>
+          <Button positive onClick={this.handleClick}>OK</Button>
         </ Modal.Actions >
       </ Modal >
     )

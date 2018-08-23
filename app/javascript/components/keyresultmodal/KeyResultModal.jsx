@@ -104,10 +104,8 @@ class KeyResultModal extends PureComponent {
           </div>
         </Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button onClick={this.handleClose}>キャンセル</Button>
-            <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
-          </div>
+          <Button onClick={this.handleClose}>キャンセル</Button>
+          <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
         </Modal.Actions>
       </Modal>
     )
