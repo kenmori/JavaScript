@@ -1,0 +1,30 @@
+.okr-comment-text-only {
+  &.ui.comments .comment {
+    .avatar.disabled {
+      opacity: .38;
+    }
+
+    .author {
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    .text {
+      margin: .5rem 0 .75rem;
+    }
+  }
+}
+
+.okr-comment-text-area {
+  .okr-comment-text-area__buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &.ui.form .fields {
+    &.okr-comment-text-area__buttons {
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+  }
+}

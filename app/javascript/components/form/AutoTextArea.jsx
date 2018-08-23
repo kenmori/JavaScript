@@ -5,7 +5,7 @@ import { TextArea } from 'semantic-ui-react';
 class AutoTextArea extends PureComponent {
 
   handleCommit = event => {
-    if (this.props.value !== event.target.value) {
+    if (this.props.value !== event.target.value || this.props.verbose) {
       this.props.onCommit(event.target.value);
     }
   }
@@ -32,6 +32,7 @@ AutoTextArea.propTypes = {
   rows: PropTypes.number,
   autoHeight: PropTypes.bool,
   readOnly: PropTypes.bool,
+  verbose: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -41,6 +42,7 @@ AutoTextArea.defaultProps = {
   rows: 3,
   autoHeight: true,
   readOnly: false,
+  verbose: false,
   onCommit: value => {},
 };
 

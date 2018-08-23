@@ -8,11 +8,34 @@ import CommentPane from './CommentPane';
 
 class KeyResultTab extends PureComponent {
 
+  constructor() {
+    super()
+    this.state = { activeIndex: 0 }
+  }
+
   updateKeyResult = values => {
     this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values });
   }
 
+  handleTabChange = (e, { activeIndex }) => {
+    const { isDirty, confirm } = this.props
+    const { activeIndex: currentIndex } = this.state
+    if (activeIndex !== currentIndex && isDirty) {
+      confirm({
+        content: '編集中の内容を破棄します。よろしいですか？',
+        onConfirm: () => {
+          this.setState({ activeIndex })
+          this.props.setDirty(false)
+        },
+      })
+    } else {
+      this.setState({ activeIndex })
+    }
+  }
+
   render() {
+    const { setDirty } = this.props
+    const { activeIndex } = this.state
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
     const comments = this.props.keyResult.get('comments');
     return (
@@ -38,10 +61,10 @@ class KeyResultTab extends PureComponent {
         {
           menuItem: <Menu.Item key='comments'>コメント<Label>{comments ? comments.size : 0}</Label></Menu.Item>,
           render: () => <Tab.Pane loading={!comments}>
-            <CommentPane {...this.props} updateKeyResult={this.updateKeyResult} />
+            <CommentPane {...this.props} updateKeyResult={this.updateKeyResult} setDirty={setDirty} />
           </Tab.Pane>
         },
-      ]} />
+      ]} activeIndex={activeIndex} onTabChange={this.handleTabChange} />
     );
   }
 }
@@ -55,9 +78,11 @@ KeyResultTab.propTypes = {
   loginUserId: PropTypes.number.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
+  isDirty: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
+  setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 

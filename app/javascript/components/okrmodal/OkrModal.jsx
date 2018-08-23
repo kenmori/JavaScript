@@ -10,6 +10,11 @@ import KeyResultTab from "./KeyResultTab";
 
 class OkrModal extends PureComponent {
 
+  constructor() {
+    super()
+    this.state = { isDirty: false }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.removedObjectiveId === this.props.objectiveId) {
       goToRoot();
@@ -17,6 +22,8 @@ class OkrModal extends PureComponent {
       openObjective(this.props.objectiveId);
     }
   }
+
+  setDirty = isDirty => this.setState({ isDirty })
 
   isNotExistMember(users, targetUser) {
     return !users.find(item => item.get('id') === targetUser.get('id'));
@@ -50,7 +57,22 @@ class OkrModal extends PureComponent {
       const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId);
       if(!keyResult) {return null;}
       const users = this.selectableKeyResultMembers(this.props.users, keyResult);
-      return <KeyResultTab {...this.props} keyResult={keyResult} users={users} />;
+      const { isDirty } = this.state
+      return <KeyResultTab {...this.props} keyResult={keyResult} users={users} isDirty={isDirty} setDirty={this.setDirty} />;
+    }
+  }
+
+  handleClose = () => {
+    if (this.state.isDirty) {
+      this.props.confirm({
+        content: '編集中の内容を破棄します。よろしいですか？',
+        onConfirm: () => {
+          this.setState({ isDirty: false })
+          this.closeModal()
+        },
+      })
+    } else {
+      this.closeModal()
     }
   }
 
@@ -68,7 +90,7 @@ class OkrModal extends PureComponent {
         open={this.props.isOpen} 
         size='large' 
         className='okr-modal' 
-        onClose={this.closeModal}
+        onClose={this.handleClose}
       >
         <Modal.Content scrolling>
           <div className="okr-body">

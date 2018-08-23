@@ -89,50 +89,10 @@
     }
   }
 
-  .wide-field {
-    width: 100%;
-  }
-
-  .comments {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  .comments__item {
-    width: 100%;
-  }
-  .comments__text-box {
-    margin-bottom: 10px;
-  }
-  .comments__item-meta {
-    display: flex;
-    justify-content: flex-end;
-    color: #666;
-    font-size: smaller;
-    margin-top: 4px;
-  }
-  .comments__item-name {
-    padding-left: 10px;
-  }
-  .comments__item-icon {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-
-  .okr-comment {
-    &.ui.comments .comment {
-      .avatar.disabled {
-        opacity: .38;
-      }
-
-      .author {
-        display: inline-block;
-      }
-
-      .text {
-        margin: .5rem 0 .75rem;
-        white-space: pre-wrap;
-      }
+  .comment-pane {
+    .comment-pane__button {
+      text-align: right;
+      margin-bottom: 16px;
     }
   }
 

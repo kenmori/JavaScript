@@ -1,0 +1,10 @@
+.markdown {
+  &.markdown-body {
+    font-family: $DEFAULT_FONT;
+    font-size: 14px;
+
+    li > p {
+      margin-bottom: 8px;
+    }
+  }
+}

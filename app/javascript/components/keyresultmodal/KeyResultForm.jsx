@@ -44,7 +44,7 @@ class KeyResultForm extends PureComponent {
               autoHeight
               rows={3}
               onChange={this.handleDescriptionChange}
-              placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
+              placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)`}
             />
           </Form.Field>
         </Form.Group>

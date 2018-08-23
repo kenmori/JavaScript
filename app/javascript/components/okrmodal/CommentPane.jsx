@@ -1,74 +1,78 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Icon, Button, TextArea, Divider } from 'semantic-ui-react';
-import OKRComment from './OKRComment';
+import { Form } from 'semantic-ui-react';
+import OkrComment from './OkrComment';
 
 class CommentPane extends PureComponent {
 
-  commentList(comments) {
-    if (!comments) return null;
-    const commentTags = comments.map((item) => {
-      return (
-        <div className="comments" key={item.get('id')}>
-          <OKRComment item={item}
-                      onDelete={this.removeComment.bind(this)}
-                      onUpdate={this.editComment.bind(this)}/>
-        </div>
-      )
-    });
-    return <div>{commentTags}</div>;
+  constructor() {
+    super()
+    this.state = { text: '' }
   }
 
-  addComment() {
-    const value = findDOMNode(this.refs.commentArea).value;
-    if (!value) {
-      return;
-    }
+  addComment = () => {
+    const { text } = this.state
+    if (!text) return
+
     this.props.updateKeyResult({
-      comment: {data: value, behavior: 'add'}
+      comment: {data: text, behavior: 'add'}
     });
-    findDOMNode(this.refs.commentArea).value = '';
+    this.setState({ text: '' })
+    this.props.setDirty(false)
   }
 
-  editComment(id, text) {
-    if (!text) {
-      return;
-    }
+  editComment = (id, text) => {
+    if (!text) return
+
     this.props.updateKeyResult({
       comment: {data: {id, text}, behavior: 'edit'}
     });
   }
 
-  removeComment(id) {
+  removeComment = id => {
     this.props.confirm({
       content: 'コメントを削除しますか？',
-      onConfirm: () => {
-        this.props.updateKeyResult({
-          comment: { data: id, behavior: 'remove' }
-        });
-      },
+      onConfirm: () => this.props.updateKeyResult({
+        comment: { data: id, behavior: 'remove' }
+      }),
     })
   }
 
+  handleTextChange = (e, { value }) => {
+    this.setState({ text: value })
+    this.props.setDirty(!!value)
+  }
+
   render() {
-    const keyResult = this.props.keyResult;
+    const { keyResult } = this.props
+    const { text } = this.state
+    const comments = keyResult.get('comments')
     return (
-      <Form>
-        <Form.Field className="wide-field">
-          <div className="comments__text-box">
-            <TextArea autoHeight rows={3} ref='commentArea'
-                      placeholder='進捗状況や、次のアクションなどをメモしてください'
-            />
+      <div className="comment-pane">
+        <Form>
+          <Form.TextArea
+            autoHeight
+            rows={3}
+            value={text}
+            onChange={this.handleTextChange}
+            placeholder={`進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)`}
+          />
+
+          <div className="comment-pane__button">
+            <Form.Button content="投稿する" onClick={this.addComment} />
           </div>
-          <div>
-            <Button content="投稿する" onClick={() => this.addComment()} as="div" floated='right' />
-          </div>
-          <Divider hidden clearing />
-          {this.commentList(keyResult.get('comments'))}
-        </Form.Field>
-      </Form>
+        </Form>
+
+        {comments && comments.map(comment => (
+          <OkrComment
+            key={comment.get('id')}
+            comment={comment}
+            onDelete={this.removeComment}
+            onUpdate={this.editComment}
+          />
+        ))}
+      </div>
     );
   }
 }
@@ -78,6 +82,7 @@ CommentPane.propTypes = {
   // component
   keyResult: ImmutablePropTypes.map.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
+  setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 

@@ -16,6 +16,8 @@
 
 @import '~semantic-ui-css/semantic.min';
 @import '~react-datepicker/dist/react-datepicker.min';
+@import '~github-markdown-css/github-markdown';
+@import '~highlight.js/styles/default';
 
 @import 'pages/account_setting_tab';
 @import 'pages/okr_period_setting_tab';
@@ -30,11 +32,14 @@
 @import 'components/key_result_list';
 @import 'components/key_result_modal';
 @import 'components/loading';
+@import 'components/markdown';
 @import 'components/menu_bar';
 @import 'components/modal';
 @import 'components/objective_list';
 @import 'components/objective_modal';
 @import 'components/okr_card';
+@import 'components/okr_comment';
+@import 'components/okr_description';
 @import 'components/okr_list';
 @import 'components/okr_map';
 @import 'components/okr_modal';
@@ -53,7 +58,7 @@
 
 body {
   margin: 0;
-  font-family: Lato, 游ゴシック体, YuGothic, 游ゴシック, 'Yu Gothic', メイリオ, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: $DEFAULT_FONT;
   font-weight: 500;
 
   > div#body {

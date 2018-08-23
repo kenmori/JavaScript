@@ -4,10 +4,10 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label } from 'semantic-ui-react';
 import DatePicker from '../form/DatePicker';
 import AutoInput from '../form/AutoInput';
-import AutoTextArea from '../form/AutoTextArea';
 import NumberInput from '../form/NumberInput';
 import UserSelect from '../form/UserSelect';
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect';
+import OkrDescription from '../form/OkrDescription'
 import StatusRadio from '../util/StatusRadio'
 import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
@@ -182,7 +182,7 @@ class KeyResultPane extends PureComponent {
             </Form.Field>
           </Form.Group>
         ) : (
-          <Form.Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} floated='right' />
+          <Form.Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} size="small" floated='right' />
         )}
 
         <Form.Field className='flex-field progress-rate-field'>
@@ -248,9 +248,10 @@ class KeyResultPane extends PureComponent {
 
         <Form.Field>
           <label>説明</label>
-          <AutoTextArea key={keyResult.get('id')} value={keyResult.get('description')}
-                        placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。`}
-                        onCommit={this.handleDescriptionCommit}
+          <OkrDescription
+            key={keyResult.get('id')}
+            text={keyResult.get('description')}
+            onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
 
@@ -259,7 +260,7 @@ class KeyResultPane extends PureComponent {
           <div className='flex-field__item'>
             <AutoInput
               value={keyResult.get('result') || ''}
-              placeholder='Key Result の最終的な進捗を補足する結果を入力します'
+              placeholder='Key Result の最終的な進捗を補足する結果を入力してください'
               onCommit={this.handleResultCommit}
             />
           </div>
