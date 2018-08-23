@@ -2,6 +2,11 @@ import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import ActionTypes from '../constants/actionTypes'
 
+const initialState = fromJS({
+  message: null,
+  type: null,
+})
+
 export default handleActions({
   [ActionTypes.SHOW_TOAST]: (state, { payload }) => {
     // 同じ文言のトースト連続表示時でも props 変更イベントを飛ばすため文字列を別インスタンスにする
@@ -11,7 +16,4 @@ export default handleActions({
   [ActionTypes.CLEAR_TOAST]: (state, { payload }) => {
     return state.set('message', null).set('type', null)
   },
-}, fromJS({
-  message: null,
-  type: null,
-}))
+}, initialState)

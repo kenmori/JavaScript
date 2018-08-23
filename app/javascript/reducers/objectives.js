@@ -2,6 +2,16 @@ import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import ActionTypes from '../constants/actionTypes'
 
+const initialState = fromJS({
+  ids: [],
+  previousIds: [],
+  candidateIds: [],
+  isFetchedObjective: true,
+  isFetchedObjectives: false,
+  isFetchedPreviousObjectives: true,
+  isFetchedCandidates: false,
+})
+
 function add(state, objectiveId) {
   return state.update('ids', ids => ids.includes(objectiveId) ? ids : ids.insert(0, objectiveId))
 }
@@ -79,12 +89,4 @@ export default handleActions({
     const objectiveOrder = JSON.parse(payload.order)
     return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)))
   },
-}, fromJS({
-  ids: [],
-  previousIds: [],
-  candidateIds: [],
-  isFetchedObjective: true,
-  isFetchedObjectives: false,
-  isFetchedPreviousObjectives: true,
-  isFetchedCandidates: false,
-}))
+}, initialState)

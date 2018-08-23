@@ -1,6 +1,17 @@
-import { fromJS, Map } from 'immutable'
+import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import ActionTypes from '../constants/actionTypes'
+
+const initialState = fromJS({
+  objectiveForm: { isOpen: false },
+  keyResultForm: { isOpen: false, objective: {} },
+  okrForm: { isOpen: false, objectiveId: null, keyResultId: null },
+  avatarImage: { isOpen: false, imageData: null },
+  logoImage: { isOpen: false, imageData: null },
+  error: { isOpen: false },
+  confirm: { isOpen: false },
+  option: { isOpen: false },
+})
 
 export default handleActions({
   [ActionTypes.OPEN_OBJECTIVE_MODAL]: (state, { payload }) => (
@@ -59,34 +70,4 @@ export default handleActions({
   [ActionTypes.CLOSE_OPTION_MODAL]: state => {
     return state.setIn(['option', 'isOpen'], false)
   },
-}, fromJS({
-  objectiveForm: {
-    isOpen: false,
-  },
-  keyResultForm: {
-    isOpen: false,
-    objective: Map(),
-  },
-  okrForm: {
-    isOpen: false,
-    objectiveId: null,
-    keyResultId: null,
-  },
-  avatarImage: {
-    isOpen: false,
-    imageData: null,
-  },
-  logoImage: {
-    isOpen: false,
-    imageData: null,
-  },
-  error: {
-    isOpen: false,
-  },
-  confirm: {
-    isOpen: false,
-  },
-  option: {
-    isOpen:false,
-  }
-}))
+}, initialState)

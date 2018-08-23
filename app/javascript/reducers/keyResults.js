@@ -2,6 +2,14 @@ import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import ActionTypes from '../constants/actionTypes'
 
+const initialState = fromJS({
+  ids: [],
+  candidateIds: [],
+  taskIds: [],
+  isFetchedKeyResults: false,
+  isFetchedCandidates: false,
+})
+
 function add(state, keyResultId) {
   return state.update('ids', ids => ids.includes(keyResultId) ? ids : ids.insert(0, keyResultId))
 }
@@ -118,10 +126,4 @@ export default handleActions({
     state = removeParentFromTask(state, payload)
     return addParentAndKeyResults(state, payload)
   },
-}, fromJS({
-  ids: [],
-  candidateIds: [],
-  taskIds: [],
-  isFetchedKeyResults: false,
-  isFetchedCandidates: false,
-}))
+}, initialState)
