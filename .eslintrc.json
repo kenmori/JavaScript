@@ -38,6 +38,10 @@
             "error",
             "never"
         ],
+        "eol-last": [
+            "error",
+            "always"
+        ],
         "react/jsx-no-bind": "error"
     }
 }
