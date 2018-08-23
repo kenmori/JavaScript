@@ -1,6 +1,6 @@
 class Organization < ApplicationRecord
 
-  around_destroy :destroy_orphaned_user # 関連付けの `dependent: :destroy` より先に定義する
+  before_destroy :destroy_users # 関連付けの `dependent: :destroy` より先に定義する
 
   validates :name, presence: true
 
@@ -21,11 +21,9 @@ class Organization < ApplicationRecord
 
   private
 
-  def destroy_orphaned_user
-    users = self.users.to_a # ActiveRecord::Relation のままだと yield 後に空配列になるため to_a する
-    yield
+  def destroy_users
     users.each do |user|
-      user.destroy! if user.organization.nil? # 組織に所属していないユーザーは削除する
+      user.destroy!
     end
   end
 end
