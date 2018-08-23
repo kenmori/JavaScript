@@ -5,27 +5,17 @@ import gon from '../utils/gon';
 
 const initialState = fromJS({
   selected: gon.get('organization'),
-  list: gon.get('organizations'),
   ownerId: gon.get('ownerId'),
   isFetched: false,
   isCompleted: false,
 });
 
 function newSelectedData(state, payload) {
-  const isSelectedData = state.get('selected').get('id') === payload.organization.get('id')
-  
-  if(isSelectedData) {
-    const newData = state.get('selected').merge(payload.organization);
-    return state.set('selected', newData);
-  }
-
-  return state;
+  const newData = state.get('selected').merge(payload.organization);
+  return state.set('selected', newData);
 }
 
 export default handleActions({
-  [ActionTypes.UPDATE_CURRENT_ORGANIZATION_ID]: (state, { payload }) => (
-    state
-  ),
   [ActionTypes.FETCH_ORGANIZATION]: state => (
     state.set('isFetched', false)
   ),

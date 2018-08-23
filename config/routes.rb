@@ -40,7 +40,6 @@ Rails.application.routes.draw do
     member do
       put 'disable', to: 'users#update_disabled'
       put 'password', to: 'users#update_password'
-      put 'current_organization_id', to: 'users#update_current_organization_id'
       put 'resend'
       put :user_setting, to: 'users#update_user_setting'
       put :objective_order, to: 'users#update_objective_order'

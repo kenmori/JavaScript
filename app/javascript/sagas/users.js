@@ -46,11 +46,6 @@ function* updatePassword({ payload }) {
   yield put(toastActions.showToast('パスワードを変更しました', 'success'));
 }
 
-function* updateCurrentOrganizationId({ payload }) {
-  const result = yield call(API.put, '/users/' + payload.user.id + '/current_organization_id', { user: payload.user });
-  yield put(userActions.updatedCurrentOrganizationId(result.get('user')));
-}
-
 function* resendEmail({ payload }) {
   yield call(API.put, `/users/${payload.id}/resend`, {});
   yield put(toastActions.showToast('確認メールを再送信しました', 'success'));
@@ -62,7 +57,6 @@ export function* userSagas() {
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
     takeLatest(actionTypes.DISABLE_USER, withLoading(disableUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
-    takeLatest(actionTypes.UPDATE_CURRENT_ORGANIZATION_ID, withLoading(updateCurrentOrganizationId)),
     takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),
   ]);
 }

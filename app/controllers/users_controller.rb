@@ -42,17 +42,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def update_current_organization_id
-    @user = User.find(params[:id])
-    forbidden and return unless valid_permission?(@user.organization.id)
-
-    if @user.update(current_organization_id: params['user'][:organization_id])
-      render action: :create, status: :ok
-    else
-      unprocessable_entity_with_errors(@user.errors.full_messages)
-    end
-  end
-
   def resend
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
@@ -92,7 +81,7 @@ class UsersController < ApplicationController
   end
 
   def update_user_params
-    params.require(:user).permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :current_organization_id, :admin)
+    params.require(:user).permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :admin)
   end
 
   def password_params

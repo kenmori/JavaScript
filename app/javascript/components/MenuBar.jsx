@@ -16,37 +16,6 @@ class MenuBar extends PureComponent {
 
   handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId)
 
-  handleChangeOrganization = (event, { value }) => {
-    this.props.changeCurrentOrganizationId(this.props.loginUser.get('id'), value);
-  }
-
-  organizationTag(props = this.props) {
-    if(!props.organizations || props.organizations.size === 1) return null
-
-    function options(organizations) {
-      return organizations.map(item => (
-        {
-          key: item.get('id'),
-          value: item.get('id'),
-          text: item.get('name'),
-        }
-      )).toArray();
-    }
-
-    return (
-      <Menu.Item fitted="horizontally">
-        <Dropdown
-          scrolling
-          pointing='top'
-          options={options(props.organizations)}
-          defaultValue={props.organization.get('id')}
-          onChange={this.handleChangeOrganization}
-          selectOnNavigation={false}
-        />
-      </Menu.Item>
-    )
-  }
-
   render() {
     return (
       <Menu secondary className='menu-bar'>
@@ -59,7 +28,6 @@ class MenuBar extends PureComponent {
         <Menu.Item className="menu-item__okr" onClick={this.handleOrganizationOkrClick}>
           <Icon name="building" size='large' fitted />組織 OKR
         </Menu.Item>
-        {this.organizationTag()}
         <Menu.Item fitted="horizontally">
           <OkrPeriodSelect
             okrPeriods={this.props.okrPeriods}
@@ -93,14 +61,12 @@ MenuBar.propTypes = {
   ownerId: PropTypes.number.isRequired,
   okrPeriodId: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
-  organizations: ImmutablePropTypes.list.isRequired,
   okrPeriods: ImmutablePropTypes.list.isRequired,
   users: ImmutablePropTypes.list.isRequired,
   organization: ImmutablePropTypes.map.isRequired,
   loginUser: ImmutablePropTypes.map.isRequired,
   selectUser: PropTypes.func.isRequired,
   selectOkrPeriod: PropTypes.func.isRequired,
-  changeCurrentOrganizationId: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
   // component
 };

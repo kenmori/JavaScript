@@ -9,8 +9,6 @@ const actions = createActions({
   [actionTypes.DISABLE_USER]: (id, toDisable) => ({ id, toDisable }),
   [actionTypes.DISABLED_USER]: user => ({ user }),
   [actionTypes.UPDATE_PASSWORD]: user => ({ user }),
-  [actionTypes.UPDATE_CURRENT_ORGANIZATION_ID]: user => ({ user }),
-  [actionTypes.UPDATED_CURRENT_ORGANIZATION_ID]: user => ({ user }),
   [actionTypes.RESEND_EMAIL]: id => ({ id }),
 });
 

@@ -15,8 +15,8 @@ class User < ApplicationRecord
   has_many :key_result_members, dependent: :destroy
   has_many :key_results, through: :key_result_members
   has_many :comments # destroy 時に何もしない
-  has_many :organization_members, dependent: :destroy
-  has_many :organizations, through: :organization_members
+  has_one :organization_member, dependent: :destroy
+  has_one :organization, through: :organization_member
   has_many :objective_orders, dependent: :destroy
   has_one :user_setting, dependent: :destroy
 
@@ -33,10 +33,6 @@ class User < ApplicationRecord
 
   after_create do
     create_user_setting!
-  end
-
-  def organization
-    organizations.find_by(id: current_organization_id) || organizations.first
   end
 
   def password_required?

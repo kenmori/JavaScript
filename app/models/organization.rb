@@ -25,7 +25,7 @@ class Organization < ApplicationRecord
     users = self.users.to_a # ActiveRecord::Relation のままだと yield 後に空配列になるため to_a する
     yield
     users.each do |user|
-      user.destroy! if user.organizations.empty? # 組織に所属していないユーザーは削除する
+      user.destroy! if user.organization.nil? # 組織に所属していないユーザーは削除する
     end
   end
 end
