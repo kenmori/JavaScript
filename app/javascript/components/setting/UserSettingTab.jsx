@@ -39,9 +39,9 @@ class UserSettingTab extends PureComponent {
           keyword={this.state.keyword}
         />
 
-        {disabledUsers.size > 0 && <Divider />}
+        {!disabledUsers.isEmpty() && <Divider />}
 
-        {disabledUsers.size > 0 && (
+        {!disabledUsers.isEmpty() && (
           this.state.showDisabledUsers ?
             <div>
               <h3>無効なユーザー</h3>

@@ -26,7 +26,7 @@ class OkrCard extends PureComponent {
   generateKeyResultList(objective) {
     const { selectedKeyResultId, highlightedKeyResultId, visibleKeyResultIds, unhighlightOkr } = this.props
     const keyResults = objective.get('keyResults')
-    const showToggle = keyResults.some(keyResult => keyResult.get('childObjectiveIds').size > 0)
+    const showToggle = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
     return (
       <Card.Content className="key-results">
         <List>
@@ -50,7 +50,7 @@ class OkrCard extends PureComponent {
                 {showToggle && (
                   <ToggleButton
                     on={isToggleOn}
-                    visible={keyResult.get('childObjectiveIds').size > 0}
+                    visible={!keyResult.get('childObjectiveIds').isEmpty()}
                     onClick={this.handleToggleClick(keyResult, isToggleOn)}
                   />
                 )}

@@ -17,7 +17,7 @@ const sizeToIconSize = {
 class OwnerAvatar extends PureComponent {
 
   trigger = () => {
-    const hasMembers = this.props.members && this.props.members.size > 0
+    const hasMembers = this.props.members && !this.props.members.isEmpty()
     return (
       <div className="owner_avatar">
         <Avatar user={this.props.owner} size={this.props.size} />
@@ -27,7 +27,7 @@ class OwnerAvatar extends PureComponent {
   }
 
   popupContent = () => {
-    const hasMembers = this.props.members && this.props.members.size > 0
+    const hasMembers = this.props.members && !this.props.members.isEmpty()
     return (
       <table className='owner_avatar__popup'>
         <tbody>
