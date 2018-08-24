@@ -23,11 +23,10 @@ class LogoModal extends PureComponent {
       <img src={this.state.base64data} width="300" /> :
       <span>Loading...</span>
   }
-  closeModal = () => {
-    this.setState({ base64data: null })
-    this.props.closeModal()
-  }
   componentWillReceiveProps(nextProps) {
+    if (this.props.isOpen && !nextProps.isOpen) {
+      this.setState({ base64data: null })
+    }
     nextProps.imageData && this.toBase64(nextProps.imageData)
   }
 
@@ -43,7 +42,7 @@ class LogoModal extends PureComponent {
       >
         <Modal.Content>{this.logoImage()}</Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.closeModal}>キャンセル</Button>
+          <Button onClick={this.props.closeModal}>キャンセル</Button>
           <Button positive onClick={this.handleClick}>OK</Button>
         </ Modal.Actions >
       </ Modal >
