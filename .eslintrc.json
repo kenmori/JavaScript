@@ -43,6 +43,8 @@
             "error",
             "always"
         ],
-        "react/jsx-no-bind": "error"
+        "react/no-string-refs": "warn",
+        "react/no-find-dom-node": "warn",
+        "react/jsx-no-bind": "warn"
     }
 }
