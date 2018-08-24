@@ -6,7 +6,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   storage :fog
 
   process :crop
-  process :resize_to_limit => [100, 100]
+  process :resize_to_limit => [128, 128]
 
   def crop
     manipulate! do |img|
