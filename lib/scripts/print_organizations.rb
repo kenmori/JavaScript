@@ -23,7 +23,7 @@ class PrintOrganizations
     index = 0
     Organization.all.each do |organization|
       index += 1
-      puts "#{index}. #{organization.name} (id=#{organization.id})"
+      puts "#{index}. #{organization.name} (id=#{organization.id}#{organization.disabled ?  ', disabled' : ''})"
 
       users = organization.users
       enabled_user_count = users.enabled.count
