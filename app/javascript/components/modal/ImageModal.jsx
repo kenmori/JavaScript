@@ -34,7 +34,7 @@ class ImageModal extends PureComponent {
       >
         <Modal.Content>
           {base64
-            ? <Image src={base64} size="medium" />
+            ? <Image src={base64} size="medium" centered />
             : <Loader className="image-modal__loader" active inline="centered" />
           }
         </Modal.Content>
