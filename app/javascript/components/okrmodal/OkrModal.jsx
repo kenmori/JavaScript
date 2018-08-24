@@ -47,19 +47,6 @@ class OkrModal extends PureComponent {
     })
 
     return users
-  }  
-
-  modalContentTag(objective, keyResultId) {
-    if(!keyResultId) {
-      const users = this.selectableObjectiveMembers(this.props.users, this.props.objective)
-      return <ObjectiveTab {...this.props} users={users} />
-    } else {
-      const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId)
-      if(!keyResult) {return null}
-      const users = this.selectableKeyResultMembers(this.props.users, keyResult)
-      const { isDirty } = this.state
-      return <KeyResultTab {...this.props} keyResult={keyResult} users={users} isDirty={isDirty} setDirty={this.setDirty} />
-    }
   }
 
   handleClose = () => {
@@ -88,12 +75,14 @@ class OkrModal extends PureComponent {
     const name = keyResult ? keyResult.get('name') : objective.get('name')
     return (
       <DocumentTitle title={`${name} - Resily`}>
-        {this.renderBody(objective)}
+        {this.renderBody(objective, keyResult)}
       </DocumentTitle>
     )
   }
 
-  renderBody(objective) {
+  renderBody(objective, keyResult) {
+    const { keyResultId, users } = this.props
+    const { isDirty } = this.state
     return (
       <Modal
         closeIcon 
@@ -107,13 +96,28 @@ class OkrModal extends PureComponent {
             <OkrSidebar 
               objective={objective}
               keyResultOrder={objective.get('keyResultIds')}
-              keyResultId={this.props.keyResultId} 
+              keyResultId={keyResultId}
               openKeyResultModal={this.props.openKeyResultModal}
               updateKeyResultOrder={this.props.updateKeyResultOrder}
               canMoveKeyResult={this.props.isObjectiveOwner}
             />
             <div className="okr-main">
-              {this.modalContentTag(objective, this.props.keyResultId)}
+              {keyResult
+                ? (
+                  <KeyResultTab
+                    {...this.props}
+                    keyResult={keyResult}
+                    users={this.selectableKeyResultMembers(users, keyResult)}
+                    isDirty={isDirty}
+                    setDirty={this.setDirty}
+                  />
+                ) : (
+                  <ObjectiveTab
+                    {...this.props}
+                    users={this.selectableObjectiveMembers(users, objective)}
+                  />
+                )
+              }
             </div>
           </div>
         </Modal.Content>
