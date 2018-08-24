@@ -7,7 +7,7 @@ import { Segment, Button, Header, Divider } from 'semantic-ui-react'
 import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import OkrName from '../util/OkrName'
-import KeyResult from './KeyResult'
+import KeyResultItem from './KeyResultItem'
 
 class OkrSidebar extends PureComponent {
   constructor(props) {
@@ -75,7 +75,7 @@ class OkrSidebar extends PureComponent {
           {(showDisabledOkrs ? objective.get('keyResults') : objective.get('enabledKeyResults'))
             .sortBy(keyResult => keyResultOrder.indexOf(keyResult.get('id')))
             .map((keyResult, index) => (
-              <KeyResult
+              <KeyResultItem
                 key={keyResult.get('id')}
                 index={index}
                 isSelected={keyResult.get('id') === keyResultId}

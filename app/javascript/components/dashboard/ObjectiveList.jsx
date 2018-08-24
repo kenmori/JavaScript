@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Backend from '../../utils/backend'
-import Objective from './Objective'
+import ObjectiveItem from './ObjectiveItem'
 
 class ObjectiveList extends PureComponent {
   constructor(props) {
@@ -50,18 +50,18 @@ class ObjectiveList extends PureComponent {
       <div className='objective-list'>
         {objectives
           .sortBy(objective => objectiveOrder.indexOf(objective.get('id')))
-          .map((objective, index) => {
-            const objectiveId = objective.get('id')
-            return <Objective
-              key={objectiveId}
+          .map((objective, index) => (
+            <ObjectiveItem
+              key={objective.get('id')}
               index={index}
               objective={objective}
-              isSelected={objectiveId === selectedObjectiveId}
+              isSelected={objective.get('id') === selectedObjectiveId}
               moveObjective={this.moveObjective}
               updateObjectiveOrder={this.updateObjectiveOrder}
               canMoveObjective={canMoveObjective}
-              selectObjective={this.selectObjective} />
-          })}
+              selectObjective={this.selectObjective}
+            />
+          ))}
       </div>
     )
   }

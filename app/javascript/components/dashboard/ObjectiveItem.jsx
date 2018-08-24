@@ -50,7 +50,7 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-class Objective extends PureComponent {
+class ObjectiveItem extends PureComponent {
   swapObjective = toLeft => event => {
     const fromIndex = this.props.index
     const toIndex = toLeft ? fromIndex - 1 : fromIndex + 1
@@ -109,7 +109,7 @@ class Objective extends PureComponent {
   }
 }
 
-Objective.propTypes = {
+ObjectiveItem.propTypes = {
   // container
   // component
   index: PropTypes.number.isRequired,
@@ -126,4 +126,4 @@ Objective.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 }
 
-export default DropTarget('box', boxTarget, collectTarget)(DragSource('box', boxSource, collectSource)(Objective))
+export default DropTarget('box', boxTarget, collectTarget)(DragSource('box', boxSource, collectSource)(ObjectiveItem))
