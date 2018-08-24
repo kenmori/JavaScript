@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SignUpPage from '../components/signin/SignUpPage';
-import organizationActions from '../actions/organizations';
+import organizationActions from '../actions/organization';
 import queryString from 'query-string'
 
 const isValidToken = token => {
@@ -12,7 +12,7 @@ const mapStateToProps = (state, { location }) => {
   const query = queryString.parse(location.search)
   return {
     hasValidToken: isValidToken(query.registration_token),
-    isCompleted: state.organizations.get('isCompleted'),
+    isCompleted: state.organization.get('isCompleted'),
   };
 };
 

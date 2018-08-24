@@ -1,13 +1,13 @@
 class Organization < ApplicationRecord
 
-  around_destroy :destroy_orphaned_user # 関連付けの `dependent: :destroy` より先に定義する
+  before_destroy :destroy_users # 関連付けの `dependent: :destroy` より先に定義する
 
   validates :name, presence: true
 
   has_many :groups, dependent: :destroy
   has_many :organization_members, dependent: :destroy
   has_many :users, through: :organization_members
-  has_many :okr_periods, -> { order(:month_start) }, dependent: :destroy
+  has_many :okr_periods, -> { order(:start_date) }, dependent: :destroy
 
   mount_uploader :logo, LogoUploader
 
@@ -19,13 +19,15 @@ class Organization < ApplicationRecord
     self.okr_periods.current.first || okr_periods.last
   end
 
+  def disabled
+    !!disabled_at
+  end
+
   private
 
-  def destroy_orphaned_user
-    users = self.users.to_a # ActiveRecord::Relation のままだと yield 後に空配列になるため to_a する
-    yield
+  def destroy_users
     users.each do |user|
-      user.destroy! if user.organizations.empty? # 組織に所属していないユーザーは削除する
+      user.destroy!
     end
   end
 end

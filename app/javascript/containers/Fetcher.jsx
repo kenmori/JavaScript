@@ -1,6 +1,6 @@
 import Fetcher from '../components/Fetcher'
 import { connect } from 'react-redux'
-import organizationActions from '../actions/organizations'
+import organizationActions from '../actions/organization'
 import objectiveActions from '../actions/objectives'
 import currentActions from '../actions/current'
 import dialogActions from '../actions/dialogs'
@@ -8,10 +8,10 @@ import { getOkrId } from '../utils/linker'
 
 const mapStateToProps = state => {
   return {
-    organizationId: state.organizations.get('selected').get('id'),
+    organizationId: state.organization.get('current').get('id'),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
-    isFetchedOrganization: state.organizations.get('isFetched'),
+    isFetchedOrganization: state.organization.get('isFetched'),
     isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
   }
 }

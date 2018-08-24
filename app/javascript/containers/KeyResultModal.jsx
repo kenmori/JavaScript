@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
     isOpen: state.dialogs.getIn(['keyResultForm', 'isOpen']),
     objective: state.dialogs.getIn(['keyResultForm', 'objective']),
     users: getEnabledUsers(state),
-    initialExpiredDate: currentOkrPeriod && currentOkrPeriod.get('monthEnd'),
+    initialExpiredDate: currentOkrPeriod && currentOkrPeriod.get('endDate'),
   };
 };
 

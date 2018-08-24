@@ -2,7 +2,7 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 import call from '../utils/call';
 import API from '../utils/api';
 import withLoading from '../utils/withLoading';
-import organizationActions from '../actions/organizations';
+import organizationActions from '../actions/organization';
 import actionTypes from '../constants/actionTypes';
 import toastActions from '../actions/toasts';
 import dialogActions from '../actions/dialogs'

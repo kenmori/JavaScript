@@ -3,7 +3,6 @@ class HomeController < ApplicationController
 
   def index
     gon.login_user = current_user
-    gon.organizations = current_user.organizations
     gon.organization = current_organization
     gon.owner_id = current_organization.owner&.id
     gon.okr_period = current_organization.current_okr_period

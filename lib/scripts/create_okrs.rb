@@ -84,7 +84,7 @@ class CreateOkrs
             user.key_results.create!(
                 name: "KR#{j + 1} (#{objective.name})",
                 objective_id: objective.id,
-                expired_date: okr_period.month_end,
+                expired_date: okr_period.end_date,
             )
           end
         end

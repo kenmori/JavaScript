@@ -1,4 +1,4 @@
-class DeleteAccountPermanently
+class DisableOrganization
   def self.execute
     puts ''
     Organization.all.each do |organization|
@@ -6,7 +6,7 @@ class DeleteAccountPermanently
     end
     puts ''
 
-    puts 'Enter the ID of the organization you want to delete permanently.'
+    puts 'Enter the ID of the organization to disable or enable.'
     print 'ID: '
     organization_id = gets.chomp!
     organization = Organization.find_by(id: organization_id)
@@ -16,7 +16,8 @@ class DeleteAccountPermanently
     end
 
     organization_name = "'#{organization.name}'"
-    print "Do you want to delete #{organization_name} permanently (YES/no)? "
+    disabled = organization.disabled
+    print "Do you want to #{disabled ? 'enable' : 'disable'} #{organization_name} (YES/no)? "
     while true do
       case gets.chomp!
         when 'YES'
@@ -31,16 +32,16 @@ class DeleteAccountPermanently
 
     begin
       ActiveRecord::Base.transaction do
-        # Organization (OkrPeriod, Objective, KeyResult, Comment, Group, User, ObjectiveOrder)
-        organization.destroy!
+        organization.disabled_at = disabled ? nil : Time.current
+        organization.save!
       end
     rescue => e
       puts "Error: #{e.message}"
       return 1
     end
 
-    puts "All data of #{organization_name} has been deleted successfully."
+    puts "#{organization_name} has been #{disabled ? 'enabled' : 'disabled'} successfully."
   end
 end
 
-DeleteAccountPermanently.execute
+DisableOrganization.execute

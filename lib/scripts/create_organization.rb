@@ -1,4 +1,4 @@
-class CreateAccount
+class CreateOrganization
   def self.execute
     print 'Organization Name: '
     organization_name = gets.chomp!
@@ -6,20 +6,20 @@ class CreateAccount
     user_name = gets.chomp!
     print 'Email: '
     email = gets.chomp!
-    print 'Month to Start [yyyy-MM-dd]: '
-    month_start = gets.chomp!
+    print 'Start Date [yyyy-MM-dd]: '
+    start_date = gets.chomp!
 
     last_name = user_name.split[0]
     first_name = user_name.split[1]
     password = SecureRandom.hex(4)
-    month_end = Date.parse(month_start).months_since(3).yesterday.strftime('%Y-%m-%d')
+    end_date = Date.parse(start_date).months_since(3).yesterday.strftime('%Y-%m-%d')
 
     puts ''
     puts "Organization: #{organization_name}"
     puts "User Name: #{last_name} #{first_name}"
     puts "Email: #{email}"
     puts "Password: #{password}"
-    puts "OKR Period: #{month_start} - #{month_end}"
+    puts "OKR Period: #{start_date} - #{end_date}"
     puts ''
 
     print 'Do you want to create the above account? [YES/no] '
@@ -49,8 +49,8 @@ class CreateAccount
             confirmed_at: Time.current,
         )
         organization.okr_periods.create!(
-            month_start: month_start,
-            month_end: month_end,
+            start_date: start_date,
+            end_date: end_date,
         )
       end
     rescue => e
@@ -62,4 +62,4 @@ class CreateAccount
   end
 end
 
-CreateAccount.execute
+CreateOrganization.execute

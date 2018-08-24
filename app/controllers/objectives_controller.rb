@@ -55,7 +55,7 @@ class ObjectivesController < ApplicationController
       update_parent_key_result if params[:objective][:parent_key_result_id]
 
       # KR をコピー
-      expired_date = @objective.okr_period.month_end
+      expired_date = @objective.okr_period.end_date
       original_objective.sorted_key_results.each do |original_key_result|
         key_result = @objective.key_results.create!(
             name: original_key_result.name,

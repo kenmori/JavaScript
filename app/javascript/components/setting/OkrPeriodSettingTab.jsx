@@ -12,15 +12,15 @@ class OkrPeriodSettingTab extends SortableComponent {
 
   handleNameCommit = id => name => this.props.updateOkrPeriod({ id, name })
 
-  handleMonthStartChange = id => date => {
+  handleStartDateChange = id => date => {
     if (date) {
-      this.props.updateOkrPeriod({ id, monthStart: date.format('YYYY-MM-DD') })
+      this.props.updateOkrPeriod({ id, startDate: date.format('YYYY-MM-DD') })
     }
   }
 
-  handleMonthEndChange = id => date => {
+  handleEndDateChange = id => date => {
     if (date) {
-      this.props.updateOkrPeriod({ id, monthEnd: date.format('YYYY-MM-DD') })
+      this.props.updateOkrPeriod({ id, endDate: date.format('YYYY-MM-DD') })
     }
   }
 
@@ -46,7 +46,7 @@ class OkrPeriodSettingTab extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('name')} onClick={this.handleSort('name')}>
                 名前
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={this.isSorted('monthStart')} onClick={this.handleSort('monthStart')}>
+              <Table.HeaderCell sorted={this.isSorted('startDate')} onClick={this.handleSort('startDate')}>
                 期間 (開始日 〜 終了日)
               </Table.HeaderCell>
               <Table.HeaderCell disabled/>
@@ -57,8 +57,8 @@ class OkrPeriodSettingTab extends SortableComponent {
               okrPeriods.map(okrPeriod => {
                 const id = okrPeriod.get('id');
                 const name = okrPeriod.get('name');
-                const monthStart = okrPeriod.get('monthStart');
-                const monthEnd = okrPeriod.get('monthEnd');
+                const startDate = okrPeriod.get('startDate');
+                const endDate = okrPeriod.get('endDate');
                 const disabled = id === okrPeriodId
                 return (
                   <Table.Row key={id}>
@@ -66,9 +66,9 @@ class OkrPeriodSettingTab extends SortableComponent {
                       <AutoInput value={name} onCommit={this.handleNameCommit(id)}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthStart)} onChange={this.handleMonthStartChange(id)} />
+                      <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(startDate)} onChange={this.handleStartDateChange(id)} />
                       <span className='between'>〜</span>
-                      <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(monthEnd)} onChange={this.handleMonthEndChange(id)} />
+                      <DatePicker dateFormat="YYYY/M/D" locale="ja" selected={moment(endDate)} onChange={this.handleEndDateChange(id)} />
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button icon="trash" onClick={this.handleRemoveClick(id, name)} content="削除する" negative disabled={disabled} />

@@ -9,56 +9,56 @@ class OkrPeriodAddForm extends PureComponent {
 
   constructor(props) {
     super(props)
-    const monthStart = this.calcMonthStart(props.okrPeriods)
-    const monthEnd = this.calcMonthEnd(monthStart)
-    this.state = { name: '', monthStart, monthEnd }
+    const startDate = this.calcStartDate(props.okrPeriods)
+    const endDate = this.calcEndDate(startDate)
+    this.state = { name: '', startDate, endDate }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.okrPeriods !== nextProps.okrPeriods) {
-      const monthStart = this.calcMonthStart(nextProps.okrPeriods)
-      const monthEnd = this.calcMonthEnd(monthStart)
-      this.setState({ monthStart, monthEnd })
+      const startDate = this.calcStartDate(nextProps.okrPeriods)
+      const endDate = this.calcEndDate(startDate)
+      this.setState({ startDate, endDate })
     }
   }
 
-  calcMonthStart(okrPeriods) {
-    const endDate = okrPeriods.map(okrPeriod => okrPeriod.get('monthEnd')).sort().last()
+  calcStartDate(okrPeriods) {
+    const endDate = okrPeriods.map(okrPeriod => okrPeriod.get('endDate')).sort().last()
     return moment(endDate).add(1, 'day')
   }
 
-  calcMonthEnd(monthStart) {
-    return monthStart.clone().add(this.props.okrSpan, 'month').subtract(1, 'day')
+  calcEndDate(startDate) {
+    return startDate.clone().add(this.props.okrSpan, 'month').subtract(1, 'day')
   }
 
   handleNameChange = (e, { value }) => this.setState({ name: value })
 
-  handleMonthStartChange = date => {
-    if (date) {
-      this.setState({ monthStart: date })
+  handleStartDateChange = startDate => {
+    if (startDate) {
+      this.setState({ startDate })
     }
   }
 
-  handleMonthEndChange = date => {
-    if (date) {
-      this.setState({ monthEnd: date })
+  handleEndDateChange = endDate => {
+    if (endDate) {
+      this.setState({ endDate })
     }
   }
 
   handleAddClick = () => {
     const { organizationId } = this.props
-    const { name, monthStart, monthEnd } = this.state
+    const { name, startDate, endDate } = this.state
     this.props.addOkrPeriod({
       name,
-      monthStart: monthStart.format('YYYY-MM-DD'),
-      monthEnd: monthEnd.format('YYYY-MM-DD'),
+      startDate: startDate.format('YYYY-MM-DD'),
+      endDate: endDate.format('YYYY-MM-DD'),
       organizationId,
     })
     this.setState({ name: '' })
   }
 
   render() {
-    const { name, monthStart, monthEnd } = this.state
+    const { name, startDate, endDate } = this.state
     return (
       <Form className="okr-period-add-form">
         <Form.Input
@@ -74,16 +74,16 @@ class OkrPeriodAddForm extends PureComponent {
           <label>期間</label>
           <DatePicker
             dateFormat="YYYY/M/D"
-            selected={monthStart}
+            selected={startDate}
             locale="ja"
-            onChange={this.handleMonthStartChange}
+            onChange={this.handleStartDateChange}
           />
           <span className='between'>〜</span>
           <DatePicker
             dateFormat="YYYY/M/D"
-            selected={monthEnd}
+            selected={endDate}
             locale="ja"
-            onChange={this.handleMonthEndChange}
+            onChange={this.handleEndDateChange}
           />
         </Form.Group>
 

@@ -41,8 +41,8 @@ class SignUpPage extends PureComponent {
       password: this.state.password,
       admin: true,
     }, {
-      monthStart: this.state.startDate.format('YYYY-MM-DD'),
-      monthEnd: this.state.endDate.format('YYYY-MM-DD'),
+      startDate: this.state.startDate.format('YYYY-MM-DD'),
+      endDate: this.state.endDate.format('YYYY-MM-DD'),
     })
   }
 

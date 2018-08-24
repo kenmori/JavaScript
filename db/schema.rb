@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180731083205) do
+ActiveRecord::Schema.define(version: 20180823064438) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -103,8 +103,8 @@ ActiveRecord::Schema.define(version: 20180731083205) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
-    t.date "month_start", null: false
-    t.date "month_end", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
     t.string "name"
     t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
   end
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20180731083205) do
     t.string "name", null: false
     t.string "logo"
     t.integer "okr_span", default: 3, null: false
+    t.datetime "disabled_at"
   end
 
   create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -161,7 +162,6 @@ ActiveRecord::Schema.define(version: 20180731083205) do
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
     t.string "avatar"
-    t.integer "current_organization_id"
     t.datetime "disabled_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

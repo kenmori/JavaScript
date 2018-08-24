@@ -1,13 +1,13 @@
 import LogoModal from '../components/modal/LogoModal';
 import { connect } from 'react-redux';
 import dialogActions from '../actions/dialogs';
-import organizationActions from '../actions/organizations';
+import organizationActions from '../actions/organization';
 
 const mapStateToProps = (state) => {
   return {
     isOpen: state.dialogs.getIn(['logoImage', 'isOpen']),
     imageData: state.dialogs.getIn(['logoImage', 'imageData']),
-    targetId: state.organizations.get('selected').get('id'),
+    targetId: state.organization.get('current').get('id'),
   };
 };
 
