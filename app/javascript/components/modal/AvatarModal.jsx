@@ -24,7 +24,7 @@ class AvatarModal extends PureComponent {
       <span>Loading...</span>
   }
   closeModal = () => {
-    this.state.base64data = null
+    this.setState({ base64data: null })
     this.props.closeModal()
   }
   componentWillReceiveProps(nextProps) {
