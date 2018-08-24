@@ -19,7 +19,12 @@ class RenderField extends PureComponent {
 }
 
 RenderField.propTypes = {
+  // container
+  // component
   placeholder: PropTypes.string,
+  // Redux Form
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
 }
 
 export default RenderField

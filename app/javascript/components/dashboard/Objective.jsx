@@ -119,6 +119,9 @@ Objective.propTypes = {
   canMoveObjective: PropTypes.bool.isRequired,
   moveObjective: PropTypes.func.isRequired,
   updateObjectiveOrder: PropTypes.func.isRequired,
+  // React DnD
+  isDragging: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 }

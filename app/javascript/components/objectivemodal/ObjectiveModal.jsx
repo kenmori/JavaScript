@@ -186,6 +186,11 @@ ObjectiveModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
+  // Redux Form
+  dirty: PropTypes.bool.isRequired,
+  initialize: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 }
 
 export default reduxForm({

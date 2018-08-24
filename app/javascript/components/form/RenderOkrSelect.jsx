@@ -50,6 +50,9 @@ RenderOkrSelect.propTypes = {
   withNone: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
+  // Redux Form
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
 }
 
 RenderOkrSelect.defaultProps = {

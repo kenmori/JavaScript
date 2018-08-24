@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Label } from 'semantic-ui-react'
 import DatePicker from './DatePicker'
@@ -31,6 +32,12 @@ class RenderDateField extends PureComponent {
   }
 }
 
-RenderDateField.propTypes = {}
+RenderDateField.propTypes = {
+  // container
+  // component
+  // Redux Form
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
+}
 
 export default RenderDateField
