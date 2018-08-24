@@ -16,7 +16,7 @@ class OrganizationSettingTab extends PureComponent {
 
   changeLogoImage = (event) => {
     if (!event.target.files.length) { return }
-    this.props.openLogoModal(this.props.organization.get('id'), event.target.files[0])
+    this.props.openImageModal(this.props.organization.get('id'), event.target.files[0])
     event.target.value = null
   }
 
@@ -98,7 +98,7 @@ OrganizationSettingTab.propTypes = {
   okrPeriods: ImmutablePropTypes.list.isRequired,
   okrPeriodId: PropTypes.number.isRequired,
   updateOrganization: PropTypes.func.isRequired,
-  openLogoModal: PropTypes.func.isRequired,
+  openImageModal: PropTypes.func.isRequired,
   deleteLogo: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component

@@ -20,8 +20,8 @@ const mapDispatchToProps = dispatch => {
     updatePassword: user => {
       dispatch(userActions.updatePassword(user))
     },
-    openAvatarModal: (targetId, imageData) => {
-      dispatch(dialogActions.openAvatarModal(targetId, imageData))
+    openImageModal: (id, data) => {
+      dispatch(dialogActions.openImageModal(id, data))
     },
     deleteAvatar: id => {
       dispatch(userActions.updateUser({id, removeAvatar: true}))

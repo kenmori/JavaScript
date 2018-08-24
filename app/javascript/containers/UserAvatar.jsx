@@ -8,8 +8,8 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openAvatarModal: (targetId, imageData) => {
-      dispatch(dialogActions.openAvatarModal(targetId, imageData))
+    openImageModal: (id, data) => {
+      dispatch(dialogActions.openImageModal(id, data))
     },
   }
 }

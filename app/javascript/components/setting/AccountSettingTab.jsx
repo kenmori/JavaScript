@@ -40,7 +40,7 @@ class AccountSettingTab extends PureComponent {
 
   changeAvatarImage = (event) => {
     if (!event.target.files.length) { return }
-    this.props.openAvatarModal(this.props.loginUser.get('id'), event.target.files[0])
+    this.props.openImageModal(this.props.loginUser.get('id'), event.target.files[0])
     event.target.value = null
   }
 
@@ -97,7 +97,7 @@ AccountSettingTab.propTypes = {
   updateUser: PropTypes.func.isRequired,
   updateEmail: PropTypes.func.isRequired,
   updatePassword: PropTypes.func.isRequired,
-  openAvatarModal: PropTypes.func.isRequired,
+  openImageModal: PropTypes.func.isRequired,
   deleteAvatar: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component

@@ -23,9 +23,9 @@ class UserAvatar extends PureComponent {
     }
   }
 
-  openAvatarModal = event => {
+  openImageModal = event => {
     if (!event.target.files.length) return
-    this.props.openAvatarModal(this.props.user.get('id'), event.target.files[0])
+    this.props.openImageModal(this.props.user.get('id'), event.target.files[0])
     event.target.value = null
   }
 
@@ -33,7 +33,7 @@ class UserAvatar extends PureComponent {
     return (
       <div className={`user_avatar ${this.props.editable ? 'editable' : ''}`} onClick={this.clickFileInput}>
         <Avatar {...this.props} />
-        <input type='file' ref='fileInput' onChange={this.openAvatarModal} />
+        <input type='file' ref='fileInput' onChange={this.openImageModal} />
         {this.props.editable && <Icon name='pencil' size={sizeToIconSize[this.props.size]} color='grey' />}
       </div>
     )
@@ -54,7 +54,7 @@ class UserAvatar extends PureComponent {
 
 UserAvatar.propTypes = {
   // container
-  openAvatarModal: PropTypes.func.isRequired,
+  openImageModal: PropTypes.func.isRequired,
   // component
   user: ImmutablePropTypes.map.isRequired,
   size: PropTypes.string,

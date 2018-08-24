@@ -7,8 +7,7 @@ import AccountSettingTab from '../../containers/AccountSettingTab'
 import UserSettingTab from '../../containers/UserSettingTab'
 import OrganizationSettingTab from '../../containers/OrganizationSettingTab'
 import OkrPeriodSettingTab from '../../containers/OkrPeriodSettingTab'
-import AvatarModal from '../../containers/AvatarModal'
-import LogoModal from '../../containers/LogoModal'
+import ImageModal from '../../containers/ImageModal'
 
 class SettingsPage extends PureComponent {
   constructor(props) {
@@ -47,8 +46,7 @@ class SettingsPage extends PureComponent {
         <main>
           <Tab activeIndex={activeIndex} panes={this.panes} className='setting-tabs' onTabChange={this.handleTabChange}/>
         </main>
-        <AvatarModal/>
-        <LogoModal/>
+        <ImageModal />
       </div>
     )
   }
