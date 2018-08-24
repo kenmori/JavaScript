@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Modal, Image, Loader } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 class ImageModal extends PureComponent {
@@ -26,6 +26,7 @@ class ImageModal extends PureComponent {
     const { base64 } = this.state
     return (
       <Modal
+        className="image-modal"
         closeIcon
         open={isOpen}
         size="mini"
@@ -33,8 +34,8 @@ class ImageModal extends PureComponent {
       >
         <Modal.Content>
           {base64
-            ? <img src={base64} width="300" />
-            : <span>Loading...</span>
+            ? <Image src={base64} size="medium" />
+            : <Loader className="image-modal__loader" active inline="centered" />
           }
         </Modal.Content>
         <Modal.Actions>
