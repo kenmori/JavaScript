@@ -3,49 +3,45 @@ import { Button, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 class ImageModal extends PureComponent {
+
   constructor() {
     super()
-    this.state = {
-      base64data: null
-    }
+    this.state = { base64: null }
   }
-  toBase64(file) {
-    const reader = new FileReader()
-    reader.onload = (data) => {
-      this.setState({
-        base64data: data.target.result
-      })
-    }
-    reader.readAsDataURL(file)
-  }
-  image() {
-    return this.state.base64data ?
-      <img src={this.state.base64data} width="300" /> :
-      <span>Loading...</span>
-  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.isOpen && !nextProps.isOpen) {
-      this.setState({ base64data: null })
+      this.setState({ base64: null })
+    } else if (nextProps.data) {
+      const reader = new FileReader()
+      reader.onload = data => this.setState({ base64: data.target.result })
+      reader.readAsDataURL(nextProps.data)
     }
-    nextProps.data && this.toBase64(nextProps.data)
   }
 
   handleClick = () => this.props.updateImage(this.props.id, this.props.data, this.props.isAvatar)
 
   render() {
+    const { isOpen, closeModal } = this.props
+    const { base64 } = this.state
     return (
       <Modal
-        closeIcon 
-        open={this.props.isOpen} 
+        closeIcon
+        open={isOpen}
         size="mini"
-        onClose={this.props.closeModal}
+        onClose={closeModal}
       >
-        <Modal.Content>{this.image()}</Modal.Content>
+        <Modal.Content>
+          {base64
+            ? <img src={base64} width="300" />
+            : <span>Loading...</span>
+          }
+        </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.props.closeModal}>キャンセル</Button>
+          <Button onClick={closeModal}>キャンセル</Button>
           <Button positive onClick={this.handleClick}>OK</Button>
-        </ Modal.Actions >
-      </ Modal >
+        </Modal.Actions>
+      </Modal>
     )
   }
 }
