@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import remark from 'remark';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import remark from 'remark'
 import reactRemark from 'remark-react'
 import emoji from 'remark-emoji'
 import breaks from 'remark-breaks'
@@ -42,7 +42,11 @@ class Markdown extends PureComponent {
 }
 
 Markdown.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
+}
+
+Markdown.defaultProps = {
+  text: '',
 }
 
 export default Markdown

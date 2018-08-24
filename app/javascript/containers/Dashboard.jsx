@@ -1,7 +1,7 @@
-import Dashboard from '../components/dashboard/Dashboard';
-import { connect } from 'react-redux';
+import Dashboard from '../components/dashboard/Dashboard'
+import { connect } from 'react-redux'
 import { List } from 'immutable'
-import dialogActions from '../actions/dialogs';
+import dialogActions from '../actions/dialogs'
 import currentActions from '../actions/current'
 import { getMyObjectives, getMyKeyResults, getTaskKeyResults } from '../utils/selector'
 
@@ -12,13 +12,13 @@ const mapStateToProps = state => {
     keyResults: getMyKeyResults(state),
     taskKeyResults: isLoginUser ? getTaskKeyResults(state) : List(),
     selectedTab: state.current.get('selectedTab'),
-  };
-};
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     openObjectiveModal: () => {
-      dispatch(dialogActions.openObjectiveModal());
+      dispatch(dialogActions.openObjectiveModal())
     },
     openOptionModal: () => {
       dispatch(dialogActions.openOptionModal())
@@ -26,10 +26,10 @@ const mapDispatchToProps = dispatch => {
     selectTab: type => {
       dispatch(currentActions.selectTab(type))
     }
-  };
-};
+  }
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(Dashboard)

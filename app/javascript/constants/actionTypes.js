@@ -111,5 +111,5 @@ const actionTypes = {
   SCROLL_TO_OBJECTIVE: 'SCROLL_TO_OBJECTIVE',
   SHOW_TOAST: 'SHOW_TOAST',
   CLEAR_TOAST: 'CLEAR_TOAST',
-};
-export default actionTypes;
+}
+export default actionTypes

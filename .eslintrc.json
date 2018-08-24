@@ -2,7 +2,8 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "node": true
     },
     "extends": [
         "eslint:recommended",
@@ -38,6 +39,12 @@
             "error",
             "never"
         ],
-        "react/jsx-no-bind": "error"
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "react/no-string-refs": "warn",
+        "react/no-find-dom-node": "warn",
+        "react/jsx-no-bind": "warn"
     }
 }

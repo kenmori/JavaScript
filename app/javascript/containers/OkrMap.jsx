@@ -1,5 +1,5 @@
-import OkrMap from '../components/map/OkrMap';
-import { connect } from 'react-redux';
+import OkrMap from '../components/map/OkrMap'
+import { connect } from 'react-redux'
 import { getMapObjective } from '../utils/selector'
 
 const mapStateToProps = state => {
@@ -8,13 +8,13 @@ const mapStateToProps = state => {
     mapOkr: state.current.get('mapOkr'),
     scrollToObjectiveId: state.current.get('scrollToObjectiveId'),
   }
-};
+}
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {}
-};
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OkrMap);
+)(OkrMap)

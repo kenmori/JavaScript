@@ -1,18 +1,18 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import Backend from '../../utils/backend';
-import Objective from './Objective';
+import Backend from '../../utils/backend'
+import Objective from './Objective'
 
 class ObjectiveList extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = { objectiveOrder: props.objectiveOrder }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.objectiveOrder.equals(this.props.objectiveOrder)) {
-      this.setState({ objectiveOrder: nextProps.objectiveOrder });
+      this.setState({ objectiveOrder: nextProps.objectiveOrder })
     }
   }
 
@@ -51,7 +51,7 @@ class ObjectiveList extends PureComponent {
         {objectives
           .sortBy(objective => objectiveOrder.indexOf(objective.get('id')))
           .map((objective, index) => {
-            const objectiveId = objective.get('id');
+            const objectiveId = objective.get('id')
             return <Objective
               key={objectiveId}
               index={index}
@@ -63,7 +63,7 @@ class ObjectiveList extends PureComponent {
               selectObjective={this.selectObjective} />
           })}
       </div>
-    );
+    )
   }
 }
 
@@ -76,6 +76,6 @@ ObjectiveList.propTypes = {
   updateObjectiveOrder: PropTypes.func.isRequired,
   // component
   objectives: ImmutablePropTypes.list.isRequired,
-};
+}
 
-export default Backend(ObjectiveList);
+export default Backend(ObjectiveList)

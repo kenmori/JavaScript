@@ -1,36 +1,36 @@
 .keyresult-modal {
-    .content {
-      display: block;
-    }
+  .content {
+    display: block;
+  }
 
-    .keyresult-modal__main {
-        width: 70%;
-        padding-left: 20px;
-        .field {
-            margin-bottom: 10px;
-        }
-    }
-    
-    .keyresult-modal__body {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .keyresult-modal__sidebar {
-        width: 30%;
-        .sidebar__name {
-            margin-left: .5rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .sidebar__desc {
-            margin-left: .5rem;
-        }
-        .sidebar__title {
-            font-weight: bold;
-            border-bottom: 1px solid $BORDER_COLOR;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-        }
+  .keyresult-modal__main {
+    width: 70%;
+    padding-left: 20px;
+    .field {
+      margin-bottom: 10px;
     }
   }
+
+  .keyresult-modal__body {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .keyresult-modal__sidebar {
+    width: 30%;
+    .sidebar__name {
+      margin-left: .5rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .sidebar__desc {
+      margin-left: .5rem;
+    }
+    .sidebar__title {
+      font-weight: bold;
+      border-bottom: 1px solid $BORDER_COLOR;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+    }
+  }
+}

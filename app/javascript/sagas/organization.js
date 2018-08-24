@@ -1,15 +1,15 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
-import call from '../utils/call';
-import API from '../utils/api';
-import withLoading from '../utils/withLoading';
-import organizationActions from '../actions/organization';
-import actionTypes from '../constants/actionTypes';
-import toastActions from '../actions/toasts';
+import { all, put, takeLatest } from 'redux-saga/effects'
+import call from '../utils/call'
+import API from '../utils/api'
+import withLoading from '../utils/withLoading'
+import organizationActions from '../actions/organization'
+import actionTypes from '../constants/actionTypes'
+import toastActions from '../actions/toasts'
 import dialogActions from '../actions/dialogs'
 
 function* fetchOrganization({ payload }) {
-  const result = yield call(API.get, '/organizations/' + payload.id);
-  yield put(organizationActions.fetchedOrganization(result.get('organization')));
+  const result = yield call(API.get, '/organizations/' + payload.id)
+  yield put(organizationActions.fetchedOrganization(result.get('organization')))
 }
 
 function* addOrganization({ payload: { organization, user, okrPeriod } }) {
@@ -18,8 +18,8 @@ function* addOrganization({ payload: { organization, user, okrPeriod } }) {
 }
 
 function* updateOrganization({ payload: { organization } }) {
-  const result = yield call(API.put, '/organizations/' + organization.id, { organization });
-  yield put(organizationActions.updatedOrganization(result.get('organization')));
+  const result = yield call(API.put, '/organizations/' + organization.id, { organization })
+  yield put(organizationActions.updatedOrganization(result.get('organization')))
 
   if (organization.logo || organization.removeLogo) {
     // ロゴ更新時はトーストを表示しない
@@ -44,5 +44,5 @@ export function* organizationSagas() {
     takeLatest(actionTypes.ADD_ORGANIZATION, withLoading(addOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION, withLoading(updateOrganization)),
     takeLatest(actionTypes.UPDATE_ORGANIZATION_OWNER, withLoading(updateOrganizationOwner)),
-  ]);
+  ])
 }

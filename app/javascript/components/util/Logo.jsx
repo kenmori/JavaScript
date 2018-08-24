@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import {Image} from 'semantic-ui-react';
-import logo_image from '../../images/logo.png';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import {Image} from 'semantic-ui-react'
+import logo_image from '../../images/logo.png'
 
 class Logo extends PureComponent {
   render() {
@@ -18,10 +18,10 @@ Logo.propTypes = {
   // component
   path: PropTypes.string,
   size: PropTypes.string,
-};
+}
 Logo.defaultProps = {
   path: null,
   size: 'small',
-};
+}
 
-export default Logo;
+export default Logo

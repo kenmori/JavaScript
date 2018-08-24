@@ -1,12 +1,11 @@
-import React, { PureComponent } from 'react';
-import { Map } from 'immutable';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Modal } from 'semantic-ui-react';
-import { openObjective, goToRoot } from "../../utils/linker";
-import OkrSidebar from './OkrSidebar';
-import ObjectiveTab from "./ObjectiveTab";
-import KeyResultTab from "./KeyResultTab";
+import { Modal } from 'semantic-ui-react'
+import { openObjective, goToRoot } from '../../utils/linker'
+import OkrSidebar from './OkrSidebar'
+import ObjectiveTab from './ObjectiveTab'
+import KeyResultTab from './KeyResultTab'
 
 class OkrModal extends PureComponent {
 
@@ -17,48 +16,48 @@ class OkrModal extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.removedObjectiveId === this.props.objectiveId) {
-      goToRoot();
+      goToRoot()
     } else if (nextProps.removedKeyResultId === this.props.keyResultId) {
-      openObjective(this.props.objectiveId);
+      openObjective(this.props.objectiveId)
     }
   }
 
   setDirty = isDirty => this.setState({ isDirty })
 
   isNotExistMember(users, targetUser) {
-    return !users.find(item => item.get('id') === targetUser.get('id'));
+    return !users.find(item => item.get('id') === targetUser.get('id'))
   }
 
   selectableObjectiveMembers(users, objective) {
     if (this.isNotExistMember(users, objective.get('owner'))) {
-      users = users.push(objective.get('owner'));
+      users = users.push(objective.get('owner'))
     }
-    return users;
+    return users
   } 
 
   selectableKeyResultMembers(users, keyResult) {
     if (this.isNotExistMember(users, keyResult.get('owner'))) {
-      users = users.push(keyResult.get('owner'));
+      users = users.push(keyResult.get('owner'))
     }
     keyResult.get('members').forEach((item) => {
       if (this.isNotExistMember(users, item)) {
-        users = users.push(item);
+        users = users.push(item)
       }
     })
 
-    return users;
+    return users
   }  
 
   modalContentTag(objective, keyResultId) {
     if(!keyResultId) {
-      const users = this.selectableObjectiveMembers(this.props.users, this.props.objective);
-      return <ObjectiveTab {...this.props} users={users} />;
+      const users = this.selectableObjectiveMembers(this.props.users, this.props.objective)
+      return <ObjectiveTab {...this.props} users={users} />
     } else {
-      const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId);
-      if(!keyResult) {return null;}
-      const users = this.selectableKeyResultMembers(this.props.users, keyResult);
+      const keyResult = objective.get('keyResults').find(item => item.get('id') === keyResultId)
+      if(!keyResult) {return null}
+      const users = this.selectableKeyResultMembers(this.props.users, keyResult)
       const { isDirty } = this.state
-      return <KeyResultTab {...this.props} keyResult={keyResult} users={users} isDirty={isDirty} setDirty={this.setDirty} />;
+      return <KeyResultTab {...this.props} keyResult={keyResult} users={users} isDirty={isDirty} setDirty={this.setDirty} />
     }
   }
 
@@ -77,13 +76,13 @@ class OkrModal extends PureComponent {
   }
 
   closeModal = () => {
-    goToRoot();
-    this.props.closeModal();
+    goToRoot()
+    this.props.closeModal()
   }
 
   render() {
-    const objective = this.props.objective;
-    if (!objective) return null;
+    const objective = this.props.objective
+    if (!objective) return null
     return (
       <Modal
         closeIcon 
@@ -108,7 +107,7 @@ class OkrModal extends PureComponent {
           </div>
         </Modal.Content>
       </Modal>
-    );
+    )
   }
 }
 
@@ -137,10 +136,6 @@ OkrModal.propTypes = {
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-};
+}
 
-OkrModal.defaultProps = {
-  objective: Map(),
-};
-
-export default OkrModal;
+export default OkrModal

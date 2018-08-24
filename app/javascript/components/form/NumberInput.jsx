@@ -1,43 +1,45 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Input } from 'semantic-ui-react';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { Input } from 'semantic-ui-react'
 
 class NumberInput extends PureComponent {
 
   handleChange = event => {
-    this.props.onChange(event.target.value);
+    this.props.onChange(event.target.value)
   }
 
   handleCommit = event => {
-    this.props.onCommit(event.target.value);
+    this.props.onCommit(event.target.value)
   }
 
   handleKeyPress = event => {
     if (event.key === 'Enter') {
-      this.handleCommit(event);
-      event.preventDefault();
+      this.handleCommit(event)
+      event.preventDefault()
     }
   }
 
   handleMouseUp = event => {
-    this.props.onMouseUp(event.target.value);
+    this.props.onMouseUp(event.target.value)
   }
 
   render() {
     return (
-      <Input className='number-input'
-             type={this.props.type}
-             min={this.props.min} max={this.props.max} step={this.props.step}
-             label={this.props.label ? { basic: true, content: this.props.label } : null} labelPosition='right'
-             value={this.props.value}
-             readOnly={this.props.readOnly}
-             onChange={this.handleChange}
-             onBlur={this.handleCommit}
-             onKeyPress={this.handleKeyPress}
-             onMouseUp={this.handleMouseUp}
-             onTouchEnd={this.handleMouseUp}
+      <Input
+        className="number-input"
+        type={this.props.type}
+        min={this.props.min} max={this.props.max} step={this.props.step}
+        label={this.props.label ? { basic: true, content: this.props.label } : null}
+        labelPosition="right"
+        value={this.props.value}
+        readOnly={this.props.readOnly}
+        onChange={this.handleChange}
+        onBlur={this.handleCommit}
+        onKeyPress={this.handleKeyPress}
+        onMouseUp={this.handleMouseUp}
+        onTouchEnd={this.handleMouseUp}
       />
-    );
+    )
   }
 }
 
@@ -54,7 +56,7 @@ NumberInput.propTypes = {
   onChange: PropTypes.func,
   onCommit: PropTypes.func,
   onMouseUp: PropTypes.func,
-};
+}
 
 NumberInput.defaultProps = {
   type: 'number',
@@ -64,9 +66,9 @@ NumberInput.defaultProps = {
   label: null,
   value: 0,
   readOnly: false,
-  onChange: value => {},
-  onCommit: value => {},
-  onMouseUp: value => {},
-};
+  onChange: () => {},
+  onCommit: () => {},
+  onMouseUp: () => {},
+}
 
-export default NumberInput;
+export default NumberInput

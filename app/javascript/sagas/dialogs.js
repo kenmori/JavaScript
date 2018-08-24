@@ -1,31 +1,31 @@
-import { all, put, take, takeLatest, select } from 'redux-saga/effects';
-import objectiveActions from '../actions/objectives';
-import dialogActions from '../actions/dialogs';
-import actionTypes from '../constants/actionTypes';
-import withLoading from '../utils/withLoading';
-import history from '../utils/history';
+import { all, put, take, takeLatest, select } from 'redux-saga/effects'
+import objectiveActions from '../actions/objectives'
+import dialogActions from '../actions/dialogs'
+import actionTypes from '../constants/actionTypes'
+import withLoading from '../utils/withLoading'
+import history from '../utils/history'
 
 function* openOkrModal({ payload: { objectiveId, keyResultId } }) {
-  const entities = yield select(state => state.entities);
+  const entities = yield select(state => state.entities)
   if (keyResultId) {
     objectiveId = entities.keyResults.getIn([keyResultId, 'objectiveId'], null)
   }
   if (objectiveId) {
-    const hasObjectiveId = entities.objectives.has(objectiveId);
-    const hasKeyResultId = entities.keyResults.has(keyResultId);
+    const hasObjectiveId = entities.objectives.has(objectiveId)
+    const hasKeyResultId = entities.keyResults.has(keyResultId)
     if (hasObjectiveId && (!keyResultId || hasKeyResultId)) {
-      const currentObjectiveId = yield select(state => state.dialogs.getIn(['okrForm', 'objectiveId']));
+      const currentObjectiveId = yield select(state => state.dialogs.getIn(['okrForm', 'objectiveId']))
       if (currentObjectiveId !== objectiveId) {
-        yield put(objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId));
+        yield put(objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId))
       }
-      yield put(dialogActions.openedOkrModal(objectiveId, keyResultId));
+      yield put(dialogActions.openedOkrModal(objectiveId, keyResultId))
     } else {
-      yield fetchObjective(objectiveId, keyResultId);
+      yield fetchObjective(objectiveId, keyResultId)
     }
   } else if (keyResultId) {
-    yield fetchObjective(null, keyResultId);
+    yield fetchObjective(null, keyResultId)
   } else {
-    yield openErrorModal();
+    yield openErrorModal()
   }
 }
 
@@ -49,5 +49,5 @@ function* openErrorModal() {
 export function* dialogSagas() {
   yield all([
     takeLatest(actionTypes.OPEN_OKR_MODAL, withLoading(openOkrModal)),
-  ]);
+  ])
 }

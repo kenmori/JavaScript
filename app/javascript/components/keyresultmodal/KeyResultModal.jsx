@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { reduxForm } from 'redux-form'
@@ -29,18 +29,18 @@ class KeyResultModal extends PureComponent {
       valueUnit: validData.valueUnit,
       expiredDate: validData.expiredDate,
       members: this.state.members.toArray(),
-    };
-    this.props.addKeyResult(keyResult);
+    }
+    this.props.addKeyResult(keyResult)
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
         members: List(),
-        ownerId: nextProps.objective.get('owner').get('id'),
+        ownerId: nextProps.objective.getIn(['owner', 'id']),
         description: '',
         isRequiredTargetValue: false,
-      });
+      })
       this.props.initialize({
         name: '',
         targetValue: '',
@@ -53,8 +53,8 @@ class KeyResultModal extends PureComponent {
   isEditing() {
     return this.props.dirty
       || this.state.description !== ''
-      || this.state.ownerId !== this.props.objective.get('owner').get('id')
-      || this.state.members.size;
+      || this.state.ownerId !== this.props.objective.getIn(['owner', 'id'])
+      || this.state.members.size
   }
 
   handleClose = () => {
@@ -64,14 +64,14 @@ class KeyResultModal extends PureComponent {
         onConfirm: () => this.closeModal(),
       })
     } else {
-      this.closeModal();
+      this.closeModal()
     }
   }
 
   closeModal() {
     // FIXME: キャンセルボタンで背面の OKR 編集モーダルごと閉じてしまう現象を setTimeout で回避する
     // 背面の OKR 編集モーダルのモーダル外クリックが発生している (おそらく Semantic-UI のバグ)
-    setTimeout(() => this.props.closeModal(), 0);
+    setTimeout(() => this.props.closeModal(), 0)
   }
   
   handleFormChange = values => this.setState({ ...values })
@@ -104,13 +104,11 @@ class KeyResultModal extends PureComponent {
           </div>
         </Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button onClick={this.handleClose}>キャンセル</Button>
-            <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
-          </div>
+          <Button onClick={this.handleClose}>キャンセル</Button>
+          <Button positive onClick={handleSubmit(data => this.save(data))}>保存</Button>
         </Modal.Actions>
       </Modal>
-    );
+    )
   }
 }
 
@@ -124,6 +122,10 @@ KeyResultModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
+  // Redux Form
+  dirty: PropTypes.bool.isRequired,
+  initialize: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 }
 
 export default reduxForm({

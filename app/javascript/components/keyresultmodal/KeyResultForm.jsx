@@ -26,7 +26,7 @@ class KeyResultForm extends PureComponent {
 
   render() {
     return (
-      <Form>
+      <Form className="key-result-form">
         <Form.Group widths='equal'>
           <Form.Field>
             <RequiredLabel text='Key Result' />
@@ -44,33 +44,27 @@ class KeyResultForm extends PureComponent {
               autoHeight
               rows={3}
               onChange={this.handleDescriptionChange}
-              placeholder={`Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)`}
+              placeholder={'Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)'}
             />
           </Form.Field>
         </Form.Group>
         <Form.Group>
+          <Form.Field className="key-result-form__target-value">
+            <RequiredLabel text="目標値" required={this.props.isRequiredTargetValue} />
+            <Field
+              name="targetValue"
+              component={RenderField}
+              validate={validateTargetValue}
+            />
+          </Form.Field>
           <Form.Field>
-            <div className="flex-start">
-              <div style={{ marginRight: "10px" }}>
-                <RequiredLabel text='目標値' required={this.props.isRequiredTargetValue} />
-                <div style={{ width: "177px" }}>
-                  <Field
-                    name='targetValue'
-                    component={RenderField}
-                    validate={validateTargetValue}
-                  />
-                </div>
-              </div>
-              <div>
-                <label>単位</label>
-                <Field
-                  name='valueUnit'
-                  placeholder='例：円、件、人'
-                  component={RenderField}
-                  onChange={this.handleValueUnitChange}
-                />
-              </div>
-            </div>
+            <label>単位</label>
+            <Field
+              name="valueUnit"
+              placeholder="例：円、件、人"
+              component={RenderField}
+              onChange={this.handleValueUnitChange}
+            />
           </Form.Field>
         </Form.Group>
         <Form.Group>

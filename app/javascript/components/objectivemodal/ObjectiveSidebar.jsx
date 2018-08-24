@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Item, Segment } from 'semantic-ui-react';
+import { Item, Segment } from 'semantic-ui-react'
 import OkrName from '../util/OkrName'
 import Markdown from '../util/Markdown'
 
 class ObjectiveSidebar extends PureComponent {
 
   render() {
-    const { parentKeyResult } = this.props;
-    if (!parentKeyResult) return null;
+    const { parentKeyResult } = this.props
+    if (!parentKeyResult) return null
     const parentObjective = parentKeyResult.get('objective')
     return (
       <div className="objective-modal__sidebar">
@@ -32,7 +32,7 @@ class ObjectiveSidebar extends PureComponent {
           </Item>
         </Segment>
       </div>
-    );
+    )
   }
 }
 
@@ -40,6 +40,6 @@ ObjectiveSidebar.propTypes = {
   // container
   // component
   parentKeyResult: ImmutablePropTypes.map,
-};
+}
 
-export default ObjectiveSidebar;
+export default ObjectiveSidebar

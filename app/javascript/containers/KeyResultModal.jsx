@@ -1,7 +1,7 @@
-import KeyResultModal from '../components/keyresultmodal/KeyResultModal';
-import { connect } from 'react-redux';
-import actions from '../actions/keyResults';
-import dialogActions from '../actions/dialogs';
+import KeyResultModal from '../components/keyresultmodal/KeyResultModal'
+import { connect } from 'react-redux'
+import actions from '../actions/keyResults'
+import dialogActions from '../actions/dialogs'
 import { getEnabledUsers } from '../utils/selector'
 
 const mapStateToProps = (state) => {
@@ -12,24 +12,24 @@ const mapStateToProps = (state) => {
     objective: state.dialogs.getIn(['keyResultForm', 'objective']),
     users: getEnabledUsers(state),
     initialExpiredDate: currentOkrPeriod && currentOkrPeriod.get('endDate'),
-  };
-};
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     addKeyResult: keyResult => {
-      dispatch(actions.addKeyResult(keyResult));
+      dispatch(actions.addKeyResult(keyResult))
     },
     closeModal: () => {
-      dispatch(dialogActions.closeKeyResultModal());
+      dispatch(dialogActions.closeKeyResultModal())
     },
     confirm: params => {
-      dispatch(dialogActions.openConfirmModal(params));
+      dispatch(dialogActions.openConfirmModal(params))
     }
-  };
-};
+  }
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(KeyResultModal);
+)(KeyResultModal)

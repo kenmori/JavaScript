@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions';
-import actionTypes from '../constants/actionTypes';
+import { createActions } from 'redux-actions'
+import actionTypes from '../constants/actionTypes'
 
 const actions = createActions({
   [actionTypes.FETCH_ORGANIZATION]: id => ({ id }),
@@ -10,6 +10,6 @@ const actions = createActions({
   [actionTypes.UPDATED_ORGANIZATION]: organization => ({ organization }),
   [actionTypes.UPDATE_ORGANIZATION_OWNER]: (organizationId, userId) => ({ organizationId, userId }),
   [actionTypes.UPDATED_ORGANIZATION_OWNER]: ownerId => ({ ownerId }),
-});
+})
 
-export default actions;
+export default actions

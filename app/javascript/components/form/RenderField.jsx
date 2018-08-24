@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Input, Label } from 'semantic-ui-react';
+import { Input, Label } from 'semantic-ui-react'
 
 class RenderField extends PureComponent {
 
@@ -19,7 +19,12 @@ class RenderField extends PureComponent {
 }
 
 RenderField.propTypes = {
+  // container
+  // component
   placeholder: PropTypes.string,
+  // Redux Form
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
 }
 
 export default RenderField

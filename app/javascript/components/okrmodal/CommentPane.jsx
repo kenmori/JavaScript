@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form } from 'semantic-ui-react';
-import OkrComment from './OkrComment';
+import { Form } from 'semantic-ui-react'
+import OkrComment from './OkrComment'
 
 class CommentPane extends PureComponent {
 
@@ -17,7 +17,7 @@ class CommentPane extends PureComponent {
 
     this.props.updateKeyResult({
       comment: {data: text, behavior: 'add'}
-    });
+    })
     this.setState({ text: '' })
     this.props.setDirty(false)
   }
@@ -27,7 +27,7 @@ class CommentPane extends PureComponent {
 
     this.props.updateKeyResult({
       comment: {data: {id, text}, behavior: 'edit'}
-    });
+    })
   }
 
   removeComment = id => {
@@ -56,7 +56,7 @@ class CommentPane extends PureComponent {
             rows={3}
             value={text}
             onChange={this.handleTextChange}
-            placeholder={`進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)`}
+            placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
           />
 
           <div className="comment-pane__button">
@@ -73,7 +73,7 @@ class CommentPane extends PureComponent {
           />
         ))}
       </div>
-    );
+    )
   }
 }
 
@@ -84,6 +84,6 @@ CommentPane.propTypes = {
   updateKeyResult: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-};
+}
 
-export default CommentPane;
+export default CommentPane

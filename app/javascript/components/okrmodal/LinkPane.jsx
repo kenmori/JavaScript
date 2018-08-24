@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Divider } from 'semantic-ui-react';
-import OkrSelect from '../form/OkrSelect';
-import OkrList from '../form/OkrList';
+import { Form, Divider } from 'semantic-ui-react'
+import OkrSelect from '../form/OkrSelect'
+import OkrList from '../form/OkrList'
 
 class LinkPane extends PureComponent {
 
@@ -12,9 +12,9 @@ class LinkPane extends PureComponent {
   handleObjectiveChange = value => this.props.updateOkr({ objectiveId: value })
 
   renderObjectiveLinks() {
-    const objective = this.props.okr;
-    const parentKeyResult = objective.get('parentKeyResult');
-    const childObjectives = parentKeyResult && parentKeyResult.get('childObjectives');
+    const objective = this.props.okr
+    const parentKeyResult = objective.get('parentKeyResult')
+    const childObjectives = parentKeyResult && parentKeyResult.get('childObjectives')
     return (
       <Form>
         <Form.Field>
@@ -36,12 +36,12 @@ class LinkPane extends PureComponent {
           </Form.Field>
         )}
       </Form>
-    );
+    )
   }
 
   renderKeyResultLinks() {
-    const keyResult = this.props.okr;
-    const childObjectives = keyResult.get('childObjectives');
+    const keyResult = this.props.okr
+    const childObjectives = keyResult.get('childObjectives')
     return (
       <Form>
         <Form.Field>
@@ -62,11 +62,11 @@ class LinkPane extends PureComponent {
           </Form.Field>
         )}
       </Form>
-    );
+    )
   }
 
   render() {
-    return this.props.isObjective ? this.renderObjectiveLinks() : this.renderKeyResultLinks();
+    return this.props.isObjective ? this.renderObjectiveLinks() : this.renderKeyResultLinks()
   }
 }
 
@@ -79,10 +79,10 @@ LinkPane.propTypes = {
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
   updateOkr: PropTypes.func.isRequired,
-};
+}
 
 LinkPane.defaultProps = {
   isObjective: true,
-};
+}
 
-export default LinkPane;
+export default LinkPane

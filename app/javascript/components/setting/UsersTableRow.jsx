@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import { Button, Checkbox, Radio, Table, Label } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import { Button, Checkbox, Radio, Table, Label } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import AutoInput from '../form/AutoInput';
-import UserAvatar from '../../containers/UserAvatar';
+import AutoInput from '../form/AutoInput'
+import UserAvatar from '../../containers/UserAvatar'
 
 class UsersTableRow extends PureComponent {
 
@@ -30,8 +30,8 @@ class UsersTableRow extends PureComponent {
   }
 
   render() {
-    const { user, isLoginUser } = this.props;
-    const disabled = user.get('disabled');
+    const { user, isLoginUser } = this.props
+    const disabled = user.get('disabled')
     return (
       <Table.Row>
         <Table.Cell textAlign='center'>{user.get('index')}</Table.Cell>
@@ -39,20 +39,26 @@ class UsersTableRow extends PureComponent {
           <UserAvatar user={user} size='large' withInitial={false} editable={!disabled} />
         </Table.Cell>
         <Table.Cell>
-          <AutoInput value={user.get('lastName')}
-                     placeholder='姓'
-                     readOnly={disabled}
-                     onCommit={this.handleLastNameCommit} />
-          <AutoInput value={user.get('firstName')}
-                     placeholder='名'
-                     readOnly={disabled}
-                     onCommit={this.handleFirstNameCommit} />
+          <AutoInput
+            value={user.get('lastName')}
+            placeholder="姓"
+            readOnly={disabled}
+            onCommit={this.handleLastNameCommit}
+          />
+          <AutoInput
+            value={user.get('firstName')}
+            placeholder="名"
+            readOnly={disabled}
+            onCommit={this.handleFirstNameCommit}
+          />
         </Table.Cell>
         <Table.Cell>
-          <AutoInput value={user.get('email')}
-                     placeholder='name@example.com'
-                     readOnly={disabled}
-                     onCommit={this.handleEmailCommit} />
+          <AutoInput
+            value={user.get('email')}
+            placeholder="name@example.com"
+            readOnly={disabled}
+            onCommit={this.handleEmailCommit}
+          />
           {user.get('isConfirming') && (
             disabled
               ? <Label pointing='left' icon='mail' content='確認中' />
@@ -60,10 +66,11 @@ class UsersTableRow extends PureComponent {
           )}
         </Table.Cell>
         <Table.Cell>
-          <Checkbox label='管理者'
-                    checked={user.get('isAdmin')}
-                    onChange={this.handleAdminChange}
-                    disabled={disabled || isLoginUser}
+          <Checkbox
+            label="管理者"
+            checked={user.get('isAdmin')}
+            onChange={this.handleAdminChange}
+            disabled={disabled || isLoginUser}
           />
         </Table.Cell>
         <Table.Cell>
@@ -87,7 +94,7 @@ class UsersTableRow extends PureComponent {
           </div>
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }
 
@@ -103,6 +110,6 @@ UsersTableRow.propTypes = {
   updateUser: PropTypes.func.isRequired,
   changeEmail: PropTypes.func.isRequired,
   resendEmail: PropTypes.func.isRequired,
-};
+}
 
-export default UsersTableRow;
+export default UsersTableRow

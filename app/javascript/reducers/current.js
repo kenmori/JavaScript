@@ -1,7 +1,7 @@
-import { fromJS, OrderedMap, Set } from 'immutable';
-import { handleActions } from 'redux-actions';
-import ActionTypes from '../constants/actionTypes';
-import gon from '../utils/gon';
+import { fromJS, OrderedMap, Set } from 'immutable'
+import { handleActions } from 'redux-actions'
+import ActionTypes from '../constants/actionTypes'
+import gon from '../utils/gon'
 import { OkrTypes } from '../utils/okr'
 
 const initialState = fromJS({
@@ -15,7 +15,7 @@ const initialState = fromJS({
   selectedOkr: { objectiveId: null, keyResultId: null },
   mapOkr: {}, // OrderedMap<ObjectiveId, Set<KeyResultId>>
   scrollToObjectiveId: null,
-});
+})
 
 const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResultId) => {
   // 表示系統を切り替えるため親の ID を検索する
@@ -24,12 +24,12 @@ const getSwitchedVisibleIds = (mapOkr, objectiveId, keyResultIds, parentKeyResul
 }
 
 export default handleActions({
-  [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) => (
-    state.set('okrPeriodId', payload.okrPeriodId)
-  ),
-  [ActionTypes.SELECTED_USER]: (state, { payload }) => (
-    state.set('userId', payload.userId)
-  ),
+  [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) => {
+    return state.set('okrPeriodId', payload.okrPeriodId)
+  },
+  [ActionTypes.SELECTED_USER]: (state, { payload }) => {
+    return state.set('userId', payload.userId)
+  },
   [ActionTypes.FETCHED_OBJECTIVES]: state => {
     return state.set('userIdAtFetchedObjectives', state.get('userId'))
       .set('userIdAtFetchedTaskKeyResults', state.get('userId')) // タスク KR の fetch 省略を考慮
@@ -116,4 +116,4 @@ export default handleActions({
     // noinspection JSPrimitiveTypeWrapperUsage
     return state.set('scrollToObjectiveId', new String(payload.objectiveId))
   },
-}, initialState);
+}, initialState)

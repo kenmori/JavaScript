@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Select, Label } from 'semantic-ui-react';
-import { okrOptions } from "../../utils/okr";
+import { Select, Label } from 'semantic-ui-react'
+import { okrOptions } from '../../utils/okr'
 
 class RenderOkrSelect extends PureComponent {
 
@@ -18,7 +18,7 @@ class RenderOkrSelect extends PureComponent {
       disabled,
       loading,
       meta: { touched, error }
-    } = this.props;
+    } = this.props
     return (
       <div className="form-item">
         <div className={`okr-select ${disabled ? 'disabled' : ''}`}>
@@ -39,7 +39,7 @@ class RenderOkrSelect extends PureComponent {
         {touched && error && <Label basic color='red' pointing>{error}</Label>}
       </div>
 
-    );
+    )
   }
 }
 
@@ -50,12 +50,15 @@ RenderOkrSelect.propTypes = {
   withNone: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
-};
+  // Redux Form
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
+}
 
 RenderOkrSelect.defaultProps = {
   withNone: false,
   disabled: false,
   loading: false,
-};
+}
 
-export default RenderOkrSelect;
+export default RenderOkrSelect

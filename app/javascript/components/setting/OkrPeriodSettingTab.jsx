@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import moment from 'moment';
-import { Tab, Table, Button, Divider } from 'semantic-ui-react';
+import moment from 'moment'
+import { Tab, Table, Button, Divider } from 'semantic-ui-react'
 import SortableComponent from '../util/SortableComponent'
-import AutoInput from '../form/AutoInput';
-import DatePicker from '../form/DatePicker';
+import AutoInput from '../form/AutoInput'
+import DatePicker from '../form/DatePicker'
 import OkrPeriodAddForm from '../../containers/OkrPeriodAddForm'
 
 class OkrPeriodSettingTab extends SortableComponent {
@@ -55,10 +55,10 @@ class OkrPeriodSettingTab extends SortableComponent {
           <Table.Body>
             {
               okrPeriods.map(okrPeriod => {
-                const id = okrPeriod.get('id');
-                const name = okrPeriod.get('name');
-                const startDate = okrPeriod.get('startDate');
-                const endDate = okrPeriod.get('endDate');
+                const id = okrPeriod.get('id')
+                const name = okrPeriod.get('name')
+                const startDate = okrPeriod.get('startDate')
+                const endDate = okrPeriod.get('endDate')
                 const disabled = id === okrPeriodId
                 return (
                   <Table.Row key={id}>
@@ -74,13 +74,13 @@ class OkrPeriodSettingTab extends SortableComponent {
                       <Button icon="trash" onClick={this.handleRemoveClick(id, name)} content="削除する" negative disabled={disabled} />
                     </Table.Cell>
                   </Table.Row>
-                );
+                )
               })
             }
           </Table.Body>
         </Table>
       </Tab.Pane>
-    );
+    )
   }
 }
 
@@ -92,10 +92,10 @@ OkrPeriodSettingTab.propTypes = {
   removeOkrPeriod: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-};
+}
 
 OkrPeriodSettingTab.defaultProps = {
   key: 'okrPeriods',
 }
 
-export default OkrPeriodSettingTab;
+export default OkrPeriodSettingTab

@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions';
-import actionTypes from '../constants/actionTypes';
+import { createActions } from 'redux-actions'
+import actionTypes from '../constants/actionTypes'
 import { normalizeObjective, normalizeObjectives } from '../schemas/index'
 
 const actions = createActions({
@@ -26,6 +26,6 @@ const actions = createActions({
   [actionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: keyResultIds => ({ keyResultIds }),
   [actionTypes.DISABLE_OBJECTIVE]: (id, toDisable) => ({ id, toDisable }),
   [actionTypes.DISABLED_OBJECTIVE]: objective => normalizeObjective(objective),
-});
+})
 
-export default actions;
+export default actions

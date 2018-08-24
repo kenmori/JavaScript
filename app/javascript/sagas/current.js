@@ -18,7 +18,7 @@ function* selectOkrPeriodByOkr({ payload: { objectiveId, keyResultId } }) {
   if (!objectiveId) {
     objectiveId = yield select(state => state.entities.keyResults.getIn([keyResultId, 'objectiveId']))
   }
-  const okrPeriodId = yield select(state => state.entities.objectives.get(objectiveId).get('okrPeriodId'))
+  const okrPeriodId = yield select(state => state.entities.objectives.getIn([objectiveId, 'okrPeriodId']))
   yield put(currentActions.selectedOkrPeriod(okrPeriodId))
 
   yield put(currentActions.selectOkr(objectiveId, keyResultId))
@@ -46,7 +46,7 @@ function* selectOkr({ payload }) {
   }
 }
 
-function* clearSelectedOkr({ payload }) {
+function* clearSelectedOkr() {
   yield put(currentActions.clearMapOkr())
 }
 

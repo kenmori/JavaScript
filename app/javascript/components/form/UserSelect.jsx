@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { List } from 'immutable'
-import { Select } from 'semantic-ui-react';
-import avatar_image from '../../images/avatar.png';
+import { Select } from 'semantic-ui-react'
+import avatar_image from '../../images/avatar.png'
 
 class UserSelect extends PureComponent {
 
@@ -54,7 +54,7 @@ class UserSelect extends PureComponent {
           noResultsMessage='結果が見つかりません'
         />
       </div>
-    );
+    )
   }
 }
 
@@ -65,10 +65,10 @@ UserSelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, ImmutablePropTypes.list]),
   multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-};
+}
 
 UserSelect.defaultProps = {
   multiple: false,
-};
+}
 
-export default UserSelect;
+export default UserSelect

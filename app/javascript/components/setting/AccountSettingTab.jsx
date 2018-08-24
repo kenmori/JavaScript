@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Button, Input } from 'semantic-ui-react';
-import UserAvatar from '../../containers/UserAvatar';
-import AutoInput from '../form/AutoInput';
+import { Tab, Button, Input } from 'semantic-ui-react'
+import UserAvatar from '../../containers/UserAvatar'
+import AutoInput from '../form/AutoInput'
 
 class AccountSettingTab extends PureComponent {
 
@@ -31,17 +31,17 @@ class AccountSettingTab extends PureComponent {
       currentPassword: this.currentPasswordInput.inputRef.value,
       password: this.passwordInput.inputRef.value,
       passwordConfirmation: this.passwordConfirmationInput.inputRef.value,
-    });
+    })
 
-    this.currentPasswordInput.inputRef.value = '';
-    this.passwordInput.inputRef.value = '';
-    this.passwordConfirmationInput.inputRef.value = '';
-  };
+    this.currentPasswordInput.inputRef.value = ''
+    this.passwordInput.inputRef.value = ''
+    this.passwordConfirmationInput.inputRef.value = ''
+  }
 
   changeAvatarImage = (event) => {
-    if (!event.target.files.length) { return; }
-    this.props.openAvatarModal(this.props.loginUser.get('id'), event.target.files[0]);
-    event.target.value = null;
+    if (!event.target.files.length) { return }
+    this.props.openAvatarModal(this.props.loginUser.get('id'), event.target.files[0])
+    event.target.value = null
   }
 
   clickFileInput = () => this.refs.fileInput.click()
@@ -50,7 +50,7 @@ class AccountSettingTab extends PureComponent {
     this.props.confirm({
       content: '設定済みのアイコンを削除しますか？',
       onConfirm: () => this.props.deleteAvatar(this.props.loginUser.get('id')),
-    });
+    })
   }
 
   render() {
@@ -69,7 +69,7 @@ class AccountSettingTab extends PureComponent {
           <dd><AutoInput value={email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
 
           <dt>アバター</dt>
-          <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable={true} /></dd>
+          <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable /></dd>
           <dd>
             <input type="file" className="file-input" ref="fileInput" onChange={this.changeAvatarImage} />
             <Button content="変更する" positive onClick={this.clickFileInput} />
@@ -79,15 +79,15 @@ class AccountSettingTab extends PureComponent {
 
         <dl>
           <dt>現在のパスワード</dt>
-          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node; }}/></dd>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.currentPasswordInput = node }}/></dd>
           <dt>新しいパスワード</dt>
-          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node; }}/></dd>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordInput = node }}/></dd>
           <dt>新しいパスワード (確認用)</dt>
-          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node; }}/></dd>
+          <dd><Input type="password" placeholder='英数字8文字以上' ref={node => { this.passwordConfirmationInput = node }}/></dd>
           <dd><Button content="パスワードを変更する" onClick={this.changePassword} /></dd>
         </dl>
       </Tab.Pane>
-    );
+    )
   }
 }
 
@@ -101,6 +101,6 @@ AccountSettingTab.propTypes = {
   deleteAvatar: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-};
+}
 
-export default AccountSettingTab;
+export default AccountSettingTab

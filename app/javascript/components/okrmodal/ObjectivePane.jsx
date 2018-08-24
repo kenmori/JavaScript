@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Map } from 'immutable';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label } from 'semantic-ui-react';
-import AutoInput from '../form/AutoInput';
+import { Form, Label } from 'semantic-ui-react'
+import AutoInput from '../form/AutoInput'
 import NumberInput from '../form/NumberInput'
-import UserSelect from '../form/UserSelect';
+import UserSelect from '../form/UserSelect'
 import OkrDescription from '../form/OkrDescription'
 import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
@@ -13,7 +12,7 @@ import PopupLabel from '../util/PopupLabel'
 class ObjectivePane extends PureComponent {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = { progressRate: props.objective.get('progressRate') }
   }
 
@@ -61,7 +60,7 @@ class ObjectivePane extends PureComponent {
     confirm({
       content: message,
       onConfirm: () => removeObjective(objective.get('id')),
-    });
+    })
   }
 
   handleDisableClick = () => {
@@ -98,19 +97,18 @@ class ObjectivePane extends PureComponent {
   }
 
   parentKeyResultProgressRateHtml(parentKeyResult) {
-    if (!parentKeyResult) return null;
-    const progressRate = parentKeyResult.get('progressRate');
-    const subProgressRate = parentKeyResult.get('subProgressRate');
+    if (!parentKeyResult) return null
+    const progressRate = parentKeyResult.get('progressRate')
+    const subProgressRate = parentKeyResult.get('subProgressRate')
     return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
       <div className='flex-field__item--block'>
         <Label pointing='above' content={`上位 Key Result の進捗は ${subProgressRate}% から ${progressRate}% に変更されています`} />
       </div>
-    );
+    )
   }
 
   render() {
-    const objective = this.props.objective;
-    if (!objective) return null;
+    const objective = this.props.objective
     const { progressRate } = this.state
     const isDisabled = objective.get('disabled')
     return (
@@ -142,11 +140,11 @@ class ObjectivePane extends PureComponent {
         <Form.Field className='flex-field'>
           <label>責任者</label>
           <div className='flex-field__item'>
-          <UserSelect
-            users={this.props.users}
-            value={objective.get('owner').get('id')}
-            onChange={this.handleOwnerChange}
-          />
+            <UserSelect
+              users={this.props.users}
+              value={objective.getIn(['owner', 'id'])}
+              onChange={this.handleOwnerChange}
+            />
           </div>
         </Form.Field>
         <Form.Field>
@@ -167,7 +165,7 @@ class ObjectivePane extends PureComponent {
           />
         </Form.Group>
       </Form>
-    );
+    )
   }
 }
 
@@ -183,10 +181,6 @@ ObjectivePane.propTypes = {
   updateObjective: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-};
+}
 
-ObjectivePane.defaultProps = {
-  objective: Map(),
-};
-
-export default ObjectivePane;
+export default ObjectivePane

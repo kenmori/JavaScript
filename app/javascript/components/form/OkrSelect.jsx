@@ -1,47 +1,47 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Select, Button } from 'semantic-ui-react';
-import OkrList from './OkrList';
-import { okrOptions } from "../../utils/okr";
+import { Select, Button } from 'semantic-ui-react'
+import OkrList from './OkrList'
+import { okrOptions } from '../../utils/okr'
 
 class OkrSelect extends PureComponent {
 
   constructor(props) {
-    super(props);
-    const value = props.value || -1;
+    super(props)
+    const value = props.value || -1
     this.state = {
       value,
       preview: this.isPreview(props, value),
-    };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextValue = nextProps.value || -1;
+    const nextValue = nextProps.value || -1
     if (this.props.value !== nextValue) {
       this.setState({
         value: nextValue,
         preview: this.isPreview(nextProps, nextValue),
-      });
+      })
     }
   }
 
   isPreview = (props, value) => {
-    return props.preview && value !== -1; // 上位 KR なしの場合は常に Select 表示
+    return props.preview && value !== -1 // 上位 KR なしの場合は常に Select 表示
   }
 
   handleClick = () => this.setState({ preview: false })
 
   handleChange = (event, { value }) => {
     if (value !== this.state.value) {
-      this.props.onChange(value);
+      this.props.onChange(value)
     }
   }
   
   handleBlur = () => this.setState({ preview: this.isPreview(this.props, this.state.value) })
 
   render() {
-    const showPreview = this.state.preview;
+    const showPreview = this.state.preview
     return (
       <div className={`okr-select ${this.props.disabled ? 'disabled' : ''} ${showPreview ? 'preview' : ''}`}>
         {showPreview && (
@@ -68,7 +68,7 @@ class OkrSelect extends PureComponent {
           />
         )}
       </div>
-    );
+    )
   }
 }
 
@@ -83,7 +83,7 @@ OkrSelect.propTypes = {
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   onChange: PropTypes.func,
-};
+}
 
 OkrSelect.defaultProps = {
   isObjective: true,
@@ -92,7 +92,7 @@ OkrSelect.defaultProps = {
   readOnly: false,
   disabled: false,
   loading: false,
-  onChange: value => {},
-};
+  onChange: () => {},
+}
 
-export default OkrSelect;
+export default OkrSelect

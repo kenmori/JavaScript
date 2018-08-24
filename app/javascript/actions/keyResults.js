@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions';
-import actionTypes from '../constants/actionTypes';
+import { createActions } from 'redux-actions'
+import actionTypes from '../constants/actionTypes'
 import { normalizeKeyResult, normalizeKeyResults } from '../schemas/index'
 
 const actions = createActions({
@@ -20,6 +20,6 @@ const actions = createActions({
   [actionTypes.DISABLED_KEY_RESULT]: keyResult => normalizeKeyResult(keyResult),
   [actionTypes.PROCESS_KEY_RESULT]: id => ({ id }),
   [actionTypes.PROCESSED_KEY_RESULT]: id => ({ id }),
-});
+})
 
-export default actions;
+export default actions

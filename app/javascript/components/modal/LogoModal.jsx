@@ -1,22 +1,22 @@
-import React, { PureComponent } from 'react';
-import { Button, Modal } from 'semantic-ui-react';
+import React, { PureComponent } from 'react'
+import { Button, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 class LogoModal extends PureComponent {
   constructor() {
-    super();
+    super()
     this.state = {
       base64data: null
     }
   }
   toBase64(file) {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (data) => {
       this.setState({
         base64data: data.target.result
-      });
+      })
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
   }
   logoImage() {
     return this.state.base64data ?
@@ -24,8 +24,8 @@ class LogoModal extends PureComponent {
       <span>Loading...</span>
   }
   closeModal = () => {
-    this.state.base64data = null;
-    this.props.closeModal();
+    this.setState({ base64data: null })
+    this.props.closeModal()
   }
   componentWillReceiveProps(nextProps) {
     nextProps.imageData && this.toBase64(nextProps.imageData)
@@ -38,22 +38,16 @@ class LogoModal extends PureComponent {
       <Modal
         closeIcon 
         open={this.props.isOpen} 
-        size='small' 
+        size="mini" 
         onClose={this.props.closeModal}
       >
-        <Modal.Content style={{ margin: '10px 0' }}>
-          <div style={{textAlign: 'center'}}>
-            {this.logoImage()}
-          </div>
-        </Modal.Content>
+        <Modal.Content>{this.logoImage()}</Modal.Content>
         <Modal.Actions>
-          <div className='center'>
-            <Button onClick={this.closeModal}>キャンセル</Button>
-            <Button positive onClick={this.handleClick}>OK</Button>
-          </div>
+          <Button onClick={this.closeModal}>キャンセル</Button>
+          <Button positive onClick={this.handleClick}>OK</Button>
         </ Modal.Actions >
       </ Modal >
-    );
+    )
   }
 }
 
@@ -67,4 +61,4 @@ LogoModal.propTypes = {
   // component
 }
 
-export default LogoModal;
+export default LogoModal

@@ -42,7 +42,7 @@ class OkrDescription extends PureComponent {
           value={text}
           placeholder={`${okr} についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)`}
           onCommit={this.handleTextCommit}
-          verbose={true}
+          verbose
         />
       </div>
     )
@@ -58,12 +58,13 @@ class OkrDescription extends PureComponent {
 OkrDescription.propTypes = {
   // container
   // component
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   isObjective: PropTypes.bool,
   onCommit: PropTypes.func.isRequired,
 }
 
 OkrDescription.defaultProps = {
+  text: '',
   isObjective: true,
 }
 
