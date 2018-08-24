@@ -1,0 +1,12 @@
+.image-modal {
+  .image-modal__loader {
+    &.ui.loader {
+      &:before {
+        border-color: rgba(0, 0, 0, .1);
+      }
+      &:after {
+        border-color: #767676 transparent transparent;
+      }
+    }
+  }
+}

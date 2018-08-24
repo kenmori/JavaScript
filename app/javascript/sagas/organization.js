@@ -24,7 +24,7 @@ function* updateOrganization({ payload: { organization } }) {
   if (organization.logo || organization.removeLogo) {
     // ロゴ更新時はトーストを表示しない
     if (organization.logo) {
-      yield put(dialogActions.closeLogoModal())
+      yield put(dialogActions.closeImageModal())
     }
   } else {
     yield put(toastActions.showToast('組織情報を更新しました'))

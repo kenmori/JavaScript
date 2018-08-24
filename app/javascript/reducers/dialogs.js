@@ -6,8 +6,7 @@ const initialState = fromJS({
   objectiveForm: { isOpen: false },
   keyResultForm: { isOpen: false, objective: {} },
   okrForm: { isOpen: false, objectiveId: null, keyResultId: null },
-  avatarImage: { isOpen: false, imageData: null },
-  logoImage: { isOpen: false, imageData: null },
+  image: { isOpen: false, data: null },
   error: { isOpen: false },
   confirm: { isOpen: false },
   option: { isOpen: false },
@@ -40,17 +39,11 @@ export default handleActions({
     const keyResultId = payload.get('result').first()
     return state.setIn(['okrForm', 'removedKeyResultId'], keyResultId)
   },
-  [ActionTypes.OPEN_AVATAR_MODAL]: (state, { payload }) => {
-    return state.set('avatarImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
+  [ActionTypes.OPEN_IMAGE_MODAL]: (state, { payload: { id, data, type } }) => {
+    return state.set('image', fromJS({ isOpen: true, id, data, type }))
   },
-  [ActionTypes.CLOSE_AVATAR_MODAL]: (state) => {
-    return state.set('avatarImage', fromJS({ isOpen: false, imageData: null, targetId: null }))
-  },
-  [ActionTypes.OPEN_LOGO_MODAL]: (state, { payload }) => {
-    return state.set('logoImage', fromJS({ isOpen: true, imageData: payload.imageData, targetId: payload.targetId }))
-  },
-  [ActionTypes.CLOSE_LOGO_MODAL]: (state) => {
-    return state.set('logoImage', fromJS({ isOpen: false, imageData: null, targetId: null }))
+  [ActionTypes.CLOSE_IMAGE_MODAL]: (state) => {
+    return state.set('image', fromJS({ isOpen: false }))
   },
   [ActionTypes.OPEN_ERROR_MODAL]: (state, { payload }) => {
     return state.set('error', fromJS(payload.params).merge({ isOpen: true }))

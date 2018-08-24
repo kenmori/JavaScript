@@ -28,7 +28,7 @@ function* updateUser({ payload: { user } }) {
   } else if (user.avatar || user.removeAvatar) {
     // アバター更新時はトーストを表示しない
     if (user.avatar) {
-      yield put(dialogActions.closeAvatarModal())
+      yield put(dialogActions.closeImageModal())
     }
   } else {
     yield put(toastActions.showToast('ユーザー情報を更新しました'))

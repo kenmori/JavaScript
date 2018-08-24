@@ -52,7 +52,7 @@ const collectTarget = (connect, monitor) => {
   }
 }
 
-class KeyResult extends PureComponent {
+class KeyResultItem extends PureComponent {
   swapKeyResult = toUp => event => {
     const fromIndex = this.props.index
     const toIndex = toUp ? fromIndex - 1 : fromIndex + 1
@@ -116,7 +116,7 @@ class KeyResult extends PureComponent {
   }
 }
 
-KeyResult.propTypes = {
+KeyResultItem.propTypes = {
   // container
   // component
   index: PropTypes.number.isRequired,
@@ -132,4 +132,4 @@ KeyResult.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 }
 
-export default DropTarget('item', itemTarget, collectTarget)(DragSource('item', itemSource, collectSource)(KeyResult))
+export default DropTarget('item', itemTarget, collectTarget)(DragSource('item', itemSource, collectSource)(KeyResultItem))

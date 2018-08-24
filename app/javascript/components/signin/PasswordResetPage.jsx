@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
+import DocumentTitle from 'react-document-title'
 import logo_image from '../../images/logo_large.png'
 
 class PasswordResetPage extends PureComponent {
@@ -30,6 +31,14 @@ class PasswordResetPage extends PureComponent {
   }
 
   render() {
+    return (
+      <DocumentTitle title="パスワード再設定 - Resily">
+        {this.renderBody()}
+      </DocumentTitle>
+    )
+  }
+
+  renderBody() {
     if (this.props.isCompleted) {
       return this.completedView()
     }

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import DocumentTitle from 'react-document-title'
 import Fetcher from '../containers/Fetcher'
 import MenuBar from '../containers/MenuBar'
 import Dashboard from '../containers/Dashboard'
@@ -11,6 +12,14 @@ import OptionModal from '../containers/OptionModal'
 class Home extends PureComponent {
 
   render() {
+    return (
+      <DocumentTitle title="ホーム - Resily">
+        {this.renderBody()}
+      </DocumentTitle>
+    )
+  }
+
+  renderBody() {
     return (
       <div className='home'>
         <Fetcher okrHash={this.props.okrHash} />
