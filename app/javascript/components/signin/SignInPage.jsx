@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
+import DocumentTitle from 'react-document-title'
 import logo_image from '../../images/logo_large.png'
 
 class SignInPage extends PureComponent {
@@ -17,6 +18,14 @@ class SignInPage extends PureComponent {
   signIn = () => this.props.signIn(this.state.email, this.state.password)
 
   render() {
+    return (
+      <DocumentTitle title="ログイン - Resily">
+        {this.renderBody()}
+      </DocumentTitle>
+    )
+  }
+
+  renderBody() {
     const { email } = this.state
     return (
       <div className="sign-in">

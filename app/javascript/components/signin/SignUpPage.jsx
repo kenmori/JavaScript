@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Image, Segment, Message } from 'semantic-ui-react'
 import moment from 'moment'
+import DocumentTitle from 'react-document-title'
 import logo_image from '../../images/logo_large.png'
 import DatePicker from '../form/DatePicker'
 import OkrSpanSelect from '../form/OkrSpanSelect'
@@ -64,6 +65,14 @@ class SignUpPage extends PureComponent {
   }
 
   render() {
+    return (
+      <DocumentTitle title="新規ユーザー登録 - Resily">
+        {this.renderBody()}
+      </DocumentTitle>
+    )
+  }
+
+  renderBody() {
     const { hasValidToken, isCompleted } = this.props
     if (!hasValidToken) {
       return <Redirect to='/users/sign_in' />

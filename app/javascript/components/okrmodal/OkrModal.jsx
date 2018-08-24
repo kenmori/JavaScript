@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Modal } from 'semantic-ui-react'
+import DocumentTitle from 'react-document-title'
 import { openObjective, goToRoot } from '../../utils/linker'
 import OkrSidebar from './OkrSidebar'
 import ObjectiveTab from './ObjectiveTab'
@@ -81,8 +82,18 @@ class OkrModal extends PureComponent {
   }
 
   render() {
-    const objective = this.props.objective
+    const { objective, keyResultId } = this.props
     if (!objective) return null
+    const keyResult = objective.get('keyResults').find(keyResult => keyResult.get('id') === keyResultId)
+    const name = keyResult ? keyResult.get('name') : objective.get('name')
+    return (
+      <DocumentTitle title={`${name} - Resily`}>
+        {this.renderBody(objective)}
+      </DocumentTitle>
+    )
+  }
+
+  renderBody(objective) {
     return (
       <Modal
         closeIcon 

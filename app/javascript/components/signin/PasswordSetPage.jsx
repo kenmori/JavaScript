@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
+import DocumentTitle from 'react-document-title'
 import logo_image from '../../images/logo_large.png'
 
 class PasswordSetPage extends PureComponent {
@@ -16,6 +17,14 @@ class PasswordSetPage extends PureComponent {
   setPassword = () => this.props.setPassword(this.state.password, this.state.passwordConfirmation, this.props.token)
 
   render() {
+    return (
+      <DocumentTitle title="パスワード設定 - Resily">
+        {this.renderBody()}
+      </DocumentTitle>
+    )
+  }
+
+  renderBody() {
     return (
       <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
