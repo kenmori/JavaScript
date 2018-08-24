@@ -13,14 +13,6 @@
   }
 
   .header {
-    &::after {
-      content: 'β';
-      color: $PRIMARY_COLOR;
-      font-size: medium;
-      margin-top: -16px;
-      margin-left: 4px;
-    }
-
     .logo__img {
       max-width: 80px;
       max-height: 40px;
