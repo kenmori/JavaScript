@@ -31,17 +31,17 @@ class OwnerAvatar extends PureComponent {
     return (
       <table className='owner_avatar__popup'>
         <tbody>
-        <tr>
-          <th>責任者</th>
-          <td><Avatar user={this.props.owner} size='tiny' withInitial={false} withName /></td>
-        </tr>
-
-        {hasMembers && this.props.members.map((member, index) =>
-          <tr key={member.get('id')}>
-            <th>{index === 0 && '関係者'}</th>
-            <td><Avatar user={member} size='tiny' withInitial={false} withName /></td>
+          <tr>
+            <th>責任者</th>
+            <td><Avatar user={this.props.owner} size='tiny' withInitial={false} withName /></td>
           </tr>
-        )}
+
+          {hasMembers && this.props.members.map((member, index) =>
+            <tr key={member.get('id')}>
+              <th>{index === 0 && '関係者'}</th>
+              <td><Avatar user={member} size='tiny' withInitial={false} withName /></td>
+            </tr>
+          )}
         </tbody>
       </table>
     )
