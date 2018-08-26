@@ -75,7 +75,36 @@ MongoClient.connect(process.env.DB_CONN, function(err, db) {
 envはgithubに上げないように。
 秘密にする
 
+## process.envとは何か
+process.envグローバル変数は、
 
+実行時にアプリケーションによって使用されるようにNodeによって注入され、
+
+起動時にアプリケーションが存在するシステム環境の状態を表します。
+
+アプリケーションを有効にするためにはアプリケーションをデプロイする必要があります
+デプロイは単純なwebサイトを作るようなコードから集中的なコンピュータ処理を行うような複雑なAPIまで全て可能です
+最終的にもしアプリケーションがデプロイされなかったら、誰もそれを使うことができないし、目的は達せられません
+
+もしデータベースが必要なら開発時は```127.0.0.1:3306```という文字列を使ってコネクションするかもしれないが、
+本番デプロイ時には```54.32.1.0:3306```へリンクさせたいかもしれない
+
+環境変数を使わないとすると、
+どちらも同じマシーン上でデータベースが利用可能か確認する必要がある
+結果、タイトな結び付きになり、低い利便性、低い拡張性(一つのデータベース上に依存している一つのアプリケーションのインスタンスだけをデプロイすることになる)になる
+もしくは複数の状態の連続の中で自分たちのコードを編集しなければならなくなる
+
+```
+let connectionString;
+if (runningLocally()) {
+  connectionString = 'dev_user:dev_password@127.0.0.1:3306/schema';
+} else if (...) {
+  ...
+} else if (inProduction()) {
+  connectionString = 'prd_user:prd_password@54.32.1.0:3306/schema';
+}
+const connection = new Connection(connectionString);
+```
 
 ## Display Environment Variable
 
@@ -505,3 +534,5 @@ bashはPOSIXより数年前にsh互換の実装として先行して始められ
 [https://www.cyberciti.biz/faq/set-environment-variable-unix/](https://www.cyberciti.biz/faq/set-environment-variable-unix/)
 
 [https://www.bennadel.com/blog/2688-providing-environment-variables-when-executing-node-js-program.htm](https://www.bennadel.com/blog/2688-providing-environment-variables-when-executing-node-js-program.htm)
+
+[https://codeburst.io/process-env-what-it-is-and-why-when-how-to-use-it-effectively-505d0b2831e7](https://codeburst.io/process-env-what-it-is-and-why-when-how-to-use-it-effectively-505d0b2831e7)
