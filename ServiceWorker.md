@@ -14,7 +14,7 @@ WIP
 
 WIP
 
-## resister
+## Resister
 
 この派遣社員を送りますよという登録
 
@@ -30,8 +30,23 @@ scope(働く場所の設定)
 ```js
 resister('sw.js', {scope: '/'})
 ```
+や
+```js
+resister('sw.js', {scope: '/lp/'})
+```
 
-WIP
+lpの下全部など
+
+この場合
+
+```/lp/home.html```や```/lp/image/```
+
+は参照できるが
+
+```/media/home.html```や```/```
+など
+兄弟で違う階層や、「働く場所」より上の階層は参照できない
+
 
 ### install
 
@@ -57,6 +72,8 @@ self.addEventListener('install', function(event) {
 
 ```
 
+
+
 WIP
 
 ### waiting
@@ -81,8 +98,6 @@ WIP
 ・8時間しか経っていない。
 ・最後のsw.jsの更新から24時間経っていたら「必ず」サーバーにリクエストする
 ・
-
-
 
 
 WIP
