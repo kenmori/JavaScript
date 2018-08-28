@@ -17,9 +17,9 @@ OKR の作成・運用・管理を目的としたクラウド OKR ツール。
 ### ビルド
 
 ```
-cd resily
+cd /path/to/resily
 docker-compose build web
-docker-compose run --rm web bin/rails db:setup
+docker-compose run --rm web rails db:setup
 docker-compose up -d
 ```
 
