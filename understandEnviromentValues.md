@@ -1,19 +1,36 @@
-# 環境変数(UnixやNode)とnpm scriptとかpackage.json周りの話
+# 環境変数(UnixやNode)周りの話
+
+index
+
+- nodeの環境変数
+- process.envとは、何か、なぜ、いつ、どのように、効果的に使うのか
+- ブラウザの中での環境変数の取り方
+- 環境変数の表示
+- 実験
+- What is the difference between process.env.USER` and `process.env.USERNAME in Node?
+- /etc/profileと$HOME/.profileとshell起動時の挙動
+- npm script
+- 便利モジュール
+- その他
+- 参照
+
+---
 
 
+## nodeの環境変数
 
 nodeでいう環境変数
 グローバル変数とすることもできるが、
 nodeの環境変数は実行する特定のプロセスで頻繁に利用する変数です
 
 Webapplicationを持っていたら
-PORT
-DBCONECTION
-JAVA_HOME
-の脈絡の中ではenvironment variablesは設定のようなものだが、
+```PORT、DBCONECTION、JAVA_HOME```
+の脈絡の中では ```environment variables```
+は「設定」のようなものだが、
 
-nodeの環境変数はハードコードしたくない情報を渡すための手段です
+nodeの環境変数はハードコードしたくない情報を渡すための手段です。
 
+では、
 nodeアプリの中で定義できて読み込む様々な方法を示しましょう
 
 ```
@@ -25,17 +42,21 @@ nodeを実行する時このように指定でき
 const port = process.env.PORT
 ```
 
-取得できるが、
+で取得できるが、
 
-複数の作る必要がある際に実行が見づらくなる。
+複数の作る必要がある際に実行が見づらくなります。
 
+例えば、
 
 ```
 PORT=65534 DB_CONN="mongodb://react-cosmos-db:swQOhAsVjfHx3Q9VXh29T9U8xQNVGQ78lEQaL6yMNq3rOSA1WhUXHTOcmDf38Q8rg14NHtQLcUuMA==@react-cosmos-db.documents.azure.com:19373/?ssl=true&replicaSet=globaldb" SECRET_KEY=b6264fca-8adf-457f-a94f-5a4b0d1ca2b9  node bin/www
 ```
+のように。
 
 
-なので```.env``` ファイルを使う
+なので```.env``` ファイルを使います。
+
+例えば、
 
 ```
 PORT=65534
@@ -43,15 +64,18 @@ DB_CONN="mongodb://react-cosmos-db:swQOhAsVjfHx3Q9VXh29T9U8xQNVGQ78lEQaL6yMNq3rO
 SECRET_KEY="b6264fca-8adf-457f-a94f-5a4b0d1ca2b9"
 ```
 
-このように設定したものをルートに置き
+このように。
+設定したものをルートに置き
 
 読み込むちょっとしたオプションもあるが
 一番簡単にenvファイルを読み込む方法は
 
 ```dotenv```
-を使う方法。
+を使う方法です。
 
-どこからでもそれを使えるようにpackage.jsonに必須にする
+
+どこからでもそれを使えるようにpackage.jsonに必須にします
+
 
 ```
 npm install dotenv --save
@@ -71,13 +95,15 @@ MongoClient.connect(process.env.DB_CONN, function(err, db) {
   }
 });
 ```
-このように使う
-envはgithubに上げないように。
-秘密にする
+このように使います。
+
+```.env```はgithubに上げないように。
+秘密にしましょう
+
 
 ## process.envとは、何か、なぜ、いつ、どのように、効果的に使うのか
 
-- process.envとは何か
+- process.envとは何でしょうか
 
 process.envグローバル変数は、
 
@@ -85,7 +111,7 @@ process.envグローバル変数は、
 
 起動時にアプリケーションが存在するシステム環境の状態を表します。
 
-- なぜ環境変数は重要なのか
+- なぜ環境変数は重要なのでしょうか
 
 アプリケーションを有効にするためにはアプリケーションをデプロイする必要があります
 デプロイは単純なwebサイトを作るようなコードから集中的なコンピュータ処理を行うような複雑なAPIまで全て可能です
@@ -156,7 +182,89 @@ npm install dotenv --save
 インフラ階層では、
 PM2、Docker Compose、Kubernetesなどのデプロイメントマネージャツールを使用して環境を指定できます。
 
-## Display Environment Variable
+PM2は```env```プロパティを使って環境を指定できる```ecosystem.yaml```ファイルを使います
+
+```
+apps:
+  - script: ./app.js
+    name: 'my_application'
+    env:
+      NODE_ENV: development
+    env_production:
+      NODE_ENV: production
+```
+
+Docker Compose はサービスマニフェストの中に記述された```environment```プロパティに対して同様にできます
+
+```
+version: "3"
+services:
+  my_application:
+    image: node:8.9.4-alpine
+    environment:
+      NODE_ENV: production
+      ...
+```
+Kubernets は環境を設定できるpod テンプレートのなかで同等の```env```プロパティを持ちます
+
+```
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: my_application
+spec:
+  ...
+  template:
+    spec:
+      env:
+        - name: NODE_ENV
+          value: production
+        ...
+```
+
+- いつ使うか
+
+**アプリケーション構成で**
+
+アプリケーション構成はアプリケーションの論理的な振る舞いに影響を与えません
+
+例えば、あなたのアプリケーションはアクセス可能になるポートをリッスンする必要があることを知っていますが、
+
+正確なそのようなポートをしる必要はありません
+
+そのような状態では
+
+これらの値を環境変数として分類することで、
+
+デプロイオーケストレータに任務を任せて
+
+ポートのデコンフリクトを解消し、
+
+アプリケーションがアクセス可能になるために必要なネットワークマップを編成することができます。
+
+**サービス構成のリンクで**
+
+WIP
+
+**デプロイツールとして**
+
+WIP
+
+**アンチパターン**
+
+1. NODE_ENVの過剰使用 - 多くのチュートリアルではprocess.env.NODE_ENVを使用するように教えられていますが、それほど多くはないので、NODE_ENVの値に基づいてif-else分岐を行う傾向があります。 これは環境変数を使用する目的を打ち消します。
+
+2. 時間の影響を受けやすい情報 - 同じサーバー内にデプロイされた別のアプリケーションと通信するためにSSL証明書/ローテーションパスワードが必要なアプリケーションの場合は、環境変数として指定するのが賢明ではありません。 注入された環境は、実行時の環境の状態を表し、静的なままです。
+
+3. タイムゾーンの設定 - Leon Bambrickは2010年に次のように述べています。「コンピュータの科学には2つの困難な問題があります。キャッシュの無効化、名前の付け方、1つのみのエラー」です。別のタイムゾーンを追加します。 高可用性で展開する場合、アプリケーションは複数の可用性ゾーンでインスタンス化できます。 1つのインスタンスは、サンフランシスコのファンシーなデータセンターとシンガポールの別の場所で、ユーザーはロンドンから来ています。 UTCで変換し、タイムゾーンの解像度をクライアント側に任せます。
+
+## ブラウザの中での環境変数の取り方
+
+WIP
+[How To Get Environment Variables in the Browser](https://www.simonewebdesign.it/how-to-get-environment-variables-in-the-browser/)
+
+## 環境変数の表示
+
 
 ```
 $ set
@@ -287,8 +395,6 @@ EnvironmentVariableは
 
 値は文字列です。
 
-$HOGEでアサインする
-
 shellがアウトするまで値は保持される
 
 systemへログインする際に、
@@ -387,25 +493,8 @@ hello: not found
 $
 ```
 
-
-
-
-
-
-
-
-
-
----
 # WIP
 
-改めてまとめてみる
-
-index
-
-- npm script
-- 環境変数
-- package.json
 
 ## npm script
 
@@ -427,10 +516,9 @@ npm i -D webpack-cli
 でローカルプロジェクトにインストールされたライブラリのCLIを叩くことができるのが```npm script```
 
 ```
-watch: webpack --watch 
+watch: webpack --watch
 ```
 
----
 
 ```
 fafa: webpack -c
@@ -449,12 +537,6 @@ webpack -c fafa.js
 
 と同じことになる
 
----
-
-## 環境変数
-
-
----
 
 ## 便利モジュール
 
@@ -463,7 +545,7 @@ webpack -c fafa.js
 - pm2
 - cross-env
 
-### [opener](https://github.com/domenic/opener#readme)
+## [opener](https://github.com/domenic/opener#readme)
 
 コマンドラインからブラウザを開ける
 
@@ -479,7 +561,7 @@ npm script記述
 
 yarn laで開けるコマンド
 
-### better-npm-run
+## better-npm-run
 
 ### [pm2](https://github.com/Unitech/pm2)
 
@@ -493,7 +575,7 @@ childScriptでは$GREETを呼び出す実行をしている
 "childScript": "cross-env-shell \"echo Hello $GREET\"",
 ```
 
-### 設定の意味
+## 設定の意味
 
 appを起動する前に
 
@@ -552,7 +634,7 @@ require('dotenv').config()
 
 
 
-### おまけ
+## その他
 
 [Differnce between sh and bash](https://stackoverflow.com/questions/5725296/difference-between-sh-and-bash?rq=1)
 ・shは[POSIX標準](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)によって書かれているShellコマンドのプログラミング言語。
@@ -560,10 +642,19 @@ bashもshを考慮されている。
 shは仕様で実装ではない。/bin/shはPOSX上の実装への実体へのシンボルリンク。
 bashはPOSIXより数年前にsh互換の実装として先行して始められた
 
+```.bash_profile```は？
+
+.profileはBourne互換のシェル([ボーンシェル](https://ja.wikipedia.org/wiki/Bourne_Shell))で使用されていますが、
+
+.bash_profileはbashのみで使用されています。
+
+[sh compatibleってどういう意味？](https://unix.stackexchange.com/questions/145522/what-does-it-mean-to-be-sh-compatible)
 
 
 
-*ref*
+
+
+## 参照
 
 [https://en.wikipedia.org/wiki/Environment_variable](https://en.wikipedia.org/wiki/Environment_variable)
 
