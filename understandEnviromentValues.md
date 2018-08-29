@@ -16,6 +16,60 @@ index
 
 ---
 
+## Understanding Environment Variables and the Unix Path
+
+cat,grepのプログラミングの名前をタイプする際
+shellはPATHの中に書かれているディレクトリに対してプログラム実行ファイルを探しに行きます
+PATH、それ自体は環境変数です(他の共通の```EDITOR```や```JAVA_HOME```などを含んできる)
+環境変数はshellのセッション中に生存できるグローバル変数で、shellがショートカットや優先を指定するのに役立ちます
+
+あなたは動的に```export```を使って、環境変数を設定できたり、永続的に```~/.bash_profile``` or ```~/.bashrc```ファイル
+に設定できます
+例えば
+vimを実行するために$EDITORと```.bash_profile```上で使います
+このように
+
+```
+$ export EDITOR=vim
+$ $EDITOR ~/.bash_profile
+export PATH=$PATH:/something/i/need/to/add
+export NEW_ENVIRONMENT_VARIABLE=value`
+```
+環境変数はshellのセッションが開始された際に```.bash_profile```から読み込まれ
+ファイルが保存された後、その変更を影響させる前に新しいターミナルウィンドゥを立ち上げる必要があります
+
+- A Primer on bash
+
+```bash```はOS XやLinux上での標準shellです
+bashはインタラクティブshellでありスクリプト言語の両方です
+後述の例題のケースはbash scriptsと呼ばれています
+
+```~/.bash_profile```は実際はbashが開始されるとき毎に実行されます。あなたが新しいターミナルを開いたときはいつも。
+
+bash構文にちょっとだけ親しんでみましょう
+
+- bash Prompt Conventions
+
+```$```はbashプロンプトを示すためにドキュメントの中でよく使われます
+ターミナルで何かをタイプするべきことを示めすこれを頻繁に見るだろう
+
+なので```$```をタイプしないでください
+
+```
+$ export EDITOR=vim
+```
+
+exportされる変数名は大文字にされないと悪いことが起きるかもしれない。
+
+
+Basic bash Syntax
+
+WIP
+
+
+
+
+
 
 ## nodeの環境変数
 
@@ -405,7 +459,7 @@ shellは下層でinitialzationを呼び環境を設定するために解析す�
 ```
 /etc/profile
 .profile
-````
+```
 
 shellは/etc/profileファイルが存在するかどうかみる
 
@@ -479,7 +533,7 @@ PATHの値はコマンドラインに対して見るべきか場所を記述す�
 $PATH=/bin:/usr/bin
 ```
 
-それそれの分岐はコロン文字によって分けられたている
+それそれの分岐はコロン文字によって分けられている
 
 もしあなたがシェルにコマンドを実行するためにリクエストし、
 
