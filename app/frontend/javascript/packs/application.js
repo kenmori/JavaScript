@@ -7,7 +7,7 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.slim
 
-require('../../assets/stylesheets/application')
+require('../../stylesheet/application')
 require('./Root.jsx')
 
 if (process.env.NODE_ENV !== 'production') {
