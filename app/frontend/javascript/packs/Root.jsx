@@ -1,4 +1,9 @@
 import 'babel-polyfill'
+import 'semantic-ui-css/semantic.min.css'
+import 'react-datepicker/dist/react-datepicker.min.css'
+import 'github-markdown-css/github-markdown.css'
+import 'highlight.js/styles/default.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
