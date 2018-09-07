@@ -1,12 +1,17 @@
 const environment = require('./environment')
 const webpack = require('webpack')
 
-environment.plugins.set('UglifyJs', new webpack.optimize.UglifyJsPlugin({
-  parallel:   true,
-  sourceMap:  false,
-  mangle:     false,
+environment.plugins.append('DefinePlugin', new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify('production'),
+  'process.env.GA_TRACKING_CODE': JSON.stringify('UA-111410984-3'),
+}))
+
+environment.plugins.append("UglifyJs", new webpack.optimize.UglifyJsPlugin({
+  parallel: true,
+  sourceMap: false,
+  mangle: false,
   uglifyOptions: {
-    mangle:   false
+    mangle: false
   },
   compress: {
     warnings: false
@@ -14,11 +19,6 @@ environment.plugins.set('UglifyJs', new webpack.optimize.UglifyJsPlugin({
   output: {
     comments: false
   }
-}))
-
-environment.plugins.set('Define', new webpack.DefinePlugin({
-  'process.env.NODE_ENV': JSON.stringify('production'),
-  'process.env.GA_TRACKING_CODE': JSON.stringify('UA-111410984-3'),
 }))
 
 const config = environment.toWebpackConfig()
