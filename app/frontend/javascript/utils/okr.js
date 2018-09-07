@@ -12,14 +12,18 @@ export const okrOptions = (okrs, withNone) => {
     key: okr.get('id'),
     value: okr.get('id'),
     text: (okr.get('disabled') ? '[無効] ' : '') + okr.get('name'),
-    image: { avatar: true, src: okr.getIn(['owner', 'avatarUrl']) || avatar_image },
+    image: {
+      avatar: true,
+      src: okr.getIn(['owner', 'avatarUrl']) || avatar_image
+    }
   }))
-  if (withNone) { // なしの選択肢を追加
-    options = options.insert(0, ({
+  if (withNone) {
+    // なしの選択肢を追加
+    options = options.insert(0, {
       key: -1,
       value: -1,
-      text: 'なし',
-    }))
+      text: 'なし'
+    })
   }
   return options.toArray()
 }
@@ -42,7 +46,9 @@ const getParentObjective = (objective, entities) => {
 
 export const isChildObjective = (objective, ownerId, entities) => {
   const parentObjective = getParentObjective(objective, entities)
-  return parentObjective ? parentObjective.getIn(['owner', 'id']) === ownerId : false
+  return parentObjective
+    ? parentObjective.getIn(['owner', 'id']) === ownerId
+    : false
 }
 
 export const isChildObjectiveById = (objectiveId, ownerId, entities) => {
@@ -71,7 +77,9 @@ export const isMemberObjectiveById = (objectiveId, entities) => {
       const parentKeyResult = getParentKeyResult(objective, entities)
       if (parentKeyResult) {
         const ownerId = objective.getIn(['owner', 'id'])
-        return parentKeyResult.get('members').some(member => member.get('id') === ownerId)
+        return parentKeyResult
+          .get('members')
+          .some(member => member.get('id') === ownerId)
       }
     }
   }
@@ -83,21 +91,41 @@ export const getObjectiveByKeyResultId = (keyResultId, entities) => {
   return entities.objectives.get(keyResult.get('objectiveId'))
 }
 
-export const getEnabledObjective = (objectiveId, showDisabledOkrs, entities) => {
+export const getEnabledObjective = (
+  objectiveId,
+  showDisabledOkrs,
+  entities
+) => {
   const objective = entities.objectives.get(objectiveId)
   if (showDisabledOkrs) {
     return objective
   }
-  const parentKeyResult = entities.keyResults.get(objective.get('parentKeyResultId'))
-  return (parentKeyResult && parentKeyResult.get('disabled')) ? objective.set('parentKeyResultId', null) : objective
+  const parentKeyResult = entities.keyResults.get(
+    objective.get('parentKeyResultId')
+  )
+  return parentKeyResult && parentKeyResult.get('disabled')
+    ? objective.set('parentKeyResultId', null)
+    : objective
 }
 
-export const getEnabledObjectiveIds = (objectiveIds, showDisabledOkrs, entities) => {
-  return showDisabledOkrs ? objectiveIds : objectiveIds.filter(id => !entities.objectives.getIn([id, 'disabled']))
+export const getEnabledObjectiveIds = (
+  objectiveIds,
+  showDisabledOkrs,
+  entities
+) => {
+  return showDisabledOkrs
+    ? objectiveIds
+    : objectiveIds.filter(id => !entities.objectives.getIn([id, 'disabled']))
 }
 
-export const getEnabledKeyResultIds = (keyResultIds, showDisabledOkrs, entities) => {
-  return showDisabledOkrs ? keyResultIds : keyResultIds.filter(id => !entities.keyResults.getIn([id, 'disabled']))
+export const getEnabledKeyResultIds = (
+  keyResultIds,
+  showDisabledOkrs,
+  entities
+) => {
+  return showDisabledOkrs
+    ? keyResultIds
+    : keyResultIds.filter(id => !entities.keyResults.getIn([id, 'disabled']))
 }
 
 // KR 一覧に紐付いている子 O が全て disabled の場合は true

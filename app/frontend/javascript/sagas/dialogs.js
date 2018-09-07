@@ -14,9 +14,13 @@ function* openOkrModal({ payload: { objectiveId, keyResultId } }) {
     const hasObjectiveId = entities.objectives.has(objectiveId)
     const hasKeyResultId = entities.keyResults.has(keyResultId)
     if (hasObjectiveId && (!keyResultId || hasKeyResultId)) {
-      const currentObjectiveId = yield select(state => state.dialogs.getIn(['okrForm', 'objectiveId']))
+      const currentObjectiveId = yield select(state =>
+        state.dialogs.getIn(['okrForm', 'objectiveId'])
+      )
       if (currentObjectiveId !== objectiveId) {
-        yield put(objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId))
+        yield put(
+          objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId)
+        )
       }
       yield put(dialogActions.openedOkrModal(objectiveId, keyResultId))
     } else {
@@ -31,7 +35,10 @@ function* openOkrModal({ payload: { objectiveId, keyResultId } }) {
 
 function* fetchObjective(objectiveId, keyResultId) {
   yield put(objectiveActions.fetchObjective(objectiveId, keyResultId))
-  const action = yield take([actionTypes.FETCHED_OBJECTIVE, actionTypes.FETCHED_OBJECTIVE_ERROR])
+  const action = yield take([
+    actionTypes.FETCHED_OBJECTIVE,
+    actionTypes.FETCHED_OBJECTIVE_ERROR
+  ])
   if (action.type === actionTypes.FETCHED_OBJECTIVE) {
     yield put(dialogActions.openedOkrModal(objectiveId, keyResultId))
   } else {
@@ -40,14 +47,14 @@ function* fetchObjective(objectiveId, keyResultId) {
 }
 
 function* openErrorModal() {
-  yield put(dialogActions.openErrorModal({
-    message: '指定された OKR は存在しません',
-    onCloseBefore: () => history.push('/'),
-  }))
+  yield put(
+    dialogActions.openErrorModal({
+      message: '指定された OKR は存在しません',
+      onCloseBefore: () => history.push('/')
+    })
+  )
 }
 
 export function* dialogSagas() {
-  yield all([
-    takeLatest(actionTypes.OPEN_OKR_MODAL, withLoading(openOkrModal)),
-  ])
+  yield all([takeLatest(actionTypes.OPEN_OKR_MODAL, withLoading(openOkrModal))])
 }

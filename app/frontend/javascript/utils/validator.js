@@ -4,18 +4,32 @@ export const validateObjectiveName = value => {
   return value ? undefined : 'Objective を入力してください'
 }
 
-export const validateIsolatedObjectiveId = (value, _, { isolatedObjectives }) => {
-  const isIsolatedObjective = isolatedObjectives.some(objective => objective.get('id') === value)
+export const validateIsolatedObjectiveId = (
+  value,
+  _,
+  { isolatedObjectives }
+) => {
+  const isIsolatedObjective = isolatedObjectives.some(
+    objective => objective.get('id') === value
+  )
   return isIsolatedObjective ? undefined : '孤立 Objective を選択してください'
 }
 
-export const validatePreviousObjectiveId = (value, _, { previousObjectives }) => {
-  const isPreviousObjective = previousObjectives.some(objective => objective.get('id') === value)
+export const validatePreviousObjectiveId = (
+  value,
+  _,
+  { previousObjectives }
+) => {
+  const isPreviousObjective = previousObjectives.some(
+    objective => objective.get('id') === value
+  )
   return isPreviousObjective ? undefined : '前期 Objective を選択してください'
 }
 
 export const validateParentKeyResultId = value => {
-  return (value && value !== -1) ? undefined : '上位 Key Result を選択してください'
+  return value && value !== -1
+    ? undefined
+    : '上位 Key Result を選択してください'
 }
 
 export const validateKeyResultName = value => {
@@ -40,6 +54,7 @@ export const validateExpiredDate = value => {
 }
 
 export const normalizeExpiredDate = value => {
-  const expiredDate = (typeof value === 'string') ? moment(value, 'YYYY/M/D') : value
+  const expiredDate =
+    typeof value === 'string' ? moment(value, 'YYYY/M/D') : value
   return expiredDate ? expiredDate.format('YYYY-MM-DD') : null
 }

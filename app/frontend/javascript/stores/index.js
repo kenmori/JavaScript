@@ -11,15 +11,12 @@ export default function configureStore() {
     const { createLogger } = require('redux-logger')
     const logger = createLogger({
       duration: true,
-      timestamp: false,
+      timestamp: false
     })
     middlewares.push(logger)
   }
 
-  const store = createStore(
-    reducers,
-    applyMiddleware(...middlewares),
-  )
+  const store = createStore(reducers, applyMiddleware(...middlewares))
   sagaMiddleware.run(rootSaga)
   return store
 }

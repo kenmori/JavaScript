@@ -28,7 +28,7 @@ const reducers = combineReducers({
   okrPeriods,
   devise,
   loading,
-  toasts,
+  toasts
 })
 
 export default reducers
