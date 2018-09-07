@@ -1,0 +1,23 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# General
+[*]
+charset = utf-8
+end_of_line = LF
+
+indent_style = space
+indent_size = 2
+
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# git
+[{*gitconfig,.gitattributes,.gitignore,.gitmodules}]
+indent_style = tab
+
+# markdown
+[*.md]
+trim_trailing_whitespace = false
