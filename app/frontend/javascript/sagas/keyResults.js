@@ -1,4 +1,6 @@
-import { all, put, takeLatest, select } from 'redux-saga/effects'
+import {
+  all, put, takeLatest, select,
+} from 'redux-saga/effects'
 import call from '../utils/call'
 import API from '../utils/api'
 import keyResultActions from '../actions/keyResults'
@@ -10,7 +12,7 @@ import toastActions from '../actions/toasts'
 function* fetchKeyResults({ payload }) {
   const result = yield call(API.get, '/key_results', {
     okrPeriodId: payload.okrPeriodId,
-    userId: payload.userId
+    userId: payload.userId,
   })
   yield put(keyResultActions.fetchedKeyResults(result.get('keyResults')))
 }
@@ -18,7 +20,7 @@ function* fetchKeyResults({ payload }) {
 function* fetchKeyResultCandidates({ payload }) {
   const result = yield call(API.get, '/key_results/candidates', {
     okrPeriodId: payload.okrPeriodId,
-    userId: payload.userId
+    userId: payload.userId,
   })
   yield put(keyResultActions.fetchedKeyResultCandidates(result))
 }
@@ -26,18 +28,18 @@ function* fetchKeyResultCandidates({ payload }) {
 function* fetchTaskKeyResults({ payload }) {
   const result = yield call(API.get, '/key_results/unprocessed', {
     okrPeriodId: payload.okrPeriodId,
-    userId: payload.userId
+    userId: payload.userId,
   })
   yield put(keyResultActions.fetchedTaskKeyResults(result.get('keyResults')))
 }
 
 function* addKeyResult({ payload }) {
   const result = yield call(API.post, '/key_results', {
-    keyResult: payload.keyResult
+    keyResult: payload.keyResult,
   })
   const currentUserId = yield select(state => state.current.get('userId'))
   yield put(
-    keyResultActions.addedKeyResult(result.get('keyResult'), currentUserId)
+    keyResultActions.addedKeyResult(result.get('keyResult'), currentUserId),
   )
   yield put(dialogActions.closeKeyResultModal())
   yield put(toastActions.showToast('Key Result を作成しました'))
@@ -45,39 +47,39 @@ function* addKeyResult({ payload }) {
 
 function* updateKeyResult({ payload }) {
   const { keyResult } = payload
-  const result = yield call(API.put, '/key_results/' + keyResult.id, {
-    keyResult
+  const result = yield call(API.put, `/key_results/${keyResult.id}`, {
+    keyResult,
   })
   const currentUserId = yield select(state => state.current.get('userId'))
   yield put(
-    keyResultActions.updatedKeyResult(result.get('keyResult'), currentUserId)
+    keyResultActions.updatedKeyResult(result.get('keyResult'), currentUserId),
   )
   if (keyResult.member && keyResult.member.behavior === 'remove') {
     yield put(
       keyResultActions.removedKeyResultMember(
         keyResult.id,
-        keyResult.member.user
-      )
+        keyResult.member.user,
+      ),
     )
   }
   yield put(toastActions.showToast('Key Result を更新しました'))
 }
 
 function* removeKeyResult({ payload }) {
-  const result = yield call(API.delete, '/key_results/' + payload.id)
+  const result = yield call(API.delete, `/key_results/${payload.id}`)
   yield put(keyResultActions.removedKeyResult(result.get('keyResult')))
   yield put(toastActions.showToast('Key Result を削除しました'))
 }
 
 function* disableKeyResult({ payload: { id, toDisable } }) {
   const result = yield call(API.put, `/key_results/${id}/disable`, {
-    disabled: toDisable
+    disabled: toDisable,
   })
   yield put(keyResultActions.disabledKeyResult(result.get('keyResult')))
   yield put(
     toastActions.showToast(
-      `Key Result を${toDisable ? '無効化' : '有効化'}しました`
-    )
+      `Key Result を${toDisable ? '無効化' : '有効化'}しました`,
+    ),
   )
 }
 
@@ -91,16 +93,16 @@ export function* keyResultSagas() {
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
     takeLatest(
       actionTypes.FETCH_KEY_RESULT_CANDIDATES,
-      fetchKeyResultCandidates
+      fetchKeyResultCandidates,
     ),
     takeLatest(
       actionTypes.FETCH_TASK_KEY_RESULTS,
-      withLoading(fetchTaskKeyResults)
+      withLoading(fetchTaskKeyResults),
     ),
     takeLatest(actionTypes.ADD_KEY_RESULT, withLoading(addKeyResult)),
     takeLatest(actionTypes.UPDATE_KEY_RESULT, withLoading(updateKeyResult)),
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),
     takeLatest(actionTypes.DISABLE_KEY_RESULT, withLoading(disableKeyResult)),
-    takeLatest(actionTypes.PROCESS_KEY_RESULT, withLoading(processKeyResult))
+    takeLatest(actionTypes.PROCESS_KEY_RESULT, withLoading(processKeyResult)),
   ])
 }

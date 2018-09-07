@@ -1,4 +1,6 @@
-import { all, put, take, takeLatest, select } from 'redux-saga/effects'
+import {
+  all, put, take, takeLatest, select,
+} from 'redux-saga/effects'
 import call, { callInSilent } from '../utils/call'
 import API from '../utils/api'
 import objectiveActions from '../actions/objectives'
@@ -13,12 +15,14 @@ import {
   isMemberKeyResultById,
   getObjectiveByKeyResultId,
   getEnabledObjectiveIds,
-  getEnabledKeyResultIds
+  getEnabledKeyResultIds,
 } from '../utils/okr'
 import { OkrTypes } from '../utils/okr'
 
 function* fetchOkrs({
-  payload: { okrPeriodId, userId, isOkrPeriodChanged, isInitialOkrSelected }
+  payload: {
+    okrPeriodId, userId, isOkrPeriodChanged, isInitialOkrSelected,
+  },
 }) {
   const loginUserId = yield select(state => state.loginUser.get('id'))
   if (isOkrPeriodChanged) {
@@ -42,15 +46,15 @@ function* fetchOkrs({
     // 前期 OKR の fetch
     const okrPeriods = yield select(state => state.okrPeriods)
     const okrPeriodIndex = okrPeriods.findIndex(
-      okrPeriod => okrPeriod.get('id') === okrPeriodId
+      okrPeriod => okrPeriod.get('id') === okrPeriodId,
     )
     if (okrPeriodIndex > 0) {
       const previousOkrPeriodId = okrPeriods.getIn([okrPeriodIndex - 1, 'id'])
       yield put(
         objectiveActions.fetchPreviousObjectives(
           previousOkrPeriodId,
-          loginUserId
-        )
+          loginUserId,
+        ),
       ) // without loading
       yield take(actionTypes.FETCHED_PREVIOUS_OBJECTIVES)
     } else {
@@ -62,15 +66,15 @@ function* fetchOkrs({
     yield put(
       keyResultActions.fetchKeyResultCandidates(
         okrPeriodId,
-        isAdmin ? undefined : loginUserId
-      )
+        isAdmin ? undefined : loginUserId,
+      ),
     ) // without loading
     yield take(actionTypes.FETCHED_KEY_RESULT_CANDIDATES)
     yield put(
       objectiveActions.fetchObjectiveCandidates(
         okrPeriodId,
-        isAdmin ? undefined : loginUserId
-      )
+        isAdmin ? undefined : loginUserId,
+      ),
     ) // without loading
     yield take(actionTypes.FETCHED_OBJECTIVE_CANDIDATES)
   }
@@ -81,26 +85,25 @@ function* selectInitialTaskKeyResult() {
 }
 
 function* selectInitialObjective() {
-  const objectiveId = yield select(state => {
+  const objectiveId = yield select((state) => {
     const showDisabledOkrs = state.loginUser.getIn([
       'userSetting',
-      'showDisabledOkrs'
+      'showDisabledOkrs',
     ])
     const objectives = getEnabledObjectiveIds(
       state.objectives.get('ids'),
       showDisabledOkrs,
-      state.entities
+      state.entities,
     )
     const ownerId = state.current.get('userId')
     const showChildObjectives = state.loginUser.getIn([
       'userSetting',
-      'showChildObjectives'
+      'showChildObjectives',
     ])
     return showChildObjectives
       ? objectives.first()
       : objectives.find(
-        objectiveId =>
-          !isChildObjectiveById(objectiveId, ownerId, state.entities)
+        objectiveId => !isChildObjectiveById(objectiveId, ownerId, state.entities),
       )
   })
   if (objectiveId) {
@@ -114,40 +117,37 @@ function* selectInitialObjective() {
 function* selectInitialKeyResult(
   ids = 'ids',
   type = OkrTypes.KEY_RESULT,
-  selectAnyway = true
+  selectAnyway = true,
 ) {
-  const keyResultId = yield select(state => {
+  const keyResultId = yield select((state) => {
     const showDisabledOkrs = state.loginUser.getIn([
       'userSetting',
-      'showDisabledOkrs'
+      'showDisabledOkrs',
     ])
     const keyResults = getEnabledKeyResultIds(
       state.keyResults.get(ids),
       showDisabledOkrs,
-      state.entities
+      state.entities,
     )
     const ownerId = state.current.get('userId')
     const showMemberKeyResults = state.loginUser.getIn([
       'userSetting',
-      'showMemberKeyResults'
+      'showMemberKeyResults',
     ])
     return showMemberKeyResults
       ? keyResults.first()
       : keyResults.find(
-        keyResultId =>
-          !isMemberKeyResultById(keyResultId, ownerId, state.entities)
+        keyResultId => !isMemberKeyResultById(keyResultId, ownerId, state.entities),
       )
   })
   if (keyResultId) {
-    const keyResult = yield select(state =>
-      state.entities.keyResults.get(keyResultId)
-    )
+    const keyResult = yield select(state => state.entities.keyResults.get(keyResultId))
     yield put(
-      currentActions.selectOkr(keyResult.get('objectiveId'), keyResultId)
+      currentActions.selectOkr(keyResult.get('objectiveId'), keyResultId),
     )
     yield put(currentActions.selectTab(type))
     return true
-  } else if (selectAnyway) {
+  } if (selectAnyway) {
     yield put(currentActions.clearSelectedOkr())
     yield put(currentActions.selectTab(OkrTypes.OBJECTIVE))
     return true
@@ -158,7 +158,7 @@ function* selectInitialKeyResult(
 function* fetchObjective({ payload }) {
   const result = yield callFetchObjective(
     payload.objectiveId,
-    payload.keyResultId
+    payload.keyResultId,
   )
   if (result.error) {
     yield put(objectiveActions.fetchedObjectiveError())
@@ -170,7 +170,7 @@ function* fetchObjective({ payload }) {
 function* fetchObjectiveAsync({ payload }) {
   const result = yield callFetchObjective(
     payload.objectiveId,
-    payload.keyResultId
+    payload.keyResultId,
   )
   yield put(objectiveActions.fetchedObjective(result.get('objective')))
 }
@@ -180,7 +180,7 @@ function* callFetchObjective(objectiveId, keyResultId) {
     API.get,
     objectiveId
       ? `/objectives/${objectiveId}`
-      : `/key_results/${keyResultId}/objective`
+      : `/key_results/${keyResultId}/objective`,
   )
 }
 
@@ -192,7 +192,7 @@ function* fetchObjectives({ payload }) {
 function* fetchPreviousObjectives({ payload }) {
   const result = yield callFetchObjectives(payload.okrPeriodId, payload.userId)
   yield put(
-    objectiveActions.fetchedPreviousObjectives(result.get('objectives'))
+    objectiveActions.fetchedPreviousObjectives(result.get('objectives')),
   )
 }
 
@@ -203,7 +203,7 @@ function* callFetchObjectives(okrPeriodId, userId) {
 function* fetchObjectiveCandidates({ payload }) {
   const result = yield call(API.get, '/objectives/candidates', {
     okrPeriodId: payload.okrPeriodId,
-    userId: payload.userId
+    userId: payload.userId,
   })
   yield put(objectiveActions.fetchedObjectiveCandidates(result))
 }
@@ -226,17 +226,16 @@ function* selectOrExpandMapOkr(objective) {
   if (parentKeyResultId) {
     const [entities, mapOkr] = yield select(state => [
       state.entities,
-      state.current.get('mapOkr')
+      state.current.get('mapOkr'),
     ])
     const parentObjective = getObjectiveByKeyResultId(
       parentKeyResultId,
-      entities
+      entities,
     )
     const parentObjectiveId = parentObjective.get('id')
     const grandParentKeyResultId = parentObjective.get('parentKeyResultId')
     const isMapped = mapOkr.some(
-      (krIds, oId) =>
-        oId === parentObjectiveId || krIds.includes(grandParentKeyResultId)
+      (krIds, oId) => oId === parentObjectiveId || krIds.includes(grandParentKeyResultId),
     )
     if (isMapped) {
       // 下位 O 追加時は OKR マップ上で常に下位 O を表示する (上位 KR を強制的に展開する)
@@ -244,8 +243,8 @@ function* selectOrExpandMapOkr(objective) {
         currentActions.expandKeyResult(
           parentObjectiveId,
           parentKeyResultId,
-          grandParentKeyResultId
-        )
+          grandParentKeyResultId,
+        ),
       )
       return
     }
@@ -256,16 +255,14 @@ function* selectOrExpandMapOkr(objective) {
 function* updateObjective({ payload }) {
   const result = yield call(
     API.put,
-    '/objectives/' + payload.objective.id,
-    payload
+    `/objectives/${payload.objective.id}`,
+    payload,
   )
   const currentUserId = yield select(state => state.current.get('userId'))
   yield put(
-    objectiveActions.updatedObjective(result.get('objective'), currentUserId)
+    objectiveActions.updatedObjective(result.get('objective'), currentUserId),
   )
-  const isOpenObjectiveModal = yield select(state =>
-    state.dialogs.getIn(['objectiveForm', 'isOpen'])
-  )
+  const isOpenObjectiveModal = yield select(state => state.dialogs.getIn(['objectiveForm', 'isOpen']))
   if (isOpenObjectiveModal) {
     yield put(dialogActions.closeObjectiveModal())
   }
@@ -275,10 +272,8 @@ function* updateObjective({ payload }) {
 }
 
 function* removeObjective({ payload }) {
-  const keyResultIds = yield select(state =>
-    state.entities.objectives.getIn([payload.id, 'keyResultIds'])
-  )
-  const result = yield call(API.delete, '/objectives/' + payload.id)
+  const keyResultIds = yield select(state => state.entities.objectives.getIn([payload.id, 'keyResultIds']))
+  const result = yield call(API.delete, `/objectives/${payload.id}`)
   yield put(objectiveActions.removedObjective(result.get('objective')))
   if (!keyResultIds.isEmpty()) {
     yield put(objectiveActions.removedObjectiveKeyResults(keyResultIds))
@@ -288,13 +283,13 @@ function* removeObjective({ payload }) {
 
 function* disableObjective({ payload: { id, toDisable } }) {
   const result = yield call(API.put, `/objectives/${id}/disable`, {
-    disabled: toDisable
+    disabled: toDisable,
   })
   yield put(objectiveActions.disabledObjective(result.get('objective')))
   yield put(
     toastActions.showToast(
-      `Objective を${toDisable ? '無効化' : '有効化'}しました`
-    )
+      `Objective を${toDisable ? '無効化' : '有効化'}しました`,
+    ),
   )
 }
 
@@ -307,11 +302,11 @@ export function* objectiveSagas() {
     takeLatest(actionTypes.FETCH_PREVIOUS_OBJECTIVES, fetchPreviousObjectives),
     takeLatest(
       actionTypes.FETCH_OBJECTIVE_CANDIDATES,
-      fetchObjectiveCandidates
+      fetchObjectiveCandidates,
     ),
     takeLatest(actionTypes.ADD_OBJECTIVE, withLoading(addObjective)),
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
-    takeLatest(actionTypes.DISABLE_OBJECTIVE, withLoading(disableObjective))
+    takeLatest(actionTypes.DISABLE_OBJECTIVE, withLoading(disableObjective)),
   ])
 }

@@ -7,16 +7,16 @@ const actions = createActions({
   [actionTypes.ADD_ORGANIZATION]: (organization, user, okrPeriod) => ({
     organization,
     user,
-    okrPeriod
+    okrPeriod,
   }),
   [actionTypes.ADDED_ORGANIZATION]: organization => ({ organization }),
   [actionTypes.UPDATE_ORGANIZATION]: organization => ({ organization }),
   [actionTypes.UPDATED_ORGANIZATION]: organization => ({ organization }),
   [actionTypes.UPDATE_ORGANIZATION_OWNER]: (organizationId, userId) => ({
     organizationId,
-    userId
+    userId,
   }),
-  [actionTypes.UPDATED_ORGANIZATION_OWNER]: ownerId => ({ ownerId })
+  [actionTypes.UPDATED_ORGANIZATION_OWNER]: ownerId => ({ ownerId }),
 })
 
 export default actions

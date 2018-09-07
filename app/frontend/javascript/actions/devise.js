@@ -6,7 +6,7 @@ const actions = createActions({
   [actionTypes.SIGN_OUT]: () => {},
   [actionTypes.RESET_PASSWORD]: user => ({ user }),
   [actionTypes.RESET_PASSWORD_COMPLETED]: () => {},
-  [actionTypes.SET_PASSWORD]: user => ({ user })
+  [actionTypes.SET_PASSWORD]: user => ({ user }),
 })
 
 export default actions

@@ -33,6 +33,6 @@ export function* deviseSagas() {
     takeLatest(actionTypes.SIGN_IN, signIn),
     takeLatest(actionTypes.SIGN_OUT, signOut),
     takeLatest(actionTypes.RESET_PASSWORD, withLoading(resetPassword)),
-    takeLatest(actionTypes.SET_PASSWORD, withLoading(setPassword))
+    takeLatest(actionTypes.SET_PASSWORD, withLoading(setPassword)),
   ])
 }

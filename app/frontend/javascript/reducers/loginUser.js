@@ -13,21 +13,17 @@ const initialState = fromJS(
       firstName: loginUser.get('firstName'),
       email: loginUser.get('email'),
       avatarUrl: loginUser.getIn(['avatar', 'url']),
-      userSetting: gon.get('userSetting')
+      userSetting: gon.get('userSetting'),
     }
-    : { userSetting: {} }
+    : { userSetting: {} },
 )
 
 export default handleActions(
   {
-    [ActionTypes.UPDATED_USER]: (state, { payload }) => {
-      return state.get('id') === payload.user.get('id')
-        ? state.merge(payload.user)
-        : state
-    },
-    [ActionTypes.UPDATED_USER_SETTING]: (state, { payload }) => {
-      return state.set('userSetting', payload.userSetting)
-    }
+    [ActionTypes.UPDATED_USER]: (state, { payload }) => (state.get('id') === payload.user.get('id')
+      ? state.merge(payload.user)
+      : state),
+    [ActionTypes.UPDATED_USER_SETTING]: (state, { payload }) => state.set('userSetting', payload.userSetting),
   },
-  initialState
+  initialState,
 )

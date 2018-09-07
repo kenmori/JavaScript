@@ -8,7 +8,7 @@ import toastActions from '../actions/toasts'
 import dialogActions from '../actions/dialogs'
 
 function* fetchOrganization({ payload }) {
-  const result = yield call(API.get, '/organizations/' + payload.id)
+  const result = yield call(API.get, `/organizations/${payload.id}`)
   yield put(organizationActions.fetchedOrganization(result.get('organization')))
 }
 
@@ -16,14 +16,14 @@ function* addOrganization({ payload: { organization, user, okrPeriod } }) {
   const result = yield call(API.post, '/organizations/', {
     organization,
     user,
-    okrPeriod
+    okrPeriod,
   })
   yield put(organizationActions.addedOrganization(result.get('organization')))
 }
 
 function* updateOrganization({ payload: { organization } }) {
-  const result = yield call(API.put, '/organizations/' + organization.id, {
-    organization
+  const result = yield call(API.put, `/organizations/${organization.id}`, {
+    organization,
   })
   yield put(organizationActions.updatedOrganization(result.get('organization')))
 
@@ -42,7 +42,7 @@ function* updateOrganizationOwner({ payload }) {
   const result = yield call(
     API.put,
     `/organizations/${payload.organizationId}/owner`,
-    params
+    params,
   )
   yield put(organizationActions.updatedOrganizationOwner(result.get('ownerId')))
   yield put(toastActions.showToast('組織の代表者を変更しました'))
@@ -54,11 +54,11 @@ export function* organizationSagas() {
     takeLatest(actionTypes.ADD_ORGANIZATION, withLoading(addOrganization)),
     takeLatest(
       actionTypes.UPDATE_ORGANIZATION,
-      withLoading(updateOrganization)
+      withLoading(updateOrganization),
     ),
     takeLatest(
       actionTypes.UPDATE_ORGANIZATION_OWNER,
-      withLoading(updateOrganizationOwner)
-    )
+      withLoading(updateOrganizationOwner),
+    ),
   ])
 }

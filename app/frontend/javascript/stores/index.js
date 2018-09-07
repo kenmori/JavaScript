@@ -11,7 +11,7 @@ export default function configureStore() {
     const { createLogger } = require('redux-logger')
     const logger = createLogger({
       duration: true,
-      timestamp: false
+      timestamp: false,
     })
     middlewares.push(logger)
   }
