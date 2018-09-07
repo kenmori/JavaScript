@@ -13,12 +13,18 @@ function* fetchOrganization({ payload }) {
 }
 
 function* addOrganization({ payload: { organization, user, okrPeriod } }) {
-  const result = yield call(API.post, '/organizations/', { organization, user, okrPeriod })
+  const result = yield call(API.post, '/organizations/', {
+    organization,
+    user,
+    okrPeriod
+  })
   yield put(organizationActions.addedOrganization(result.get('organization')))
 }
 
 function* updateOrganization({ payload: { organization } }) {
-  const result = yield call(API.put, '/organizations/' + organization.id, { organization })
+  const result = yield call(API.put, '/organizations/' + organization.id, {
+    organization
+  })
   yield put(organizationActions.updatedOrganization(result.get('organization')))
 
   if (organization.logo || organization.removeLogo) {
@@ -33,7 +39,11 @@ function* updateOrganization({ payload: { organization } }) {
 
 function* updateOrganizationOwner({ payload }) {
   const params = { organizationMember: { user: payload.userId } }
-  const result = yield call(API.put, `/organizations/${payload.organizationId}/owner`, params)
+  const result = yield call(
+    API.put,
+    `/organizations/${payload.organizationId}/owner`,
+    params
+  )
   yield put(organizationActions.updatedOrganizationOwner(result.get('ownerId')))
   yield put(toastActions.showToast('組織の代表者を変更しました'))
 }
@@ -42,7 +52,13 @@ export function* organizationSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_ORGANIZATION, withLoading(fetchOrganization)),
     takeLatest(actionTypes.ADD_ORGANIZATION, withLoading(addOrganization)),
-    takeLatest(actionTypes.UPDATE_ORGANIZATION, withLoading(updateOrganization)),
-    takeLatest(actionTypes.UPDATE_ORGANIZATION_OWNER, withLoading(updateOrganizationOwner)),
+    takeLatest(
+      actionTypes.UPDATE_ORGANIZATION,
+      withLoading(updateOrganization)
+    ),
+    takeLatest(
+      actionTypes.UPDATE_ORGANIZATION_OWNER,
+      withLoading(updateOrganizationOwner)
+    )
   ])
 }

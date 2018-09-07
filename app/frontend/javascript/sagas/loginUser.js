@@ -8,21 +8,31 @@ import ActionTypes from '../constants/actionTypes'
 
 function* updateUserSetting({ payload }) {
   const userId = yield select(state => state.loginUser.get('id'))
-  const result = yield call(API.put, `/users/${userId}/user_setting`, { userSetting: payload.userSetting })
+  const result = yield call(API.put, `/users/${userId}/user_setting`, {
+    userSetting: payload.userSetting
+  })
   yield put(loginUserActions.updatedUserSetting(result))
   yield put(dialogActions.closeOptionModal())
 }
 
 function* updateObjectiveOrder({ payload }) {
-  const [userId, okrPeriodId] = yield select(state => [state.current.get('userId'), state.current.get('okrPeriodId')])
+  const [userId, okrPeriodId] = yield select(state => [
+    state.current.get('userId'),
+    state.current.get('okrPeriodId')
+  ])
   const objectiveOrder = { okrPeriodId, list: JSON.stringify(payload.order) }
-  const result = yield call(API.put, `/users/${userId}/objective_order`, { objectiveOrder })
+  const result = yield call(API.put, `/users/${userId}/objective_order`, {
+    objectiveOrder
+  })
   yield put(loginUserActions.updatedObjectiveOrder(result.get('list')))
 }
 
 export function* loginUserSagas() {
   yield all([
     takeLatest(ActionTypes.UPDATE_USER_SETTING, withLoading(updateUserSetting)),
-    takeLatest(ActionTypes.UPDATE_OBJECTIVE_ORDER, withLoading(updateObjectiveOrder)),
+    takeLatest(
+      ActionTypes.UPDATE_OBJECTIVE_ORDER,
+      withLoading(updateObjectiveOrder)
+    )
   ])
 }

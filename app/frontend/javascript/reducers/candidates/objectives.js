@@ -7,20 +7,22 @@ function merge(state, { payload }) {
   if (!objectives) return state
   return state.mergeWith(
     (oldVal, newVal) => oldVal.merge(newVal),
-    objectives
-      .mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
+    objectives.mapKeys(key => parseInt(key)) // normalize により id が string になるため int へ変換する
   )
 }
 
-export default handleActions({
-  [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: merge,
-  [ActionTypes.ADDED_OBJECTIVE]: merge,
-  [ActionTypes.UPDATED_OBJECTIVE]: merge,
-  [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-    state = merge(state, { payload })
-    const objectiveId = payload.get('result').first()
-    return state.delete(objectiveId)
+export default handleActions(
+  {
+    [ActionTypes.FETCHED_OBJECTIVE_CANDIDATES]: merge,
+    [ActionTypes.ADDED_OBJECTIVE]: merge,
+    [ActionTypes.UPDATED_OBJECTIVE]: merge,
+    [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
+      state = merge(state, { payload })
+      const objectiveId = payload.get('result').first()
+      return state.delete(objectiveId)
+    },
+    [ActionTypes.DISABLED_OBJECTIVE]: merge,
+    [ActionTypes.DISABLED_KEY_RESULT]: merge
   },
-  [ActionTypes.DISABLED_OBJECTIVE]: merge,
-  [ActionTypes.DISABLED_KEY_RESULT]: merge,
-}, Map())
+  Map()
+)

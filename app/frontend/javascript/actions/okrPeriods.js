@@ -7,7 +7,7 @@ const actions = createActions({
   [actionTypes.UPDATE_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
   [actionTypes.UPDATED_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
   [actionTypes.REMOVE_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
-  [actionTypes.REMOVED_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
+  [actionTypes.REMOVED_OKR_PERIOD]: okrPeriod => ({ okrPeriod })
 })
 
 export default actions

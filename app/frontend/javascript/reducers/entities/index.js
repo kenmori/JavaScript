@@ -4,7 +4,7 @@ import objectives from './objectives'
 
 const reducers = combineReducers({
   keyResults,
-  objectives,
+  objectives
 })
 
 export default reducers
