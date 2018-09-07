@@ -1,50 +1,20 @@
 {
-    "parser": "babel-eslint",
-    "env": {
-        "browser": true,
-        "es6": true,
-        "node": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
-    ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        },
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-        "indent": [
-            "error",
-            2,
-            {
-                "SwitchCase": 1
-            }
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "never"
-        ],
-        "eol-last": [
-            "error",
-            "always"
-        ],
-        "react/no-string-refs": "warn",
-        "react/no-find-dom-node": "warn",
-        "react/jsx-no-bind": "warn"
-    }
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": ["react", "jsx-a11y", "import"],
+  "rules": {
+    "semi": ["error", "never", {"beforeStatementContinuationChars": "never"}],
+    "react/jsx-filename-extension": ["off"],
+    "linebreak-style": ["off"],
+    "no-undef": ["error"],
+    "react/sort-comp": ["off"],
+    "react/prefer-stateless-function": ["off"],
+    "react/prop-types": 0
+  },
+  "globals": {
+    "it": 0,
+    "expect": 0,
+    "describe": 0,
+    "navigator": 0
+  }
 }
