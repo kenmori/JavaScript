@@ -11,7 +11,7 @@ keyResultSchema.define({
   childObjectives: objectiveListSchema,
   connectedObjectives: objectiveListSchema,
   detachedObjective: objectiveSchema,
-  descendantObjectives: objectiveListSchema
+  descendantObjectives: objectiveListSchema,
 })
 
 objectiveSchema.define({
@@ -21,7 +21,7 @@ objectiveSchema.define({
   childObjectives: objectiveListSchema,
   connectedKeyResults: keyResultListSchema,
   detachedParentKeyResult: keyResultSchema,
-  descendantObjectives: objectiveListSchema
+  descendantObjectives: objectiveListSchema,
 })
 
 function normalizeObjective(objective) {
@@ -58,19 +58,19 @@ function denormalizeObjective(objectiveId, showDisabledOkrs, entities) {
   return objective
     .set(
       'parentKeyResult',
-      denormalizeKeyResult(objective.get('parentKeyResultId'), entities)
+      denormalizeKeyResult(objective.get('parentKeyResultId'), entities),
     )
     .set('keyResults', keyResults)
     .set(
       'enabledKeyResults',
       showDisabledOkrs
         ? keyResults
-        : keyResults.filter(keyResult => !keyResult.get('disabled'))
+        : keyResults.filter(keyResult => !keyResult.get('disabled')),
     )
 }
 
 function denormalizeObjectives(objectiveIds, showDisabledOkrs, entities) {
-  const objectives = objectiveIds.map(objectiveId => {
+  const objectives = objectiveIds.map((objectiveId) => {
     const objective = getObjective(objectiveId, entities)
     if (!objective) return null
     const keyResults = objective
@@ -81,7 +81,7 @@ function denormalizeObjectives(objectiveIds, showDisabledOkrs, entities) {
       'keyResults',
       showDisabledOkrs
         ? keyResults
-        : keyResults.filter(keyResult => !keyResult.get('disabled'))
+        : keyResults.filter(keyResult => !keyResult.get('disabled')),
     )
   })
   return showDisabledOkrs
@@ -95,24 +95,24 @@ function denormalizeKeyResult(keyResultId, entities, objective) {
   return keyResult
     .set(
       'objective',
-      objective || getObjective(keyResult.get('objectiveId'), entities)
+      objective || getObjective(keyResult.get('objectiveId'), entities),
     )
     .set(
       'childObjectives',
       keyResult
         .get('childObjectiveIds')
         .map(id => getObjective(id, entities))
-        .filter(value => !!value)
+        .filter(value => !!value),
     )
 }
 
 function denormalizeKeyResults(keyResultIds, showDisabledOkrs, entities) {
-  const keyResults = keyResultIds.map(keyResultId => {
+  const keyResults = keyResultIds.map((keyResultId) => {
     const keyResult = getKeyResult(keyResultId, entities)
     if (!keyResult) return null
     return keyResult.set(
       'objective',
-      getObjective(keyResult.get('objectiveId'), entities)
+      getObjective(keyResult.get('objectiveId'), entities),
     )
   })
   return showDisabledOkrs
@@ -124,24 +124,23 @@ function denormalizeDeepObjective(
   objectiveId,
   showDisabledOkrs,
   entities,
-  parentKeyResult
+  parentKeyResult,
 ) {
   const objective = getObjective(objectiveId, entities)
   if (!objective) return null
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
-  parentKeyResult =
-    parentKeyResult ||
-    denormalizeDeepKeyResult(
+  parentKeyResult = parentKeyResult
+    || denormalizeDeepKeyResult(
       objective.get('parentKeyResultId'),
       showDisabledOkrs,
-      entities
+      entities,
     )
   if (!showDisabledOkrs && parentKeyResult && parentKeyResult.get('disabled')) {
     parentKeyResult = null
   }
   let keyResultIds = objective.get('keyResultIds')
   if (!showDisabledOkrs) {
-    keyResultIds = keyResultIds.filter(keyResultId => {
+    keyResultIds = keyResultIds.filter((keyResultId) => {
       const keyResult = getKeyResult(keyResultId, entities)
       return !keyResult || !keyResult.get('disabled')
     })
@@ -149,7 +148,7 @@ function denormalizeDeepObjective(
   return objective
     .set(
       'parentKeyResultId',
-      parentKeyResult ? parentKeyResult.get('id') : null
+      parentKeyResult ? parentKeyResult.get('id') : null,
     )
     .set('parentKeyResult', parentKeyResult)
     .set('keyResultIds', keyResultIds)
@@ -159,8 +158,8 @@ function denormalizeDeepObjective(
         keyResultIds,
         showDisabledOkrs,
         entities,
-        objective
-      )
+        objective,
+      ),
     )
 }
 
@@ -168,12 +167,10 @@ function denormalizeDeepObjectives(
   objectiveIds,
   showDisabledOkrs,
   entities,
-  parentKeyResult
+  parentKeyResult,
 ) {
   return objectiveIds
-    .map(id =>
-      denormalizeDeepObjective(id, showDisabledOkrs, entities, parentKeyResult)
-    )
+    .map(id => denormalizeDeepObjective(id, showDisabledOkrs, entities, parentKeyResult))
     .filter(value => !!value)
 }
 
@@ -181,14 +178,14 @@ function denormalizeDeepKeyResult(
   keyResultId,
   showDisabledOkrs,
   entities,
-  objective
+  objective,
 ) {
   const keyResult = getKeyResult(keyResultId, entities)
   if (!keyResult) return null
   // Immutable オブジェクトだと公式の denormalize() が使えないため自力で denormalize する
   let childObjectiveIds = keyResult.get('childObjectiveIds')
   if (!showDisabledOkrs) {
-    childObjectiveIds = childObjectiveIds.filter(objectiveId => {
+    childObjectiveIds = childObjectiveIds.filter((objectiveId) => {
       const objective = getObjective(objectiveId, entities)
       return !objective || !objective.get('disabled')
     })
@@ -196,12 +193,12 @@ function denormalizeDeepKeyResult(
   return keyResult
     .set(
       'objective',
-      objective ||
-        denormalizeDeepObjective(
+      objective
+        || denormalizeDeepObjective(
           keyResult.get('objectiveId'),
           showDisabledOkrs,
-          entities
-        )
+          entities,
+        ),
     )
     .set('childObjectiveIds', childObjectiveIds)
     .set(
@@ -210,8 +207,8 @@ function denormalizeDeepKeyResult(
         childObjectiveIds,
         showDisabledOkrs,
         entities,
-        keyResult
-      )
+        keyResult,
+      ),
     )
 }
 
@@ -219,23 +216,19 @@ function denormalizeDeepKeyResults(
   keyResultIds,
   showDisabledOkrs,
   entities,
-  objective
+  objective,
 ) {
   return keyResultIds
-    .map(id =>
-      denormalizeDeepKeyResult(id, showDisabledOkrs, entities, objective)
-    )
+    .map(id => denormalizeDeepKeyResult(id, showDisabledOkrs, entities, objective))
     .filter(value => !!value)
 }
 
 function denormalizeObjectiveCandidates(
   objectiveIds,
   showDisabledOkrs,
-  entities
+  entities,
 ) {
-  const objectives = objectiveIds.map(objectiveId =>
-    getObjective(objectiveId, entities)
-  )
+  const objectives = objectiveIds.map(objectiveId => getObjective(objectiveId, entities))
   return showDisabledOkrs
     ? objectives
     : objectives.filter(objective => !objective.get('disabled'))
@@ -244,11 +237,9 @@ function denormalizeObjectiveCandidates(
 function denormalizeKeyResultCandidates(
   keyResultIds,
   showDisabledOkrs,
-  entities
+  entities,
 ) {
-  const keyResults = keyResultIds.map(keyResultId =>
-    getKeyResult(keyResultId, entities)
-  )
+  const keyResults = keyResultIds.map(keyResultId => getKeyResult(keyResultId, entities))
   return showDisabledOkrs
     ? keyResults
     : keyResults.filter(keyResult => !keyResult.get('disabled'))
@@ -265,5 +256,5 @@ export {
   denormalizeKeyResults,
   denormalizeDeepObjective,
   denormalizeObjectiveCandidates,
-  denormalizeKeyResultCandidates
+  denormalizeKeyResultCandidates,
 }

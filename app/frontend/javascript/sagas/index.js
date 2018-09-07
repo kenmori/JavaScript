@@ -18,7 +18,7 @@ const sagas = [
   okrPeriodSagas,
   dialogSagas,
   loginUserSagas,
-  currentSagas
+  currentSagas,
 ]
 
 export default function* rootSaga() {

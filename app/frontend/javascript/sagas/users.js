@@ -1,4 +1,6 @@
-import { all, put, select, takeLatest } from 'redux-saga/effects'
+import {
+  all, put, select, takeLatest,
+} from 'redux-saga/effects'
 import call from '../utils/call'
 import API from '../utils/api'
 import withLoading from '../utils/withLoading'
@@ -15,7 +17,7 @@ function* addUser({ payload }) {
 }
 
 function* updateUser({ payload: { user } }) {
-  const result = yield call(API.put, '/users/' + user.id, { user })
+  const result = yield call(API.put, `/users/${user.id}`, { user })
   yield put(userActions.updatedUser(result.get('user')))
 
   if (user.email) {
@@ -37,19 +39,19 @@ function* updateUser({ payload: { user } }) {
 
 function* disableUser({ payload: { id, toDisable } }) {
   const result = yield call(API.put, `/users/${id}/disable`, {
-    disabled: toDisable
+    disabled: toDisable,
   })
   yield put(userActions.disabledUser(result.get('user')))
   yield put(
     toastActions.showToast(
-      `ユーザーを${toDisable ? '無効化' : '有効化'}しました`
-    )
+      `ユーザーを${toDisable ? '無効化' : '有効化'}しました`,
+    ),
   )
 }
 
 function* updatePassword({ payload }) {
   yield call(API.put, `/users/${payload.user.id}/password`, {
-    user: payload.user
+    user: payload.user,
   })
   yield put(toastActions.showToast('パスワードを変更しました', 'success'))
 }
@@ -65,6 +67,6 @@ export function* userSagas() {
     takeLatest(actionTypes.UPDATE_USER, withLoading(updateUser)),
     takeLatest(actionTypes.DISABLE_USER, withLoading(disableUser)),
     takeLatest(actionTypes.UPDATE_PASSWORD, withLoading(updatePassword)),
-    takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail))
+    takeLatest(actionTypes.RESEND_EMAIL, withLoading(resendEmail)),
   ])
 }

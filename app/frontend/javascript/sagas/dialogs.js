@@ -1,4 +1,6 @@
-import { all, put, take, takeLatest, select } from 'redux-saga/effects'
+import {
+  all, put, take, takeLatest, select,
+} from 'redux-saga/effects'
 import objectiveActions from '../actions/objectives'
 import dialogActions from '../actions/dialogs'
 import actionTypes from '../constants/actionTypes'
@@ -14,12 +16,10 @@ function* openOkrModal({ payload: { objectiveId, keyResultId } }) {
     const hasObjectiveId = entities.objectives.has(objectiveId)
     const hasKeyResultId = entities.keyResults.has(keyResultId)
     if (hasObjectiveId && (!keyResultId || hasKeyResultId)) {
-      const currentObjectiveId = yield select(state =>
-        state.dialogs.getIn(['okrForm', 'objectiveId'])
-      )
+      const currentObjectiveId = yield select(state => state.dialogs.getIn(['okrForm', 'objectiveId']))
       if (currentObjectiveId !== objectiveId) {
         yield put(
-          objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId)
+          objectiveActions.fetchObjectiveAsync(objectiveId, keyResultId),
         )
       }
       yield put(dialogActions.openedOkrModal(objectiveId, keyResultId))
@@ -37,7 +37,7 @@ function* fetchObjective(objectiveId, keyResultId) {
   yield put(objectiveActions.fetchObjective(objectiveId, keyResultId))
   const action = yield take([
     actionTypes.FETCHED_OBJECTIVE,
-    actionTypes.FETCHED_OBJECTIVE_ERROR
+    actionTypes.FETCHED_OBJECTIVE_ERROR,
   ])
   if (action.type === actionTypes.FETCHED_OBJECTIVE) {
     yield put(dialogActions.openedOkrModal(objectiveId, keyResultId))
@@ -50,8 +50,8 @@ function* openErrorModal() {
   yield put(
     dialogActions.openErrorModal({
       message: '指定された OKR は存在しません',
-      onCloseBefore: () => history.push('/')
-    })
+      onCloseBefore: () => history.push('/'),
+    }),
   )
 }
 

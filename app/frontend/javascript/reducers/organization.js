@@ -7,7 +7,7 @@ const initialState = fromJS({
   current: gon.get('organization'),
   ownerId: gon.get('ownerId'),
   isFetched: false,
-  isCompleted: false
+  isCompleted: false,
 })
 
 function merge(state, { payload }) {
@@ -16,19 +16,11 @@ function merge(state, { payload }) {
 
 export default handleActions(
   {
-    [ActionTypes.FETCH_ORGANIZATION]: state => {
-      return state.set('isFetched', false)
-    },
-    [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
-      return merge(state, { payload }).set('isFetched', true)
-    },
-    [ActionTypes.ADDED_ORGANIZATION]: state => {
-      return state.set('isCompleted', true)
-    },
+    [ActionTypes.FETCH_ORGANIZATION]: state => state.set('isFetched', false),
+    [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => merge(state, { payload }).set('isFetched', true),
+    [ActionTypes.ADDED_ORGANIZATION]: state => state.set('isCompleted', true),
     [ActionTypes.UPDATED_ORGANIZATION]: merge,
-    [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => {
-      return state.set('ownerId', payload.ownerId)
-    }
+    [ActionTypes.UPDATED_ORGANIZATION_OWNER]: (state, { payload }) => state.set('ownerId', payload.ownerId),
   },
-  initialState
+  initialState,
 )

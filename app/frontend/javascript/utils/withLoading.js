@@ -1,16 +1,17 @@
-import { put, call, fork, select } from 'redux-saga/effects'
+import {
+  put, call, fork, select,
+} from 'redux-saga/effects'
 import loadingActions from '../actions/loading'
 
 const TIME_TO_OPEN_LOADING = 200
 let connectingCounter = 0
 
 function wait(time) {
-  return () =>
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve()
-      }, time)
-    })
+  return () => new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
 }
 
 function* openLoading() {
@@ -22,7 +23,7 @@ function* openLoading() {
 }
 
 export default function withLoading(xhrRequest) {
-  return function*() {
+  return function* () {
     const state = yield select()
     if (state.loading.get('isForceCloseLoading')) {
       yield put(loadingActions.forceCloseLoadingOff())

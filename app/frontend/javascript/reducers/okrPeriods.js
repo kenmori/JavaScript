@@ -4,24 +4,18 @@ import ActionTypes from '../constants/actionTypes'
 
 export default handleActions(
   {
-    [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => {
-      return state.merge(payload.organization.get('okrPeriods'))
-    },
-    [ActionTypes.ADDED_OKR_PERIOD]: (state, { payload }) => {
-      return state.push(payload.okrPeriod)
-    },
+    [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) => state.merge(payload.organization.get('okrPeriods')),
+    [ActionTypes.ADDED_OKR_PERIOD]: (state, { payload }) => state.push(payload.okrPeriod),
     [ActionTypes.UPDATED_OKR_PERIOD]: (state, { payload }) => {
       const okrPeriodId = payload.okrPeriod.get('id')
       return state.set(
         state.findIndex(okrPeriod => okrPeriod.get('id') === okrPeriodId),
-        payload.okrPeriod
+        payload.okrPeriod,
       )
     },
-    [ActionTypes.REMOVED_OKR_PERIOD]: (state, { payload }) => {
-      return state.filter(
-        okrPeriod => okrPeriod.get('id') !== payload.okrPeriod.id
-      )
-    }
+    [ActionTypes.REMOVED_OKR_PERIOD]: (state, { payload }) => state.filter(
+      okrPeriod => okrPeriod.get('id') !== payload.okrPeriod.id,
+    ),
   },
-  fromJS([])
+  fromJS([]),
 )

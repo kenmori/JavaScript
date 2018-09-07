@@ -5,7 +5,7 @@ const actions = createActions({
   [actionTypes.SELECT_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
   [actionTypes.SELECT_OKR_PERIOD_BY_OKR]: (objectiveId, keyResultId) => ({
     objectiveId,
-    keyResultId
+    keyResultId,
   }),
   [actionTypes.SELECTED_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
   [actionTypes.SELECT_USER]: userId => ({ userId }),
@@ -13,56 +13,60 @@ const actions = createActions({
   [actionTypes.SELECT_TAB]: type => ({ type }),
   [actionTypes.HIGHLIGHT_OKR]: (objectiveIds, keyResultId) => ({
     objectiveIds,
-    keyResultId
+    keyResultId,
   }),
   [actionTypes.UNHIGHLIGHT_OKR]: () => {},
   [actionTypes.SELECT_OKR]: (objectiveId, keyResultId = null) => ({
     objectiveId,
-    keyResultId
+    keyResultId,
   }),
   [actionTypes.CLEAR_SELECTED_OKR]: () => {},
   [actionTypes.SELECT_MAP_OKR]: (objectiveId, keyResultId = null) => ({
     objectiveId,
-    keyResultId
+    keyResultId,
   }),
   [actionTypes.SELECTED_MAP_OKR]: (
     objectiveId,
     keyResultIds,
-    parentKeyResultId
+    parentKeyResultId,
   ) => ({ objectiveId, keyResultIds, parentKeyResultId }),
   [actionTypes.CLEAR_MAP_OKR]: () => {},
   [actionTypes.EXPAND_OBJECTIVE]: (
     objectiveId,
     keyResultIds,
     parentKeyResultId,
-    toAncestor
-  ) => ({ objectiveId, keyResultIds, parentKeyResultId, toAncestor }),
+    toAncestor,
+  ) => ({
+    objectiveId, keyResultIds, parentKeyResultId, toAncestor,
+  }),
   [actionTypes.EXPANDED_OBJECTIVE]: (
     objectiveId,
     keyResultIds,
     parentKeyResultId,
-    toAncestor
-  ) => ({ objectiveId, keyResultIds, parentKeyResultId, toAncestor }),
+    toAncestor,
+  ) => ({
+    objectiveId, keyResultIds, parentKeyResultId, toAncestor,
+  }),
   [actionTypes.COLLAPSE_OBJECTIVE]: (objectiveId, toAncestor) => ({
     objectiveId,
-    toAncestor
+    toAncestor,
   }),
   [actionTypes.EXPAND_KEY_RESULT]: (
     objectiveId,
     keyResultId,
-    parentKeyResultId
+    parentKeyResultId,
   ) => ({ objectiveId, keyResultId, parentKeyResultId }),
   [actionTypes.EXPANDED_KEY_RESULT]: (
     objectiveId,
     keyResultId,
-    parentKeyResultId
+    parentKeyResultId,
   ) => ({ objectiveId, keyResultId, parentKeyResultId }),
   [actionTypes.COLLAPSE_KEY_RESULT]: (
     objectiveId,
     keyResultId,
-    childObjectiveIds
+    childObjectiveIds,
   ) => ({ objectiveId, keyResultId, childObjectiveIds }),
-  [actionTypes.SCROLL_TO_OBJECTIVE]: objectiveId => ({ objectiveId })
+  [actionTypes.SCROLL_TO_OBJECTIVE]: objectiveId => ({ objectiveId }),
 })
 
 export default actions
