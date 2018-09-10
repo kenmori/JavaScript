@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180823064438) do
+ActiveRecord::Schema.define(version: 20180907055331) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20180823064438) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show_disabled_okrs", default: false, null: false
+    t.boolean "notify_remind_email_enabled", default: true, null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

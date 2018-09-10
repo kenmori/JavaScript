@@ -4,6 +4,7 @@ class NotificationMailer < ApplicationMailer
     return unless current_user
     return if current_user.id == user.id
 
+    # FIXME: Switch decorator
     @assignor = "#{current_user.last_name} #{current_user.first_name}"
     @assignee = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
@@ -24,6 +25,7 @@ class NotificationMailer < ApplicationMailer
     return unless current_user
     return if current_user.id == user.id
 
+    # FIXME: Switch decorator
     @operator = "#{current_user.last_name} #{current_user.first_name}"
     @receiver = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
@@ -40,6 +42,7 @@ class NotificationMailer < ApplicationMailer
     return unless current_user
     return if current_user.id == user.id
 
+    # FIXME: Switch decorator
     @operator = "#{current_user.last_name} #{current_user.first_name}"
     @receiver = "#{user.last_name} #{user.first_name}"
     @objective = objective
@@ -55,6 +58,7 @@ class NotificationMailer < ApplicationMailer
     return unless current_user
     return if current_user.id == user.id
 
+    # FIXME: Switch decorator
     @operator = "#{current_user.last_name} #{current_user.first_name}"
     @receiver = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
@@ -76,6 +80,7 @@ class NotificationMailer < ApplicationMailer
     return unless current_user
     return if current_user.id == user.id
 
+    # FIXME: Switch decorator
     @author = "#{current_user.last_name} #{current_user.first_name}"
     @receiver = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
@@ -84,6 +89,16 @@ class NotificationMailer < ApplicationMailer
 
     mail to: user.email,
          subject: '[Resily] Key Result に新しいコメントが投稿されました'
+  end
+
+  def remind_progress_rate_for_key_result(user)
+    # TODO: Switch decorator
+    @owner_name = "#{user.last_name} #{user.first_name}"
+    campaign_param = { utm_source: GaCampaignParams::UTM_SOURCE_EMAIL, utm_medium: GaCampaignParams::UTM_MEDIUM_REMIND_EMAIL }
+    @url = "#{url_for(controller: 'home')}?#{campaign_param.to_query}"
+
+    mail to: user.email,
+         subject: "[Resily] 進捗と重要なアクションを共有しましょう"
   end
 
   private

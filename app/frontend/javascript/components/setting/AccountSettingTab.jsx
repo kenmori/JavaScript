@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Button, Input } from 'semantic-ui-react'
+import { Tab, Button, Input, Radio } from 'semantic-ui-react'
 import UserAvatar from '../../containers/UserAvatar'
 import AutoInput from '../form/AutoInput'
 
@@ -53,6 +53,10 @@ class AccountSettingTab extends PureComponent {
     })
   }
 
+  updateNotifyEmail = (e, { checked, value }) => {
+    this.props.updateUserSetting({notifyRemindEmailEnabled: checked})
+  }
+
   render() {
     const { loginUser } = this.props
     const { email } = this.state
@@ -67,6 +71,17 @@ class AccountSettingTab extends PureComponent {
 
           <dt>メールアドレス</dt>
           <dd><AutoInput value={email} placeholder='name@example.com' onCommit={this.changeEmail}/></dd>
+
+          <dt>メール通知</dt>
+          <dd>
+            <Radio
+              className="green"
+              toggle
+              name="status"
+              checked={loginUser.get('userSetting').get('notifyRemindEmailEnabled')}
+              onChange={this.updateNotifyEmail}
+            />
+          </dd>
 
           <dt>アバター</dt>
           <dd><UserAvatar user={loginUser} size='huge' withInitial={false} editable /></dd>
@@ -100,6 +115,7 @@ AccountSettingTab.propTypes = {
   openImageModal: PropTypes.func.isRequired,
   deleteAvatar: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
+  updateUserSetting: PropTypes.func.isRequired,
   // component
 }
 

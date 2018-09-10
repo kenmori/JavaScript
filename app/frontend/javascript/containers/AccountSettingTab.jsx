@@ -1,5 +1,6 @@
 import AccountSettingTab from '../components/setting/AccountSettingTab'
 import { connect } from 'react-redux'
+import loginUserActions from '../actions/loginUser'
 import userActions from '../actions/users'
 import dialogActions from '../actions/dialogs'
 
@@ -28,7 +29,10 @@ const mapDispatchToProps = dispatch => {
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params))
-    }
+    },
+    updateUserSetting: userSetting => {
+      dispatch(loginUserActions.updateUserSetting(userSetting))
+    },
   }
 }
 

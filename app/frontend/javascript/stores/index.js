@@ -5,18 +5,16 @@ import rootSaga from '../sagas/index'
 
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware()
-
   const middlewares = [sagaMiddleware]
+
+  let store
   if (process.env.NODE_ENV !== 'production') {
-    const { createLogger } = require('redux-logger')
-    const logger = createLogger({
-      duration: true,
-      timestamp: false,
-    })
-    middlewares.push(logger)
+    const { composeWithDevTools } = require('redux-devtools-extension')
+    store = createStore(reducers, composeWithDevTools(applyMiddleware(...middlewares)))
+  } else {
+    store = createStore(reducers, applyMiddleware(...middlewares))
   }
 
-  const store = createStore(reducers, applyMiddleware(...middlewares))
   sagaMiddleware.run(rootSaga)
   return store
 }

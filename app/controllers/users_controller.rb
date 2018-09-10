@@ -91,7 +91,7 @@ class UsersController < ApplicationController
 
   def user_setting_params
     params.require(:user_setting)
-        .permit(:show_child_objectives, :show_objective_key_results, :show_member_key_results, :show_disabled_okrs)
+        .permit(:show_child_objectives, :show_objective_key_results, :show_member_key_results, :show_disabled_okrs, :notify_remind_email_enabled)
   end
 
   def objective_order_params
