@@ -41,6 +41,10 @@ development:
     # Inline should be set to true if using HMR
     inline: true
     overlay: true
+    watch_options:
+      ignored: /node_modules/
+      poll: 1000
+      aggregateTimeout: 300
 
 test:
   <<: *default

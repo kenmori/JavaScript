@@ -3,14 +3,9 @@ const webpack = require('webpack')
 
 environment.plugins.append('DefinePlugin', new webpack.DefinePlugin({
   'process.env.NODE_ENV': JSON.stringify('development'),
-  'process.env.GA_TRACKING_CODE': JSON.stringify('UA-111410984-4'),
+  'process.env.GA_TRACKING_CODE': JSON.stringify(process.env.GA_TRACKING_CODE),
 }))
+const config = environment.toWebpackConfig()
 
-const devConfig = environment.toWebpackConfig()
-devConfig.devServer.watchOptions = {
-  ignored: /node_modules/,
-  aggregateTimeout: 300,
-  poll: 500,
-}
-
-module.exports = devConfig
+config.devtool = 'eval-source-map'
+module.exports = config

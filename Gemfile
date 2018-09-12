@@ -72,6 +72,8 @@ group :development do
   gem 'bullet'
   gem 'html2slim'
   gem 'meta_request'
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec'
 end
 
 group :development, :test do
