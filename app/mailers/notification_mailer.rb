@@ -94,7 +94,7 @@ class NotificationMailer < ApplicationMailer
   def remind_progress_rate_for_key_result(user)
     # TODO: Switch decorator
     @owner_name = "#{user.last_name} #{user.first_name}"
-    campaign_param = { utm_source: GaCampaignParams::UTM_SOURCE_EMAIL, utm_medium: GaCampaignParams::UTM_MEDIUM_REMIND_EMAIL }
+    campaign_param = { utm_campaign: GaCampaignParams::UTM_CAMPAIGN_REMIND_EMAIL, utm_source: GaCampaignParams::UTM_SOURCE_EMAIL, utm_medium: GaCampaignParams::UTM_MEDIUM_REMIND_EMAIL }
     @url = "#{url_for(controller: 'home')}?#{campaign_param.to_query}"
 
     mail to: user.email,

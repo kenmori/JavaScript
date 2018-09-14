@@ -2,7 +2,9 @@ namespace :remind_kr_progress do
   def notify_remind_email_enabled_owners
     owners = []
     OkrPeriod.current.each do |current_okr|
-      owners.concat(current_okr&.key_results&.map { |k| k.owner if k.owner.user_setting.notify_remind_email_enabled && !k.disabled }.compact)
+      owners.concat(
+        current_okr&.key_results&.map { |k| k.owner if k.owner.user_setting.notify_remind_email_enabled && !k.disabled }.compact
+      )
     end
     owners.uniq! { |o| o.id }
   end
