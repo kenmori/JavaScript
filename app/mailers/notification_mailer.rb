@@ -94,11 +94,26 @@ class NotificationMailer < ApplicationMailer
   def remind_progress_rate_for_key_result(user)
     # TODO: Switch decorator
     @owner_name = "#{user.last_name} #{user.first_name}"
-    campaign_param = { utm_campaign: GaCampaignParams::UTM_CAMPAIGN_REMIND_EMAIL, utm_source: GaCampaignParams::UTM_SOURCE_EMAIL, utm_medium: GaCampaignParams::UTM_MEDIUM_REMIND_EMAIL }
+    campaign_param = { utm_campaign: GaCampaignParams::UTM_CAMPAIGN_REMIND_EMAIL, utm_source: GaCampaignParams::UTM_SOURCE_EMAIL, utm_medium: GaCampaignParams::UTM_MEDIUM_EMAIL }
     @url = "#{url_for(controller: 'home')}?#{campaign_param.to_query}"
 
     mail to: user.email,
          subject: "[Resily] 進捗と重要なアクションを共有しましょう"
+  end
+
+  def update_kr_progress_rate(operator, objective_owner, key_result)
+    # TODO: Switch decorator
+    @operator_name = "#{operator.last_name} #{operator.first_name}"
+
+    @key_result = key_result
+    key_result_owner = key_result.owner
+    @key_result_owner_name = "#{key_result_owner.last_name} #{key_result_owner.first_name}"
+
+    campaign_param = { utm_campaign: GaCampaignParams::UTM_CAMPAIGN_UPDATE_KR_PROGRESS_RATE_EMAIL, utm_source: GaCampaignParams::UTM_SOURCE_EMAIL, utm_medium: GaCampaignParams::UTM_MEDIUM_EMAIL }
+    @url = "#{url_for(controller: 'home')}?#{campaign_param.to_query}"
+
+    mail to: objective_owner.email,
+         subject: "[Resily] あなたの OKR の進捗が更新されました"
   end
 
   private

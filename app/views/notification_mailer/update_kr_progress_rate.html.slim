@@ -1,0 +1,31 @@
+ruby:
+  def strip_insignificant_zeros(number)
+    (number == number.to_i) ? number.to_i : number
+  end
+
+p #{@operator_name} さんが、OKRの進捗を更新しました。
+
+dl style="width: 600px; padding: 16px; border: 1px solid gray; border-radius: 8px;"
+  dt Key Result
+  dd #{@key_result.name}
+  dt 目標値
+  dd #{strip_insignificant_zeros(@key_result.target_value)} #{@key_result.value_unit}
+  dt 実績値
+  dd #{strip_insignificant_zeros(@key_result.actual_value)} #{@key_result.value_unit}
+  dt 進捗
+  dd #{@key_result.progress_rate} %
+  dt 期限
+  dd #{@key_result.expired_date}
+  dt 責任者
+  dd #{@key_result_owner_name}
+
+p 以下から Resily にアクセスして、内容を確認しましょう。
+
+p: a href="#{@url}" KeyResultを確認する
+
+br
+
+address
+  | Resily株式会社
+  br
+  a href="https://resily.com" https://resily.com

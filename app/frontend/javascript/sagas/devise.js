@@ -7,7 +7,17 @@ import withLoading from '../utils/withLoading'
 
 function* signIn({ payload }) {
   yield call(API.post, '/users/sign_in', { user: payload.user })
-  location.href = '/'
+
+  // トップページ以外からの流入であればURLを引き回す
+  const path = (document.referrer != null) ? document.referrer
+    .replace(/^[^:]+:\/\/[^/]+/, '')
+    .replace(/#.*/, '')
+    .replace(/\?.*/, '') : '/'
+  if (path == '/') {
+    location.href = '/'
+  } else {
+    location.href = path
+  }
 }
 
 function* signOut() {

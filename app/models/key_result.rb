@@ -33,6 +33,12 @@ class KeyResult < ApplicationRecord
 
       NotificationMailer.change_kr_disabled(Current.user, self, disabled).deliver_later
     end
+
+    if saved_change_to_progress_rate?
+      if target_value.present? || actual_value.present?
+        NotificationMailer.update_kr_progress_rate(Current.user, objective.owner, self).deliver_later
+      end
+    end
   end
 
   after_save do
