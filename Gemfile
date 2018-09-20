@@ -7,23 +7,23 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.1'
+gem 'rails', '~> 5.2.1'
 # Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.3.18', '< 0.5'
+gem 'mysql2', '~> 0.5.2'
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '= 3.5.5'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'oj', '~> 3.3'
-gem 'jbuilder', '~> 2.5'
+gem 'oj', '~> 3.6.10'
+gem 'jbuilder', '~> 2.6.4'
 
-gem 'devise'
+gem 'devise', '~> 4.5.0'
 
-gem 'gon'
+gem 'gon', '~> 6.2.1'
 
 gem 'carrierwave'
 gem 'carrierwave-i18n'
@@ -33,6 +33,8 @@ gem 'foreman', '~> 0.82.0'
 gem 'health-monitor-rails', '~> 7.2'
 gem "sidekiq", "~> 5.1"
 gem "redis-namespace", "~> 1.6"
+gem 'active_decorator', '~> 1.0.0'
+gem 'slim-rails', '~> 3.1', '>= 3.1.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -48,15 +50,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Use 1.5.0 not 1.5.2 (see https://github.com/voormedia/rails-erd/issues/273)
   gem 'rails-erd', '1.5.0'
-end
-
-group :default do
-  gem 'active_decorator'
-  gem 'slim-rails'
-  gem 'rails-assets-bootstrap-sass-official'
-  gem 'rails-assets-fontawesome'
-  gem 'bootswatch-rails'
-  gem 'unicorn'
 end
 
 group :development do
