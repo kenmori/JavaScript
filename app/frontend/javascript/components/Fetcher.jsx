@@ -15,6 +15,11 @@ class Fetcher extends PureComponent {
     if (!this.props.isFetchedOrganization) {
       this.props.fetchOrganization(this.props.organizationId)
     }
+
+    // 現状ユーザアクションで更新されないマスタデータなので初回訪問時のみfetchしている
+    if (!this.props.isFetchedKeyResultsCommentLabels) {
+      this.props.fetchKeyResultCommentLabels()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,9 +59,11 @@ Fetcher.propTypes = {
   okrPeriodId: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
   isFetchedOrganization: PropTypes.bool.isRequired,
+  isFetchedKeyResultsCommentLabels: PropTypes.bool.isRequired,
   isOpenOkrModal: PropTypes.bool.isRequired,
   fetchOrganization: PropTypes.func.isRequired,
   fetchOkrs: PropTypes.func.isRequired,
+  fetchKeyResultCommentLabels: PropTypes.func.isRequired,
   selectOkrPeriod: PropTypes.func.isRequired,
   openOkrModal: PropTypes.func.isRequired,
   closeOkrModal: PropTypes.func.isRequired,

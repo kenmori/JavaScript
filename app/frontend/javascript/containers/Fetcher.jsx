@@ -2,6 +2,7 @@ import Fetcher from '../components/Fetcher'
 import { connect } from 'react-redux'
 import organizationActions from '../actions/organization'
 import objectiveActions from '../actions/objectives'
+import keyResultActions from '../actions/keyResults'
 import currentActions from '../actions/current'
 import dialogActions from '../actions/dialogs'
 import { getOkrId } from '../utils/linker'
@@ -12,6 +13,7 @@ const mapStateToProps = state => {
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     isFetchedOrganization: state.organization.get('isFetched'),
+    isFetchedKeyResultsCommentLabels: state.keyResults.get('isFetchedKeyResultsCommentLabels'),
     isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
   }
 }
@@ -23,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchOkrs: (okrPeriodId, userId) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true))
+    },
+    fetchKeyResultCommentLabels: () => {
+      dispatch(keyResultActions.fetchKeyResultCommentLabels())
     },
     selectOkrPeriod: okrHash => {
       const { objectiveId, keyResultId } = getOkrId(okrHash)

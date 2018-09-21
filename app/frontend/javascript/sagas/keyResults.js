@@ -88,6 +88,11 @@ function* processKeyResult({ payload }) {
   yield put(keyResultActions.processedKeyResult(payload.id))
 }
 
+function* fetchKeyResultCommentLabels() {
+  const result = yield call(API.get, '/key_results/comment_labels', {})
+  yield put(keyResultActions.fetchedKeyResultCommentLabels(result.get('labels')))
+}
+
 export function* keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
@@ -104,5 +109,6 @@ export function* keyResultSagas() {
     takeLatest(actionTypes.REMOVE_KEY_RESULT, withLoading(removeKeyResult)),
     takeLatest(actionTypes.DISABLE_KEY_RESULT, withLoading(disableKeyResult)),
     takeLatest(actionTypes.PROCESS_KEY_RESULT, withLoading(processKeyResult)),
+    takeLatest(actionTypes.FETCH_KEY_RESULT_COMMENT_LABELS, withLoading(fetchKeyResultCommentLabels)),
   ])
 }

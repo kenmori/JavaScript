@@ -26,6 +26,7 @@ const mapStateToProps = (state) => {
     removedObjectiveId: okrForm.get('removedObjectiveId'),
     removedKeyResultId: okrForm.get('removedKeyResultId'),
     isObjectiveOwner: state.loginUser.get('isAdmin') || objectiveOwnerId === loginUserId,
+    keyResultCommentLables: state.keyResults.get('commentLabels'),
   }
 }
 

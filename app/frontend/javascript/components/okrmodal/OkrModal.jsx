@@ -150,6 +150,7 @@ OkrModal.propTypes = {
   removeKeyResult: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
+  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
   // component
 }
 

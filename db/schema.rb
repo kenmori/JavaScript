@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180907055331) do
+ActiveRecord::Schema.define(version: 20180921111429) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "key_result_id", null: false
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 20180907055331) do
     t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "key_result_comment_label_id"
+    t.index ["key_result_comment_label_id"], name: "index_comments_on_key_result_comment_label_id"
     t.index ["key_result_id"], name: "index_comments_on_key_result_id"
   end
 
@@ -34,6 +36,15 @@ ActiveRecord::Schema.define(version: 20180907055331) do
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
     t.string "name", null: false
+  end
+
+  create_table "key_result_comment_labels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", null: false
+    t.string "color", null: false
+    t.bigint "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_key_result_comment_labels_on_organization_id"
   end
 
   create_table "key_result_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -170,4 +181,6 @@ ActiveRecord::Schema.define(version: 20180907055331) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "comments", "key_result_comment_labels"
+  add_foreign_key "key_result_comment_labels", "organizations"
 end

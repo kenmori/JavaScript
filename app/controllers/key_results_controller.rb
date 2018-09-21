@@ -110,6 +110,10 @@ class KeyResultsController < ApplicationController
     unprocessable_entity_with_errors(@key_result.errors.full_messages)
   end
 
+  def comment_labels
+    @labels = current_user.organization.key_result_comment_labels
+  end
+
   private
 
   def valid_user_to_update?
@@ -198,13 +202,27 @@ class KeyResultsController < ApplicationController
 
   def update_comment
     comment_data = params[:key_result][:comment]
-    if comment_data['behavior'] == 'add'
-      @key_result.comments.create!(text: comment_data['data'], user_id: current_user.id)
-    elsif comment_data['behavior'] == 'edit'
+
+    case comment_data['behavior']
+    when 'add'
+      comment_label = KeyResultCommentLabel.find_by(
+        id: comment_data['key_result_comment_label']['id'],
+        organization: current_user.organization
+      )
+      @key_result.comments.create!(
+        text: comment_data['data'],
+        user_id: current_user.id,
+        key_result_comment_label: comment_label
+      )
+    when 'edit'
       data = comment_data['data']
+      comment_label = KeyResultCommentLabel.find_by(
+        id: data['key_result_comment_label']['id'],
+        organization: current_user.organization
+      )
       comment = @key_result.comments.find(data['id'])
-      comment.update!(text: data[:text])
-    elsif comment_data['behavior'] == 'remove'
+      comment.update!(text: data[:text], key_result_comment_label: comment_label)
+    when 'remove'
       comment = @key_result.comments.find(comment_data['data'])
       comment.destroy!
     end

@@ -89,10 +89,10 @@
     }
   }
 
-  .comment-pane {
-    .comment-pane__button {
-      text-align: right;
-      margin-bottom: 16px;
+  .comment-pane__block {
+    margin-bottom: 16px;
+    .group {
+      justify-content: flex-end;
     }
   }
 
