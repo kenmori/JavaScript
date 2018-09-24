@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.partial! objective
 
 json.sub_progress_rate objective.sub_progress_rate

@@ -1,5 +1,6 @@
-class Organization < ApplicationRecord
+# frozen_string_literal: true
 
+class Organization < ApplicationRecord
   before_destroy :destroy_users # 関連付けの `dependent: :destroy` より先に定義する
 
   validates :name, presence: true
@@ -17,7 +18,7 @@ class Organization < ApplicationRecord
   end
 
   def current_okr_period
-    self.okr_periods.current.first || okr_periods.last
+    okr_periods.current.first || okr_periods.last
   end
 
   def disabled
@@ -26,9 +27,7 @@ class Organization < ApplicationRecord
 
   private
 
-  def destroy_users
-    users.each do |user|
-      user.destroy!
+    def destroy_users
+      users.each(&:destroy!)
     end
-  end
 end

@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class PrintUsers
   def self.execute
-    puts ''
+    puts ""
     Organization.all.each do |organization|
       puts "#{organization.id} - #{organization.name} (#{organization.users.first&.email})"
     end
-    puts ''
+    puts ""
 
-    puts 'Enter the ID of the organization you want to delete permanently.'
-    print 'ID: '
+    puts "Enter the ID of the organization you want to delete permanently."
+    print "ID: "
     organization_id = gets.chomp!
     organization = Organization.find_by(id: organization_id)
     if organization.nil?
@@ -16,7 +18,7 @@ class PrintUsers
     end
 
     puts "Showing #{organization.name}'s users information..."
-    puts ''
+    puts ""
     index = 0
     organization.users.each do |user|
       index += 1
@@ -29,8 +31,8 @@ class PrintUsers
       puts "   - sign in at #{user.sign_in_at.strftime('%Y-%m-%d %H:%M')}" if user.sign_in_at
       puts "   - disabled at #{user.disabled_at.strftime('%Y-%m-%d')}" if user.disabled_at
     end
-    puts ''
-    puts 'Done.'
+    puts ""
+    puts "Done."
   end
 end
 
