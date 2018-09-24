@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 json.extract! objective, :id, :disabled, :progress_rate, :sub_progress_rate
 
 json.key_results do

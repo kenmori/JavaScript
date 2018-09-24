@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :timeoutable and :omniauthable
@@ -42,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def has_password?
-    encrypted_password.present?
+    self.encrypted_password.present?
   end
 
   def active_for_authentication?
@@ -65,4 +63,5 @@ class User < ApplicationRecord
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
+
 end

@@ -1,17 +1,15 @@
-# frozen_string_literal: true
-
 class PrintInvalidOkrs
   def self.execute
-    print "Do you print all invalid OKRs? [yes/no] "
-    loop do
+    print 'Do you print all invalid OKRs? [yes/no] '
+    while true do
       case gets.chomp!
-      when "YES", "yes", "y"
-        break
-      when "NO", "no", "n"
-        puts "Cancel the program."
-        return 1
-      else
-        print "Type 'yes' or 'no': "
+        when 'YES', 'yes', 'y'
+          break
+        when 'NO', 'no', 'n'
+          puts 'Cancel the program.'
+          return 1
+        else
+          print "Type 'yes' or 'no': "
       end
     end
 
@@ -29,7 +27,7 @@ class PrintInvalidOkrs
       end
     end
 
-    puts "Done."
+    puts 'Done.'
   end
 end
 

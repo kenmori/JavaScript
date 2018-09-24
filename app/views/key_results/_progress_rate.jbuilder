@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 json.partial! key_result
 
 json.sub_progress_rate key_result.sub_progress_rate

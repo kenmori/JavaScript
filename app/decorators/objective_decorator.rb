@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ObjectiveDecorator
   def progress_rate_connected?
     !key_results.empty? && progress_rate_in_database.nil? # KR を持ち進捗率が未設定の場合は true
@@ -13,7 +11,7 @@ module ObjectiveDecorator
         return connected_key_results(key_results, objective.parent_key_result)
       end
     end
-    key_results
+    return key_results
   end
 
   def detached_parent_key_result
@@ -26,6 +24,6 @@ module ObjectiveDecorator
     key_results.each do |key_result|
       key_result.descendant_objectives(objectives)
     end
-    objectives
+    return objectives
   end
 end

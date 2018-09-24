@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 json.array! @key_results do |key_result|
   json.extract! key_result, :id, :name, :progress_rate, :status, :disabled
 

@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
 class Objective < ApplicationRecord
-  has_many :key_results, dependent: :destroy
+  has_many :key_results, dependent: :destroy 
   has_many :objective_members, dependent: :destroy
   has_many :users, through: :objective_members
   belongs_to :okr_period
-  belongs_to :parent_key_result, class_name: "KeyResult", optional: true
+  belongs_to :parent_key_result, class_name: 'KeyResult', optional: true
 
   scope :enabled, -> { where(disabled_at: nil) }
   scope :disabled, -> { where.not(disabled_at: nil) }
@@ -26,7 +24,7 @@ class Objective < ApplicationRecord
   end
 
   after_save do
-    parent_key_result&.update_sub_progress_rate # 上位進捗率の連動更新
+    parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
     if saved_change_to_parent_key_result_id?
       # 紐付け変更時は、変更前の上位進捗率も連動更新する
       KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate if parent_key_result_id_before_last_save
@@ -34,7 +32,7 @@ class Objective < ApplicationRecord
   end
 
   after_destroy do
-    parent_key_result&.update_sub_progress_rate # 上位進捗率の連動更新
+    parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
   end
 
   def progress_rate
@@ -43,11 +41,11 @@ class Objective < ApplicationRecord
 
   def update_sub_progress_rate
     enabled_key_results = key_results.enabled
-    new_sub_progress_rate = enabled_key_results.empty? ? nil
+    new_sub_progress_rate = enabled_key_results.size == 0 ? nil
         : enabled_key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / enabled_key_results.size
     update_column(:sub_progress_rate, new_sub_progress_rate) # 下位進捗率を更新する (updated_at は更新しない)
     if progress_rate_in_database.nil?
-      parent_key_result&.update_sub_progress_rate # 上位進捗率の連動更新
+      parent_key_result.update_sub_progress_rate if parent_key_result # 上位進捗率の連動更新
     end
   end
 
@@ -61,7 +59,6 @@ class Objective < ApplicationRecord
 
   def sorted_key_results
     return key_results unless key_result_order
-
     order = JSON.parse(key_result_order)
     index = order.size
     # KR 一覧を key_result_order 順に並べる (順番のない KR は後ろに並べていく)

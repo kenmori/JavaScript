@@ -1,17 +1,15 @@
-# frozen_string_literal: true
-
 class FixKeyResultMember
   def self.execute
-    print "Do you fix KeyResult members to be set to parent KeyResult properly? [YES/no] "
-    loop do
+    print 'Do you fix KeyResult members to be set to parent KeyResult properly? [YES/no] '
+    while true do
       case gets.chomp!
-      when "YES"
-        break
-      when "NO", "no", "n"
-        puts "Cancel the program."
-        return 1
-      else
-        print "Type 'YES' or 'no': "
+        when 'YES'
+          break
+        when 'NO', 'no', 'n'
+          puts 'Cancel the program.'
+          return 1
+        else
+          print "Type 'YES' or 'no': "
       end
     end
 
@@ -26,7 +24,7 @@ class FixKeyResultMember
       end
     end
 
-    puts "All KeyResult members have been fixed successfully."
+    puts 'All KeyResult members have been fixed successfully.'
   end
 end
 

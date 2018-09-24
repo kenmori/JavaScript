@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UpdateObjectiveUpdatedAt
   def self.execute
     # Objective の更新日を、紐付く KR やコメントも含めた最新の更新日にする (touch 導入時のマイグレーション)

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module KeyResultDecorator
   def achievement_rate
     if target_value.present? && actual_value.present? && target_value > 0
@@ -17,8 +15,7 @@ module KeyResultDecorator
     if parent_key_result&.progress_rate_connected?
       return connected_objectives(objectives, parent_key_result.objective)
     end
-
-    objectives
+    return objectives
   end
 
   def detached_objective
@@ -32,7 +29,7 @@ module KeyResultDecorator
     child_objectives.each do |objective|
       objective.descendant_objectives(objectives)
     end
-    objectives
+    return objectives
   end
 
   def sorted_child_objective_ids
@@ -40,11 +37,11 @@ module KeyResultDecorator
   end
 
   def sorted_child_objectives
-    child_objectives.includes(:parent_key_result).sort_by do |objective|
+    child_objectives.includes(:parent_key_result).sort_by { |objective|
       owner_id = objective.owner.id
       role = objective.parent_key_result.key_result_members.find_by(user_id: owner_id).role_before_type_cast
       [role, owner_id] # 責任者/関係者順 → ユーザー順 (→ 作成日昇順)
-    end
+    }
   end
 
   def processed?

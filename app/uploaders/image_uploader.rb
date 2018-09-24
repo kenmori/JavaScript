@@ -1,13 +1,12 @@
-# frozen_string_literal: true
-
-require "carrierwave/storage/fog"
+require 'carrierwave/storage/fog'
 
 class ImageUploader < CarrierWave::Uploader::Base
+
   include CarrierWave::RMagick
   storage :fog
 
   process :crop
-  process resize_to_limit: [128, 128]
+  process :resize_to_limit => [128, 128]
 
   def crop
     manipulate! do |img|
@@ -27,8 +26,8 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   def fog_attributes
     {
-      "Content-Type" => "image/jpg",
-      "Cache-Control" => "max-age=#{1.week.to_i}"
+      'Content-Type' => 'image/jpg',
+      'Cache-Control' => "max-age=#{1.week.to_i}"
     }
   end
 
@@ -37,7 +36,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w[jpg jpeg png]
+    %w(jpg jpeg png)
   end
 
   def filename
@@ -52,8 +51,9 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   protected
 
-    def secure_token
-      var = :"@#{mounted_as}_secure_token"
-      model.instance_variable_get(var) || model.instance_variable_set(var, SecureRandom.uuid)
-    end
+  def secure_token
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+  end
+
 end

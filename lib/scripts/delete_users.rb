@@ -1,18 +1,17 @@
-# frozen_string_literal: true
-
 class DeleteUsers
+
   def self.execute
-    loop do
+    while true do
       delete_user
 
-      puts ""
+      puts ''
       print "Delete another user? [yes/no] "
-      loop do
+      while true do
         case gets.chomp!
-        when "YES", "yes", "y"
+        when 'YES', 'yes', 'y'
           break
-        when "NO", "no", "n"
-          puts "Exit."
+        when 'NO', 'no', 'n'
+          puts 'Exit.'
           return 1
         else
           print "Type 'yes' or 'no': "
@@ -22,8 +21,8 @@ class DeleteUsers
   end
 
   def self.delete_user
-    puts "Enter the email address of the user to delete."
-    print "Email address: "
+    puts 'Enter the email address of the user to delete.'
+    print 'Email address: '
     email = gets.chomp!
     user = User.find_by(email: email)
     if user.nil?
@@ -39,11 +38,11 @@ class DeleteUsers
     end
 
     print "Are you sure you want to delete #{user_name}? [YES/no] "
-    loop do
+    while true do
       case gets.chomp!
-      when "YES"
+      when 'YES'
         break
-      when "NO", "no", "n"
+      when 'NO', 'no', 'n'
         return
       else
         print "Type 'YES' or 'no': "
@@ -54,7 +53,7 @@ class DeleteUsers
       ActiveRecord::Base.transaction do
         user.destroy!
       end
-    rescue StandardError => e
+    rescue => e
       puts "Error: #{e.message}"
       return
     end

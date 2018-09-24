@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 json.array! @objectives do |objective|
   json.extract! objective, :id, :name, :progress_rate, :disabled
 

@@ -1,11 +1,7 @@
-# frozen_string_literal: true
-
-require "spec_helper"
+require 'spec_helper'
 
 describe OrganizationDecorator do
+  let(:organization) { Organization.new.extend OrganizationDecorator }
   subject { organization }
-
-  let(:organization) { Organization.new.extend described_class }
-
-  it { is_expected.to be_a Organization }
+  it { should be_a Organization }
 end

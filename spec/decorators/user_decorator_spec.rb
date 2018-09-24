@@ -1,11 +1,7 @@
-# frozen_string_literal: true
-
-require "spec_helper"
+require 'spec_helper'
 
 describe UserDecorator do
+  let(:user) { User.new.extend UserDecorator }
   subject { user }
-
-  let(:user) { User.new.extend described_class }
-
-  it { is_expected.to be_a User }
+  it { should be_a User }
 end

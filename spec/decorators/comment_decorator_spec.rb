@@ -1,11 +1,7 @@
-# frozen_string_literal: true
-
-require "spec_helper"
+require 'spec_helper'
 
 describe CommentDecorator do
+  let(:comment) { Comment.new.extend CommentDecorator }
   subject { comment }
-
-  let(:comment) { Comment.new.extend described_class }
-
-  it { is_expected.to be_a Comment }
+  it { should be_a Comment }
 end

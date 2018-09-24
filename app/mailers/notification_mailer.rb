@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-
 class NotificationMailer < ApplicationMailer
+
   def assign_key_result(current_user, user, key_result)
     return unless current_user
     return if current_user.id == user.id
@@ -9,10 +8,10 @@ class NotificationMailer < ApplicationMailer
     @assignor = "#{current_user.last_name} #{current_user.first_name}"
     @assignee = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
-    @url = url_for(controller: "home")
+    @url = url_for(controller: 'home')
 
     mail to: user.email,
-         subject: "[Resily] 新しい OKR が割当てられました"
+         subject: '[Resily] 新しい OKR が割当てられました'
   end
 
   def self.send_change_kr_status(current_user, key_result, status_before, status_after)
@@ -32,10 +31,10 @@ class NotificationMailer < ApplicationMailer
     @key_result = key_result
     @status_before = status_to_text(status_before)
     @status_after = status_to_text(status_after) # キャッシュ時は key_result.status = status_before となるため使わない
-    @url = url_for(controller: "home")
+    @url = url_for(controller: 'home')
 
     mail to: user.email,
-         subject: "[Resily] Key Result の見通しが変更されました"
+         subject: '[Resily] Key Result の見通しが変更されました'
   end
 
   def change_o_disabled(current_user, objective, disabled)
@@ -47,8 +46,8 @@ class NotificationMailer < ApplicationMailer
     @operator = "#{current_user.last_name} #{current_user.first_name}"
     @receiver = "#{user.last_name} #{user.first_name}"
     @objective = objective
-    @enabled_or_disabled = disabled ? "無効化" : "有効化"
-    @url = url_for(controller: "home")
+    @enabled_or_disabled = disabled ? '無効化' : '有効化'
+    @url = url_for(controller: 'home')
 
     mail to: user.email,
          subject: "[Resily] Objective が#{@enabled_or_disabled}されました"
@@ -63,8 +62,8 @@ class NotificationMailer < ApplicationMailer
     @operator = "#{current_user.last_name} #{current_user.first_name}"
     @receiver = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
-    @enabled_or_disabled = disabled ? "無効化" : "有効化"
-    @url = url_for(controller: "home")
+    @enabled_or_disabled = disabled ? '無効化' : '有効化'
+    @url = url_for(controller: 'home')
 
     mail to: user.email,
          subject: "[Resily] Key Result が#{@enabled_or_disabled}されました"
@@ -86,10 +85,10 @@ class NotificationMailer < ApplicationMailer
     @receiver = "#{user.last_name} #{user.first_name}"
     @key_result = key_result
     @comment = comment
-    @url = url_for(controller: "home")
+    @url = url_for(controller: 'home')
 
     mail to: user.email,
-         subject: "[Resily] Key Result に新しいコメントが投稿されました"
+         subject: '[Resily] Key Result に新しいコメントが投稿されました'
   end
 
   def remind_progress_rate_for_key_result(user)
@@ -119,16 +118,16 @@ class NotificationMailer < ApplicationMailer
 
   private
 
-    def status_to_text(status)
-      case status
-      when "green"
-        "順調"
-      when "yellow"
-        "注意"
-      when "red"
-        "危険"
-      else
-        status
-      end
+  def status_to_text(status)
+    case status
+    when 'green'
+      '順調'
+    when 'yellow'
+      '注意'
+    when 'red'
+      '危険'
+    else
+      status
     end
+  end
 end

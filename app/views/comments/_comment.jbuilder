@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 json.extract! comment, :id, :text, :updated_at
 
 json.editable comment.editable?

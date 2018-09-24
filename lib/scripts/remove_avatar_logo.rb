@@ -1,17 +1,15 @@
-# frozen_string_literal: true
-
 class RemoveAvatarLogo
   def self.execute
-    print "Do you want to remove all avatars and logos? [YES/no] "
-    loop do
+    print 'Do you want to remove all avatars and logos? [YES/no] '
+    while true do
       case gets.chomp!
-      when "YES"
-        break
-      when "NO", "no", "n"
-        puts "Cancel the program."
-        return 1
-      else
-        print "Type 'YES' or 'no': "
+        when 'YES'
+          break
+        when 'NO', 'no', 'n'
+          puts 'Cancel the program.'
+          return 1
+        else
+          print "Type 'YES' or 'no': "
       end
     end
 
@@ -25,7 +23,7 @@ class RemoveAvatarLogo
       organization.save!
     end
 
-    puts "All avatars and logos have been removed successfully."
+    puts 'All avatars and logos have been removed successfully.'
   end
 end
 
