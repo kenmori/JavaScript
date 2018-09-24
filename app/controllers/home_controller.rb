@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:non_login]
 
@@ -9,6 +11,5 @@ class HomeController < ApplicationController
     gon.user_setting = current_user.user_setting
   end
 
-  def non_login
-  end
+  def non_login; end
 end

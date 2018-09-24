@@ -15,7 +15,7 @@ Rails:
   Enabled: true
 
 Style/AndOr:
-  Enabled: true
+  EnforcedStyle: conditionals
 
 Style/AsciiComments:
   Enabled: false

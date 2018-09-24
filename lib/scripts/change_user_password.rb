@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class ChangeUserPassword
   def self.execute
-    puts 'Enter the email address of the user whose password you want to change.'
-    print 'Email address: '
+    puts "Enter the email address of the user whose password you want to change."
+    print "Email address: "
     email = gets.chomp!
     user = User.find_by(email: email)
     if user.nil?
@@ -11,27 +13,27 @@ class ChangeUserPassword
 
     user_name = "'#{user.first_name} #{user.last_name}'"
     print "Do you want to change password of #{user_name}? [YES/no] "
-    while true do
+    loop do
       case gets.chomp!
-        when 'YES'
-          break
-        when 'NO', 'no', 'n'
-          puts 'Cancel the program.'
-          return 1
-        else
-          print "Type 'YES' or 'no': "
+      when "YES"
+        break
+      when "NO", "no", "n"
+        puts "Cancel the program."
+        return 1
+      else
+        print "Type 'YES' or 'no': "
       end
     end
 
     puts "Enter new password of #{user_name}"
-    print 'Password: '
+    print "Password: "
     password = STDIN.noecho(&:gets).chomp!
     print "\n"
-    print 'Confirmation: '
+    print "Confirmation: "
     confirmation = STDIN.noecho(&:gets).chomp!
     print "\n"
     if password != confirmation
-      puts 'Not matched passwords!'
+      puts "Not matched passwords!"
       return 1
     end
 
@@ -41,7 +43,7 @@ class ChangeUserPassword
         user.skip_confirmation!
         user.save!
       end
-    rescue => e
+    rescue StandardError => e
       puts "Error: #{e.message}"
       return 1
     end

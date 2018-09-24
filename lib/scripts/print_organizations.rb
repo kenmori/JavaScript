@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrintOrganizations
   def self.execute
     enabled_user_count = User.enabled.count
@@ -11,19 +13,19 @@ class PrintOrganizations
     new_user_rate_last_month = (new_user_count_last_month * 100.0 / enabled_user_count).round(1)
     new_user_rate_last_week = (new_user_count_last_week * 100.0 / enabled_user_count).round(1)
 
-    puts 'Showing organization information...'
-    puts ''
+    puts "Showing organization information..."
+    puts ""
     puts "- #{Organization.count} organizations"
     puts "- #{User.count} users (#{enabled_user_count} enabled, #{disabled_user_count} disabled)"
     puts "  - #{active_user_count_last_month} active users in the last month (#{active_user_rate_last_month}%)"
     puts "  - #{active_user_count_last_week} active users in the last week (#{active_user_rate_last_week}%)"
     puts "  - #{new_user_count_last_month} new users in the last month (#{new_user_rate_last_month}%)"
     puts "  - #{new_user_count_last_week} new users in the last week (#{new_user_rate_last_week}%)"
-    puts ''
+    puts ""
     index = 0
     Organization.all.each do |organization|
       index += 1
-      puts "#{index}. #{organization.name} (id=#{organization.id}#{organization.disabled ?  ', disabled' : ''})"
+      puts "#{index}. #{organization.name} (id=#{organization.id}#{organization.disabled ? ', disabled' : ''})"
 
       users = organization.users
       enabled_user_count = users.enabled.count
@@ -38,10 +40,10 @@ class PrintOrganizations
 
       organization.okr_periods.each do |okr_period|
         objectives = okr_period.objectives.enabled
-        objective_progress_rate_average = objectives.count == 0 ? '-'
+        objective_progress_rate_average = objectives.count == 0 ? "-"
             : objectives.reduce(0) { |sum, objective| sum + objective.progress_rate } / objectives.count
         key_results = okr_period.key_results.enabled
-        key_result_progress_rate_average = key_results.count == 0 ? '-'
+        key_result_progress_rate_average = key_results.count == 0 ? "-"
             : key_results.reduce(0) { |sum, key_result| sum + key_result.progress_rate } / key_results.count
 
         puts "  - [#{okr_period.name}]"
@@ -49,8 +51,8 @@ class PrintOrganizations
         puts "    - #{key_results.count} key results (enabled, average progress rate: #{key_result_progress_rate_average}%)"
       end
     end
-    puts ''
-    puts 'Done.'
+    puts ""
+    puts "Done."
   end
 end
 

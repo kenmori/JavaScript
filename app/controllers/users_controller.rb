@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :valid_operatable_user?
 
@@ -6,7 +8,7 @@ class UsersController < ApplicationController
       @user = current_user.organization.users.create!(create_user_params)
     end
     render status: :created
-  rescue => e
+  rescue StandardError => e
     unprocessable_entity(e.message)
   end
 
@@ -76,31 +78,30 @@ class UsersController < ApplicationController
 
   private
 
-  def create_user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :admin, :skip_notification)
-  end
+    def create_user_params
+      params.require(:user).permit(:first_name, :last_name, :email, :admin, :skip_notification)
+    end
 
-  def update_user_params
-    params.require(:user).permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :admin)
-  end
+    def update_user_params
+      params.require(:user).permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :admin)
+    end
 
-  def password_params
-    params.require(:user)
-        .permit(:id, :password, :password_confirmation, :current_password)
-  end
+    def password_params
+      params.require(:user)
+            .permit(:id, :password, :password_confirmation, :current_password)
+    end
 
-  def user_setting_params
-    params.require(:user_setting)
-        .permit(:show_child_objectives, :show_objective_key_results, :show_member_key_results, :show_disabled_okrs, :notify_remind_email_enabled)
-  end
+    def user_setting_params
+      params.require(:user_setting)
+            .permit(:show_child_objectives, :show_objective_key_results, :show_member_key_results, :show_disabled_okrs, :notify_remind_email_enabled)
+    end
 
-  def objective_order_params
-    params.require(:objective_order).permit(:okr_period_id, :list)
-  end
+    def objective_order_params
+      params.require(:objective_order).permit(:okr_period_id, :list)
+    end
 
-  def valid_operatable_user?
-    user_id = params[:id]
-    forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
-  end
-  
+    def valid_operatable_user?
+      user_id = params[:id]
+      forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
+    end
 end
