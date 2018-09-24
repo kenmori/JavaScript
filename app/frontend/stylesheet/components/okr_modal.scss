@@ -1,5 +1,8 @@
 .okr-modal {
-  .content {
+  .okr-content {
+    padding: 20px 0;
+    max-height: 70vh;
+
     .slider {
       .ui.input input[type="range"] {
         margin: 0 8px;
@@ -48,11 +51,13 @@
   .okr-body {
     display: flex;
     justify-content: space-between;
-    min-height: 606px;
+    max-height: 60vh;
   }
 
   .okr-main {
     width: 70%;
+    padding: 0 5px;
+    overflow-y: scroll;
     .field {
       margin-bottom: 10px;
     }
