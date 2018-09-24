@@ -41,13 +41,13 @@ class KeyResultTab extends PureComponent {
     return (
       <Tab panes={[
         {
-          menuItem: <Menu.Item key='keyResult'>Key Result{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='keyResult'>進捗{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
             <KeyResultPane {...this.props} updateKeyResult={this.updateKeyResult} />
           </Tab.Pane>
         },
         {
-          menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='links'>情報{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
             <LinkPane
               okr={this.props.keyResult}

@@ -142,8 +142,11 @@ class KeyResultPane extends PureComponent {
     const isDisabled = keyResult.get('disabled')
     return (
       <Form>
-        <Form.Field>
-          <AutoInput value={keyResult.get('name')} onCommit={this.handleNameCommit} />
+        <Form.Field className='flex-field'>
+          <label>Key Result</label>
+          <div className="flex-field__item">
+            <AutoInput value={keyResult.get('name')} onCommit={this.handleNameCommit} />
+          </div>
         </Form.Field>
 
         {this.state.isTargetValueVisible ? (
