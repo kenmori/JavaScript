@@ -6,6 +6,7 @@ class Organization < ApplicationRecord
 
   has_many :groups, dependent: :destroy
   has_many :organization_members, dependent: :destroy
+  has_many :key_result_comment_labels, dependent: :destroy
   has_many :users, through: :organization_members
   has_many :okr_periods, -> { order(:start_date) }, dependent: :destroy
 

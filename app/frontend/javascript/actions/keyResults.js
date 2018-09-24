@@ -17,6 +17,8 @@ const actions = createActions({
     okrPeriodId,
     userId,
   }),
+  [actionTypes.FETCH_KEY_RESULT_COMMENT_LABELS]: () => ({}),
+  [actionTypes.FETCHED_KEY_RESULT_COMMENT_LABELS]: labels => ({ labels }),
   [actionTypes.FETCHED_TASK_KEY_RESULTS]: keyResults => normalizeKeyResults(keyResults),
   [actionTypes.ADD_KEY_RESULT]: keyResult => ({ keyResult }),
   [actionTypes.ADDED_KEY_RESULT]: (keyResult, currentUserId) => normalizeKeyResult(keyResult).set('currentUserId', currentUserId),

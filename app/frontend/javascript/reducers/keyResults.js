@@ -6,8 +6,10 @@ const initialState = fromJS({
   ids: [],
   candidateIds: [],
   taskIds: [],
+  commentLabels: [],
   isFetchedKeyResults: false,
   isFetchedCandidates: false,
+  isFetchedKeyResultsCommentLabels: false,
 })
 
 function add(state, keyResultId) {
@@ -135,6 +137,10 @@ export default handleActions(
       state = removeParentFromTask(state, payload)
       return addParentAndKeyResults(state, payload)
     },
+    [ActionTypes.FETCH_KEY_RESULT_COMMENT_LABELS]: state => state.set('isFetchedKeyResultsCommentLabels', false),
+    [ActionTypes.FETCHED_KEY_RESULT_COMMENT_LABELS]: (state, { payload }) => state
+      .set('commentLabels', payload.labels)
+      .set('isFetchedKeyResultsCommentLabels', true),
   },
   initialState,
 )

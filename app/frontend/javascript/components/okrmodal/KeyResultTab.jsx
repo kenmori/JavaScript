@@ -85,6 +85,7 @@ KeyResultTab.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
+  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
 }
 
 export default KeyResultTab

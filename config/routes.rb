@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     collection do
       get 'candidates', to: 'key_results#index_candidates'
       get 'unprocessed', to: 'key_results#index_unprocessed'
+      get 'comment_labels', to: 'key_results#comment_labels'
     end
   end
 
