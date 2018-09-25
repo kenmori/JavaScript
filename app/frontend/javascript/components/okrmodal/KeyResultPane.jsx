@@ -36,6 +36,7 @@ class KeyResultPane extends PureComponent {
     }
   }
 
+  // TODO : KR Pane からは削除する  
   handleNameCommit = name => this.props.updateKeyResult({ name })
 
   handleTargetValueCommit = targetValue => this.props.updateKeyResult({ targetValue })
@@ -56,14 +57,17 @@ class KeyResultPane extends PureComponent {
 
   handleStatusChange = status => this.props.updateKeyResult({ status })
 
+  // TODO : KR Pane からは削除する  
   handleDescriptionCommit = description => this.props.updateKeyResult({ description })
 
   handleResultCommit = result => this.props.updateKeyResult({ result })
 
   handleCreateClick = () => this.props.openObjectiveModal(this.props.keyResult)
 
+  // TODO : KR Pane からは削除する
   handleKeyResultMemberAdd = value => this.props.updateKeyResult({ member: { user: value, behavior: 'add', role: 'member' } })
 
+  // TODO : KR Pane からは削除する
   handleKeyResultMemberRemove = value => {
     const removeAction = () => this.props.updateKeyResult({
       member: { user: value, behavior: 'remove' }
@@ -79,6 +83,7 @@ class KeyResultPane extends PureComponent {
     }
   }
 
+  // TODO : KR Pane からは削除する
   handleOwnerChange = ownerId => {
     const updateKeyResultOwner = () => this.props.updateKeyResult({ member: { user: ownerId, behavior: 'add', role: 'owner' } })
     if (!this.props.isObjectiveOwner && this.props.isKeyResultOwner && ownerId !== this.props.loginUserId) {
@@ -92,6 +97,7 @@ class KeyResultPane extends PureComponent {
     }
   }
 
+  // TODO : KR Pane からは削除する
   handleRemoveClick = () => {
     const { keyResult, removeKeyResult, confirm } = this.props
     let message = `Key Result "${keyResult.get('name')}" を完全に削除しますか？`
@@ -142,12 +148,12 @@ class KeyResultPane extends PureComponent {
     const isDisabled = keyResult.get('disabled')
     return (
       <Form>
-        <Form.Field className='flex-field'>
+        {/* <Form.Field className='flex-field'>
           <label>Key Result</label>
           <div className="flex-field__item">
             <AutoInput value={keyResult.get('name')} onCommit={this.handleNameCommit} />
           </div>
-        </Form.Field>
+        </Form.Field> */}
 
         {this.state.isTargetValueVisible ? (
           <Form.Group>
@@ -228,7 +234,7 @@ class KeyResultPane extends PureComponent {
           </div>
         </Form.Field>
 
-        <Form.Field className='flex-field'>
+        {/* <Form.Field className='flex-field'>
           <label>責任者</label>
           <div className='flex-field__item'>
             <UserSelect
@@ -237,9 +243,9 @@ class KeyResultPane extends PureComponent {
               onChange={this.handleOwnerChange}
             />
           </div>
-        </Form.Field>
+        </Form.Field> */}
 
-        <Form.Field className='flex-field'>
+        {/* <Form.Field className='flex-field'>
           <label>関係者</label>
           <div className='flex-field__item key-result-members'>
             <KeyResultMemberSelect
@@ -251,16 +257,16 @@ class KeyResultPane extends PureComponent {
               remove={this.handleKeyResultMemberRemove}
             />
           </div>
-        </Form.Field>
+        </Form.Field> */}
 
-        <Form.Field>
+        {/* <Form.Field>
           <label>説明</label>
           <OkrDescription
             key={keyResult.get('id')}
             text={keyResult.get('description')}
             onCommit={this.handleDescriptionCommit}
           />
-        </Form.Field>
+        </Form.Field> */}
 
         <Form.Field className='flex-field'>
           <label>結果</label>
@@ -273,7 +279,7 @@ class KeyResultPane extends PureComponent {
           </div>
         </Form.Field>
 
-        <Form.Group className="okr-buttons">
+        {/* <Form.Group className="okr-buttons">
           <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
           <Form.Button
             icon={isDisabled ? 'undo' : 'dont'}
@@ -282,7 +288,7 @@ class KeyResultPane extends PureComponent {
             negative={!isDisabled}
           />
           <Form.Button icon="plus" content="下位 OKR を作成する" onClick={this.handleCreateClick} positive />
-        </Form.Group>
+        </Form.Group> */}
       </Form>
     )
   }

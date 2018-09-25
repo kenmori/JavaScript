@@ -38,6 +38,7 @@ class KeyResultTab extends PureComponent {
     const { activeIndex } = this.state
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
     const comments = this.props.keyResult.get('comments')
+    console.log(this.props)
     return (
       <Tab panes={[
         {
@@ -56,6 +57,8 @@ class KeyResultTab extends PureComponent {
               isObjectiveOwner={this.props.isObjectiveOwner}
               isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
               updateOkr={this.updateKeyResult}
+              users={this.props.users}
+              updateKeyResult={this.updateKeyResult}
             />
           </Tab.Pane>
         },
