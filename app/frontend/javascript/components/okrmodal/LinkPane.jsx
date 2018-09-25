@@ -96,11 +96,6 @@ class LinkPane extends PureComponent {
   renderKeyResultLinks() {
     const keyResult = this.props.okr
     const childObjectives = keyResult.get('childObjectives')
-
-
-    // 追加項目用の props （このコメントは後で消す）
-    // TODO : 81 行目で持ってきている keyResult との違いを確認
-    // const keyResult = this.props.keyResult
     const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner
     const isDisabled = keyResult.get('disabled')
 
