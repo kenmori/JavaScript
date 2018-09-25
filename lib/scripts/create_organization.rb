@@ -54,6 +54,13 @@ class CreateOrganization
           start_date: start_date,
           end_date: end_date
         )
+        PresetCommentLabels::KeyResult::DEFAULT_LABELS.each do |tag|
+          KeyResultCommentLabel.create!(
+            name: tag[:name],
+            color: tag[:color],
+            organization: organization
+          )
+        end
       end
     rescue StandardError => e
       puts "Error: #{e.message}"
