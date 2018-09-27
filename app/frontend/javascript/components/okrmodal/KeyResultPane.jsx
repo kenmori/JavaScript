@@ -8,6 +8,8 @@ import NumberInput from '../form/NumberInput'
 import StatusRadio from '../util/StatusRadio'
 import PopupLabel from '../util/PopupLabel'
 import moment from 'moment'
+import OkrComment from './OkrComment'
+import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 
 class KeyResultPane extends PureComponent {
 
@@ -81,9 +83,58 @@ class KeyResultPane extends PureComponent {
     )
   }
 
+  handleTextChange = (e, { value }) => {
+    this.setState({ text: value })
+    this.props.setDirty(!!value)
+  }
+
+  addComment = () => {
+    const { text, commentLabel } = this.state
+    console.log({ text, commentLabel })
+    if (!text) return
+
+    this.props.updateKeyResult({
+      comment: {data: text, behavior: 'add', key_result_comment_label: { id: commentLabel }}
+    })
+    this.setState({ text: '' })
+    this.props.setDirty(false)
+  }
+
+  removeComment = id => {
+    this.props.confirm({
+      content: 'コメントを削除しますか？',
+      onConfirm: () => this.props.updateKeyResult({
+        comment: { data: id, behavior: 'remove' }
+      }),
+    })
+  }
+
+  editComment = (id, text, label) => {
+    if (!text) return
+
+    this.props.updateKeyResult({
+      comment: {
+        data: {
+          id,
+          text,
+          key_result_comment_label: { id: label }
+        },
+        behavior: 'edit',
+      }
+    })
+  }
+
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ commentLabel: value })
+  }
+
   render() {
     const keyResult = this.props.keyResult
+    const keyResultCommentLables = this.props.keyResultCommentLables
+    const { text } = this.state
+    const comments = keyResult.get('comments')
     const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
+
     return (
       <Form>
         {this.state.isTargetValueVisible ? (
@@ -175,6 +226,33 @@ class KeyResultPane extends PureComponent {
             />
           </div>
         </Form.Field>
+
+        <Form.Field>
+          <label>コメント ({comments ? comments.size : 0})</label>
+          {comments && comments.map(comment => (
+            <OkrComment
+              key={comment.get('id')}
+              comment={comment}
+              commentLables={keyResultCommentLables}
+              onDelete={this.removeComment}
+              onUpdate={this.editComment}
+            />
+          ))}
+          <Form.TextArea
+            autoHeight
+            rows={2}
+            value={text}
+            onChange={this.handleTextChange}
+            placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
+          />
+          <div className="comment-pane__block">
+            <Form.Group className='group'>
+              <KeyResultCommentLabelDropdown commentLables={keyResultCommentLables} onChange={this.handleDropdownChange} />
+              <Form.Button content="投稿する" onClick={this.addComment} />
+            </Form.Group>
+          </div>
+        </Form.Field>
+
       </Form>
     )
   }
@@ -193,6 +271,8 @@ KeyResultPane.propTypes = {
   removeKeyResult: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
+  setDirty: PropTypes.func.isRequired,
+  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
 }
 
 export default KeyResultPane

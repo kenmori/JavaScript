@@ -43,7 +43,11 @@ class KeyResultTab extends PureComponent {
         {
           menuItem: <Menu.Item key='keyResult'>進捗{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
-            <KeyResultPane {...this.props} updateKeyResult={this.updateKeyResult} />
+            <KeyResultPane 
+              {...this.props}
+              updateKeyResult={this.updateKeyResult}
+              setDirty={setDirty}
+            />
           </Tab.Pane>
         },
         {
@@ -59,12 +63,6 @@ class KeyResultTab extends PureComponent {
               users={this.props.users}
               updateKeyResult={this.updateKeyResult}
             />
-          </Tab.Pane>
-        },
-        {
-          menuItem: <Menu.Item key='comments'>コメント<Label>{comments ? comments.size : 0}</Label></Menu.Item>,
-          render: () => <Tab.Pane loading={!comments}>
-            <CommentPane {...this.props} updateKeyResult={this.updateKeyResult} setDirty={setDirty} />
           </Tab.Pane>
         },
       ]} activeIndex={activeIndex} onTabChange={this.handleTabChange} />
