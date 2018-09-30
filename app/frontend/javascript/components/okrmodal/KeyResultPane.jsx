@@ -8,8 +8,8 @@ import NumberInput from '../form/NumberInput'
 import StatusRadio from '../util/StatusRadio'
 import PopupLabel from '../util/PopupLabel'
 import moment from 'moment'
-import OkrComment from './OkrComment'
 import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import StretchCommentPane from './StretchCommentPane'
 
 class KeyResultPane extends PureComponent {
 
@@ -229,15 +229,12 @@ class KeyResultPane extends PureComponent {
 
         <Form.Field>
           <label>コメント ({comments ? comments.size : 0})</label>
-          {comments && comments.map(comment => (
-            <OkrComment
-              key={comment.get('id')}
-              comment={comment}
-              commentLables={keyResultCommentLables}
-              onDelete={this.removeComment}
-              onUpdate={this.editComment}
-            />
-          ))}
+          <StretchCommentPane
+            comments={comments}
+            keyResultCommentLables={keyResultCommentLables}
+            onDelete={this.removeComment}
+            onUpdate={this.editComment}
+          />
           <Form.TextArea
             autoHeight
             rows={2}
