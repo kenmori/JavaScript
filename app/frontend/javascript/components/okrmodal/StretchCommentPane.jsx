@@ -4,11 +4,14 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import OkrComment from './OkrComment'
 // import { Form, Dropdown } from 'semantic-ui-react'
 
+const INITIAL_VIEW_COMMENT = 3
+const VIEW_MORE_COMMENT = 5
+
 class StretchCommentPane extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      displayCommentCount : 3
+      displayCommentCount : INITIAL_VIEW_COMMENT
     }
   }
 
@@ -40,7 +43,12 @@ class StretchCommentPane extends PureComponent {
         }
         {comments.size > this.state.displayCommentCount
           ? (
-            <div onClick={() => this.handleDisplayComment(5)}>さらに表示</div>
+            <a
+              className="comment-pane__viewmore"
+              onClick={() => this.handleDisplayComment(VIEW_MORE_COMMENT)}
+            >
+              さらに表示
+            </a>
           ) : null
         }
       </div>

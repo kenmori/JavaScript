@@ -229,27 +229,28 @@ class KeyResultPane extends PureComponent {
 
         <Form.Field>
           <label>コメント ({comments ? comments.size : 0})</label>
-          <StretchCommentPane
-            comments={comments}
-            keyResultCommentLables={keyResultCommentLables}
-            onDelete={this.removeComment}
-            onUpdate={this.editComment}
-          />
-          <Form.TextArea
-            autoHeight
-            rows={2}
-            value={text}
-            onChange={this.handleTextChange}
-            placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
-          />
-          <div className="comment-pane__block">
-            <Form.Group className='group'>
-              <KeyResultCommentLabelDropdown commentLables={keyResultCommentLables} onChange={this.handleDropdownChange} />
-              <Form.Button content="投稿する" onClick={this.addComment} />
-            </Form.Group>
+          <div className="comment-pane">
+            <StretchCommentPane
+              comments={comments}
+              keyResultCommentLables={keyResultCommentLables}
+              onDelete={this.removeComment}
+              onUpdate={this.editComment}
+            />
+            <Form.TextArea
+              autoHeight
+              rows={2}
+              value={text}
+              onChange={this.handleTextChange}
+              placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
+            />
+            <div className="comment-pane__block">
+              <Form.Group className='group'>
+                <KeyResultCommentLabelDropdown commentLables={keyResultCommentLables} onChange={this.handleDropdownChange} />
+                <Form.Button content="投稿する" onClick={this.addComment} />
+              </Form.Group>
+            </div>
           </div>
         </Form.Field>
-
       </Form>
     )
   }
