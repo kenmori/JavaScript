@@ -70,6 +70,8 @@ group :development, :test do
   gem "guard"
   gem "guard-rspec"
   gem "guard-rubocop"
+  gem "pry-byebug"
+  gem "pry-rails"
   gem "rspec-rails"
   gem "spring-commands-rspec"
 end
