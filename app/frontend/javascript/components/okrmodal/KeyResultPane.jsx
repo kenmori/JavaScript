@@ -245,7 +245,7 @@ class KeyResultPane extends PureComponent {
               (
                 <div className="okr-description-text-only">
                   <div className="okr-description-text-only__text">
-                    <Markdown text={keyResult.get('description')} />
+                    <Markdown text={descText} />
                   </div>
                 </div>
               )
