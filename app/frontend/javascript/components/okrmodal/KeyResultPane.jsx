@@ -139,6 +139,7 @@ class KeyResultPane extends PureComponent {
     const keyResultCommentLables = this.props.keyResultCommentLables
     const { text } = this.state
     const comments = keyResult.get('comments')
+    const descText = keyResult.get('description')
     const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
 
     return (
@@ -236,7 +237,7 @@ class KeyResultPane extends PureComponent {
         <Form.Field>
           <label>
             コメント ({comments ? comments.size : 0}) {
-              this.state.isDisplayDescription ? null : <span onClick={this.handleDisplayDescription}>O/KRの説明を表示する</span>
+              this.state.isDisplayDescription || !descText ? null : <span onClick={this.handleDisplayDescription}>O/KRの説明を表示する</span>
             }
           </label>
           {
