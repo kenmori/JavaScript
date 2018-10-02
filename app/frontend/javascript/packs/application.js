@@ -6,7 +6,13 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.slim
-require('./Root.jsx')
+import 'babel-polyfill'
+import 'semantic-ui-css/semantic.min.css'
+import 'react-datepicker/dist/react-datepicker.min.css'
+import 'github-markdown-css/github-markdown.css'
+import 'highlight.js/styles/default.css'
+import '../../stylesheet/application'
+import './Root.jsx'
 
 if (process.env.NODE_ENV !== 'production') {
   const Immutable = require('immutable')

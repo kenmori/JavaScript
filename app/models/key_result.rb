@@ -37,8 +37,10 @@ class KeyResult < ApplicationRecord
     end
 
     if saved_change_to_progress_rate?
-      if target_value.present? || actual_value.present?
-        NotificationMailer.update_kr_progress_rate(Current.user, objective.owner, self).deliver_later
+      key_result_owner = owner
+      objective_owner = objective.owner
+      if key_result_owner.id != objective_owner.id && (target_value.present? || actual_value.present?)
+        NotificationMailer.update_kr_progress_rate(Current.user, objective_owner, self).deliver_later
       end
     end
   end

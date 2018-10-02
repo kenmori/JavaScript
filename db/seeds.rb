@@ -18,15 +18,6 @@ ApplicationRecord.transaction do
     name: "Test"
   )
 
-  # 組織のコメントタグを作成
-  PresetCommentLabels::KeyResult::DEFAULT_LABELS.each do |tag|
-    KeyResultCommentLabel.create!(
-      name: tag[:name],
-      color: tag[:color],
-      organization: organization
-    )
-  end
-
   # ユーザーを作成
   login_user = organization.users.create!(
     last_name: "山田",
