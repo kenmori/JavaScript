@@ -60,7 +60,6 @@ StretchCommentPane.propTypes = {
   // container
   // component
   keyResultCommentLables: ImmutablePropTypes.list.isRequired,
-  comments: ImmutablePropTypes.list.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 }
