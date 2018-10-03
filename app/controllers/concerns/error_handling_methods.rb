@@ -1,3 +1,8 @@
+# DEPRECATION WARNING エラーハンドリングは errors_controller で行う仕組みを導入したので、この module のメソッドは非推奨です。
+# エラーハンドリングをしたい場合は次のようにしてください。
+#
+# TODO 使い方を書く
+#
 module ErrorHandlingMethods
   extend ActiveSupport::Concern
 
