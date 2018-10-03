@@ -17,13 +17,9 @@
       > label {
         margin: 0 0 .5rem;
 
-        > span {
-          margin-left: 10px;
-          font-size: 12px;
-          color: #4183c4;
-          cursor: pointer;
+        &.comment {
+          margin-bottom: 15px;
         }
-
       }
 
       &.flex-field {

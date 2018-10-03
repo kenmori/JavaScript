@@ -19,7 +19,6 @@ class KeyResultPane extends PureComponent {
     this.state = {
       progressRate: props.keyResult.get('progressRate'),
       isTargetValueVisible: typeof props.keyResult.get('targetValue') === 'number',
-      isDisplayDescription: false,
     }
   }
 
@@ -130,10 +129,6 @@ class KeyResultPane extends PureComponent {
     this.setState({ commentLabel: value })
   }
 
-  handleDisplayDescription = () => {
-    this.setState({ isDisplayDescription: true})
-  }
-
   render() {
     const keyResult = this.props.keyResult
     const keyResultCommentLables = this.props.keyResultCommentLables
@@ -235,22 +230,9 @@ class KeyResultPane extends PureComponent {
         </Form.Field>
 
         <Form.Field>
-          <label>
-            コメント ({comments ? comments.size : 0}) {
-              this.state.isDisplayDescription || !descText ? null : <span onClick={this.handleDisplayDescription}>O/KRの説明を表示する</span>
-            }
+          <label className="comment">
+            コメント ({comments ? comments.size : 0})
           </label>
-          {
-            this.state.isDisplayDescription ?
-              (
-                <div className="okr-description-text-only">
-                  <div className="okr-description-text-only__text">
-                    <Markdown text={descText} />
-                  </div>
-                </div>
-              )
-              : null
-          }
           <div className="comment-pane">
             <StretchCommentPane
               comments={comments}
