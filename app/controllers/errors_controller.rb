@@ -5,10 +5,10 @@ class ErrorsController < ActionController::Base
   layout false
 
   def show
-    if request.xhr?
-      json_error_handling
-    else
+    if request.format.html?
       html_error_handling
+    else
+      json_error_handling
     end
   end
 
