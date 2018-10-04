@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react'
 import KeyResultPane from '../../containers/KeyResultPane'
+import InfoPane from '../../containers/InfoPane'
 import LinkPane from './LinkPane'
 import CommentPane from './CommentPane'
 
@@ -51,10 +52,11 @@ class KeyResultTab extends PureComponent {
           </Tab.Pane>
         },
         {
-          menuItem: <Menu.Item key='links'>情報{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='info'>情報{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
-            <LinkPane
+            <InfoPane
               okr={this.props.keyResult}
+              keyResult={this.props.keyResult}
               candidates={this.props.objectiveCandidates}
               isObjective={false}
               isObjectiveOwner={this.props.isObjectiveOwner}
@@ -62,6 +64,10 @@ class KeyResultTab extends PureComponent {
               updateOkr={this.updateKeyResult}
               users={this.props.users}
               updateKeyResult={this.updateKeyResult}
+              openObjectiveModal={this.props.openObjectiveModal}
+              confirm={this.props.confirm}
+              disableKeyResult={this.props.disableKeyResult}
+              removeKeyResult={this.props.removeKeyResult}
             />
           </Tab.Pane>
         },

@@ -55,20 +55,6 @@ class KeyResultPane extends PureComponent {
 
   handleResultCommit = result => this.props.updateKeyResult({ result })
 
-  handleDisableClick = () => {
-    const { keyResult, disableKeyResult, confirm } = this.props
-    const enabledOrDisabled = keyResult.get('disabled') ? '有効化' : '無効化'
-    let message = `Key Result "${keyResult.get('name')}" を${enabledOrDisabled}しますか？`
-    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
-    if (hasChild) {
-      message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
-    }
-    confirm({
-      content: message,
-      onConfirm: () => disableKeyResult(keyResult),
-    })
-  }
-  
   subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate')
     const subProgressRate = keyResult.get('subProgressRate')
@@ -91,7 +77,6 @@ class KeyResultPane extends PureComponent {
 
   addComment = () => {
     const { text, commentLabel } = this.state
-    console.log({ text, commentLabel })
     if (!text) return
 
     this.props.updateKeyResult({
@@ -234,12 +219,18 @@ class KeyResultPane extends PureComponent {
             コメント ({comments ? comments.size : 0})
           </label>
           <div className="comment-pane">
-            <StretchCommentPane
-              comments={comments}
-              keyResultCommentLables={keyResultCommentLables}
-              onDelete={this.removeComment}
-              onUpdate={this.editComment}
-            />
+            {
+              comments ?
+                (
+                  <StretchCommentPane
+                    comments={comments}
+                    keyResultCommentLables={keyResultCommentLables}
+                    onDelete={this.removeComment}
+                    onUpdate={this.editComment}
+                  />
+                )
+              : null
+            }
             <Form.TextArea
               autoHeight
               rows={2}
