@@ -4,8 +4,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react'
 import KeyResultPane from '../../containers/KeyResultPane'
 import InfoPane from '../../containers/InfoPane'
-import LinkPane from './LinkPane'
-import CommentPane from './CommentPane'
 
 class KeyResultTab extends PureComponent {
 
@@ -38,7 +36,7 @@ class KeyResultTab extends PureComponent {
     const { setDirty } = this.props
     const { activeIndex } = this.state
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
-    const comments = this.props.keyResult.get('comments')
+
     return (
       <Tab panes={[
         {
