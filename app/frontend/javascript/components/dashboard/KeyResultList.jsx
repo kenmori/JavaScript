@@ -1,15 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Table } from 'semantic-ui-react'
+import { Table, Button } from 'semantic-ui-react'
 import SortableComponent from '../util/SortableComponent'
 import OwnerAvatar from '../util/OwnerAvatar'
 import ProgressRate from '../util/ProgressRate'
 import OkrName from '../util/OkrName'
+import { openKeyResult } from '../../utils/linker'
 
 class KeyResultList extends SortableComponent {
 
   selectKeyResult = keyResult => () => this.props.selectKeyResult(keyResult)
+
+  handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId)
 
   render() {
     const { keyResults } = this.state
@@ -34,6 +37,9 @@ class KeyResultList extends SortableComponent {
               <Table.HeaderCell sorted={this.isSorted('expiredDate')} onClick={this.handleSort('expiredDate')}>
                 期限
               </Table.HeaderCell>
+              <Table.HeaderCell width={2}>
+                編集
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body className='key-result-table'>
@@ -49,6 +55,14 @@ class KeyResultList extends SortableComponent {
                 <Table.Cell>{keyResult.get('actualValue')} {keyResult.get('valueUnit')}</Table.Cell>
                 <Table.Cell><ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} /></Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
+                <Table.Cell textAlign='center'>
+                  <Button
+                    compact
+                    content="編集する"
+                    size="small"
+                    onClick={this.handleKeyResultClick(keyResult.get('id'))}
+                  />
+                  </Table.Cell>
               </Table.Row>
             )}
           </Table.Body>
