@@ -14,7 +14,6 @@ class ErrorsController < ActionController::Base
 
   private
 
-  # TODO 例外のメッセージを変えたい場合がある。 @exception をうまく使う感じかなぁ
   def json_error_handling
     error_messages = {
       'default' => "エラーが発生しました",

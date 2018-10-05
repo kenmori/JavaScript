@@ -1,9 +1,19 @@
-# DEPRECATION WARNING エラーハンドリングは errors_controller で行う仕組みを導入したので、この module のメソッドは非推奨です。
-# エラーハンドリングをしたい場合は次のようにしてください。
+# frozen_string_literal: true
+
+# Validation Error が発生したときなどにエラーの理由をJSONで render するメソッドをまとめています。
 #
-# TODO 使い方を書く
+# 例外発生時のレスポンスは gaffe gem により errors_controller で行なっているので、
+# エラー時のメッセージを特別なものにする必要がない場合には、単に例外を出す方が楽に実装することが出来ます。
 #
-module ErrorHandlingMethods
+# 例外時にデフォルトでどのようなレスポンスをするかは下記URLを参照してください。
+# https://railsguides.jp/configuring.html#action-dispatchを設定する
+#
+# 例外時のレスポンスの変更、あるいは新規に例外を定義した場合には下記URLに従って例外時のレスポンスを設定してください。
+# 未設定の場合 500 Internal Server Error になります。
+# https://github.com/mirego/gaffe#custom-exceptions
+#
+
+module ErrorJsonResponder
   extend ActiveSupport::Concern
 
   private

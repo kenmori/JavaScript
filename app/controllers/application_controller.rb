@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include ErrorHandlingMethods
+  include ErrorJsonResponder
 
   respond_to :html, :json
 
