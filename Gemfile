@@ -27,15 +27,15 @@ gem "devise", "~> 4.5.0"
 
 gem "gon", "~> 6.2.1"
 
+gem "active_decorator", "~> 1.0.0"
 gem "carrierwave"
 gem "carrierwave-i18n"
-gem "rmagick"
-gem "active_decorator", "~> 1.0.0"
 gem "fog"
 gem "foreman", "~> 0.82.0"
 gem "gaffe"
 gem "health-monitor-rails", "~> 7.2"
 gem "redis-namespace", "~> 1.6"
+gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
 

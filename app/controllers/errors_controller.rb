@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ErrorsController < ActionController::Base
   include Gaffe::Errors
 
@@ -14,26 +16,26 @@ class ErrorsController < ActionController::Base
 
   private
 
-  def json_error_handling
-    error_messages = {
-      'default' => "エラーが発生しました",
-      '400' => "無効な操作です",
-      '403' => "許可されていない操作です",
-      '404' => "操作の対象が存在しません",
-      '422' => "正常に処理できません"
-    }
+    def json_error_handling
+      error_messages = {
+        "default" => "エラーが発生しました",
+        "400" => "無効な操作です",
+        "403" => "許可されていない操作です",
+        "404" => "操作の対象が存在しません",
+        "422" => "正常に処理できません"
+      }
 
-    message = error_messages.fetch(@status_code.to_s, error_messages['default'])
+      message = error_messages.fetch(@status_code.to_s, error_messages["default"])
 
-    render json: { error: message }, status: @status_code
-  end
-
-  def html_error_handling
-    case @status_code.to_i
-    when 404, 422, 500
-      render "errors/#{@status_code}"
-    else
-      render 'errors/404'
+      render json: { error: message }, status: @status_code
     end
-  end
+
+    def html_error_handling
+      case @status_code.to_i
+      when 404, 422, 500
+        render "errors/#{@status_code}"
+      else
+        render "errors/404"
+      end
+    end
 end

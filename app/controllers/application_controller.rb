@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   around_action :set_current_user
 
   protected
+
     #  current_user return decorated devise current_user object
     def current_user
       ActiveDecorator::Decorator.instance.decorate(super) if super.present?
