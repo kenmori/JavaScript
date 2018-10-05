@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# この Controller は gaffe gem の力で動いています。
+# 詳細は下記URLを参照してください。
+# https://github.com/mirego/gaffe
+#
 class ErrorsController < ActionController::Base
   include Gaffe::Errors
 
