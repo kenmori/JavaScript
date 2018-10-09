@@ -10,7 +10,6 @@ import PopupLabel from '../util/PopupLabel'
 import moment from 'moment'
 import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 import StretchCommentPane from './StretchCommentPane'
-import Markdown from '../util/Markdown'
 
 class KeyResultPane extends PureComponent {
 
@@ -215,7 +214,7 @@ class KeyResultPane extends PureComponent {
         </Form.Field>
 
         <Form.Field>
-          <label className="comment">
+          <label>
             コメント ({comments ? comments.size : 0})
           </label>
           <div className="comment-pane">

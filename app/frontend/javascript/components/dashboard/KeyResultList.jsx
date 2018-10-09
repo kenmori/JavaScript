@@ -14,8 +14,21 @@ class KeyResultList extends SortableComponent {
 
   handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId)
 
+  checkObjectiveOwner = (keyResult, loginUserId) => {
+    const objectiveOwner = this.props.objectives.toArray().filter((objective) => {
+      return objective.get('id') === keyResult.get('objectiveId')
+    })
+
+    return objectiveOwner.length > 0 ?
+      objectiveOwner[0].getIn(['owner', 'id']) === loginUserId
+      : false
+  }
+
   render() {
     const { keyResults } = this.state
+    const loginUserId = this.props.loginUserId
+    const isAdmin = this.props.isAdmin
+
     return (
       <div className="key-result-list">
         <Table basic='very' compact='very' size='small' selectable sortable>
@@ -43,7 +56,8 @@ class KeyResultList extends SortableComponent {
             </Table.Row>
           </Table.Header>
           <Table.Body className='key-result-table'>
-            {keyResults.map(keyResult =>
+            {keyResults.map(keyResult => {
+              return (
               <Table.Row
                 key={keyResult.get('id')}
                 active={keyResult.get('id') === this.props.selectedKeyResultId}
@@ -56,15 +70,21 @@ class KeyResultList extends SortableComponent {
                 <Table.Cell><ProgressRate value={keyResult.get('progressRate')} status={keyResult.get('status')} /></Table.Cell>
                 <Table.Cell>{keyResult.get('expiredDate')}</Table.Cell>
                 <Table.Cell textAlign='center'>
-                  <Button
-                    compact
-                    content="編集する"
-                    size="small"
-                    onClick={this.handleKeyResultClick(keyResult.get('id'))}
-                  />
-                  </Table.Cell>
+                  {isAdmin || keyResult.getIn(['owner', 'id']) === loginUserId || this.checkObjectiveOwner(keyResult, loginUserId) ?
+                    (
+                      <Button
+                        compact
+                        content="編集する"
+                        size="small"
+                        onClick={this.handleKeyResultClick(keyResult.get('id'))}
+                      />
+                    )
+                    : null
+                  }
+                </Table.Cell>
               </Table.Row>
-            )}
+              )
+            })}
           </Table.Body>
         </Table>
       </div>
@@ -76,6 +96,7 @@ KeyResultList.propTypes = {
   // container
   selectedKeyResultId: PropTypes.number,
   selectKeyResult: PropTypes.func.isRequired,
+  isAdmin: PropTypes.bool,
   // component
   keyResults: ImmutablePropTypes.list.isRequired,
 }
