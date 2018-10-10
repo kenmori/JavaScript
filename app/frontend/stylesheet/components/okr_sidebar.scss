@@ -1,6 +1,8 @@
 .okr-sidebar {
   width: 30%;
   padding-right: 26px; // for swap-icons
+  padding-left: 20px;
+  overflow-y: auto;
 
   .sidebar__item-wrapper {
     position: relative;

@@ -1,5 +1,8 @@
 .okr-modal {
-  .content {
+  .okr-content {
+    padding: 20px 0;
+    height: 70vh;
+
     .slider {
       .ui.input input[type="range"] {
         margin: 0 8px;
@@ -18,7 +21,7 @@
       &.flex-field {
         label {
           display: inline-flex;
-          min-width: 4rem;
+          min-width: 4.5rem;
         }
         .flex-field__item {
           display: inline-flex;
@@ -48,13 +51,15 @@
   .okr-body {
     display: flex;
     justify-content: space-between;
-    min-height: 606px;
+    max-height: 65vh;
   }
 
   .okr-main {
     width: 70%;
+    padding: 0 5px;
+    overflow-y: scroll;
     .field {
-      margin-bottom: 10px;
+      margin: 10px 0;
     }
 
     .ui.menu .item > .label {
@@ -89,12 +94,21 @@
     }
   }
 
-  .comment-pane__block {
-    margin-bottom: 16px;
-    .group {
-      justify-content: flex-end;
+  .comment-pane {
+  
+    &__block {
+      margin-bottom: 16px;
+      .group {
+        justify-content: flex-end;
+      }
+    }
+  
+    &__viewmore {
+      cursor: pointer;
+      font-size: 12px;
     }
   }
+
 
   &.ui.modal .scrolling.content {
     overflow-y: scroll;
