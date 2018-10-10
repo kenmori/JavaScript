@@ -23,7 +23,7 @@ class Fetcher extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.isFetchedOkrs) {
+    if (this.state.isFetchedOkrs || this.props.isFetchedOrganization) {
       if (nextProps.okrHash) {
         if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
           this.props.openOkrModal(nextProps.okrHash)
