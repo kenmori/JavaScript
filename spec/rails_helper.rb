@@ -65,7 +65,6 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.before :suite do
-    puts 'DatabaseRewinder.clean_all'
     DatabaseRewinder.clean_all
     # DatabaseRewinder.clean_with nil, except: %w()
   end
@@ -75,9 +74,6 @@ RSpec.configure do |config|
   end
 
   config.after :each do |example|
-    puts 'DatabaseRewinder.clean'
     DatabaseRewinder.clean
-
-    pp Organization.all
   end
 end

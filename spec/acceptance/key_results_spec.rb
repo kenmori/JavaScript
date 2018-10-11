@@ -24,8 +24,6 @@ RSpec.resource 'key_results', warden: true do
       pp User.all
       puts 'a' * 30
 
-      expect(1 + 1).to eq(2)
-
       # explanation ''
 
       # do_request(
