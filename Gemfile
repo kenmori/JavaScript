@@ -39,30 +39,19 @@ gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "byebug", platforms: %i[mri mingw x64_mingw]
-end
-
-group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem "listen", ">= 3.0.5", "< 3.2"
-  gem "web-console", ">= 3.3.0"
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem "spring"
-  gem "spring-watcher-listen", "~> 2.0.0"
-  # Use 1.5.0 not 1.5.2 (see https://github.com/voormedia/rails-erd/issues/273)
-  gem "rails-erd", "1.5.0"
-end
-
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem "bullet"
   gem "html2slim"
+  gem "listen", ">= 3.0.5", "< 3.2"
   gem "meta_request"
-  gem "rubocop", require: false
+  gem "rails-erd", "1.5.0"
   gem "rubocop-rspec"
+  gem "rubocop", require: false
+  gem "spring-watcher-listen", "~> 2.0.0"
+  gem "spring"
+  gem "web-console", ">= 3.3.0"
 end
 
 group :development, :test do
