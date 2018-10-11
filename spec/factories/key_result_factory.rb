@@ -8,11 +8,20 @@ class KeyResultFactory < AbstractFactory
   end
   attr_reader :user, :objective
 
+  def create(**params)
+    super.tap{
+      KeyResultMember.create!(
+        key_result: model,
+        user: user,
+        role: :owner
+      )
+    }
+  end
+
   private
 
   def default_params
     {
-      user: user,
       objective: objective,
       name: "イケてるエンジニアを採用する",
       target_value: 1,
