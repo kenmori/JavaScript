@@ -68,6 +68,7 @@ end
 
 group :test do
   gem "database_rewinder"
+  gem "fuubar"
   gem "vcr"
   gem "webmock"
 end
