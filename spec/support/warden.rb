@@ -1,4 +1,4 @@
-RSpec.shared_context 'enable warden test mode', warden: true do
+RSpec.shared_context 'enable warden test mode' do
   include Warden::Test::Helpers
 
   before(:each) do
