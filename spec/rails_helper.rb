@@ -80,3 +80,7 @@ RSpec.configure do |config|
     DatabaseRewinder.clean
   end
 end
+
+RspecApiDocumentation.configure do |config|
+  config.docs_dir = Rails.root.join("docs/api")
+end
