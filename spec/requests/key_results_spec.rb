@@ -1,43 +1,69 @@
 # frozen_string_literal: true
+require "rspec_api_documentation/dsl"
 
-RSpec.describe "key results", type: :request do
+RSpec.describe "key results", type: :request, warden: true do
+  header 'Content-Type', 'application/json'
+  header 'Accept', 'application/json'
+
+  before do
+    # TODO user を作る
+    login_as(user)
+  end
+
   #index
-  describe 'GET /key_results' do
+  get '/key_results' do
+    parameter :user_id, '同じOrganizationのユーザーなら情報を取得できる', type: :integer, required: true
+    parameter :okr_period_id, '必要なOKR期間を指定する', type: :integer, required: true
+
+    # let(:user_id) {  }
+    # let(:okr_period_id) {  }
+
+    example '[SUCCESS]' do
+      # explanation ''
+
+      do_request(
+        user_id: 1,
+        okr_period_id: 1
+      )
+
+      # expect(status).to eq(200)
+      # expect(response_body).to eq(expected_response)
+    end
   end
 
   #index_candidates
-  describe 'GET /key_results/candidates' do
+  get '/key_results/candidates' do
   end
 
   #index_unprocessed
-  describe 'GET /key_results/unprocessed' do
+  get '/key_results/unprocessed' do
   end
 
   #show_objective
-  describe 'GET /key_results/:id/objective' do
+  get '/key_results/:id/objective' do
   end
 
   #create
-  describe 'POST /key_results' do
+  post '/key_results' do
   end
 
   #update
-  describe 'PATCH /key_results/:id' do
+  patch '/key_results/:id' do
   end
 
   #update_disabled
-  describe 'PUT /key_results/:id/disable' do
+  put '/key_results/:id/disable' do
   end
 
   #destroy
-  describe 'DELETE /key_results/:id' do
+  delete '/key_results/:id' do
   end
 
   #update_processed
-  describe 'PUT /key_results/:id/process' do
+  put '/key_results/:id/process' do
   end
 
   #comment_labels
-  describe 'GET /key_results/comment_labels' do
+  get '/key_results/comment_labels' do
   end
 end
