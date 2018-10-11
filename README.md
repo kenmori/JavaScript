@@ -38,3 +38,15 @@ docker-compose up -d
   - AWS S3 互換のオブジェクトストレージ
   - Access Key / Secret Key は `./docker-compose.yml` 参照
     - 基本的にはログイン不要
+
+### テストの実行
+
+```
+docker-compose run web bundle exec rake
+```
+
+`rspec` コマンドを用いてテストを実行する場合には `RAILS_ENV` を明示的に指定する必要があります。
+
+```
+docker-compose run -e RAILS_ENV=test web bundle exec rspec
+```
