@@ -52,8 +52,8 @@ ApplicationRecord.transaction do
 
   # OKR 期間を作成
   active_okr_period = organization.okr_periods.create!(
-    start_date: Date.today,
-    end_date: Date.today + 90,
+    start_date: Time.zone.today,
+    end_date: 90.days.since,
     name: "3Q"
   )
   inactive_okr_period = organization.okr_periods.create!(
