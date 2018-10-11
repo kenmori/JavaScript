@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 require "rspec_api_documentation/dsl"
 
-RSpec.describe "key results", type: :request, warden: true do
+RSpec.resource 'key_results', warden: true do
   header 'Content-Type', 'application/json'
   header 'Accept', 'application/json'
 
   before do
     # TODO user を作る
-    login_as(user)
+    # login_as(user)
   end
 
   #index
@@ -19,12 +19,19 @@ RSpec.describe "key results", type: :request, warden: true do
     # let(:okr_period_id) {  }
 
     example '[SUCCESS]' do
+      puts 'a' * 30
+      pp Organization.all
+      pp User.all
+      puts 'a' * 30
+
+      expect(1 + 1).to eq(2)
+
       # explanation ''
 
-      do_request(
-        user_id: 1,
-        okr_period_id: 1
-      )
+      # do_request(
+      #   user_id: 1,
+      #   okr_period_id: 1
+      # )
 
       # expect(status).to eq(200)
       # expect(response_body).to eq(expected_response)
