@@ -64,6 +64,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "rspec_api_documentation"
   gem "spring-commands-rspec"
+  gem "json_spec"
 end
 
 group :test do
