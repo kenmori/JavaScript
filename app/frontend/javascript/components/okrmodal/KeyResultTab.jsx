@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react'
 import KeyResultPane from '../../containers/KeyResultPane'
-import LinkPane from './LinkPane'
-import CommentPane from './CommentPane'
+import InfoPane from '../../containers/InfoPane'
 
 class KeyResultTab extends PureComponent {
 
@@ -37,32 +36,37 @@ class KeyResultTab extends PureComponent {
     const { setDirty } = this.props
     const { activeIndex } = this.state
     const dummyLabel = <Label className='zero-width'>&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
-    const comments = this.props.keyResult.get('comments')
+
     return (
       <Tab panes={[
         {
-          menuItem: <Menu.Item key='keyResult'>Key Result{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='keyResult'>進捗{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
-            <KeyResultPane {...this.props} updateKeyResult={this.updateKeyResult} />
+            <KeyResultPane 
+              {...this.props}
+              updateKeyResult={this.updateKeyResult}
+              setDirty={setDirty}
+            />
           </Tab.Pane>
         },
         {
-          menuItem: <Menu.Item key='links'>紐付き{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='info'>情報{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
-            <LinkPane
+            <InfoPane
               okr={this.props.keyResult}
+              keyResult={this.props.keyResult}
               candidates={this.props.objectiveCandidates}
               isObjective={false}
               isObjectiveOwner={this.props.isObjectiveOwner}
               isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
               updateOkr={this.updateKeyResult}
+              users={this.props.users}
+              updateKeyResult={this.updateKeyResult}
+              openObjectiveModal={this.props.openObjectiveModal}
+              confirm={this.props.confirm}
+              disableKeyResult={this.props.disableKeyResult}
+              removeKeyResult={this.props.removeKeyResult}
             />
-          </Tab.Pane>
-        },
-        {
-          menuItem: <Menu.Item key='comments'>コメント<Label>{comments ? comments.size : 0}</Label></Menu.Item>,
-          render: () => <Tab.Pane loading={!comments}>
-            <CommentPane {...this.props} updateKeyResult={this.updateKeyResult} setDirty={setDirty} />
           </Tab.Pane>
         },
       ]} activeIndex={activeIndex} onTabChange={this.handleTabChange} />

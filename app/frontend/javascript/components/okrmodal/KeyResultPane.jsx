@@ -5,13 +5,11 @@ import { Form, Label } from 'semantic-ui-react'
 import DatePicker from '../form/DatePicker'
 import AutoInput from '../form/AutoInput'
 import NumberInput from '../form/NumberInput'
-import UserSelect from '../form/UserSelect'
-import KeyResultMemberSelect from '../form/KeyResultMemberSelect'
-import OkrDescription from '../form/OkrDescription'
 import StatusRadio from '../util/StatusRadio'
-import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
 import moment from 'moment'
+import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import StretchCommentPane from './StretchCommentPane'
 
 class KeyResultPane extends PureComponent {
 
@@ -36,8 +34,6 @@ class KeyResultPane extends PureComponent {
     }
   }
 
-  handleNameCommit = name => this.props.updateKeyResult({ name })
-
   handleTargetValueCommit = targetValue => this.props.updateKeyResult({ targetValue })
 
   handleActualValueCommit = actualValue => this.props.updateKeyResult({ actualValue })
@@ -56,70 +52,8 @@ class KeyResultPane extends PureComponent {
 
   handleStatusChange = status => this.props.updateKeyResult({ status })
 
-  handleDescriptionCommit = description => this.props.updateKeyResult({ description })
-
   handleResultCommit = result => this.props.updateKeyResult({ result })
 
-  handleCreateClick = () => this.props.openObjectiveModal(this.props.keyResult)
-
-  handleKeyResultMemberAdd = value => this.props.updateKeyResult({ member: { user: value, behavior: 'add', role: 'member' } })
-
-  handleKeyResultMemberRemove = value => {
-    const removeAction = () => this.props.updateKeyResult({
-      member: { user: value, behavior: 'remove' }
-    })
-    if (this.props.keyResult.get('childObjectives').some(objective => objective.getIn(['owner', 'id']) === value)) {
-      const user = this.props.users.find(user => user.get('id') === value)
-      this.props.confirm({
-        content: `下位 Objective が紐付いています。関係者 "${user.get('lastName')} ${user.get('firstName')}" を削除しますか？`,
-        onConfirm: removeAction,
-      })
-    } else {
-      removeAction()
-    }
-  }
-
-  handleOwnerChange = ownerId => {
-    const updateKeyResultOwner = () => this.props.updateKeyResult({ member: { user: ownerId, behavior: 'add', role: 'owner' } })
-    if (!this.props.isObjectiveOwner && this.props.isKeyResultOwner && ownerId !== this.props.loginUserId) {
-      // O 責任者でない KR 責任者 (非管理者) が自分以外に変更しようとした場合
-      this.props.confirm({
-        content: 'Key Result 責任者を他ユーザーに変更すると自分では戻せなくなります。変更しますか？',
-        onConfirm: updateKeyResultOwner,
-      })
-    } else {
-      updateKeyResultOwner()
-    }
-  }
-
-  handleRemoveClick = () => {
-    const { keyResult, removeKeyResult, confirm } = this.props
-    let message = `Key Result "${keyResult.get('name')}" を完全に削除しますか？`
-    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
-    if (hasChild) {
-      message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
-    }
-    message += ' (この操作は元に戻せません)'
-    confirm({
-      content: message,
-      onConfirm: () => removeKeyResult(keyResult.get('id')),
-    })
-  }
-
-  handleDisableClick = () => {
-    const { keyResult, disableKeyResult, confirm } = this.props
-    const enabledOrDisabled = keyResult.get('disabled') ? '有効化' : '無効化'
-    let message = `Key Result "${keyResult.get('name')}" を${enabledOrDisabled}しますか？`
-    const hasChild = !keyResult.get('childObjectiveIds').isEmpty()
-    if (hasChild) {
-      message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
-    }
-    confirm({
-      content: message,
-      onConfirm: () => disableKeyResult(keyResult),
-    })
-  }
-  
   subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate')
     const subProgressRate = keyResult.get('subProgressRate')
@@ -135,17 +69,60 @@ class KeyResultPane extends PureComponent {
     )
   }
 
+  handleTextChange = (e, { value }) => {
+    this.setState({ text: value })
+    this.props.setDirty(!!value)
+  }
+
+  addComment = () => {
+    const { text, commentLabel } = this.state
+    if (!text) return
+
+    this.props.updateKeyResult({
+      comment: {data: text, behavior: 'add', key_result_comment_label: { id: commentLabel }}
+    })
+    this.setState({ text: '' })
+    this.props.setDirty(false)
+  }
+
+  removeComment = id => {
+    this.props.confirm({
+      content: 'コメントを削除しますか？',
+      onConfirm: () => this.props.updateKeyResult({
+        comment: { data: id, behavior: 'remove' }
+      }),
+    })
+  }
+
+  editComment = (id, text, label) => {
+    if (!text) return
+
+    this.props.updateKeyResult({
+      comment: {
+        data: {
+          id,
+          text,
+          key_result_comment_label: { id: label }
+        },
+        behavior: 'edit',
+      }
+    })
+  }
+
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ commentLabel: value })
+  }
+
   render() {
     const keyResult = this.props.keyResult
-    const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner
+    const keyResultCommentLables = this.props.keyResultCommentLables
+    const { text } = this.state
+    const comments = keyResult.get('comments')
+    const descText = keyResult.get('description')
     const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
-    const isDisabled = keyResult.get('disabled')
+
     return (
       <Form>
-        <Form.Field>
-          <AutoInput value={keyResult.get('name')} onCommit={this.handleNameCommit} />
-        </Form.Field>
-
         {this.state.isTargetValueVisible ? (
           <Form.Group>
             <Form.Field className='flex-field'>
@@ -226,40 +203,6 @@ class KeyResultPane extends PureComponent {
         </Form.Field>
 
         <Form.Field className='flex-field'>
-          <label>責任者</label>
-          <div className='flex-field__item'>
-            <UserSelect
-              users={this.props.users}
-              value={keyResult.getIn(['owner', 'id'])}
-              onChange={this.handleOwnerChange}
-            />
-          </div>
-        </Form.Field>
-
-        <Form.Field className='flex-field'>
-          <label>関係者</label>
-          <div className='flex-field__item key-result-members'>
-            <KeyResultMemberSelect
-              users={this.props.users}
-              members={keyResult.get('members').map(member => member.get('id'))}
-              includedId={isOwner ? null : this.props.loginUserId}
-              excludedId={keyResult.getIn(['owner', 'id'])}
-              add={this.handleKeyResultMemberAdd}
-              remove={this.handleKeyResultMemberRemove}
-            />
-          </div>
-        </Form.Field>
-
-        <Form.Field>
-          <label>説明</label>
-          <OkrDescription
-            key={keyResult.get('id')}
-            text={keyResult.get('description')}
-            onCommit={this.handleDescriptionCommit}
-          />
-        </Form.Field>
-
-        <Form.Field className='flex-field'>
           <label>結果</label>
           <div className='flex-field__item'>
             <AutoInput
@@ -270,16 +213,38 @@ class KeyResultPane extends PureComponent {
           </div>
         </Form.Field>
 
-        <Form.Group className="okr-buttons">
-          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
-          <Form.Button
-            icon={isDisabled ? 'undo' : 'dont'}
-            content={isDisabled ? '有効化する' : '無効化する'}
-            onClick={this.handleDisableClick}
-            negative={!isDisabled}
-          />
-          <Form.Button icon="plus" content="下位 OKR を作成する" onClick={this.handleCreateClick} positive />
-        </Form.Group>
+        <Form.Field>
+          <label>
+            コメント ({comments ? comments.size : 0})
+          </label>
+          <div className="comment-pane">
+            {
+              comments ?
+                (
+                  <StretchCommentPane
+                    comments={comments}
+                    keyResultCommentLables={keyResultCommentLables}
+                    onDelete={this.removeComment}
+                    onUpdate={this.editComment}
+                  />
+                )
+              : null
+            }
+            <Form.TextArea
+              autoHeight
+              rows={2}
+              value={text}
+              onChange={this.handleTextChange}
+              placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
+            />
+            <div className="comment-pane__block">
+              <Form.Group className='group'>
+                <KeyResultCommentLabelDropdown commentLables={keyResultCommentLables} onChange={this.handleDropdownChange} />
+                <Form.Button content="投稿する" onClick={this.addComment} />
+              </Form.Group>
+            </div>
+          </div>
+        </Form.Field>
       </Form>
     )
   }
@@ -298,6 +263,8 @@ KeyResultPane.propTypes = {
   removeKeyResult: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
+  setDirty: PropTypes.func.isRequired,
+  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
 }
 
 export default KeyResultPane

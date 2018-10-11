@@ -16,7 +16,7 @@ class OkrList extends PureComponent {
   render() {
     return (
       <List className='okr-list'>
-        {this.props.okrs.map(okr =>
+        {this.props.okrs.map(okr => 
           <List.Item key={okr.get('id')} className='okr-item'>
             <OwnerAvatar owner={okr.get('owner')} members={okr.get('members')} />
             <List.Content className='okr-list__name'>

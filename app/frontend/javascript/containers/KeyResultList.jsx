@@ -5,6 +5,9 @@ import currentActions from '../actions/current'
 const mapStateToProps = (state) => {
   return {
     selectedKeyResultId: state.current.getIn(['selectedOkr', 'keyResultId']),
+    isAdmin: state.loginUser.get('isAdmin'),
+    loginUserId: state.loginUser.get('id'),
+    objectives: state.entities.objectives,
   }
 }
 

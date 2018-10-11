@@ -91,7 +91,7 @@ class OkrModal extends PureComponent {
         className='okr-modal' 
         onClose={this.handleClose}
       >
-        <Modal.Content scrolling>
+        <div className="okr-content">
           <div className="okr-body">
             <OkrSidebar 
               objective={objective}
@@ -120,7 +120,7 @@ class OkrModal extends PureComponent {
               }
             </div>
           </div>
-        </Modal.Content>
+        </div>
       </Modal>
     )
   }
