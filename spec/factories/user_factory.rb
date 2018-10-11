@@ -16,7 +16,7 @@ class UserFactory < AbstractFactory
       first_name: "太郎",
       email: "yamada@example.com",
       password: "Pass0123",
-      admin: true,
+      admin: false,
       confirmed_at: 1.week.ago
     }
   end
