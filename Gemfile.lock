@@ -319,6 +319,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
+    mustache (1.0.5)
     mysql2 (0.5.2)
     nenv (0.3.0)
     netrc (0.11.0)
@@ -431,6 +432,10 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rspec_api_documentation (6.1.0)
+      activesupport (>= 3.0.0)
+      mustache (~> 1.0, >= 0.99.4)
+      rspec (~> 3.0)
     rubocop (0.59.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -544,6 +549,7 @@ DEPENDENCIES
   redis-namespace (~> 1.6)
   rmagick
   rspec-rails
+  rspec_api_documentation
   rubocop
   rubocop-rspec
   sidekiq (~> 5.1)

@@ -62,6 +62,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-rails"
   gem "rspec-rails"
+  gem "rspec_api_documentation"
   gem "spring-commands-rspec"
 end
 
