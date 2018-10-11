@@ -2,37 +2,36 @@
 require "rspec_api_documentation/dsl"
 
 RSpec.resource 'key_results', warden: true do
-  header 'Content-Type', 'application/json'
-  header 'Accept', 'application/json'
+  let!(:organization) { OrganizationFactory.new.create }
+  let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
+  let!(:okr_period) { OkrPeriodFactory.new(organization: organization).create }
+  let!(:objective) { ObjectiveFactory.new(user: admin_user, okr_period: okr_period).create }
+  let!(:key_result) { KeyResultFactory.new(user: admin_user, objective: objective).create }
+
+  let!(:login_user) { UserFactory.new(organization: organization).create(email: 'user2@example.com') }
 
   before do
-    # TODO user を作る
-    # login_as(user)
+    login_as(login_user)
   end
 
   #index
   get '/key_results' do
-    parameter :user_id, '同じOrganizationのユーザーなら情報を取得できる', type: :integer, required: true
-    parameter :okr_period_id, '必要なOKR期間を指定する', type: :integer, required: true
+    parameter :user_id, 'サインインユーザと同じ組織のユーザーID', type: :integer, required: true
+    parameter :okr_period_id, '取得したいOKR期間のID', type: :integer, required: true
 
-    # let(:user_id) {  }
-    # let(:okr_period_id) {  }
+    example '[SUCCESS] get the key result list' do
+      explanation '同じ組織のユーザ、OKR期間のKeyResult一覧を取得する'
 
-    example '[SUCCESS]' do
-      puts 'a' * 30
-      pp Organization.all
-      pp User.all
-      puts 'a' * 30
+      do_request(
+        user_id: admin_user.id,
+        okr_period_id: okr_period.id
+      )
 
-      # explanation ''
+      expect(status).to eq(200)
 
-      # do_request(
-      #   user_id: 1,
-      #   okr_period_id: 1
-      # )
-
-      # expect(status).to eq(200)
-      # expect(response_body).to eq(expected_response)
+      key_result_json = parse_json(response_body, "key_results/0")
+      pp key_result_json
+      # expect(key_result_json).to include_json(key_result.to_json)
     end
   end
 
