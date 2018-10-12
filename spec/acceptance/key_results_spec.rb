@@ -8,7 +8,25 @@ RSpec.resource 'key_results', warden: true do
   let!(:objective) { ObjectiveFactory.new(user: admin_user, okr_period: okr_period).create }
   let!(:key_result) { KeyResultFactory.new(user: admin_user, objective: objective).create }
 
+  let!(:other_user) { UserFactory.new(organization: organization).create(email: 'other_user@example.com') }
+  let!(:other_key_result) {
+    KeyResultFactory.new(user: other_user, objective: objective).create(
+      name: "正式版をリリースする",
+      expired_date: 3.month.since
+    )
+  }
+
   let!(:login_user) { UserFactory.new(organization: organization).create(email: 'user2@example.com') }
+
+  let!(:other_organization) { OrganizationFactory.new.create(name: 'other') }
+  let!(:other_organization_user) {
+    UserFactory.new(organization: other_organization).create(
+      last_name: '花京院',
+      first_name: '典明',
+      email: 'other_organization_user@example.com',
+      admin: true
+    )
+  }
 
   before do
     login_as(login_user)
@@ -16,11 +34,11 @@ RSpec.resource 'key_results', warden: true do
 
   #index
   get '/key_results' do
-    parameter :user_id, 'サインインユーザと同じ組織のユーザーID', type: :integer, required: true
+    parameter :user_id, 'サインインユーザと同じ組織のユーザーID', type: :integer
     parameter :okr_period_id, '取得したいOKR期間のID', type: :integer, required: true
 
-    example '[SUCCESS] get the key result list' do
-      explanation '同じ組織のユーザ、OKR期間のKeyResult一覧を取得する'
+    example 'SUCCESS: When specifying user_id' do
+      explanation 'user_idを渡す場合、それがサインインユーザと同じ組織のユーザであれば、OKR期間のKeyResults一覧を取得することができる'
 
       do_request(
         user_id: admin_user.id,
@@ -29,9 +47,51 @@ RSpec.resource 'key_results', warden: true do
 
       expect(status).to eq(200)
 
-      key_result_json = parse_json(response_body, "key_results/0")
-      pp key_result_json
-      # expect(key_result_json).to include_json(key_result.to_json)
+      key_results = response_body_json("key_results")
+      expect(key_results.size).to eq(1)
+      expect(key_results.first).to include(
+        "id" => a_kind_of(Integer),
+        "name" => "イケてるエンジニアを採用する",
+        "objective_id" => objective.id,
+        "target_value" => 1.0,
+        "actual_value" => 0.0,
+        "value_unit" => "人",
+        "expired_date" => 1.month.since.to_date.to_s,
+        "progress_rate" => 0,
+        "status" => "green",
+        "description" => nil,
+        "disabled" => false,
+        "is_full" => true,
+        "child_objective_ids" => [],
+        "owner" => {
+          "id" => a_kind_of(Integer),
+          "first_name" => "太郎",
+          "last_name" => "山田",
+          "avatar_url" => nil,
+          "disabled" => false
+        },
+        "members" => []
+      )
+    end
+
+    example 'SUCCESS: When user_id is not specified' do
+      explanation 'user_idを渡さない場合、サインインユーザのOKR期間のKeyResults一覧を取得することができる'
+
+      do_request(
+        user_id: nil,
+        okr_period_id: okr_period.id
+      )
+
+      expect(status).to eq(200)
+
+      key_results = response_body_json("key_results")
+      expect(key_results.size).to eq(2)
+      expect(key_results.dig(0, "name")).to eq("イケてるエンジニアを採用する")
+      expect(key_results.dig(1, "name")).to eq("正式版をリリースする")
+    end
+
+    xexample 'ERROR: When the user_id passed is an organization different from the sign-in user' do
+      explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
     end
   end
 
