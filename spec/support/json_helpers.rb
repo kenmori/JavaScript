@@ -1,5 +1,5 @@
 module JsonHelpers
-  def response_body_json(*path)
+  def parse_response_body(*path)
     json = JSON.parse(response_body)
 
     if path.present?

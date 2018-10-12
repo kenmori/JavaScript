@@ -47,7 +47,7 @@ RSpec.resource 'key_results', warden: true do
 
       expect(status).to eq(200)
 
-      key_results = response_body_json("key_results")
+      key_results = parse_response_body("key_results")
       expect(key_results.size).to eq(1)
       expect(key_results.first).to include(
         "id" => a_kind_of(Integer),
@@ -84,7 +84,7 @@ RSpec.resource 'key_results', warden: true do
 
       expect(status).to eq(200)
 
-      key_results = response_body_json("key_results")
+      key_results = parse_response_body("key_results")
       expect(key_results.size).to eq(2)
       expect(key_results.dig(0, "name")).to eq("イケてるエンジニアを採用する")
       expect(key_results.dig(1, "name")).to eq("正式版をリリースする")
