@@ -90,8 +90,16 @@ RSpec.resource 'key_results', warden: true do
       expect(key_results.dig(1, "name")).to eq("正式版をリリースする")
     end
 
-    xexample 'ERROR: When the user_id passed is an organization different from the sign-in user' do
+    example 'ERROR: When the user_id passed is an organization different from the sign-in user' do
       explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
+
+      do_request(
+        user_id: other_organization_user.id,
+        okr_period_id: okr_period.id
+      )
+
+      expect(status).to eq(403)
+      expect(parse_response_body["error"]).to eq("許可されていない操作です")
     end
   end
 
