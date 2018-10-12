@@ -10,10 +10,12 @@ RSpec.resource 'key_results', warden: true do
 
   let!(:other_user) { UserFactory.new(organization: organization).create(email: 'other_user@example.com') }
   let!(:other_key_result) {
-    KeyResultFactory.new(user: other_user, objective: objective).create(
-      name: "正式版をリリースする",
-      expired_date: 3.month.since
-    )
+    travel_to(1.second.since) do
+      KeyResultFactory.new(user: other_user, objective: objective).create(
+        name: "正式版をリリースする",
+        expired_date: 3.month.since
+      )
+    end
   }
 
   let!(:login_user) { UserFactory.new(organization: organization).create(email: 'user2@example.com') }
@@ -86,8 +88,9 @@ RSpec.resource 'key_results', warden: true do
 
       key_results = parse_response_body("key_results")
       expect(key_results.size).to eq(2)
-      expect(key_results.dig(0, "name")).to eq("イケてるエンジニアを採用する")
-      expect(key_results.dig(1, "name")).to eq("正式版をリリースする")
+      # 後に出来たほうが先にくる
+      expect(key_results.dig(0, "name")).to eq("正式版をリリースする")
+      expect(key_results.dig(1, "name")).to eq("イケてるエンジニアを採用する")
     end
 
     example 'ERROR: When the user_id passed is an organization different from the sign-in user' do
