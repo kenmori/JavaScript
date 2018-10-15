@@ -2,6 +2,9 @@
 require "rspec_api_documentation/dsl"
 
 RSpec.resource 'key_results', warden: true do
+  header 'Content-Type', 'application/json'
+  header 'Accept', 'application/json'
+
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
   let!(:okr_period) { OkrPeriodFactory.new(organization: organization).create }
@@ -283,6 +286,19 @@ RSpec.resource 'key_results', warden: true do
       # NOTE key_results の中身は他のアクションのテストで見ているのでここでは省略する(同じ内容という保証はないけど)。
       # TODO 実装では key_results の Order が設定されていないので ID 順になるためテストしづらいので、
       # key_results index の使用に合わせるなら created_at の順番にしたほうがよい。
+    end
+
+    example '[show_objective] ERROR: When the KeyResult ID does not exist', gaffe: true do
+      explanation '指定したKeyResult IDが存在しない場合404を返す'
+
+      do_request(id: 0)
+
+      expect(status).to eq(404)
+      expect(parse_response_body).to include("error" => "操作の対象が存在しません")
+    end
+
+    example '[show_objective] ERROR: When the Organization of KeyResult to be specified is different' do
+
     end
   end
 
