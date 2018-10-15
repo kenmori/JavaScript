@@ -23,13 +23,36 @@ RSpec.resource 'key_results', warden: true do
 
   let!(:login_user) { UserFactory.new(organization: organization).create(email: 'user2@example.com') }
 
-  let!(:other_organization) { OrganizationFactory.new.create(name: 'other') }
-  let!(:other_organization_user) {
-    UserFactory.new(organization: other_organization).create(
+  let!(:other_org) { OrganizationFactory.new.create(name: 'other') }
+  let!(:other_org_user) {
+    UserFactory.new(organization: other_org).create(
       last_name: '花京院',
       first_name: '典明',
-      email: 'other_organization_user@example.com',
+      email: 'other_org_user@example.com',
       admin: true
+    )
+  }
+  let!(:other_org_okr_period) {
+    OkrPeriodFactory.new(
+      organization: other_org,
+    ).create(
+      name: "第3部"
+    )
+  }
+  let!(:other_org_objective) {
+    ObjectiveFactory.new(
+      user: other_org_user,
+      okr_period: other_org_okr_period
+    ).create(
+      name: "DIOを倒す"
+    )
+  }
+  let!(:other_org_key_result) {
+    KeyResultFactory.new(
+      user: other_org_user,
+      objective: other_org_objective
+    ).create(
+      name: "エジプトに行く"
     )
   }
 
@@ -100,12 +123,12 @@ RSpec.resource 'key_results', warden: true do
       explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
 
       do_request(
-        user_id: other_organization_user.id,
+        user_id: other_org_user.id,
         okr_period_id: okr_period.id
       )
 
       expect(status).to eq(403)
-      expect(parse_response_body["error"]).to eq("許可されていない操作です")
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end
 
@@ -164,12 +187,12 @@ RSpec.resource 'key_results', warden: true do
       explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
 
       do_request(
-        user_id: other_organization_user.id,
+        user_id: other_org_user.id,
         okr_period_id: okr_period.id
       )
 
       expect(status).to eq(403)
-      expect(parse_response_body["error"]).to eq("許可されていない操作です")
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end
 
@@ -240,21 +263,21 @@ RSpec.resource 'key_results', warden: true do
       explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
 
       do_request(
-        user_id: other_organization_user.id,
+        user_id: other_org_user.id,
         okr_period_id: okr_period.id
       )
 
       expect(status).to eq(403)
-      expect(parse_response_body["error"]).to eq("許可されていない操作です")
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end
 
   #show_objective
   get '/key_results/:id/objective' do
-    parameter :id, 'KeyResultのOwnerがサインインユーザと同じ組織であればObjective一覧を取得することができる', type: :integer, required: true
+    parameter :id, 'KeyResult ID', type: :integer, required: true
 
-    example '[show_objective] SUCCESS: xxx' do
-      explanation ''
+    example '[show_objective] SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user' do
+      explanation 'KeyResultのOwnerがサインインユーザと同じ組織である場合、Objective一覧を取得することができる'
 
       do_request(id: key_result.id)
 
@@ -289,16 +312,21 @@ RSpec.resource 'key_results', warden: true do
     end
 
     example '[show_objective] ERROR: When the KeyResult ID does not exist', gaffe: true do
-      explanation '指定したKeyResult IDが存在しない場合404を返す'
+      explanation '指定したKeyResult IDが存在しない場合404 Not Foundを返す'
 
       do_request(id: 0)
 
       expect(status).to eq(404)
-      expect(parse_response_body).to include("error" => "操作の対象が存在しません")
+      expect(parse_response_body("error")).to eq("操作の対象が存在しません")
     end
 
     example '[show_objective] ERROR: When the Organization of KeyResult to be specified is different' do
+      explanation '指定したKeyResult IDの作成者の組織がサインインユーザと異なる場合、403 forbiddenを返す'
 
+      do_request(id: other_org_key_result.id)
+
+      expect(status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end
 
