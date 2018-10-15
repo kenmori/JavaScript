@@ -248,6 +248,42 @@ RSpec.resource 'key_results', warden: true do
 
   #show_objective
   get '/key_results/:id/objective' do
+    parameter :id, 'KeyResultのOwnerがサインインユーザと同じ組織であればObjective一覧を取得することができる', type: :integer, required: true
+
+    example '[show_objective] SUCCESS: xxx' do
+      explanation ''
+
+      do_request(id: key_result.id)
+
+      expect(status).to eq(200)
+
+      objective = parse_response_body("objective")
+      expect(objective).to include(
+        "id" => a_kind_of(Integer),
+        "name" => "使いやすいサービスを作る",
+        "description" => "事業を成功させるには、少なくとも競合より使いやすいサービスが欲しい。",
+        "okr_period_id" =>  okr_period.id,
+        "progress_rate" => 0,
+        "parent_key_result_id" => nil,
+        "updated_at" => be_time_iso8601,
+        "key_result_order" => nil,
+        "disabled" => false,
+        "is_full" => true,
+        "key_result_ids" => a_kind_of(Array),
+        "owner" => {
+          "id" => admin_user.id,
+          "first_name" => "太郎",
+          "last_name" => "山田",
+          "avatar_url" => nil,
+          "disabled" => false
+        },
+        "sub_progress_rate" => 0,
+        "key_results" => a_kind_of(Array)
+      )
+      # NOTE key_results の中身は他のアクションのテストで見ているのでここでは省略する(同じ内容という保証はないけど)。
+      # TODO 実装では key_results の Order が設定されていないので ID 順になるためテストしづらいので、
+      # key_results index の使用に合わせるなら created_at の順番にしたほうがよい。
+    end
   end
 
   #create
