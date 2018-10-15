@@ -111,7 +111,6 @@ RSpec.resource 'key_results', warden: true do
     parameter :user_id, 'サインインユーザと同じ組織のユーザーID', type: :integer
     parameter :okr_period_id, '取得したいOKR期間のID', type: :integer, required: true
 
-    # /key_results の概要を返すみたいなAPIのようだ
     example '[index_candidates] SUCCESS: When specifying user_id' do
       explanation 'user_idを渡す場合、それがサインインユーザと同じ組織のユーザであれば、OKR期間のKeyResults一覧の概要を取得することができる'
 
@@ -140,7 +139,6 @@ RSpec.resource 'key_results', warden: true do
         "members" => []
       )
     end
-
 
     example '[index_candidates] SUCCESS: When user_id is not specified' do
       explanation 'user_idを渡さない場合、サインインユーザのOKR期間のKeyResults一覧の概要を取得することができる'
@@ -174,6 +172,78 @@ RSpec.resource 'key_results', warden: true do
 
   #index_unprocessed
   get '/key_results/unprocessed' do
+    parameter :user_id, 'サインインユーザと同じ組織のユーザーID', type: :integer, required: true
+    parameter :okr_period_id, '取得したいOKR期間のID', type: :integer, required: true
+
+    example '[index_unprocessed] SUCCESS: When specifying a user with KeyResults that have not started' do
+      explanation <<~EOF
+        user_idがサインインユーザと同じ組織のユーザであれば、そのユーザが着手していないKeyResults一覧を取得することができる。
+        Objectiveのownerが作成したKeyResultは自動的にownerであるユーザが着手していることになる。
+      EOF
+
+      do_request(
+        user_id: other_user.id,
+        okr_period_id: okr_period.id
+      )
+
+      expect(status).to eq(200)
+
+      key_results = parse_response_body("key_results")
+      expect(key_results.size).to eq(1)
+      expect(key_results.first).to include(
+        "id" => a_kind_of(Integer),
+        "name" => "正式版をリリースする",
+        "objective_id" => objective.id,
+        "target_value" => 1.0,
+        "actual_value" => 0.0,
+        "value_unit" => "人",
+        "expired_date" => 3.month.since.to_date.to_s,
+        "progress_rate" => 0,
+        "status" => "green",
+        "description" => nil,
+        "disabled" => false,
+        "is_full" => true,
+        "child_objective_ids" => [],
+        "owner" =>
+        {"id" => a_kind_of(Integer),
+          "first_name" => "太郎",
+          "last_name" => "山田",
+          "avatar_url" => nil,
+          "disabled" => false},
+        "members" => []
+      )
+    end
+
+    example "[index_unprocessed] SUCCESS: When specifying Objective's Owner" do
+      explanation <<~EOF
+        user_idがサインインユーザと同じ組織のユーザであれば、そのユーザが着手していないKeyResults一覧を取得することができる。
+        Objectiveのownerが作成したKeyResultは自動的にownerであるユーザが着手していることになる。
+        そのため、ownerを指定する場合はKeyResultsを取得することが出来ない。
+      EOF
+
+      do_request(
+        user_id: admin_user.id,
+        okr_period_id: okr_period.id
+      )
+
+      expect(status).to eq(200)
+
+      expect(parse_response_body).to include(
+        "key_results" => []
+      )
+    end
+
+    example '[index_unprocessed] ERROR: When the user_id passed is an organization different from the sign-in user' do
+      explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
+
+      do_request(
+        user_id: other_organization_user.id,
+        okr_period_id: okr_period.id
+      )
+
+      expect(status).to eq(403)
+      expect(parse_response_body["error"]).to eq("許可されていない操作です")
+    end
   end
 
   #show_objective
