@@ -64,7 +64,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "rspec_api_documentation"
   gem "spring-commands-rspec"
-  gem "json_spec"  # TODO 使わなくていいかも。検討する。
 end
 
 group :test do
