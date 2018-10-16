@@ -87,4 +87,6 @@ end
 
 RspecApiDocumentation.configure do |config|
   config.docs_dir = Rails.root.join("docs/api")
+  config.keep_source_order = true
+  config.post_body_formatter = :json
 end
