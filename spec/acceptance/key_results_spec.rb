@@ -443,6 +443,9 @@ RSpec.resource 'key_results', warden: true do
         "comments" => []
       )
     end
+
+    example '[create] ERROR: owner_id が admin でも、 objective_id で指定した Objective の owner では無い時'
+    example '[create] ERROR: owner_idとobjective_id以外の必須項目を入力していない時'
   end
 
   #update
