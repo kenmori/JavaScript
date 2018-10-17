@@ -15,5 +15,7 @@ RSpec.resource 'DELETE /key_results/:id', warden: true do
   end
 
   delete '/key_results/:id' do
+    example 'SUCCESS: '
+    example 'ERROR: '
   end
 end

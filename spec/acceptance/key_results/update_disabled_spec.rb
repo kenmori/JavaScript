@@ -15,5 +15,7 @@ RSpec.resource 'PUT /key_results/:id/disable', warden: true do
   end
 
   put '/key_results/:id/disable' do
+    example 'SUCCESS: '
+    example 'ERROR: '
   end
 end

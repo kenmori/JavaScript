@@ -15,5 +15,7 @@ RSpec.resource 'PATCH /key_results/:id', warden: true do
   end
 
   patch '/key_results/:id' do
+    example 'SUCCESS: '
+    example 'ERROR: '
   end
 end

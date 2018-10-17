@@ -15,5 +15,7 @@ RSpec.resource 'GET /key_results/comment_labels', warden: true do
   end
 
   get '/key_results/comment_labels' do
+    example 'SUCCESS: '
+    example 'ERROR: '
   end
 end
