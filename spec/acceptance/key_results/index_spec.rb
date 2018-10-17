@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 require "rspec_api_documentation/dsl"
-require_relative '../concerns/organization_dataset'
+Rails.root.join('spec/acceptance/concerns').each_child {|path| require_dependency(path) }
 
 RSpec.resource 'GET key_results', warden: true do
   explanation 'key_results#index'
 
   include OrganizationDataset
-
-  header 'Content-Type', 'application/json'
-  header 'Accept', 'application/json'
+  include RequestHeaderJson
 
   before do
     login_as(login_user)

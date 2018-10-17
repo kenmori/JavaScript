@@ -39,7 +39,7 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = ::Rails.root.join("spec/fixtures")
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -89,4 +89,5 @@ RspecApiDocumentation.configure do |config|
   config.docs_dir = Rails.root.join("docs/api")
   config.keep_source_order = true
   config.post_body_formatter = :json
+  config.api_name = "Resily API Documentation"
 end
