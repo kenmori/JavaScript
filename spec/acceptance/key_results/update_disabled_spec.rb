@@ -8,9 +8,6 @@ RSpec.resource 'PUT /key_results/:id/disable', warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 
-  header 'Content-Type', 'application/json'
-  header 'Accept', 'application/json'
-
   before do
     login_as(login_user)
   end

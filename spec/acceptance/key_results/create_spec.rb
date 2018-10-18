@@ -8,9 +8,6 @@ RSpec.resource 'POST /key_results', warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 
-  header 'Content-Type', 'application/json'
-  header 'Accept', 'application/json'
-
   before do
     # NOTE サインインユーザは admin か objective_id で指定した Objective の owner でなければならない
     login_as(admin_user)
