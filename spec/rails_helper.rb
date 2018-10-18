@@ -47,9 +47,8 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = false
-  config.use_transactional_examples = false
 
-  # load shared context
+  # setup shared context
   config.include_context "enable warden test mode", warden: true
   config.include_context "enable gaffe", gaffe: true
 

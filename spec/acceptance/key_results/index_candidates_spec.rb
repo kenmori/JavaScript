@@ -58,7 +58,8 @@ RSpec.resource "GET /key_results/candidates", warden: true do
 
       key_results = parse_response_body
       expect(key_results.size).to eq(2)
-      # 後に出来たほうが先にくる
+
+      # 最近作られたKeyResultが先頭にくる
       expect(key_results.dig(0, "name")).to eq("正式版をリリースする")
       expect(key_results.dig(1, "name")).to eq("イケてるエンジニアを採用する")
     end
