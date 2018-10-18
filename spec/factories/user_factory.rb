@@ -1,4 +1,6 @@
-require_relative 'abstract_factory'
+# frozen_string_literal: true
+
+require_relative "abstract_factory"
 
 class UserFactory < AbstractFactory
   def initialize(organization:)
@@ -9,15 +11,15 @@ class UserFactory < AbstractFactory
 
   private
 
-  def default_params
-    {
-      organization: organization,
-      last_name: "山田",
-      first_name: "太郎",
-      email: "yamada@example.com",
-      password: "Pass0123",
-      admin: false,
-      confirmed_at: 1.week.ago
-    }
-  end
+    def default_params
+      {
+        organization: organization,
+        last_name: "山田",
+        first_name: "太郎",
+        email: "yamada@example.com",
+        password: "Pass0123",
+        admin: false,
+        confirmed_at: 1.week.ago
+      }
+    end
 end

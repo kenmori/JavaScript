@@ -1,4 +1,6 @@
-require_relative 'abstract_factory'
+# frozen_string_literal: true
+
+require_relative "abstract_factory"
 
 class OrganizationFactory < AbstractFactory
   def initialize
@@ -7,9 +9,9 @@ class OrganizationFactory < AbstractFactory
 
   private
 
-  def default_params
-    {
-      name: "Test"
-    }
-  end
+    def default_params
+      {
+        name: "Test"
+      }
+    end
 end

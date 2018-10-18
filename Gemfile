@@ -47,10 +47,10 @@ group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "meta_request"
   gem "rails-erd", "1.5.0"
-  gem "rubocop-rspec"
   gem "rubocop", require: false
-  gem "spring-watcher-listen", "~> 2.0.0"
+  gem "rubocop-rspec"
   gem "spring"
+  gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
 end
 

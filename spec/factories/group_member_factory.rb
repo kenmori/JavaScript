@@ -1,4 +1,6 @@
-require_relative 'abstract_factory'
+# frozen_string_literal: true
+
+require_relative "abstract_factory"
 
 class GroupMemberFactory < AbstractFactory
   def initialize(user:, group:)
@@ -10,11 +12,11 @@ class GroupMemberFactory < AbstractFactory
 
   private
 
-  def default_params
-    {
-      user: user,
-      group: group,
-      role: :member
-    }
-  end
+    def default_params
+      {
+        user: user,
+        group: group,
+        role: :member
+      }
+    end
 end

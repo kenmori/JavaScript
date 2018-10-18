@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-require "rspec_api_documentation/dsl"
-Rails.root.join('spec/acceptance/concerns').each_child {|path| require_dependency(path) }
 
-RSpec.resource 'GET /key_results/:id/objective', warden: true do
-  explanation 'key_results#show_objective'
+require "rspec_api_documentation/dsl"
+Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
+
+RSpec.resource "GET /key_results/:id/objective", warden: true do
+  explanation "key_results#show_objective"
 
   include OrganizationDataset
   include RequestHeaderJson
@@ -12,11 +13,11 @@ RSpec.resource 'GET /key_results/:id/objective', warden: true do
     login_as(login_user)
   end
 
-  get '/key_results/:id/objective' do
-    parameter :id, 'KeyResult ID', type: :integer, required: true
+  get "/key_results/:id/objective" do
+    parameter :id, "KeyResult ID", type: :integer, required: true
 
-    example 'SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user' do
-      explanation 'KeyResultのOwnerがサインインユーザと同じ組織である場合、Objective一覧を取得することができる'
+    example "SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user" do
+      explanation "KeyResultのOwnerがサインインユーザと同じ組織である場合、Objective一覧を取得することができる"
 
       do_request(id: key_result.id)
 
@@ -50,8 +51,8 @@ RSpec.resource 'GET /key_results/:id/objective', warden: true do
       # key_results index の使用に合わせるなら created_at の順番にしたほうがよい。
     end
 
-    example 'ERROR: When the KeyResult ID does not exist', gaffe: true do
-      explanation '指定したKeyResult IDが存在しない場合404 Not Foundを返す'
+    example "ERROR: When the KeyResult ID does not exist", gaffe: true do
+      explanation "指定したKeyResult IDが存在しない場合404 Not Foundを返す"
 
       do_request(id: 0)
 
@@ -59,8 +60,8 @@ RSpec.resource 'GET /key_results/:id/objective', warden: true do
       expect(parse_response_body("error")).to eq("操作の対象が存在しません")
     end
 
-    example 'ERROR: When the Organization of KeyResult to be specified is different' do
-      explanation '指定したKeyResult IDの作成者の組織がサインインユーザと異なる場合、403 forbiddenを返す'
+    example "ERROR: When the Organization of KeyResult to be specified is different" do
+      explanation "指定したKeyResult IDの作成者の組織がサインインユーザと異なる場合、403 forbiddenを返す"
 
       do_request(id: other_org_key_result.id)
 

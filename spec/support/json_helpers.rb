@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JsonHelpers
   def parse_response_body(*path)
     json = JSON.parse(response_body)

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'spec_helper'
-require 'rspec/rails'
+require "spec_helper"
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -21,8 +23,8 @@ require 'rspec/rails'
 # require only the support files necessary.
 #
 Dir[
-  Rails.root.join('spec/support/**/*.rb'),
-  Rails.root.join('spec/factories/**/*.rb')
+  Rails.root.join("spec/support/**/*.rb"),
+  Rails.root.join("spec/factories/**/*.rb")
 ].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
@@ -76,11 +78,11 @@ RSpec.configure do |config|
     # DatabaseRewinder.clean_with nil, except: %w()
   end
 
-  config.before :each do |example|
+  config.before do |_example|
     ActionMailer::Base.deliveries.clear
   end
 
-  config.after :each do |example|
+  config.after do |_example|
     DatabaseRewinder.clean
   end
 end

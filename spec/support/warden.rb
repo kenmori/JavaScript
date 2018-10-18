@@ -1,14 +1,16 @@
-RSpec.shared_context 'enable warden test mode' do
+# frozen_string_literal: true
+
+RSpec.shared_context "enable warden test mode" do
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     Warden.test_mode!
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  alias sign_in login_as
-  alias sign_out logout
+  alias_method :sign_in, :login_as
+  alias_method :sign_out, :logout
 end

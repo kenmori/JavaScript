@@ -1,4 +1,6 @@
-require_relative 'abstract_factory'
+# frozen_string_literal: true
+
+require_relative "abstract_factory"
 
 class OkrPeriodFactory < AbstractFactory
   def initialize(organization:)
@@ -9,12 +11,12 @@ class OkrPeriodFactory < AbstractFactory
 
   private
 
-  def default_params
-    {
-      organization: organization,
-      start_date: 1.week.ago,
-      end_date: 1.year.since,
-      name: "3Q"
-    }
-  end
+    def default_params
+      {
+        organization: organization,
+        start_date: 1.week.ago,
+        end_date: 1.year.since,
+        name: "3Q"
+      }
+    end
 end

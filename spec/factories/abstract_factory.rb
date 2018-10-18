@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AbstractFactory
   def initialize(model)
     @model = model
@@ -13,7 +15,7 @@ class AbstractFactory
 
   private
 
-  def default_params
-    raise NotImplementedError
-  end
+    def default_params
+      raise NotImplementedError
+    end
 end

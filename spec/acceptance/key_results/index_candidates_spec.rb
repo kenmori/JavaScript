@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-require "rspec_api_documentation/dsl"
-Rails.root.join('spec/acceptance/concerns').each_child {|path| require_dependency(path) }
 
-RSpec.resource 'GET /key_results/candidates', warden: true do
-  explanation 'key_results#index_candidates'
+require "rspec_api_documentation/dsl"
+Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
+
+RSpec.resource "GET /key_results/candidates", warden: true do
+  explanation "key_results#index_candidates"
 
   include OrganizationDataset
   include RequestHeaderJson
@@ -12,12 +13,12 @@ RSpec.resource 'GET /key_results/candidates', warden: true do
     login_as(login_user)
   end
 
-  get '/key_results/candidates' do
-    parameter :user_id, 'サインインユーザと同じ組織のユーザーID', type: :integer
-    parameter :okr_period_id, '取得したいOKR期間のID', type: :integer, required: true
+  get "/key_results/candidates" do
+    parameter :user_id, "サインインユーザと同じ組織のユーザーID", type: :integer
+    parameter :okr_period_id, "取得したいOKR期間のID", type: :integer, required: true
 
-    example 'SUCCESS: When specifying user_id' do
-      explanation 'user_idを渡す場合、それがサインインユーザと同じ組織のユーザであれば、OKR期間のKeyResults一覧の概要を取得することができる'
+    example "SUCCESS: When specifying user_id" do
+      explanation "user_idを渡す場合、それがサインインユーザと同じ組織のユーザであれば、OKR期間のKeyResults一覧の概要を取得することができる"
 
       do_request(
         user_id: admin_user.id,
@@ -45,8 +46,8 @@ RSpec.resource 'GET /key_results/candidates', warden: true do
       )
     end
 
-    example 'SUCCESS: When user_id is not specified' do
-      explanation 'user_idを渡さない場合、サインインユーザのOKR期間のKeyResults一覧の概要を取得することができる'
+    example "SUCCESS: When user_id is not specified" do
+      explanation "user_idを渡さない場合、サインインユーザのOKR期間のKeyResults一覧の概要を取得することができる"
 
       do_request(
         user_id: nil,
@@ -62,8 +63,8 @@ RSpec.resource 'GET /key_results/candidates', warden: true do
       expect(key_results.dig(1, "name")).to eq("イケてるエンジニアを採用する")
     end
 
-    example 'ERROR: When the user_id passed is an organization different from the sign-in user' do
-      explanation '渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す'
+    example "ERROR: When the user_id passed is an organization different from the sign-in user" do
+      explanation "渡したuser_idがサインインユーザとは異なる組織である場合、403 forbiddenを返す"
 
       do_request(
         user_id: other_org_user.id,

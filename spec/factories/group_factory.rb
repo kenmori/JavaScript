@@ -1,4 +1,6 @@
-require_relative 'abstract_factory'
+# frozen_string_literal: true
+
+require_relative "abstract_factory"
 
 class GroupFactory < AbstractFactory
   def initialize(organization:)
@@ -9,10 +11,10 @@ class GroupFactory < AbstractFactory
 
   private
 
-  def default_params
-    {
-      organization: organization,
-      name: '開発部'
-    }
-  end
+    def default_params
+      {
+        organization: organization,
+        name: "開発部"
+      }
+    end
 end
