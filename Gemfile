@@ -71,4 +71,5 @@ group :test do
   gem "fuubar"
   gem "vcr"
   gem "webmock"
+  gem 'rspec_junit_formatter', '~> 0.4.1'
 end
