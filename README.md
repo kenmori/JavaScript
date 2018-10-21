@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/suikalemoned/resily.svg?style=shield&circle-token=2c0dc0552d295856e1e80cc81633b7f7c5e27695)](https://circleci.com/gh/suikalemoned/resily)
+
 # Resily (リシリー)
 
 OKR の作成・運用・管理を目的としたクラウド OKR ツール。
