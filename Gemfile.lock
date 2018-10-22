@@ -90,11 +90,6 @@ GEM
     dry-inflector (0.1.2)
     erubi (1.7.1)
     excon (0.62.0)
-    factory_bot (4.11.1)
-      activesupport (>= 3.0.0)
-    factory_bot_rails (4.11.1)
-      factory_bot (~> 4.11.1)
-      railties (>= 3.0.0)
     ffi (1.9.25)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
@@ -255,6 +250,9 @@ GEM
     foreman (0.82.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
+    fuubar (2.3.2)
+      rspec-core (~> 3.0)
+      ruby-progressbar (~> 1.4)
     gaffe (1.2.0)
       rails (>= 4.0.0)
     globalid (0.4.1)
@@ -321,6 +319,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
+    mustache (1.0.5)
     mysql2 (0.5.2)
     nenv (0.3.0)
     netrc (0.11.0)
@@ -433,6 +432,10 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rspec_api_documentation (6.1.0)
+      activesupport (>= 3.0.0)
+      mustache (~> 1.0, >= 0.99.4)
+      rspec (~> 3.0)
     rubocop (0.59.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -519,14 +522,13 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bullet
-  byebug
   carrierwave
   carrierwave-i18n
   database_rewinder
   devise (~> 4.5.0)
-  factory_bot_rails
   fog
   foreman (~> 0.82.0)
+  fuubar
   gaffe
   gon (~> 6.2.1)
   guard
@@ -547,6 +549,7 @@ DEPENDENCIES
   redis-namespace (~> 1.6)
   rmagick
   rspec-rails
+  rspec_api_documentation
   rubocop
   rubocop-rspec
   sidekiq (~> 5.1)
@@ -561,4 +564,4 @@ DEPENDENCIES
   webpacker (= 3.5.5)
 
 BUNDLED WITH
-   1.15.4
+   1.16.6
