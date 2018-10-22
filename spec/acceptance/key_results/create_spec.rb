@@ -193,6 +193,26 @@ RSpec.resource "POST /key_results", warden: true do
       expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
 
+    example "ERROR: invalid members_id" do
+      explanation 'membersで指定したユーザーがサインインユーザと異なる組織の場合、エラーとなる'
+
+      do_request(
+        key_result: {
+          owner_id: admin_user.id,
+          objective_id: objective.id,
+          name: "月間アクセスを増やす",
+          expired_date: 3.months.since.to_date.to_s,
+          description: "使いやすくしてアクセス数を増やす",
+          target_value: "10000",
+          value_unit: "アクセス/月",
+          members: [other_org_user.id]
+        }
+      )
+
+      expect(status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
+    end
+
     example "ERROR: When do not input required parameters" do
       explanation "owner_idとobjective_id以外の必須項目を入力していない場合、エラーとなる"
 
