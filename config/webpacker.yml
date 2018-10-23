@@ -44,7 +44,7 @@ development:
     overlay: true
     watch_options:
       ignored: /node_modules/
-      poll: 1000
+      poll: 5000
       aggregateTimeout: 300
 
 test:

@@ -207,6 +207,7 @@ class KeyResultsController < ApplicationController
     def update_comment
       comment_data = params[:key_result][:comment]
 
+      # TODO: behaviorでswitchしているのを直したい
       case comment_data["behavior"]
       when "add"
         comment_label = KeyResultCommentLabel.find_by(
@@ -226,6 +227,10 @@ class KeyResultsController < ApplicationController
         )
         comment = @key_result.comments.find(data["id"])
         comment.update!(text: data[:text], key_result_comment_label: comment_label)
+      when "update_show_meeting_board"
+        data = comment_data["data"]
+        comment = @key_result.comments.find(data["id"])
+        comment.update!(show_meeting_board: data[:show_meeting_board])
       when "remove"
         comment = @key_result.comments.find(comment_data["data"])
         comment.destroy!

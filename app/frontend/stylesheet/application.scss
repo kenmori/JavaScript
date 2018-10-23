@@ -18,8 +18,10 @@
 @import 'pages/organization_setting_tab';
 @import 'pages/user_sertting_tab';
 @import 'pages/sign_in';
+@import 'pages/meeting_board';
 @import 'components/auto_input';
 @import 'components/avatar';
+@import 'components/comment_modal';
 @import 'components/dashboard';
 @import 'components/empty_map';
 @import 'components/home';
@@ -29,6 +31,7 @@
 @import 'components/key_result_modal';
 @import 'components/loading';
 @import 'components/markdown';
+@import 'components/meetingboard_link_button';
 @import 'components/menu_bar';
 @import 'components/modal';
 @import 'components/objective_list';
@@ -133,7 +136,8 @@ a.active {
 
 .form-item {
   .ui.input.error input[type=text], /* SUI bug: Input error style doesn't work in form */
-  input[type=text].error { /* error style for DatePicker */
+  input[type=text].error {
+    /* error style for DatePicker */
     background-color: #fff6f6;
     border-color: #e0b4b4;
     color: #9f3a38;
@@ -154,5 +158,5 @@ textarea[readonly],
 }
 
 .auto-input + .auto-input {
-  margin-left: .5em;
+  margin-left: 0.5em;
 }

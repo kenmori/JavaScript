@@ -9,7 +9,6 @@ import ObjectiveTab from './ObjectiveTab'
 import KeyResultTab from './KeyResultTab'
 
 class OkrModal extends PureComponent {
-
   constructor() {
     super()
     this.state = { isDirty: false }
@@ -34,13 +33,13 @@ class OkrModal extends PureComponent {
       users = users.push(objective.get('owner'))
     }
     return users
-  } 
+  }
 
   selectableKeyResultMembers(users, keyResult) {
     if (this.isNotExistMember(users, keyResult.get('owner'))) {
       users = users.push(keyResult.get('owner'))
     }
-    keyResult.get('members').forEach((item) => {
+    keyResult.get('members').forEach(item => {
       if (this.isNotExistMember(users, item)) {
         users = users.push(item)
       }
@@ -56,7 +55,7 @@ class OkrModal extends PureComponent {
         onConfirm: () => {
           this.setState({ isDirty: false })
           this.closeModal()
-        },
+        }
       })
     } else {
       this.closeModal()
@@ -71,7 +70,9 @@ class OkrModal extends PureComponent {
   render() {
     const { objective, keyResultId } = this.props
     if (!objective) return null
-    const keyResult = objective.get('keyResults').find(keyResult => keyResult.get('id') === keyResultId)
+    const keyResult = objective
+      .get('keyResults')
+      .find(keyResult => keyResult.get('id') === keyResultId)
     const name = keyResult ? keyResult.get('name') : objective.get('name')
     return (
       <DocumentTitle title={`${name} - Resily`}>
@@ -85,15 +86,15 @@ class OkrModal extends PureComponent {
     const { isDirty } = this.state
     return (
       <Modal
-        closeIcon 
-        open={this.props.isOpen} 
-        size='large' 
-        className='okr-modal' 
+        closeIcon
+        open={this.props.isOpen}
+        size="large"
+        className="okr-modal"
         onClose={this.handleClose}
       >
         <div className="okr-content">
           <div className="okr-body">
-            <OkrSidebar 
+            <OkrSidebar
               objective={objective}
               keyResultOrder={objective.get('keyResultIds')}
               keyResultId={keyResultId}
@@ -102,22 +103,20 @@ class OkrModal extends PureComponent {
               canMoveKeyResult={this.props.isObjectiveOwner}
             />
             <div className="okr-main">
-              {keyResult
-                ? (
-                  <KeyResultTab
-                    {...this.props}
-                    keyResult={keyResult}
-                    users={this.selectableKeyResultMembers(users, keyResult)}
-                    isDirty={isDirty}
-                    setDirty={this.setDirty}
-                  />
-                ) : (
-                  <ObjectiveTab
-                    {...this.props}
-                    users={this.selectableObjectiveMembers(users, objective)}
-                  />
-                )
-              }
+              {keyResult ? (
+                <KeyResultTab
+                  {...this.props}
+                  keyResult={keyResult}
+                  users={this.selectableKeyResultMembers(users, keyResult)}
+                  isDirty={isDirty}
+                  setDirty={this.setDirty}
+                />
+              ) : (
+                <ObjectiveTab
+                  {...this.props}
+                  users={this.selectableObjectiveMembers(users, objective)}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -150,7 +149,7 @@ OkrModal.propTypes = {
   removeKeyResult: PropTypes.func.isRequired,
   removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired
   // component
 }
 

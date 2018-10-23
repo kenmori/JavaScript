@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Dropdown } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 import OkrComment from './OkrComment'
 import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 
 class CommentPane extends PureComponent {
-
   constructor() {
     super()
     this.state = {
       text: '',
-      commentLabel: '',
+      commentLabel: ''
     }
   }
 
@@ -20,7 +19,11 @@ class CommentPane extends PureComponent {
     if (!text) return
 
     this.props.updateKeyResult({
-      comment: {data: text, behavior: 'add', key_result_comment_label: { id: commentLabel }}
+      comment: {
+        data: text,
+        behavior: 'add',
+        key_result_comment_label: { id: commentLabel }
+      }
     })
     this.setState({ text: '' })
     this.props.setDirty(false)
@@ -36,7 +39,7 @@ class CommentPane extends PureComponent {
           text,
           key_result_comment_label: { id: label }
         },
-        behavior: 'edit',
+        behavior: 'edit'
       }
     })
   }
@@ -44,9 +47,10 @@ class CommentPane extends PureComponent {
   removeComment = id => {
     this.props.confirm({
       content: 'コメントを削除しますか？',
-      onConfirm: () => this.props.updateKeyResult({
-        comment: { data: id, behavior: 'remove' }
-      }),
+      onConfirm: () =>
+        this.props.updateKeyResult({
+          comment: { data: id, behavior: 'remove' }
+        })
     })
   }
 
@@ -60,7 +64,7 @@ class CommentPane extends PureComponent {
   }
 
   render() {
-    const { keyResult, keyResultCommentLables } = this.props
+    const { keyResult, keyResultCommentLabels } = this.props
     const { text } = this.state
     const comments = keyResult.get('comments')
 
@@ -72,24 +76,30 @@ class CommentPane extends PureComponent {
             rows={3}
             value={text}
             onChange={this.handleTextChange}
-            placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
+            placeholder={
+              '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+            }
           />
           <div className="comment-pane__block">
-            <Form.Group className='group'>
-              <KeyResultCommentLabelDropdown commentLables={keyResultCommentLables} onChange={this.handleDropdownChange} />
+            <Form.Group className="group">
+              <KeyResultCommentLabelDropdown
+                commentLabels={keyResultCommentLabels}
+                onChange={this.handleDropdownChange}
+              />
               <Form.Button content="投稿する" onClick={this.addComment} />
             </Form.Group>
           </div>
         </Form>
-        {comments && comments.map(comment => (
-          <OkrComment
-            key={comment.get('id')}
-            comment={comment}
-            commentLables={keyResultCommentLables}
-            onDelete={this.removeComment}
-            onUpdate={this.editComment}
-          />
-        ))}
+        {comments &&
+          comments.map(comment => (
+            <OkrComment
+              key={comment.get('id')}
+              comment={comment}
+              commentLabels={keyResultCommentLabels}
+              onDelete={this.removeComment}
+              onUpdate={this.editComment}
+            />
+          ))}
       </div>
     )
   }
@@ -102,7 +112,7 @@ CommentPane.propTypes = {
   updateKeyResult: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired
 }
 
 export default CommentPane

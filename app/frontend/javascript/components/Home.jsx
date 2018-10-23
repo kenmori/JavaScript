@@ -10,25 +10,22 @@ import OkrModal from '../containers/OkrModal'
 import OptionModal from '../containers/OptionModal'
 
 class Home extends PureComponent {
-
   render() {
     return (
-      <DocumentTitle title="ホーム - Resily">
-        {this.renderBody()}
-      </DocumentTitle>
+      <DocumentTitle title="ホーム - Resily">{this.renderBody()}</DocumentTitle>
     )
   }
 
   renderBody() {
     return (
-      <div className='home'>
+      <div className="home">
         <Fetcher okrHash={this.props.okrHash} />
         <MenuBar />
         <main>
           <Dashboard />
-          <KeyResultModal/>
-          <ObjectiveModal/>
-          <OkrModal/>
+          <KeyResultModal />
+          <ObjectiveModal />
+          <OkrModal />
           <OptionModal />
         </main>
       </div>
@@ -38,7 +35,7 @@ class Home extends PureComponent {
 
 Home.propTypes = {
   // container
-  okrHash: PropTypes.string,
+  okrHash: PropTypes.string
   // component
 }
 

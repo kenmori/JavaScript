@@ -11,6 +11,7 @@ import PasswordResetPage from '../containers/PasswordResetPage'
 import PasswordSetPage from '../containers/PasswordSetPage'
 import SignInPage from '../containers/SignInPage'
 import SettingsPage from '../containers/SettingsPage'
+import MeetingPage from '../containers/MeetingPage'
 import Loading from '../containers/Loading'
 import Toast from '../containers/Toast'
 import ErrorModal from '../containers/ErrorModal'
@@ -28,18 +29,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <div id='root'>
+      <div id="root">
         <Router history={history}>
           <Switch>
-            <Route exact path='/users/sign_up' component={SignUpPage}/>
-            <Route exact path='/users/password/reset' component={PasswordResetPage}/>
-            <Route exact path='/users/password/edit' component={PasswordSetPage}/>
-            <Route exact path='/users/confirmation' component={PasswordSetPage}/>
-            <Route exact path='/users/sign_in' component={SignInPage}/>
-            <Route exact path='/settings' component={SettingsPage}/>
-            <Route exact path='/settings/:name' component={SettingsPage}/>
-            <Route exact path='/okr/:okrHash' component={Home}/>
-            <Route path='/' component={Home}/>
+            <Route exact path="/users/sign_up" component={SignUpPage} />
+            <Route
+              exact
+              path="/users/password/reset"
+              component={PasswordResetPage}
+            />
+            <Route
+              exact
+              path="/users/password/edit"
+              component={PasswordSetPage}
+            />
+            <Route
+              exact
+              path="/users/confirmation"
+              component={PasswordSetPage}
+            />
+            <Route exact path="/users/sign_in" component={SignInPage} />
+            <Route exact path="/settings" component={SettingsPage} />
+            <Route exact path="/settings/:name" component={SettingsPage} />
+            <Route exact path="/okr/:okrHash" component={Home} />
+            <Route
+              exact
+              path="/meetings/:objectiveHash"
+              component={MeetingPage}
+            />
+            <Route path="/" component={Home} />
           </Switch>
         </Router>
         <Loading />
@@ -48,6 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <ConfirmModal />
       </div>
     </Provider>,
-    document.body.appendChild(bodyElement),
+    document.body.appendChild(bodyElement)
   )
 })

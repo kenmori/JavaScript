@@ -4,10 +4,13 @@ import objectiveActions from '../actions/objectives'
 import keyResultActions from '../actions/keyResults'
 import dialogActions from '../actions/dialogs'
 import {
-  getOkrModalObjective, getObjectiveCandidates, getParentKeyResultCandidates, getEnabledUsers
+  getOkrModalObjective,
+  getObjectiveCandidates,
+  getParentKeyResultCandidates,
+  getEnabledUsers
 } from '../utils/selector'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const okrForm = state.dialogs.get('okrForm')
   const objective = getOkrModalObjective(state)
   const loginUserId = state.loginUser.get('id')
@@ -25,8 +28,9 @@ const mapStateToProps = (state) => {
     isFetchedKeyResultCandidates: state.keyResults.get('isFetchedCandidates'),
     removedObjectiveId: okrForm.get('removedObjectiveId'),
     removedKeyResultId: okrForm.get('removedKeyResultId'),
-    isObjectiveOwner: state.loginUser.get('isAdmin') || objectiveOwnerId === loginUserId,
-    keyResultCommentLables: state.keyResults.get('commentLabels'),
+    isObjectiveOwner:
+      state.loginUser.get('isAdmin') || objectiveOwnerId === loginUserId,
+    keyResultCommentLabels: state.keyResults.get('commentLabels')
   }
 }
 
@@ -35,14 +39,17 @@ const mapDispatchToProps = dispatch => {
     openObjectiveModal: parentKeyResult => {
       dispatch(dialogActions.openObjectiveModal(parentKeyResult))
     },
-    openKeyResultModal: (objective) => {
+    openKeyResultModal: objective => {
       dispatch(dialogActions.openKeyResultModal(objective))
     },
     updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective))
     },
     updateKeyResultOrder: (objectiveId, order) => {
-      const objective = { id: objectiveId, keyResultOrder: JSON.stringify(order) }
+      const objective = {
+        id: objectiveId,
+        keyResultOrder: JSON.stringify(order)
+      }
       dispatch(objectiveActions.updateObjective(objective, false))
     },
     updateKeyResult: keyResult => {
@@ -51,15 +58,15 @@ const mapDispatchToProps = dispatch => {
     closeModal: () => {
       dispatch(dialogActions.closeOkrModal())
     },
-    removeKeyResult: (id) => {
+    removeKeyResult: id => {
       dispatch(keyResultActions.removeKeyResult(id))
     },
-    removeObjective: (id) => {
+    removeObjective: id => {
       dispatch(objectiveActions.removeObjective(id))
     },
     confirm: params => {
       dispatch(dialogActions.openConfirmModal(params))
-    },
+    }
   }
 }
 

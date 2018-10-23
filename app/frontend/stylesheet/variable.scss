@@ -1,22 +1,23 @@
-$DEFAULT_FONT: Lato, 游ゴシック体, YuGothic, 游ゴシック, 'Yu Gothic', メイリオ, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+$DEFAULT_FONT: Lato, 游ゴシック体, YuGothic, 游ゴシック, 'Yu Gothic', メイリオ,
+  'Helvetica Neue', Arial, Helvetica, sans-serif;
 
 $PRIMARY_COLOR: rgba(191, 47, 47, 0.55);
-$SECONDARY_COLOR: rgba(0, 0, 0, .6);
+$SECONDARY_COLOR: rgba(0, 0, 0, 0.6);
 
-$SELECT_COLOR: #87BCF1;
-$SELECT_ACTIVE_COLOR: rgba(135, 188, 241, .7);
-$ALERT_COLOR: #CD5B5C;
-$SELECT_BG_COLOR: rgba(135, 188, 241, .2);
-$ALERT_BG_COLOR: #FFEFEA;
-$SELECT_HOVER_COLOR: rgba(135, 188, 241, .1);
+$SELECT_COLOR: #87bcf1;
+$SELECT_ACTIVE_COLOR: rgba(135, 188, 241, 0.7);
+$ALERT_COLOR: #cd5b5c;
+$SELECT_BG_COLOR: rgba(135, 188, 241, 0.2);
+$ALERT_BG_COLOR: #ffefea;
+$SELECT_HOVER_COLOR: rgba(135, 188, 241, 0.1);
 
-$GREEN_COLOR: rgba(33, 186, 69, .7); // SUI green
-$YELLOW_COLOR: rgba(251, 189, 8, .7); // SUI yellow
-$RED_COLOR: rgba(219, 40, 40, .7); // SUI red
-$GREY_COLOR: rgba(136, 136, 136, .7); // SUI grey
+$GREEN_COLOR: rgba(33, 186, 69, 0.7); // SUI green
+$YELLOW_COLOR: rgba(251, 189, 8, 0.7); // SUI yellow
+$RED_COLOR: rgba(219, 40, 40, 0.7); // SUI red
+$GREY_COLOR: rgba(136, 136, 136, 0.7); // SUI grey
 
-$BORDER_COLOR: rgba(34, 36, 38, .15); // SUI border
-$BORDER_HOVER_COLOR: rgba(34, 36, 38, .35);
+$BORDER_COLOR: rgba(34, 36, 38, 0.15); // SUI border
+$BORDER_HOVER_COLOR: rgba(34, 36, 38, 0.35);
 
-$HIGHLIGHT_OKR_COLOR: rgba(128, 128, 128, .35);
+$HIGHLIGHT_OKR_COLOR: rgba(128, 128, 128, 0.35);
 $HIGHLIGHT_PATH_COLOR: grey;

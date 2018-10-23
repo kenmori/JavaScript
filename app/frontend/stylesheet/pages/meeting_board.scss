@@ -1,0 +1,63 @@
+.meeting-board {
+  &__header {
+    margin-bottom: 0 !important;
+  }
+  &__content {
+    margin-bottom: 0 !important;
+    &__header {
+      display: flex;
+      position: fixed;
+      &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 20px;
+      }
+    }
+  }
+  &__okr {
+    height: 90%;
+    overflow-y: scroll;
+    &__table {
+      td {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+  &__comment {
+    height: 90%;
+    overflow-y: scroll;
+    margin-top: 35px;
+    &__okrname {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    &__loadmore {
+      text-align: center;
+    }
+    &__button {
+      text-align: center;
+    }
+  }
+  .ui.celled.grid {
+    margin-top: 0;
+    .row {
+      height: 47vh;
+    }
+  }
+  .ui.table {
+    tr td {
+      border-top: 0px !important;
+    }
+  }
+  .ui.comments {
+    .comment {
+      .avatar {
+        margin: 0;
+      }
+    }
+  }
+  a {
+    cursor: pointer;
+  }
+}
