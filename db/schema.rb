@@ -10,20 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180921111429) do
+ActiveRecord::Schema.define(version: 2018_10_20_143903) do
 
-  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "key_result_id", null: false
     t.integer "user_id", null: false
     t.text "text", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "key_result_comment_label_id"
+    t.boolean "show_meeting_board", default: true, null: false
     t.index ["key_result_comment_label_id"], name: "index_comments_on_key_result_comment_label_id"
     t.index ["key_result_id"], name: "index_comments_on_key_result_id"
   end
 
-  create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "group_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "group_id", null: false
     t.integer "user_id", null: false
     t.integer "role", limit: 1, default: 0, null: false
@@ -31,14 +32,14 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
     t.string "name", null: false
   end
 
-  create_table "key_result_comment_labels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "key_result_comment_labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "color", null: false
     t.bigint "organization_id"
@@ -47,7 +48,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["organization_id"], name: "index_key_result_comment_labels_on_organization_id"
   end
 
-  create_table "key_result_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "key_result_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "key_result_id", null: false
     t.integer "user_id", null: false
     t.integer "role", limit: 1, default: 0, null: false
@@ -57,13 +58,13 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["key_result_id"], name: "index_key_result_members_on_key_result_id"
   end
 
-  create_table "key_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "key_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.integer "objective_id", null: false
     t.integer "okr_period_id", null: false
     t.integer "progress_rate"
-    t.float "target_value", limit: 24
-    t.float "actual_value", limit: 24
+    t.float "target_value"
+    t.float "actual_value"
     t.string "value_unit"
     t.date "expired_date"
     t.datetime "created_at", null: false
@@ -77,7 +78,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["objective_id"], name: "index_key_results_on_objective_id"
   end
 
-  create_table "objective_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "objective_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "objective_id", null: false
     t.integer "user_id", null: false
     t.integer "role", limit: 1, default: 0, null: false
@@ -87,7 +88,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["user_id"], name: "index_objective_members_on_user_id"
   end
 
-  create_table "objective_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "objective_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "okr_period_id", null: false
     t.string "list"
@@ -95,7 +96,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "objectives", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "objectives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.integer "parent_key_result_id"
@@ -110,7 +111,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["parent_key_result_id"], name: "index_objectives_on_parent_key_result_id"
   end
 
-  create_table "okr_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "okr_periods", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
@@ -120,7 +121,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["organization_id"], name: "index_okr_periods_on_organization_id"
   end
 
-  create_table "organization_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "organization_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "organization_id", null: false
@@ -130,7 +131,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.index ["user_id"], name: "index_organization_members_on_user_id"
   end
 
-  create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
@@ -139,7 +140,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.datetime "disabled_at"
   end
 
-  create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id", null: false
     t.boolean "show_child_objectives", default: true
     t.boolean "show_objective_key_results", default: true
@@ -150,7 +151,7 @@ ActiveRecord::Schema.define(version: 20180921111429) do
     t.boolean "notify_remind_email_enabled", default: true, null: false
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "last_name", null: false
     t.string "first_name", null: false
     t.string "email", default: "", null: false

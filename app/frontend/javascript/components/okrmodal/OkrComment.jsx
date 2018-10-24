@@ -10,7 +10,6 @@ import UserName from '../util/UserName'
 import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 
 class OkrComment extends PureComponent {
-
   constructor(props) {
     super(props)
     const comment = props.comment
@@ -19,7 +18,7 @@ class OkrComment extends PureComponent {
     this.state = {
       text: comment.get('text'),
       commentLabel: label != null ? label.get('id') : '',
-      isEditing: false,
+      isEditing: false
     }
   }
 
@@ -60,24 +59,34 @@ class OkrComment extends PureComponent {
     return (
       <Comment.Group className="okr-comment-text-only">
         <Comment>
-          <Comment.Avatar src={avatarUrl || avatar_image} className={isDisabled ? 'disabled' : ''} />
+          <Comment.Avatar
+            src={avatarUrl || avatar_image}
+            className={isDisabled ? 'disabled' : ''}
+          />
           <Comment.Content>
             {label && (
               <Label color={label.get('color')} className={'label'}>
                 {label.get('name')}
               </Label>
             )}
-            <Comment.Author><UserName user={user} /></Comment.Author>
+            <Comment.Author>
+              <UserName user={user} />
+            </Comment.Author>
             <Comment.Metadata>
-              {moment(comment.get('updatedAt')).format('YYYY/M/D H:mm')} {comment.get('isEdited') ? '(編集済)' : null}
+              {moment(comment.get('updatedAt')).format('YYYY/M/D H:mm')}{' '}
+              {comment.get('isEdited') ? '(編集済)' : null}
             </Comment.Metadata>
             <Comment.Text>
               <Markdown text={comment.get('text')} />
             </Comment.Text>
             {comment.get('editable') && (
               <Comment.Actions>
-                <Comment.Action onClick={this.handleEditClick}>編集</Comment.Action>
-                <Comment.Action onClick={this.handleDeleteClick}>削除</Comment.Action>
+                <Comment.Action onClick={this.handleEditClick}>
+                  編集
+                </Comment.Action>
+                <Comment.Action onClick={this.handleDeleteClick}>
+                  削除
+                </Comment.Action>
               </Comment.Actions>
             )}
           </Comment.Content>
@@ -87,24 +96,38 @@ class OkrComment extends PureComponent {
   }
 
   renderTextArea() {
-    const { comment, commentLables } = this.props
+    const { comment, commentLabels } = this.props
     const label = comment.get('label')
 
     return (
       <Form className="okr-comment-text-area">
         <AutoTextArea
           value={comment.get('text')}
-          placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
+          placeholder={
+            '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+          }
           onCommit={this.handleTextCommit}
           readOnly={!comment.get('editable')}
         />
         <Form.Group className="okr-comment-text-area__buttons">
-          <KeyResultCommentLabelDropdown
-            commentLables={commentLables}
-            defaultValue={label ? label.get('id') : null}
-            onChange={this.handleDropdownChange} />
-          <Form.Button content="キャンセル" onClick={this.handleCancelClick} size="small" />
-          <Form.Button content="更新する" onClick={this.handleUpdateClick} size="small" />
+          {commentLabels != null &&
+            !commentLabels.isEmpty() && (
+              <KeyResultCommentLabelDropdown
+                commentLabels={commentLabels}
+                defaultValue={label ? label.get('id') : null}
+                onChange={this.handleDropdownChange}
+              />
+            )}
+          <Form.Button
+            content="キャンセル"
+            onClick={this.handleCancelClick}
+            size="small"
+          />
+          <Form.Button
+            content="更新する"
+            onClick={this.handleUpdateClick}
+            size="small"
+          />
         </Form.Group>
       </Form>
     )
@@ -118,9 +141,9 @@ class OkrComment extends PureComponent {
 
 OkrComment.propTypes = {
   comment: ImmutablePropTypes.map.isRequired,
-  commentLables: ImmutablePropTypes.list.isRequired,
+  commentLabels: ImmutablePropTypes.list,
   onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired
 }
 
 export default OkrComment

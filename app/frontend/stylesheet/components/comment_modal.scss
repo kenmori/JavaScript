@@ -1,0 +1,21 @@
+.comment-modal {
+  &__form {
+    margin-top: 10px;
+    &__group {
+      &__field {
+        width: 100%;
+      }
+      &__label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &:last-child {
+        justify-content: flex-end;
+      }
+    }
+  }
+  a {
+    cursor: pointer;
+  }
+}

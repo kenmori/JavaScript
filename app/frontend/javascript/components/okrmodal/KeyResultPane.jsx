@@ -12,12 +12,12 @@ import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 import StretchCommentPane from './StretchCommentPane'
 
 class KeyResultPane extends PureComponent {
-
   constructor(props) {
     super(props)
     this.state = {
       progressRate: props.keyResult.get('progressRate'),
-      isTargetValueVisible: typeof props.keyResult.get('targetValue') === 'number',
+      isTargetValueVisible:
+        typeof props.keyResult.get('targetValue') === 'number'
     }
   }
 
@@ -25,30 +25,42 @@ class KeyResultPane extends PureComponent {
     if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
       this.setState({
         progressRate: nextProps.keyResult.get('progressRate'),
-        isTargetValueVisible: typeof nextProps.keyResult.get('targetValue') === 'number',
+        isTargetValueVisible:
+          typeof nextProps.keyResult.get('targetValue') === 'number'
       })
-    } else if (this.props.keyResult.get('progressRate') !== nextProps.keyResult.get('progressRate')) {
+    } else if (
+      this.props.keyResult.get('progressRate') !==
+      nextProps.keyResult.get('progressRate')
+    ) {
       this.setState({
-        progressRate: nextProps.keyResult.get('progressRate'),
+        progressRate: nextProps.keyResult.get('progressRate')
       })
     }
   }
 
-  handleTargetValueCommit = targetValue => this.props.updateKeyResult({ targetValue })
+  handleTargetValueCommit = targetValue =>
+    this.props.updateKeyResult({ targetValue })
 
-  handleActualValueCommit = actualValue => this.props.updateKeyResult({ actualValue })
+  handleActualValueCommit = actualValue =>
+    this.props.updateKeyResult({ actualValue })
 
   handleValueUnitCommit = valueUnit => this.props.updateKeyResult({ valueUnit })
 
-  handleTargetValueVisibleClick = () => this.setState({ isTargetValueVisible: true })
+  handleTargetValueVisibleClick = () =>
+    this.setState({ isTargetValueVisible: true })
 
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
-  handleProgressRateCommit = progressRate => this.props.updateKeyResult({ progressRate: progressRate || null })
+  handleProgressRateCommit = progressRate =>
+    this.props.updateKeyResult({ progressRate: progressRate || null })
 
-  handleSubProgressRateClick = () => this.props.updateKeyResult({ progressRate: null })
+  handleSubProgressRateClick = () =>
+    this.props.updateKeyResult({ progressRate: null })
 
-  handleExpiredDateChange = expiredDate => this.props.updateKeyResult({ expiredDate: expiredDate.format('YYYY-MM-DD') })
+  handleExpiredDateChange = expiredDate =>
+    this.props.updateKeyResult({
+      expiredDate: expiredDate.format('YYYY-MM-DD')
+    })
 
   handleStatusChange = status => this.props.updateKeyResult({ status })
 
@@ -57,15 +69,18 @@ class KeyResultPane extends PureComponent {
   subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate')
     const subProgressRate = keyResult.get('subProgressRate')
-    return (typeof subProgressRate === 'number') && progressRate !== subProgressRate && (
-      <div className='flex-field__item'>
-        <PopupLabel
-          icon="unlinkify"
-          text={`下位 OKR の進捗は ${subProgressRate}% です`}
-          tips="クリックすると下位 OKR の進捗が設定されます"
-          onClick={this.handleSubProgressRateClick}
-        />
-      </div>
+    return (
+      typeof subProgressRate === 'number' &&
+      progressRate !== subProgressRate && (
+        <div className="flex-field__item">
+          <PopupLabel
+            icon="unlinkify"
+            text={`下位 OKR の進捗は ${subProgressRate}% です`}
+            tips="クリックすると下位 OKR の進捗が設定されます"
+            onClick={this.handleSubProgressRateClick}
+          />
+        </div>
+      )
     )
   }
 
@@ -79,7 +94,11 @@ class KeyResultPane extends PureComponent {
     if (!text) return
 
     this.props.updateKeyResult({
-      comment: {data: text, behavior: 'add', key_result_comment_label: { id: commentLabel }}
+      comment: {
+        data: text,
+        behavior: 'add',
+        key_result_comment_label: { id: commentLabel }
+      }
     })
     this.setState({ text: '' })
     this.props.setDirty(false)
@@ -88,9 +107,10 @@ class KeyResultPane extends PureComponent {
   removeComment = id => {
     this.props.confirm({
       content: 'コメントを削除しますか？',
-      onConfirm: () => this.props.updateKeyResult({
-        comment: { data: id, behavior: 'remove' }
-      }),
+      onConfirm: () =>
+        this.props.updateKeyResult({
+          comment: { data: id, behavior: 'remove' }
+        })
     })
   }
 
@@ -104,7 +124,7 @@ class KeyResultPane extends PureComponent {
           text,
           key_result_comment_label: { id: label }
         },
-        behavior: 'edit',
+        behavior: 'edit'
       }
     })
   }
@@ -115,54 +135,69 @@ class KeyResultPane extends PureComponent {
 
   render() {
     const keyResult = this.props.keyResult
-    const keyResultCommentLables = this.props.keyResultCommentLables
+    const keyResultCommentLabels = this.props.keyResultCommentLabels
     const { text } = this.state
     const comments = keyResult.get('comments')
     const descText = keyResult.get('description')
-    const [targetValue, actualValue] = [keyResult.get('targetValue'), keyResult.get('actualValue')]
+    const [targetValue, actualValue] = [
+      keyResult.get('targetValue'),
+      keyResult.get('actualValue')
+    ]
 
     return (
       <Form>
         {this.state.isTargetValueVisible ? (
           <Form.Group>
-            <Form.Field className='flex-field'>
+            <Form.Field className="flex-field">
               <label>目標値</label>
-              <div className='flex-field__item'>
+              <div className="flex-field__item">
                 <AutoInput
                   value={typeof targetValue === 'number' ? targetValue : ''}
-                  placeholder='数値'
+                  placeholder="数値"
                   onCommit={this.handleTargetValueCommit}
                 />
                 <AutoInput
                   value={keyResult.get('valueUnit') || ''}
-                  placeholder='単位'
+                  placeholder="単位"
                   onCommit={this.handleValueUnitCommit}
                 />
               </div>
             </Form.Field>
 
-            <Form.Field className='flex-field'>
+            <Form.Field className="flex-field">
               <label>実績値</label>
-              <div className='flex-field__item'>
+              <div className="flex-field__item">
                 <AutoInput
                   value={typeof actualValue === 'number' ? actualValue : ''}
-                  placeholder='数値'
+                  placeholder="数値"
                   onCommit={this.handleActualValueCommit}
                 />
               </div>
-              <div className='flex-field__item'>{keyResult.get('valueUnit') || ''}</div>
+              <div className="flex-field__item">
+                {keyResult.get('valueUnit') || ''}
+              </div>
               {keyResult.get('achievementRate') >= 100 && (
-                <div className='flex-field__item'>
-                  <Label pointing='left' content={`達成率は ${keyResult.get('achievementRate')}% です！`} />
+                <div className="flex-field__item">
+                  <Label
+                    pointing="left"
+                    content={`達成率は ${keyResult.get(
+                      'achievementRate'
+                    )}% です！`}
+                  />
                 </div>
               )}
             </Form.Field>
           </Form.Group>
         ) : (
-          <Form.Button content="目標値を設定する" onClick={this.handleTargetValueVisibleClick} size="small" floated='right' />
+          <Form.Button
+            content="目標値を設定する"
+            onClick={this.handleTargetValueVisibleClick}
+            size="small"
+            floated="right"
+          />
         )}
 
-        <Form.Field className='flex-field progress-rate-field'>
+        <Form.Field className="flex-field progress-rate-field">
           <label>進捗</label>
           <div className="flex-field__item">
             <NumberInput
@@ -172,7 +207,7 @@ class KeyResultPane extends PureComponent {
               onCommit={this.handleProgressRateCommit}
             />
           </div>
-          <div className='flex-field__item slider'>
+          <div className="flex-field__item slider">
             <NumberInput
               type="range"
               value={this.state.progressRate}
@@ -183,9 +218,9 @@ class KeyResultPane extends PureComponent {
           {this.subProgressRateHtml(keyResult)}
         </Form.Field>
 
-        <Form.Field className='flex-field input-date-picker'>
+        <Form.Field className="flex-field input-date-picker">
           <label>期限</label>
-          <div className='flex-field__item'>
+          <div className="flex-field__item">
             <DatePicker
               dateFormat="YYYY/M/D"
               locale="ja"
@@ -198,48 +233,50 @@ class KeyResultPane extends PureComponent {
         <Form.Field className="flex-field">
           <label>見通し</label>
           <div className="flex-field__item">
-            <StatusRadio status={keyResult.get('status')} onChange={this.handleStatusChange} />
+            <StatusRadio
+              status={keyResult.get('status')}
+              onChange={this.handleStatusChange}
+            />
           </div>
         </Form.Field>
 
-        <Form.Field className='flex-field'>
+        <Form.Field className="flex-field">
           <label>結果</label>
-          <div className='flex-field__item'>
+          <div className="flex-field__item">
             <AutoInput
               value={keyResult.get('result') || ''}
-              placeholder='Key Result の最終的な進捗を補足する結果を入力してください'
+              placeholder="Key Result の最終的な進捗を補足する結果を入力してください"
               onCommit={this.handleResultCommit}
             />
           </div>
         </Form.Field>
 
         <Form.Field>
-          <label>
-            コメント ({comments ? comments.size : 0})
-          </label>
+          <label>コメント ({comments ? comments.size : 0})</label>
           <div className="comment-pane">
-            {
-              comments ?
-                (
-                  <StretchCommentPane
-                    comments={comments}
-                    keyResultCommentLables={keyResultCommentLables}
-                    onDelete={this.removeComment}
-                    onUpdate={this.editComment}
-                  />
-                )
-              : null
-            }
+            {comments ? (
+              <StretchCommentPane
+                comments={comments}
+                keyResultCommentLabels={keyResultCommentLabels}
+                onDelete={this.removeComment}
+                onUpdate={this.editComment}
+              />
+            ) : null}
             <Form.TextArea
               autoHeight
               rows={2}
               value={text}
               onChange={this.handleTextChange}
-              placeholder={'進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'}
+              placeholder={
+                '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+              }
             />
             <div className="comment-pane__block">
-              <Form.Group className='group'>
-                <KeyResultCommentLabelDropdown commentLables={keyResultCommentLables} onChange={this.handleDropdownChange} />
+              <Form.Group className="group">
+                <KeyResultCommentLabelDropdown
+                  commentLabels={keyResultCommentLabels}
+                  onChange={this.handleDropdownChange}
+                />
                 <Form.Button content="投稿する" onClick={this.addComment} />
               </Form.Group>
             </div>
@@ -264,7 +301,7 @@ KeyResultPane.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
-  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired
 }
 
 export default KeyResultPane

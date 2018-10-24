@@ -6,14 +6,16 @@ import KeyResultPane from '../../containers/KeyResultPane'
 import InfoPane from '../../containers/InfoPane'
 
 class KeyResultTab extends PureComponent {
-
   constructor() {
     super()
     this.state = { activeIndex: 0 }
   }
 
   updateKeyResult = values => {
-    this.props.updateKeyResult({ id: this.props.keyResult.get('id'), ...values })
+    this.props.updateKeyResult({
+      id: this.props.keyResult.get('id'),
+      ...values
+    })
   }
 
   handleTabChange = (e, { activeIndex }) => {
@@ -25,7 +27,7 @@ class KeyResultTab extends PureComponent {
         onConfirm: () => {
           this.setState({ activeIndex })
           this.props.setDirty(false)
-        },
+        }
       })
     } else {
       this.setState({ activeIndex })
@@ -35,41 +37,59 @@ class KeyResultTab extends PureComponent {
   render() {
     const { setDirty } = this.props
     const { activeIndex } = this.state
-    const dummyLabel = <Label className='zero-width'>&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
+    const dummyLabel = <Label className="zero-width">&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
 
     return (
-      <Tab panes={[
-        {
-          menuItem: <Menu.Item key='keyResult'>進捗{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane>
-            <KeyResultPane 
-              {...this.props}
-              updateKeyResult={this.updateKeyResult}
-              setDirty={setDirty}
-            />
-          </Tab.Pane>
-        },
-        {
-          menuItem: <Menu.Item key='info'>情報{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane>
-            <InfoPane
-              okr={this.props.keyResult}
-              keyResult={this.props.keyResult}
-              candidates={this.props.objectiveCandidates}
-              isObjective={false}
-              isObjectiveOwner={this.props.isObjectiveOwner}
-              isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
-              updateOkr={this.updateKeyResult}
-              users={this.props.users}
-              updateKeyResult={this.updateKeyResult}
-              openObjectiveModal={this.props.openObjectiveModal}
-              confirm={this.props.confirm}
-              disableKeyResult={this.props.disableKeyResult}
-              removeKeyResult={this.props.removeKeyResult}
-            />
-          </Tab.Pane>
-        },
-      ]} activeIndex={activeIndex} onTabChange={this.handleTabChange} />
+      <Tab
+        panes={[
+          {
+            menuItem: (
+              <Menu.Item key="keyResult">
+                進捗
+                {dummyLabel}
+              </Menu.Item>
+            ),
+            render: () => (
+              <Tab.Pane>
+                <KeyResultPane
+                  {...this.props}
+                  updateKeyResult={this.updateKeyResult}
+                  setDirty={setDirty}
+                />
+              </Tab.Pane>
+            )
+          },
+          {
+            menuItem: (
+              <Menu.Item key="info">
+                情報
+                {dummyLabel}
+              </Menu.Item>
+            ),
+            render: () => (
+              <Tab.Pane>
+                <InfoPane
+                  okr={this.props.keyResult}
+                  keyResult={this.props.keyResult}
+                  candidates={this.props.objectiveCandidates}
+                  isObjective={false}
+                  isObjectiveOwner={this.props.isObjectiveOwner}
+                  isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
+                  updateOkr={this.updateKeyResult}
+                  users={this.props.users}
+                  updateKeyResult={this.updateKeyResult}
+                  openObjectiveModal={this.props.openObjectiveModal}
+                  confirm={this.props.confirm}
+                  disableKeyResult={this.props.disableKeyResult}
+                  removeKeyResult={this.props.removeKeyResult}
+                />
+              </Tab.Pane>
+            )
+          }
+        ]}
+        activeIndex={activeIndex}
+        onTabChange={this.handleTabChange}
+      />
     )
   }
 }
@@ -89,7 +109,7 @@ KeyResultTab.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-  keyResultCommentLables: ImmutablePropTypes.list.isRequired,
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired
 }
 
 export default KeyResultTab

@@ -20,7 +20,7 @@ namespace :remind_kr_progress do
 
   desc "Send reminder per week of progress rate for KeyResults"
   task send_email_per_week: :environment do
-    if Date.today.end_of_week == Date.today.end_of_month
+    if Time.zone.today.end_of_week == Time.zone.today.end_of_month
       puts "Skip send reminder, because today is end of month"
       return
     end

@@ -12,9 +12,12 @@ const mapStateToProps = state => {
     organizationId: state.organization.getIn(['current', 'id']),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
+    isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
     isFetchedOrganization: state.organization.get('isFetched'),
-    isFetchedKeyResultsCommentLabels: state.keyResults.get('isFetchedKeyResultsCommentLabels'),
-    isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen']),
+    isFetchedKeyResultsCommentLabels: state.keyResults.get(
+      'isFetchedKeyResultsCommentLabels'
+    ),
+    isOpenOkrModal: state.dialogs.getIn(['okrForm', 'isOpen'])
   }
 }
 
@@ -39,7 +42,7 @@ const mapDispatchToProps = dispatch => {
     },
     closeOkrModal: () => {
       dispatch(dialogActions.closeOkrModal())
-    },
+    }
   }
 }
 
