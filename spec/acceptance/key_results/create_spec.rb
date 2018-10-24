@@ -44,7 +44,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(201)
+      expect(response_status).to eq(201)
       expect(parse_response_body("key_result")).to include(
         "id" => a_kind_of(Integer),
         "name" => "月間アクセスを増やす",
@@ -127,7 +127,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(201)
+      expect(response_status).to eq(201)
       expect(parse_response_body("key_result", "name")).to eq("月間アクセスを増やす")
     end
 
@@ -149,7 +149,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_body("error")).to eq("Objective 責任者のみ作成できます")
     end
 
@@ -169,7 +169,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
 
@@ -189,7 +189,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
 
@@ -209,7 +209,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
 
@@ -229,7 +229,7 @@ RSpec.resource "POST /key_results", warden: true do
         }
       )
 
-      expect(status).to eq(422)
+      expect(response_status).to eq(422)
       expect(parse_response_body("error")).to contain_exactly(
         "期限の値が不正です",
         "Key Resultを入力してください"

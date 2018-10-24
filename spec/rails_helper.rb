@@ -91,4 +91,9 @@ RspecApiDocumentation.configure do |config|
   config.keep_source_order = true
   config.post_body_formatter = :json
   config.api_name = "Resily API Documentation"
+
+  # NOTE RspecApiDocumentation に `status` というメソッドがあるが、`parameter :status` を指定したい時に `let(:status)` を作ろうと
+  # するためメソッド名が競合する。これを回避するために disable_dsl_status! を行うと `status` の代わりに `response_status` を
+  # 使うようになる。
+  config.disable_dsl_status!
 end

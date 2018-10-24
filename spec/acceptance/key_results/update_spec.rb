@@ -33,7 +33,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "name")).to eq("変更後のKeyResultのタイトル")
 
         # NOTE response body の内容を厳密にチェックすると大変なのでKeyのみ見ています
@@ -118,7 +118,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "expired_date")).to eq(expired_date)
       end
     end
@@ -139,7 +139,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "description")).to eq("更新後の説明文")
       end
     end
@@ -160,7 +160,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "target_value")).to eq(100)
       end
     end
@@ -181,7 +181,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "value_unit")).to eq("回")
       end
     end
@@ -202,7 +202,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "progress_rate")).to eq(25)
       end
     end
@@ -223,7 +223,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           }
         )
 
-        expect(status).to eq(200)
+        expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "actual_value")).to eq(20)
       end
     end
