@@ -23,7 +23,8 @@ class Fetcher extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.isFetchedOkrs) {
+    // 設定画面からの遷移時はisFetchedOrganizationを見てmodalを出す
+    if (this.state.isFetchedOkrs || this.props.isFetchedOrganization) {
       if (nextProps.okrHash) {
         if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
           this.props.openOkrModal(nextProps.okrHash)
