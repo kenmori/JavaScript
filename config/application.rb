@@ -27,10 +27,9 @@ module Resily
     config.generators do |g|
       g.orm :active_record
       g.template_engine :slim
-      g.test_framework :rspec, fixture: true
-      g.fixture_replacement :factory_bot, dir: "spec/factories"
+      g.test_framework false
       g.view_specs false
-      g.controller_specs true
+      g.controller_specs false
       g.routing_specs false
       g.helper_specs false
       g.request_specs false
