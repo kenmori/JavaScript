@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 2018_10_25_093452) do
     t.index ["key_result_id"], name: "index_comments_on_key_result_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, collation: "utf8_general_ci", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  end
+
   create_table "department_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "role"
     t.bigint "department_id", null: false
@@ -44,7 +47,7 @@ ActiveRecord::Schema.define(version: 2018_10_25_093452) do
   end
 
   create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "ancestry", null: false
+    t.string "ancestry"
     t.bigint "organization_id", null: false
     t.datetime "soft_destroyed_at"
     t.string "name", null: false

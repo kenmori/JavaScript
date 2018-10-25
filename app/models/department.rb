@@ -7,7 +7,7 @@
 # Name                     | Type               | Attributes
 # ------------------------ | ------------------ | ---------------------------
 # **`id`**                 | `bigint(8)`        | `not null, primary key`
-# **`ancestry`**           | `string(255)`      | `not null`
+# **`ancestry`**           | `string(255)`      |
 # **`display_order`**      | `integer`          | `not null`
 # **`name`**               | `string(255)`      | `not null`
 # **`soft_destroyed_at`**  | `datetime`         |

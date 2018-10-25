@@ -1,7 +1,7 @@
 class CreateDepartments < ActiveRecord::Migration[5.2]
   def change
     create_table :departments do |t|
-      t.string :ancestry, null: false
+      t.string :ancestry
       t.references :organization, foreign_key: true, null: false
       t.datetime :soft_destroyed_at
       t.string :name, null: false
