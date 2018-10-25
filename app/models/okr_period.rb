@@ -1,5 +1,23 @@
 # frozen_string_literal: true
 
+# ## Schema Information
+#
+# Table name: `okr_periods`
+#
+# ### Columns
+#
+# Name                   | Type               | Attributes
+# ---------------------- | ------------------ | ---------------------------
+# **`id`**               | `bigint(8)`        | `not null, primary key`
+# **`end_date`**         | `date`             | `not null`
+# **`name`**             | `string(255)`      |
+# **`start_date`**       | `date`             | `not null`
+# **`created_at`**       | `datetime`         | `not null`
+# **`updated_at`**       | `datetime`         | `not null`
+# **`organization_id`**  | `integer`          | `not null`
+#
+
+
 class OkrPeriod < ApplicationRecord
   belongs_to :organization
   has_many :objectives, dependent: :destroy
