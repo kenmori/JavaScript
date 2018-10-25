@@ -249,17 +249,149 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
       end
     end
 
-      # parameter :objective_id, "紐付くObjective ID", type: :integer
-      # parameter :result, "結果(KeyResultの最終的な進捗を補足する情報をユーザが入力する)", type: :string
+    describe 'key_result result' do
+      with_options scope: :key_result do
+        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :result, "結果(KeyResultの最終的な進捗を補足する情報をユーザが入力する)", type: :string
+      end
 
-      # # TODO type: :object で書いたほうがいいかも
-      # with_options scope: :member do
-      #   parameter :user, "関係者または責任者とするUser ID", type: :integer
-      #   parameter :behavior, "命令種別", enum: %w(add remove)
-      #   parameter :role, "関係者(member)か責任者(owner)を指定する", enum: %w(member owner)
-      # end
-      # # {"user"=>3, "behavior"=>"add", "role"=>"member"}
-      # # {"user"=>3, "behavior"=>"remove", "role"}
+      example 'SUCCESS: Change key_result result' do
+        explanation "指定したKeyResultの結果を変更する"
+
+        do_request(
+          key_result: {
+            id: key_result.id,
+            result: "更新後の結果"
+          }
+        )
+
+        expect(response_status).to eq(200)
+        expect(parse_response_body("key_result", "result")).to eq("更新後の結果")
+      end
+    end
+
+    describe 'key_result objective_id' do
+      let!(:other_objective) {
+        ObjectiveFactory.new(user: admin_user, okr_period: okr_period).create(
+          name: "業界一のシェアを得る"
+        )
+      }
+
+      with_options scope: :key_result do
+        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :objective_id, "紐付くObjective ID", type: :integer
+      end
+
+      example 'SUCCESS: Change key_result objective_id' do
+        explanation "指定したKeyResultに紐付くObjectiveを変更する"
+
+        do_request(
+          key_result: {
+            id: key_result.id,
+            objective_id: other_objective.id
+          }
+        )
+
+        expect(response_status).to eq(200)
+        expect(parse_response_body("key_result", "objective_id")).to eq(other_objective.id)
+      end
+    end
+
+    describe 'key_result member' do
+      with_options scope: :key_result do
+        parameter :id, "更新対象とするKeyResultのID", type: :integer
+
+        with_options scope: :member do
+          parameter :user, "関係者または責任者とするUser ID", type: :integer
+          parameter :behavior, "命令種別", enum: %w(add remove)
+          parameter :role, "関係者(member)か責任者(owner)を指定する", enum: %w(member owner)
+        end
+        # {"user"=>3, "behavior"=>"add", "role"=>"member"}
+        # {"user"=>3, "behavior"=>"remove", "role"}
+      end
+
+      example 'SUCCESS: Add key_result member' do
+        explanation "指定したKeyResultに関係者を追加する"
+
+        do_request(
+          key_result: {
+            id: key_result.id,
+            member: {
+              user: other_user.id,
+              behavior: 'add',
+              role: 'member'
+            }
+          }
+        )
+
+        expect(response_status).to eq(200)
+        expect(parse_response_body("key_result", "members", 0, "id")).to eq(other_user.id)
+        expect(parse_response_body("key_result", "members")).to eq(
+          [
+            {
+              "id" => other_user.id,
+              "first_name" => "園田",
+              "last_name" => "次郎",
+              "avatar_url" => nil,
+              "disabled" => false
+            }
+          ]
+        )
+      end
+
+      example "SUCCESS: Remove key_result member" do
+        explanation "指定したKeyResultから関係者を削除する"
+
+        KeyResultMember.create!(
+          key_result: key_result,
+          user: other_user,
+          role: :member
+        )
+
+        do_request(
+          key_result: {
+            id: key_result.id,
+            member: {
+              user: other_user.id,
+              behavior: 'remove',
+              role: nil
+            }
+          }
+        )
+
+        expect(response_status).to eq(200)
+        expect(parse_response_body("key_result", "members")).to be_empty
+      end
+
+      example 'SUCCESS: Add key_result owner' do
+        explanation "指定したKeyResultの責任者を変更する"
+
+        do_request(
+          key_result: {
+            id: key_result.id,
+            member: {
+              user: other_user.id,
+              behavior: 'add',
+              role: 'owner'
+            }
+          }
+        )
+
+        expect(response_status).to eq(200)
+        expect(parse_response_body("key_result", "owner")).to include(
+          "id" => other_user.id,
+          "first_name" => "園田",
+          "last_name" => "次郎",
+          "avatar_url" => nil,
+          "disabled" => false
+        )
+      end
+
+      # TODO Objectiveのひも付きに関するテストもあったほうが良さそう
+
+      # example 'SUCCESS: Remove key_result'
+    end
+
 
       # with_options scope: :comment do
       #   parameter :data, "behaviorの値によって全然違う"
