@@ -299,6 +299,8 @@ GEM
       activesupport (>= 3.0.0)
       multi_json (>= 1.2)
     json (2.1.0)
+    kakurenbo-puti (0.5.0)
+      activerecord (>= 4.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -546,6 +548,7 @@ DEPENDENCIES
   health-monitor-rails (~> 7.2)
   html2slim
   jbuilder (~> 2.6.4)
+  kakurenbo-puti
   listen (>= 3.0.5, < 3.2)
   meta_request
   mysql2 (~> 0.5.2)

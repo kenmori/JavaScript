@@ -39,6 +39,7 @@ gem "redis-namespace", "~> 1.6"
 gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
+gem "kakurenbo-puti"
 
 group :development do
   gem "annotate"
