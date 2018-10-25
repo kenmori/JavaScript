@@ -21,4 +21,6 @@ class Department < ApplicationRecord
   soft_deletable
 
   belongs_to :organization
+  has_many :department_members, dependent: :destroy
+  has_many :users, through: :department_members
 end
