@@ -23,4 +23,6 @@ class Department < ApplicationRecord
   belongs_to :organization
   has_many :department_members, dependent: :destroy
   has_many :users, through: :department_members
+  has_many :department_objectives
+  has_many :objectives, through: :department_objectives
 end

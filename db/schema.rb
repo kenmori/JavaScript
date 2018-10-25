@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_090817) do
+ActiveRecord::Schema.define(version: 2018_10_25_093452) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "key_result_id", null: false
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 2018_10_25_090817) do
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_department_members_on_department_id"
     t.index ["user_id"], name: "index_department_members_on_user_id"
+  end
+
+  create_table "department_objectives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "department_id", null: false
+    t.bigint "objective_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_department_objectives_on_department_id"
+    t.index ["objective_id"], name: "index_department_objectives_on_objective_id"
   end
 
   create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -209,6 +218,8 @@ ActiveRecord::Schema.define(version: 2018_10_25_090817) do
   add_foreign_key "comments", "key_result_comment_labels"
   add_foreign_key "department_members", "departments"
   add_foreign_key "department_members", "users"
+  add_foreign_key "department_objectives", "departments"
+  add_foreign_key "department_objectives", "objectives"
   add_foreign_key "departments", "organizations"
   add_foreign_key "key_result_comment_labels", "organizations"
 end
