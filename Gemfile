@@ -28,6 +28,7 @@ gem "devise", "~> 4.5.0"
 gem "gon", "~> 6.2.1"
 
 gem "active_decorator", "~> 1.0.0"
+gem "ancestry"
 gem "carrierwave"
 gem "carrierwave-i18n"
 gem "fog"
