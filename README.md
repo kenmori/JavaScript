@@ -52,3 +52,21 @@ docker-compose run web bundle exec rake
 ```
 docker-compose run -e RAILS_ENV=test web bundle exec rspec
 ```
+
+### data migrate
+
+[Data Migrate](https://github.com/ilyakatz/data-migrate) という gem を使ってデータ投入を行うことができるようにしています。
+
+`db/data` 以下にデータ投入用のマイグレーションファイルを置き、次のコマンドを実行するとデータ投入できます。
+
+```
+$ rake data:migrate
+```
+
+`db/data` 以下のファイルは generator で作成できます。
+
+```
+rails g data_migration add_this_to_that
+```
+
+詳しくは gem の README を見てください。
