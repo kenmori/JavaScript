@@ -1,4 +1,5 @@
 FROM ruby:2.4.1
+ENV LANG C.UTF-8
 
 # Prepare for yarn installing
 RUN apt-get update && apt-get install apt-transport-https
