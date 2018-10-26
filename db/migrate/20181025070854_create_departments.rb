@@ -5,7 +5,7 @@ class CreateDepartments < ActiveRecord::Migration[5.2]
       t.references :organization, foreign_key: true, null: false
       t.datetime :soft_destroyed_at
       t.string :name, null: false
-      t.integer :display_order, null: false, defalut: 0
+      t.integer :display_order, null: false
 
       t.timestamps
     end
