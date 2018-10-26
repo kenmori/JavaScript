@@ -25,4 +25,15 @@ class Department < ApplicationRecord
   has_many :users, through: :department_members
   has_many :department_objectives
   has_many :objectives, through: :department_objectives
+
+  class << self
+    def create_default!(organization:)
+      Department.create!(
+        organization: organization,
+        name: '代表',
+        display_order: 1,
+        parent: nil
+      )
+    end
+  end
 end
