@@ -36,7 +36,7 @@ class Department < ApplicationRecord
     def create_default!(organization:)
       Department.create!(
         organization: organization,
-        name: '代表',
+        name: Settings.config.department.default_name,
         display_order: 1,
         parent: nil
       )
