@@ -21,7 +21,6 @@
 # **`parent_key_result_id`**  | `integer`          |
 #
 
-
 class Objective < ApplicationRecord
   has_many :key_results, dependent: :destroy
   has_many :objective_members, dependent: :destroy

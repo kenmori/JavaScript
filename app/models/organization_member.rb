@@ -16,7 +16,6 @@
 # **`user_id`**          | `integer`          | `not null`
 #
 
-
 class OrganizationMember < ApplicationRecord
   belongs_to :organization
   belongs_to :user

@@ -16,7 +16,6 @@
 # **`user_id`**       | `integer`          | `not null`
 #
 
-
 class ObjectiveMember < ApplicationRecord
   belongs_to :objective
   belongs_to :user

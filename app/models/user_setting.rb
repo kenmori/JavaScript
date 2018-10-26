@@ -19,7 +19,6 @@
 # **`user_id`**                      | `integer`          | `not null`
 #
 
-
 class UserSetting < ApplicationRecord
   belongs_to :user
 end

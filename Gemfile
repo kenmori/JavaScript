@@ -70,7 +70,7 @@ end
 group :test do
   gem "database_rewinder"
   gem "fuubar"
+  gem "rspec_junit_formatter", "~> 0.4.1"
   gem "vcr"
   gem "webmock"
-  gem 'rspec_junit_formatter', '~> 0.4.1'
 end

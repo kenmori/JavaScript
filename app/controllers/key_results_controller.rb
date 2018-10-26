@@ -44,7 +44,7 @@ class KeyResultsController < ApplicationController
     owner = Objective.find(params[:key_result][:objective_id]).owner
     forbidden and return unless valid_permission?(@user.organization.id)
     forbidden and return unless valid_permission?(owner.organization.id)
-    forbidden and return unless User.includes(:organization).where(id: params[:key_result][:members]).all? {|u| valid_permission?(u.organization.id) }
+    forbidden and return unless User.includes(:organization).where(id: params[:key_result][:members]).all? { |u| valid_permission?(u.organization.id) }
     forbidden("Objective 責任者のみ作成できます") and return unless valid_user?(owner.id)
 
     ActiveRecord::Base.transaction do

@@ -16,7 +16,6 @@
 # **`organization_id`**  | `bigint(8)`        |
 #
 
-
 class KeyResultCommentLabel < ApplicationRecord
   belongs_to :organization
 end

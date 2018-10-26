@@ -26,7 +26,6 @@
 # **`okr_period_id`**      | `integer`          | `not null`
 #
 
-
 class KeyResult < ApplicationRecord
   has_many :comments, -> { order("created_at DESC") }, dependent: :destroy
   has_many :key_result_members, dependent: :destroy

@@ -16,7 +16,6 @@
 # **`user_id`**     | `integer`          | `not null`
 #
 
-
 class GroupMember < ApplicationRecord
   belongs_to :group
   belongs_to :user

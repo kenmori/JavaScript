@@ -17,7 +17,6 @@
 # **`organization_id`**  | `integer`          | `not null`
 #
 
-
 class OkrPeriod < ApplicationRecord
   belongs_to :organization
   has_many :objectives, dependent: :destroy

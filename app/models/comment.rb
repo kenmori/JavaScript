@@ -18,7 +18,6 @@
 # **`user_id`**                      | `integer`          | `not null`
 #
 
-
 class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :key_result, touch: true

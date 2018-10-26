@@ -17,7 +17,6 @@
 # **`user_id`**        | `integer`          | `not null`
 #
 
-
 class KeyResultMember < ApplicationRecord
   belongs_to :key_result
   belongs_to :user

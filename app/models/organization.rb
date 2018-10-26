@@ -17,7 +17,6 @@
 # **`updated_at`**   | `datetime`         | `not null`
 #
 
-
 class Organization < ApplicationRecord
   before_destroy :destroy_users # 関連付けの `dependent: :destroy` より先に定義する
 

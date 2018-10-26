@@ -194,7 +194,7 @@ RSpec.resource "POST /key_results", warden: true do
     end
 
     example "ERROR: invalid members_id" do
-      explanation 'membersで指定したユーザーがサインインユーザと異なる組織の場合、エラーとなる'
+      explanation "membersで指定したユーザーがサインインユーザと異なる組織の場合、エラーとなる"
 
       do_request(
         key_result: {
