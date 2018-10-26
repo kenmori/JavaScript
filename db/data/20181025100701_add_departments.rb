@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDepartments < ActiveRecord::Migration[5.2]
   using LoudApplicationRecord
 

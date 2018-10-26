@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ## Schema Information
 #
 # Table name: `departments`
@@ -26,11 +28,11 @@ class Department < ApplicationRecord
   has_many :department_objectives
   has_many :objectives, through: :department_objectives
 
-  has_one :department_members_owner, -> { where(role: :owner) }, class_name: 'DepartmentMember'
-  has_one :owner, through: :department_members_owner, class_name: 'User', source: :user
+  has_one :department_members_owner, -> { where(role: :owner) }, class_name: "DepartmentMember"
+  has_one :owner, through: :department_members_owner, class_name: "User", source: :user
 
-  has_many :department_members_members, -> { where(role: :member) }, class_name: 'DepartmentMember'
-  has_many :members, through: :department_members_members, class_name: 'User', source: :user
+  has_many :department_members_members, -> { where(role: :member) }, class_name: "DepartmentMember"
+  has_many :members, through: :department_members_members, class_name: "User", source: :user
 
   class << self
     def create_default!(organization:)

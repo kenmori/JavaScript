@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 RSpec.describe Department, type: :model do
   describe "associations" do
     let!(:organization) { OrganizationFactory.new.create }
     let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
-    let!(:member_user_1) {
+    let!(:member_user_1) do
       UserFactory.new(organization: organization).create(
         email: "member_user_1@example.com",
         admin: false
       )
-    }
-    let!(:member_user_2) {
+    end
+    let!(:member_user_2) do
       UserFactory.new(organization: organization).create(
         email: "member_user_2@example.com",
         admin: false
       )
-    }
+    end
     let!(:department_fc) { DepartmentFactory.new(organization: organization) }
     let!(:department) { department_fc.create }
 
@@ -45,7 +47,7 @@ RSpec.describe Department, type: :model do
       expect(default_department.organization).to eq(organization)
       expect(default_department.name).to eq("代表")
       expect(default_department.display_order).to eq(1)
-      expect(default_department.root?).to be_truthy
+      expect(default_department).to be_root
     end
   end
 end

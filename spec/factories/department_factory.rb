@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DepartmentFactory < AbstractFactory
   def initialize(organization:)
     super(Department.new)
@@ -15,12 +17,12 @@ class DepartmentFactory < AbstractFactory
 
   private
 
-  def default_params
-    {
-      organization: organization,
-      name: "代表",
-      display_order: 1,
-      parent: nil
-    }
-  end
+    def default_params
+      {
+        organization: organization,
+        name: "代表",
+        display_order: 1,
+        parent: nil
+      }
+    end
 end
