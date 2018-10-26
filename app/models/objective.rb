@@ -1,5 +1,26 @@
 # frozen_string_literal: true
 
+# ## Schema Information
+#
+# Table name: `objectives`
+#
+# ### Columns
+#
+# Name                        | Type               | Attributes
+# --------------------------- | ------------------ | ---------------------------
+# **`id`**                    | `bigint(8)`        | `not null, primary key`
+# **`description`**           | `text(65535)`      |
+# **`disabled_at`**           | `datetime`         |
+# **`key_result_order`**      | `string(255)`      |
+# **`name`**                  | `string(255)`      | `not null`
+# **`progress_rate`**         | `integer`          |
+# **`sub_progress_rate`**     | `integer`          |
+# **`created_at`**            | `datetime`         | `not null`
+# **`updated_at`**            | `datetime`         | `not null`
+# **`okr_period_id`**         | `integer`          | `not null`
+# **`parent_key_result_id`**  | `integer`          |
+#
+
 class Objective < ApplicationRecord
   has_many :key_results, dependent: :destroy
   has_many :objective_members, dependent: :destroy

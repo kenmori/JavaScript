@@ -1,5 +1,31 @@
 # frozen_string_literal: true
 
+# ## Schema Information
+#
+# Table name: `key_results`
+#
+# ### Columns
+#
+# Name                     | Type               | Attributes
+# ------------------------ | ------------------ | ---------------------------
+# **`id`**                 | `bigint(8)`        | `not null, primary key`
+# **`actual_value`**       | `float(24)`        |
+# **`description`**        | `text(65535)`      |
+# **`disabled_at`**        | `datetime`         |
+# **`expired_date`**       | `date`             |
+# **`name`**               | `string(255)`      | `not null`
+# **`progress_rate`**      | `integer`          |
+# **`result`**             | `string(255)`      |
+# **`status`**             | `integer`          | `default("green"), not null`
+# **`sub_progress_rate`**  | `integer`          |
+# **`target_value`**       | `float(24)`        |
+# **`value_unit`**         | `string(255)`      |
+# **`created_at`**         | `datetime`         | `not null`
+# **`updated_at`**         | `datetime`         | `not null`
+# **`objective_id`**       | `integer`          | `not null`
+# **`okr_period_id`**      | `integer`          | `not null`
+#
+
 class KeyResult < ApplicationRecord
   has_many :comments, -> { order("created_at DESC") }, dependent: :destroy
   has_many :key_result_members, dependent: :destroy
