@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Department, type: :model do
   describe "associations" do
     let!(:organization) { OrganizationFactory.new.create }
@@ -35,6 +33,19 @@ RSpec.describe Department, type: :model do
 
     example "#member" do
       expect(department.members).to contain_exactly(member_user_1, member_user_2)
+    end
+  end
+
+  describe ".create_default!" do
+    let!(:organization) { OrganizationFactory.new.create }
+
+    example "create default department" do
+      default_department = Department.create_default!(organization: organization)
+
+      expect(default_department.organization).to eq(organization)
+      expect(default_department.name).to eq("代表")
+      expect(default_department.display_order).to eq(1)
+      expect(default_department.root?).to be_truthy
     end
   end
 end
