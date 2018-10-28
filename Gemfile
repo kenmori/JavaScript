@@ -8,25 +8,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 5.2.1"
-# Use mysql as the database for Active Record
 gem "mysql2", "~> 0.5.2"
-# Use Puma as the app server
 gem "puma", "~> 3.12.0"
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem "webpacker", "= 3.5.5"
-
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.6.4"
 gem "oj", "~> 3.6.10"
-
 gem "devise", "~> 4.5.0"
-
 gem "gon", "~> 6.2.1"
-
 gem "active_decorator", "~> 1.0.0"
 gem "carrierwave"
 gem "carrierwave-i18n"
@@ -50,9 +39,6 @@ group :development do
   gem "rails-erd", "1.5.0"
   gem "rubocop", require: false
   gem "rubocop-rspec"
-  gem "spring"
-  gem "spring-watcher-listen", "~> 2.0.0"
-  gem "web-console", ">= 3.3.0"
 end
 
 group :development, :test do
@@ -64,7 +50,6 @@ group :development, :test do
   gem "pry-rails"
   gem "rspec-rails"
   gem "rspec_api_documentation"
-  gem "spring-commands-rspec"
 end
 
 group :test do
