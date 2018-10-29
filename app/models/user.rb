@@ -56,6 +56,8 @@ class User < ApplicationRecord
   has_one :organization, through: :organization_member
   has_many :objective_orders, dependent: :destroy
   has_one :user_setting, dependent: :destroy
+  has_many :department_members, dependent: :destroy
+  has_many :depratments, through: :department_members
 
   scope :enabled, -> { where(disabled_at: nil) }
   scope :disabled, -> { where.not(disabled_at: nil) }
