@@ -56,7 +56,6 @@ Rails.application.configure do
     Bullet.console = true # ブラウザのコンソールログに記録
     Bullet.rails_logger = true # Railsログに出力
   end
-  config.web_console.whitelisted_ips = "0.0.0.0/0"
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
