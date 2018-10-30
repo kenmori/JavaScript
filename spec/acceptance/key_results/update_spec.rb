@@ -489,7 +489,6 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
             "show_meeting_board" => true,
             "updated_at" => be_time_iso8601,
             "editable" => true,
-            "is_edited" => false,
             "user" => {
               "id" => admin_user.id,
               "first_name" => "太郎",
