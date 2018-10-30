@@ -386,7 +386,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
       end
     end
 
-    describe "key_result comment", focus: true do
+    describe "key_result comment" do
       describe "add" do
         with_options scope: :key_result do
           parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
