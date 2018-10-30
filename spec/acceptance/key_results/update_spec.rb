@@ -102,7 +102,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result expired_date' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :expired_date, "期限(YYYY-MM-DD)", type: :string
       end
 
@@ -125,7 +125,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result description' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :description, "説明文", type: :string
       end
 
@@ -146,7 +146,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result target_value' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :target_value, "目標値", type: :number
       end
 
@@ -167,7 +167,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result value_unit' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :value_unit, "目標値の単位", type: :string
       end
 
@@ -188,7 +188,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result progress_rate' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :progress_rate, "進捗", type: :integer
       end
 
@@ -209,7 +209,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result actual_value' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :actual_value, "実績値", type: :number
       end
 
@@ -230,7 +230,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result status' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :status, "見通し", type: :string, enum: %w(green yellow red)
       end
 
@@ -251,7 +251,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result result' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :result, "結果(KeyResultの最終的な進捗を補足する情報をユーザが入力する)", type: :string
       end
 
@@ -278,7 +278,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
       }
 
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
         parameter :objective_id, "紐付くObjective ID", type: :integer
       end
 
@@ -299,15 +299,13 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
     describe 'key_result member' do
       with_options scope: :key_result do
-        parameter :id, "更新対象とするKeyResultのID", type: :integer
+        parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
 
         with_options scope: :member do
-          parameter :user, "関係者または責任者とするUser ID", type: :integer
-          parameter :behavior, "命令種別", enum: %w(add remove)
-          parameter :role, "関係者(member)か責任者(owner)を指定する", enum: %w(member owner)
+          parameter :user, "関係者または責任者とするUser ID", type: :integer, required: true
+          parameter :behavior, "命令種別", enum: %w(add remove), required: true
+          parameter :role, "関係者(member)か責任者(owner)を指定する", enum: %w(member owner), required: true
         end
-        # {"user"=>3, "behavior"=>"add", "role"=>"member"}
-        # {"user"=>3, "behavior"=>"remove", "role"}
       end
 
       example 'SUCCESS: Add key_result member' do
@@ -386,22 +384,70 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           "disabled" => false
         )
       end
-
-      # TODO Objectiveのひも付きに関するテストもあったほうが良さそう
-
-      # example 'SUCCESS: Remove key_result'
     end
 
+    describe "key_result comment", focus: true do
+      describe "add" do
+        with_options scope: :key_result do
+          parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
 
-      # with_options scope: :comment do
-      #   parameter :data, "behaviorの値によって全然違う"
-      #   parameter :behavior, "命令種別", enum: %w(add edit remove)
-      #   parameter :key_result_comment_label, "コメントラベルID(behaviorがaddの場合のみ {\"id\": 1} のような値がある。editの場合も指定できるがフォーマットが異なる)", type: :object
-      # end
-      # # {"data"=>"吐き気をもよおす邪悪 とは", "key_result_comment_label"=>{"id"=>1}, "behavior"=>"add"}
-      # # {"data"=>{"id"=>3, "text"=>"にゃーん", "key_result_comment_label"=>{"id"=>1}},  "behavior"=>"edit"}
-      # # {"data"=>2, "behavior"=>"remove"}
-    # end
+          with_options scope: :comment do
+            parameter :behavior, "命令種別(今回はaddの例)", enum: %w(add edit remove), required: true
+            parameter :data, "コメント本文", type: :string, required: true
+
+            with_options scope: :key_result_comment_label do
+              parameter :id, "コメントにつけるKeyResultCommentLabelのID", type: :integer
+            end
+          end
+        end
+
+        example "SUCCESS: Add comment" do
+          # {"data"=>"吐き気をもよおす邪悪 とは", "key_result_comment_label"=>{"id"=>1}, "behavior"=>"add"}
+
+          puts 'hi'
+        end
+      end
+
+      describe "edit" do
+        with_options scope: :key_result do
+          parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
+
+          with_options scope: :comment do
+            parameter :behavior, "命令種別(今回はeditの例)", enum: %w(add edit remove)
+            with_options scope: :data, required: true do
+              parameter :id, "編集対象とするコメントのID", type: :integer, required: true
+              parameter :text, "編集後のコメント本文", type: :string, required: true
+              with_options scope: :key_result_comment_label do
+                parameter :id, "コメントにつけるKeyResultCommentLabelのID", type: :integer
+              end
+            end
+          end
+        end
+
+        example "SUCCESS: Edit comment" do
+          # {"data"=>{"id"=>3, "text"=>"にゃーん", "key_result_comment_label"=>{"id"=>1}},  "behavior"=>"edit"}
+
+          puts 'hi'
+        end
+      end
+
+      describe "remove" do
+        with_options scope: :key_result do
+          parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
+
+          with_options scope: :comment do
+            parameter :behavior, "命令種別(今回はremoveの例)", enum: %w(add edit remove)
+            parameter :data, "削除するコメントのID", type: :integer, required: true
+          end
+        end
+
+        example "SUCCESS: Remove comment" do
+          # {"data"=>2, "behavior"=>"remove"}
+
+          puts 'hi'
+        end
+      end
+    end
 
     example "ERROR: "
   end
