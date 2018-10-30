@@ -301,7 +301,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
       with_options scope: :key_result do
         parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
 
-        with_options scope: :member do
+        with_options scope: %i(key_result member) do
           parameter :user, "関係者または責任者とするUser ID", type: :integer, required: true
           parameter :behavior, "命令種別", enum: %w(add remove), required: true
           parameter :role, "関係者(member)か責任者(owner)を指定する", enum: %w(member owner), required: true
@@ -391,20 +391,55 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         with_options scope: :key_result do
           parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
 
-          with_options scope: :comment do
+          with_options scope: %i(key_result comment) do
             parameter :behavior, "命令種別(今回はaddの例)", enum: %w(add edit remove), required: true
             parameter :data, "コメント本文", type: :string, required: true
 
-            with_options scope: :key_result_comment_label do
+            with_options scope: %i(key_result comment key_result_comment_label) do
               parameter :id, "コメントにつけるKeyResultCommentLabelのID", type: :integer
             end
           end
         end
 
-        example "SUCCESS: Add comment" do
-          # {"data"=>"吐き気をもよおす邪悪 とは", "key_result_comment_label"=>{"id"=>1}, "behavior"=>"add"}
+        let!(:key_result_comment_label) { KeyResultCommentLabelFactory.new(organization: organization).create }
 
-          puts 'hi'
+        example "SUCCESS: Add comment" do
+          explanation "新しいコメントを追加する"
+
+          do_request(
+            key_result: {
+              id: key_result.id,
+              comment: {
+                behavior: "add",
+                data: "新しいコメント",
+                key_result_comment_label: {
+                  id: key_result_comment_label.id
+                }
+              }
+            }
+          )
+
+          expect(response_status).to eq(200)
+          expect(parse_response_body("key_result", "comments", 0)).to include(
+            "id" => a_kind_of(Integer),
+            "text" => "新しいコメント",
+            "show_meeting_board" => true,
+            "updated_at" => be_time_iso8601,
+            "editable" => true,
+            "is_edited" => false,
+            "label" => {
+              "id" => key_result_comment_label.id,
+              "name" => "今週の優先事項",
+              "color" => "blue"
+            },
+            "user" => {
+              "id" => admin_user.id,
+              "first_name" => "太郎",
+              "last_name" => "山田",
+              "avatar_url" => nil,
+              "disabled" => false
+            }
+          )
         end
       end
 
@@ -412,22 +447,57 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         with_options scope: :key_result do
           parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
 
-          with_options scope: :comment do
+          with_options scope: %i(key_result comment) do
             parameter :behavior, "命令種別(今回はeditの例)", enum: %w(add edit remove)
-            with_options scope: :data, required: true do
+
+            with_options scope: %i(key_result comment data), required: true do
               parameter :id, "編集対象とするコメントのID", type: :integer, required: true
               parameter :text, "編集後のコメント本文", type: :string, required: true
-              with_options scope: :key_result_comment_label do
+
+              with_options scope: %i(key_result comment data key_result_comment_label) do
                 parameter :id, "コメントにつけるKeyResultCommentLabelのID", type: :integer
               end
             end
           end
         end
 
-        example "SUCCESS: Edit comment" do
-          # {"data"=>{"id"=>3, "text"=>"にゃーん", "key_result_comment_label"=>{"id"=>1}},  "behavior"=>"edit"}
+        let!(:comment) { CommentFactory.new(key_result: key_result, user: admin_user).create }
 
-          puts 'hi'
+        example "SUCCESS: Edit comment" do
+          explanation "既存のコメントを編集する"
+
+          do_request(
+            key_result: {
+              id: key_result.id,
+              comment: {
+                behavior: "edit",
+                data: {
+                  id: comment.id,
+                  text: "編集後のコメント",
+                  key_result_comment_label: {
+                    id: nil
+                  }
+                }
+              }
+            }
+          )
+
+          expect(response_status).to eq(200)
+          expect(parse_response_body("key_result", "comments", 0)).to include(
+            "id" => comment.id,
+            "text" => "編集後のコメント",
+            "show_meeting_board" => true,
+            "updated_at" => be_time_iso8601,
+            "editable" => true,
+            "is_edited" => false,
+            "user" => {
+              "id" => admin_user.id,
+              "first_name" => "太郎",
+              "last_name" => "山田",
+              "avatar_url" => nil,
+              "disabled" => false
+            }
+          )
         end
       end
 
@@ -435,16 +505,29 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         with_options scope: :key_result do
           parameter :id, "更新対象とするKeyResultのID", type: :integer, required: true
 
-          with_options scope: :comment do
-            parameter :behavior, "命令種別(今回はremoveの例)", enum: %w(add edit remove)
+          with_options scope: %i(key_result comment) do
+            parameter :behavior, "命令種別(今回はremoveの例)", enum: %w(add edit remove), required: true
             parameter :data, "削除するコメントのID", type: :integer, required: true
           end
         end
 
-        example "SUCCESS: Remove comment" do
-          # {"data"=>2, "behavior"=>"remove"}
+        let!(:comment) { CommentFactory.new(key_result: key_result, user: admin_user).create }
 
-          puts 'hi'
+        example "SUCCESS: Remove comment" do
+          explanation "既存のコメントを削除する"
+
+          do_request(
+            key_result: {
+              id: key_result.id,
+              comment: {
+                behavior: "remove",
+                data: comment.id
+              }
+            }
+          )
+
+          expect(response_status).to eq(200)
+          expect(parse_response_body("key_result", "comments")).to be_empty
         end
       end
     end
