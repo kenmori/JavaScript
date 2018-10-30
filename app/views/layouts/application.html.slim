@@ -6,8 +6,7 @@ html
       link rel='icon' href='/public/favicon.ico'
     = csrf_meta_tags
     = include_gon
-    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all'
+    = javascript_pack_tag 'application'
   body
     = yield
-    - console if Rails.env.development?
