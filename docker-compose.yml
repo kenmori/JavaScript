@@ -35,6 +35,7 @@ services:
       - redis
       - mailhog
       - minio
+      - localstack
     environment:
       TZ: Asia/Tokyo
       RAILS_ENV: development
@@ -44,6 +45,7 @@ services:
       AWS_REGION: ap-northeast-1
       AWS_S3_BUCKET: resily
       AWS_S3_URL: http://localhost:9000/
+      AWS_SQS_QUEUE_URL: http://localstack:4576/queue/bounces
       MINIO_HOST: minio
       MINIO_ENDPOINT: http://minio:9000
       RAILS_DATABASE_HOST: db
@@ -78,6 +80,15 @@ services:
       mc policy download minio/resily;
       exit 0;
       "
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4576:4576"
+      - "18080:8080"
+    environment:
+      - HOSTNAME_EXTERNAL=localstack
+      - DEFAULT_REGION=ap-northeast-1
+      - SERVICES=sqs:4576
 volumes:
   mysql-data:
     driver: local

@@ -27,6 +27,7 @@ gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
 gem "webpacker", "= 3.5.5"
+gem 'aws-sdk-sqs'
 
 group :development do
   gem "annotate"
