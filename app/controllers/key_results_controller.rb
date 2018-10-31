@@ -119,7 +119,7 @@ class KeyResultsController < ApplicationController
 
   private
 
-    # TODO 別のクラスに切り出してテストを書く
+    # TODO: 別のクラスに切り出してテストを書く
     def valid_user_to_update?
       # Objective 責任者 or KR 責任者 or 管理者の場合は true
       return true if valid_user?(@key_result.owner.id)
