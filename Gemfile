@@ -9,6 +9,7 @@ git_source(:github) do |repo_name|
 end
 
 gem "active_decorator", "~> 1.0.0"
+gem "aws-sdk-sqs"
 gem "carrierwave"
 gem "carrierwave-i18n"
 gem "devise", "~> 4.5.0"
@@ -27,7 +28,6 @@ gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
 gem "webpacker", "= 3.5.5"
-gem 'aws-sdk-sqs'
 
 group :development do
   gem "annotate"

@@ -81,14 +81,33 @@ services:
       exit 0;
       "
   localstack:
-    image: localstack/localstack
+    image: localstack/localstack:0.8.7
     ports:
-      - "4576:4576"
       - "18080:8080"
+      - "4567-4584:4567-4584"
+    volumes:
+      - localstack-data:/tmp/localstack
     environment:
       - HOSTNAME_EXTERNAL=localstack
       - DEFAULT_REGION=ap-northeast-1
-      - SERVICES=sqs:4576
+      - SERVICES=sqs
+      - DATA_DIR=/tmp/localstack
+  awscli:
+    image: mesosphere/aws-cli
+    environment:
+      - AWS_DEFAULT_REGION=ap-northeast-1
+      - AWS_DEFAULT_OUTPUT=json
+      - AWS_ACCESS_KEY_ID=access_key_id
+      - AWS_SECRET_ACCESS_KEY=secret_key
+    links:
+      - localstack
+    entrypoint: >
+      /bin/sh -c "
+      while ! nc -z localstack 4576; do echo 'Wait localstack to startup...' && sleep 1; done;
+      sleep 5;
+      aws --endpoint-url=http://localstack:4576 sqs create-queue --queue-name=bounces;
+      exit 0;
+      "
 volumes:
   mysql-data:
     driver: local
@@ -97,4 +116,6 @@ volumes:
   minio-data:
     driver: local
   minio-config:
+    driver: local
+  localstack-data:
     driver: local

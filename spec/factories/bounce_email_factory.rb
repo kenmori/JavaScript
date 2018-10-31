@@ -12,7 +12,7 @@ class BounceEmailFactory < AbstractFactory
     def default_params
       {
         email: "bounced@example.com",
-        sent_at: Time.zone.now,
+        sent_at: Time.zone.now
       }
     end
 end
