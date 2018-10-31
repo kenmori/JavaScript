@@ -6,7 +6,7 @@ namespace :bounce_email do
       secret_access_key: ENV['AWS_SECRET_KEY'],
       region: ENV['AWS_REGION']
     )
-    queue = client.receive_message(queue_url: ENV['AWS_SQS_QUEUE_URL'])
+    queue = client.receive_message(queue_url: ENV['AWS_SQS_QUEUE_URL'], max_number_of_messages: 100)
     if queue.messages.blank?
       puts "queue is empty, skip to the next time"
       next
