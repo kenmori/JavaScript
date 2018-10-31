@@ -8,6 +8,7 @@ namespace :bounce_email do
     )
     queue = client.receive_message(queue_url: ENV['AWS_SQS_QUEUE_URL'])
     if queue.messages.blank?
+      puts "queue is empty, skip to the next time"
       next
     end
 
