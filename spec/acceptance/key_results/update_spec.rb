@@ -28,7 +28,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             name: "変更後のKeyResultのタイトル"
           }
         )
@@ -113,7 +113,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             expired_date: expired_date
           }
         )
@@ -134,7 +134,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             description: "更新後の説明文"
           }
         )
@@ -155,7 +155,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             target_value: 100
           }
         )
@@ -176,7 +176,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             value_unit: "回"
           }
         )
@@ -197,7 +197,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             progress_rate: 25
           }
         )
@@ -218,7 +218,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             actual_value: 20
           }
         )
@@ -239,7 +239,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             status: "yellow"
           }
         )
@@ -260,7 +260,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             result: "更新後の結果"
           }
         )
@@ -287,7 +287,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             objective_id: other_objective.id
           }
         )
@@ -313,7 +313,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             member: {
               user: other_user.id,
               behavior: 'add',
@@ -348,7 +348,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             member: {
               user: other_user.id,
               behavior: 'remove',
@@ -366,7 +366,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
         do_request(
           key_result: {
-            id: key_result.id,
+            id: id,
             member: {
               user: other_user.id,
               behavior: 'add',
@@ -408,7 +408,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
           do_request(
             key_result: {
-              id: key_result.id,
+              id: id,
               comment: {
                 behavior: "add",
                 data: "新しいコメント",
@@ -468,7 +468,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
           do_request(
             key_result: {
-              id: key_result.id,
+              id: id,
               comment: {
                 behavior: "edit",
                 data: {
@@ -517,7 +517,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
 
           do_request(
             key_result: {
-              id: key_result.id,
+              id: id,
               comment: {
                 behavior: "remove",
                 data: comment.id
@@ -531,6 +531,42 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
       end
     end
 
-    example "ERROR: "
+    context 'When the key result belongs to another organization' do
+      let!(:id) { other_org_key_result.id }
+
+      example "ERROR: invalid organization of a key result" do
+        explanation "指定したKeyResultのOrganizationがサインインユーザのOrganizationと異なる場合エラーとなる"
+
+        do_request(
+          key_result: {
+            id: id,
+            name: "変更後のKeyResultのタイトル"
+          }
+        )
+
+        expect(response_status).to eq(403)
+        expect(parse_response_body("error")).to eq("許可されていない操作です")
+      end
+    end
+
+    context "When sign in user is not objective owner, key result owner, and admin" do
+      before do
+        login_as(other_user)
+      end
+
+      example "ERROR: invalid sign in user" do
+        explanation "サインインユーザがObjective 責任者または Key Result 責任者または管理者のみ編集できるので、それら以外の場合はエラーとなる"
+
+        do_request(
+          key_result: {
+            id: id,
+            name: "変更後のKeyResultのタイトル"
+          }
+        )
+
+        expect(response_status).to eq(403)
+        expect(parse_response_body("error")).to eq("Objective 責任者または Key Result 責任者のみ編集できます")
+      end
+    end
   end
 end
