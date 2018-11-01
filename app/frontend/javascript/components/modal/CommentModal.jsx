@@ -42,7 +42,7 @@ class CommentModal extends PureComponent {
       content: 'コメントを削除しますか？',
       onConfirm: () =>
         this.props.updateKeyResult({
-          id: this.state.keyResultId,
+          id: this.findKeyResultByCommentId(id).get('id'),
           comment: { data: id, behavior: 'remove' }
         })
     })
@@ -50,8 +50,9 @@ class CommentModal extends PureComponent {
 
   editComment = (id, text, label) => {
     if (!text) return
+
     this.props.updateKeyResult({
-      id: this.state.keyResultId,
+      id: this.findKeyResultByCommentId(id).get('id'),
       comment: {
         data: {
           id,
@@ -73,6 +74,15 @@ class CommentModal extends PureComponent {
 
   selectLabelCommnets = (comments, label) => {
     return comments.filter(v => v.get('label').get('name') === label)
+  }
+
+  findKeyResultByCommentId = id => {
+    const { objective } = this.props
+    const keyResults = objective.get('keyResults')
+
+    return keyResults.find(
+      e => e.get('comments').findIndex(e => e.get('id') == id) != -1
+    )
   }
 
   render() {
