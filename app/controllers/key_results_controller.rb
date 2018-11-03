@@ -119,6 +119,7 @@ class KeyResultsController < ApplicationController
 
   private
 
+    # TODO: 別のクラスに切り出してテストを書く
     def valid_user_to_update?
       # Objective 責任者 or KR 責任者 or 管理者の場合は true
       return true if valid_user?(@key_result.owner.id)
@@ -146,7 +147,11 @@ class KeyResultsController < ApplicationController
     end
 
     def update_objective
-      objective = Objective.find(params[:key_result][:objective_id])
+      objective = Objective.find_by!(
+        okr_period_id: @key_result.okr_period_id,
+        id: params[:key_result][:objective_id]
+      )
+
       unless can_update_objective?(objective)
         @key_result.errors[:base] << "この Key Result の下位 Objective には紐付けられません"
         raise
@@ -186,6 +191,9 @@ class KeyResultsController < ApplicationController
         end
         member = @key_result.key_result_members.find_by(user_id: user_id)
         if member.nil?
+          # 異なる組織の user_id が指定されていた場合にはエラー
+          raise unless valid_permission?(User.find(user_id).organization.id)
+
           @key_result.key_result_members.create!(user_id: user_id, role: role)
         else
           # 関係者から責任者に変更
