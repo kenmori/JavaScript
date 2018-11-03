@@ -512,6 +512,31 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
             }
           )
         end
+
+        example "ERROR: When comment id at editing is different organization" do
+          explanation "コメント編集時に指定したコメントIDが別の組織である場合エラー"
+
+          other_org_comment = CommentFactory.new(key_result: other_org_key_result, user: other_org_user).create
+
+          do_request(
+            key_result: {
+              id: id,
+              comment: {
+                behavior: "edit",
+                data: {
+                  id: other_org_comment.id,
+                  text: "編集後のコメント",
+                  key_result_comment_label: {
+                    id: nil
+                  }
+                }
+              }
+            }
+          )
+
+          expect(response_status).to eq(422)
+          expect(parse_response_body.keys).to contain_exactly("error")
+        end
       end
 
       describe "remove" do
