@@ -18,14 +18,7 @@ class Department::Create < Trailblazer::Operation
 
   # TODO rename
   def perform(options, metadata)
-    binding.pry
-
-    # params = {
-    #   name: "開発部",
-    #   display_order: 1,
-    #   organization_id: 1,
-    #   parent_department_id: nil,
-    #   owner_id: 1
-    # }
+    pp options
+    pp metadata
   end
 end
