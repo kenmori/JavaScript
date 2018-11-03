@@ -297,7 +297,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
       end
 
       example "ERROR: When objective id is different organization" do
-        explanation "異なる組織のObjective IDを指定した場合エラー"
+        explanation "異なるOKR期間のObjective IDを指定した場合エラー"
 
         do_request(
           key_result: {
@@ -397,6 +397,42 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           "avatar_url" => nil,
           "disabled" => false
         )
+      end
+
+      example "ERROR: When owner id is different organization" do
+        explanation "異なる組織のユーザーを責任者とする場合エラー"
+
+        do_request(
+          key_result: {
+            id: id,
+            member: {
+              user: other_org_user.id,
+              behavior: "add",
+              role: "member"
+            }
+          }
+        )
+
+        expect(response_status).to eq(422)
+        expect(parse_response_body.keys).to contain_exactly("error")
+      end
+
+      example "ERROR: When member id is different organization" do
+        explanation "異なる組織のユーザーを関係者とする場合エラー"
+
+        do_request(
+          key_result: {
+            id: id,
+            member: {
+              user: other_org_user.id,
+              behavior: "add",
+              role: "owner"
+            }
+          }
+        )
+
+        expect(response_status).to eq(422)
+        expect(parse_response_body.keys).to contain_exactly("error")
       end
     end
 

@@ -191,6 +191,9 @@ class KeyResultsController < ApplicationController
         end
         member = @key_result.key_result_members.find_by(user_id: user_id)
         if member.nil?
+          # 異なる組織の user_id が指定されていた場合にはエラー
+          raise unless valid_permission?(User.find(user_id).organization.id)
+
           @key_result.key_result_members.create!(user_id: user_id, role: role)
         else
           # 関係者から責任者に変更
