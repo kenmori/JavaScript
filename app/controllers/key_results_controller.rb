@@ -147,7 +147,11 @@ class KeyResultsController < ApplicationController
     end
 
     def update_objective
-      objective = Objective.find(params[:key_result][:objective_id])
+      objective = Objective.find_by!(
+        okr_period_id: @key_result.okr_period_id,
+        id: params[:key_result][:objective_id]
+      )
+
       unless can_update_objective?(objective)
         @key_result.errors[:base] << "この Key Result の下位 Objective には紐付けられません"
         raise

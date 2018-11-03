@@ -295,6 +295,20 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         expect(response_status).to eq(200)
         expect(parse_response_body("key_result", "objective_id")).to eq(other_objective.id)
       end
+
+      example "ERROR: When objective id is different organization" do
+        explanation "異なる組織のObjective IDを指定した場合エラー"
+
+        do_request(
+          key_result: {
+            id: id,
+            objective_id: other_org_objective.id
+          }
+        )
+
+        expect(response_status).to eq(422)
+        expect(parse_response_body.keys).to contain_exactly("error")
+      end
     end
 
     describe "key_result member" do
