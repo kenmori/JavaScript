@@ -28,7 +28,8 @@ RSpec.resource "POST /departments", warden: true do
         department: {
           name: "開発部",
           owner_id: login_user.id,
-          department_id: nil
+          department_id: nil,
+          display_order: 0
         }
       )
 
