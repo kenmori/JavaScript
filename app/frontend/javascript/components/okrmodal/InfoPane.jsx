@@ -11,9 +11,6 @@ import AutoInput from '../form/AutoInput'
 import PopupButton from '../util/PopupButton'
 
 class InfoPane extends PureComponent {
-
-  handleParentKeyResultChange = value => this.props.updateOkr({ parentKeyResultId: value === -1 ? null : value })
-
   handleObjectiveChange = value => this.props.updateOkr({ objectiveId: value })
 
   // For KeyResult method.
@@ -64,6 +61,7 @@ class InfoPane extends PureComponent {
       onConfirm: () => removeKeyResult(keyResult.get('id')),
     })
   }
+
   handleDisableClick = () => {
     const { keyResult, disableKeyResult, confirm } = this.props
     const enabledOrDisabled = keyResult.get('disabled') ? '有効化' : '無効化'
@@ -78,35 +76,7 @@ class InfoPane extends PureComponent {
     })
   }
 
-  renderObjectiveLinks() {
-    const objective = this.props.okr
-    const parentKeyResult = objective.get('parentKeyResult')
-    const childObjectives = parentKeyResult && parentKeyResult.get('childObjectives')
-    return (
-      <Form>
-        <Form.Field>
-          <label>上位 Key Result</label>
-          <OkrSelect
-            okrs={this.props.candidates}
-            isObjective={false}
-            value={objective.get('parentKeyResultId')}
-            readOnly={!this.props.isObjectiveOwner}
-            loading={!this.props.isFetchedCandidates}
-            onChange={this.handleParentKeyResultChange}
-          />
-        </Form.Field>
-        <Divider hidden />
-        {childObjectives && !childObjectives.isEmpty() && (
-          <Form.Field>
-            <label>上位 Key Result に紐付く下位 Objective 一覧</label>
-            <OkrList okrs={childObjectives} />
-          </Form.Field>
-        )}
-      </Form>
-    )
-  }
-
-  renderKeyResultLinks() {
+  render() {
     const keyResult = this.props.okr
     const childObjectives = keyResult.get('childObjectives')
     const isOwner = this.props.isObjectiveOwner || this.props.isKeyResultOwner
@@ -174,12 +144,12 @@ class InfoPane extends PureComponent {
         )}
 
         <Form.Group className="okr-buttons">
-          <PopupButton 
-            icon="trash" 
-            tips="完全に削除する" 
-            negative 
+          <PopupButton
+            icon="trash"
+            tips="完全に削除する"
+            negative
             inForm
-            onClick={this.handleRemoveClick} 
+            onClick={this.handleRemoveClick}
           />
           <Form.Button
             icon={isDisabled ? 'undo' : 'dont'}
@@ -187,19 +157,15 @@ class InfoPane extends PureComponent {
             onClick={this.handleDisableClick}
             negative={!isDisabled}
           />
-          <Form.Button 
+          <Form.Button
             icon="plus"
             content="下位 OKR を作成する"
-            onClick={this.handleCreateClick} 
-            positive 
+            onClick={this.handleCreateClick}
+            positive
           />
         </Form.Group>
       </Form>
     )
-  }
-
-  render() {
-    return this.props.isObjective ? this.renderObjectiveLinks() : this.renderKeyResultLinks()
   }
 }
 
@@ -209,17 +175,12 @@ InfoPane.propTypes = {
   okr: ImmutablePropTypes.map.isRequired,
   keyResult: ImmutablePropTypes.map.isRequired,
   candidates: ImmutablePropTypes.list.isRequired,
-  isObjective: PropTypes.bool,
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
   updateOkr: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   disableKeyResult: PropTypes.func.isRequired,
-}
-
-InfoPane.defaultProps = {
-  isObjective: true,
 }
 
 export default InfoPane

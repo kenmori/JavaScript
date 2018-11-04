@@ -111,15 +111,10 @@ ObjectiveInfoPane.propTypes = {
   // component
   okr: ImmutablePropTypes.map.isRequired,
   candidates: ImmutablePropTypes.list.isRequired,
-  isObjective: PropTypes.bool,
   isObjectiveOwner: PropTypes.bool.isRequired,
   isFetchedCandidates: PropTypes.bool.isRequired,
   updateOkr: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-}
-
-ObjectiveInfoPane.defaultProps = {
-  isObjective: true,
 }
 
 export default ObjectiveInfoPane

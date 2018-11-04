@@ -72,7 +72,6 @@ class KeyResultTab extends PureComponent {
                   okr={this.props.keyResult}
                   keyResult={this.props.keyResult}
                   candidates={this.props.objectiveCandidates}
-                  isObjective={false}
                   isObjectiveOwner={this.props.isObjectiveOwner}
                   isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
                   updateOkr={this.updateKeyResult}
