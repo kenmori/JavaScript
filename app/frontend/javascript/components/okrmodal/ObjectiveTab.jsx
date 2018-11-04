@@ -16,13 +16,13 @@ class ObjectiveTab extends PureComponent {
     return (
       <Tab panes={[
         {
-          menuItem: <Menu.Item key='objective'>進捗{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='progress'>進捗{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
             <ObjectivePane {...this.props} updateObjective={this.updateObjective} />
           </Tab.Pane>
         },
         {
-          menuItem: <Menu.Item key='links'>情報{dummyLabel}</Menu.Item>,
+          menuItem: <Menu.Item key='info'>情報{dummyLabel}</Menu.Item>,
           render: () => <Tab.Pane>
             <ObjectiveInfoPane
               okr={this.props.objective}

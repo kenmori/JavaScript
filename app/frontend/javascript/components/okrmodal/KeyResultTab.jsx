@@ -44,7 +44,7 @@ class KeyResultTab extends PureComponent {
         panes={[
           {
             menuItem: (
-              <Menu.Item key="keyResult">
+              <Menu.Item key="progress">
                 進捗
                 {dummyLabel}
               </Menu.Item>
