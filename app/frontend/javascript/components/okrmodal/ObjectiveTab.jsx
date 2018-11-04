@@ -16,26 +16,43 @@ class ObjectiveTab extends PureComponent {
     return (
       <Tab panes={[
         {
-          menuItem: <Menu.Item key='progress'>進捗{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane>
-            <ObjectivePane {...this.props} updateObjective={this.updateObjective} />
-          </Tab.Pane>
+          menuItem: (
+            <Menu.Item key='progress'>
+              進捗
+              {dummyLabel}
+            </Menu.Item>
+          ),
+          render: () => (
+            <Tab.Pane>
+              <ObjectivePane
+                {...this.props}
+                updateObjective={this.updateObjective}
+              />
+            </Tab.Pane>
+          )
         },
         {
-          menuItem: <Menu.Item key='info'>情報{dummyLabel}</Menu.Item>,
-          render: () => <Tab.Pane>
-            <ObjectiveInfoPane
-              okr={this.props.objective}
-              objective={this.props.objective}
-              candidates={this.props.parentKeyResultCandidates}
-              isObjectiveOwner={this.props.isObjectiveOwner}
-              isFetchedCandidates={this.props.isFetchedKeyResultCandidates}
-              updateOkr={this.updateObjective}
-              confirm={this.props.confirm}
-              users={this.props.users}
-              removeObjective={this.props.removeObjective}
-            />
-          </Tab.Pane>
+          menuItem: (
+            <Menu.Item key='info'>
+              情報
+              {dummyLabel}
+            </Menu.Item>
+          ),
+          render: () => (
+            <Tab.Pane>
+              <ObjectiveInfoPane
+                okr={this.props.objective}
+                objective={this.props.objective}
+                candidates={this.props.parentKeyResultCandidates}
+                isObjectiveOwner={this.props.isObjectiveOwner}
+                isFetchedCandidates={this.props.isFetchedKeyResultCandidates}
+                updateOkr={this.updateObjective}
+                confirm={this.props.confirm}
+                users={this.props.users}
+                removeObjective={this.props.removeObjective}
+              />
+            </Tab.Pane>
+          )
         },
       ]} />
     )
