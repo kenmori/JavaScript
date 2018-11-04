@@ -10,7 +10,7 @@ import OkrDescription from '../form/OkrDescription'
 import AutoInput from '../form/AutoInput'
 import PopupButton from '../util/PopupButton'
 
-class InfoPane extends PureComponent {
+class KeyResultInfoPane extends PureComponent {
   handleObjectiveChange = value => this.props.updateOkr({ objectiveId: value })
 
   // For KeyResult method.
@@ -169,7 +169,7 @@ class InfoPane extends PureComponent {
   }
 }
 
-InfoPane.propTypes = {
+KeyResultInfoPane.propTypes = {
   // container
   // component
   okr: ImmutablePropTypes.map.isRequired,
@@ -183,4 +183,4 @@ InfoPane.propTypes = {
   disableKeyResult: PropTypes.func.isRequired,
 }
 
-export default InfoPane
+export default KeyResultInfoPane

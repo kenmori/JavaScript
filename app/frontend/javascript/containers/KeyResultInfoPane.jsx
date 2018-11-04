@@ -1,4 +1,4 @@
-import InfoPane from '../components/okrmodal/InfoPane'
+import KeyResultInfoPane from '../components/okrmodal/KeyResultInfoPane'
 import { connect } from 'react-redux'
 import keyResultActions from '../actions/keyResults'
 
@@ -19,4 +19,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InfoPane)
+)(KeyResultInfoPane)

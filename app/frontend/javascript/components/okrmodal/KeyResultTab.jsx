@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Tab, Menu, Label } from 'semantic-ui-react'
 import KeyResultPane from '../../containers/KeyResultPane'
-import InfoPane from '../../containers/InfoPane'
+import KeyResultInfoPane from '../../containers/KeyResultInfoPane'
 
 class KeyResultTab extends PureComponent {
   constructor() {
@@ -68,7 +68,7 @@ class KeyResultTab extends PureComponent {
             ),
             render: () => (
               <Tab.Pane>
-                <InfoPane
+                <KeyResultInfoPane
                   okr={this.props.keyResult}
                   keyResult={this.props.keyResult}
                   candidates={this.props.objectiveCandidates}
