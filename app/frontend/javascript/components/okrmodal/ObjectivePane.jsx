@@ -2,11 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label } from 'semantic-ui-react'
-import AutoInput from '../form/AutoInput'
 import NumberInput from '../form/NumberInput'
-import UserSelect from '../form/UserSelect'
 import OkrDescription from '../form/OkrDescription'
-import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
 
 class ObjectivePane extends PureComponent {
@@ -22,8 +19,6 @@ class ObjectivePane extends PureComponent {
     }
   }
 
-  handleNameCommit = name => this.props.updateObjective({ name })
-
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
   handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate: progressRate || null })
@@ -31,37 +26,6 @@ class ObjectivePane extends PureComponent {
   handleSubProgressRateClick = () => this.props.updateObjective({ progressRate: null })
 
   handleDescriptionCommit = description => this.props.updateObjective({ description })
-
-  handleOwnerChange = ownerId => {
-    const updateObjectiveOwner = () => this.props.updateObjective({ objectiveMember: { user: ownerId } })
-    if (!this.props.isAdmin && this.props.isObjectiveOwner && ownerId !== this.props.loginUserId) {
-      // O 責任者 (非管理者) が自分以外に変更しようとした場合
-      this.props.confirm({
-        content: 'Objective 責任者を他ユーザーに変更すると自分では戻せなくなります。変更しますか？',
-        onConfirm: updateObjectiveOwner,
-      })
-    } else {
-      updateObjectiveOwner()
-    }
-  }
-
-  handleRemoveClick = () => {
-    const { objective, removeObjective, confirm } = this.props
-    let message = `Objective "${objective.get('name')}" を完全に削除しますか？`
-    const keyResults = objective.get('keyResults')
-    if (!keyResults.isEmpty()) {
-      message += 'Objective に紐付く Key Result も削除されます。'
-      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
-      if (hasChild) {
-        message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
-      }
-    }
-    message += ' (この操作は元に戻せません)'
-    confirm({
-      content: message,
-      onConfirm: () => removeObjective(objective.get('id')),
-    })
-  }
 
   handleDisableClick = () => {
     const { objective, disableObjective, confirm } = this.props
@@ -113,9 +77,7 @@ class ObjectivePane extends PureComponent {
     const isDisabled = objective.get('disabled')
     return (
       <Form>
-        <Form.Field>
-          <AutoInput value={objective.get('name')} onCommit={this.handleNameCommit} />
-        </Form.Field>
+
         <Form.Field className='flex-field'>
           <label>進捗</label>
           <div className="flex-field__item">
@@ -137,16 +99,7 @@ class ObjectivePane extends PureComponent {
           {this.subProgressRateHtml(objective)}
           {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
-        <Form.Field className='flex-field'>
-          <label>責任者</label>
-          <div className='flex-field__item'>
-            <UserSelect
-              users={this.props.users}
-              value={objective.getIn(['owner', 'id'])}
-              onChange={this.handleOwnerChange}
-            />
-          </div>
-        </Form.Field>
+
         <Form.Field>
           <label>説明</label>
           <OkrDescription
@@ -155,15 +108,7 @@ class ObjectivePane extends PureComponent {
           />
         </Form.Field>
 
-        <Form.Group className="okr-buttons">
-          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
-          <Form.Button
-            icon={isDisabled ? 'undo' : 'dont'}
-            content={isDisabled ? '有効化する' : '無効化する'}
-            onClick={this.handleDisableClick}
-            negative={!isDisabled}
-          />
-        </Form.Group>
+        {/* ここに Objective コメントを入れる */}
       </Form>
     )
   }
