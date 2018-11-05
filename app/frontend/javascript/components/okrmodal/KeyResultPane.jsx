@@ -10,6 +10,7 @@ import PopupLabel from '../util/PopupLabel'
 import moment from 'moment'
 import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 import StretchCommentPane from './StretchCommentPane'
+import OkrDescription from '../form/OkrDescription'
 
 class KeyResultPane extends PureComponent {
   constructor(props) {
@@ -65,6 +66,8 @@ class KeyResultPane extends PureComponent {
   handleStatusChange = status => this.props.updateKeyResult({ status })
 
   handleResultCommit = result => this.props.updateKeyResult({ result })
+
+  handleDescriptionCommit = description => this.props.updateKeyResult({ description })
 
   subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get('progressRate')
@@ -240,6 +243,15 @@ class KeyResultPane extends PureComponent {
           </div>
         </Form.Field>
 
+        <Form.Field>
+          <label>説明</label>
+          <OkrDescription
+            key={keyResult.get('id')}
+            text={descText}
+            onCommit={this.handleDescriptionCommit}
+          />
+        </Form.Field>
+
         <Form.Field className="flex-field">
           <label>結果</label>
           <div className="flex-field__item">
@@ -290,7 +302,6 @@ class KeyResultPane extends PureComponent {
 KeyResultPane.propTypes = {
   // container
   isKeyResultOwner: PropTypes.bool.isRequired,
-  disableKeyResult: PropTypes.func.isRequired,
   // component
   keyResult: ImmutablePropTypes.map.isRequired,
   users: ImmutablePropTypes.list.isRequired,

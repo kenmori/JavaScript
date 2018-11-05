@@ -6,7 +6,6 @@ import OkrSelect from '../form/OkrSelect'
 import OkrList from '../form/OkrList'
 import UserSelect from '../form/UserSelect'
 import KeyResultMemberSelect from '../form/KeyResultMemberSelect'
-import OkrDescription from '../form/OkrDescription'
 import AutoInput from '../form/AutoInput'
 import PopupButton from '../util/PopupButton'
 
@@ -44,8 +43,6 @@ class KeyResultInfoPane extends PureComponent {
       updateKeyResultOwner()
     }
   }
-
-  handleDescriptionCommit = description => this.props.updateKeyResult({ description })
 
   handleCreateClick = () => this.props.openObjectiveModal(this.props.okr)
   handleRemoveClick = () => {
@@ -114,15 +111,6 @@ class KeyResultInfoPane extends PureComponent {
               remove={this.handleKeyResultMemberRemove}
             />
           </div>
-        </Form.Field>
-
-        <Form.Field>
-          <label>説明</label>
-          <OkrDescription
-            key={keyResult.get('id')}
-            text={keyResult.get('description')}
-            onCommit={this.handleDescriptionCommit}
-          />
         </Form.Field>
 
         <Form.Field>
