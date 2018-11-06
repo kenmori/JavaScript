@@ -18,7 +18,8 @@ class Department::Create < Trailblazer::Operation
 
   # TODO rename
   def perform(options, metadata)
-    binding.pry
+    department = options[:model]
+    department.save
 
     # params = {
     #   name: "開発部",
