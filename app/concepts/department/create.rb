@@ -19,15 +19,14 @@ class Department::Create < Trailblazer::Operation
   # TODO rename
   def perform(options, metadata)
     department = options[:model]
-    department.save
 
-    # params = {
-    #   name: "開発部",
-    #   display_order: 1,
-    #   organization_id: 1,
-    #   parent_department_id: nil,
-    #   owner_id: 1
-    # }
+    # TODO transaction が失敗した時の処理を RailWay でできる？
+    ApplicationRecord.transaction do
+      department.save!
 
+      owner = User.find(options[:params][:owner_id])
+      department.create_department_members_owner!(user: owner)
+      true
+    end
   end
 end
