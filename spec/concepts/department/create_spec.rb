@@ -5,7 +5,7 @@
 #   * [x] Departmentデータを作成
 #   * [x] owner_id でオーナーを登録できるようにする
 #   * [x] organization_id で Organization を登録できるようにする
-#   * [ ] parent_department_id で親 Department を登録できるようにする
+#   * [x] parent_department_id で親 Department を登録できるようにする
 # * [ ] バリデーション
 #   * [ ] 各パラメータの文字数など
 #   * [ ] 同じOrganizationに属しているユーザowner_id に指定する
@@ -35,7 +35,23 @@ RSpec.describe Department::Create, focus: true do
     expect(department.owner).to eq(admin_user)
   end
 
-  example "SUCCESS: 子部署を作成するケース"
+  example "SUCCESS: 子部署を作成するケース" do
+    parent_department = Department.create_default!(organization: organization)
+
+    params = {
+      name: "開発部",
+      display_order: 1,
+      organization_id: organization.id,
+      parent_department_id: parent_department.id,
+      owner_id: admin_user.id
+    }
+
+    result = Department::Create.(params: params)
+
+    department = result[:model]
+    expect(department.name).to eq("開発部")
+    expect(department.parent).to eq(parent_department)
+  end
 
   example "ERROR: Transaction失敗時の処理"
 end

@@ -22,6 +22,9 @@ class Department::Create < Trailblazer::Operation
 
     # TODO transaction が失敗した時の処理を RailWay でできる？
     ApplicationRecord.transaction do
+      if options[:params][:parent_department_id]
+        department.parent = Department.find(options[:params][:parent_department_id])
+      end
       department.save!
 
       owner = User.find(options[:params][:owner_id])
