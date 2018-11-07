@@ -1,17 +1,5 @@
 # frozen_string_literal: true
 
-# TODO
-# * [x] パラメータを元にデータを作成する
-#   * [x] Departmentデータを作成
-#   * [x] owner_id でオーナーを登録できるようにする
-#   * [x] organization_id で Organization を登録できるようにする
-#   * [x] parent_department_id で親 Department を登録できるようにする
-# * [ ] バリデーション
-#   * [x] 各パラメータの文字数など
-#   * [x] 同じOrganizationに属しているユーザowner_id に指定する
-#   * [ ] admin_userしか部署は操作できない (Policy 入れる？) -> これはログインユーザの話なのでコントローラで処理したほうが良い
-#   * [x] parent_department_idも同じorganizationである必要がある
-
 RSpec.describe Department::Create, focus: true do
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
@@ -139,5 +127,23 @@ RSpec.describe Department::Create, focus: true do
     )
   end
 
-  example "ERROR: Transaction失敗時の処理"
+  example "ERROR: 指定したIDが見つからないケース" do
+    params = {
+      name: "開発部",
+      display_order: 1,
+      organization_id: 0,
+      parent_department_id: 0,
+      owner_id: 0
+    }
+
+    result = Department::Create.(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to include(
+      "組織が見つかりません",
+      "親部署が見つかりません",
+      "部署責任者が見つかりません"
+    )
+  end
 end

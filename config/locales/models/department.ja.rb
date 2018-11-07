@@ -24,7 +24,8 @@ department_attrs = {
       errors: {
         models: {
           'department/create': {
-            must_be_same_organization: "は組織内から選択してください"
+            must_be_same_organization: "は組織内から選択してください",
+            not_found: "が見つかりません"
           }
         }
       }

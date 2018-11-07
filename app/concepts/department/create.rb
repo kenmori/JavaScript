@@ -23,6 +23,20 @@ class Department::Create < Trailblazer::Operation
         errors.add(:parent_department_id, :must_be_same_organization)
       end
     }
+
+    [
+      [Organization, :organization_id],
+      [User, :owner_id],
+      [Department, :parent_department_id]
+    ].each do |klass, id_column_name|
+      validate -> {
+        return if send(id_column_name).blank?
+
+        unless klass.exists?(id: send(id_column_name))
+          errors.add(id_column_name, :not_found)
+        end
+      }
+    end
   end
 
   step Model(Department, :new)
@@ -34,7 +48,6 @@ class Department::Create < Trailblazer::Operation
   def save_attributes(options, metadata)
     department = options[:model]
 
-    # TODO transaction が失敗した時の処理を RailWay でできる？
     ApplicationRecord.transaction do
       if options[:params][:parent_department_id]
         department.parent = Department.find(options[:params][:parent_department_id])
@@ -43,7 +56,8 @@ class Department::Create < Trailblazer::Operation
 
       owner = User.find(options[:params][:owner_id])
       department.create_department_members_owner!(user: owner)
-      true
     end
+
+    true
   end
 end
