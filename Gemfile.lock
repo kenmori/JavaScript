@@ -307,6 +307,8 @@ GEM
       domain_name (~> 0.5)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
+    i18n-debug (1.2.0)
+      i18n (< 2)
     ipaddress (0.8.3)
     jaro_winkler (1.5.1)
     jbuilder (2.6.4)
@@ -580,6 +582,7 @@ DEPENDENCIES
   guard-rubocop
   health-monitor-rails (~> 7.2)
   html2slim
+  i18n-debug
   jbuilder (~> 2.6.4)
   kakurenbo-puti
   listen (>= 3.0.5, < 3.2)

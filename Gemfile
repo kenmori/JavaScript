@@ -48,6 +48,7 @@ end
 
 group :development, :test do
   gem "awesome_print", require: "ap"
+  gem "i18n-debug"
   gem "guard"
   gem "guard-rspec"
   gem "guard-rubocop"
