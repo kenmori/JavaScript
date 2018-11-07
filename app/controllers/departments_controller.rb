@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  def create
-    authorize Department
+  before_action :authorize!
 
-    department_params = params["department"].merge(organization_id: current_organization.id)
-    result = Department::Create.(params: department_params)
+  def create
+    result = Department::Create.(
+      params: params["department"].merge(organization_id: current_organization.id)
+    )
 
     if result.success?
       @department = result[:model]
@@ -14,5 +15,11 @@ class DepartmentsController < ApplicationController
       errors = result["contract.default"].errors.full_messages
       render json: { error: errors }, status: 400
     end
+  end
+
+  private
+
+  def authorize!
+    authorize Department
   end
 end
