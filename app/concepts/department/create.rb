@@ -1,22 +1,3 @@
-# TODO これをどこに定義するか
-class ExistValidator < Module
-  def initialize(klass, id_column_name)
-    @validate_method = -> {
-      validate -> {
-        return if send(id_column_name).blank?
-
-        unless klass.exists?(id: send(id_column_name))
-          errors.add(id_column_name, :not_found)
-        end
-      }
-    }
-  end
-
-  def included(base)
-    base.instance_exec(&@validate_method)
-  end
-end
-
 class Department::Create < Trailblazer::Operation
   class Form < Reform::Form
     property :name
@@ -42,9 +23,9 @@ class Department::Create < Trailblazer::Operation
         errors.add(:parent_department_id, :must_be_same_organization)
       end
     }
-    include ExistValidator.new(Organization, :organization_id)
-    include ExistValidator.new(User, :owner_id)
-    include ExistValidator.new(Department, :parent_department_id)
+    include ExistsValidator.new(Organization, :organization_id)
+    include ExistsValidator.new(User, :owner_id)
+    include ExistsValidator.new(Department, :parent_department_id)
   end
 
   step Model(Department, :new)
