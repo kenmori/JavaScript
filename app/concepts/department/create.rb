@@ -12,7 +12,7 @@ class Department::Create < Trailblazer::Operation
     validates :owner_id, presence: true
     validate -> {
       unless OrganizationMember.find_by(organization_id: organization_id, user_id: owner_id)
-        errors.add(:owner_id, "は組織内のユーザーにしてください")
+        errors.add(:owner_id, :must_be_same_organization)
       end
     }
   end

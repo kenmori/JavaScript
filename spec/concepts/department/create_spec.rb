@@ -69,12 +69,11 @@ RSpec.describe Department::Create, focus: true do
 
     expect(result).to be_failure
 
-    # TODO i18n
-    expect(contract.errors.full_messages).to contain_exactly(
-      "Nameを入力してください",
-      "Display orderを入力してください",
-      "Organizationを入力してください",
-      "Ownerを入力してください"
+    expect(contract.errors.full_messages).to include(
+      "組織を入力してください",
+      "表示順を入力してください",
+      "部署名を入力してください",
+      "部署責任者を入力してください"
     )
   end
 
