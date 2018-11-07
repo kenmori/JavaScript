@@ -2,17 +2,25 @@ class Department::Create < Trailblazer::Operation
   class Form < Reform::Form
     property :name
     property :display_order
-    property :organization_id  # TODO 面倒だったら別の区分に分ける
+    property :organization_id
     property :owner_id, virtual: true
     property :parent_department_id, virtual: true
 
-    validates :name, presence: true
+    validates :name, presence: true, length: {maximum: 40, allow_blank: true}
     validates :display_order, presence: true
     validates :organization_id, presence: true
     validates :owner_id, presence: true
     validate -> {
       unless OrganizationMember.find_by(organization_id: organization_id, user_id: owner_id)
         errors.add(:owner_id, :must_be_same_organization)
+      end
+    }
+    validate -> {
+      parent_department = Department.find_by(id: parent_department_id)
+      return unless parent_department
+
+      if parent_department.organization_id != organization_id
+        errors.add(:parent_department_id, :must_be_same_organization)
       end
     }
   end
@@ -24,9 +32,6 @@ class Department::Create < Trailblazer::Operation
   step :save_attributes
 
   def save_attributes(options, metadata)
-
-
-
     department = options[:model]
 
     # TODO transaction が失敗した時の処理を RailWay でできる？

@@ -7,10 +7,10 @@
 #   * [x] organization_id で Organization を登録できるようにする
 #   * [x] parent_department_id で親 Department を登録できるようにする
 # * [ ] バリデーション
-#   * [ ] 各パラメータの文字数など
-#   * [ ] 同じOrganizationに属しているユーザowner_id に指定する
-#   * [ ] admin_userしか部署は操作できない (Policy 入れる？)
-#   * [ ] parent_department_idも同じorganizationである必要がある
+#   * [x] 各パラメータの文字数など
+#   * [x] 同じOrganizationに属しているユーザowner_id に指定する
+#   * [ ] admin_userしか部署は操作できない (Policy 入れる？) -> これはログインユーザの話なのでコントローラで処理したほうが良い
+#   * [x] parent_department_idも同じorganizationである必要がある
 
 RSpec.describe Department::Create, focus: true do
   let!(:organization) { OrganizationFactory.new.create }
@@ -68,12 +68,29 @@ RSpec.describe Department::Create, focus: true do
     contract = result["contract.default"]
 
     expect(result).to be_failure
-
     expect(contract.errors.full_messages).to include(
       "組織を入力してください",
       "表示順を入力してください",
       "部署名を入力してください",
       "部署責任者を入力してください"
+    )
+  end
+
+  example "ERROR: 部署名が40文字を超過するケース" do
+    params = {
+      name: "a" * 41,
+      display_order: 1,
+      organization_id: organization.id,
+      parent_department_id: nil,
+      owner_id: admin_user.id
+    }
+
+    result = Department::Create.(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to contain_exactly(
+      "部署名は40文字以内で入力してください"
     )
   end
 
@@ -96,17 +113,31 @@ RSpec.describe Department::Create, focus: true do
     contract = result["contract.default"]
 
     expect(result).to be_failure
-
     expect(contract.errors.full_messages).to contain_exactly(
-      "部署責任者は組織内のユーザーにしてください"
+      "部署責任者は組織内から選択してください"
     )
   end
 
-  # * [ ] admin_userしか部署は操作できない (Policy 入れる？)
+  example "ERROR: 親部署のOrganizationと指定したorganizatio_idが異なるケース" do
+    other_org = OrganizationFactory.new.create(name: "other")
+    other_org_department = Department.create_default!(organization: other_org)
 
+    params = {
+      name: "開発部",
+      display_order: 1,
+      organization_id: organization.id,
+      parent_department_id: other_org_department.id,
+      owner_id: admin_user.id
+    }
 
-  # * [ ] parent_department_idも同じorganizationである必要がある
+    result = Department::Create.(params: params)
+    contract = result["contract.default"]
 
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to contain_exactly(
+      "親部署は組織内から選択してください"
+    )
+  end
 
   example "ERROR: Transaction失敗時の処理"
 end

@@ -24,11 +24,7 @@ department_attrs = {
       errors: {
         models: {
           'department/create': {
-            attributes: {
-              owner_id: {
-                must_be_same_organization: "は組織内のユーザーにしてください"
-              }
-            }
+            must_be_same_organization: "は組織内から選択してください"
           }
         }
       }
