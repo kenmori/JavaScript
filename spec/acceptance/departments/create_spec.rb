@@ -65,6 +65,22 @@ RSpec.resource "POST /departments", warden: true do
       )
     end
 
-    example "ERROR:"
+    example "ERROR: Singin user is not admin" do
+      explanation "サインインユーザがadminではない場合エラー"
+
+      login_as(login_user)
+
+      do_request(
+        department: {
+          name: "開発部",
+          display_order: 1,
+          parent_department_id: nil,
+          owner_id: login_user.id,
+        }
+      )
+
+      expect(status).to eq(400)
+      pp parse_response_body
+    end
   end
 end
