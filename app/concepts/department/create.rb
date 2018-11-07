@@ -3,21 +3,30 @@ class Department::Create < Trailblazer::Operation
     property :name
     property :display_order
     property :organization_id  # TODO 面倒だったら別の区分に分ける
-    property :parent_department_id, virtual: true
     property :owner_id, virtual: true
+    property :parent_department_id, virtual: true
 
-    # validates
+    validates :name, presence: true
+    validates :display_order, presence: true
+    validates :organization_id, presence: true
+    validates :owner_id, presence: true
+    validate -> {
+      unless OrganizationMember.find_by(organization_id: organization_id, user_id: owner_id)
+        errors.add(:owner_id, "は組織内のユーザーにしてください")
+      end
+    }
   end
 
-  step Model(Department, :new)  # options["model"] に model が入る
+  step Model(Department, :new)
   step Contract::Build(constant: Form)
   step Contract::Validate()
-  # failure  :log_error!
   step Contract::Persist(method: :sync)
-  step :perform
+  step :save_attributes
 
-  # TODO rename
-  def perform(options, metadata)
+  def save_attributes(options, metadata)
+
+
+
     department = options[:model]
 
     # TODO transaction が失敗した時の処理を RailWay でできる？
