@@ -34,7 +34,10 @@ RSpec.resource "POST /departments", warden: true do
       )
 
       expect(status).to eq(201)
+      # TODO ちゃんとかく
       pp parse_response_body
     end
+
+    example "ERROR:"
   end
 end
