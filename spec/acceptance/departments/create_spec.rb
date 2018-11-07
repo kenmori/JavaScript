@@ -13,29 +13,56 @@ RSpec.resource "POST /departments", warden: true do
 
   post "/departments", focus: true do
     with_options scope: :department do
-      parameter :name, "部署名", type: :string, required: true
-      parameter :owner_id, "部署責任者ID", type: :integer, required: true
-      parameter :department_id, "親部署ID", type: :integer
+      parameter :name, "部署名(最大40文字)", type: :string, required: true
+      parameter :display_order, "同じ深さのノード間での表示順", type: :integer, required: true
+      parameter :owner_id, "部署責任者ID(サインインユーザーと同じ組織に属していること)", type: :integer, required: true
+      parameter :parent_department_id, "親部署ID(サインインユーザーと同じ組織に属していること)", type: :integer
     end
 
-    example "SUCCESS:" do
-      # NOTE
-      # admin_userしか部署は操作できない
-      # 同じOrganizationに属しているユーザをowner id に指定する
-      # department id も同じorganizationである必要がある
+    example "SUCCESS: Create a new department" do
+      explanation "新しい部署を作成する"
 
       do_request(
         department: {
           name: "開発部",
+          display_order: 1,
+          parent_department_id: nil,
           owner_id: login_user.id,
-          department_id: nil,
-          display_order: 0
         }
       )
 
       expect(status).to eq(201)
-      # TODO ちゃんとかく
-      pp parse_response_body
+      expect(parse_response_body).to include(
+        "department" => {
+          "id" => a_kind_of(Integer),
+          "organization_id" => organization.id,
+          "display_order" => 1,
+          "name" => "開発部",
+          "created_at" => be_time_iso8601,
+          "updated_at" => be_time_iso8601
+        }
+      )
+    end
+
+    example "ERROR: Do not input required params" do
+      explanation "必須項目を入力しない場合エラー"
+
+      do_request(
+        department: {
+          name: nil,
+          display_order: nil,
+          parent_department_id: nil,
+          owner_id: nil,
+        }
+      )
+
+      expect(status).to eq(400)
+      expect(parse_response_body("error")).to include(
+        "部署名を入力してください",
+        "表示順を入力してください",
+        "部署責任者を入力してください",
+        "部署責任者は組織内から選択してください"
+      )
     end
 
     example "ERROR:"
