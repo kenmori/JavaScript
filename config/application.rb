@@ -22,7 +22,7 @@ module Resily
   class Application < Rails::Application
     config.time_zone = "Tokyo"
     I18n.enforce_available_locales = true
-    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}").to_s]
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "models", "*.{rb,yml}").to_s]
     config.i18n.default_locale = :ja
     config.generators do |g|
       g.orm :active_record
