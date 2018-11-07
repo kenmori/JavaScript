@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Department::Create, focus: true do
+RSpec.describe Department::Create do
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
 

@@ -2,6 +2,8 @@
 
 class DepartmentsController < ApplicationController
   def create
+    authorize Department
+
     department_params = params["department"].merge(organization_id: current_organization.id)
     result = Department::Create.(params: department_params)
 

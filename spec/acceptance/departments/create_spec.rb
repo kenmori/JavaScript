@@ -11,7 +11,7 @@ RSpec.resource "POST /departments", warden: true do
     login_as(admin_user)
   end
 
-  post "/departments", focus: true do
+  post "/departments" do
     with_options scope: :department do
       parameter :name, "部署名(最大40文字)", type: :string, required: true
       parameter :display_order, "同じ深さのノード間での表示順", type: :integer, required: true
@@ -65,7 +65,7 @@ RSpec.resource "POST /departments", warden: true do
       )
     end
 
-    example "ERROR: Singin user is not admin" do
+    example "ERROR: Singin user is not admin", gaffe: true do
       explanation "サインインユーザがadminではない場合エラー"
 
       login_as(login_user)
@@ -79,8 +79,8 @@ RSpec.resource "POST /departments", warden: true do
         }
       )
 
-      expect(status).to eq(400)
-      pp parse_response_body
+      expect(status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end
 end
