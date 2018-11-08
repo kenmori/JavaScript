@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "abstract_factory"
+
 class DepartmentFactory < AbstractFactory
   def initialize(organization:)
     super(Department.new)
