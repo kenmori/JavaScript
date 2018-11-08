@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ValidationHelper
+  # NOTE 他の述語が必要な場合は追加してください
   VALIDATES_ATTRS_DSL = {
     required: { presence: true },
     default_text_field: { length: { maximum: 40, allow_blank: true } }
