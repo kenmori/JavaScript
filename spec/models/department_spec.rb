@@ -16,13 +16,17 @@ RSpec.describe Department, type: :model do
         admin: false
       )
     end
-    let!(:department_fc) { DepartmentFactory.new(organization: organization) }
-    let!(:department) { department_fc.create }
+    let!(:department) {
+      DepartmentFactory.new(
+        organization: organization,
+        owner: admin_user
+      ).create
+    }
 
     before do
-      department_fc.add_user(user: admin_user, role: :owner)
-      department_fc.add_user(user: member_user_1, role: :member)
-      department_fc.add_user(user: member_user_2, role: :member)
+      DepartmentMemberFactory.new(department: department, user: member_user_1).create
+      DepartmentMemberFactory.new(department: department, user: member_user_2).create
+      department.reload
     end
 
     example "#users" do
