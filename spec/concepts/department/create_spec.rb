@@ -13,7 +13,7 @@ RSpec.describe Department::Create do
       owner_id: admin_user.id
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     department = result[:model]
 
     expect(result).to be_success
@@ -35,7 +35,7 @@ RSpec.describe Department::Create do
       owner_id: admin_user.id
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     department = result[:model]
 
     expect(result).to be_success
@@ -52,7 +52,7 @@ RSpec.describe Department::Create do
       owner_id: nil
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -73,7 +73,7 @@ RSpec.describe Department::Create do
       owner_id: admin_user.id
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -97,7 +97,7 @@ RSpec.describe Department::Create do
       owner_id: other_org_user.id
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -118,7 +118,7 @@ RSpec.describe Department::Create do
       owner_id: admin_user.id
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -136,7 +136,7 @@ RSpec.describe Department::Create do
       owner_id: 0
     }
 
-    result = Department::Create.(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure

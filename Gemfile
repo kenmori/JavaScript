@@ -25,14 +25,14 @@ gem "kakurenbo-puti"
 gem "mysql2", "~> 0.5.2"
 gem "oj", "~> 3.6.10"
 gem "puma", "~> 3.12.0"
+gem "pundit"
 gem "rails", "~> 5.2.1"
 gem "redis-namespace", "~> 1.6"
 gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
-gem "webpacker", "= 3.5.5"
 gem "trailblazer-rails"
-gem "pundit"
+gem "webpacker", "= 3.5.5"
 
 group :development do
   gem "annotate"
@@ -49,10 +49,10 @@ end
 
 group :development, :test do
   gem "awesome_print", require: "ap"
-  gem "i18n-debug"
   gem "guard"
   gem "guard-rspec"
   gem "guard-rubocop"
+  gem "i18n-debug"
   gem "pry-byebug"
   gem "pry-rails"
   gem "rspec-rails"

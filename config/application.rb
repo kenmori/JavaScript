@@ -75,7 +75,7 @@ module Resily
     config.active_job.queue_adapter = :sidekiq
 
     config.action_dispatch.rescue_responses.merge!(
-      'Pundit::NotAuthorizedError' => :forbidden
+      "Pundit::NotAuthorizedError" => :forbidden
     )
   end
 end

@@ -4,7 +4,7 @@ class DepartmentsController < ApplicationController
   before_action :authorize!
 
   def create
-    result = Department::Create.(
+    result = Department::Create.call(
       params: params["department"].merge(organization_id: current_organization.id)
     )
 
@@ -19,7 +19,7 @@ class DepartmentsController < ApplicationController
 
   private
 
-  def authorize!
-    authorize Department
-  end
+    def authorize!
+      authorize Department
+    end
 end

@@ -55,7 +55,7 @@ RSpec.describe Department, type: :model do
     end
 
     example "部署名は最大40文字" do
-      department = Department.new(name: 'a' * 41)
+      department = Department.new(name: "a" * 41)
 
       expect(department).not_to be_valid
       expect(department.errors.full_messages).to include(

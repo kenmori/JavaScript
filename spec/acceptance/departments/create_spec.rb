@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
@@ -27,7 +29,7 @@ RSpec.resource "POST /departments", warden: true do
           name: "開発部",
           display_order: 1,
           parent_department_id: nil,
-          owner_id: login_user.id,
+          owner_id: login_user.id
         }
       )
 
@@ -52,7 +54,7 @@ RSpec.resource "POST /departments", warden: true do
           name: nil,
           display_order: nil,
           parent_department_id: nil,
-          owner_id: nil,
+          owner_id: nil
         }
       )
 
@@ -75,7 +77,7 @@ RSpec.resource "POST /departments", warden: true do
           name: "開発部",
           display_order: 1,
           parent_department_id: nil,
-          owner_id: login_user.id,
+          owner_id: login_user.id
         }
       )
 

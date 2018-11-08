@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # NOTE バリデーションを複数のクラスで流用できるようにするためのクラス。
 # ValidationSchema を継承したクラスを作ってください。
 #
@@ -56,7 +58,7 @@ class ValidationSchema < Module
 
   class << self
     def setting(name, lambda)
-      self.contexts.merge!(name => lambda)
+      contexts.merge!(name => lambda)
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DepartmentValidation < ValidationSchema
   setting :default, -> {
     validates :name, VH[:required, :default_text_field]

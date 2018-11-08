@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Department::Create < Trailblazer::Operation
   class Form < Reform::Form
     property :name
@@ -15,7 +17,7 @@ class Department::Create < Trailblazer::Operation
   step Contract::Persist(method: :sync)
   step :save_attributes
 
-  def save_attributes(options, metadata)
+  def save_attributes(options, _metadata)
     department = options[:model]
 
     ApplicationRecord.transaction do
