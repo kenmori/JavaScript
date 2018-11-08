@@ -3,6 +3,7 @@ require_dependency Rails.root.join('config/locales/share/model_names')
 department_attrs = {
   display_order: "表示順",
   name: "部署名",
+  organization: model_names[:organization],
   organization_id: model_names[:organization]
 }
 
