@@ -1,6 +1,6 @@
-require_relative "abstract_factory"
+require_relative "abstract_active_record_factory"
 
-class DepartmentMemberFactory < AbstractFactory
+class DepartmentMemberFactory < AbstractActiveRecordFactory
   def initialize(department:, user:)
     super(DepartmentMember.new)
     @department = department
