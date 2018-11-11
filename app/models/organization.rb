@@ -25,11 +25,13 @@ class Organization < ApplicationRecord
   has_many :groups, dependent: :destroy
   has_many :organization_members, dependent: :destroy
   has_many :key_result_comment_labels, dependent: :destroy
+  has_many :objective_comment_labels, dependent: :destroy
   has_many :users, through: :organization_members
   has_many :okr_periods, -> { order(:start_date) }, dependent: :destroy
   has_many :departments, dependent: :destroy
 
   after_create :create_key_result_comment_labels
+  after_create :create_objective_comment_labels
 
   mount_uploader :logo, LogoUploader
 
@@ -54,6 +56,16 @@ class Organization < ApplicationRecord
     def create_key_result_comment_labels
       PresetCommentLabels::KeyResult::DEFAULT_LABELS.each do |tag|
         KeyResultCommentLabel.create!(
+          name: tag[:name],
+          color: tag[:color],
+          organization: self
+        )
+      end
+    end
+
+    def create_objective_comment_labels
+      PresetObjectiveCommentLabels::Objective::DEFAULT_LABELS.each do |tag|
+        ObjectiveCommentLabel.create!(
           name: tag[:name],
           color: tag[:color],
           organization: self

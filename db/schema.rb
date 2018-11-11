@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_035106) do
+ActiveRecord::Schema.define(version: 2018_11_07_175906) do
 
   create_table "bounce_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -120,6 +120,24 @@ ActiveRecord::Schema.define(version: 2018_10_31_035106) do
     t.datetime "disabled_at"
     t.index ["created_at"], name: "index_key_results_on_created_at"
     t.index ["objective_id"], name: "index_key_results_on_objective_id"
+  end
+
+  create_table "objective_comment_labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.bigint "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "objective_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "objective_id"
+    t.integer "user_id"
+    t.text "text"
+    t.integer "objective_comment_id"
+    t.boolean "show_meeting_board"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "objective_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
