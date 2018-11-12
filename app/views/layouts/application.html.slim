@@ -2,7 +2,7 @@ doctype html
 html
   head
     title Resily
-    - if Rails.env.production?
+    - if Rails.env.in?(%w(production staging))
       link rel='icon' href='/public/favicon.ico'
     = csrf_meta_tags
     = include_gon
