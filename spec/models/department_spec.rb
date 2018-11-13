@@ -16,13 +16,17 @@ RSpec.describe Department, type: :model do
         admin: false
       )
     end
-    let!(:department_fc) { DepartmentFactory.new(organization: organization) }
-    let!(:department) { department_fc.create }
+    let!(:department) {
+      DepartmentFactory.new(
+        organization: organization,
+        owner: admin_user
+      ).create
+    }
 
     before do
-      department_fc.add_user(user: admin_user, role: :owner)
-      department_fc.add_user(user: member_user_1, role: :member)
-      department_fc.add_user(user: member_user_2, role: :member)
+      DepartmentMemberFactory.new(department: department, user: member_user_1).create
+      DepartmentMemberFactory.new(department: department, user: member_user_2).create
+      department.reload
     end
 
     example "#users" do
@@ -35,6 +39,41 @@ RSpec.describe Department, type: :model do
 
     example "#member" do
       expect(department.members).to contain_exactly(member_user_1, member_user_2)
+    end
+  end
+
+  describe "validation" do
+    example "required" do
+      department = Department.new(
+        name: nil,
+        display_order: nil,
+        organization_id: nil
+      )
+
+      expect(department).not_to be_valid
+      expect(department.errors.full_messages).to include(
+        "部署名を入力してください",
+        "表示順を入力してください",
+        "組織を入力してください"
+      )
+    end
+
+    example "部署名は最大40文字" do
+      department = Department.new(name: "a" * 41)
+
+      expect(department).not_to be_valid
+      expect(department.errors.full_messages).to include(
+        "部署名は40文字以内で入力してください"
+      )
+    end
+
+    example "organization_idが見つかること" do
+      department = Department.new(organization_id: 0)
+
+      expect(department).not_to be_valid
+      expect(department.errors.full_messages).to include(
+        "組織は見つかりませんでした。"
+      )
     end
   end
 

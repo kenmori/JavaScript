@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "abstract_factory"
+require_relative "abstract_active_record_factory"
 
-class OrganizationFactory < AbstractFactory
+class OrganizationFactory < AbstractActiveRecordFactory
   def initialize
     super(Organization.new)
   end

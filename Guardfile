@@ -10,5 +10,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/acceptance/#{m[1]}/#{m[2]}_spec.rb" }
   watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch(%r{\Aapp/controllers/(.+)_controller\.rb\z})  { |m| Dir["spec/acceptance/#{m[1]}/*_spec.rb"] }
+  watch(%r{^app/controllers/(.+)_controller\.rb$})    { |m| Dir["spec/acceptance/#{m[1]}/*_spec.rb"] }
+  watch(%r{^app/concepts/(.+)/(.+)\.rb$})             { |m| "spec/concepts/#{m[1]}/#{m[2]}_spec.rb" }
+  watch(%r{^app/validations/(.+)\.rb$})               { |m| "spec/validations/#{m[1]}_spec.rb" }
 end

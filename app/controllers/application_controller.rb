@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include ErrorJsonResponder
+  include Pundit
 
   respond_to :html, :json
 

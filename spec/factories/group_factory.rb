@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "abstract_factory"
+require_relative "abstract_active_record_factory"
 
-class GroupFactory < AbstractFactory
+class GroupFactory < AbstractActiveRecordFactory
   def initialize(organization:)
     super(Group.new)
     @organization = organization

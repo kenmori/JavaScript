@@ -22,6 +22,8 @@ class Department < ApplicationRecord
   has_ancestry
   soft_deletable
 
+  include DepartmentValidation.new
+
   belongs_to :organization
   has_many :department_members, dependent: :destroy
   has_many :users, through: :department_members

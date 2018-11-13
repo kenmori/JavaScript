@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AbstractFactory
+class AbstractActiveRecordFactory
   def initialize(model)
     @model = model
   end

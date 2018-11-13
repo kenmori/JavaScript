@@ -1,28 +1,25 @@
 # frozen_string_literal: true
 
-class DepartmentFactory < AbstractFactory
-  def initialize(organization:)
-    super(Department.new)
-    @organization = organization
-  end
-  attr_reader :organization
+require_relative "abstract_operation_factory"
 
-  def add_user(user:, role:)
-    DepartmentMember.create!(
-      department: @model,
-      user: user,
-      role: role
-    )
+class DepartmentFactory < AbstractOperationFactory
+  def initialize(organization:, owner:, parent_department: nil)
+    super(Department::Create)
+    @organization = organization
+    @owner = owner
+    @parent_department = parent_department
   end
+  attr_reader :organization, :owner, :parent_department
 
   private
 
     def default_params
       {
-        organization: organization,
         name: "代表",
         display_order: 1,
-        parent: nil
+        organization_id: organization.id,
+        parent_department_id: parent_department&.id,
+        owner_id: owner.id
       }
     end
 end
