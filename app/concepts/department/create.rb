@@ -17,16 +17,16 @@ class Department::Create < Trailblazer::Operation
   step Contract::Persist(method: :sync)
   step :save_attributes
 
-  def save_attributes(options, _metadata)
+  def save_attributes(options, params:, **_metadata)
     department = options[:model]
 
     ApplicationRecord.transaction do
-      if options[:params][:parent_department_id]
-        department.parent = Department.find(options[:params][:parent_department_id])
+      if params[:parent_department_id]
+        department.parent = Department.find(params[:parent_department_id])
       end
       department.save!
 
-      owner = User.find(options[:params][:owner_id])
+      owner = User.find(params[:owner_id])
       department.create_department_members_owner!(user: owner)
     end
 
