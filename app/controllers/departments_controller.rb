@@ -4,16 +4,20 @@ class DepartmentsController < ApplicationController
   before_action :authorize!
 
   def index
-    # TODO これは Department::Index にする? CQRS の Queryっぽい感じで
-    roots =
-      if params[:ids]
-        Department.where(organization: current_organization, id: params[:ids])
-      else
-        Department.where(organization: current_organization).roots
-      end
-    departments = roots.map{|node| node.subtree.arrange_serializable(order: :display_order).first }
+    result = Department::Index.call(
+      params: {
+        organization_id: current_organization.id,
+        ids: params[:ids]
+      }
+    )
 
-    render json: {departments: departments}, status: :ok
+    if result.success?
+      render json: {departments: result[:query]}, status: :ok
+    else
+      # TODO 共通化メソッドを使う
+      errors = result["contract.default"].errors.full_messages
+      render json: { error: errors }, status: 400
+    end
   end
 
   def create
@@ -25,6 +29,7 @@ class DepartmentsController < ApplicationController
       @department = result[:model]
       render status: :created
     else
+      # TODO 共通化メソッドを使う
       errors = result["contract.default"].errors.full_messages
       render json: { error: errors }, status: 400
     end
