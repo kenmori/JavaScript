@@ -17,6 +17,10 @@ module ErrorJsonResponder
   extend ActiveSupport::Concern
 
   private
+    # render 400
+    def bad_request(message)
+      render_with_error(:bad_request, message)
+    end
 
     # render 403
     def forbidden(message = "許可されていない操作です")
@@ -33,9 +37,24 @@ module ErrorJsonResponder
       render_with_error(:unprocessable_entity, errors)
     end
 
+    # TODO DEPRECATION WARNING 仕様が古いので render_error_json を使うこと
     # render_with_error is render json of error.
     def render_with_error(code, message)
-      # TODO: structureの定義を見直す
       render json: { error: message }, status: code
+    end
+
+    def render_error_json(status_code, messages)
+      msgs =
+        case messages
+        when Array
+          messages
+        when String
+          [messages]
+        else
+          fail ArgumentError, "\"messages\" must be Array or String"
+        end
+      error_format = {errors: msgs.map {|msg| {message: msg}}}
+
+      render json: error_format, status: status_code
     end
 end

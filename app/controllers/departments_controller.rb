@@ -14,9 +14,7 @@ class DepartmentsController < ApplicationController
     if result.success?
       render json: {departments: result[:query]}, status: :ok
     else
-      # TODO 共通化メソッドを使う
-      errors = result["contract.default"].errors.full_messages
-      render json: { error: errors }, status: 400
+      render_error_json(:bad_request, result["contract.default"].errors.full_messages)
     end
   end
 
@@ -29,9 +27,7 @@ class DepartmentsController < ApplicationController
       @department = result[:model]
       render status: :created
     else
-      # TODO 共通化メソッドを使う
-      errors = result["contract.default"].errors.full_messages
-      render json: { error: errors }, status: 400
+      render_error_json(:bad_request, result["contract.default"].errors.full_messages)
     end
   end
 

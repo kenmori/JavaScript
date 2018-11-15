@@ -57,7 +57,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
       do_request(id: 0)
 
       expect(status).to eq(404)
-      expect(parse_response_body("error")).to eq("操作の対象が存在しません")
+      expect(parse_error).to eq(["操作の対象が存在しません"])
     end
 
     example "ERROR: When the Organization of KeyResult to be specified is different" do
