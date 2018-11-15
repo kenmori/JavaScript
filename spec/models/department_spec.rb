@@ -72,7 +72,7 @@ RSpec.describe Department, type: :model do
 
       expect(department).not_to be_valid
       expect(department.errors.full_messages).to include(
-        "組織は見つかりませんでした。"
+        "組織は見つかりませんでした"
       )
     end
   end
