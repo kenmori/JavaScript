@@ -5,63 +5,7 @@ RSpec.resource "GET /departments", warden: true do
   explanation "departmnets#index"
 
   include RequestHeaderJson
-  include OrganizationDataset
-
-  before do
-    # organization の部署
-    DepartmentFactory.new(organization: organization, owner: admin_user).create(
-      name: "代表",
-      display_order: 1
-    ).tap do |root_department|
-      DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: root_department).create(
-        name: "開発部",
-        display_order: 1
-      ).tap do |dev_department|
-        DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: dev_department).create(
-          name: "金融部",
-          display_order: 1
-        )
-        DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: dev_department).create(
-          name: "Web部",
-          display_order: 2
-        )
-      end
-
-      DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: root_department).create(
-        name: "営業部",
-        display_order: 2
-      ).tap do |business_department|
-        DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: business_department).create(
-          name: "クラサポ部",
-          display_order: 1
-        )
-        DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: business_department).create(
-          name: "販売部",
-          display_order: 2
-        )
-      end
-
-      DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: root_department).create(
-        name: "経理部",
-        display_order: 3
-      )
-    end
-
-    # other_org の部署
-    DepartmentFactory.new(organization: other_org, owner: other_org_user).create(
-      name: "企画部",
-      display_order: 1
-    ).tap do |root_department|
-      DepartmentFactory.new(organization: other_org, owner: other_org_user, parent_department: root_department).create(
-        name: "情報課",
-        display_order: 1
-      )
-      DepartmentFactory.new(organization: other_org, owner: other_org_user, parent_department: root_department).create(
-        name: "促進課",
-        display_order: 2
-      )
-    end
-  end
+  include DepartmentDataset
 
   let(:l_name) { ->(h) { h['name'] } }
 
@@ -107,6 +51,6 @@ RSpec.resource "GET /departments", warden: true do
       expect(root.dig("children").map(&l_name)).to contain_exactly("金融部", "Web部")
     end
 
-    example "ERROR: "  # 他のOrganizationの部署を取得しようとするケース
+    example "ERROR: "  # TODO 他のOrganizationの部署を取得しようとするケース
   end
 end
