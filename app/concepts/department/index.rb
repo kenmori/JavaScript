@@ -1,4 +1,14 @@
 class Department::Index < Trailblazer::Operation
+  class Form < Reform::Form
+    property :organization_id, virtual: true
+    property :ids, virtual: true
+
+    include DepartmentValidation.new(:index)
+  end
+
+  step Model(Class, :new)
+  step Contract::Build(constant: Form)
+  step Contract::Validate()
   step :query
 
   def query(options, params:, **_metadata)

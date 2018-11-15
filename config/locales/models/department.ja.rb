@@ -22,14 +22,10 @@ department_attrs = {
           **department_attrs,
           owner_id: "部署責任者",
           parent_department_id: "親部署"
-        }
-      },
-      errors: {
-        models: {
-          'department/create': {
-            must_be_same_organization: "は組織内から選択してください",
-            not_found: "が見つかりません"
-          }
+        },
+        'department/index': {
+          organization_id: model_names[:organization],
+          ids: "部署ID"
         }
       }
     }

@@ -25,4 +25,14 @@ class DepartmentValidation < ValidationSchema
       end
     }
   }
+  setting :index, -> {
+    validates :organization_id, VH[:required]
+    validate -> {
+      return if ids.blank?
+
+      unless Department.exists?(organization_id: organization_id, id: ids)
+        errors.add(:ids, :must_be_same_organization)
+      end
+    }
+  }
 end
