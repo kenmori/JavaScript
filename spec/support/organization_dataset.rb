@@ -26,6 +26,7 @@ module OrganizationDataset
       end
     end
 
+    # TODO login 以外で使うこともあるためリネームする
     let!(:login_user) do
       UserFactory.new(organization: organization).create(
         email: "user2@example.com",

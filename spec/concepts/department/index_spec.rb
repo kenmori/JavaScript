@@ -24,7 +24,6 @@ RSpec.describe Department::Index do
       "children" => a_kind_of(Array)
     )
 
-    expect(root.dig("name")).to eq("代表")
     expect(root.dig("children").map(&l_name)).to contain_exactly("開発部", "営業部", "経理部")
     expect(root.dig("children", 0, "children").map(&l_name)).to contain_exactly("金融部", "Web部")
     expect(root.dig("children", 1, "children").map(&l_name)).to contain_exactly("クラサポ部", "販売部")
@@ -84,5 +83,37 @@ RSpec.describe Department::Index do
     )
   end
 
-  example "SUCCESS: 複数人が部署に所属しているケース"
+  context "複数人が部署に所属している場合" do
+    before do
+      DepartmentMemberFactory.new(department: dep_1, user: other_user).create
+      DepartmentMemberFactory.new(department: dep_1, user: login_user).create
+
+      UserFactory.new(organization: organization).create(email: "dep_1_1@example.com").tap do |user|
+        DepartmentMemberFactory.new(department: dep_1_1, user: user).create
+      end
+    end
+
+    example "SUCCESS: user_countで所属人数を返すこと" do
+      params = {
+        organization_id: organization.id,
+        ids: [dep_1.id]
+      }
+
+      result = described_class.call(params: params)
+
+      root = result[:query].first
+      expect(root).to include(
+        "name" => "代表",
+        "user_count" => 3
+      )
+      expect(root.dig("children", 0)).to include(
+        "name" => "開発部",
+        "user_count" => 2
+      )
+      expect(root.dig("children", 1)).to include(
+        "name" => "営業部",
+        "user_count" => 1
+      )
+    end
+  end
 end
