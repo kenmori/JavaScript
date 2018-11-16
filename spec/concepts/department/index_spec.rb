@@ -70,7 +70,7 @@ RSpec.describe Department::Index do
     )
   end
 
-  example "ERROR: 必須項目を入録しない場合" do
+  example "ERROR: 必須項目を入力しない場合" do
     result = described_class.call(params: {})
 
     contract = result["contract.default"]
