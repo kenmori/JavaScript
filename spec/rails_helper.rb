@@ -51,6 +51,7 @@ RSpec.configure do |config|
   # setup shared context
   config.include_context "enable warden test mode", warden: true
   config.include_context "enable gaffe", gaffe: true
+  config.include_context "disable bullet", bullet: false
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -77,12 +78,24 @@ RSpec.configure do |config|
     # DatabaseRewinder.clean_with nil, except: %w()
   end
 
-  config.before do |_example|
+  config.before do |example|
     ActionMailer::Base.deliveries.clear
   end
 
-  config.after do |_example|
+  config.after do |example|
     DatabaseRewinder.clean
+  end
+
+  config.before(:each) do
+    if Bullet.enable?
+      Bullet.start_request
+    end
+  end
+
+  config.after(:each) do
+    if Bullet.enable?
+      Bullet.end_request
+    end
   end
 end
 

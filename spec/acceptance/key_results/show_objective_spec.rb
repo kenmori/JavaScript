@@ -16,7 +16,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
   get "/key_results/:id/objective" do
     parameter :id, "KeyResult ID", type: :integer, required: true
 
-    example "SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user" do
+    example "SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user", bullet: false do
       explanation "KeyResultのOwnerがサインインユーザと同じ組織である場合、Objective一覧を取得することができる"
 
       do_request(id: key_result.id)
