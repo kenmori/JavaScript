@@ -37,9 +37,7 @@ RSpec.resource "GET /departments", warden: true do
     example "SUCCESS: Index departments of ids' subtree" do
       explanation "指定したidsの部署以下の情報のみを返す"
 
-      dev_department = Department.find_by(name: "開発部")
-
-      do_request(ids: [dev_department.id])
+      do_request(ids: [dep_1_1.id])
 
       expect(status).to eq(200)
 
@@ -51,6 +49,14 @@ RSpec.resource "GET /departments", warden: true do
       expect(root.dig("children").map(&l_name)).to contain_exactly("金融部", "Web部")
     end
 
-    example "ERROR: "  # TODO 他のOrganizationの部署を取得しようとするケース
+    example "ERROR: When trying to get department information of another organization" do
+      explanation "他の組織の部署を取得しようとする場合エラー"
+
+      do_request(ids: [dep_2.id])
+
+      expect(status).to eq(400)
+
+      expect(parse_error).to eq(["部署IDは組織内から選択してください"])
+    end
   end
 end
