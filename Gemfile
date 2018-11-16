@@ -38,7 +38,6 @@ group :development do
   gem "annotate"
   gem "better_errors"
   gem "binding_of_caller"
-  gem "bullet"
   gem "html2slim"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "meta_request"
@@ -49,6 +48,7 @@ end
 
 group :development, :test do
   gem "awesome_print", require: "ap"
+  gem "bullet"
   gem "guard"
   gem "guard-rspec"
   gem "guard-rubocop"
