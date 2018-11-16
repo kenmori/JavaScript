@@ -22,7 +22,7 @@ class Department::Index < Trailblazer::Operation
       end
 
     options[:query] = roots.map do |node|
-      node.subtree.arrange_serializable(order: :display_order) do |parent, children|
+      node.subtree.includes(:department_members).arrange_serializable(order: :display_order) do |parent, children|
         {
           id: parent.id,
           soft_destroyed_at: parent.soft_destroyed_at,
