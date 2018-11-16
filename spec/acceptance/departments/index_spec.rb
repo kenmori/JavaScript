@@ -58,5 +58,16 @@ RSpec.resource "GET /departments", warden: true do
 
       expect(parse_response_error).to eq(["部署IDは組織内から選択してください"])
     end
+
+    example "ERROR: Singin user is not admin", gaffe: true do
+      explanation "サインインユーザがadminではない場合エラー"
+
+      login_as(login_user)
+
+      do_request()
+
+      expect(status).to eq(403)
+      expect(parse_response_error).to eq(["許可されていない操作です"])
+    end
   end
 end

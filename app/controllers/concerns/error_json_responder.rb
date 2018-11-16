@@ -17,11 +17,6 @@ module ErrorJsonResponder
   extend ActiveSupport::Concern
 
   private
-    # render 400
-    def bad_request(message)
-      render_with_error(:bad_request, message)
-    end
-
     # render 403
     def forbidden(message = "許可されていない操作です")
       render_with_error(:forbidden, message)
