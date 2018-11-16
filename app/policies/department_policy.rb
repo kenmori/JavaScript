@@ -15,7 +15,7 @@ class DepartmentPolicy
 
   private
 
-  def is_current_user_admin?
-    @user.admin?
-  end
+    def is_current_user_admin?
+      @user.admin?
+    end
 end

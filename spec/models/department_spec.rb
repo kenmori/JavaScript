@@ -16,12 +16,12 @@ RSpec.describe Department, type: :model do
         admin: false
       )
     end
-    let!(:department) {
+    let!(:department) do
       DepartmentFactory.new(
         organization: organization,
         owner: admin_user
       ).create
-    }
+    end
 
     before do
       DepartmentMemberFactory.new(department: department, user: member_user_1).create

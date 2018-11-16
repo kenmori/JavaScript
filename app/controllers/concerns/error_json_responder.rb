@@ -17,6 +17,7 @@ module ErrorJsonResponder
   extend ActiveSupport::Concern
 
   private
+
     # render 403
     def forbidden(message = "許可されていない操作です")
       render_with_error(:forbidden, message)
@@ -32,7 +33,7 @@ module ErrorJsonResponder
       render_with_error(:unprocessable_entity, errors)
     end
 
-    # TODO DEPRECATION WARNING 仕様が古いので render_error_json を使うこと
+    # TODO: DEPRECATION WARNING 仕様が古いので render_error_json を使うこと
     # render_with_error is render json of error.
     def render_with_error(code, message)
       render json: { error: message }, status: code
@@ -46,9 +47,9 @@ module ErrorJsonResponder
         when String
           [messages]
         else
-          fail ArgumentError, "\"messages\" must be Array or String"
+          raise ArgumentError, "\"messages\" must be Array or String"
         end
-      error_format = {errors: msgs.map {|msg| {message: msg}}}
+      error_format = { errors: msgs.map { |msg| { message: msg } } }
 
       render json: error_format, status: status_code
     end

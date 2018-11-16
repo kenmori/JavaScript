@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
@@ -7,19 +9,19 @@ RSpec.resource "GET /departments", warden: true do
   include RequestHeaderJson
   include DepartmentDataset
 
-  let(:l_name) { ->(h) { h['name'] } }
+  let(:l_name) { ->(h) { h["name"] } }
 
   before do
     login_as(admin_user)
   end
 
   get "/departments" do
-    parameter :ids, "指定した部署以下にある部署の情報を返す。未指定の場合はサインイン中の組織の部署を全て返す", type: :array, items: {type: :integer}
+    parameter :ids, "指定した部署以下にある部署の情報を返す。未指定の場合はサインイン中の組織の部署を全て返す", type: :array, items: { type: :integer }
 
     example "SUCCESS: Index departments" do
       explanation "サインインユーザーの組織の部署情報を全て返す"
 
-      do_request()
+      do_request
 
       expect(status).to eq(200)
 
@@ -64,7 +66,7 @@ RSpec.resource "GET /departments", warden: true do
 
       login_as(login_user)
 
-      do_request()
+      do_request
 
       expect(status).to eq(403)
       expect(parse_response_error).to eq(["許可されていない操作です"])

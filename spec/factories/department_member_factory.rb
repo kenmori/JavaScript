@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "abstract_active_record_factory"
 
 class DepartmentMemberFactory < AbstractActiveRecordFactory

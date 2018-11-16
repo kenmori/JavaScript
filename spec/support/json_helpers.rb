@@ -12,6 +12,6 @@ module JsonHelpers
   end
 
   def parse_response_error
-    parse_response_body("errors").map {|h| h["message"]}
+    parse_response_body("errors").map { |h| h["message"] }
   end
 end

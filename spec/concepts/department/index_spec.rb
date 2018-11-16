@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Department::Index do
   include DepartmentDataset
 

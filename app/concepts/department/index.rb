@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Department::Index < Trailblazer::Operation
   class Form < Reform::Form
     property :organization_id, virtual: true
@@ -19,8 +21,8 @@ class Department::Index < Trailblazer::Operation
         Department.where(organization_id: params[:organization_id]).roots
       end
 
-    options[:query] = roots.map{|node|
-      node.subtree.arrange_serializable(order: :display_order) {|parent, children|
+    options[:query] = roots.map do |node|
+      node.subtree.arrange_serializable(order: :display_order) do |parent, children|
         {
           id: parent.id,
           soft_destroyed_at: parent.soft_destroyed_at,
@@ -30,7 +32,7 @@ class Department::Index < Trailblazer::Operation
           updated_at: parent.updated_at,
           children: children
         }.with_indifferent_access
-      }.first
-    }
+      end.first
+    end
   end
 end
