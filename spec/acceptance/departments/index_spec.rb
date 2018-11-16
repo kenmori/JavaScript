@@ -56,7 +56,7 @@ RSpec.resource "GET /departments", warden: true do
 
       expect(status).to eq(400)
 
-      expect(parse_error).to eq(["部署IDは組織内から選択してください"])
+      expect(parse_response_error).to eq(["部署IDは組織内から選択してください"])
     end
   end
 end

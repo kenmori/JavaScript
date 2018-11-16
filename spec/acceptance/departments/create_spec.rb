@@ -59,7 +59,7 @@ RSpec.resource "POST /departments", warden: true do
       )
 
       expect(status).to eq(400)
-      expect(parse_error).to include(
+      expect(parse_response_error).to include(
         "部署名を入力してください",
         "表示順を入力してください",
         "部署責任者を入力してください",
@@ -82,7 +82,7 @@ RSpec.resource "POST /departments", warden: true do
       )
 
       expect(status).to eq(403)
-      expect(parse_error).to eq(["許可されていない操作です"])
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
 end
