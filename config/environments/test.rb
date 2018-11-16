@@ -46,5 +46,7 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = true
     Bullet.raise = true
+    Bullet.unused_eager_loading_enable = false
+    Bullet.counter_cache_enable = false
   end
 end
