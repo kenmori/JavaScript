@@ -30,6 +30,7 @@ class Department::Index < Trailblazer::Operation
           display_order: parent.display_order,
           created_at: parent.created_at,
           updated_at: parent.updated_at,
+          user_count: parent.department_members.size,
           children: children
         }.with_indifferent_access
       end.first

@@ -20,6 +20,7 @@ RSpec.describe Department::Index do
       "display_order" => 1,
       "created_at" => dep_1.created_at,
       "updated_at" => dep_1.updated_at,
+      "user_count" => 1,
       "children" => a_kind_of(Array)
     )
 
@@ -82,4 +83,6 @@ RSpec.describe Department::Index do
       "組織を入力してください"
     )
   end
+
+  example "SUCCESS: 複数人が部署に所属しているケース"
 end
