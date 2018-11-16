@@ -4,7 +4,7 @@ require_dependency Rails.root.join("config/locales/share/model_names")
 
 department_attrs = {
   display_order: "表示順",
-  name: "部署名",
+  name: "#{model_names[:department]}名",
   organization: model_names[:organization],
   organization_id: model_names[:organization]
 }
@@ -20,12 +20,12 @@ department_attrs = {
       attributes: {
         'department/create': {
           **department_attrs,
-          owner_id: "部署責任者",
-          parent_department_id: "親部署"
+          owner_id: "#{model_names[:department]}責任者",
+          parent_department_id: "親#{model_names[:department]}"
         },
         'department/index': {
           organization_id: model_names[:organization],
-          ids: "部署ID"
+          ids: "#{model_names[:department]}ID"
         }
       }
     }
