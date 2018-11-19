@@ -23,10 +23,28 @@ RSpec.resource "DELETE /key_results/:id", warden: true do
 
       expect(response_status).to eq(200)
       expect(parse_response_body("key_result", "id")).to eq(key_result.id)
+
+      expect(KeyResult.find_by(id: key_result.id)).to be_nil
     end
 
-    example "ERROR: KeyResultがサインインユーザーとは別のOrganizationのとき"
-    example "ERROR: Objective責任者ではないとき"
-    example "ERROR: 何か削除できない時(unprocessable_entity_with_errorsにいくとき)"
+    example "ERROR: When KeyResult is a different organization from the sign-in user" do
+      explanation "KeyResultがサインインユーザーとは別のOrganizationの場合エラー"
+
+      do_request(id: other_org_key_result.id)
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
+    end
+
+    example "ERROR: When the sign-in user is not an objective owner" do
+      explanation "サインインユーザーがObjective責任者ではない場合エラー"
+
+      login_as(nomal_user)
+
+      do_request(id: key_result.id)
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("Objective 責任者のみ削除できます")
+    end
   end
 end
