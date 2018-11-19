@@ -28,7 +28,7 @@ module OrganizationDataset
 
     let!(:nomal_user) do
       UserFactory.new(organization: organization).create(
-        email: "user2@example.com",
+        email: "nomal_user@example.com",
         first_name: "普通",
         last_name: "たろう"
       )
