@@ -10,7 +10,7 @@ RSpec.resource "GET /key_results/candidates", warden: true do
   include RequestHeaderJson
 
   before do
-    login_as(login_user)
+    login_as(nomal_user)
   end
 
   get "/key_results/candidates" do

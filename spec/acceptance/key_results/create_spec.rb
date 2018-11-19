@@ -40,7 +40,7 @@ RSpec.resource "POST /key_results", warden: true do
           description: "使いやすくしてアクセス数を増やす",
           target_value: "10000",
           value_unit: "アクセス/月",
-          members: [other_user.id, login_user.id]
+          members: [other_user.id, nomal_user.id]
         }
       )
 
@@ -75,9 +75,9 @@ RSpec.resource "POST /key_results", warden: true do
             "disabled" => false
           },
           {
-            "id" => login_user.id,
-            "first_name" => "ログイン",
-            "last_name" => "したろう",
+            "id" => nomal_user.id,
+            "first_name" => "普通",
+            "last_name" => "たろう",
             "avatar_url" => nil,
             "disabled" => false
           }
@@ -134,7 +134,7 @@ RSpec.resource "POST /key_results", warden: true do
     example "ERROR: invalid signin user" do
       explanation "サインインユーザが admin でも objective_id で指定した Objective の owner でも無い場合、エラーとなる"
 
-      login_as(login_user)
+      login_as(nomal_user)
 
       do_request(
         key_result: {
@@ -145,7 +145,7 @@ RSpec.resource "POST /key_results", warden: true do
           description: "使いやすくしてアクセス数を増やす",
           target_value: "10000",
           value_unit: "アクセス/月",
-          members: [other_user.id, login_user.id]
+          members: [other_user.id, nomal_user.id]
         }
       )
 
@@ -165,7 +165,7 @@ RSpec.resource "POST /key_results", warden: true do
           description: "使いやすくしてアクセス数を増やす",
           target_value: "10000",
           value_unit: "アクセス/月",
-          members: [other_user.id, login_user.id]
+          members: [other_user.id, nomal_user.id]
         }
       )
 
@@ -185,7 +185,7 @@ RSpec.resource "POST /key_results", warden: true do
           description: "使いやすくしてアクセス数を増やす",
           target_value: "10000",
           value_unit: "アクセス/月",
-          members: [other_user.id, login_user.id]
+          members: [other_user.id, nomal_user.id]
         }
       )
 

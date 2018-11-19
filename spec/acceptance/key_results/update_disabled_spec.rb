@@ -10,7 +10,7 @@ RSpec.resource "PUT /key_results/:id/disable", warden: true do
   include RequestHeaderJson
 
   before do
-    login_as(login_user)
+    login_as(nomal_user)
   end
 
   put "/key_results/:id/disable" do
