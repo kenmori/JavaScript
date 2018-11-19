@@ -5,7 +5,17 @@ class DepartmentPolicy
     @user = user
   end
 
-  def create?
-    @user.admin?
+  def index?
+    is_current_user_admin?
   end
+
+  def create?
+    is_current_user_admin?
+  end
+
+  private
+
+    def is_current_user_admin?
+      @user.admin?
+    end
 end

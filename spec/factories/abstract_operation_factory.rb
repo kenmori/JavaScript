@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AbstractOperationFactory
   def initialize(operation_klass)
     @operation_klass = operation_klass
@@ -10,12 +12,13 @@ class AbstractOperationFactory
 
   def model
     return unless @result
+
     @result[:model]
   end
 
   private
 
-  def default_params
-    raise NotImplementedError
-  end
+    def default_params
+      raise NotImplementedError
+    end
 end

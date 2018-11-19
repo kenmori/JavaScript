@@ -45,7 +45,7 @@ RSpec.describe ValidationHelper do
       dummy = dummy_class.new(organization_id: 0)
 
       expect(dummy).not_to be_valid
-      expect(dummy.errors[:organization_id]).to eq(["は見つかりませんでした。"])
+      expect(dummy.errors[:organization_id]).to eq(["は見つかりませんでした"])
     end
   end
 end

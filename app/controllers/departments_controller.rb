@@ -3,6 +3,21 @@
 class DepartmentsController < ApplicationController
   before_action :authorize!
 
+  def index
+    result = Department::Index.call(
+      params: {
+        organization_id: current_organization.id,
+        ids: params[:ids]
+      }
+    )
+
+    if result.success?
+      render json: { departments: result[:query] }, status: :ok
+    else
+      render_error_json(:bad_request, result["contract.default"].errors.full_messages)
+    end
+  end
+
   def create
     result = Department::Create.call(
       params: params["department"].merge(organization_id: current_organization.id)
@@ -12,8 +27,7 @@ class DepartmentsController < ApplicationController
       @department = result[:model]
       render status: :created
     else
-      errors = result["contract.default"].errors.full_messages
-      render json: { error: errors }, status: 400
+      render_error_json(:bad_request, result["contract.default"].errors.full_messages)
     end
   end
 

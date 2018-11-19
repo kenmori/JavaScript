@@ -141,9 +141,9 @@ RSpec.describe Department::Create do
 
     expect(result).to be_failure
     expect(contract.errors.full_messages).to include(
-      "組織が見つかりません",
-      "親部署が見つかりません",
-      "部署責任者が見つかりません"
+      "組織は見つかりませんでした",
+      "部署責任者は見つかりませんでした",
+      "親部署は見つかりませんでした"
     )
   end
 end

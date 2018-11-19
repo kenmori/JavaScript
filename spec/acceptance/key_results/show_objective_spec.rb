@@ -16,7 +16,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
   get "/key_results/:id/objective" do
     parameter :id, "KeyResult ID", type: :integer, required: true
 
-    example "SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user" do
+    example "SUCCESS: When the Owner of KeyResult is the same organization as the sign-in user", bullet: false do
       explanation "KeyResultのOwnerがサインインユーザと同じ組織である場合、Objective一覧を取得することができる"
 
       do_request(id: key_result.id)
@@ -57,7 +57,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
       do_request(id: 0)
 
       expect(status).to eq(404)
-      expect(parse_response_body("error")).to eq("操作の対象が存在しません")
+      expect(parse_response_error).to eq(["操作の対象が存在しません"])
     end
 
     example "ERROR: When the Organization of KeyResult to be specified is different" do

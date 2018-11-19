@@ -16,12 +16,12 @@ RSpec.describe Department, type: :model do
         admin: false
       )
     end
-    let!(:department) {
+    let!(:department) do
       DepartmentFactory.new(
         organization: organization,
         owner: admin_user
       ).create
-    }
+    end
 
     before do
       DepartmentMemberFactory.new(department: department, user: member_user_1).create
@@ -72,7 +72,7 @@ RSpec.describe Department, type: :model do
 
       expect(department).not_to be_valid
       expect(department.errors.full_messages).to include(
-        "組織は見つかりませんでした。"
+        "組織は見つかりませんでした"
       )
     end
   end
