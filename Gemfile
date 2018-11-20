@@ -9,6 +9,7 @@ git_source(:github) do |repo_name|
 end
 
 gem "active_decorator", "~> 1.0.0"
+gem "aws-sdk-sqs"
 gem "carrierwave"
 gem "carrierwave-i18n"
 gem "devise", "~> 4.5.0"

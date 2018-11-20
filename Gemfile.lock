@@ -53,6 +53,17 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     awesome_print (1.8.0)
+    aws-eventstream (1.0.1)
+    aws-partitions (1.107.0)
+    aws-sdk-core (3.36.0)
+      aws-eventstream (~> 1.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-sqs (1.9.0)
+      aws-sdk-core (~> 3, >= 3.26.0)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.3)
     bcrypt (3.1.12)
     better_errors (2.5.0)
       coderay (>= 1.0.0)
@@ -295,6 +306,7 @@ GEM
     jbuilder (2.6.4)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2)
+    jmespath (1.4.0)
     json (2.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -509,6 +521,7 @@ DEPENDENCIES
   active_decorator (~> 1.0.0)
   annotate
   awesome_print
+  aws-sdk-sqs
   better_errors
   binding_of_caller
   bullet
@@ -550,4 +563,4 @@ DEPENDENCIES
   webpacker (= 3.5.5)
 
 BUNDLED WITH
-   1.16.6
+   1.17.1
