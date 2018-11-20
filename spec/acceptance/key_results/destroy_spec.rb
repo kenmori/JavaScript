@@ -10,7 +10,7 @@ RSpec.resource "DELETE /key_results/:id", warden: true do
   include RequestHeaderJson
 
   before do
-    login_as(login_user)
+    login_as(nomal_user)
   end
 
   delete "/key_results/:id" do

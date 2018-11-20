@@ -26,11 +26,11 @@ module OrganizationDataset
       end
     end
 
-    let!(:login_user) do
+    let!(:nomal_user) do
       UserFactory.new(organization: organization).create(
-        email: "user2@example.com",
-        first_name: "ログイン",
-        last_name: "したろう"
+        email: "nomal_user@example.com",
+        first_name: "普通",
+        last_name: "たろう"
       )
     end
 
