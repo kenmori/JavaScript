@@ -17,6 +17,7 @@ namespace :bulk_process do
         user.last_name = row["last_name"]
         user.first_name = row["first_name"]
         user.password = row["password"]
+        user.confirmed_at = Time.current
         user.save!
         registered = idx
       end
