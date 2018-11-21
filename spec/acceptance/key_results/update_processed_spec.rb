@@ -10,6 +10,9 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
   include RequestHeaderJson
 
   before do
+    # nomal_user を key_result の関係者として登録
+    KeyResultMemberFactory.new(key_result: key_result, user: nomal_user).create
+
     login_as(nomal_user)
   end
 
@@ -19,11 +22,6 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
     example "SUCCESS: Make the specified KeyResult under the condition that the sign-in user has started" do
       explanation "指定したKeyResultをサインインユーザーが着手した状態にする"
 
-      key_result.key_result_members.create(
-        user: nomal_user,
-        role: :member
-      )
-
       do_request(
         id: key_result.id
       )
@@ -32,7 +30,24 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
       expect(response_body).to be_empty
     end
 
-    example "ERROR: ログインユーザがKeyResultのメンバーでない場合エラー"
-    example "ERROR:"
+    example "ERROR: Error when sign-in user is not a member of KeyResult" do
+      explanation "サインインユーザがKeyResultのメンバーでない場合エラー"
+
+      login_as(other_user)
+
+      do_request(id: key_result.id)
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("Key Result 責任者または関係者のみ編集できます")
+    end
+
+    example "ERROR: When owner id is different organization" do
+      explanation "異なる組織のユーザーを責任者とする場合エラー"
+
+      do_request(id: other_org_key_result.id)
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
+    end
   end
 end
