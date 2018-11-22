@@ -50,6 +50,19 @@ RSpec.resource "PUT /key_results/:id/disable", warden: true do
       )
     end
 
-    example "ERROR: "
+    example "ERROR: When the sign-in user is not the Objective manager or Key Result manager" do
+      explanation "サインインユーザが Objective 責任者または Key Result 責任者ではない場合エラー"
+
+      login_as(nomal_user)
+
+      do_request(
+        id: key_result.id
+      )
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("Objective 責任者または Key Result 責任者のみ編集できます")
+    end
+
+    example "ERROR: 別の組織"
   end
 end
