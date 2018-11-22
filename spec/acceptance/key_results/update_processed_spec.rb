@@ -10,7 +10,7 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
   include RequestHeaderJson
 
   before do
-    # nomal_user を key_result の関係者として登録
+    # NOTE nomal_user を key_result の関係者として登録
     KeyResultMemberFactory.new(key_result: key_result, user: nomal_user).create
 
     login_as(nomal_user)
