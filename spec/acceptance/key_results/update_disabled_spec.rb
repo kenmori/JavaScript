@@ -63,6 +63,13 @@ RSpec.resource "PUT /key_results/:id/disable", warden: true do
       expect(parse_response_body("error")).to eq("Objective 責任者または Key Result 責任者のみ編集できます")
     end
 
-    example "ERROR: 別の組織"
+    example "ERROR: When KeyResult is a different organization from the sign-in user" do
+      explanation "KeyResultがサインインユーザーとは別のOrganizationの場合エラー"
+
+      do_request(id: other_org_key_result.id)
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
+    end
   end
 end
