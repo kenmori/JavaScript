@@ -10,7 +10,6 @@ class KeyResultMemberFactory < AbstractFactory
   end
   attr_reader :user, :key_result
 
-
   private
 
     def default_params

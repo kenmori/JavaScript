@@ -26,7 +26,7 @@ RSpec.resource "GET /key_results/comment_labels", warden: true do
         "name" => a_kind_of(String),
         "color" => a_kind_of(String)
       )
-      expect(parse_response_body("labels").map {|l| l["name"]}).to contain_exactly(
+      expect(parse_response_body("labels").map { |l| l["name"] }).to contain_exactly(
         "今週の優先事項",
         "今後4週間(プロジェクト)",
         "健康・健全性",

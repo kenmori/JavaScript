@@ -35,7 +35,7 @@ RSpec.resource "PUT /key_results/:id/disable", warden: true do
     example "SUCCESS: do enable the key reuslt" do
       explanation "指定した KeyReuslt を有効化する"
 
-      key_result.disabled_at = 2.day.ago
+      key_result.disabled_at = 2.days.ago
       key_result.save(validate: false)
 
       do_request(
