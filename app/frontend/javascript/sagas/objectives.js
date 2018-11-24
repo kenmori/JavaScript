@@ -293,6 +293,11 @@ function* disableObjective({ payload: { id, toDisable } }) {
   )
 }
 
+function* fetchObjectiveCommentLabels() {
+  const result = yield call(API.get, '/objectives/comment_labels', {})
+  yield put(objectiveActions.fetchedObjectiveCommentLabels(result.get('labels')))
+}
+
 export function* objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
@@ -308,5 +313,6 @@ export function* objectiveSagas() {
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
     takeLatest(actionTypes.DISABLE_OBJECTIVE, withLoading(disableObjective)),
+    takeLatest(actionTypes.FETCH_OBJECTIVE_COMMENT_LABELS, withLoading(fetchObjectiveCommentLabels)),
   ])
 }

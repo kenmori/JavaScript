@@ -20,6 +20,9 @@ class Fetcher extends PureComponent {
     if (!this.props.isFetchedKeyResultsCommentLabels) {
       this.props.fetchKeyResultCommentLabels()
     }
+    if (!this.props.isFetchedObjectiveCommentLabels) {
+      this.props.fetchObjectiveCommentLabels()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,10 +64,12 @@ Fetcher.propTypes = {
   userId: PropTypes.number.isRequired,
   isFetchedOrganization: PropTypes.bool.isRequired,
   isFetchedKeyResultsCommentLabels: PropTypes.bool.isRequired,
+  isFetchedObjectiveCommentLabels: PropTypes.bool.isRequired,
   isOpenOkrModal: PropTypes.bool.isRequired,
   fetchOrganization: PropTypes.func.isRequired,
   fetchOkrs: PropTypes.func.isRequired,
   fetchKeyResultCommentLabels: PropTypes.func.isRequired,
+  fetchObjectiveCommentLabels: PropTypes.func.isRequired,
   selectOkrPeriod: PropTypes.func.isRequired,
   openOkrModal: PropTypes.func.isRequired,
   closeOkrModal: PropTypes.func.isRequired,

@@ -10,6 +10,7 @@ const initialState = fromJS({
   isFetchedObjectives: false,
   isFetchedPreviousObjectives: true,
   isFetchedCandidates: false,
+  isFetchedObjectiveCommentLabels: false,
 })
 
 function add(state, objectiveId) {
@@ -81,6 +82,10 @@ export default handleActions(
       const objectiveOrder = JSON.parse(payload.order)
       return state.update('ids', ids => ids.sortBy(id => objectiveOrder.indexOf(id)))
     },
+    [ActionTypes.FETCH_OBJECTIVE_COMMENT_LABELS]: state => state.set('isFetchedObjectiveCommentLabels', false),
+    [ActionTypes.FETCHED_OBJECTIVE_COMMENT_LABELS]: (state, { payload }) => state
+      .set('commentLabels', payload.labels)
+      .set('isFetchedObjectiveCommentLabels', true),
   },
   initialState,
 )

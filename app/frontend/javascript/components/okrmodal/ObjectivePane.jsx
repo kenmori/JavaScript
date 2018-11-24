@@ -5,6 +5,8 @@ import { Form, Label } from 'semantic-ui-react'
 import NumberInput from '../form/NumberInput'
 import OkrDescription from '../form/OkrDescription'
 import PopupLabel from '../util/PopupLabel'
+import StretchCommentPane from './StretchCommentPane'
+import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
 
 class ObjectivePane extends PureComponent {
 
@@ -71,10 +73,62 @@ class ObjectivePane extends PureComponent {
     )
   }
 
+  handleTextChange = (e, { value }) => {
+    this.setState({ text: value })
+    this.props.setDirty(!!value)
+  }
+
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ commentLabel: value })
+  }
+
+  addComment = () => {
+    const { text, commentLabel } = this.state
+    if (!text) return
+
+    this.props.updateKeyResult({
+      comment: {
+        data: text,
+        behavior: 'add',
+        key_result_comment_label: { id: commentLabel }
+      }
+    })
+    this.setState({ text: '' })
+    this.props.setDirty(false)
+  }
+
+  removeComment = id => {
+    this.props.confirm({
+      content: 'コメントを削除しますか？',
+      onConfirm: () =>
+        this.props.updateKeyResult({
+          comment: { data: id, behavior: 'remove' }
+        })
+    })
+  }
+
+  editComment = (id, text, label) => {
+    if (!text) return
+
+    this.props.updateKeyResult({
+      comment: {
+        data: {
+          id,
+          text,
+          key_result_comment_label: { id: label }
+        },
+        behavior: 'edit'
+      }
+    })
+  }
+
   render() {
     const objective = this.props.objective
     const { progressRate } = this.state
     const isDisabled = objective.get('disabled')
+    const comments = objective.get('comments')
+    const { text } = this.state
+
     return (
       <Form>
 
@@ -108,7 +162,38 @@ class ObjectivePane extends PureComponent {
           />
         </Form.Field>
 
-        {/* ここに Objective コメントを入れる */}
+        <Form.Field>
+          <label>コメント ({comments ? comments.size : 0})</label>
+          <div className="comment-pane">
+            {comments ? (
+              <StretchCommentPane
+                comments={comments}
+                keyResultCommentLabels={keyResultCommentLabels}
+                onDelete={this.removeComment}
+                onUpdate={this.editComment}
+              />
+            ) : null}
+            <Form.TextArea
+              autoHeight
+              rows={2}
+              value={text}
+              onChange={this.handleTextChange}
+              placeholder={
+                '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+              }
+            />
+            <div className="comment-pane__block">
+              <Form.Group className="group">
+                <KeyResultCommentLabelDropdown
+                  commentLabels={keyResultCommentLabels}
+                  onChange={this.handleDropdownChange}
+                />
+                <Form.Button content="投稿する" onClick={this.addComment} />
+              </Form.Group>
+            </div>
+          </div>
+        </Form.Field>
+
       </Form>
     )
   }

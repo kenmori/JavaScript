@@ -51,6 +51,8 @@ const actions = createActions({
   }),
   [actionTypes.DISABLE_OBJECTIVE]: (id, toDisable) => ({ id, toDisable }),
   [actionTypes.DISABLED_OBJECTIVE]: objective => normalizeObjective(objective),
+  [actionTypes.FETCH_OBJECTIVE_COMMENT_LABELS]: () => ({}),
+  [actionTypes.FETCHED_OBJECTIVE_COMMENT_LABELS]: labels => ({ labels }),
 })
 
 export default actions
