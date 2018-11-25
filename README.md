@@ -8116,36 +8116,332 @@ const {faf, ee } = (() => {
 
 **問359**
 
+上記のような
+
 ```js
 [1, 2, 3].map(e => e);
 ```
-上記のようないわゆるワンラインで書かれているFanctor内でconsole.logを出力してください
 
-````js
+いわゆるワンラインで書かれているFanctor内でconsole.logを出力してください
+
+```js
 [1, 2, 3].map(e => console.log(e) || e);
-
 //console.logはundefinedを返すのでfalse。処理が次に移る
 ```
 
 **問360**
 
-```js
+下記
+
+```
 ~1
-
 ~-1
-
 ~0
 ```
-上記3つはそれぞれは何を返すか
+3つはそれぞれは何を返すか
 
 ```js
 -2
-
 0
-
 -1
-
 //符号を逆にして-1された値が返る
+```
+
+
+**問361**
+
+下記のように
+
+```js
+let a = false
+let b = false
+let variable;
+
+if(a){
+ variable = a;
+} else if(b){
+ variable = "b"
+} else {
+ variable = "c"
+}
+variable
+//"c"
+
+```
+
+elseifを伴ったif文を一行で書いてください
+
+```js
+const variable = a ? a : b ? b : c
+```
+
+**問362**
+
+`JSON.stringify`について、
+以下
+
+```js
+let user = {
+  sayHi() {
+    alert("Hello");
+  },
+  [Symbol("id")]: 123,
+  something: undefined
+};
+JSON.stringify(user)
+```
+
+を実行した場合、返ってくる値を教えてください
+
+``js
+JSON.stringify(user)
+"{}" //empty
+``
+why:
+
+Function properties(method)
+Symbolic properties、
+値がundefinedなpropertiesはskipされます
+
+JSON typeとしてサポートされているのは以下です
+
+```
+Objects { ... }
+Arrays [ ... ]
+Primitives: strings,numbers, boolean values true/false, null.
+```
+
+_aside_
+
+ `'John'` became `"John"`, `{age: 30}` become `{"age": "30"}`
+`typeof user` will return `"string"`
+
+
+**問363**
+
+こちらは
+
+```js
+let meetup = {
+  title: "conference",
+  room: {number: 24, participants: ["johon", "ann"]}
+}
+JSON.stringfiy(meetup)
+```
+期待した通りに返ります(深いkey-valueも返すことに注意)
+
+```js
+JSON.stringify(meetup)
+"{"title":"conference","room":{"number":24,"participants":["johon","ann"]}}"
+```
+ではこちらを実行した結果は何ですか
+
+```js
+let room = {number: 23};
+let meetup = {title: "Conference", participants: ["john", "ann"]};
+meetup.place = room;
+
+// "{"title":"Conference","participants":["john","ann"],"place":{"number":23}}"
+
+room.occupiedBy = meetup
+JSON.stringify(meetup) // ここを実行した場合は?
+```
+実行後
+
+```js
+VM2804:1 Uncaught TypeError: Converting circular structure to JSON
+    at JSON.stringify (<anonymous>)
+    at <anonymous>:1:6
+```
+why:
+
+循環オブジェクト参照構造体を文字列に変換できません。
+
+簡単に言うと、
+
+参照がその参照を参照してその参照がさらにその参照をしてと繰り返されることです
+
+```js
+var a = {};
+var b = {};
+a.child = b;
+b.child = a;
+を実行した場合
+//b
+{child: {…}}
+child:child:child:child: {child: {…}}
+__proto__: Object
+__proto__: Object
+__proto__: Object
+__proto__: Object
+//a
+{child: {…}}
+child:child:child: {child: {…}}
+__proto__: Object
+__proto__: Object
+__proto__: Object
+childがchildを持ち続ける
+
+a.child = bの時
+a.childは {}がかえりますが
+b.child = aにすると
+a.childは参照先bの構造も変わるので
+a.child.childになります
+さらにb.childはaを参照するので.childがあり、と延々続くのですね
+
+
+このようなケースを文字列にする場合失敗します
+```
+
+回避するには
+
+```js
+JSON.stringify(value[, replacer, space])
+
+//[replacer](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)を設定します
+
+var obj = {
+  a: "foo",
+  b: obj
+}
+var replacement = {"b":undefined}; //undefinedをいれてskipさせる
+JSON.stringify(obj,replacement));
+```
+or
+`json-stringify-safe`を使ってそれが`circular`か確認します
+
+**問364**
+
+こちらの値
+
+```js
+let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+```
+をJSだけで(moment.jsを使わず) dateの日付(この場合30)を返す関数を作ってください
+
+```js
+let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+let meetup = JSON.parse(str, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+meetup.date.getDate()
+//30
+
+// advance: nested date
+let schedule = `{
+  "meetups": [
+    {"title":"Conference","date":"2017-11-30T12:00:00.000Z"},
+    {"title":"Birthday","date":"2017-04-18T12:00:00.000Z"}
+  ]
+}`;
+schedule = JSON.parse(schedule, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+schedule.meetups[1].date.getDate();
+//18
+```
+
+**問365**
+
+こちらのオブジェクト
+
+```js
+let user = {
+  name: "John Smith",
+  age: 35
+};
+```
+と同じkey-valueをもつオブジェクトになるようにして同じものではないことを確認してください
+
+```js
+let user = {
+  name: "John Smith",
+  age: 35
+};
+let user2 = JSON.parse(JSON.stringify(user))// 
+user2
+//{name: "John Smith", age: 35}
+user2.name = "morita"
+//"morita"
+user2
+//{name: "morita", age: 35}
+user
+//{name: "John Smith", age: 35}
+```
+
+
+**問366**
+
+こちら
+
+```js
+alert( undefined || null || 0 );
+
+```
+を実行すると何がalertとして表示されますか？
+
+```js
+0
+```
+
+`chain of OR "||" returns the first truthy value or the last one if no such value is found.`
+
+ORはtruthy valueかそのような値が見つからない場合最後の値を返します
+
+_aside_
+
+```js
+alert( 1 || 0 ); // 1 (1 is truthy)
+alert( true || 'no matter what' ); // (true is truthy)
+alert( null || 1 ); // 1 (1 is the first truthy value)
+alert( null || 0 || 1 ); // 1 (the first truthy value)
+alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
+```
+
+**問367**
+
+こちらを実行したら
+
+```js
+alert( alert(1) || 2 || alert(3) );
+```
+
+どうなりますか
+
+```js
+1、2とアラートされます
+```
+why
+
+alertはundefinedを返します
+
+最初のOR評価でalertとして実行し1のメッセージ
+
+undefineを返すので、ORはtruthyを探しに次のオペランドへ2が返るのでORはそこで終わり、
+
+外側のアラートがそれを実行します
+
+
+**問368**
+
+こちら
+
+```js
+/hoge.fefe/.test(`hoge
+fefe`);
+```
+は正規表現内で全ての文字にマッチ「.」を使用しています。test引数内で改行を含める文字列にマッチさせるためです。
+
+が、こちらはfalseが返ります。
+
+trueになるようにしてください。
+
+```js
+/hoge.fefe/s.test(`hoge
+fefe`)
+//今まで.は改行文字に対応できていなかったのですがES2018ではsフラグを付けることで可能になります
 ```
 
 **WIP**
@@ -8238,4 +8534,5 @@ https://www.sitepoint.com/currying-in-functional-javascript/
 https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
 https://ponyfoo.com/articles/es6-array-extensions-in-depth
 https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan
+https://javascript.info/js
 </details>
