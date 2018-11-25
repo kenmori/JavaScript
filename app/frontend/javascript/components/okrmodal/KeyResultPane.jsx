@@ -269,7 +269,7 @@ class KeyResultPane extends PureComponent {
             {comments ? (
               <StretchCommentPane
                 comments={comments}
-                keyResultCommentLabels={keyResultCommentLabels}
+                commentLabels={keyResultCommentLabels}
                 onDelete={this.removeComment}
                 onUpdate={this.editComment}
               />

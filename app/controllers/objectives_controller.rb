@@ -116,8 +116,7 @@ class ObjectivesController < ApplicationController
   end
 
   def comment_labels
-    puts "===== comment labels ====="
-    @labels = current_user.organization.objective_comment_labels
+    @objective_labels = current_user.organization.objective_comment_labels
   end
 
   private

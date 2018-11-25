@@ -128,6 +128,7 @@ class ObjectivePane extends PureComponent {
     const isDisabled = objective.get('disabled')
     const comments = objective.get('comments')
     const { text } = this.state
+    const objectiveCommentLabels = this.props.objectiveCommentLabels;
 
     return (
       <Form>
@@ -168,7 +169,7 @@ class ObjectivePane extends PureComponent {
             {comments ? (
               <StretchCommentPane
                 comments={comments}
-                keyResultCommentLabels={keyResultCommentLabels}
+                commentLabels={objectiveCommentLabels}
                 onDelete={this.removeComment}
                 onUpdate={this.editComment}
               />
@@ -185,7 +186,7 @@ class ObjectivePane extends PureComponent {
             <div className="comment-pane__block">
               <Form.Group className="group">
                 <KeyResultCommentLabelDropdown
-                  commentLabels={keyResultCommentLabels}
+                  commentLabels={objectiveCommentLabels}
                   onChange={this.handleDropdownChange}
                 />
                 <Form.Button content="投稿する" onClick={this.addComment} />

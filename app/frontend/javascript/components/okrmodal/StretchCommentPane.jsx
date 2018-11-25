@@ -21,7 +21,7 @@ class StretchCommentPane extends PureComponent {
   }
 
   render() {
-    const { comments, keyResultCommentLabels, onDelete, onUpdate } = this.props
+    const { comments, commentLabels, onDelete, onUpdate } = this.props
     const viewComments = comments.filter((el, index) => {
       return index < this.state.displayCommentCount
     })
@@ -34,7 +34,7 @@ class StretchCommentPane extends PureComponent {
                 <OkrComment
                   key={comment.get('id')}
                   comment={comment}
-                  commentLabels={keyResultCommentLabels}
+                  commentLabels={commentLabels}
                   onDelete={onDelete}
                   onUpdate={onUpdate}
                 />
@@ -58,7 +58,7 @@ StretchCommentPane.propTypes = {
   // container
   // component
   comments: ImmutablePropTypes.list.isRequired,
-  keyResultCommentLabels: ImmutablePropTypes.list,
+  commentLabels: ImmutablePropTypes.list,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired
 }
