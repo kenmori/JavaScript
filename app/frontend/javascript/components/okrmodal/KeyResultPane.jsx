@@ -249,6 +249,7 @@ class KeyResultPane extends PureComponent {
             key={keyResult.get('id')}
             text={descText}
             onCommit={this.handleDescriptionCommit}
+            isObjective={false}
           />
         </Form.Field>
 
