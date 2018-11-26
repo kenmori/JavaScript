@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-require 'csv'
+
+require "csv"
 
 namespace :bulk_process do
   desc "Bulk insert user from CSV"
-  task :user, ["organization_id", "csv_path"] => :environment do |_, args|
+  task :user, %w[organization_id csv_path] => :environment do |_, args|
     # expect format.
     # no, last_name, first_name, email, password
     organization = Organization.find(args.organization_id)
