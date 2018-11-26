@@ -34,3 +34,6 @@ package-lock.json
 
 # Environment normalization
 /vendor/bundle
+
+# RSpec API Documentation
+/docs/api/
