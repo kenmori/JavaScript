@@ -27,6 +27,13 @@ department_attrs = {
           organization_id: model_names[:organization],
           ids: "#{model_names[:department]}ID"
         }
+      },
+      errors: {
+        models: {
+          'department/destroy': {
+            must_not_have_children: "下位部署が存在するのでアーカイブ出来ません"
+          }
+        }
       }
     }
   }
