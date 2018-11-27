@@ -36,8 +36,6 @@ class Department::Destroy < Trailblazer::Operation
     # get系ではactiveかどうかを返す必要がある。
     # activeな部署だけを返すような機能も必要かもしれない。scopeは少なくともいる
 
-
-    # model.soft_destroy
     model.soft_destroy  # true/falseを返す
   end
 end

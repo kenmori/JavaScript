@@ -23,7 +23,25 @@ RSpec.describe Department::Destroy do
     expect(department).to be_soft_destroyed
   end
 
-  example "SUCCESS: 部署に紐付くOKRが場合も削除できる"
+  example "SUCCESS: 部署に紐付くOKRが存在する場合も削除できる" do
+    okr_period = OkrPeriodFactory.new(
+      organization: organization
+    ).create
+    objective = ObjectiveFactory.new(
+      user: admin_user,
+      okr_period: okr_period
+    ).create
+    DepartmentObjectiveFactory.new(
+      department: department,
+      objective: objective
+    ).create
+
+    result = Department::Destroy.call(params: params)
+    department = result[:model]
+
+    expect(result).to be_success
+    expect(department).to be_soft_destroyed
+  end
 
   example "ERROR: 下位部署があるケース" do
     DepartmentFactory.new(
