@@ -9,11 +9,13 @@ RSpec.describe Department::Destroy do
     ).create
   }
 
-  example "SUCCESS: remove department" do
-    params = {
+  let(:params) {
+    {
       id: department.id
     }
+  }
 
+  example "SUCCESS: remove department" do
     result = Department::Destroy.call(params: params)
     department = result[:model]
 
@@ -30,10 +32,6 @@ RSpec.describe Department::Destroy do
       parent_department: department
     ).create
 
-    params = {
-      id: department.id
-    }
-
     result = Department::Destroy.call(params: params)
     contract = result["contract.default"]
 
@@ -43,5 +41,25 @@ RSpec.describe Department::Destroy do
     )
   end
 
-  example "ERROR: 部署にユーザが所属しているケース"
+  # TODO 要確認
+  # ownerも所属していてはいけないのか？
+  # それともmemberがいなければ削除しても良いのか？
+  #   -> とりあえずmemberがいなければ削除にする
+  example "ERROR: 部署にメンバーが所属しているケース" do
+    user = UserFactory.new(organization: organization).create(
+      email: "other_user@example.com"
+    )
+    DepartmentMemberFactory.new(
+      department: department,
+      user: user
+    ).create
+
+    result = Department::Destroy.call(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to include(
+      "メンバーが所属しているのでアーカイブ出来ません"
+    )
+  end
 end

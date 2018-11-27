@@ -4,12 +4,17 @@ class Department::Destroy < Trailblazer::Operation
 
     # ■無効化できる時の条件
     # * [x] 下位部署がない
-    # * [ ] その部署にユーザが属していない
+    # * [x] その部署にユーザが属していない
     # * [ ] 部署に紐づくOKRがある場合でも無効化できる
 
     validate -> {
       if model.has_children?
         errors.add(:base, :must_not_have_children)
+      end
+    }
+    validate -> {
+      if model.members.present?
+        errors.add(:base, :members_must_not_belong)
       end
     }
   end

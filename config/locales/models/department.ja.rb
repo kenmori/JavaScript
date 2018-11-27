@@ -31,7 +31,8 @@ department_attrs = {
       errors: {
         models: {
           'department/destroy': {
-            must_not_have_children: "下位部署が存在するのでアーカイブ出来ません"
+            must_not_have_children: "下位部署が存在するのでアーカイブ出来ません",
+            members_must_not_belong: "メンバーが所属しているのでアーカイブ出来ません"
           }
         }
       }
