@@ -17,6 +17,8 @@ RSpec.resource "DELETE /departments/:id", warden: true do
     example "SUCCESS: Archive a department" do
       explanation "部署をアーカイブ(無効化)する"
 
+      dep_1_1_1.department_members.destroy_all
+
       do_request(id: dep_1_1_1.id)
 
       expect(status).to eq(204)
@@ -29,7 +31,7 @@ RSpec.resource "DELETE /departments/:id", warden: true do
       do_request(id: dep_1_1.id)
 
       expect(status).to eq(400)
-      expect(parse_response_error).to contain_exactly("下位部署が存在するのでアーカイブ出来ません")
+      expect(parse_response_error).to include("下位部署が存在するのでアーカイブ出来ません")
     end
   end
 end

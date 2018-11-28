@@ -13,7 +13,7 @@ class Department::Destroy < Trailblazer::Operation
       end
     }
     validate -> {
-      if model.members.present?
+      if model.users.present?
         errors.add(:base, :members_must_not_belong)
       end
     }

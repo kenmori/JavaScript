@@ -6,7 +6,10 @@ RSpec.describe Department::Destroy do
     DepartmentFactory.new(
       organization: organization,
       owner: admin_user
-    ).create
+    ).create.tap {|d|
+      # 部署にユーザーが所属していると削除できないので消す
+      d.department_members.destroy_all
+    }
   }
 
   let(:params) {
@@ -59,11 +62,7 @@ RSpec.describe Department::Destroy do
     )
   end
 
-  # TODO 要確認
-  # ownerも所属していてはいけないのか？
-  # それともmemberがいなければ削除しても良いのか？
-  #   -> とりあえずmemberがいなければ削除にする
-  example "ERROR: 部署にメンバーが所属しているケース" do
+  example "ERROR: 部署にユーザーが所属しているケース" do
     user = UserFactory.new(organization: organization).create(
       email: "other_user@example.com"
     )
@@ -77,7 +76,7 @@ RSpec.describe Department::Destroy do
 
     expect(result).to be_failure
     expect(contract.errors.full_messages).to include(
-      "メンバーが所属しているのでアーカイブ出来ません"
+      "ユーザが所属しているのでアーカイブ出来ません"
     )
   end
 end
