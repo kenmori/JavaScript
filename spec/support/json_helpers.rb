@@ -2,7 +2,10 @@
 
 module JsonHelpers
   def parse_response_body(*path)
-    json = JSON.parse(response_body)
+    body = response_body
+    return body if body.blank?
+
+    json = JSON.parse(body)
 
     if path.present?
       json.dig(*path)
