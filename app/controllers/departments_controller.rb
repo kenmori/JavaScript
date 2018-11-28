@@ -14,7 +14,7 @@ class DepartmentsController < ApplicationController
     if result.success?
       render json: { departments: result[:query] }, status: :ok
     else
-      render_error_json(:bad_request, result["contract.default"].errors.full_messages)
+      render_contract_errors(result)
     end
   end
 
