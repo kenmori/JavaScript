@@ -25,7 +25,7 @@ class Objective < ApplicationRecord
   has_many :key_results, dependent: :destroy
   has_many :objective_members, dependent: :destroy
   has_many :users, through: :objective_members
-  has_many :objective_comment, -> { order("created_at DESC") }, dependent: :destroy
+  has_many :objective_comments, -> { order("created_at DESC") }, dependent: :destroy
   belongs_to :okr_period
   belongs_to :parent_key_result, class_name: "KeyResult", optional: true
   has_one :department_objective, dependent: :destroy

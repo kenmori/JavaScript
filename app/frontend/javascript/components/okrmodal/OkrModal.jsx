@@ -115,6 +115,7 @@ class OkrModal extends PureComponent {
                 <ObjectiveTab
                   {...this.props}
                   users={this.selectableObjectiveMembers(users, objective)}
+                  setDirty={this.setDirty}
                 />
               )}
             </div>

@@ -86,11 +86,11 @@ class ObjectivePane extends PureComponent {
     const { text, commentLabel } = this.state
     if (!text) return
 
-    this.props.updateKeyResult({
+    this.props.updateObjective({
       comment: {
         data: text,
         behavior: 'add',
-        key_result_comment_label: { id: commentLabel }
+        objective_comment_label: { id: commentLabel }
       }
     })
     this.setState({ text: '' })
