@@ -27,7 +27,19 @@ class DepartmentsController < ApplicationController
       @department = result[:model]
       render status: :created
     else
-      render_error_json(:bad_request, result["contract.default"].errors.full_messages)
+      render_contract_errors(result)
+    end
+  end
+
+  def destroy
+    result = Department::Destroy.call(
+      params: {id: params[:id]}
+    )
+
+    if result.success?
+      head :no_content
+    else
+      render_contract_errors(result)
     end
   end
 
