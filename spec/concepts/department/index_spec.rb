@@ -15,6 +15,7 @@ RSpec.describe Department::Index do
     root = result[:query].first
     expect(root).to include(
       "id" => dep_1.id,
+      "archived" => false,
       "soft_destroyed_at" => nil,
       "name" => "代表",
       "display_order" => 1,
