@@ -1,4 +1,4 @@
-RSpec.describe Department::Destroy do
+RSpec.describe Department::Archive do
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
 
@@ -19,7 +19,7 @@ RSpec.describe Department::Destroy do
   }
 
   example "SUCCESS: remove department" do
-    result = Department::Destroy.call(params: params)
+    result = Department::Archive.call(params: params)
     department = result[:model]
 
     expect(result).to be_success
@@ -39,7 +39,7 @@ RSpec.describe Department::Destroy do
       objective: objective
     ).create
 
-    result = Department::Destroy.call(params: params)
+    result = Department::Archive.call(params: params)
     department = result[:model]
 
     expect(result).to be_success
@@ -53,7 +53,7 @@ RSpec.describe Department::Destroy do
       parent_department: department
     ).create
 
-    result = Department::Destroy.call(params: params)
+    result = Department::Archive.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -71,7 +71,7 @@ RSpec.describe Department::Destroy do
       user: user
     ).create
 
-    result = Department::Destroy.call(params: params)
+    result = Department::Archive.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure

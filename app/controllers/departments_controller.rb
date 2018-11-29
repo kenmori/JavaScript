@@ -32,7 +32,7 @@ class DepartmentsController < ApplicationController
   end
 
   def destroy
-    result = Department::Destroy.call(
+    result = Department::Archive.call(
       params: {id: params[:id]}
     )
 

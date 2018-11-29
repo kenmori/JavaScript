@@ -61,7 +61,7 @@ RSpec.describe Department::Index do
   example "SUCCESS: アーカイブされた部署の情報も返す" do
     # dep_1_1_1 をアーカイブ
     dep_1_1_1.department_members.destroy_all
-    Department::Destroy.call(params: {id: dep_1_1_1.id})
+    Department::Archive.call(params: {id: dep_1_1_1.id})
 
     params = {
       organization_id: organization.id,

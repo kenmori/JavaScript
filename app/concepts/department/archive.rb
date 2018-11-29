@@ -1,4 +1,4 @@
-class Department::Destroy < Trailblazer::Operation
+class Department::Archive < Trailblazer::Operation
   class Form < Reform::Form
     property :id
 
