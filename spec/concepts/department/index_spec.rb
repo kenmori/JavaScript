@@ -58,6 +58,32 @@ RSpec.describe Department::Index do
     expect(result[:query].dig(1, "children").map(&l_name)).to contain_exactly("クラサポ部", "販売部")
   end
 
+  example "SUCCESS: アーカイブされた部署の情報も返す" do
+    # dep_1_1_1 をアーカイブ
+    dep_1_1_1.department_members.destroy_all
+    Department::Destroy.call(params: {id: dep_1_1_1.id})
+
+    params = {
+      organization_id: organization.id,
+      ids: [dep_1_1_1.id]
+    }
+
+    result = described_class.call(params: params)
+
+    # archived が true になり、 soft_destroyed_at にアーカイブした時刻が入る
+    expect(result[:query][0]).to include(
+      "id" => dep_1_1_1.id,
+      "archived" => true,
+      "soft_destroyed_at" => a_kind_of(Time),
+      "name" => "金融部",
+      "display_order" => 1,
+      "created_at" => a_kind_of(Time),
+      "updated_at" => a_kind_of(Time),
+      "user_count" => 0,
+      "children" => []
+    )
+  end
+
   example "ERROR: 指定した部署の組織が異なる" do
     params = {
       organization_id: organization.id,
