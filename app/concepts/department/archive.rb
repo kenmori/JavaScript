@@ -1,16 +1,14 @@
+# frozen_string_literal: true
+
 class Department::Archive < Trailblazer::Operation
   class Form < Reform::Form
     property :id
 
     validate -> {
-      if model.has_children?
-        errors.add(:base, :must_not_have_children)
-      end
+      errors.add(:base, :must_not_have_children) if model.has_children?
     }
     validate -> {
-      if model.users.present?
-        errors.add(:base, :members_must_not_belong)
-      end
+      errors.add(:base, :members_must_not_belong) if model.users.present?
     }
   end
 
@@ -20,7 +18,7 @@ class Department::Archive < Trailblazer::Operation
   step Contract::Persist(method: :sync)
   step :delete_record
 
-  def delete_record(options, model:, params:, **_metadata)
+  def delete_record(_options, model:, params:, **_metadata)
     model.soft_destroy
   end
 end

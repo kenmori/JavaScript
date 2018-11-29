@@ -15,7 +15,7 @@ class DepartmentObjectiveFactory < AbstractActiveRecordFactory
     def default_params
       {
         department_id: department.id,
-        objective_id: objective.id,
+        objective_id: objective.id
       }
     end
 end

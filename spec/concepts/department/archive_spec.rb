@@ -1,25 +1,27 @@
+# frozen_string_literal: true
+
 RSpec.describe Department::Archive do
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
 
-  let!(:department) {
+  let!(:department) do
     DepartmentFactory.new(
       organization: organization,
       owner: admin_user
-    ).create.tap {|d|
+    ).create.tap do |d|
       # 部署にユーザーが所属していると削除できないので消す
       d.department_members.destroy_all
-    }
-  }
+    end
+  end
 
-  let(:params) {
+  let(:params) do
     {
       id: department.id
     }
-  }
+  end
 
   example "SUCCESS: remove department" do
-    result = Department::Archive.call(params: params)
+    result = described_class.call(params: params)
     department = result[:model]
 
     expect(result).to be_success
@@ -39,7 +41,7 @@ RSpec.describe Department::Archive do
       objective: objective
     ).create
 
-    result = Department::Archive.call(params: params)
+    result = described_class.call(params: params)
     department = result[:model]
 
     expect(result).to be_success
@@ -53,7 +55,7 @@ RSpec.describe Department::Archive do
       parent_department: department
     ).create
 
-    result = Department::Archive.call(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -71,7 +73,7 @@ RSpec.describe Department::Archive do
       user: user
     ).create
 
-    result = Department::Archive.call(params: params)
+    result = described_class.call(params: params)
     contract = result["contract.default"]
 
     expect(result).to be_failure

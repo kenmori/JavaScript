@@ -78,24 +78,20 @@ RSpec.configure do |config|
     # DatabaseRewinder.clean_with nil, except: %w()
   end
 
-  config.before do |example|
+  config.before do |_example|
     ActionMailer::Base.deliveries.clear
   end
 
-  config.after do |example|
+  config.after do |_example|
     DatabaseRewinder.clean
   end
 
-  config.before(:each) do
-    if Bullet.enable?
-      Bullet.start_request
-    end
+  config.before do
+    Bullet.start_request if Bullet.enable?
   end
 
-  config.after(:each) do
-    if Bullet.enable?
-      Bullet.end_request
-    end
+  config.after do
+    Bullet.end_request if Bullet.enable?
   end
 end
 
