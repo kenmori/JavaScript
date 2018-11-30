@@ -4,7 +4,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort("The Rails environment is running in production mode!") if Rails.env.in?(%w[production staging])
 require "spec_helper"
 require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -104,4 +104,9 @@ RspecApiDocumentation.configure do |config|
   config.keep_source_order = true
   config.post_body_formatter = :json
   config.api_name = "Resily API Documentation"
+
+  # NOTE RspecApiDocumentation に `status` というメソッドがあるが、`parameter :status` を指定したい時に `let(:status)` を作ろうと
+  # するためメソッド名が競合する。これを回避するために disable_dsl_status! を行うと `status` の代わりに `response_status` を
+  # 使うようになる。
+  config.disable_dsl_status!
 end

@@ -12,7 +12,6 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -20,14 +19,21 @@ Bundler.require(*Rails.groups)
 
 module Resily
   class Application < Rails::Application
+    config.load_defaults 5.2
+
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
+
     config.time_zone = "Tokyo"
     I18n.enforce_available_locales = true
     config.i18n.load_path += Dir[Rails.root.join("config", "locales", "models", "*.{rb,yml}").to_s]
     config.i18n.default_locale = :ja
+
     config.generators do |g|
       g.orm :active_record
       g.template_engine :slim
-      g.test_framework false
+      g.test_framework :rspec, fixture: false
       g.view_specs false
       g.controller_specs false
       g.routing_specs false
@@ -35,19 +41,10 @@ module Resily
       g.request_specs false
       g.assets false
       g.helper false
+      g.system_tests false
     end
-    config.autoload_paths += %W[#{config.root}/lib]
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
-    # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.1
-
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
-
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.autoload_paths += Dir["#{config.root}/lib/"]
 
     # ActionMailer setting
     config.action_mailer.default_url_options = {

@@ -10,7 +10,7 @@ RSpec.resource "GET /key_results/unprocessed", warden: true do
   include RequestHeaderJson
 
   before do
-    login_as(login_user)
+    login_as(nomal_user)
   end
 
   get "/key_results/unprocessed" do
@@ -28,7 +28,7 @@ RSpec.resource "GET /key_results/unprocessed", warden: true do
         okr_period_id: okr_period.id
       )
 
-      expect(status).to eq(200)
+      expect(response_status).to eq(200)
 
       key_results = parse_response_body("key_results")
       expect(key_results.size).to eq(1)
@@ -68,7 +68,7 @@ RSpec.resource "GET /key_results/unprocessed", warden: true do
         okr_period_id: okr_period.id
       )
 
-      expect(status).to eq(200)
+      expect(response_status).to eq(200)
 
       expect(parse_response_body).to include(
         "key_results" => []
@@ -83,7 +83,7 @@ RSpec.resource "GET /key_results/unprocessed", warden: true do
         okr_period_id: okr_period.id
       )
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end

@@ -17,5 +17,8 @@ test:
   <<: *default
   database: <%= ENV.fetch('RAILS_DATABASE_TEST', 'test')%>
 
+staging:
+  <<: *default
+
 production:
   <<: *default

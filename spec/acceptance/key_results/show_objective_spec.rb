@@ -10,7 +10,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
   include RequestHeaderJson
 
   before do
-    login_as(login_user)
+    login_as(nomal_user)
   end
 
   get "/key_results/:id/objective" do
@@ -21,7 +21,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
 
       do_request(id: key_result.id)
 
-      expect(status).to eq(200)
+      expect(response_status).to eq(200)
 
       objective = parse_response_body("objective")
       expect(objective).to include(
@@ -56,7 +56,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
 
       do_request(id: 0)
 
-      expect(status).to eq(404)
+      expect(response_status).to eq(404)
       expect(parse_response_error).to eq(["操作の対象が存在しません"])
     end
 
@@ -65,7 +65,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
 
       do_request(id: other_org_key_result.id)
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end

@@ -10,6 +10,7 @@ end
 
 gem "active_decorator", "~> 1.0.0"
 gem "ancestry"
+gem "aws-sdk-sqs"
 gem "carrierwave"
 gem "carrierwave-i18n"
 gem "data_migrate"

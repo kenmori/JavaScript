@@ -70,6 +70,12 @@ jobs:
                               --out test-results/rspec.xml \
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: Generate API Documente
+          command: |
+            bundle exec rake docs:generate:ordered
       # collect reports
       - store_test_results:
           path: test-results
+      - store_artifacts:
+          path: docs/api
