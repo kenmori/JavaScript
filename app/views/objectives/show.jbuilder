@@ -10,11 +10,17 @@ json.objective do
     json.partial! "key_results/with_child_objectives", key_result: parent_key_result if parent_key_result
   end
 
+  json.comment do
+    json.partial! "comments/objective_comment", collection: @objective.objective_comments, as: :comment
+  end
+
   json.key_results do
     json.array!(@objective.key_results) do |key_result|
       json.partial! "key_results/with_child_objectives", key_result: key_result
 
       json.result key_result.result
+
+      puts "== #{key_result.inspect}"
 
       json.comments do
         json.partial! "comments/comment", collection: key_result.comments, as: :comment
