@@ -23,7 +23,7 @@ RSpec.resource "DELETE /departments/:id", warden: true do
 
       do_request(id: dep_1_1_1.id)
 
-      expect(status).to eq(204)
+      expect(response_status).to eq(204)
       expect(parse_response_body).to be_blank
     end
 
@@ -32,7 +32,7 @@ RSpec.resource "DELETE /departments/:id", warden: true do
 
       do_request(id: dep_1_1.id)
 
-      expect(status).to eq(400)
+      expect(response_status).to eq(400)
       expect(parse_response_error).to include("下位部署が存在するのでアーカイブ出来ません")
     end
   end
