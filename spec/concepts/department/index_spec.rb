@@ -86,7 +86,7 @@ RSpec.describe Department::Index do
   context "複数人が部署に所属している場合" do
     before do
       DepartmentMemberFactory.new(department: dep_1, user: other_user).create
-      DepartmentMemberFactory.new(department: dep_1, user: login_user).create
+      DepartmentMemberFactory.new(department: dep_1, user: nomal_user).create
 
       UserFactory.new(organization: organization).create(email: "dep_1_1@example.com").tap do |user|
         DepartmentMemberFactory.new(department: dep_1_1, user: user).create

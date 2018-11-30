@@ -29,11 +29,11 @@ RSpec.resource "POST /departments", warden: true do
           name: "開発部",
           display_order: 1,
           parent_department_id: nil,
-          owner_id: login_user.id
+          owner_id: nomal_user.id
         }
       )
 
-      expect(status).to eq(201)
+      expect(response_status).to eq(201)
       expect(parse_response_body).to include(
         "department" => {
           "id" => a_kind_of(Integer),
@@ -58,7 +58,7 @@ RSpec.resource "POST /departments", warden: true do
         }
       )
 
-      expect(status).to eq(400)
+      expect(response_status).to eq(400)
       expect(parse_response_error).to include(
         "部署名を入力してください",
         "表示順を入力してください",
@@ -70,18 +70,18 @@ RSpec.resource "POST /departments", warden: true do
     example "ERROR: Singin user is not admin", gaffe: true do
       explanation "サインインユーザがadminではない場合エラー"
 
-      login_as(login_user)
+      login_as(nomal_user)
 
       do_request(
         department: {
           name: "開発部",
           display_order: 1,
           parent_department_id: nil,
-          owner_id: login_user.id
+          owner_id: nomal_user.id
         }
       )
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end

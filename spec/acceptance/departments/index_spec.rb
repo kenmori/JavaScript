@@ -23,7 +23,7 @@ RSpec.resource "GET /departments", warden: true do
 
       do_request
 
-      expect(status).to eq(200)
+      expect(response_status).to eq(200)
 
       departments = parse_response_body("departments")
       expect(departments.size).to eq(1)
@@ -41,7 +41,7 @@ RSpec.resource "GET /departments", warden: true do
 
       do_request(ids: [dep_1_1.id])
 
-      expect(status).to eq(200)
+      expect(response_status).to eq(200)
 
       departments = parse_response_body("departments")
       expect(departments.size).to eq(1)
@@ -56,7 +56,7 @@ RSpec.resource "GET /departments", warden: true do
 
       do_request(ids: [dep_2.id])
 
-      expect(status).to eq(400)
+      expect(response_status).to eq(400)
 
       expect(parse_response_error).to eq(["部署IDは組織内から選択してください"])
     end
@@ -64,11 +64,11 @@ RSpec.resource "GET /departments", warden: true do
     example "ERROR: Singin user is not admin", gaffe: true do
       explanation "サインインユーザがadminではない場合エラー"
 
-      login_as(login_user)
+      login_as(nomal_user)
 
       do_request
 
-      expect(status).to eq(403)
+      expect(response_status).to eq(403)
       expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
