@@ -53,4 +53,9 @@ module ErrorJsonResponder
 
       render json: error_format, status: status_code
     end
+
+    # NOTE Trailblazer::Operation の result からエラーメッセージを render するメソッド
+    def render_contract_errors(operation_result)
+      render_error_json(:bad_request, operation_result["contract.default"].errors.full_messages)
+    end
 end

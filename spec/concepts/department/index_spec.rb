@@ -15,6 +15,7 @@ RSpec.describe Department::Index do
     root = result[:query].first
     expect(root).to include(
       "id" => dep_1.id,
+      "archived" => false,
       "soft_destroyed_at" => nil,
       "name" => "代表",
       "display_order" => 1,
@@ -55,6 +56,32 @@ RSpec.describe Department::Index do
     expect(result[:query].map(&l_name)).to contain_exactly("開発部", "営業部")
     expect(result[:query].dig(0, "children").map(&l_name)).to contain_exactly("金融部", "Web部")
     expect(result[:query].dig(1, "children").map(&l_name)).to contain_exactly("クラサポ部", "販売部")
+  end
+
+  example "SUCCESS: アーカイブされた部署の情報も返す" do
+    # dep_1_1_1 をアーカイブ
+    dep_1_1_1.department_members.destroy_all
+    Department::Archive.call(params: { id: dep_1_1_1.id })
+
+    params = {
+      organization_id: organization.id,
+      ids: [dep_1_1_1.id]
+    }
+
+    result = described_class.call(params: params)
+
+    # archived が true になり、 soft_destroyed_at にアーカイブした時刻が入る
+    expect(result[:query][0]).to include(
+      "id" => dep_1_1_1.id,
+      "archived" => true,
+      "soft_destroyed_at" => a_kind_of(Time),
+      "name" => "金融部",
+      "display_order" => 1,
+      "created_at" => a_kind_of(Time),
+      "updated_at" => a_kind_of(Time),
+      "user_count" => 0,
+      "children" => []
+    )
   end
 
   example "ERROR: 指定した部署の組織が異なる" do
