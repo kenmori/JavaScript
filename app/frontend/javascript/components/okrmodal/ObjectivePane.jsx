@@ -169,7 +169,6 @@ class ObjectivePane extends PureComponent {
             {comments ? (
               <StretchCommentPane
                 comments={comments}
-                commentLabels={objectiveCommentLabels}
                 onDelete={this.removeComment}
                 onUpdate={this.editComment}
               />
@@ -185,10 +184,6 @@ class ObjectivePane extends PureComponent {
             />
             <div className="comment-pane__block">
               <Form.Group className="group">
-                <KeyResultCommentLabelDropdown
-                  commentLabels={objectiveCommentLabels}
-                  onChange={this.handleDropdownChange}
-                />
                 <Form.Button content="投稿する" onClick={this.addComment} />
               </Form.Group>
             </div>
