@@ -229,6 +229,17 @@ class ObjectivesController < ApplicationController
           user_id: current_user.id,
           objective_comment_label: comment_label
         )
+      when "edit"
+        data = comment_data["data"]
+        comment_label = ObjectiveCommentLabel.find_by(
+          id: data["objective_comment_label"]["id"],
+          organization: current_user.organization
+        )
+        comment = @objective.objective_comments.find(data["id"])
+        comment.update(text: data[:text], objective_comment_label: comment_label)
+      when "remove"
+        comment = @objective.objective_comments.find(comment_data["data"])
+        comment.destroy!
       end
     end
 end

@@ -101,7 +101,7 @@ class ObjectivePane extends PureComponent {
     this.props.confirm({
       content: 'コメントを削除しますか？',
       onConfirm: () =>
-        this.props.updateKeyResult({
+        this.props.updateObjective({
           comment: { data: id, behavior: 'remove' }
         })
     })
@@ -110,12 +110,12 @@ class ObjectivePane extends PureComponent {
   editComment = (id, text, label) => {
     if (!text) return
 
-    this.props.updateKeyResult({
+    this.props.updateObjective({
       comment: {
         data: {
           id,
           text,
-          key_result_comment_label: { id: label }
+          objective_comment_label: { id: label }
         },
         behavior: 'edit'
       }
