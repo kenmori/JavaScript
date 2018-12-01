@@ -2,6 +2,18 @@
   &__header {
     margin-bottom: 0 !important;
   }
+  &__headerPane {
+    display: flex;
+    align-items: center;
+
+    &__title {
+      margin-bottom: 0px;
+    }
+
+    &__button {
+      margin-left: 20px;
+    }
+  }
   &__content {
     margin-bottom: 0 !important;
     &__header {

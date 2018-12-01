@@ -123,7 +123,13 @@ class MeetingPage extends PureComponent {
             color="black"
             className="meeting-board__header"
           >
-            {title}
+            <div className="meeting-board__headerPane">
+              <p className="meeting-board__headerPane__title">{title}</p>
+              <a className="meeting-board__headerPane__button">
+                <Icon name="plus" />
+                <span>コメントを追加する</span>
+              </a>
+            </div>
           </Header>
           <Grid celled columns={3} className="meeting-board__content">
             <Grid.Row>
