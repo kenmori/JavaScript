@@ -10,7 +10,7 @@ json.objective do
     json.partial! "key_results/with_child_objectives", key_result: parent_key_result if parent_key_result
   end
 
-  json.comment do
+  json.comments do
     json.partial! "comments/objective_comment", collection: @objective.objective_comments, as: :comment
   end
 

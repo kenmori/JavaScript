@@ -17,4 +17,8 @@ json.objective do
   json.detached_parent_key_result do
     json.partial! "key_results/progress_rate", key_result: detached_parent_key_result if detached_parent_key_result
   end
+
+  json.comments do
+    json.partial! "comments/objective_comment", collection: @objective.objective_comments, as: :comment
+  end
 end
