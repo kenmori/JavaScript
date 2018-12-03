@@ -9,7 +9,7 @@ RSpec.resource "PATCH /departments/:id", warden: true do
   include RequestHeaderJson
   include OrganizationDataset
 
-  let(:department) {
+  let!(:department) {
     DepartmentFactory.new(
       organization: organization,
       owner: admin_user
