@@ -65,5 +65,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :departments, only: %i[index create destroy]
+
   get "*path", to: "home#index"
 end

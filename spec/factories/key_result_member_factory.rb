@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "abstract_factory"
+require_relative "abstract_active_record_factory"
 
-class KeyResultMemberFactory < AbstractFactory
+class KeyResultMemberFactory < AbstractActiveRecordFactory
   def initialize(user:, key_result:)
     super(KeyResultMember.new)
     @user = user

@@ -50,11 +50,9 @@ Rails.application.configure do
   config.assets.debug = true
   # Bulletの設定
   config.after_initialize do
-    Bullet.enable = true # Bulletプラグインを有効
-    Bullet.alert = true # JavaScriptでの通知
-    Bullet.bullet_logger = true # log/bullet.logへの出力
-    Bullet.console = true # ブラウザのコンソールログに記録
-    Bullet.rails_logger = true # Railsログに出力
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = true
   end
 
   # Suppress logger output for asset requests.

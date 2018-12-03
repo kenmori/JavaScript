@@ -6,6 +6,7 @@
 #
 class ErrorsController < ActionController::Base
   include Gaffe::Errors
+  include ErrorJsonResponder
 
   protect_from_forgery except: :show
   layout false
@@ -31,7 +32,7 @@ class ErrorsController < ActionController::Base
 
       message = error_messages.fetch(@status_code.to_s, error_messages["default"])
 
-      render json: { error: message }, status: @status_code
+      render_error_json(@status_code, message)
     end
 
     def html_error_handling

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "abstract_factory"
+require_relative "abstract_active_record_factory"
 
-class CommentFactory < AbstractFactory
+class CommentFactory < AbstractActiveRecordFactory
   def initialize(key_result:, user:)
     super(Comment.new)
     @key_result = key_result

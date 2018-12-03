@@ -14,7 +14,7 @@ RSpec.resource "GET /key_results/comment_labels", warden: true do
   end
 
   get "/key_results/comment_labels" do
-    example "SUCCESS: get comment labels" do
+    example "SUCCESS: get comment labels", bullet: false do
       explanation "サインインユーザーの所属する組織のコメントラベルを取得する"
 
       do_request

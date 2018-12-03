@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "abstract_factory"
+require_relative "abstract_active_record_factory"
 
-class BounceEmailFactory < AbstractFactory
+class BounceEmailFactory < AbstractActiveRecordFactory
   def initialize
     super(BounceEmail.new)
   end
