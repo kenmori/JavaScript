@@ -8,6 +8,11 @@ department_attrs = {
   organization: model_names[:organization],
   organization_id: model_names[:organization]
 }
+department_create_attrs = {
+  **department_attrs,
+  owner_id: "#{model_names[:department]}責任者",
+  parent_department_id: "親#{model_names[:department]}"
+}
 
 {
   ja: {
@@ -18,15 +23,12 @@ department_attrs = {
     },
     activemodel: {
       attributes: {
-        'department/create': {
-          **department_attrs,
-          owner_id: "#{model_names[:department]}責任者",
-          parent_department_id: "親#{model_names[:department]}"
-        },
+        'department/create': department_create_attrs,
         'department/index': {
           organization_id: model_names[:organization],
           ids: "#{model_names[:department]}ID"
-        }
+        },
+        'department/update': department_create_attrs
       },
       errors: {
         models: {
