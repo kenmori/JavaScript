@@ -7,7 +7,10 @@ class Department::Update < Trailblazer::Operation
     property :name
     property :display_order
     property :parent_department_id, virtual: true
-    property :owner_id, virtual: true
+    property :owner, virtual: true do
+      property :id
+      property :behavior
+    end
 
     include DepartmentValidation.new(:default)
 
@@ -15,7 +18,11 @@ class Department::Update < Trailblazer::Operation
   end
 
   step Model(Department, :find_by)
-  step Contract::Build(constant: Form)
+  step Contract::Build(builder: ->(options, model:, **){
+    # TODO OpenStruct のままでよいか検討する
+    owner = OpenStruct.new({id: nil, behavior: nil})
+    Form.new(model, owner: owner)
+  })
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :update_record
@@ -27,11 +34,24 @@ class Department::Update < Trailblazer::Operation
       end
       model.save!
 
-      if params[:owner_id].present?
-        model.department_members_owner.update!(user_id: params[:owner_id])
+      if params[:owner]
+        update_owner!(model, **params[:owner])
       end
     end
 
     true
+  end
+
+  private
+
+  def update_owner!(department, id:, behavior:)
+    case behavior.to_s
+    when "change"
+      department.department_members_owner.update!(user_id: id)
+    when "remove"
+      department.department_members_owner.destroy!
+    else
+      fail ArgumentError.new("unkown behavior: #{behavior}")
+    end
   end
 end

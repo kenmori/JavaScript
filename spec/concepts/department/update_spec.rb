@@ -84,7 +84,10 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner_id: nomal_user.id
+        owner: {
+          id: nomal_user.id,
+          behavior: :change
+        }
       }
 
       result = described_class.call(params: params)
@@ -94,11 +97,14 @@ RSpec.describe Department::Update do
       expect(child_department.owner).to eq(nomal_user)
     end
 
-    xexample "部署責任者を削除する" do
+    example "部署責任者を削除する" do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner_id: nil
+        owner: {
+          id: nil,
+          behavior: :remove
+        }
       }
 
       result = described_class.call(params: params)
@@ -115,7 +121,10 @@ RSpec.describe Department::Update do
         name: "Ruby部",
         display_order: 2,
         parent_department_id: department.id,
-        owner_id: nomal_user.id
+        owner: {
+          id: nomal_user.id,
+          behavior: :change
+        }
       }
 
       result = described_class.call(params: params)
