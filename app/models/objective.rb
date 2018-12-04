@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # ## Schema Information
 #
 # Table name: `objectives`
@@ -14,6 +13,7 @@
 # **`key_result_order`**      | `string(255)`      |
 # **`name`**                  | `string(255)`      | `not null`
 # **`progress_rate`**         | `integer`          |
+# **`result`**                | `string(255)`      |
 # **`sub_progress_rate`**     | `integer`          |
 # **`created_at`**            | `datetime`         | `not null`
 # **`updated_at`**            | `datetime`         | `not null`
