@@ -6,8 +6,6 @@ class Department::Update < Trailblazer::Operation
     property :organization_id
     property :name
     property :display_order
-    # TODO parent_department_id がアーカイブ済みの場合エラー
-    # TODO parent_department_id は同じ組織に所属している必要がある
     property :parent_department_id, virtual: true
     property :owner_id, virtual: true
     property :owner_behavior, virtual: true

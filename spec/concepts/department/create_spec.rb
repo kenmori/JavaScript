@@ -127,6 +127,33 @@ RSpec.describe Department::Create do
     )
   end
 
+  example "ERROR: アーカイブされた部署を親部署に指定することは出来ない" do
+    archived_department = DepartmentFactory.new(
+      organization: organization,
+      owner: admin_user
+    ).create_archived(
+      name: "廃部",
+      display_order: 2
+    )
+
+    params = {
+      name: "開発部",
+      display_order: 1,
+      organization_id: organization.id,
+      parent_department_id: archived_department.id,
+      owner_id: admin_user.id
+    }
+
+    result = described_class.call(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to contain_exactly(
+      "親部署はアーカイブ済みです"
+    )
+
+  end
+
   example "ERROR: 指定したIDが見つからないケース" do
     params = {
       name: "開発部",
