@@ -12,6 +12,7 @@ class Department::Update < Trailblazer::Operation
 
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
     validates :id, VH[:required, :natural_number]
+    validates :parent_department_id, exclusion: {in: ->(form) { [form.id, form.id.to_s] }, message: :must_be_other}
     validates :owner_behavior, inclusion: { in: %w(change remove), allow_blank: true }
   end
 

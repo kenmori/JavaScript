@@ -28,16 +28,20 @@ department_create_attrs = {
           organization_id: model_names[:organization],
           ids: "#{model_names[:department]}ID"
         },
-        'department/update': {
-          **department_create_attrs,
-          owner: department_create_attrs[:owner_id]
-        }
+        'department/update': department_create_attrs
       },
       errors: {
         models: {
           'department/archive': {
             must_not_have_children: "下位部署が存在するのでアーカイブ出来ません",
             members_must_not_belong: "ユーザが所属しているのでアーカイブ出来ません"
+          },
+          'department/update': {
+            attributes: {
+              parent_department_id: {
+                must_be_other: "は別の部署にしてください"
+              }
+            }
           }
         }
       }
