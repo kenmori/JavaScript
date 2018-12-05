@@ -157,4 +157,57 @@ RSpec.describe Department::Update do
       "部署名を入力してください"
     )
   end
+
+  fcontext '他の組織が存在する' do
+    let!(:other_org) { OrganizationFactory.new.create(name: "other") }
+    let!(:other_org_user) do
+      UserFactory.new(organization: other_org).create(
+        last_name: "花京院",
+        first_name: "典明",
+        email: "other_org_user@example.com",
+        admin: true
+      )
+    end
+    let!(:other_org_department) do
+      DepartmentFactory.new(organization: other_org, owner: other_org_user).create(
+        name: "企画部",
+        display_order: 1
+      )
+    end
+
+    example "ERROR: 異なる組織の部署を親部署に指定することは出来ない" do
+      params = {
+        id: department.id,
+        organization_id: organization.id,
+        parent_department_id: other_org_department.id,
+      }
+
+      result = described_class.call(params: params)
+      contract = result["contract.default"]
+
+      expect(result).to be_failure
+      expect(contract.errors.full_messages).to contain_exactly(
+        "親部署は組織内から選択してください"
+      )
+    end
+
+    example "ERROR: 異なる組織のユーザーを部署責任者に指定することは出来ない" do
+      params = {
+        id: department.id,
+        organization_id: organization.id,
+        owner: {
+          owner_id: other_org_user.id,
+          behavior: "change"
+        }
+      }
+
+      result = described_class.call(params: params)
+      contract = result["contract.default"]
+
+      expect(result).to be_failure
+      expect(contract.errors.full_messages).to contain_exactly(
+        "部署責任者は組織内から選択してください"
+      )
+    end
+  end
 end

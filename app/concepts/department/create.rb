@@ -8,7 +8,11 @@ class Department::Create < Trailblazer::Operation
     property :owner_id, virtual: true
     property :parent_department_id, virtual: true
 
-    include DepartmentValidation.new(:default, :create)
+    # TODO parent_department_id がアーカイブ済みの場合エラー
+    # TODO parent_department_id は自分自身とか子孫とかは指定できない
+    # これが使えそう https://github.com/stefankroes/ancestry#integrity-checking-and-restoration
+    include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
+    validates :owner_id, VH[:required]
   end
 
   step Model(Department, :new)

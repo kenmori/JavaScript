@@ -28,7 +28,10 @@ department_create_attrs = {
           organization_id: model_names[:organization],
           ids: "#{model_names[:department]}ID"
         },
-        'department/update': department_create_attrs
+        'department/update': {
+          **department_create_attrs,
+          owner: department_create_attrs[:owner_id]
+        }
       },
       errors: {
         models: {

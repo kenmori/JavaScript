@@ -6,18 +6,32 @@ class Department::Update < Trailblazer::Operation
     property :organization_id
     property :name
     property :display_order
+    # TODO parent_department_id がアーカイブ済みの場合エラー
+    # TODO parent_department_id は同じ組織に所属している必要がある
     property :parent_department_id, virtual: true
     property :owner, virtual: true do
-      property :id
+      property :owner_id
       property :behavior
 
-      validates :id, VH[:natural_number]
+      # TODO id は サインインユーザと同じ組織に所属している必要がある
+      # include DepartmentValidation.new(:owner_id)
+      validates :owner_id, VH[:natural_number]
+      validates :owner_id, VH[:natural_number]
+      validate VH.existence_of(User, :owner_id)
+
       validates :behavior, inclusion: { in: %w(change remove), allow_blank: true }
     end
 
-    include DepartmentValidation.new(:default)
-
+    include DepartmentValidation.new(:default, :parent_department_id)
     validates :id, VH[:required, :natural_number]
+
+    validate -> {
+      return unless owner.owner_id
+
+      unless OrganizationMember.find_by(organization_id: organization_id, user_id: owner.owner_id)
+        errors.add(:owner, :must_be_same_organization)
+      end
+    }
   end
 
   step Model(Department, :find_by)
