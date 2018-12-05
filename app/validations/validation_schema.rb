@@ -62,17 +62,18 @@ class ValidationSchema < Module
     end
   end
 
-  def initialize(*context)
-    @context = context
+  def initialize(*use_contexts)
+    @use_contexts = use_contexts
   end
 
   def included(base)
     lambdas =
-      if @context.empty?
+      if @use_contexts.empty?
         [contexts[:default]]
       else
-        contexts.values_at(*@context)
+        @use_contexts.map {|context| contexts.fetch(context) }
       end
+
     lambdas.each do |schema|
       base.instance_exec(&schema)
     end
