@@ -20,13 +20,26 @@ class Department::Update < Trailblazer::Operation
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
+  step :check_ancestry_exclude_self
   step :update_record
+
+  private
+
+  def check_ancestry_exclude_self(options, model:, params:, **_metadata)
+    return true unless params[:parent_department_id]
+
+    model.parent_id = params[:parent_department_id]
+    model.ancestry_exclude_self
+    if model.errors.present?
+      options["contract.default"].errors.add(:parent_department_id, :exclusion_self)
+      false
+    else
+      true
+    end
+  end
 
   def update_record(_options, model:, params:, **_metadata)
     ApplicationRecord.transaction do
-      if params[:parent_department_id]
-        model.parent = Department.find(params[:parent_department_id])
-      end
       model.save!
 
       if params[:owner_behavior]
@@ -36,8 +49,6 @@ class Department::Update < Trailblazer::Operation
 
     true
   end
-
-  private
 
   def update_owner!(department, owner_id:, owner_behavior:)
     case owner_behavior.to_s

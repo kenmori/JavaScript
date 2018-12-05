@@ -192,6 +192,39 @@ RSpec.describe Department::Update do
     )
   end
 
+  example "ERROR: 子孫の部署を親部署に指定することは出来ない" do
+    child_department = DepartmentFactory.new(
+      organization: organization,
+      owner: admin_user,
+      parent_department: department
+    ).create(
+      name: "Web開発部",
+      display_order: 1
+    )
+    grandchild_department = DepartmentFactory.new(
+      organization: organization,
+      owner: admin_user,
+      parent_department: child_department
+    ).create(
+      name: "Ruby部",
+      display_order: 1
+    )
+
+    params = {
+      id: department.id,
+      organization_id: organization.id,
+      parent_department_id: grandchild_department.id,
+    }
+
+    result = described_class.call(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to contain_exactly(
+      "親部署に子孫の部署を指定することは出来ません"
+    )
+  end
+
   context '他の組織が存在する' do
     let!(:other_org) { OrganizationFactory.new.create(name: "other") }
     let!(:other_org_user) do

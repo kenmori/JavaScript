@@ -39,7 +39,8 @@ department_create_attrs = {
           'department/update': {
             attributes: {
               parent_department_id: {
-                must_be_other: "は別の部署にしてください"
+                must_be_other: "は別の部署にしてください",
+                exclusion_self: "に子孫の部署を指定することは出来ません"
               }
             }
           }
