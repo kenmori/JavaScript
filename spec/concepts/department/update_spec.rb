@@ -86,7 +86,7 @@ RSpec.describe Department::Update do
         organization_id: organization.id,
         owner: {
           id: nomal_user.id,
-          behavior: :change
+          behavior: "change"
         }
       }
 
@@ -103,7 +103,7 @@ RSpec.describe Department::Update do
         organization_id: organization.id,
         owner: {
           id: nil,
-          behavior: :remove
+          behavior: "remove"
         }
       }
 
@@ -123,7 +123,7 @@ RSpec.describe Department::Update do
         parent_department_id: department.id,
         owner: {
           id: nomal_user.id,
-          behavior: :change
+          behavior: "change"
         }
       }
 

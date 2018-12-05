@@ -10,6 +10,9 @@ class Department::Update < Trailblazer::Operation
     property :owner, virtual: true do
       property :id
       property :behavior
+
+      validates :id, VH[:natural_number]
+      validates :behavior, inclusion: { in: %w(change remove), allow_blank: true }
     end
 
     include DepartmentValidation.new(:default)
@@ -19,7 +22,6 @@ class Department::Update < Trailblazer::Operation
 
   step Model(Department, :find_by)
   step Contract::Build(builder: ->(options, model:, **){
-    # TODO OpenStruct のままでよいか検討する
     owner = OpenStruct.new({id: nil, behavior: nil})
     Form.new(model, owner: owner)
   })
