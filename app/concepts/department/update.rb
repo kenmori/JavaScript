@@ -9,36 +9,16 @@ class Department::Update < Trailblazer::Operation
     # TODO parent_department_id がアーカイブ済みの場合エラー
     # TODO parent_department_id は同じ組織に所属している必要がある
     property :parent_department_id, virtual: true
-    property :owner, virtual: true do
-      property :owner_id
-      property :behavior
+    property :owner_id, virtual: true
+    property :owner_behavior, virtual: true
 
-      # TODO id は サインインユーザと同じ組織に所属している必要がある
-      # include DepartmentValidation.new(:owner_id)
-      validates :owner_id, VH[:natural_number]
-      validates :owner_id, VH[:natural_number]
-      validate VH.existence_of(User, :owner_id)
-
-      validates :behavior, inclusion: { in: %w(change remove), allow_blank: true }
-    end
-
-    include DepartmentValidation.new(:default, :parent_department_id)
+    include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
     validates :id, VH[:required, :natural_number]
-
-    validate -> {
-      return unless owner.owner_id
-
-      unless OrganizationMember.find_by(organization_id: organization_id, user_id: owner.owner_id)
-        errors.add(:owner, :must_be_same_organization)
-      end
-    }
+    validates :owner_behavior, inclusion: { in: %w(change remove), allow_blank: true }
   end
 
   step Model(Department, :find_by)
-  step Contract::Build(builder: ->(options, model:, **){
-    owner = OpenStruct.new({id: nil, behavior: nil})
-    Form.new(model, owner: owner)
-  })
+  step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :update_record
@@ -50,8 +30,8 @@ class Department::Update < Trailblazer::Operation
       end
       model.save!
 
-      if params[:owner]
-        update_owner!(model, **params[:owner])
+      if params[:owner_behavior]
+        update_owner!(model, **params.slice(:owner_id, :owner_behavior))
       end
     end
 
@@ -60,14 +40,14 @@ class Department::Update < Trailblazer::Operation
 
   private
 
-  def update_owner!(department, id:, behavior:)
-    case behavior.to_s
+  def update_owner!(department, owner_id:, owner_behavior:)
+    case owner_behavior.to_s
     when "change"
-      department.department_members_owner.update!(user_id: id)
+      department.department_members_owner.update!(user_id: owner_id)
     when "remove"
       department.department_members_owner.destroy!
     else
-      fail ArgumentError.new("unkown behavior: #{behavior}")
+      fail ArgumentError.new("unkown owner_behavior: #{owner_behavior}")
     end
   end
 end

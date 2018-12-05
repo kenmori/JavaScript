@@ -84,10 +84,8 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner: {
-          id: nomal_user.id,
-          behavior: "change"
-        }
+        owner_id: nomal_user.id,
+        owner_behavior: "change"
       }
 
       result = described_class.call(params: params)
@@ -101,10 +99,8 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner: {
-          id: nil,
-          behavior: "remove"
-        }
+        owner_id: nil,
+        owner_behavior: "remove"
       }
 
       result = described_class.call(params: params)
@@ -121,10 +117,8 @@ RSpec.describe Department::Update do
         name: "Ruby部",
         display_order: 2,
         parent_department_id: department.id,
-        owner: {
-          id: nomal_user.id,
-          behavior: "change"
-        }
+        owner_id: nomal_user.id,
+        owner_behavior: "change"
       }
 
       result = described_class.call(params: params)
@@ -158,7 +152,7 @@ RSpec.describe Department::Update do
     )
   end
 
-  fcontext '他の組織が存在する' do
+  context '他の組織が存在する' do
     let!(:other_org) { OrganizationFactory.new.create(name: "other") }
     let!(:other_org_user) do
       UserFactory.new(organization: other_org).create(
@@ -195,10 +189,8 @@ RSpec.describe Department::Update do
       params = {
         id: department.id,
         organization_id: organization.id,
-        owner: {
-          owner_id: other_org_user.id,
-          behavior: "change"
-        }
+        owner_id: other_org_user.id,
+        owner_behavior: "change"
       }
 
       result = described_class.call(params: params)
