@@ -80,6 +80,7 @@ class ObjectivesController < ApplicationController
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
     forbidden("Objective 責任者のみ編集できます") and return unless valid_user?(@objective.owner.id)
+    puts "=== debug #{@objective} ==="
 
     ActiveRecord::Base.transaction do
       update_parent_key_result if params[:objective][:parent_key_result_id] # 再帰構造による無限ループ回避のため update! より先に処理する
@@ -208,12 +209,11 @@ class ObjectivesController < ApplicationController
 
     def objective_update_params
       params.require(:objective)
-            .permit(:name, :description, :parent_key_result_id, :progress_rate, :key_result_order)
+            .permit(:name, :description, :parent_key_result_id, :progress_rate, :key_result_order, :result)
     end
 
     def update_comment
       comment_data = params[:objective][:comment]
-      puts "===== controller ====="
 
       case comment_data["behavior"]
       when "add"

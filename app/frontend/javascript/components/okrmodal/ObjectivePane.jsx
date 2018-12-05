@@ -7,6 +7,7 @@ import OkrDescription from '../form/OkrDescription'
 import PopupLabel from '../util/PopupLabel'
 import StretchCommentPane from './StretchCommentPane'
 import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import AutoInput from '../form/AutoInput'
 
 class ObjectivePane extends PureComponent {
 
@@ -81,6 +82,8 @@ class ObjectivePane extends PureComponent {
   handleDropdownChange = (e, { value }) => {
     this.setState({ commentLabel: value })
   }
+
+  handleResultCommit = result => this.props.updateObjective({ result })
 
   addComment = () => {
     const { text, commentLabel } = this.state
@@ -161,6 +164,17 @@ class ObjectivePane extends PureComponent {
             text={objective.get('description')}
             onCommit={this.handleDescriptionCommit}
           />
+        </Form.Field>
+
+        <Form.Field className="flex-field">
+          <label>結果</label>
+          <div className="flex-field__item">
+            <AutoInput
+              value={objective.get('result') || ''}
+              placeholder="Objective の最終的な進捗を補足する結果を入力してください"
+              onCommit={this.handleResultCommit}
+            />
+          </div>
         </Form.Field>
 
         <Form.Field>
