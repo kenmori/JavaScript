@@ -62,8 +62,7 @@ RSpec.resource "POST /departments", warden: true do
       expect(parse_response_error).to include(
         "部署名を入力してください",
         "表示順を入力してください",
-        "部署責任者を入力してください",
-        "部署責任者は組織内から選択してください"
+        "部署責任者を入力してください"
       )
     end
 

@@ -33,7 +33,10 @@ class DepartmentsController < ApplicationController
 
   def update
     result = Department::Update.call(
-      params: params["department"].merge(organization_id: current_organization.id)
+      params: params[:department].merge(
+        id: params[:id],
+        organization_id: current_organization.id
+      )
     )
 
     if result.success?

@@ -26,11 +26,8 @@ RSpec.resource "PATCH /departments/:id", warden: true do
       parameter :name, "部署名(最大40文字)", type: :string
       parameter :display_order, "同じ深さのノード間での表示順", type: :integer
       parameter :parent_department_id, "親部署ID(サインインユーザーと同じ組織に属していること)", type: :integer
-
-      with_options scope: %i(department owner) do
-        parameter :id, "部署責任者ID(サインインユーザーと同じ組織に属していること)", type: :integer
-        parameter :behavior, "命令種別", enum: %w(change remove)
-      end
+      parameter :owner_id, "部署責任者ID(サインインユーザーと同じ組織に属していること)", type: :integer
+      parameter :owner_behavior, "部署責任者に対する命令種別", enum: %w(change remove)
     end
 
     example "SUCCESS: Update a department" do
@@ -42,10 +39,8 @@ RSpec.resource "PATCH /departments/:id", warden: true do
           name: "開発部",
           display_order: 2,
           parent_department_id: nil,
-          owner: {
-            id: nomal_user.id,
-            behavior: "change"
-          }
+          owner_id: nomal_user.id,
+          owner_behavior: "change"
         }
       )
 
@@ -89,7 +84,8 @@ RSpec.resource "PATCH /departments/:id", warden: true do
           name: "開発部",
           display_order: 2,
           parent_department_id: nil,
-          owner_id: nomal_user.id
+          owner_id: nomal_user.id,
+          owner_behavior: "change"
         }
       )
 

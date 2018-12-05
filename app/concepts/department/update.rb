@@ -43,14 +43,14 @@ class Department::Update < Trailblazer::Operation
       model.save!
 
       if params[:owner_behavior]
-        update_owner!(model, **params.slice(:owner_id, :owner_behavior))
+        update_owner!(model, params[:owner_id], params[:owner_behavior])
       end
     end
 
     true
   end
 
-  def update_owner!(department, owner_id:, owner_behavior:)
+  def update_owner!(department, owner_id, owner_behavior)
     case owner_behavior.to_s
     when "change"
       department.department_members_owner.update!(user_id: owner_id)
