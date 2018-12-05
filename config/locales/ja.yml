@@ -182,6 +182,7 @@ ja:
       wrong_length: は%{count}文字で入力してください
       other_than: は%{count}以外の値にしてください
       must_be_same_organization: "は組織内から選択してください"
+      must_not_be_archive: "はアーカイブ済みです"
       not_found: "は見つかりませんでした"
     template:
       body: 次の項目を確認してください

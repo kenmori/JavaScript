@@ -17,6 +17,10 @@ class DepartmentValidation < ValidationSchema
       if parent_department.organization_id != organization_id
         errors.add(:parent_department_id, :must_be_same_organization)
       end
+
+      if parent_department.soft_destroyed?
+        errors.add(:parent_department_id, :must_not_be_archive)
+      end
     }
   }
   setting :owner_id, -> {

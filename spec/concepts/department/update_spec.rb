@@ -11,15 +11,6 @@ RSpec.describe Department::Update do
   }
 
   describe "SUCCESS" do
-    let!(:other_department) {
-      DepartmentFactory.new(
-        organization: organization,
-        owner: admin_user
-      ).create(
-        name: "開発部",
-        display_order: 2
-      )
-    }
     let!(:child_department) {
       DepartmentFactory.new(
         organization: organization,
@@ -149,6 +140,30 @@ RSpec.describe Department::Update do
       "組織を入力してください",
       "表示順を入力してください",
       "部署名を入力してください"
+    )
+  end
+
+  example 'ERROR: アーカイブされた部署を親部署に指定することは出来ない' do
+    archived_department = DepartmentFactory.new(
+      organization: organization,
+      owner: admin_user
+    ).create_archived(
+      name: "開発部",
+      display_order: 2
+    )
+
+    params = {
+      id: department.id,
+      organization_id: organization.id,
+      parent_department_id: archived_department.id,
+    }
+
+    result = described_class.call(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to contain_exactly(
+      "親部署はアーカイブ済みです"
     )
   end
 
