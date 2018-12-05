@@ -11,6 +11,15 @@ RSpec.describe Department::Update do
   }
 
   describe "SUCCESS" do
+    let!(:other_department) {
+      DepartmentFactory.new(
+        organization: organization,
+        owner: admin_user
+      ).create(
+        name: "開発部",
+        display_order: 2
+      )
+    }
     let!(:child_department) {
       DepartmentFactory.new(
         organization: organization,
@@ -61,14 +70,14 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        parent_department_id: department.id,
+        parent_department_id: other_department.id,
       }
 
       result = described_class.call(params: params)
 
       child_department.reload
       expect(result).to be_success
-      expect(child_department.parent).to eq(department)
+      expect(child_department.parent).to eq(other_department)
     end
 
     example "部署責任者を変更する" do
@@ -107,7 +116,7 @@ RSpec.describe Department::Update do
         organization_id: organization.id,
         name: "Ruby部",
         display_order: 2,
-        parent_department_id: department.id,
+        parent_department_id: other_department.id,
         owner_id: nomal_user.id,
         owner_behavior: "change"
       }
@@ -119,7 +128,7 @@ RSpec.describe Department::Update do
       expect(child_department.name).to eq("Ruby部")
       expect(child_department.display_order).to eq(2)
       expect(child_department.organization).to eq(organization)
-      expect(child_department.parent).to eq(department)
+      expect(child_department.parent).to eq(other_department)
       expect(child_department.owner).to eq(nomal_user)
     end
   end
