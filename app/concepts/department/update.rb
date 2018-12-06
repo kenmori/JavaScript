@@ -12,7 +12,7 @@ class Department::Update < Trailblazer::Operation
 
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
     validates :id, VH[:required, :natural_number]
-    validates :parent_department_id, exclusion: {in: ->(form) { [form.id, form.id.to_s] }, message: :must_be_other}
+    validates :parent_department_id, exclusion: {in: ->(form) { [form.id, form.id.to_s] }, message: :must_be_other, allow_blank: true}
     validates :owner_behavior, inclusion: { in: %w(change remove), allow_blank: true }
   end
 
@@ -25,6 +25,8 @@ class Department::Update < Trailblazer::Operation
 
   private
 
+  # NOTE ancestry_exclude_self により木構造の整合性(子孫を親としていないかどうか)を検証します
+  # ancestry_exclude_self が model で使う前提の作りなので validation とは別にしています
   def check_ancestry_exclude_self(options, model:, params:, **_metadata)
     return true unless params[:parent_department_id]
 
