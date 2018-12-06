@@ -18,7 +18,7 @@ class DepartmentValidation < ValidationSchema
         errors.add(:parent_department_id, :must_be_same_organization)
       end
 
-      if parent_department.soft_destroyed?
+      if parent_department.archived?
         errors.add(:parent_department_id, :must_not_be_archive)
       end
     }
