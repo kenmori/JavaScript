@@ -18,7 +18,7 @@ class Department::Create < Trailblazer::Operation
   step Contract::Persist(method: :sync)
   step :create_record
 
-  def create_record(options, model:, params:, **_metadata)
+  def create_record(_options, model:, params:, **_metadata)
     ApplicationRecord.transaction do
       if params[:parent_department_id]
         model.parent = Department.find(params[:parent_department_id])

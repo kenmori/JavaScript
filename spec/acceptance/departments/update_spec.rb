@@ -9,12 +9,12 @@ RSpec.resource "PATCH /departments/:id", warden: true do
   include RequestHeaderJson
   include OrganizationDataset
 
-  let!(:department) {
+  let!(:department) do
     DepartmentFactory.new(
       organization: organization,
       owner: admin_user
     ).create
-  }
+  end
 
   before do
     login_as(admin_user)
@@ -27,7 +27,7 @@ RSpec.resource "PATCH /departments/:id", warden: true do
       parameter :display_order, "同じ深さのノード間での表示順", type: :integer
       parameter :parent_department_id, "親部署ID(サインインユーザーと同じ組織に属していること)", type: :integer
       parameter :owner_id, "部署責任者ID(サインインユーザーと同じ組織に属していること)", type: :integer
-      parameter :owner_behavior, "部署責任者に対する命令種別", enum: %w(change remove)
+      parameter :owner_behavior, "部署責任者に対する命令種別", enum: %w[change remove]
     end
 
     example "SUCCESS: Update a department" do

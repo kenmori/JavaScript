@@ -3,15 +3,15 @@
 RSpec.describe Department::Update do
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
-  let!(:department) {
+  let!(:department) do
     DepartmentFactory.new(
       organization: organization,
       owner: admin_user
     ).create
-  }
+  end
 
   describe "SUCCESS" do
-    let!(:other_department) {
+    let!(:other_department) do
       DepartmentFactory.new(
         organization: organization,
         owner: admin_user
@@ -19,8 +19,8 @@ RSpec.describe Department::Update do
         name: "開発部",
         display_order: 2
       )
-    }
-    let!(:child_department) {
+    end
+    let!(:child_department) do
       DepartmentFactory.new(
         organization: organization,
         owner: admin_user,
@@ -29,7 +29,7 @@ RSpec.describe Department::Update do
         name: "Web開発部",
         display_order: 1
       )
-    }
+    end
     let(:nomal_user) do
       UserFactory.new(organization: organization).create(
         email: "nomal_user@example.com",
@@ -42,7 +42,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        name: "Ruby部",
+        name: "Ruby部"
       }
 
       result = described_class.call(params: params)
@@ -56,7 +56,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        display_order: 2,
+        display_order: 2
       }
 
       result = described_class.call(params: params)
@@ -70,7 +70,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        parent_department_id: other_department.id,
+        parent_department_id: other_department.id
       }
 
       result = described_class.call(params: params)
@@ -169,7 +169,7 @@ RSpec.describe Department::Update do
     )
   end
 
-  example 'ERROR: アーカイブされた部署を親部署に指定することは出来ない' do
+  example "ERROR: アーカイブされた部署を親部署に指定することは出来ない" do
     archived_department = DepartmentFactory.new(
       organization: organization,
       owner: admin_user
@@ -181,7 +181,7 @@ RSpec.describe Department::Update do
     params = {
       id: department.id,
       organization_id: organization.id,
-      parent_department_id: archived_department.id,
+      parent_department_id: archived_department.id
     }
 
     result = described_class.call(params: params)
@@ -193,15 +193,15 @@ RSpec.describe Department::Update do
     )
   end
 
-  example 'ERROR: アーカイブ済みの部署は更新できない' do
+  example "ERROR: アーカイブ済みの部署は更新できない" do
     department.department_members.destroy_all
-    Department::Archive.call(params: {id: department.id})
+    Department::Archive.call(params: { id: department.id })
     department.reload
 
     params = {
       id: department.id,
       organization_id: organization.id,
-      name: "Ruby部",
+      name: "Ruby部"
     }
 
     result = described_class.call(params: params)
@@ -213,11 +213,11 @@ RSpec.describe Department::Update do
     )
   end
 
-  example 'ERROR: 自分自身を親部署に指定することは出来ない' do
+  example "ERROR: 自分自身を親部署に指定することは出来ない" do
     params = {
       id: department.id,
       organization_id: organization.id,
-      parent_department_id: department.id,
+      parent_department_id: department.id
     }
 
     result = described_class.call(params: params)
@@ -250,7 +250,7 @@ RSpec.describe Department::Update do
     params = {
       id: department.id,
       organization_id: organization.id,
-      parent_department_id: grandchild_department.id,
+      parent_department_id: grandchild_department.id
     }
 
     result = described_class.call(params: params)
@@ -262,7 +262,7 @@ RSpec.describe Department::Update do
     )
   end
 
-  context '他の組織が存在する' do
+  context "他の組織が存在する" do
     let!(:other_org) { OrganizationFactory.new.create(name: "other") }
     let!(:other_org_user) do
       UserFactory.new(organization: other_org).create(
@@ -283,7 +283,7 @@ RSpec.describe Department::Update do
       params = {
         id: department.id,
         organization_id: organization.id,
-        parent_department_id: other_org_department.id,
+        parent_department_id: other_org_department.id
       }
 
       result = described_class.call(params: params)

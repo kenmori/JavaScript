@@ -71,7 +71,7 @@ class ValidationSchema < Module
       if @use_contexts.empty?
         [contexts[:default]]
       else
-        @use_contexts.map {|context| contexts.fetch(context) }
+        @use_contexts.map { |context| contexts.fetch(context) }
       end
 
     lambdas.each do |schema|

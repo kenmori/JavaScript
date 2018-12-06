@@ -151,7 +151,6 @@ RSpec.describe Department::Create do
     expect(contract.errors.full_messages).to contain_exactly(
       "親部署はアーカイブ済みです"
     )
-
   end
 
   example "ERROR: 指定したIDが見つからないケース" do

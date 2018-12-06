@@ -13,12 +13,10 @@ class Department::Update < Trailblazer::Operation
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
     validates :id, VH[:required, :natural_number]
     validate -> {
-      if model.archived?
-        errors.add(:base, :already_archived)
-      end
+      errors.add(:base, :already_archived) if model.archived?
     }
-    validates :parent_department_id, exclusion: {in: ->(form) { [form.id, form.id.to_s] }, message: :must_be_other, allow_blank: true}
-    validates :owner_behavior, inclusion: { in: %w(change remove), allow_blank: true }
+    validates :parent_department_id, exclusion: { in: ->(form) { [form.id, form.id.to_s] }, message: :must_be_other, allow_blank: true }
+    validates :owner_behavior, inclusion: { in: %w[change remove], allow_blank: true }
   end
 
   step Model(Department, :find_by)
@@ -30,49 +28,49 @@ class Department::Update < Trailblazer::Operation
 
   private
 
-  # NOTE ancestry_exclude_self により木構造の整合性(子孫を親としていないかどうか)を検証します
-  # ancestry_exclude_self が model で使う前提の作りなので validation とは別にしています
-  def check_ancestry_exclude_self(options, model:, params:, **_metadata)
-    return true unless params[:parent_department_id]
+    # NOTE ancestry_exclude_self により木構造の整合性(子孫を親としていないかどうか)を検証します
+    # ancestry_exclude_self が model で使う前提の作りなので validation とは別にしています
+    def check_ancestry_exclude_self(options, model:, params:, **_metadata)
+      return true unless params[:parent_department_id]
 
-    model.parent_id = params[:parent_department_id]
-    model.ancestry_exclude_self
-    if model.errors.present?
-      options["contract.default"].errors.add(:parent_department_id, :exclusion_self)
-      false
-    else
+      model.parent_id = params[:parent_department_id]
+      model.ancestry_exclude_self
+      if model.errors.present?
+        options["contract.default"].errors.add(:parent_department_id, :exclusion_self)
+        false
+      else
+        true
+      end
+    end
+
+    def update_record(_options, model:, params:, **_metadata)
+      ApplicationRecord.transaction do
+        model.save!
+
+        if params[:owner_behavior]
+          update_owner!(model, params[:owner_id], params[:owner_behavior])
+        end
+      end
+
       true
     end
-  end
 
-  def update_record(_options, model:, params:, **_metadata)
-    ApplicationRecord.transaction do
-      model.save!
-
-      if params[:owner_behavior]
-        update_owner!(model, params[:owner_id], params[:owner_behavior])
+    def update_owner!(department, owner_id, owner_behavior)
+      case owner_behavior.to_s
+      when "change"
+        if department.department_members_owner
+          department.department_members_owner.update!(user_id: owner_id)
+        else
+          department.create_department_members_owner!(user_id: owner_id)
+        end
+      when "remove"
+        if department.department_members_owner
+          department.department_members_owner.destroy!
+        else
+          # do nothing
+        end
+      else
+        raise ArgumentError, "unkown owner_behavior: #{owner_behavior}"
       end
     end
-
-    true
-  end
-
-  def update_owner!(department, owner_id, owner_behavior)
-    case owner_behavior.to_s
-    when "change"
-      if department.department_members_owner
-        department.department_members_owner.update!(user_id: owner_id)
-      else
-        department.create_department_members_owner!(user_id: owner_id)
-      end
-    when "remove"
-      if department.department_members_owner
-        department.department_members_owner.destroy!
-      else
-        # do nothing
-      end
-    else
-      fail ArgumentError.new("unkown owner_behavior: #{owner_behavior}")
-    end
-  end
 end

@@ -9,8 +9,8 @@ module ValidationHelper
       numericality: {
         only_integer: true,
         allow_blank: true,
-        greater_than_or_equal_to: -2147483648,
-        less_than_or_equal_to: 2147483647
+        greater_than_or_equal_to: -2_147_483_648,
+        less_than_or_equal_to: 2_147_483_647
       }
     },
     natural_number: {
@@ -18,7 +18,7 @@ module ValidationHelper
         only_integer: true,
         allow_blank: true,
         greater_than_or_equal_to: 0,
-        less_than_or_equal_to: 2147483647
+        less_than_or_equal_to: 2_147_483_647
       }
     }
   }.freeze
