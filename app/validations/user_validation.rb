@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserValidation < ValidationSchema
   setting :default, -> {
     validates :email, VH[:required, :email]

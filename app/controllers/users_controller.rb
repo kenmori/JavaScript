@@ -3,6 +3,22 @@
 class UsersController < ApplicationController
   before_action :valid_operatable_user?, except: %i(create update)
 
+  def show
+    result = User::Show.call(
+      params: {
+        id: params[:id],
+        organization_id: current_organization.id
+      }
+    )
+
+    if result.success?
+      @user = result[:model]
+      @organization = @user.organization
+    else
+      render_contract_errors(result)
+    end
+  end
+
   def create
     runner(User::Create, params[:user]) do |result|
       @user = result[:model]
