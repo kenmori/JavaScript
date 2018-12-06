@@ -3,6 +3,7 @@
 class Department::Update < Trailblazer::Operation
   class Form < Reform::Form
     property :id
+    # TODO organization は変更できないようにしたい
     property :organization_id
     property :name
     property :display_order
@@ -60,10 +61,17 @@ class Department::Update < Trailblazer::Operation
   def update_owner!(department, owner_id, owner_behavior)
     case owner_behavior.to_s
     when "change"
-      # TODO department_members_owner が nil の可能性がある
-      department.department_members_owner.update!(user_id: owner_id)
+      if department.department_members_owner
+        department.department_members_owner.update!(user_id: owner_id)
+      else
+        department.create_department_members_owner!(user_id: owner_id)
+      end
     when "remove"
-      department.department_members_owner.destroy!
+      if department.department_members_owner
+        department.department_members_owner.destroy!
+      else
+        # do nothing
+      end
     else
       fail ArgumentError.new("unkown owner_behavior: #{owner_behavior}")
     end

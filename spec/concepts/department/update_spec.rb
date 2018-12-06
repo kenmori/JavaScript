@@ -131,6 +131,23 @@ RSpec.describe Department::Update do
       expect(child_department.parent).to eq(other_department)
       expect(child_department.owner).to eq(nomal_user)
     end
+
+    example "部署責任者を削除済みの部署に部署責任者を設定する" do
+      child_department.department_members_owner.destroy!
+
+      params = {
+        id: child_department.id,
+        organization_id: organization.id,
+        owner_id: nomal_user.id,
+        owner_behavior: "change"
+      }
+
+      result = described_class.call(params: params)
+
+      child_department.reload
+      expect(result).to be_success
+      expect(child_department.owner).to eq(nomal_user)
+    end
   end
 
   example "ERROR: 必須項目を消すことは出来ない" do
