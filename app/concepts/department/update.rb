@@ -12,6 +12,11 @@ class Department::Update < Trailblazer::Operation
 
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
     validates :id, VH[:required, :natural_number]
+    validate -> {
+      if model.archived?
+        errors.add(:base, :already_archived)
+      end
+    }
     validates :parent_department_id, exclusion: {in: ->(form) { [form.id, form.id.to_s] }, message: :must_be_other, allow_blank: true}
     validates :owner_behavior, inclusion: { in: %w(change remove), allow_blank: true }
   end
@@ -55,6 +60,7 @@ class Department::Update < Trailblazer::Operation
   def update_owner!(department, owner_id, owner_behavior)
     case owner_behavior.to_s
     when "change"
+      # TODO department_members_owner が nil の可能性がある
       department.department_members_owner.update!(user_id: owner_id)
     when "remove"
       department.department_members_owner.destroy!

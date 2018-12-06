@@ -38,6 +38,9 @@ department_create_attrs = {
           },
           'department/update': {
             attributes: {
+              base: {
+                already_archived: "アーカイブ済みのため更新できません"
+              },
               parent_department_id: {
                 must_be_other: "は別の部署にしてください",
                 exclusion_self: "に子孫の部署を指定することは出来ません"

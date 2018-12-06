@@ -176,6 +176,26 @@ RSpec.describe Department::Update do
     )
   end
 
+  example 'ERROR: アーカイブ済みの部署は更新できない' do
+    department.department_members.destroy_all
+    Department::Archive.call(params: {id: department.id})
+    department.reload
+
+    params = {
+      id: department.id,
+      organization_id: organization.id,
+      name: "Ruby部",
+    }
+
+    result = described_class.call(params: params)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to contain_exactly(
+      "アーカイブ済みのため更新できません"
+    )
+  end
+
   example 'ERROR: 自分自身を親部署に指定することは出来ない' do
     params = {
       id: department.id,

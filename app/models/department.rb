@@ -46,4 +46,6 @@ class Department < ApplicationRecord
       )
     end
   end
+
+  alias :archived? :soft_destroyed?
 end
