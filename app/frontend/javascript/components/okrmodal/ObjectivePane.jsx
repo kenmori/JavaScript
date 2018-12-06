@@ -133,6 +133,11 @@ class ObjectivePane extends PureComponent {
     const { text } = this.state
     const objectiveCommentLabels = this.props.objectiveCommentLabels;
 
+    // 一時的に Objective のラベルを絞る。ラベル ID を持っていないためラベル名でチェックする。
+    const filteredObjectiveCommentLabels = objectiveCommentLabels.filter(commentLabel => {
+      return commentLabel.get("name") === "健康・健全性"
+    })
+
     return (
       <Form>
 
@@ -183,6 +188,7 @@ class ObjectivePane extends PureComponent {
             {comments ? (
               <StretchCommentPane
                 comments={comments}
+                commentLabels={filteredObjectiveCommentLabels}
                 onDelete={this.removeComment}
                 onUpdate={this.editComment}
               />
@@ -198,6 +204,10 @@ class ObjectivePane extends PureComponent {
             />
             <div className="comment-pane__block">
               <Form.Group className="group">
+                <KeyResultCommentLabelDropdown
+                  commentLabels={filteredObjectiveCommentLabels}
+                  onChange={this.handleDropdownChange}
+                />
                 <Form.Button content="投稿する" onClick={this.addComment} />
               </Form.Group>
             </div>
