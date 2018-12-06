@@ -2,9 +2,8 @@
 
 class Department::Update < Trailblazer::Operation
   class Form < Reform::Form
-    property :id
-    # TODO organization は変更できないようにしたい
-    property :organization_id
+    property :id, writeable: false
+    property :organization_id, writeable: false
     property :name
     property :display_order
     property :parent_department_id, virtual: true
