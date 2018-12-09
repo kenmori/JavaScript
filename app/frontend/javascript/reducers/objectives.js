@@ -6,6 +6,7 @@ const initialState = fromJS({
   ids: [],
   previousIds: [],
   candidateIds: [],
+  commentLabels: [],
   isFetchedObjective: true,
   isFetchedObjectives: false,
   isFetchedPreviousObjectives: true,

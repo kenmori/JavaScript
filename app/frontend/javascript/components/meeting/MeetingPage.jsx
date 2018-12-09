@@ -201,7 +201,7 @@ class MeetingPage extends PureComponent {
           <ObjectiveCommentModal
             objectiveId={objectiveId}
             objective={objective}
-            comments={objectiveComment}
+            comments={objectiveComment.toList()}
           />
         </div>
       </DocumentTitle>

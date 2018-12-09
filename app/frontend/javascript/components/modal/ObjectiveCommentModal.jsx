@@ -79,7 +79,7 @@ class ObjectiveCommentModal extends PureComponent {
     const name = objective.get('name')
     const filteredCommentLabels = commentLabel.filter(el => {
       return el.get('name') === '健康・健全性'
-    })
+    }).toList()
 
     return (
       <Modal
@@ -138,7 +138,7 @@ ObjectiveCommentModal.propTypes = {
   comments: ImmutablePropTypes.list.isRequired,
   objective: ImmutablePropTypes.map.isRequired,
   objectiveId: PropTypes.number.isRequired,
-  commentLabel: ImmutablePropTypes.list.isRequired,
+  commentLabel: ImmutablePropTypes.map.isRequired,
   updateObjective: PropTypes.func.isRequired
 }
 

@@ -253,7 +253,6 @@ function* selectOrExpandMapOkr(objective) {
 }
 
 function* updateObjective({ payload }) {
-  console.log({payload})
   const result = yield call(
     API.put,
     `/objectives/${payload.objective.id}`,
