@@ -91,6 +91,7 @@ RSpec.resource "POST /key_results", warden: true do
           "description" => "事業を成功させるには、少なくとも競合より使いやすいサービスが欲しい。",
           "okr_period_id" => okr_period.id,
           "progress_rate" => 0,
+          "result" => nil,
           "parent_key_result_id" => nil,
           "updated_at" => be_time_iso8601,
           "key_result_order" => nil,
