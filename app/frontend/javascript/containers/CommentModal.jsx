@@ -5,7 +5,6 @@ import keyResultActions from '../actions/keyResults'
 
 const mapStateToProps = state => {
   const comment = state.dialogs.get('comment')
-  console.log({comment})
   return {
     isOpen: comment.get('isOpen'),
     commentLabel: comment.get('commentLabel')

@@ -5,7 +5,6 @@ import objectiveActions from '../actions/objectives'
 
 const mapStateToProps = state => {
   const objectiveComment = state.dialogs.get('objectiveComment')
-  console.log({objectiveComment})
   return {
     isOpen: objectiveComment.get('isOpen'),
     commentLabel: objectiveComment.get('commentLabel')
@@ -20,7 +19,7 @@ const mapDispatchToProps = dispatch => {
     closeModal: () => {
       dispatch(dialogActions.closeObjectiveCommentModal())
     },
-    updateObjective:objective => {
+    updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective))
     },
     // updateKeyResult: keyResult => {

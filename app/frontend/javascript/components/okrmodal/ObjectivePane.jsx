@@ -135,7 +135,7 @@ class ObjectivePane extends PureComponent {
 
     // 一時的に Objective のラベルを絞る。ラベル ID を持っていないためラベル名でチェックする。
     const filteredObjectiveCommentLabels = objectiveCommentLabels.filter(commentLabel => {
-      return commentLabel.get("name") === "健康・健全性"
+      return commentLabel.get('name') === '健康・健全性'
     })
 
     return (

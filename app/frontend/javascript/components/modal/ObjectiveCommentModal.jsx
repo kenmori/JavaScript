@@ -3,34 +3,36 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Modal, Header, Form } from 'semantic-ui-react'
 import StretchCommentPane from '../okrmodal/StretchCommentPane'
+import KeyResultCommentLabelDropdown from '../okrmodal/KeyResultCommentLabelDropdown'
 
 class ObjectiveCommentModal extends PureComponent {
   constructor() {
     super()
     this.state = {
       text: '',
+      commentLabelId: null,
+      objectiveId: null
     }
   }
 
   componentDidMount() {
     const { objective } = this.props
-    const keyResults = objective.get('keyResults')
-    this.setState({ keyResultId: keyResults.first().get('id') })
+    this.setState({ objectiveId: this.props.objectiveId })
   }
 
   addComment = () => {
-    const { text, commentLabel } = this.state
+    const { text } = this.state
     if (!text) return
 
     this.props.updateObjective({
+      id: this.state.objectiveId,
       comment: {
         data: text,
         behavior: 'add',
-        objective_comment_label: { id: commentLabel }
+        objective_comment_label: { id: this.state.commentLabelId }
       }
     })
     this.setState({ text: '' })
-    this.props.setDirty(false)
   }
 
   removeComment = id => {
@@ -38,7 +40,11 @@ class ObjectiveCommentModal extends PureComponent {
       content: 'コメントを削除しますか？',
       onConfirm: () =>
         this.props.updateObjective({
-          comment: { data: id, behavior: 'remove' }
+          id: this.state.objectiveId,
+          comment: {
+            data: id,
+            behavior: 'remove'
+          }
         })
     })
   }
@@ -47,6 +53,7 @@ class ObjectiveCommentModal extends PureComponent {
     if (!text) return
 
     this.props.updateObjective({
+      id: this.state.objectiveId,
       comment: {
         data: {
           id,
@@ -62,10 +69,17 @@ class ObjectiveCommentModal extends PureComponent {
     this.setState({ text: value })
   }
 
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ commentLabelId: value})
+  }
+
   render() {
     const { objective, comments, commentLabel, isOpen, closeModal } = this.props
     const { text, keyResultId } = this.state
     const name = objective.get('name')
+    const filteredCommentLabels = commentLabel.filter(el => {
+      return el.get('name') === '健康・健全性'
+    })
 
     return (
       <Modal
@@ -79,6 +93,7 @@ class ObjectiveCommentModal extends PureComponent {
           <Header as="h4">{name}</Header>
           <StretchCommentPane
             comments={comments}
+            commentLabels={filteredCommentLabels}
             onDelete={this.removeComment}
             onUpdate={this.editComment}
           />
@@ -97,6 +112,10 @@ class ObjectiveCommentModal extends PureComponent {
               </Form.Field>
             </Form.Group>
             <Form.Group className="comment-modal__form__group">
+              <KeyResultCommentLabelDropdown
+                commentLabels={filteredCommentLabels}
+                onChange={this.handleDropdownChange}
+              />
               <Form.Field>
                 <Form.Button
                   content="投稿する"
@@ -118,8 +137,8 @@ ObjectiveCommentModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   comments: ImmutablePropTypes.list.isRequired,
   objective: ImmutablePropTypes.map.isRequired,
-  commentLabel: ImmutablePropTypes.map.isRequired,
-  objectiveCommentLabels: ImmutablePropTypes.list.isRequired,
+  objectiveId: PropTypes.number.isRequired,
+  commentLabel: ImmutablePropTypes.list.isRequired,
   updateObjective: PropTypes.func.isRequired
 }
 

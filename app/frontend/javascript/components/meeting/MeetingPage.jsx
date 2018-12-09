@@ -97,6 +97,7 @@ class MeetingPage extends PureComponent {
 
   render() {
     const {
+      objectiveId,
       objectives,
       objective,
       keyResultCommentLabels,
@@ -198,9 +199,9 @@ class MeetingPage extends PureComponent {
             keyResultCommentLabels={keyResultCommentLabels}
           />
           <ObjectiveCommentModal
+            objectiveId={objectiveId}
             objective={objective}
             comments={objectiveComment}
-            objectiveCommentLabels={objectiveCommentLabels}
           />
         </div>
       </DocumentTitle>
