@@ -62,7 +62,7 @@ class Department::Update < Trailblazer::Operation
       return if owner_id.blank?
 
       case owner_id.to_s
-      when "0"  # 0 の場合は削除
+      when "0" # 0 の場合は削除
         if department.department_members_owner
           department.department_members_owner.destroy!
         else

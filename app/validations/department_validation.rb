@@ -26,7 +26,7 @@ class DepartmentValidation < ValidationSchema
   setting :owner_id, -> {
     validates :owner_id, VH[:natural_number]
     validate -> {
-      return if owner_id.to_i.zero?  # NOTE owner_id に 0 が指定されていた場合は特別扱いする
+      return if owner_id.to_i.zero? # NOTE owner_id に 0 が指定されていた場合は特別扱いする
 
       unless OrganizationMember.find_by(organization_id: organization_id, user_id: owner_id)
         errors.add(:owner_id, :must_be_same_organization)

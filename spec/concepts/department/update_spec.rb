@@ -98,7 +98,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner_id: 0,
+        owner_id: 0
       }
 
       result = described_class.call(params: params)

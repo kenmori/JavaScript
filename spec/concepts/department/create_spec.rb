@@ -158,7 +158,7 @@ RSpec.describe Department::Create do
       name: "開発部",
       display_order: 1,
       organization_id: 0,
-      parent_department_id: 0,
+      parent_department_id: 0
     }
 
     result = described_class.call(params: params)
