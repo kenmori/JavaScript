@@ -31,6 +31,22 @@ class DepartmentsController < ApplicationController
     end
   end
 
+  def update
+    result = Department::Update.call(
+      params: params[:department].merge(
+        id: params[:id],
+        organization_id: current_organization.id
+      )
+    )
+
+    if result.success?
+      @department = result[:model]
+      render :create, status: :ok
+    else
+      render_contract_errors(result)
+    end
+  end
+
   def destroy
     result = Department::Archive.call(
       params: { id: params[:id] }

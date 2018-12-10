@@ -25,7 +25,7 @@ class Department::Index < Trailblazer::Operation
       node.subtree.includes(:department_members).arrange_serializable(order: :display_order) do |parent, children|
         {
           id: parent.id,
-          archived: parent.soft_destroyed?,
+          archived: parent.archived?,
           soft_destroyed_at: parent.soft_destroyed_at,
           name: parent.name,
           display_order: parent.display_order,

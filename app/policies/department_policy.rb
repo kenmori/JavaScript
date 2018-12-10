@@ -13,6 +13,10 @@ class DepartmentPolicy
     is_current_user_admin?
   end
 
+  def update?
+    is_current_user_admin?
+  end
+
   def destroy?
     is_current_user_admin?
   end

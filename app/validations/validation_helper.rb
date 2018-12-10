@@ -4,7 +4,23 @@ module ValidationHelper
   # NOTE 他の述語が必要な場合は追加してください
   VALIDATES_ATTRS_DSL = {
     required: { presence: true },
-    default_text_field: { length: { maximum: 40, allow_blank: true } }
+    default_text_field: { length: { maximum: 40, allow_blank: true } },
+    integer_number: {
+      numericality: {
+        only_integer: true,
+        allow_blank: true,
+        greater_than_or_equal_to: -2_147_483_648,
+        less_than_or_equal_to: 2_147_483_647
+      }
+    },
+    natural_number: {
+      numericality: {
+        only_integer: true,
+        allow_blank: true,
+        greater_than_or_equal_to: 0,
+        less_than_or_equal_to: 2_147_483_647
+      }
+    }
   }.freeze
 
   class << self

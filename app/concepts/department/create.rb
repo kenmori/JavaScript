@@ -8,26 +8,23 @@ class Department::Create < Trailblazer::Operation
     property :owner_id, virtual: true
     property :parent_department_id, virtual: true
 
-    include DepartmentValidation.new(:default, :create)
+    include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
+    validates :owner_id, VH[:required]
   end
 
   step Model(Department, :new)
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
-  step :save_attributes
+  step :create
 
-  def save_attributes(options, params:, **_metadata)
-    department = options[:model]
-
+  def create(_options, model:, params:, **_metadata)
     ApplicationRecord.transaction do
       if params[:parent_department_id]
-        department.parent = Department.find(params[:parent_department_id])
+        model.parent = Department.find(params[:parent_department_id])
       end
-      department.save!
-
-      owner = User.find(params[:owner_id])
-      department.create_department_members_owner!(user: owner)
+      model.save!
+      model.create_department_members_owner!(user_id: params[:owner_id])
     end
 
     true
