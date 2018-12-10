@@ -69,6 +69,13 @@ RSpec.describe Department::Archive do
       organization: organization,
       owner: admin_user,
       parent_department: department
+    ).create_archived(
+      name: "営業部"
+    )
+    DepartmentFactory.new(
+      organization: organization,
+      owner: admin_user,
+      parent_department: department
     ).create
 
     result = described_class.call(params: params)
