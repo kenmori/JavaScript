@@ -159,7 +159,6 @@ RSpec.describe Department::Create do
       display_order: 1,
       organization_id: 0,
       parent_department_id: 0,
-      owner_id: 0
     }
 
     result = described_class.call(params: params)
@@ -168,7 +167,6 @@ RSpec.describe Department::Create do
     expect(result).to be_failure
     expect(contract.errors.full_messages).to include(
       "組織は見つかりませんでした",
-      "部署責任者は見つかりませんでした",
       "親部署は見つかりませんでした"
     )
   end

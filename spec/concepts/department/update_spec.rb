@@ -84,8 +84,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner_id: nomal_user.id,
-        owner_behavior: "change"
+        owner_id: nomal_user.id
       }
 
       result = described_class.call(params: params)
@@ -99,8 +98,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner_id: nil,
-        owner_behavior: "remove"
+        owner_id: 0,
       }
 
       result = described_class.call(params: params)
@@ -117,8 +115,7 @@ RSpec.describe Department::Update do
         name: "Ruby部",
         display_order: 2,
         parent_department_id: other_department.id,
-        owner_id: nomal_user.id,
-        owner_behavior: "change"
+        owner_id: nomal_user.id
       }
 
       result = described_class.call(params: params)
@@ -138,8 +135,7 @@ RSpec.describe Department::Update do
       params = {
         id: child_department.id,
         organization_id: organization.id,
-        owner_id: nomal_user.id,
-        owner_behavior: "change"
+        owner_id: nomal_user.id
       }
 
       result = described_class.call(params: params)
@@ -315,8 +311,7 @@ RSpec.describe Department::Update do
       params = {
         id: department.id,
         organization_id: organization.id,
-        owner_id: other_org_user.id,
-        owner_behavior: "change"
+        owner_id: other_org_user.id
       }
 
       result = described_class.call(params: params)
