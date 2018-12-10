@@ -2,6 +2,7 @@
 
 class DepartmentsController < ApplicationController
   before_action :authorize!
+  skip_before_action :verify_authenticity_token, if: :staging?
 
   def index
     result = Department::Index.call(
@@ -63,5 +64,9 @@ class DepartmentsController < ApplicationController
 
     def authorize!
       authorize Department
+    end
+
+    def staging?
+      Rails.env.stating?
     end
 end
