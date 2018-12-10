@@ -11,6 +11,7 @@ class Department::Update < Trailblazer::Operation
     property :owner_behavior, virtual: true
 
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
+    # TODO id が organization に属していることを検証する
     validates :id, VH[:required, :natural_number]
     validate -> {
       errors.add(:base, :already_archived) if model.archived?
@@ -24,7 +25,7 @@ class Department::Update < Trailblazer::Operation
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :check_ancestry_exclude_self
-  step :update_record
+  step :update
 
   private
 
@@ -43,7 +44,7 @@ class Department::Update < Trailblazer::Operation
       end
     end
 
-    def update_record(_options, model:, params:, **_metadata)
+    def update(_options, model:, params:, **_metadata)
       ApplicationRecord.transaction do
         model.save!
 
