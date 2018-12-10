@@ -279,6 +279,22 @@ RSpec.describe Department::Update do
       )
     end
 
+    example "ERROR: organization_idで指定した組織に属していない部署を更新することは出来ない" do
+      params = {
+        id: department.id,
+        organization_id: other_org.id,
+        name: "Ruby部"
+      }
+
+      result = described_class.call(params: params)
+      contract = result["contract.default"]
+
+      expect(result).to be_failure
+      expect(contract.errors.full_messages).to contain_exactly(
+        "部署IDは組織内から選択してください"
+      )
+    end
+
     example "ERROR: 異なる組織の部署を親部署に指定することは出来ない" do
       params = {
         id: department.id,

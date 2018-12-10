@@ -11,8 +11,15 @@ class Department::Update < Trailblazer::Operation
     property :owner_behavior, virtual: true
 
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
-    # TODO id が organization に属していることを検証する
+
     validates :id, VH[:required, :natural_number]
+    validate -> {
+      return if id.blank? || organization_id.blank?
+
+      unless Department.exists?(organization_id: organization_id, id: id)
+        errors.add(:id, :must_be_same_organization)
+      end
+    }
     validate -> {
       errors.add(:base, :already_archived) if model.archived?
     }
