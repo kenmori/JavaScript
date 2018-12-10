@@ -5,7 +5,9 @@ class Department::Archive < Trailblazer::Operation
     property :id
 
     validate -> {
-      errors.add(:base, :must_not_have_children) if model.has_children?
+      if model.children.without_soft_destroyed.exists?
+        errors.add(:base, :must_not_have_children)
+      end
     }
     validate -> {
       errors.add(:base, :members_must_not_belong) if model.users.present?

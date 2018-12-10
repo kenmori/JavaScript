@@ -20,7 +20,7 @@ RSpec.describe Department::Archive do
     }
   end
 
-  example "SUCCESS: remove department" do
+  example "SUCCESS: 部署をアーカイブする" do
     result = described_class.call(params: params)
     department = result[:model]
 
@@ -28,7 +28,7 @@ RSpec.describe Department::Archive do
     expect(department).to be_soft_destroyed
   end
 
-  example "SUCCESS: 部署に紐付くOKRが存在する場合も削除できる" do
+  example "SUCCESS: 部署に紐付くOKRが存在する場合でもアーカイブできる" do
     okr_period = OkrPeriodFactory.new(
       organization: organization
     ).create
@@ -48,7 +48,23 @@ RSpec.describe Department::Archive do
     expect(department).to be_soft_destroyed
   end
 
-  example "ERROR: 下位部署があるケース" do
+  example "SUCCESS: アーカイブ済みの下位部署しか存在しない場合はアーカイブできる" do
+    child_department = DepartmentFactory.new(
+      organization: organization,
+      owner: admin_user,
+      parent_department: department
+    ).create_archived(
+      name: "営業部"
+    )
+
+    result = described_class.call(params: params)
+    department = result[:model]
+
+    expect(result).to be_success
+    expect(department).to be_soft_destroyed
+  end
+
+  example "ERROR: アーカイブ済みではない下位部署が存在する場合、アーカイブできない" do
     DepartmentFactory.new(
       organization: organization,
       owner: admin_user,
@@ -64,7 +80,7 @@ RSpec.describe Department::Archive do
     )
   end
 
-  example "ERROR: 部署にユーザーが所属しているケース" do
+  example "ERROR: 部署にユーザーが所属している場合アーカイブできない" do
     user = UserFactory.new(organization: organization).create(
       email: "other_user@example.com"
     )
