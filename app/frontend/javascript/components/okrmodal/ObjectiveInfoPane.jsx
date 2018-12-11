@@ -45,6 +45,24 @@ class ObjectiveInfoPane extends PureComponent {
     })
   }
 
+  handleDisableClick = () => {
+    const { objective, disableObjective, confirm } = this.props
+    const enabledOrDisabled = objective.get('disabled') ? '有効化' : '無効化'
+    let message = `Objective "${objective.get('name')}" を${enabledOrDisabled}しますか？`
+    const keyResults = objective.get('keyResults')
+    if (!keyResults.isEmpty()) {
+      message += `Objective に紐付く Key Result も${enabledOrDisabled}されます。`
+      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
+      if (hasChild) {
+        message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
+      }
+    }
+    confirm({
+      content: message,
+      onConfirm: () => disableObjective(objective),
+    })
+  }
+
   render() {
     const objective = this.props.okr
     const parentKeyResult = objective.get('parentKeyResult')

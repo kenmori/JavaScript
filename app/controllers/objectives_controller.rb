@@ -80,7 +80,6 @@ class ObjectivesController < ApplicationController
     @objective = Objective.find(params[:id])
     forbidden and return unless valid_permission?(@objective.owner.organization.id)
     forbidden("Objective 責任者のみ編集できます") and return unless valid_user?(@objective.owner.id)
-    puts "=== debug #{@objective} ==="
 
     ActiveRecord::Base.transaction do
       update_parent_key_result if params[:objective][:parent_key_result_id] # 再帰構造による無限ループ回避のため update! より先に処理する
@@ -221,9 +220,7 @@ class ObjectivesController < ApplicationController
           id: comment_data["objective_comment_label"]["id"],
           organization: current_user.organization
         )
-
-        puts "=== #{@objective.to_yaml} ==="
-
+        
         @objective.objective_comments.create!(
           text: comment_data["data"],
           user_id: current_user.id,

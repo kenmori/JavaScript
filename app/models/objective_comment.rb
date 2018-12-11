@@ -20,4 +20,8 @@ class ObjectiveComment < ApplicationRecord
   belongs_to :objective, touch: true
   belongs_to :user
   belongs_to :objective_comment_label, optional: true
+
+  after_save do
+    NotificationMailer.update_o_comment(Current.user, objective).deliver_later
+  end
 end
