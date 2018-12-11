@@ -1,29 +1,40 @@
 # frozen_string_literal: true
 
 class DepartmentPolicy
-  def initialize(user, _)
+  def initialize(user, department)
     @user = user
+    @department = department
   end
 
   def index?
-    is_current_user_admin?
+    current_user_admin?
   end
 
   def create?
-    is_current_user_admin?
+    current_user_admin?
   end
 
   def update?
-    is_current_user_admin?
+    current_user_admin?
+    # current organization 以下に指定された department が存在すること
   end
 
   def destroy?
-    is_current_user_admin?
+    current_user_admin?
+    # current organization 以下に指定された department が存在すること
+  end
+
+  def restore?
+    current_user_admin? && same_organization?
   end
 
   private
 
-    def is_current_user_admin?
+    def current_user_admin?
       @user.admin?
+    end
+
+    def same_organization?
+      @department.organization == @user.organization
     end
 end

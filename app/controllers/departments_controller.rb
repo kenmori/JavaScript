@@ -62,6 +62,7 @@ class DepartmentsController < ApplicationController
 
   private
 
+    # TODO department object を用いた権限管理をするには concept の中で pundit を使うほうがよい
     def authorize!
       authorize Department
     end
