@@ -11,11 +11,18 @@ class DepartmentFactory < AbstractOperationFactory
   end
   attr_reader :organization, :owner, :parent_department
 
+  class << self
+    def archive(department)
+      department.department_members.destroy_all
+      Department::Archive.call(params: { id: department.id })
+      department.reload
+      department
+    end
+  end
+
   def create_archived(**params)
     create(params).tap do |d|
-      d.department_members.destroy_all
-      Department::Archive.call(params: { id: d.id })
-      d.reload
+      DepartmentFactory.archive(d)
     end
   end
 
