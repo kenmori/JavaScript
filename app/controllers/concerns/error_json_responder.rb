@@ -54,8 +54,22 @@ module ErrorJsonResponder
       render json: error_format, status: status_code
     end
 
-    # NOTE Trailblazer::Operation の result からエラーメッセージを render するメソッド
-    def render_contract_errors(operation_result)
-      render_error_json(:bad_request, operation_result["contract.default"].errors.full_messages)
+    # conceptを実行して成功すれば block を実行し、失敗すればエラーをrenderする
+    def runner(concept, params)
+      result = concept.call(params: params, current_user: current_user)
+
+      if result.success?
+        yield result if block_given?
+        return true
+      end
+
+      if result["result.policy.default"]&.failure?
+        render_error_json(:forbidden, I18n.t("http_status.forbidden"))
+      elsif result["result.contract.default"]&.failure?
+        render_error_json(:bad_request, result["contract.default"].errors.full_messages)
+      else
+        render_error_json(:bad_request, I18n.t("http_status.code_400"))
+      end
+      false
     end
 end

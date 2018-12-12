@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  skip_before_action :verify_authenticity_token, if: :staging?
+  skip_before_action :verify_authenticity_token, if: -> { Rails.env.stating? }
 
   def index
     concept_params = {
@@ -42,29 +42,4 @@ class DepartmentsController < ApplicationController
   def restore
     runner(Department::Restore, {id: params[:id]})
   end
-
-  private
-
-    # TODO 適切な場所に移動する
-    def runner(concept, params)
-      result = concept.call(params: params, current_user: current_user)
-
-      if result.success?
-        yield result if block_given?
-        return true
-      end
-
-      if result["result.policy.default"]&.failure?
-        render_error_json(:forbidden, I18n.t("http_status.forbidden"))
-      elsif result["result.contract.default"]&.failure?
-        render_error_json(:bad_request, result["contract.default"].errors.full_messages)
-      else
-        render_error_json(:bad_request, I18n.t("http_status.code_400"))
-      end
-      false
-    end
-
-    def staging?
-      Rails.env.stating?
-    end
 end
