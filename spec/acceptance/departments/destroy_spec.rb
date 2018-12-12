@@ -10,6 +10,8 @@ RSpec.resource "DELETE /departments/:id", warden: true do
   include DepartmentDataset
 
   before do
+    dep_1_1_1
+
     login_as(admin_user)
   end
 

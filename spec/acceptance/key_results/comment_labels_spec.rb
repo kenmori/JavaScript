@@ -10,6 +10,8 @@ RSpec.resource "GET /key_results/comment_labels", warden: true do
   include RequestHeaderJson
 
   before do
+    key_result
+
     login_as(nomal_user)
   end
 

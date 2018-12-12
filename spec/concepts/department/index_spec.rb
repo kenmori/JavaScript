@@ -4,6 +4,20 @@ RSpec.describe Department::Index do
   include DepartmentDataset
   using DepartmentHelper
 
+  before do
+    dep_1
+    dep_1_1
+    dep_1_1_1
+    dep_1_1_2
+    dep_1_2
+    dep_1_2_1
+    dep_1_2_2
+    dep_1_3
+    dep_2
+    dep_2_1
+    dep_2_2
+  end
+
   let(:l_name) { ->(h) { h[:name] } }
 
   example "SUCCESS: 指定した組織の情報を全て返す" do

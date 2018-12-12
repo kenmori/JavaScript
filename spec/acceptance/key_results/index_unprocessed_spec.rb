@@ -10,6 +10,9 @@ RSpec.resource "GET /key_results/unprocessed", warden: true do
   include RequestHeaderJson
 
   before do
+    key_result
+    other_key_result
+
     login_as(nomal_user)
   end
 
