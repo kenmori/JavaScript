@@ -2,8 +2,6 @@
 
 class Department::Archive < Trailblazer::Operation
   class Form < Reform::Form
-    # TODO current_user の organization の department id ではない場合エラー
-
     property :id
 
     validate -> {
