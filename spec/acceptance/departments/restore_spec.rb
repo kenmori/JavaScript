@@ -8,14 +8,24 @@ RSpec.resource "PATCH /departments/:id/restore", warden: true do
 
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
-  let!(:department) {
-    DepartmentFactory.new(
-      organization: organization,
-      owner: admin_user
-    ).create_archived
-  }
+  let!(:dep_1) do
+    DepartmentFactory.new(organization: organization, owner: admin_user).create(
+      name: "代表",
+      display_order: 1
+    )
+  end
+  let!(:dep_1_1) do
+    DepartmentFactory.new(organization: organization, owner: admin_user, parent_department: dep_1).create(
+      name: "開発部",
+      display_order: 1
+    )
+  end
 
   before do
+    [dep_1_1, dep_1].each do |d|
+      DepartmentFactory.archive(d)
+    end
+
     login_as(admin_user)
   end
 
@@ -25,13 +35,22 @@ RSpec.resource "PATCH /departments/:id/restore", warden: true do
     example "SUCCESS: Restore a department" do
       explanation "部署をリストア(有効化)する"
 
-      do_request(id: department.id)
+      do_request(id: dep_1.id)
 
       expect(response_status).to eq(204)
       expect(parse_response_body).to be_blank
 
-      department.reload
-      expect(department).to be_active
+      dep_1.reload
+      expect(dep_1).to be_active
+    end
+
+    example "ERROR: Can not restore if parent department is archived" do
+      explanation "親部署がアーカイブされている場合リストア出来ない"
+
+      do_request(id: dep_1_1.id)
+
+      expect(response_status).to eq(400)
+      expect(parse_response_error).to include("親部署がアーカイブされているためリストアできません")
     end
 
     context "他の組織の部署が存在する場合" do

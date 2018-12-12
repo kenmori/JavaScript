@@ -2,8 +2,6 @@ class Department::Restore < Trailblazer::Operation
   class Form < Reform::Form
     property :id
 
-    # TODO current_user の organization の department id ではない場合エラー(これPunditの方がいいかね...)
-    # Controller で current_user.departments みたいなクエリを作らないので、全てConceptでやるほうがいいのかもしれない
     validate -> {
       if model.parent&.archived?
         errors.add(:base, :parent_department_must_be_active)
