@@ -62,22 +62,31 @@ class DepartmentsController < ApplicationController
   end
 
   def restore
-    result = Department::Restore.call(params: { id: params[:id]}, current_user: current_user)
-
-    if result.success?
-      head :no_content
-    else
-      # TODO このへんのロジックを抽象化したい
-      if result["result.policy.default"]&.failure?
-        render_error_json(:forbidden, "許可されていない操作です")
-      else
-        # result["contract.default"]&.failure?
-        render_contract_errors(result)
-      end
+    runner(Department::Restore, {id: params[:id]}) do
+      head :no_content and return
     end
   end
 
   private
+
+    def runner(concept, params)
+      result = concept.call(params: params, current_user: current_user)
+
+      if result.success?
+        yield result if block_given?
+        return true
+      end
+
+      if result["result.policy.default"]&.failure?
+        # TODO エラーメッセージを i18n に移したい
+        render_error_json(:forbidden, "許可されていない操作です")
+      elsif result["result.contract.default"]&.failure?
+        render_error_json(:bad_request, result["contract.default"].errors.full_messages)
+      else
+        # TODO よくわからないが failure になっているケース。適当にエラーを返すか、例外を出すか...
+      end
+      false
+    end
 
     # TODO department object を用いた権限管理をするには concept の中で pundit を使うほうがよい
     def authorize!
