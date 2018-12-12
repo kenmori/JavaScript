@@ -1,0 +1,11 @@
+ja:
+  http_status:
+    default: "エラーが発生しました"
+    code_400: "無効な操作です"
+    bad_request: :http_status.code_400
+    code_403: "許可されていない操作です"
+    forbidden: :http_status.code_403
+    code_404: "操作の対象が存在しません"
+    not_found: :http_status.code_404
+    code_422: "正常に処理できません"
+    unprocessable_entity: :http_status.code_422

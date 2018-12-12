@@ -78,12 +78,11 @@ class DepartmentsController < ApplicationController
       end
 
       if result["result.policy.default"]&.failure?
-        # TODO エラーメッセージを i18n に移したい
-        render_error_json(:forbidden, "許可されていない操作です")
+        render_error_json(:forbidden, I18n.t("http_status.forbidden"))
       elsif result["result.contract.default"]&.failure?
         render_error_json(:bad_request, result["contract.default"].errors.full_messages)
       else
-        # TODO よくわからないが failure になっているケース。適当にエラーを返すか、例外を出すか...
+        render_error_json(:bad_request, I18n.t("http_status.code_400"))
       end
       false
     end

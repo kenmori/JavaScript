@@ -22,15 +22,7 @@ class ErrorsController < ActionController::Base
   private
 
     def json_error_handling
-      error_messages = {
-        "default" => "エラーが発生しました",
-        "400" => "無効な操作です",
-        "403" => "許可されていない操作です",
-        "404" => "操作の対象が存在しません",
-        "422" => "正常に処理できません"
-      }
-
-      message = error_messages.fetch(@status_code.to_s, error_messages["default"])
+      message = I18n.t("http_status.code_#{@status_code.to_s}", default: I18n.t('http_status.default'))
 
       render_error_json(@status_code, message)
     end
