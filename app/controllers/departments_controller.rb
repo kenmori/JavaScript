@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  before_action :authorize!
+  # TODO punditはconceptに移す
+  before_action :authorize!, except: :restore
   skip_before_action :verify_authenticity_token, if: :staging?
 
   def index
@@ -57,6 +58,22 @@ class DepartmentsController < ApplicationController
       head :no_content
     else
       render_contract_errors(result)
+    end
+  end
+
+  def restore
+    result = Department::Restore.call(params: { id: params[:id]}, current_user: current_user)
+
+    if result.success?
+      head :no_content
+    else
+      # TODO このへんのロジックを抽象化したい
+      if result["result.policy.default"]&.failure?
+        render_error_json(:forbidden, "許可されていない操作です")
+      else
+        # result["contract.default"]&.failure?
+        render_contract_errors(result)
+      end
     end
   end
 
