@@ -75,14 +75,8 @@ RSpec.describe Department::Restore do
       }
       result = described_class.call(params: params, current_user: admin_user)
 
-      # Pundit::NotAuthorizedError 例外が出る
-
-      contract = result["contract.default"]
-
       expect(result).to be_failure
-      expect(contract.errors.full_messages).to include(
-        "xxx"
-      )
+      expect(result["result.policy.default"]).to be_failure
     end
   end
 end

@@ -11,17 +11,8 @@ class Department::Restore < Trailblazer::Operation
     }
   end
 
-  # TODO これをどこに定義するか考える
-  module PolicyStep
-    def self.build(policy_class, query)
-      ->(_options, current_user:, model:, **) {
-        Pundit.authorize(current_user, model, query, policy_class: policy_class)
-      }
-    end
-  end
-
   step Model(Department, :find_by)
-  step PolicyStep.build(DepartmentPolicy, :restore?)
+  step Policy::Pundit(DepartmentPolicy, :restore?)
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
