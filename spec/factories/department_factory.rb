@@ -3,26 +3,26 @@
 require_relative "abstract_operation_factory"
 
 class DepartmentFactory < AbstractOperationFactory
-  def initialize(organization:, owner:, parent_department: nil)
+  using DepartmentHelper
+
+  def initialize(organization:, owner:, parent_department: nil, current_user: owner)
     super(Department::Create)
     @organization = organization
     @owner = owner
     @parent_department = parent_department
+    @current_user = current_user
   end
-  attr_reader :organization, :owner, :parent_department
+  attr_reader :organization, :owner, :parent_department, :current_user
 
-  class << self
-    def archive(department)
-      department.department_members.destroy_all
-      Department::Archive.call(params: { id: department.id })
-      department.reload
-      department
-    end
+  def create(params={}, options={})
+    default_options = {current_user: current_user}
+
+    super(params, default_options.merge(options))
   end
 
   def create_archived(**params)
     create(params).tap do |d|
-      DepartmentFactory.archive(d)
+      d.archive!(current_user)
     end
   end
 

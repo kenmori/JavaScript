@@ -1,4 +1,6 @@
 RSpec.describe Department::Restore do
+  using DepartmentHelper
+
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
   let!(:dep_1) do
@@ -24,7 +26,7 @@ RSpec.describe Department::Restore do
 
   before do
     [dep_1_1, dep_1].each do |d|
-      DepartmentFactory.archive(d)
+      d.archive!(admin_user)
     end
   end
 

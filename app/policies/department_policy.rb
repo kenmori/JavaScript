@@ -19,7 +19,7 @@ class DepartmentPolicy
     # current organization 以下に指定された department が存在すること
   end
 
-  def destroy?
+  def archive?
     current_user_admin?
     # current organization 以下に指定された department が存在すること
   end

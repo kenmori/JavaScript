@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  # TODO punditはconceptに移す
-  before_action :authorize!, except: :restore
   skip_before_action :verify_authenticity_token, if: :staging?
 
   def index
@@ -64,11 +62,6 @@ class DepartmentsController < ApplicationController
         render_error_json(:bad_request, I18n.t("http_status.code_400"))
       end
       false
-    end
-
-    # TODO department object を用いた権限管理をするには concept の中で pundit を使うほうがよい
-    def authorize!
-      authorize Department
     end
 
     def staging?

@@ -17,6 +17,7 @@ class Department::Archive < Trailblazer::Operation
   end
 
   step Model(Department, :find_by)
+  step Policy::Pundit(DepartmentPolicy, :archive?)
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)

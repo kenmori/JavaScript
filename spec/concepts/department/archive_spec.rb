@@ -21,7 +21,7 @@ RSpec.describe Department::Archive do
   end
 
   example "SUCCESS: 部署をアーカイブする" do
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     department = result[:model]
 
     expect(result).to be_success
@@ -41,7 +41,7 @@ RSpec.describe Department::Archive do
       objective: objective
     ).create
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     department = result[:model]
 
     expect(result).to be_success
@@ -57,7 +57,7 @@ RSpec.describe Department::Archive do
       name: "営業部"
     )
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     department = result[:model]
 
     expect(result).to be_success
@@ -78,7 +78,7 @@ RSpec.describe Department::Archive do
       parent_department: department
     ).create
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -96,7 +96,7 @@ RSpec.describe Department::Archive do
       user: user
     ).create
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure

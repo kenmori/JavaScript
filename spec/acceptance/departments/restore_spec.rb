@@ -5,6 +5,7 @@ RSpec.resource "PATCH /departments/:id/restore", warden: true do
   explanation "departmnets#restore"
 
   include RequestHeaderJson
+  using DepartmentHelper
   # TODO DepartmentDataset の中を let にして使い回せるようにする
 
   let!(:organization) { OrganizationFactory.new.create }
@@ -24,7 +25,7 @@ RSpec.resource "PATCH /departments/:id/restore", warden: true do
 
   before do
     [dep_1_1, dep_1].each do |d|
-      DepartmentFactory.archive(d)
+      d.archive!(admin_user)
     end
 
     login_as(admin_user)

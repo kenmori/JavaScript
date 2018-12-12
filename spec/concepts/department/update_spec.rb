@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Department::Update do
+  using DepartmentHelper
+
   let!(:organization) { OrganizationFactory.new.create }
   let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
   let!(:department) do
@@ -45,7 +47,7 @@ RSpec.describe Department::Update do
         name: "Ruby部"
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -59,7 +61,7 @@ RSpec.describe Department::Update do
         display_order: 2
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -73,7 +75,7 @@ RSpec.describe Department::Update do
         parent_department_id: other_department.id
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -87,7 +89,7 @@ RSpec.describe Department::Update do
         owner_id: nomal_user.id
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -101,7 +103,7 @@ RSpec.describe Department::Update do
         owner_id: 0
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -118,7 +120,7 @@ RSpec.describe Department::Update do
         owner_id: nomal_user.id
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -138,7 +140,7 @@ RSpec.describe Department::Update do
         owner_id: nomal_user.id
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       child_department.reload
       expect(result).to be_success
@@ -154,7 +156,7 @@ RSpec.describe Department::Update do
       display_order: nil
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -180,7 +182,7 @@ RSpec.describe Department::Update do
       parent_department_id: archived_department.id
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -190,9 +192,7 @@ RSpec.describe Department::Update do
   end
 
   example "ERROR: アーカイブ済みの部署は更新できない" do
-    department.department_members.destroy_all
-    Department::Archive.call(params: { id: department.id })
-    department.reload
+    department.archive!(admin_user)
 
     params = {
       id: department.id,
@@ -200,7 +200,7 @@ RSpec.describe Department::Update do
       name: "Ruby部"
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -216,7 +216,7 @@ RSpec.describe Department::Update do
       parent_department_id: department.id
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -249,7 +249,7 @@ RSpec.describe Department::Update do
       parent_department_id: grandchild_department.id
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -282,7 +282,7 @@ RSpec.describe Department::Update do
         name: "Ruby部"
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
       contract = result["contract.default"]
 
       expect(result).to be_failure
@@ -298,7 +298,7 @@ RSpec.describe Department::Update do
         parent_department_id: other_org_department.id
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
       contract = result["contract.default"]
 
       expect(result).to be_failure
@@ -314,7 +314,7 @@ RSpec.describe Department::Update do
         owner_id: other_org_user.id
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
       contract = result["contract.default"]
 
       expect(result).to be_failure

@@ -13,6 +13,7 @@ class Department::Create < Trailblazer::Operation
   end
 
   step Model(Department, :new)
+  step Policy::Pundit(DepartmentPolicy, :create?)
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
