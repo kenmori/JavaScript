@@ -22,6 +22,19 @@ class ObjectiveComment < ApplicationRecord
   belongs_to :objective_comment_label, optional: true
 
   after_save do
-    NotificationMailer.update_o_comment(Current.user, objective).deliver_later
+    # コメントを追加した objective に関連するすべてのユーザーにメールを送信する
+    target_users = []
+    target_users.push(objective.owner)
+    objective.key_results.each do |key_result|
+      target_users.push(key_result.owner)
+      key_result.members.each do |member|
+        target_users.push(member)
+      end
+    end
+
+    # 関係者まで含めると重複が多くなるため uniq で一意にする
+    target_users.uniq.each do |user|
+      NotificationMailer.update_o_comment(Current.user, objective, user).deliver_later
+    end
   end
 end

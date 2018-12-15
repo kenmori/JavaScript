@@ -20,8 +20,6 @@ json.objective do
 
       json.result key_result.result
 
-      puts "== #{key_result.inspect}"
-
       json.comments do
         json.partial! "comments/comment", collection: key_result.comments, as: :comment
       end
