@@ -286,5 +286,15 @@ RSpec.describe Department::Update do
         "部署責任者は組織内から選択してください"
       )
     end
+
+    example "ERROR: サインインユーザとは異なる組織の部署をidで指定することは出来ない" do
+      params = {
+        id: dep_2.id,
+      }
+
+      result = described_class.call(params: params, current_user: admin_user)
+
+      expect(result["result.policy.default"]).to be_failure
+    end
   end
 end
