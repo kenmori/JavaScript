@@ -1,9 +1,15 @@
+# frozen_string_literal: true
+
 class UserPolicy
   include PolicyHelper
 
   def initialize(current_user, target_user)
     @current_user = current_user
     @target_user = target_user
+  end
+
+  def show?
+    same_organization?(@target_user)
   end
 
   def create?

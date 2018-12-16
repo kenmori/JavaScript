@@ -31,6 +31,11 @@ const getSwitchedVisibleIds = (
 
 export default handleActions(
   {
+    [ActionTypes.SET_CURRENT]: (state, { payload }) =>
+      console.log(payload.get('user')) ||
+      state
+        .set('userId', payload.user.id)
+        .set('okrPeriodId', payload.user.okrPeriodId),
     [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) =>
       state.set('okrPeriodId', payload.okrPeriodId),
     [ActionTypes.SELECTED_USER]: (state, { payload }) =>

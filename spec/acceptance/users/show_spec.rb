@@ -10,6 +10,8 @@ RSpec.resource "GET /users/:id", warden: true do
   include RequestHeaderJson
 
   before do
+    okr_period
+
     login_as(nomal_user)
   end
 
@@ -49,20 +51,20 @@ RSpec.resource "GET /users/:id", warden: true do
           },
           "current_okr_period" => {
             "id" => okr_period.id,
-            "start_date" => "2018-12-09",
-            "end_date" => "2019-12-16",
+            "start_date" => okr_period.start_date.strftime("%Y-%m-%d"),
+            "end_date" => okr_period.end_date.strftime("%Y-%m-%d"),
             "name" => okr_period.name
           },
           "owner" => {
-            "id" => admin_user.id,
-            "email" => admin_user.email,
-            "first_name" => admin_user.first_name,
-            "last_name" => admin_user.last_name,
-            "is_admin" => true,
+            "id" => nomal_user.id,
+            "email" => nomal_user.email,
+            "first_name" => nomal_user.first_name,
+            "last_name" => nomal_user.last_name,
+            "is_admin" => false,
             "is_confirming" => nil,
             "disabled" => false,
             "avatar_url" => nil,
-            "sign_in_at" => nil
+            "sign_in_at" => be_time_iso8601
           }
         }
       )
@@ -102,16 +104,16 @@ RSpec.resource "GET /users/:id", warden: true do
           },
           "current_okr_period" => {
             "id" => okr_period.id,
-            "start_date" => "2018-12-09",
-            "end_date" => "2019-12-16",
+            "start_date" => okr_period.start_date.strftime("%Y-%m-%d"),
+            "end_date" => okr_period.end_date.strftime("%Y-%m-%d"),
             "name" => okr_period.name
           },
           "owner" => {
-            "id" => admin_user.id,
-            "email" => admin_user.email,
-            "first_name" => admin_user.first_name,
-            "last_name" => admin_user.last_name,
-            "is_admin" => true,
+            "id" => nomal_user.id,
+            "email" => nomal_user.email,
+            "first_name" => nomal_user.first_name,
+            "last_name" => nomal_user.last_name,
+            "is_admin" => false,
             "is_confirming" => nil,
             "disabled" => false,
             "avatar_url" => nil,
@@ -141,8 +143,8 @@ RSpec.resource "GET /users/:id", warden: true do
       login_as(admin_user)
       do_request(id: other_org_user.id)
 
-      expect(response_status).to eq(400)
-      expect(parse_response_error).to eq(["Idは見つかりませんでした"])
+      expect(response_status).to eq(403)
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
 end
