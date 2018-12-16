@@ -5,9 +5,10 @@ RSpec.resource "POST /users", warden: true do
   explanation "users#create"
 
   include RequestHeaderJson
-  include OrganizationDataset
+  include DepartmentDataset
 
   before do
+    dep_1
     login_as(admin_user)
   end
 
@@ -18,6 +19,7 @@ RSpec.resource "POST /users", warden: true do
       parameter :email, "メールアドレス", type: :string, required: true
       parameter :admin, "管理者かどうかを設定", type: :boolean, required: true
       parameter :skip_notification, "メール認証をスキップするかどうかを設定", type: :boolean, required: true
+      parameter :department_id, "所属させる部署のID", type: :integer, required: true
     end
 
     example "SUCCESS:" do
@@ -29,7 +31,8 @@ RSpec.resource "POST /users", warden: true do
           last_name: "空条",
           email: "jojo-q@example.com",
           admin: false,
-          skip_notification: false
+          skip_notification: false,
+          department_id: dep_1.id
         }
       )
 
@@ -45,6 +48,9 @@ RSpec.resource "POST /users", warden: true do
         "is_confirming" => true,
         "is_admin" => false
       )
+
+      user = User.find_by(email: "jojo-q@example.com")
+      expect(user.departments).to eq([dep_1])
     end
   end
 end
