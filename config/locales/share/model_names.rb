@@ -2,7 +2,9 @@
 
 def model_names
   @model_names ||= {
+    organization: "組織",
     department: "部署",
-    organization: "組織"
+    department_member: "部署メンバー",
+    user: "ユーザー"
   }
 end
