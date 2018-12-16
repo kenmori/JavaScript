@@ -1,23 +1,7 @@
 RSpec.describe Department::Restore do
   using DepartmentHelper
+  include DepartmentDataset
 
-  let!(:organization) { OrganizationFactory.new.create }
-  let!(:admin_user) { UserFactory.new(organization: organization).create(admin: true) }
-  let!(:dep_1) do
-    DepartmentFactory.new(
-      organization: organization,
-      owner: admin_user
-    ).create
-  end
-  let!(:dep_1_1) do
-    DepartmentFactory.new(
-      organization: organization,
-      owner: admin_user,
-      parent_department: dep_1
-    ).create(
-      name: "開発部"
-    )
-  end
   let(:params) do
     {
       id: department.id
