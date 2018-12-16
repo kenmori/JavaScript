@@ -88,7 +88,23 @@ RSpec.resource "POST /users", warden: true do
       )
 
       expect(response_status).to eq(422)
-      expect(parse_response_body("error")).to eq("部署を入力してください, 部署IDを入力してください")
+    end
+
+    example "ERROR: Cannot specify a department of another organization" do
+      explanation "別の組織の部署は指定できない"
+
+      do_request(
+        user: {
+          first_name: "Q太郎",
+          last_name: "空条",
+          email: "jojo-q@example.com",
+          admin: false,
+          skip_notification: false,
+          department_id: dep_2.id
+        }
+      )
+
+      expect(response_status).to eq(422)
     end
   end
 end

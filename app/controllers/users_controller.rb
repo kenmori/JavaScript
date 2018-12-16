@@ -5,8 +5,10 @@ class UsersController < ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      @user = current_user.organization.users.create!(create_user_params)
-      @user.department_members.create!(department_id: params[:user][:department_id], role: :member)
+      @user = current_organization.users.create!(create_user_params)
+
+      department = current_organization.departments.find(params[:user][:department_id])
+      @user.department_members.create!(department: department, role: :member)
     end
     render status: :created
   rescue StandardError => e
