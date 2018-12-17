@@ -27,7 +27,7 @@ class Objective < ApplicationRecord
   has_many :users, through: :objective_members
   belongs_to :okr_period
   belongs_to :parent_key_result, class_name: "KeyResult", optional: true
-  has_one :department_objective
+  has_one :department_objective, dependent: :destroy
   has_one :department, through: :department_objective
 
   scope :enabled, -> { where(disabled_at: nil) }
