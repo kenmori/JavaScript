@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       @user.department_members.create!(department: department, role: :member)
     end
     render status: :created
-  rescue StandardError => e
+  rescue ActiveRecord::RecordInvalid => e
     unprocessable_entity(e.message)
   end
 

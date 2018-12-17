@@ -1,7 +1,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "POST /users", warden: true do
+RSpec.resource "POST /users", warden: true, gaffe: true do
   explanation "users#create"
 
   include RequestHeaderJson
@@ -87,7 +87,8 @@ RSpec.resource "POST /users", warden: true do
         }
       )
 
-      expect(response_status).to eq(422)
+      expect(response_status).to eq(404)
+      expect(parse_response_error).to eq(["操作の対象が存在しません"])
     end
 
     example "ERROR: Cannot specify a department of another organization" do
@@ -104,7 +105,8 @@ RSpec.resource "POST /users", warden: true do
         }
       )
 
-      expect(response_status).to eq(422)
+      expect(response_status).to eq(404)
+      expect(parse_response_error).to eq(["操作の対象が存在しません"])
     end
   end
 end
