@@ -128,8 +128,8 @@ workflows:
           name: deploy-to-production
           env: production
           url: https://ap.resily.com/
-          requires:
-            - test
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^v.*/
