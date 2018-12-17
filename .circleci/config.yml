@@ -120,6 +120,8 @@ workflows:
           requires:
             - test
           filters:
+            tags:
+              ignore: /.*/
             branches:
               only: master
       - deploy:
@@ -129,5 +131,7 @@ workflows:
           requires:
             - test
           filters:
+            branches:
+              ignore: /.*/
             tags:
-              only: /.*/
+              only: /^v.*/
