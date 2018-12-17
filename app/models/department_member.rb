@@ -21,8 +21,6 @@ class DepartmentMember < ApplicationRecord
 
   enum role: { owner: 0, member: 1 }
 
-  # TODO DepartmentMemberValidatorにうつす?
-  # TODO なんでroleにNOT NULL 制約いれてない？
   validates :role, presence: true
   validates :department_id, presence: true
   validates :user_id, presence: true
