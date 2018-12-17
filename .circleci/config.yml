@@ -102,7 +102,7 @@ jobs:
             sudo pip install awsebcli --upgrade
       - run:
           name: Deploy to << parameters.env >>
-          command: eb deploy << parameters.env >>
+          command: eb deploy << parameters.env >> --timeout 25
 workflows:
   test-and-deploy:
     jobs:
