@@ -92,6 +92,9 @@ jobs:
       env:
         type: enum
         enum: ["develop", "production"]
+      url:
+        type: enum
+        enum: ["https://ap.risily.com/", "https://ap.resily.com/"]
     executor:
       name: deploy
     steps:
@@ -103,6 +106,9 @@ jobs:
       - run:
           name: Deploy to << parameters.env >>
           command: eb deploy << parameters.env >> --timeout 25
+      - run:
+          name: Notify deploy completed to slack
+          command: curl -X POST --data-urlencode "payload={\"text\":\"Deployed to << parameters.env >>, please check << parameters.url >>\"}" "$SLACK_DEPLOY_TOKEN"
 workflows:
   test-and-deploy:
     jobs:
@@ -110,6 +116,7 @@ workflows:
       - deploy:
           name: deploy-to-develop
           env: develop
+          url: https://ap.risily.com/
           requires:
             - test
           filters:
@@ -118,6 +125,7 @@ workflows:
       - deploy:
           name: deploy-to-production
           env: production
+          url: https://ap.resily.com/
           requires:
             - test
           filters:
