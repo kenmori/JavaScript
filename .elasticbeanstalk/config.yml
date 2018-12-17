@@ -1,0 +1,10 @@
+branch-defaults:
+  master:
+    environment: null
+global:
+  application_name: Resily
+  default_ec2_keyname: resily.pem
+  default_platform: Ruby 2.4 (Puma)
+  default_region: ap-northeast-1
+  sc: git
+  workspace_type: Application

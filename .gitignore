@@ -25,13 +25,6 @@
 # Ignore encrypted secrets key file.
 config/secrets.yml.key
 
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-
-package-lock.json
-
 # Environment normalization
 /vendor/bundle
 
