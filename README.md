@@ -13,8 +13,6 @@ OKR の作成・運用・管理を目的としたクラウド OKR ツール。
 
 ### インストール
 
-- Ruby 2.4
-- MySQL 5.7.x
 - Docker (Docker Compose)
 
 ### ビルド
