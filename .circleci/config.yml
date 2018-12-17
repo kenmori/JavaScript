@@ -1,6 +1,6 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+executors:
+  default:
     working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.4.1-node-browsers
@@ -34,6 +34,14 @@ jobs:
           MINIO_SECRET_KEY: secret_key
           MINIO_REGION: ap-northeast-1
         command: ["server", "/data"]
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.6.4
+jobs:
+  test:
+    executor:
+      name: default
     steps:
       - checkout
       - run:
@@ -79,3 +87,41 @@ jobs:
           path: test-results
       - store_artifacts:
           path: docs/api
+  deploy:
+    parameters:
+      env:
+        type: enum
+        enum: ["develop", "production"]
+    executor:
+      name: deploy
+    steps:
+      - checkout
+      - run:
+          name: Install awscli
+          command: |
+            sudo pip install awsebcli --upgrade
+      - run:
+          name: Deploy to << parameters.env >>
+          command: eb deploy << parameters.env >>
+workflows:
+  test-and-deploy:
+    jobs:
+      - test
+      - deploy:
+          name: deploy-to-develop
+          env: develop
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - deploy:
+          name: deploy-to-production
+          env: production
+          requires:
+            - test
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
