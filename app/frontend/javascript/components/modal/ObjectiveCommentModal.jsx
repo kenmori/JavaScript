@@ -102,10 +102,10 @@ class ObjectiveCommentModal extends PureComponent {
               <Form.Field className="comment-modal__form__group__field">
                 <Form.TextArea
                   autoHeight
-                  rows={2}
+                  rows={3}
                   value={text}
                   placeholder={
-                    '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+                    '進捗状況や、次のアクションなどをメモしてください。\n記述したコメントは関係者にメールで通知されます。\n(Markdown を記述できます)'
                   }
                   onChange={this.handleTextChange}
                 />

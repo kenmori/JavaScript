@@ -177,11 +177,11 @@ class ObjectivePane extends PureComponent {
             ) : null}
             <Form.TextArea
               autoHeight
-              rows={2}
+              rows={3}
               value={text}
               onChange={this.handleTextChange}
               placeholder={
-                '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+                '進捗状況や、次のアクションなどをメモしてください。\n記述したコメントは関係者にメールで通知されます。\n(Markdown を記述できます)'
               }
             />
             <div className="comment-pane__block">
