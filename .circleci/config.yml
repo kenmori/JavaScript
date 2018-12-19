@@ -125,7 +125,7 @@ workflows:
             branches:
               only: master
       - deploy:
-          name: deploy-to-staging
+          name: deploy-to-staging-from-deploy-branch
           env: staging
           url: https://ap.risily.com/
           filters:
