@@ -65,7 +65,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :departments, only: %i[index create update destroy]
+  resources :departments, only: %i[index create update destroy] do
+    member do
+      patch :restore
+    end
+  end
 
   get "*path", to: "home#index"
 end

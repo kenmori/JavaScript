@@ -48,4 +48,7 @@ class Department < ApplicationRecord
   end
 
   alias archived? soft_destroyed?
+  def active?
+    !archived?
+  end
 end

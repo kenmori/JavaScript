@@ -49,6 +49,9 @@ department_create_attrs = {
                 exclusion_self: "に子孫の部署を指定することは出来ません"
               }
             }
+          },
+          'department/restore': {
+            parent_department_must_be_active: "親部署がアーカイブされているためリストアできません"
           }
         }
       }

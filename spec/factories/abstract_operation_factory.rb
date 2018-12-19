@@ -5,8 +5,8 @@ class AbstractOperationFactory
     @operation_klass = operation_klass
   end
 
-  def create(**params)
-    @result = @operation_klass.call(params: default_params.merge(params))
+  def create(params={}, options={})
+    @result = @operation_klass.call(params: default_params.merge(params), **options)
 
     if @result.failure?
       messages = @result["contract.default"].errors.full_messages.join(', ')

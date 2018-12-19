@@ -15,12 +15,13 @@ class Department::Archive < Trailblazer::Operation
   end
 
   step Model(Department, :find_by)
+  step Policy::Pundit(DepartmentPolicy, :archive?)
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
-  step :delete_record
+  step :archive
 
-  def delete_record(_options, model:, params:, **_metadata)
+  def archive(_options, model:, params:, **_metadata)
     model.soft_destroy
   end
 end

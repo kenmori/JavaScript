@@ -9,6 +9,7 @@ class Department::Index < Trailblazer::Operation
   end
 
   step Model(Class, :new)
+  step Policy::Pundit(DepartmentPolicy, :index?)
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step :query

@@ -2,6 +2,21 @@
 
 RSpec.describe Department::Index do
   include DepartmentDataset
+  using DepartmentHelper
+
+  before do
+    dep_1
+    dep_1_1
+    dep_1_1_1
+    dep_1_1_2
+    dep_1_2
+    dep_1_2_1
+    dep_1_2_2
+    dep_1_3
+    dep_2
+    dep_2_1
+    dep_2_2
+  end
 
   let(:l_name) { ->(h) { h[:name] } }
 
@@ -10,7 +25,7 @@ RSpec.describe Department::Index do
       organization_id: organization.id
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
 
     root = result[:query].first
     expect(root).to include(
@@ -37,7 +52,7 @@ RSpec.describe Department::Index do
       ids: [dep_1_1.id]
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
 
     root = result[:query].first
     expect(root.dig("name")).to eq("開発部")
@@ -50,7 +65,7 @@ RSpec.describe Department::Index do
       ids: [dep_1_1.id, dep_1_2.id]
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
 
     expect(result[:query].size).to eq(2)
     expect(result[:query].map(&l_name)).to contain_exactly("開発部", "営業部")
@@ -59,16 +74,14 @@ RSpec.describe Department::Index do
   end
 
   example "SUCCESS: アーカイブされた部署の情報も返す" do
-    # dep_1_1_1 をアーカイブ
-    dep_1_1_1.department_members.destroy_all
-    Department::Archive.call(params: { id: dep_1_1_1.id })
+    dep_1_1_1.archive!(admin_user)
 
     params = {
       organization_id: organization.id,
       ids: [dep_1_1_1.id]
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
 
     # archived が true になり、 soft_destroyed_at にアーカイブした時刻が入る
     expect(result[:query][0]).to include(
@@ -90,7 +103,7 @@ RSpec.describe Department::Index do
       ids: [dep_2.id]
     }
 
-    result = described_class.call(params: params)
+    result = described_class.call(params: params, current_user: admin_user)
     contract = result["contract.default"]
 
     expect(result).to be_failure
@@ -100,7 +113,7 @@ RSpec.describe Department::Index do
   end
 
   example "ERROR: 必須項目を入力しない場合" do
-    result = described_class.call(params: {})
+    result = described_class.call(params: {}, current_user: admin_user)
 
     contract = result["contract.default"]
 
@@ -126,7 +139,7 @@ RSpec.describe Department::Index do
         ids: [dep_1.id]
       }
 
-      result = described_class.call(params: params)
+      result = described_class.call(params: params, current_user: admin_user)
 
       root = result[:query].first
       expect(root).to include(

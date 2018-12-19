@@ -12,6 +12,18 @@ RSpec.resource "GET /departments", warden: true do
   let(:l_name) { ->(h) { h["name"] } }
 
   before do
+    dep_1
+    dep_1_1
+    dep_1_1_1
+    dep_1_1_2
+    dep_1_2
+    dep_1_2_1
+    dep_1_2_2
+    dep_1_3
+    dep_2
+    dep_2_1
+    dep_2_2
+
     login_as(admin_user)
   end
 
