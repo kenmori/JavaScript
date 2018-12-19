@@ -125,6 +125,15 @@ workflows:
             branches:
               only: master
       - deploy:
+          name: deploy-to-staging
+          env: staging
+          url: https://ap.risily.com/
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: /^deploy\/.*$/
+      - deploy:
           name: deploy-to-production
           env: production
           url: https://ap.resily.com/
