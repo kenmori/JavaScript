@@ -91,7 +91,7 @@ jobs:
     parameters:
       env:
         type: enum
-        enum: ["develop", "production"]
+        enum: ["staging", "production"]
       url:
         type: enum
         enum: ["https://ap.risily.com/", "https://ap.resily.com/"]
@@ -114,8 +114,8 @@ workflows:
     jobs:
       - test
       - deploy:
-          name: deploy-to-develop
-          env: develop
+          name: deploy-to-staging
+          env: staging
           url: https://ap.risily.com/
           requires:
             - test
