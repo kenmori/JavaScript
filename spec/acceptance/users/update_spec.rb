@@ -123,7 +123,9 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       expect(parse_response_body("user", "is_admin")).to be_falsey
     end
 
+    example "SUCCESS: change department" do
 
+    end
 
 
   #   example "SUCCESS: Add a new user to the organization of the signed-in user" do

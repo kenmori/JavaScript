@@ -19,7 +19,7 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
       parameter :email, "メールアドレス", type: :string, required: true
       parameter :admin, "管理者かどうかを設定", type: :boolean, required: true
       parameter :skip_notification, "メール認証をスキップするかどうかを設定", type: :boolean, required: true
-      parameter :department_id, "所属させる部署のID", type: :integer, required: true
+      parameter :department_ids, "所属させる部署のID", type: :array, items: {type: :integer}, required: true
     end
 
     example "SUCCESS: Add a new user to the organization of the signed-in user" do
@@ -32,7 +32,7 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
           email: "jojo-q@example.com",
           admin: false,
           skip_notification: false,
-          department_id: dep_1.id
+          department_ids: [dep_1.id]
         }
       )
 
@@ -73,7 +73,7 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
           email: nil,
           admin: nil,
           skip_notification: nil,
-          department_id: nil
+          department_ids: [nil]
         }
       )
 
@@ -83,7 +83,7 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
       )
     end
 
-    example "ERROR: When not entering department id" do
+    example "ERROR: When not entering department id", focus: true do
       explanation "部署IDを入力しない場合エラー"
 
       do_request(
@@ -93,7 +93,7 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
           email: "jojo-q@example.com",
           admin: false,
           skip_notification: false,
-          department_id: nil
+          department_ids: [nil]
         }
       )
 
@@ -111,7 +111,7 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
           email: "jojo-q@example.com",
           admin: false,
           skip_notification: false,
-          department_id: dep_2.id
+          department_ids: [dep_1.id, dep_2.id]
         }
       )
 
