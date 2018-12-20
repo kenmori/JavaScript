@@ -6,18 +6,33 @@ class User::Create < Trailblazer::Operation
     property :admin
     property :skip_notification
     property :department_ids, virtual: true
+
+    validates :department_ids, VH[:required]
+    # 配列の要素が存在すること
+    # 配列の要素が current_organization の部署であること
+    # 他にも Validation が必要なはず
   end
 
   step Model(User, :new)
   step Contract::Build(constant: Form)
-  # step Contract::Validate()
   step Contract::Persist(method: :sync)
-  step ->(_options, model:, params:, **) {
-    model.valid?
-  }
+  step :run_model_validation
+  step Contract::Validate()
   step :create
 
+  def run_model_validation(options, model:, params:, **)
+    if model.invalid?
+      model.errors.each do |key, msg|
+        options["contract.default"].errors.add(key, msg)
+      end
+      false
+    else
+      true
+    end
+  end
+
   def create(_options, model:, params:, **)
+    # TODO Userモデルでやってるコールバック処理をどうするか
     ApplicationRecord.transaction do
       user = current_organization.users.create!(create_user_params)
 
