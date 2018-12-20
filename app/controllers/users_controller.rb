@@ -4,22 +4,10 @@ class UsersController < ApplicationController
   before_action :valid_operatable_user?
 
   def create
-    ActiveRecord::Base.transaction do
-      @user = current_organization.users.create!(create_user_params)
-
-      departments = current_organization.departments.where(id: params[:user].fetch(:department_ids))
-      if departments.empty?
-        current_organization.departments.raise_record_not_found_exception!([])
-      else
-        departments.each do |department_id|
-          department = current_organization.departments.find(department_id)
-          @user.department_members.create!(department: department, role: :member)
-        end
-      end
+    runner(User::Create, params[:user]) do |result|
+      @user = result[:model]
+      render status: :created
     end
-    render status: :created
-  rescue ActiveRecord::RecordInvalid => e
-    unprocessable_entity(e.message)
   end
 
   def update
