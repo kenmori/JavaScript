@@ -46,7 +46,17 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
         "sign_in_at" => nil,
         "email" => "jojo-q@example.com",
         "is_confirming" => true,
-        "is_admin" => false
+        "is_admin" => false,
+        "departments"=> [
+          {
+            "id" => dep_1.id,
+            "organization_id" => organization.id,
+            "display_order" => 1,
+            "name" => "代表",
+            "created_at" => be_time_iso8601,
+            "updated_at" => be_time_iso8601
+          }
+        ]
       )
 
       user = User.find_by(email: "jojo-q@example.com")
