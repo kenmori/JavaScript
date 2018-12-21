@@ -6,44 +6,50 @@ class User::Create < Trailblazer::Operation
     property :admin
     property :skip_notification
     property :department_ids, virtual: true
+    property :current_user, virtual: true
 
+    validates :email, VH[:required, :email]
+    validates_uniqueness_of :email
+    validates :first_name, VH[:required, :middle_text_field]
+    validates :last_name, VH[:required, :middle_text_field]
+    validates :admin, VH[:boolean]
+    validates :skip_notification, VH[:boolean]
     validates :department_ids, VH[:required]
-    # 配列の要素が存在すること
-    # 配列の要素が current_organization の部署であること
+    validate -> {
+      if department_ids.all?(&:nil?)
+        errors.add(:department_ids, :blank)
+      end
+    }
+    validate -> {
+      departments = Department.where(id: department_ids)
+      unless departments.all? {|d| d.organization == current_user.organization }
+        errors.add(:department_ids, :must_be_same_organization)
+      end
+    }
     # 他にも Validation が必要なはず
   end
 
   step Model(User, :new)
-  step Contract::Build(constant: Form)
-  step Contract::Persist(method: :sync)
-  step :run_model_validation
-  step Contract::Validate()
-  step :create
-
-  def run_model_validation(options, model:, params:, **)
-    if model.invalid?
-      model.errors.each do |key, msg|
-        options["contract.default"].errors.add(key, msg)
-      end
-      false
-    else
-      true
-    end
+  # step Policy::Pundit(UserPolicy, :create?)
+  step Contract::Build(constant: Form, builder: :default_contract!)
+  def default_contract!(_options, constant:, model:, current_user:, **)
+    constant.new(model, current_user: current_user)
   end
 
-  def create(_options, model:, params:, **)
+  step Contract::Validate()
+  step Contract::Persist(method: :sync)
+  step :create
+
+  def create(_options, model:, params:, current_user:, **)
+    current_organization = current_user.organization
+
     # TODO Userモデルでやってるコールバック処理をどうするか
     ApplicationRecord.transaction do
-      user = current_organization.users.create!(create_user_params)
+      model.save(validate: false)
 
-      departments = current_organization.departments.where(id: params[:user].fetch(:department_ids))
-      if departments.empty?
-        current_organization.departments.raise_record_not_found_exception!([])
-      else
-        departments.each do |department_id|
-          department = current_organization.departments.find(department_id)
-          user.department_members.create!(department: department, role: :member)
-        end
+      departments = current_organization.departments.where(id: params[:department_ids])
+      departments.each do |department|
+        model.department_members.create!(department: department, role: :member)
       end
     end
 
