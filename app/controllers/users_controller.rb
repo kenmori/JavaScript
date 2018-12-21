@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :valid_operatable_user?
+  before_action :valid_operatable_user?, except: :create
 
   def create
     runner(User::Create, params[:user]) do |result|

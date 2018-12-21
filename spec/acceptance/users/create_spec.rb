@@ -1,7 +1,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "POST /users", warden: true, gaffe: true do
+RSpec.resource "POST /users", warden: true do
   explanation "users#create"
 
   include RequestHeaderJson
@@ -77,28 +77,16 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
         }
       )
 
-      expect(response_status).to eq(422)
-      expect(parse_response_body("error")).to eq(
-        "メールアドレスを入力してください, メールアドレスは不正な値です, ユーザー名 (名) を入力してください, ユーザー名 (姓) を入力してください"
+      expect(response_status).to eq(400)
+
+      expect(parse_response_error).to include(
+        "メールアドレスを入力してください",
+        "ユーザ名(名)を入力してください",
+        "ユーザ名(姓)を入力してください",
+        "管理者フラグは一覧にありません",
+        "メール認証スキップは一覧にありません",
+        "部署IDを入力してください"
       )
-    end
-
-    example "ERROR: When not entering department id", focus: true do
-      explanation "部署IDを入力しない場合エラー"
-
-      do_request(
-        user: {
-          first_name: "Q太郎",
-          last_name: "空条",
-          email: "jojo-q@example.com",
-          admin: false,
-          skip_notification: false,
-          department_ids: [nil]
-        }
-      )
-
-      expect(response_status).to eq(404)
-      expect(parse_response_error).to eq(["操作の対象が存在しません"])
     end
 
     example "ERROR: Cannot specify a department of another organization" do
@@ -115,8 +103,8 @@ RSpec.resource "POST /users", warden: true, gaffe: true do
         }
       )
 
-      expect(response_status).to eq(404)
-      expect(parse_response_error).to eq(["操作の対象が存在しません"])
+      expect(response_status).to eq(400)
+      expect(parse_response_error).to eq(["部署IDは組織内から選択してください"])
     end
   end
 end

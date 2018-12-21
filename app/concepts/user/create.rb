@@ -1,12 +1,13 @@
 class User::Create < Trailblazer::Operation
   class Form < Reform::Form
+    property :current_user, virtual: true
+
     property :first_name
     property :last_name
     property :email
     property :admin
     property :skip_notification
     property :department_ids, virtual: true
-    property :current_user, virtual: true
 
     validates :email, VH[:required, :email]
     validates_uniqueness_of :email
@@ -22,20 +23,15 @@ class User::Create < Trailblazer::Operation
     }
     validate -> {
       departments = Department.where(id: department_ids)
-      unless departments.all? {|d| d.organization == current_user.organization }
+      unless departments.all? {|d| d.organization_id == current_user.organization.id }
         errors.add(:department_ids, :must_be_same_organization)
       end
     }
-    # 他にも Validation が必要なはず
   end
 
   step Model(User, :new)
-  # step Policy::Pundit(UserPolicy, :create?)
-  step Contract::Build(constant: Form, builder: :default_contract!)
-  def default_contract!(_options, constant:, model:, current_user:, **)
-    constant.new(model, current_user: current_user)
-  end
-
+  step Policy::Pundit(UserPolicy, :create?)
+  step Contract::Build(constant: Form, builder: :contract_with_current_user!)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :create
@@ -45,6 +41,7 @@ class User::Create < Trailblazer::Operation
 
     # TODO Userモデルでやってるコールバック処理をどうするか
     ApplicationRecord.transaction do
+      model.organization = current_organization
       model.save(validate: false)
 
       departments = current_organization.departments.where(id: params[:department_ids])
@@ -54,5 +51,9 @@ class User::Create < Trailblazer::Operation
     end
 
     true
+  end
+
+  def contract_with_current_user!(_options, constant:, model:, current_user:, **)
+    constant.new(model, current_user: current_user)
   end
 end
