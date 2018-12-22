@@ -10,6 +10,10 @@ class UsersController < ApplicationController
     end
   end
 
+  # TODO User::Update を使うように変更する
+  # TODO valid_operatable_user? を外す
+  # TODO valid_permission? を UserPolicy に移動
+  # TODO update_user_params メソッドを削除
   def update
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)

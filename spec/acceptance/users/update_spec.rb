@@ -63,5 +63,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
         ]
       )
     end
+
+    example "ERROR: TODO"
   end
 end
