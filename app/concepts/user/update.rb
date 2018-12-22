@@ -24,19 +24,17 @@ class User::Update < Trailblazer::Operation
     ApplicationRecord.transaction do
       model.save(validate: false)
 
-      departments = current_user.organization.departments.where(id: params[:department_ids])
-      departments.each do |department|
+      current_department_ids = model.department_members.pluck(:department_id)
+      Department.where(
+        organization: current_user.organization,
+        id: (params[:department_ids] || []) - current_department_ids
+      ).each do |department|
         model.department_members.create!(department: department, role: :member)
       end
     end
   end
 
-  def check_exist_departments(_options, model:, params:, current_user:, **)
-    # TODO current_userが何かしらの部署に所属していることを検証する
-    # でもここでエラーにしてもデータの Rollback が出来ないから、 update の中でやるほうがいいかも
-    true
-  end
-
+  # TODO DRYにする (User::Createに同じメソッドがある)
   def contract_with_current_user!(_options, constant:, model:, current_user:, **)
     constant.new(model, current_user: current_user)
   end
