@@ -2,6 +2,7 @@
 
 require_relative "abstract_active_record_factory"
 
+# TODO User::Createを使う形で作り直す
 class UserFactory < AbstractActiveRecordFactory
   def initialize(organization:)
     super(User.new)
