@@ -85,4 +85,29 @@ RSpec.describe User::Update do
       expect(nomal_user.departments).to contain_exactly(dep_1)
     end
   end
+
+  describe "ERROR" do
+    example "必須項目を削除するケース" do
+      params = {
+        id: nomal_user.id,
+        first_name: nil,
+        last_name: nil,
+        email: nil,
+        admin: nil,
+        department_ids: [nil],
+      }
+
+      result = described_class.call(params: params, current_user: admin_user)
+      contract = result["contract.default"]
+
+      expect(result).to be_failure
+      expect(contract.errors.full_messages).to contain_exactly(
+        "メールアドレスを入力してください",
+        "ユーザ名(名)を入力してください",
+        "ユーザ名(姓)を入力してください",
+        "管理者フラグは一覧にありません"
+      )
+      # TODO 部署を削除したくない
+    end
+  end
 end

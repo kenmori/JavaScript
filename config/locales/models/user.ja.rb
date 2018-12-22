@@ -21,6 +21,10 @@ user_attrs = {
           skip_notification: "メール認証スキップ",
           department_ids: "#{model_names[:department]}ID"
         },
+        'user/update': {
+          **user_attrs,
+          department_ids: "#{model_names[:department]}ID"
+        }
       },
       errors: {
         models: {
