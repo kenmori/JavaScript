@@ -7,27 +7,9 @@ class User::Update < Trailblazer::Operation
     property :avatar
     property :admin
     property :department_ids, virtual: true
+    property :current_user, virtual: true
 
-    # 共通化できそう
-    validates :email, VH[:required, :email]
-    validates_uniqueness_of :email
-    validates :first_name, VH[:required, :middle_text_field]
-    validates :last_name, VH[:required, :middle_text_field]
-
-    validates :admin, VH[:boolean]
-
-    # validates :department_ids, VH[:required]
-    # validate -> {
-    #   if department_ids.all?(&:nil?)
-    #     errors.add(:department_ids, :blank)
-    #   end
-    # }
-    # validate -> {
-    #   departments = Department.where(id: department_ids)
-    #   unless departments.all? {|d| d.organization_id == current_user.organization.id }
-    #     errors.add(:department_ids, :must_be_same_organization)
-    #   end
-    # }
+    include UserValidation.new(:default, :department_ids)
   end
 
   step Model(User, :find_by)

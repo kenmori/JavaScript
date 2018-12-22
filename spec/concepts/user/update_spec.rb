@@ -94,7 +94,7 @@ RSpec.describe User::Update do
         last_name: nil,
         email: nil,
         admin: nil,
-        department_ids: [nil],
+        department_ids: [],
       }
 
       result = described_class.call(params: params, current_user: admin_user)
@@ -105,9 +105,23 @@ RSpec.describe User::Update do
         "メールアドレスを入力してください",
         "ユーザ名(名)を入力してください",
         "ユーザ名(姓)を入力してください",
-        "管理者フラグは一覧にありません"
+        "管理者フラグは一覧にありません",
+        "部署IDを入力してください"
       )
-      # TODO 部署を削除したくない
+    end
+
+    example "ERROR: 別の組織の部署を指定することは出来ない" do
+      dep_2
+
+      params = {
+        id: nomal_user.id,
+        department_ids: [dep_1.id, dep_2.id]
+      }
+      result = described_class.call(params: params, current_user: admin_user)
+      contract = result["contract.default"]
+
+      expect(result).to be_failure
+      expect(contract.errors.full_messages).to contain_exactly("部署IDは組織内から選択してください")
     end
   end
 end
