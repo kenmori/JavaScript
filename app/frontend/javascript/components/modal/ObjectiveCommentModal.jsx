@@ -17,7 +17,6 @@ class ObjectiveCommentModal extends PureComponent {
   }
 
   componentDidMount() {
-    const { objective } = this.props
     this.setState({ objectiveId: this.props.objectiveId })
   }
 
@@ -76,7 +75,7 @@ class ObjectiveCommentModal extends PureComponent {
 
   render() {
     const { objective, comments, commentLabel, isOpen, closeModal } = this.props
-    const { text, keyResultId } = this.state
+    const { text } = this.state
     const name = objective.get('name')
     const activeCommentLabels = commentLabel.filter(el => {
       return this.presetLabels.includes(el.get('name'))

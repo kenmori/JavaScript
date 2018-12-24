@@ -111,7 +111,6 @@ class ObjectivePane extends PureComponent {
   render() {
     const objective = this.props.objective
     const { progressRate } = this.state
-    const isDisabled = objective.get('disabled')
     const comments = objective.get('comments')
     const { text } = this.state
     const objectiveCommentLabels = this.props.objectiveCommentLabels;
