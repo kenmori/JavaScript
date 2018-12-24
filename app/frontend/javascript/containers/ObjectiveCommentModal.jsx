@@ -22,9 +22,6 @@ const mapDispatchToProps = dispatch => {
     updateObjective: objective => {
       dispatch(objectiveActions.updateObjective(objective))
     },
-    // updateKeyResult: keyResult => {
-    //   dispatch(keyResultActions.updateKeyResult(keyResult))
-    // }
   }
 }
 
