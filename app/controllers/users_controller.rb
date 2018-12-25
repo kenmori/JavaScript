@@ -15,6 +15,11 @@ class UsersController < ApplicationController
   # TODO valid_permission? を UserPolicy に移動
   # TODO update_user_params メソッドを削除
   def update
+    # runner(User::Update, params[:user]) do |result|
+    #   @user = result[:model]
+    #   render action: :create, status: :ok
+    # end
+
     @user = User.find(params[:id])
     forbidden and return unless valid_permission?(@user.organization.id)
 

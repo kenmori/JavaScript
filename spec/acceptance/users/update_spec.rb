@@ -64,6 +64,36 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       )
     end
 
-    example "ERROR: TODO"
+    example "Can edit myself information even if you are not an administrator" do
+      explanation "管理者でなくても自分の情報は編集できる"
+
+      login_as(nomal_user)
+
+      do_request(
+        id: nomal_user.id,
+        user: {
+          id: nomal_user.id,
+          last_name: "空条",
+        }
+      )
+
+      expect(response_status).to eq(200)
+      expect(parse_response_body("user", "last_name")).to eq("空条")
+    end
+
+    example "ERROR: Users in different organizations can not edit" do
+      explanation "異なる組織のユーザーは編集できない"
+
+      do_request(
+        id: other_org_user.id,
+        user: {
+          id: other_org_user.id,
+          last_name: "その他",
+        }
+      )
+
+      expect(response_status).to eq(403)
+      expect(parse_response_error).to eq(["許可されていない操作です"])
+    end
   end
 end
