@@ -123,14 +123,5 @@ RSpec.describe User::Update do
       expect(result).to be_failure
       expect(contract.errors.full_messages).to contain_exactly("部署IDは組織内から選択してください")
     end
-
-    example "ERROR: current_userは管理者でなければならない" do
-      params = {
-        id: nomal_user.id,
-      }
-      result = described_class.call(params: params, current_user: nomal_user)
-
-      expect(result["result.policy.default"]).to be_failure
-    end
   end
 end

@@ -81,6 +81,23 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       expect(parse_response_body("user", "last_name")).to eq("空条")
     end
 
+    example "If you are not an administrator, you can not edit information other than yourself" do
+      explanation "管理者でない場合、自分以外の情報を編集できない"
+
+      login_as(nomal_user)
+
+      do_request(
+        id: other_user.id,
+        user: {
+          id: other_user.id,
+          last_name: "空条",
+        }
+      )
+
+      expect(response_status).to eq(403)
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
+    end
+
     example "ERROR: Users in different organizations can not edit" do
       explanation "異なる組織のユーザーは編集できない"
 
@@ -93,7 +110,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_error).to eq(["許可されていない操作です"])
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
     end
   end
 end

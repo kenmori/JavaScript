@@ -4,29 +4,16 @@ class UsersController < ApplicationController
   before_action :valid_operatable_user?, except: :create
 
   def create
-    runner(User::Create, params[:user]) do |result|
+    runner(User::Create, params[:user], render_method: :render_with_error) do |result|
       @user = result[:model]
       render status: :created
     end
   end
 
-  # TODO User::Update を使うように変更する
-  # TODO valid_operatable_user? を外す
-  # TODO valid_permission? を UserPolicy に移動
-  # TODO update_user_params メソッドを削除
   def update
-    # runner(User::Update, params[:user]) do |result|
-    #   @user = result[:model]
-    #   render action: :create, status: :ok
-    # end
-
-    @user = User.find(params[:id])
-    forbidden and return unless valid_permission?(@user.organization.id)
-
-    if @user.update(update_user_params)
+    runner(User::Update, params[:user], render_method: :render_with_error) do |result|
+      @user = result[:model]
       render action: :create, status: :ok
-    else
-      unprocessable_entity_with_errors(@user.errors.full_messages)
     end
   end
 
@@ -84,10 +71,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-    def update_user_params
-      params.require(:user).permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :admin)
-    end
 
     def password_params
       params.require(:user)
