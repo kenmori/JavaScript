@@ -8,7 +8,7 @@ RSpec.describe ValidationHelper do
     end
 
     example "複数の述語を渡すケース" do
-      result = described_class.call(:required, :default_text_field)
+      result = described_class.call(:required, :short_text_field)
       expect(result).to include(
         presence: true,
         length: a_kind_of(Hash)
