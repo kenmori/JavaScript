@@ -43,8 +43,8 @@ RSpec.describe User::Create do
     expect(result).to be_failure
     expect(contract.errors.full_messages).to contain_exactly(
       "メールアドレスを入力してください",
-      "ユーザ名(名)を入力してください",
-      "ユーザ名(姓)を入力してください",
+      "ユーザー名 (名) を入力してください",
+      "ユーザー名 (姓) を入力してください",
       "管理者フラグは一覧にありません",
       "メール認証スキップは一覧にありません",
       "部署IDを入力してください"

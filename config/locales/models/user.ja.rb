@@ -1,8 +1,8 @@
 require_dependency Rails.root.join("config/locales/share/model_names")
 
 user_attrs = {
-  first_name: "ユーザ名(名)",
-  last_name: "ユーザ名(姓)",
+  first_name: "ユーザー名 (名) ",
+  last_name: "ユーザー名 (姓) ",
   email: "メールアドレス",
   admin: "管理者フラグ"
 }
