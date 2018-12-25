@@ -1,4 +1,6 @@
 class UserPolicy
+  include PolicyHelper
+
   def initialize(current_user, target_user)
     @current_user = current_user
     @target_user = target_user
@@ -9,20 +11,10 @@ class UserPolicy
   end
 
   def update?
-    (current_user_admin? || myself?) && same_organization?
+    (current_user_admin? || myself?) && same_organization?(@target_user)
   end
 
   private
-
-    # TODO DepartmentPolicy とコードが重複しているので修正したい
-    def current_user_admin?
-      @current_user.admin?
-    end
-
-    def same_organization?
-      @current_user.organization == @target_user.organization
-    end
-
     def myself?
       @current_user == @target_user
     end

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class DepartmentPolicy
-  def initialize(user, department)
-    @user = user
+  include PolicyHelper
+
+  def initialize(current_user, department)
+    @current_user = current_user
     @department = department
   end
 
@@ -15,24 +17,14 @@ class DepartmentPolicy
   end
 
   def update?
-    current_user_admin? && same_organization?
+    current_user_admin? && same_organization?(@department)
   end
 
   def archive?
-    current_user_admin? && same_organization?
+    current_user_admin? && same_organization?(@department)
   end
 
   def restore?
-    current_user_admin? && same_organization?
+    current_user_admin? && same_organization?(@department)
   end
-
-  private
-
-    def current_user_admin?
-      @user.admin?
-    end
-
-    def same_organization?
-      @department.organization == @user.organization
-    end
 end
