@@ -18,7 +18,6 @@ class User::Update < Trailblazer::Operation
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :update
-  step :check_exist_departments
 
   def update(_options, model:, params:, current_user:, **)
     ApplicationRecord.transaction do
