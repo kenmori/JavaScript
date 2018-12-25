@@ -16,7 +16,7 @@ class User::Create < Trailblazer::Operation
 
   step Model(User, :new)
   step Policy::Pundit(UserPolicy, :create?)
-  step Contract::Build(constant: Form, builder: :contract_with_current_user!)
+  step Contract::Build(constant: Form, builder: ContractWithCurrentUser)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :create
@@ -36,9 +36,5 @@ class User::Create < Trailblazer::Operation
     end
 
     true
-  end
-
-  def contract_with_current_user!(_options, constant:, model:, current_user:, **)
-    constant.new(model, current_user: current_user)
   end
 end

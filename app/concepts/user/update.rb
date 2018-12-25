@@ -14,7 +14,7 @@ class User::Update < Trailblazer::Operation
 
   step Model(User, :find_by)
   step Policy::Pundit(UserPolicy, :update?)
-  step Contract::Build(constant: Form, builder: :contract_with_current_user!)
+  step Contract::Build(constant: Form, builder: ContractWithCurrentUser)
   step Contract::Validate()
   step Contract::Persist(method: :sync)
   step :update
@@ -31,10 +31,5 @@ class User::Update < Trailblazer::Operation
         model.department_members.create!(department: department, role: :member)
       end
     end
-  end
-
-  # TODO DRYにする (User::Createに同じメソッドがある)
-  def contract_with_current_user!(_options, constant:, model:, current_user:, **)
-    constant.new(model, current_user: current_user)
   end
 end
