@@ -24,7 +24,10 @@ class User::Create < Trailblazer::Operation
   def create(_options, model:, params:, current_user:, **)
     current_organization = current_user.organization
 
-    # TODO Userモデルでやってるコールバック処理をどうするか
+    # TODO Userのbefore_create/after_createの処理をここに移動したいが、
+    # ここ以外でもUserを作成するケースがありそう(現状では他のユーザーが
+    # 存在していないとこのクラスを使うことが出来ない)であるため、
+    # 影響範囲が明白になってから対応したい
     ApplicationRecord.transaction do
       model.organization = current_organization
       model.save(validate: false)
