@@ -35,13 +35,18 @@ class Department < ApplicationRecord
   has_many :department_members_members, -> { where(role: :member) }, class_name: "DepartmentMember"
   has_many :members, through: :department_members_members, class_name: "User", source: :user
 
+  # TODO 「代表」以外は nomal にする
+  enum kind: { default: 0, nomal: 1 }
+
+  # TODO 部署が代表かどうかを後から識別できる必要がある
   class << self
     def create_default!(organization:)
       Department.create!(
         organization: organization,
         name: Settings.config.department.default_name,
         display_order: 1,
-        parent: nil
+        parent: nil,
+        kind: :default
       )
     end
   end
