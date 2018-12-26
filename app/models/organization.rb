@@ -29,6 +29,7 @@ class Organization < ApplicationRecord
   has_many :departments, dependent: :destroy
 
   after_create :create_key_result_comment_labels
+  after_create :create_department!
 
   mount_uploader :logo, LogoUploader
 
@@ -58,5 +59,9 @@ class Organization < ApplicationRecord
           organization: self
         )
       end
+    end
+
+    def create_department!
+      Department.create_default!(organization: self)
     end
 end
