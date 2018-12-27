@@ -38,7 +38,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
           email: "kujo-q@example.com",
           avatar: nil, # avatar画像を渡したいが Rack::Test::UploadedFile がうまく動かない
           admin: false,
-          department_id: [dep_1.id]
+          department_ids: [dep_1.id],
         }
       )
 
