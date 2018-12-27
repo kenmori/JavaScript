@@ -25,7 +25,16 @@ RSpec.describe Department::Create do
   end
 
   example "SUCCESS: 子部署を作成するケース" do
-    parent_department = Department.create_default!(organization: organization)
+    parent_params = {
+      name: "開発部",
+      display_order: 1,
+      organization_id: organization.id,
+      parent_department_id: nil,
+      owner_id: admin_user.id
+    }
+    parent_result = described_class.call(params: parent_params, current_user: admin_user)
+    expect(parent_result).to be_success
+    parent_department = parent_result[:model]
 
     params = {
       name: "開発部",
@@ -108,7 +117,20 @@ RSpec.describe Department::Create do
 
   example "ERROR: 親部署のOrganizationと指定したorganizatio_idが異なるケース" do
     other_org = OrganizationFactory.new.create(name: "other")
-    other_org_department = Department.create_default!(organization: other_org)
+    other_org_user = UserFactory.new(organization: other_org).create(
+      email: "other_org_user@example.com",
+      admin: true
+    )
+    other_org_params = {
+      name: "開発部",
+      display_order: 1,
+      organization_id: other_org.id,
+      parent_department_id: nil,
+      owner_id: other_org_user.id
+    }
+    other_org_result = described_class.call(params: other_org_params, current_user: other_org_user)
+    expect(other_org_result).to be_success
+    other_org_department = other_org_result[:model]
 
     params = {
       name: "開発部",

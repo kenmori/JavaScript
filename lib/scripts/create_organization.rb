@@ -42,7 +42,7 @@ class CreateOrganization
         organization = Organization.create!(
           name: organization_name
         )
-        organization.users.create!(
+        owner = organization.users.create!(
           last_name: last_name,
           first_name: first_name,
           email: email,
@@ -53,6 +53,10 @@ class CreateOrganization
         organization.okr_periods.create!(
           start_date: start_date,
           end_date: end_date
+        )
+        Department.create_default!(
+          organization: organization,
+          owner: owner
         )
       end
     rescue StandardError => e

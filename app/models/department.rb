@@ -37,15 +37,26 @@ class Department < ApplicationRecord
 
   enum kind: { first_root: 0, nomal: 1 } # migration で nomal を default にしている
 
+  scope :default, -> { where(kind: :first_root) }
+
   class << self
-    def create_default!(organization:)
-      Department.create!(
-        organization: organization,
+    # TODO Department::CreateDefault みたいなものにしたい
+    def create_default!(organization:, owner:)
+      params = {
         name: Settings.config.department.default_name,
         display_order: 1,
-        parent: nil,
+        organization_id: organization.id,
+        owner_id: owner.id,
+        parent_department_id: nil,
         kind: :first_root
-      )
+      }
+      result = Department::Create.call(params: params, current_user: owner)
+
+      if result.success?
+        result[:model]
+      else
+        raise ArgumentError.new(result["contract.default"].errors.full_messages)
+      end
     end
   end
 

@@ -7,6 +7,7 @@ class Department::Create < Trailblazer::Operation
     property :organization_id
     property :owner_id, virtual: true
     property :parent_department_id, virtual: true
+    property :kind, default: "nomal"
 
     include DepartmentValidation.new(:default, :parent_department_id, :owner_id)
     validates :owner_id, VH[:required]
