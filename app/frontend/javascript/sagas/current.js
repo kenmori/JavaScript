@@ -1,9 +1,11 @@
-import {
-  all, put, select, take, takeLatest,
-} from 'redux-saga/effects'
+import { all, put, select, take, takeLatest } from 'redux-saga/effects'
 import { List } from 'immutable'
+import call from '../utils/call'
+import API from '../utils/api'
 import currentActions from '../actions/current'
 import objectiveActions from '../actions/objectives'
+import organizationActions from '../actions/organization'
+import loginUserActions from '../actions/loginUser'
 import toastActions from '../actions/toasts'
 import ActionTypes from '../constants/actionTypes'
 import { getEnabledObjective, isDisabledChildObjectives } from '../utils/okr'
@@ -18,9 +20,13 @@ function* selectOkrPeriod({ payload }) {
 
 function* selectOkrPeriodByOkr({ payload: { objectiveId, keyResultId } }) {
   if (!objectiveId) {
-    objectiveId = yield select(state => state.entities.keyResults.getIn([keyResultId, 'objectiveId']))
+    objectiveId = yield select(state =>
+      state.entities.keyResults.getIn([keyResultId, 'objectiveId'])
+    )
   }
-  const okrPeriodId = yield select(state => state.entities.objectives.getIn([objectiveId, 'okrPeriodId']))
+  const okrPeriodId = yield select(state =>
+    state.entities.objectives.getIn([objectiveId, 'okrPeriodId'])
+  )
   yield put(currentActions.selectedOkrPeriod(okrPeriodId))
 
   yield put(currentActions.selectOkr(objectiveId, keyResultId))
@@ -43,10 +49,11 @@ function* selectOkr({ payload }) {
 
   yield take(ActionTypes.SELECTED_MAP_OKR)
   const isRoot = yield select(
-    state => state.current
-      .get('mapOkr')
-      .keySeq()
-      .first() === objectiveId,
+    state =>
+      state.current
+        .get('mapOkr')
+        .keySeq()
+        .first() === objectiveId
   )
   if (!isRoot) {
     yield put(currentActions.scrollToObjective(objectiveId)) // ルート O でない場合はページスクロールする
@@ -65,10 +72,10 @@ function* selectMapOkr({ payload }) {
     yield take(ActionTypes.FETCHED_OBJECTIVE)
   }
 
-  const objective = yield select((state) => {
+  const objective = yield select(state => {
     const showDisabledOkrs = state.loginUser.getIn([
       'userSetting',
-      'showDisabledOkrs',
+      'showDisabledOkrs'
     ])
     return getEnabledObjective(objectiveId, showDisabledOkrs, state.entities)
   })
@@ -79,8 +86,8 @@ function* selectMapOkr({ payload }) {
     currentActions.selectedMapOkr(
       objectiveId,
       keyResultIds,
-      objective.get('parentKeyResultId'),
-    ),
+      objective.get('parentKeyResultId')
+    )
   )
 
   if (isFetched) {
@@ -93,9 +100,7 @@ function* selectMapOkr({ payload }) {
 }
 
 function* expandObjective({ payload }) {
-  const {
-    objectiveId, keyResultIds, parentKeyResultId, toAncestor,
-  } = payload
+  const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload
   const isFetched = yield toAncestor
     ? isFetchedObjective(objectiveId)
     : isFetchedChildObjectives(keyResultIds)
@@ -108,8 +113,8 @@ function* expandObjective({ payload }) {
       objectiveId,
       keyResultIds,
       parentKeyResultId,
-      toAncestor,
-    ),
+      toAncestor
+    )
   )
 
   if (!toAncestor) {
@@ -131,8 +136,8 @@ function* expandKeyResult({ payload }) {
     currentActions.expandedKeyResult(
       objectiveId,
       keyResultId,
-      parentKeyResultId,
-    ),
+      parentKeyResultId
+    )
   )
 
   const childObjectiveId = yield getChildObjectiveId(keyResultId)
@@ -147,35 +152,59 @@ function* isFetchedObjective(objectiveId) {
 
 // KR 一覧に紐付いている子 O が全て fetch 済みの場合は true
 function* isFetchedChildObjectives(keyResultIds) {
-  return yield select(state => keyResultIds.every((keyResultId) => {
-    const keyResult = state.entities.keyResults.get(keyResultId)
-    return keyResult
-      .get('childObjectiveIds')
-      .every(childObjectiveId => state.entities.objectives.has(childObjectiveId))
-  }))
+  return yield select(state =>
+    keyResultIds.every(keyResultId => {
+      const keyResult = state.entities.keyResults.get(keyResultId)
+      return keyResult
+        .get('childObjectiveIds')
+        .every(childObjectiveId =>
+          state.entities.objectives.has(childObjectiveId)
+        )
+    })
+  )
 }
 
 function* getChildObjectiveId(keyResultId) {
-  return yield select((state) => {
+  return yield select(state => {
     const keyResult = state.entities.keyResults.get(keyResultId)
     return keyResult.get('childObjectiveIds').first()
   })
 }
 
 function* showUnexpandedMessage(keyResultIds) {
-  const showMessage = yield select((state) => {
+  const showMessage = yield select(state => {
     const showDisabledOkrs = state.loginUser.getIn([
       'userSetting',
-      'showDisabledOkrs',
+      'showDisabledOkrs'
     ])
     return (
-      !showDisabledOkrs
-      && isDisabledChildObjectives(keyResultIds, state.entities)
+      !showDisabledOkrs &&
+      isDisabledChildObjectives(keyResultIds, state.entities)
     )
   })
   if (showMessage) {
     yield put(toastActions.showToast('無効な OKR のため展開されませんでした'))
   }
+}
+
+function* fetchMyDetail() {
+  const result = yield call(API.get, '/users/me')
+  yield put(currentActions.setCurrent(result.get('user')))
+  yield put(loginUserActions.setCurrentLoginUser(result.get('user')))
+  yield put(
+    organizationActions.setCurrentOrganization(
+      result.get('user').get('organization')
+    )
+  )
+  yield put(
+    organizationActions.fetchOrganization(
+      result
+        .get('user')
+        .get('organization')
+        .get('id')
+    )
+  )
+  yield put(currentActions.fetchedMyDetail(result.get('user')))
 }
 
 export function* currentSagas() {
@@ -188,5 +217,6 @@ export function* currentSagas() {
     takeLatest(ActionTypes.SELECT_MAP_OKR, selectMapOkr),
     takeLatest(ActionTypes.EXPAND_OBJECTIVE, expandObjective),
     takeLatest(ActionTypes.EXPAND_KEY_RESULT, expandKeyResult),
+    takeLatest(ActionTypes.FETCH_MY_DETAIL, fetchMyDetail)
   ])
 }

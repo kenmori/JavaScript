@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = (state, { match: { params } }) => {
   return {
-    okrHash: params.okrHash,
+    okrHash: params.okrHash
   }
 }
 

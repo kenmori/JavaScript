@@ -4,6 +4,7 @@ import ActionTypes from '../constants/actionTypes'
 import { OkrTypes } from '../utils/okr'
 
 const initialState = fromJS({
+  isFetchedMyDetail: false,
   okrPeriodId: 0,
   userId: 0,
   userIdAtFetchedObjectives: [],
@@ -31,11 +32,25 @@ const getSwitchedVisibleIds = (
 
 export default handleActions(
   {
-    [ActionTypes.SET_CURRENT]: (state, { payload }) =>
-      console.log(payload.get('user')) ||
+    [ActionTypes.FETCHED_MY_DETAIL]: (state, { payload }) =>
       state
-        .set('userId', payload.user.id)
-        .set('okrPeriodId', payload.user.okrPeriodId),
+        .set('userId', payload.user.get('id'))
+        .set(
+          'okrPeriodId',
+          payload.user
+            .get('organization')
+            .get('currentOkrPeriod')
+            .get('id')
+        )
+        .set('isFetchedMyDetail', true),
+    [ActionTypes.SET_CURRENT]: (state, { payload }) =>
+      state.set('userId', payload.user.get('id')).set(
+        'okrPeriodId',
+        payload.user
+          .get('organization')
+          .get('currentOkrPeriod')
+          .get('id')
+      ),
     [ActionTypes.SELECTED_OKR_PERIOD]: (state, { payload }) =>
       state.set('okrPeriodId', payload.okrPeriodId),
     [ActionTypes.SELECTED_USER]: (state, { payload }) =>

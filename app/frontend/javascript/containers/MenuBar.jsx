@@ -5,7 +5,7 @@ import deviseActions from '../actions/devise'
 import history from '../utils/history'
 import { getEnabledUsers } from '../utils/selector'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     ownerId: state.organization.get('ownerId'),
     okrPeriodId: state.current.get('okrPeriodId'),
@@ -14,18 +14,19 @@ const mapStateToProps = (state) => {
     users: getEnabledUsers(state),
     organization: state.organization.get('current'),
     loginUser: state.loginUser,
+    isFetchedMyDetail: state.current.get('isFetchedMyDetail')
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectUser: (userId) => {
+    selectUser: userId => {
       if (location.pathname !== '/') {
         history.push('/')
       }
       dispatch(currentActions.selectUser(userId))
     },
-    selectOkrPeriod: (okrPeriodId) => {
+    selectOkrPeriod: okrPeriodId => {
       if (location.pathname !== '/') {
         history.push('/')
       }

@@ -2,7 +2,8 @@ import { createActions } from 'redux-actions'
 import actionTypes from '../constants/actionTypes'
 
 const actions = createActions({
-  [actionTypes.SET_CURRENT]: user => ({ user }),
+  [actionTypes.FETCH_MY_DETAIL]: id => ({ id }),
+  [actionTypes.FETCHED_MY_DETAIL]: user => ({ user }),
   [actionTypes.SELECT_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
   [actionTypes.SELECT_OKR_PERIOD_BY_OKR]: (objectiveId, keyResultId) => ({
     objectiveId,
@@ -73,7 +74,8 @@ const actions = createActions({
     keyResultId,
     childObjectiveIds
   ) => ({ objectiveId, keyResultId, childObjectiveIds }),
-  [actionTypes.SCROLL_TO_OBJECTIVE]: objectiveId => ({ objectiveId })
+  [actionTypes.SCROLL_TO_OBJECTIVE]: objectiveId => ({ objectiveId }),
+  [actionTypes.SET_CURRENT]: user => ({ user })
 })
 
 export default actions

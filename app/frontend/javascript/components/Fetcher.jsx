@@ -2,7 +2,6 @@ import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 class Fetcher extends PureComponent {
-
   constructor(props) {
     super(props)
     this.state = { isFetchedOkrs: false }
@@ -12,8 +11,8 @@ class Fetcher extends PureComponent {
   }
 
   componentDidMount() {
-    if (!this.props.isFetchedOrganization) {
-      this.props.fetchOrganization(this.props.organizationId)
+    if (!this.props.isFetchedMyDetail) {
+      this.props.fetchMyDetail()
     }
 
     // 現状ユーザアクションで更新されないマスタデータなので初回訪問時のみfetchしている
@@ -29,7 +28,10 @@ class Fetcher extends PureComponent {
     // 設定画面からの遷移時はisFetchedOrganizationを見てmodalを出す
     if (this.state.isFetchedOkrs || this.props.isFetchedOrganization) {
       if (nextProps.okrHash) {
-        if (!nextProps.isOpenOkrModal || this.props.okrHash !== nextProps.okrHash) {
+        if (
+          !nextProps.isOpenOkrModal ||
+          this.props.okrHash !== nextProps.okrHash
+        ) {
           this.props.openOkrModal(nextProps.okrHash)
         }
       } else {
@@ -59,14 +61,12 @@ class Fetcher extends PureComponent {
 
 Fetcher.propTypes = {
   // container
-  organizationId: PropTypes.number.isRequired,
-  okrPeriodId: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired,
-  isFetchedOrganization: PropTypes.bool.isRequired,
+  isFetchedMyDetail: PropTypes.bool.isRequired,
+  okrPeriodId: PropTypes.number,
+  userId: PropTypes.number,
   isFetchedKeyResultsCommentLabels: PropTypes.bool.isRequired,
   isFetchedObjectiveCommentLabels: PropTypes.bool.isRequired,
   isOpenOkrModal: PropTypes.bool.isRequired,
-  fetchOrganization: PropTypes.func.isRequired,
   fetchOkrs: PropTypes.func.isRequired,
   fetchKeyResultCommentLabels: PropTypes.func.isRequired,
   fetchObjectiveCommentLabels: PropTypes.func.isRequired,
@@ -74,7 +74,7 @@ Fetcher.propTypes = {
   openOkrModal: PropTypes.func.isRequired,
   closeOkrModal: PropTypes.func.isRequired,
   // component
-  okrHash: PropTypes.string,
+  okrHash: PropTypes.string
 }
 
 export default Fetcher

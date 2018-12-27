@@ -19,7 +19,16 @@ export default handleActions(
         ? state.merge(payload.user)
         : state,
     [ActionTypes.UPDATED_USER_SETTING]: (state, { payload }) =>
-      state.set('userSetting', payload.userSetting)
+      state.set('userSetting', payload.userSetting),
+    [ActionTypes.SET_CURRENT_LOGIN_USER]: (state, { payload }) =>
+      state
+        .set('id', payload.user.get('id'))
+        .set('isAdmin', payload.user.get('isAdmin'))
+        .set('lastName', payload.user.get('lastName'))
+        .set('firstName', payload.user.get('firstName'))
+        .set('email', payload.user.get('email'))
+        .set('avatarUrl', payload.user.get('avatarUrl'))
+        .set('userSetting', payload.user.get('userSetting'))
   },
   initialState
 )

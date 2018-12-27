@@ -6,6 +6,7 @@ const actions = createActions({
   [ActionTypes.UPDATED_USER_SETTING]: userSetting => ({ userSetting }),
   [ActionTypes.UPDATE_OBJECTIVE_ORDER]: order => ({ order }),
   [ActionTypes.UPDATED_OBJECTIVE_ORDER]: order => ({ order }),
+  [ActionTypes.SET_CURRENT_LOGIN_USER]: user => ({ user })
 })
 
 export default actions

@@ -1,6 +1,5 @@
 import Fetcher from '../components/Fetcher'
 import { connect } from 'react-redux'
-import organizationActions from '../actions/organization'
 import objectiveActions from '../actions/objectives'
 import keyResultActions from '../actions/keyResults'
 import currentActions from '../actions/current'
@@ -9,7 +8,7 @@ import { getOkrId } from '../utils/linker'
 
 const mapStateToProps = state => {
   return {
-    organizationId: state.organization.getIn(['current', 'id']),
+    isFetchedMyDetail: state.current.get('isFetchedMyDetail'),
     okrPeriodId: state.current.get('okrPeriodId'),
     userId: state.current.get('userId'),
     isFetchedObjectives: state.objectives.get('isFetchedObjectives'),
@@ -26,9 +25,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrganization: id => {
-      dispatch(organizationActions.fetchOrganization(id))
-    },
     fetchOkrs: (okrPeriodId, userId) => {
       dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true))
     },
@@ -48,6 +44,9 @@ const mapDispatchToProps = dispatch => {
     },
     closeOkrModal: () => {
       dispatch(dialogActions.closeOkrModal())
+    },
+    fetchMyDetail: () => {
+      dispatch(currentActions.fetchMyDetail())
     }
   }
 }

@@ -3,13 +3,10 @@ import call from '../utils/call'
 import API from '../utils/api'
 import actionTypes from '../constants/actionTypes'
 import deviseActions from '../actions/devise'
-import currentActions from '../actions/current'
 import withLoading from '../utils/withLoading'
 
 function* signIn({ payload }) {
-  const result = yield call(API.post, '/users/sign_in', { user: payload.user })
-  const user = yield call(API.get, `/users/${result.get('user').get('id')}`)
-  yield put(currentActions.setCurrent(user.get('user')))
+  yield call(API.post, '/users/sign_in', { user: payload.user })
 
   // トップページ以外からの流入であればURLを引き回す
   const path =
