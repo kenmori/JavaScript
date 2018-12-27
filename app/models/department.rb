@@ -37,7 +37,6 @@ class Department < ApplicationRecord
 
   enum kind: { first_root: 0, nomal: 1 } # migration で nomal を default にしている
 
-  # TODO 部署が代表かどうかを後から識別できる必要がある
   class << self
     def create_default!(organization:)
       Department.create!(
@@ -51,7 +50,13 @@ class Department < ApplicationRecord
   end
 
   alias archived? soft_destroyed?
+
   def active?
     !archived?
   end
+
+  def first_root?
+    kind == "first_root"
+  end
+  alias default? first_root?
 end
