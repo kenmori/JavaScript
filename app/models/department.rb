@@ -39,27 +39,6 @@ class Department < ApplicationRecord
 
   scope :default, -> { where(kind: :first_root) }
 
-  class << self
-    # TODO Department::CreateDefault みたいなものにしたい
-    def create_default!(organization:, owner:)
-      params = {
-        name: Settings.config.department.default_name,
-        display_order: 1,
-        organization_id: organization.id,
-        owner_id: owner.id,
-        parent_department_id: nil,
-        kind: :first_root
-      }
-      result = Department::Create.call(params: params, current_user: owner)
-
-      if result.success?
-        result[:model]
-      else
-        raise ArgumentError.new(result["contract.default"].errors.full_messages)
-      end
-    end
-  end
-
   alias archived? soft_destroyed?
 
   def active?

@@ -76,23 +76,4 @@ RSpec.describe Department, type: :model do
       )
     end
   end
-
-  describe ".create_default!" do
-    let!(:organization) { OrganizationFactory.new.create }
-    let!(:owner) {
-      UserFactory.new(organization: organization).create(
-        email: "user@example.com",
-        admin: true
-      )
-    }
-
-    example "create default department" do
-      default_department = Department.create_default!(organization: organization, owner: owner)
-
-      expect(default_department.organization).to eq(organization)
-      expect(default_department.name).to eq("代表")
-      expect(default_department.display_order).to eq(1)
-      expect(default_department).to be_root
-    end
-  end
 end

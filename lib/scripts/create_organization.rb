@@ -54,9 +54,9 @@ class CreateOrganization
           start_date: start_date,
           end_date: end_date
         )
-        Department.create_default!(
-          organization: organization,
-          owner: owner
+        Department::CreateDefault.call(
+          organization_id: organization.id,
+          owner_id: owner.id
         )
       end
     rescue StandardError => e

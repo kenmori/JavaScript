@@ -6,16 +6,11 @@ class AddDepartments < ActiveRecord::Migration[5.2]
   def up
     ApplicationRecord.transaction do
       Organization.includes(organization_members: :user, okr_periods: :objectives).find_each do |org|
-        # Organizationにdefault部署を作成
-        department = Department.create_default!(organization: org)
-
         # Organizationの代表者をdefault部署の部署責任者にする
         org_owner = org.organization_members.find(&:owner?).user
-        DepartmentMember.create!(
-          department: department,
-          user: org_owner,
-          role: :owner
-        )
+
+        # Organizationにdefault部署を作成
+        Department::CreateDefault.call(organization_id: org.id, owner_id: org_owner.id)
 
         # Organizationのメンバーを全員部署に紐付ける
         org_members = org.organization_members.select(&:member?).map(&:user)
