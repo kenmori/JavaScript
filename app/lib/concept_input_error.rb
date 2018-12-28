@@ -1,0 +1,2 @@
+class ConceptInputError < StandardError
+end

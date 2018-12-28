@@ -12,9 +12,9 @@ class Department::CreateDefault < Trailblazer::Operation
   step Contract::Build(constant: Form)
   step Contract::Validate()
   step :create
-  # TODO fail の時に例外をあげる
+  failure :raise_error!
 
-  def create(_options, model:, params:, **_metadata)
+  def create(options, model:, params:, **_metadata)
     owner = User.find(params[:owner_id])
 
     params = {
@@ -28,13 +28,17 @@ class Department::CreateDefault < Trailblazer::Operation
     dep_create_result = Department::Create.call(params: params, current_user: owner)
 
     if dep_create_result.success?
-      _options[:model] = dep_create_result[:model]
+      options[:model] = dep_create_result[:model]
       true
     else
       dep_create_result["contract.default"].errors.each do |key, arr|
-        _options["contract.default"].errors.add(key, arr)
+        options["contract.default"].errors.add(key, arr)
       end
       false
     end
+  end
+
+  def raise_error!(options, **_metadata)
+    raise ConceptInputError.new(options["contract.default"].errors.full_messages.join(', '))
   end
 end

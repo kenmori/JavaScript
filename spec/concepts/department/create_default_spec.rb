@@ -35,13 +35,11 @@ RSpec.describe Department::CreateDefault do
       owner_id: nil
     }
 
-    result = described_class.call(params: params, current_user: admin_user)
-    contract = result["contract.default"]
-
-    expect(result).to be_failure
-    expect(contract.errors.full_messages).to include(
-      "組織を入力してください",
-      "部署責任者を入力してください"
+    expect {
+      described_class.call(params: params, current_user: admin_user)
+    }.to raise_error(
+      ConceptInputError,
+      /((組織を入力してください|部署責任者を入力してください)(, )?){2}/
     )
   end
 
@@ -51,10 +49,11 @@ RSpec.describe Department::CreateDefault do
       owner_id: other_org_user.id
     }
 
-    result = described_class.call(params: params, current_user: admin_user)
-    contract = result["contract.default"]
-
-    expect(result).to be_failure
-    expect(contract.errors.full_messages).to eq(["部署責任者は組織内から選択してください"])
+    expect {
+      described_class.call(params: params, current_user: admin_user)
+    }.to raise_error(
+      ConceptInputError,
+      "部署責任者は組織内から選択してください"
+    )
   end
 end
