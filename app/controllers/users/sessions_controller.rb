@@ -10,11 +10,12 @@ class Users::SessionsController < Devise::SessionsController
     sign_in(resource_name, resource)
     yield resource if block_given?
     respond_with(resource) do |format|
-      format.json {
+      format.json do
         render json: {
           redirect_url: after_sign_in_path_for(resource),
           user: resource
-        }, status: 200 }
+        }, status: 200
+      end
     end
   end
 end
