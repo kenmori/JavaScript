@@ -42,8 +42,6 @@ class User < ApplicationRecord
 
   include UserValidation.new(:default)
 
-  has_many :group_members, dependent: :destroy
-  has_many :groups, through: :group_members
   has_many :objective_members, dependent: :destroy
   has_many :objectives, through: :objective_members
   has_many :key_result_members, dependent: :destroy

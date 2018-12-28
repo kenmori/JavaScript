@@ -22,7 +22,6 @@ class Organization < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :groups, dependent: :destroy
   has_many :organization_members, dependent: :destroy
   has_many :key_result_comment_labels, dependent: :destroy
   has_many :objective_comment_labels, dependent: :destroy
