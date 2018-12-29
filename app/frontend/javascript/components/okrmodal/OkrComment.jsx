@@ -7,7 +7,7 @@ import moment from 'moment'
 import avatar_image from '../../images/avatar.png'
 import Markdown from '../util/Markdown'
 import UserName from '../util/UserName'
-import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import CommentLabelDropdown from './CommentLabelDropdown'
 
 class OkrComment extends PureComponent {
   constructor(props) {
@@ -112,7 +112,7 @@ class OkrComment extends PureComponent {
         <Form.Group className="okr-comment-text-area__buttons">
           {commentLabels != null &&
             !commentLabels.isEmpty() && (
-              <KeyResultCommentLabelDropdown
+              <CommentLabelDropdown
                 commentLabels={commentLabels}
                 defaultValue={label ? label.get('id') : null}
                 onChange={this.handleDropdownChange}

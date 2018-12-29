@@ -8,7 +8,7 @@ import NumberInput from '../form/NumberInput'
 import StatusRadio from '../util/StatusRadio'
 import PopupLabel from '../util/PopupLabel'
 import moment from 'moment'
-import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import CommentLabelDropdown from './CommentLabelDropdown'
 import StretchCommentPane from './StretchCommentPane'
 import OkrDescription from '../form/OkrDescription'
 
@@ -286,7 +286,7 @@ class KeyResultPane extends PureComponent {
             />
             <div className="comment-pane__block">
               <Form.Group className="group">
-                <KeyResultCommentLabelDropdown
+                <CommentLabelDropdown
                   commentLabels={keyResultCommentLabels}
                   onChange={this.handleDropdownChange}
                 />

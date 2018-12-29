@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form } from 'semantic-ui-react'
 
-class KeyResultCommentLabelDropdown extends PureComponent {
+class CommentLabelDropdown extends PureComponent {
   constructor() {
     super()
   }
@@ -39,7 +39,7 @@ class KeyResultCommentLabelDropdown extends PureComponent {
   }
 }
 
-KeyResultCommentLabelDropdown.propTypes = {
+CommentLabelDropdown.propTypes = {
   // container
   // component
   commentLabels: ImmutablePropTypes.list.isRequired,
@@ -47,4 +47,4 @@ KeyResultCommentLabelDropdown.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
-export default KeyResultCommentLabelDropdown
+export default CommentLabelDropdown

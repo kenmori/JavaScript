@@ -6,7 +6,7 @@ import NumberInput from '../form/NumberInput'
 import OkrDescription from '../form/OkrDescription'
 import PopupLabel from '../util/PopupLabel'
 import StretchCommentPane from './StretchCommentPane'
-import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import CommentLabelDropdown from './CommentLabelDropdown'
 import AutoInput from '../form/AutoInput'
 
 class ObjectivePane extends PureComponent {
@@ -180,7 +180,7 @@ class ObjectivePane extends PureComponent {
             />
             <div className="comment-pane__block">
               <Form.Group className="group">
-                <KeyResultCommentLabelDropdown
+                <CommentLabelDropdown
                   commentLabels={objectiveCommentLabels}
                   onChange={this.handleDropdownChange}
                 />

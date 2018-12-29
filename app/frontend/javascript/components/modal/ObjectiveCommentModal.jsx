@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Modal, Header, Form } from 'semantic-ui-react'
 import StretchCommentPane from '../okrmodal/StretchCommentPane'
-import KeyResultCommentLabelDropdown from '../okrmodal/KeyResultCommentLabelDropdown'
+import CommentLabelDropdown from '../okrmodal/CommentLabelDropdown'
 
 class ObjectiveCommentModal extends PureComponent {
   constructor() {
@@ -108,7 +108,7 @@ class ObjectiveCommentModal extends PureComponent {
               </Form.Field>
             </Form.Group>
             <Form.Group className="comment-modal__form__group">
-              <KeyResultCommentLabelDropdown
+              <CommentLabelDropdown
                 commentLabels={commentLabel}
                 onChange={this.handleDropdownChange}
               />

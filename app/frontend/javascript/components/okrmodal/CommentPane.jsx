@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form } from 'semantic-ui-react'
 import OkrComment from './OkrComment'
-import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import CommentLabelDropdown from './CommentLabelDropdown'
 
 class CommentPane extends PureComponent {
   constructor() {
@@ -82,7 +82,7 @@ class CommentPane extends PureComponent {
           />
           <div className="comment-pane__block">
             <Form.Group className="group">
-              <KeyResultCommentLabelDropdown
+              <CommentLabelDropdown
                 commentLabels={keyResultCommentLabels}
                 onChange={this.handleDropdownChange}
               />
