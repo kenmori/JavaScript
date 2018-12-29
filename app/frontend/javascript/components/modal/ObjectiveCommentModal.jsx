@@ -13,7 +13,6 @@ class ObjectiveCommentModal extends PureComponent {
       commentLabelId: null,
       objectiveId: null
     }
-    this.presetLabels = ['健康・健全性']
   }
 
   componentDidMount() {
@@ -77,9 +76,6 @@ class ObjectiveCommentModal extends PureComponent {
     const { objective, comments, commentLabel, isOpen, closeModal } = this.props
     const { text } = this.state
     const name = objective.get('name')
-    const activeCommentLabels = commentLabel.filter(el => {
-      return this.presetLabels.includes(el.get('name'))
-    }).toList()
 
     return (
       <Modal
@@ -93,7 +89,7 @@ class ObjectiveCommentModal extends PureComponent {
           <Header as="h4">{name}</Header>
           <StretchCommentPane
             comments={comments}
-            commentLabels={activeCommentLabels}
+            commentLabels={commentLabel}
             onDelete={this.removeComment}
             onUpdate={this.editComment}
           />
@@ -113,7 +109,7 @@ class ObjectiveCommentModal extends PureComponent {
             </Form.Group>
             <Form.Group className="comment-modal__form__group">
               <KeyResultCommentLabelDropdown
-                commentLabels={activeCommentLabels}
+                commentLabels={commentLabel}
                 onChange={this.handleDropdownChange}
               />
               <Form.Field>
