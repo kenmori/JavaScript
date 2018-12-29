@@ -21,7 +21,7 @@ class ObjectiveComment < ApplicationRecord
   belongs_to :user
   belongs_to :objective_comment_label, optional: true
 
-  after_save do
+  after_create do
     # コメントを追加した objective に関連するすべてのユーザーにメールを送信する
     target_users = []
     target_users.push(objective.owner)
