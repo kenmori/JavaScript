@@ -2,18 +2,19 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Form, Label } from 'semantic-ui-react'
-import AutoInput from '../form/AutoInput'
 import NumberInput from '../form/NumberInput'
-import UserSelect from '../form/UserSelect'
 import OkrDescription from '../form/OkrDescription'
-import PopupButton from '../util/PopupButton'
 import PopupLabel from '../util/PopupLabel'
+import StretchCommentPane from './StretchCommentPane'
+import KeyResultCommentLabelDropdown from './KeyResultCommentLabelDropdown'
+import AutoInput from '../form/AutoInput'
 
 class ObjectivePane extends PureComponent {
 
   constructor(props) {
     super(props)
     this.state = { progressRate: props.objective.get('progressRate') }
+    this.presetLabels = ['健康・健全性']
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,8 +23,6 @@ class ObjectivePane extends PureComponent {
     }
   }
 
-  handleNameCommit = name => this.props.updateObjective({ name })
-
   handleProgressRateChange = progressRate => this.setState({ progressRate })
 
   handleProgressRateCommit = progressRate => this.props.updateObjective({ progressRate: progressRate || null })
@@ -31,55 +30,6 @@ class ObjectivePane extends PureComponent {
   handleSubProgressRateClick = () => this.props.updateObjective({ progressRate: null })
 
   handleDescriptionCommit = description => this.props.updateObjective({ description })
-
-  handleOwnerChange = ownerId => {
-    const updateObjectiveOwner = () => this.props.updateObjective({ objectiveMember: { user: ownerId } })
-    if (!this.props.isAdmin && this.props.isObjectiveOwner && ownerId !== this.props.loginUserId) {
-      // O 責任者 (非管理者) が自分以外に変更しようとした場合
-      this.props.confirm({
-        content: 'Objective 責任者を他ユーザーに変更すると自分では戻せなくなります。変更しますか？',
-        onConfirm: updateObjectiveOwner,
-      })
-    } else {
-      updateObjectiveOwner()
-    }
-  }
-
-  handleRemoveClick = () => {
-    const { objective, removeObjective, confirm } = this.props
-    let message = `Objective "${objective.get('name')}" を完全に削除しますか？`
-    const keyResults = objective.get('keyResults')
-    if (!keyResults.isEmpty()) {
-      message += 'Objective に紐付く Key Result も削除されます。'
-      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
-      if (hasChild) {
-        message += 'Key Result に紐付く下位 Objective は自動的に紐付きが解除されます。'
-      }
-    }
-    message += ' (この操作は元に戻せません)'
-    confirm({
-      content: message,
-      onConfirm: () => removeObjective(objective.get('id')),
-    })
-  }
-
-  handleDisableClick = () => {
-    const { objective, disableObjective, confirm } = this.props
-    const enabledOrDisabled = objective.get('disabled') ? '有効化' : '無効化'
-    let message = `Objective "${objective.get('name')}" を${enabledOrDisabled}しますか？`
-    const keyResults = objective.get('keyResults')
-    if (!keyResults.isEmpty()) {
-      message += `Objective に紐付く Key Result も${enabledOrDisabled}されます。`
-      const hasChild = keyResults.some(keyResult => !keyResult.get('childObjectiveIds').isEmpty())
-      if (hasChild) {
-        message += `Key Result に紐付く全ての下位 OKR も自動的に${enabledOrDisabled}されます。`
-      }
-    }
-    confirm({
-      content: message,
-      onConfirm: () => disableObjective(objective),
-    })
-  }
 
   subProgressRateHtml(objective) {
     const progressRate = objective.get('progressRate')
@@ -107,15 +57,72 @@ class ObjectivePane extends PureComponent {
     )
   }
 
+  handleTextChange = (e, { value }) => {
+    this.setState({ text: value })
+    this.props.setDirty(!!value)
+  }
+
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ commentLabel: value })
+  }
+
+  handleResultCommit = result => this.props.updateObjective({ result })
+
+  addComment = () => {
+    const { text, commentLabel } = this.state
+    if (!text) return
+
+    this.props.updateObjective({
+      comment: {
+        data: text,
+        behavior: 'add',
+        objective_comment_label: { id: commentLabel }
+      }
+    })
+    this.setState({ text: '' })
+    this.props.setDirty(false)
+  }
+
+  removeComment = id => {
+    this.props.confirm({
+      content: 'コメントを削除しますか？',
+      onConfirm: () =>
+        this.props.updateObjective({
+          comment: { data: id, behavior: 'remove' }
+        })
+    })
+  }
+
+  editComment = (id, text, label) => {
+    if (!text) return
+
+    this.props.updateObjective({
+      comment: {
+        data: {
+          id,
+          text,
+          objective_comment_label: { id: label }
+        },
+        behavior: 'edit'
+      }
+    })
+  }
+
   render() {
     const objective = this.props.objective
     const { progressRate } = this.state
-    const isDisabled = objective.get('disabled')
+    const comments = objective.get('comments')
+    const { text } = this.state
+    const objectiveCommentLabels = this.props.objectiveCommentLabels;
+
+    // 一時的に Objective のラベルを絞る。ラベル ID を持っていないためラベル名でチェックする。
+    const activeCommentLabels = objectiveCommentLabels.filter(commentLabel => {
+      return this.presetLabels.includes(commentLabel.get('name'))
+    }).toList()
+
     return (
       <Form>
-        <Form.Field>
-          <AutoInput value={objective.get('name')} onCommit={this.handleNameCommit} />
-        </Form.Field>
+
         <Form.Field className='flex-field'>
           <label>進捗</label>
           <div className="flex-field__item">
@@ -137,16 +144,7 @@ class ObjectivePane extends PureComponent {
           {this.subProgressRateHtml(objective)}
           {this.parentKeyResultProgressRateHtml(objective.get('parentKeyResult'))}
         </Form.Field>
-        <Form.Field className='flex-field'>
-          <label>責任者</label>
-          <div className='flex-field__item'>
-            <UserSelect
-              users={this.props.users}
-              value={objective.getIn(['owner', 'id'])}
-              onChange={this.handleOwnerChange}
-            />
-          </div>
-        </Form.Field>
+
         <Form.Field>
           <label>説明</label>
           <OkrDescription
@@ -155,15 +153,49 @@ class ObjectivePane extends PureComponent {
           />
         </Form.Field>
 
-        <Form.Group className="okr-buttons">
-          <PopupButton icon="trash" tips="完全に削除する" negative inForm onClick={this.handleRemoveClick} />
-          <Form.Button
-            icon={isDisabled ? 'undo' : 'dont'}
-            content={isDisabled ? '有効化する' : '無効化する'}
-            onClick={this.handleDisableClick}
-            negative={!isDisabled}
-          />
-        </Form.Group>
+        <Form.Field className="flex-field">
+          <label>結果</label>
+          <div className="flex-field__item">
+            <AutoInput
+              value={objective.get('result') || ''}
+              placeholder="Objective の最終的な進捗を補足する結果を入力してください"
+              onCommit={this.handleResultCommit}
+            />
+          </div>
+        </Form.Field>
+
+        <Form.Field>
+          <label>コメント ({comments ? comments.size : 0})</label>
+          <div className="comment-pane">
+            {comments ? (
+              <StretchCommentPane
+                comments={comments}
+                commentLabels={activeCommentLabels}
+                onDelete={this.removeComment}
+                onUpdate={this.editComment}
+              />
+            ) : null}
+            <Form.TextArea
+              autoHeight
+              rows={3}
+              value={text}
+              onChange={this.handleTextChange}
+              placeholder={
+                '進捗状況や、次のアクションなどをメモしてください。\n記述したコメントは関係者にメールで通知されます。\n(Markdown を記述できます)'
+              }
+            />
+            <div className="comment-pane__block">
+              <Form.Group className="group">
+                <KeyResultCommentLabelDropdown
+                  commentLabels={activeCommentLabels}
+                  onChange={this.handleDropdownChange}
+                />
+                <Form.Button content="投稿する" onClick={this.addComment} />
+              </Form.Group>
+            </div>
+          </div>
+        </Form.Field>
+
       </Form>
     )
   }

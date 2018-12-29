@@ -8,6 +8,7 @@ import meetingBoardCommentLabels from '../../constants/meetingBoardCommentLabels
 import LabelItem from './LabelItem'
 import OkrItem from './OkrItem'
 import CommentModal from '../../containers/CommentModal'
+import ObjectiveCommentModal from '../../containers/ObjectiveCommentModal'
 
 class MeetingPage extends PureComponent {
   constructor(props) {
@@ -78,7 +79,9 @@ class MeetingPage extends PureComponent {
       objectiveId,
       objectives,
       isFetchedKeyResultsCommentLabels,
+      isFetchedObjectiveCommentLabels,
       fetchKeyResultCommentLabels,
+      fetchObjectiveCommentLabels,
       fetchObjective
     } = this.props
     if (objectives.size < 1) {
@@ -87,15 +90,21 @@ class MeetingPage extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       fetchKeyResultCommentLabels()
     }
+    if(!isFetchedObjectiveCommentLabels) {
+      fetchObjectiveCommentLabels()
+    }
   }
 
   render() {
     const {
+      objectiveId,
       objectives,
       objective,
       keyResultCommentLabels,
       showDisabledOkrs,
-      isFetchedKeyResultsCommentLabels
+      isFetchedKeyResultsCommentLabels,
+      isFetchedObjectiveCommentLabels,
+      openObjectiveCommentModal
     } = this.props
     if (objectives.size < 1) {
       return null
@@ -103,8 +112,14 @@ class MeetingPage extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null
     }
+    if(!isFetchedObjectiveCommentLabels) {
+      return null
+    }
 
     const keyResults = objective.get('keyResults')
+    const objectiveComment = objective.get('comments')
+    const objectiveCommentLabels = this.props.objectiveCommentLabels
+
     const comments = this.selectKeyResultComments(
       keyResults,
       objective.get('id')
@@ -123,7 +138,16 @@ class MeetingPage extends PureComponent {
             color="black"
             className="meeting-board__header"
           >
-            {title}
+            <div className="meeting-board__headerPane">
+              <p className="meeting-board__headerPane__title">{title}</p>
+              <a
+                className="meeting-board__headerPane__button"
+                onClick={openObjectiveCommentModal.bind(this, objectiveCommentLabels)}
+              >
+                <Icon name="plus" />
+                <span>コメントを追加する</span>
+              </a>
+            </div>
           </Header>
           <Grid celled columns={3} className="meeting-board__content">
             <Grid.Row>
@@ -174,6 +198,11 @@ class MeetingPage extends PureComponent {
             )}
             keyResultCommentLabels={keyResultCommentLabels}
           />
+          <ObjectiveCommentModal
+            objectiveId={objectiveId}
+            objective={objective}
+            comments={objectiveComment.toList()}
+          />
         </div>
       </DocumentTitle>
     )
@@ -185,12 +214,14 @@ MeetingPage.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
   objectives: ImmutablePropTypes.map.isRequired,
   keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
+  objectiveCommentLabels: ImmutablePropTypes.list.isRequired,
   isFetchedKeyResultsCommentLabels: PropTypes.bool.isRequired,
   showDisabledOkrs: PropTypes.bool.isRequired,
   fetchObjective: PropTypes.func.isRequired,
   fetchKeyResultCommentLabels: PropTypes.func.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   openCommentModal: PropTypes.func.isRequired,
+  openObjectiveCommentModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired
 }
 

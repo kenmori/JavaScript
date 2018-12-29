@@ -1,0 +1,20 @@
+p #{@receiver} さん
+
+p #{@operator} さんが、Objective にコメントを追加しました。
+
+dl style="width: 600px; padding: 16px; border: 1px solid gray; border-radius: 8px;"
+  dt Objective
+  dd #{@objective.name}
+  dt 責任者
+  dd #{@objective.owner.last_name} #{@objective.owner.first_name}
+
+p 以下から Resily にアクセスして、内容を確認しましょう。
+
+p: a href="#{@url}" #{@url}
+
+br
+
+address
+  | Resily株式会社
+  br
+  a href="https://resily.com" https://resily.com

@@ -85,6 +85,7 @@ class ObjectivesController < ApplicationController
       update_parent_key_result if params[:objective][:parent_key_result_id] # 再帰構造による無限ループ回避のため update! より先に処理する
       @objective.update!(objective_update_params)
       update_objective_members if params[:objective][:objective_member]
+      update_comment if params[:objective][:comment]
     end
     render action: :create, status: :ok
   rescue StandardError
@@ -113,6 +114,10 @@ class ObjectivesController < ApplicationController
     else
       unprocessable_entity_with_errors(@objective.errors.full_messages)
     end
+  end
+
+  def comment_labels
+    @objective_labels = current_user.organization.objective_comment_labels
   end
 
   private
@@ -203,6 +208,35 @@ class ObjectivesController < ApplicationController
 
     def objective_update_params
       params.require(:objective)
-            .permit(:name, :description, :parent_key_result_id, :progress_rate, :key_result_order)
+            .permit(:name, :description, :parent_key_result_id, :progress_rate, :key_result_order, :result)
+    end
+
+    def update_comment
+      comment_data = params[:objective][:comment]
+
+      case comment_data["behavior"]
+      when "add"
+        comment_label = ObjectiveCommentLabel.find_by(
+          id: comment_data["objective_comment_label"]["id"],
+          organization: current_user.organization
+        )
+        
+        @objective.objective_comments.create!(
+          text: comment_data["data"],
+          user_id: current_user.id,
+          objective_comment_label: comment_label
+        )
+      when "edit"
+        data = comment_data["data"]
+        comment_label = ObjectiveCommentLabel.find_by(
+          id: data["objective_comment_label"]["id"],
+          organization: current_user.organization
+        )
+        comment = @objective.objective_comments.find(data["id"])
+        comment.update(text: data[:text], objective_comment_label: comment_label)
+      when "remove"
+        comment = @objective.objective_comments.find(comment_data["data"])
+        comment.destroy!
+      end
     end
 end

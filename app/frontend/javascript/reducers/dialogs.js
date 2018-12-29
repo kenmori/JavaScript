@@ -10,7 +10,8 @@ const initialState = fromJS({
   error: { isOpen: false },
   confirm: { isOpen: false },
   option: { isOpen: false },
-  comment: { isOpen: false, commentLabel: {} }
+  comment: { isOpen: false, commentLabel: {} },
+  objectiveComment: { isOpen: false, commentLabel: {} },
 })
 
 export default handleActions(
@@ -83,8 +84,18 @@ export default handleActions(
           commentLabel: payload.commentLabel
         })
       ),
+    [ActionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: (state, { payload }) =>
+      state.set(
+        'objectiveComment',
+        fromJS({
+          isOpen: true,
+          commentLabel: payload.commentLabel
+        })
+      ),
     [ActionTypes.CLOSE_COMMENT_MODAL]: state =>
-      state.setIn(['comment', 'isOpen'], false)
+      state.setIn(['comment', 'isOpen'], false),
+    [ActionTypes.CLOSE_OBJECTIVE_COMMENT_MODAL]: state =>
+      state.setIn(['objectiveComment', 'isOpen'], false)
   },
   initialState
 )

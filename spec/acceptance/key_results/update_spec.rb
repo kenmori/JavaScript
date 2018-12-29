@@ -77,6 +77,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
             description
             okr_period_id
             progress_rate
+            result
             parent_key_result_id
             updated_at
             key_result_order

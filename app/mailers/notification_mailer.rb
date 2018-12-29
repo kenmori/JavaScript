@@ -54,6 +54,18 @@ class NotificationMailer < ApplicationMailer
          subject: "[Resily] Objective が#{@enabled_or_disabled}されました"
   end
 
+  def update_o_comment(current_user, objective, target_user)
+    return unless current_user
+
+    @operator = "#{current_user.last_name} #{current_user.first_name}"
+    @receiver = "#{target_user.last_name} #{target_user.first_name}"
+    @objective = objective
+    @url = url_for(controller: "home")
+
+    mail to: target_user.email,
+         subject: "[Resily] Objective にコメントが追加されました"
+  end
+
   def change_kr_disabled(current_user, key_result, disabled)
     user = key_result.owner
     return unless current_user
