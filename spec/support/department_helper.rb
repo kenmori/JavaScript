@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DepartmentHelper
   refine Department do
     def archive!(current_user)

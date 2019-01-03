@@ -9,6 +9,7 @@ class AddObjectiveCommentLabel < ActiveRecord::Migration[5.2]
       Organization.all.each do |organization|
         PresetObjectiveCommentLabels::Objective::DEFAULT_LABELS.each do |tag|
           next if ObjectiveCommentLabel.exists?(name: tag[:name], color: tag[:color], organization: organization)
+
           ObjectiveCommentLabel.create!(
             name: tag[:name],
             color: tag[:color],

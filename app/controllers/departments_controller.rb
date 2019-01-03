@@ -36,10 +36,10 @@ class DepartmentsController < ApplicationController
   end
 
   def destroy
-    runner(Department::Archive, {id: params[:id]})
+    runner(Department::Archive, id: params[:id])
   end
 
   def restore
-    runner(Department::Restore, {id: params[:id]})
+    runner(Department::Restore, id: params[:id])
   end
 end

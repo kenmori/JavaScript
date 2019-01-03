@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Department::Restore < Trailblazer::Operation
   class Form < Reform::Form
     property :id

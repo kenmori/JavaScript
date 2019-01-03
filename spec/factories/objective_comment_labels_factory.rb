@@ -11,11 +11,11 @@ class ObjevtiveCommentLabelFactory < AbstractActiveRecordFactory
 
   private
 
-  def default_params
-    {
-      organization: organization,
-      name: "今週の優先事項",
-      color: "blue"
-    }
-  end
+    def default_params
+      {
+        organization: organization,
+        name: "今週の優先事項",
+        color: "blue"
+      }
+    end
 end
