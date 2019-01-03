@@ -24,7 +24,7 @@ const mapStateToProps = (state, { match: { params } }) => {
       'isFetchedObjectiveCommentLabels'
     ),
     keyResultCommentLabels: state.keyResults.get('commentLabels'),
-    objectiveCommentLabels: state.objectives.get('commentLabels'),
+    objectiveCommentLabels: state.objectives.get('commentLabels')
   }
 }
 
@@ -40,6 +40,9 @@ const mapDispatchToProps = dispatch => ({
   },
   updateKeyResult: keyResult => {
     dispatch(keyResultActions.updateKeyResult(keyResult))
+  },
+  updateObjective: objective => {
+    dispatch(objectiveActions.updateObjective(objective))
   },
   openCommentModal: commentLabel => {
     dispatch(dialogActions.openCommentModal(commentLabel))

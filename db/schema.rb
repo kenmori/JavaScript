@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_175333) do
+ActiveRecord::Schema.define(version: 2019_01_03_151802) do
 
   create_table "bounce_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_175333) do
     t.integer "objective_id"
     t.integer "user_id"
     t.text "text"
-    t.boolean "show_meeting_board", default: false
+    t.boolean "show_meeting_board", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "objective_comment_label_id"

@@ -26,20 +26,35 @@ class LabelItem extends PureComponent {
   }
 
   handleDeleteClick = comment => {
-    const { updateKeyResult, confirm } = this.props
+    const { updateObjective, updateKeyResult, confirm } = this.props
+
     confirm({
       content: 'コメントをミーティングボードから非表示にしますか？',
-      onConfirm: () =>
-        updateKeyResult({
-          id: comment.get('keyResult').get('id'),
-          comment: {
-            data: {
-              id: comment.get('id'),
-              show_meeting_board: false
-            },
-            behavior: 'update_show_meeting_board'
-          }
-        })
+      onConfirm: () => {
+        if (comment.get('KeyResult') != null) {
+          updateKeyResult({
+            id: comment.get('KeyResult').get('id'),
+            comment: {
+              data: {
+                id: comment.get('id'),
+                show_meeting_board: false
+              },
+              behavior: 'update_show_meeting_board'
+            }
+          })
+        } else {
+          updateObjective({
+            id: comment.get('Objective').get('id'),
+            comment: {
+              data: {
+                id: comment.get('id'),
+                show_meeting_board: false
+              },
+              behavior: 'update_show_meeting_board'
+            }
+          })
+        }
+      }
     })
   }
 
@@ -56,7 +71,7 @@ class LabelItem extends PureComponent {
             const user = v.get('user')
             const comment = v.get('text')
             const updatedAt = v.get('updatedAt')
-            const keyResult = v.get('keyResult')
+            const okr = v.get('Objective') || v.get('KeyResult')
 
             return (
               <Comment.Group
@@ -65,7 +80,7 @@ class LabelItem extends PureComponent {
               >
                 <Comment>
                   <div className="meeting-board__comment__okrname">
-                    <OkrName okr={keyResult} />
+                    <OkrName okr={okr} />
                   </div>
                   <Avatar user={user} />
                   <Comment.Content>
@@ -109,6 +124,7 @@ LabelItem.propTypes = {
   label: ImmutablePropTypes.map.isRequired,
   comments: ImmutablePropTypes.list.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
+  updateObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired
 }
 
