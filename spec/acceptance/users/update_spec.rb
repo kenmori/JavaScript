@@ -95,7 +95,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to include("許可されていない操作です")
     end
 
     example "ERROR: Users in different organizations can not edit" do
@@ -110,7 +110,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to include("許可されていない操作です")
     end
   end
 end

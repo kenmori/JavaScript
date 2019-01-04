@@ -4,14 +4,14 @@ class UsersController < ApplicationController
   before_action :valid_operatable_user?, except: %i(create update)
 
   def create
-    runner(User::Create, params[:user], render_method: :render_with_error) do |result|
+    runner(User::Create, params[:user]) do |result|
       @user = result[:model]
       render status: :created
     end
   end
 
   def update
-    runner(User::Update, params[:user], render_method: :render_with_error) do |result|
+    runner(User::Update, params[:user]) do |result|
       @user = result[:model]
       render action: :create, status: :ok
     end

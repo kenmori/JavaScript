@@ -79,7 +79,7 @@ RSpec.resource "POST /users", warden: true do
 
       expect(response_status).to eq(400)
 
-      expect(parse_response_body("error")).to include(
+      expect(parse_response_error).to include(
         "メールアドレスを入力してください",
         "ユーザー名 (名) を入力してください",
         "ユーザー名 (姓) を入力してください",
@@ -104,7 +104,7 @@ RSpec.resource "POST /users", warden: true do
       )
 
       expect(response_status).to eq(400)
-      expect(parse_response_body("error")).to eq(["部署IDは組織内から選択してください"])
+      expect(parse_response_error).to eq(["部署IDは組織内から選択してください"])
     end
   end
 end
