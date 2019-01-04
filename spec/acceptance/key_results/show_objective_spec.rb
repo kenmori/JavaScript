@@ -66,7 +66,7 @@ RSpec.resource "GET /key_results/:id/objective", warden: true do
       do_request(id: other_org_key_result.id)
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
 end

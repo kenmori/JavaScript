@@ -33,7 +33,7 @@ RSpec.resource "DELETE /key_results/:id", warden: true do
       do_request(id: other_org_key_result.id)
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
 
     example "ERROR: When the sign-in user is not an objective owner" do
@@ -44,7 +44,7 @@ RSpec.resource "DELETE /key_results/:id", warden: true do
       do_request(id: key_result.id)
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("Objective 責任者のみ削除できます")
+      expect(parse_response_error).to eq(["Objective 責任者のみ削除できます"])
     end
   end
 end

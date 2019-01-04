@@ -151,7 +151,7 @@ RSpec.resource "POST /key_results", warden: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("Objective 責任者のみ作成できます")
+      expect(parse_response_error).to eq(["Objective 責任者のみ作成できます"])
     end
 
     example "ERROR: invalid owner_id" do
@@ -171,7 +171,7 @@ RSpec.resource "POST /key_results", warden: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
 
     example "ERROR: invalid objective_id" do
@@ -191,7 +191,7 @@ RSpec.resource "POST /key_results", warden: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
 
     example "ERROR: invalid members_id" do
@@ -211,7 +211,7 @@ RSpec.resource "POST /key_results", warden: true do
       )
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
 
     example "ERROR: When do not input required parameters" do
@@ -231,7 +231,7 @@ RSpec.resource "POST /key_results", warden: true do
       )
 
       expect(response_status).to eq(422)
-      expect(parse_response_body("error")).to contain_exactly(
+      expect(parse_response_error).to contain_exactly(
         "期限の値が不正です",
         "Key Resultを入力してください"
       )

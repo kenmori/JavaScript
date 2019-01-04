@@ -38,7 +38,7 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
       do_request(id: key_result.id)
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("Key Result 責任者または関係者のみ編集できます")
+      expect(parse_response_error).to eq(["Key Result 責任者または関係者のみ編集できます"])
     end
 
     example "ERROR: When owner id is different organization" do
@@ -47,7 +47,7 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
       do_request(id: other_org_key_result.id)
 
       expect(response_status).to eq(403)
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
 end
