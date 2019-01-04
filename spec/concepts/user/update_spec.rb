@@ -3,6 +3,7 @@ RSpec.describe User::Update do
 
   before do
     dep_1
+    nomal_user.department_members.create!(department: dep_1, role: :member)
   end
 
   describe "SUCCESS" do
@@ -17,6 +18,9 @@ RSpec.describe User::Update do
       expect(result).to be_success
       nomal_user.reload
       expect(nomal_user.first_name).to eq("Q太郎")
+
+      # 部署を消さないこと
+      expect(nomal_user.departments).to contain_exactly(dep_1)
     end
 
     example "update last_name" do
@@ -76,14 +80,27 @@ RSpec.describe User::Update do
     example "update departments" do
       params = {
         id: nomal_user.id,
-        department_ids: [dep_1.id]
+        department_ids: [dep_1_1.id]
       }
 
       result = described_class.call(params: params, current_user: admin_user)
 
       expect(result).to be_success
       nomal_user.reload
-      expect(nomal_user.departments).to contain_exactly(dep_1)
+      expect(nomal_user.departments).to contain_exactly(dep_1_1)
+    end
+
+    example "update multiple departments" do
+      params = {
+        id: nomal_user.id,
+        department_ids: [dep_1.id, dep_1_1.id]
+      }
+
+      result = described_class.call(params: params, current_user: admin_user)
+
+      expect(result).to be_success
+      nomal_user.reload
+      expect(nomal_user.departments).to contain_exactly(dep_1, dep_1_1)
     end
   end
 

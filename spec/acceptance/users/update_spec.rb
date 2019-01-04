@@ -21,7 +21,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
       parameter :email, "メールアドレス", type: :string
       parameter :avatar, "アバター画像", type: :file
       parameter :admin, "管理者フラグ", type: :boolean
-      parameter :department_id, "所属部署ID", type: :integer
+      parameter :department_ids, "所属部署ID", type: :array, items: { type: :integer }
     end
 
     example "SUCCESS: change user info" do

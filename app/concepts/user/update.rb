@@ -23,13 +23,16 @@ class User::Update < Trailblazer::Operation
     ApplicationRecord.transaction do
       model.save(validate: false)
 
-      current_department_ids = model.department_members.pluck(:department_id)
-      Department.where(
-        organization: current_user.organization,
-        id: (params[:department_ids] || []) - current_department_ids
-      ).each do |department|
-        model.department_members.create!(department: department, role: :member)
+      # 部署の更新
+      if params[:department_ids].present?
+        model.department_members.destroy_all
+        (params[:department_ids] || []).each do |department_id|
+          # NOTE 指定された部署IDが同じ部署かどうかはバリデーションで担保している
+          model.department_members.create!(department_id: department_id, role: :member)
+        end
       end
+
+      true
     end
   end
 end
