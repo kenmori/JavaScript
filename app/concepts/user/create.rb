@@ -11,6 +11,9 @@ class User::Create < Trailblazer::Operation
 
     include UserValidation.new(:default, :department_ids)
     validates :skip_notification, VH[:boolean]
+    # TODO: フロントエンド側が未対応のためdepartment_idsの必須チェックをするとユーザが作成出来なくなる
+    # そのためフロントエンドが対応次第下記コメントアウトを有効にする
+    # validates :department_ids, VH[:required]
   end
 
   step Model(User, :new)
