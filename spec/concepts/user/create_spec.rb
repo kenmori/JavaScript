@@ -51,6 +51,25 @@ RSpec.describe User::Create do
     )
   end
 
+  example "ERROR: department_idsが空の場合" do
+    params = {
+      first_name: nil,
+      last_name: nil,
+      email: nil,
+      admin: nil,
+      skip_notification: nil,
+      department_ids: [],
+    }
+
+    result = described_class.call(params: params, current_user: admin_user)
+    contract = result["contract.default"]
+
+    expect(result).to be_failure
+    expect(contract.errors.full_messages).to include(
+      "部署IDを入力してください"
+    )
+  end
+
   example "ERROR: 別の組織の部署を指定することは出来ない" do
     dep_2
 
