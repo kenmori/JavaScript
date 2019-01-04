@@ -15,34 +15,51 @@ class MeetingPage extends PureComponent {
     super(props)
   }
 
-  selectKeyResultComments = (keyResults, objectiveId) => {
+  selectOKRComments = (
+    objective,
+    keyResults,
+    objectiveId,
+    onlyKeyResult = false
+  ) => {
     const { showDisabledOkrs } = this.props
-    const comments = keyResults
-      .filter(
-        v =>
-          objectiveId === v.get('objectiveId') &&
-          v.get('comments') &&
-          (showDisabledOkrs || !v.get('disabled'))
-      )
-      .map(v => v.get('comments').map(c => c.set('keyResult', v)))
-      .toList()
-      .flatten(1)
+    let objectiveComments = List()
+    if (
+      !onlyKeyResult &&
+      objective.get('comments') &&
+      (showDisabledOkrs || !objective.get('disabled'))
+    ) {
+      objectiveComments = objective
+        .get('comments')
+        .map(v => v.set('Objective', objective))
+        .toList()
+    }
 
-    return comments != null
-      ? comments
-          .filter(v => v.get('showMeetingBoard') && v.get('label') != null)
-          .sort((a, b) => {
-            if (a.get('updatedAt') < b.get('updatedAt')) {
-              return 1
-            }
-            if (a.get('updatedAt') > b.get('updatedAt')) {
-              return -1
-            }
-            if (a.get('updatedAt') === b.get('updatedAt')) {
-              return 0
-            }
-          })
-      : List()
+    const comments = objectiveComments.concat(
+      keyResults
+        .filter(
+          v =>
+            objectiveId === v.get('objectiveId') &&
+            v.get('comments') &&
+            (showDisabledOkrs || !v.get('disabled'))
+        )
+        .map(v => v.get('comments').map(c => c.set('KeyResult', v)))
+        .toList()
+        .flatten(1)
+    )
+
+    return comments
+      .filter(v => v.get('showMeetingBoard') && v.get('label') != null)
+      .sort((a, b) => {
+        if (a.get('updatedAt') < b.get('updatedAt')) {
+          return 1
+        }
+        if (a.get('updatedAt') > b.get('updatedAt')) {
+          return -1
+        }
+        if (a.get('updatedAt') === b.get('updatedAt')) {
+          return 0
+        }
+      })
   }
 
   selectLabelCommnets = (comments, label) => {
@@ -50,7 +67,12 @@ class MeetingPage extends PureComponent {
   }
 
   generateCommentLabelColumn = (comments, labels, labelName) => {
-    const { updateKeyResult, openCommentModal, confirm } = this.props
+    const {
+      updateObjective,
+      updateKeyResult,
+      openCommentModal,
+      confirm
+    } = this.props
     const label = labels.get(labelName)
 
     return (
@@ -68,6 +90,7 @@ class MeetingPage extends PureComponent {
           label={label}
           comments={this.selectLabelCommnets(comments, labelName)}
           updateKeyResult={updateKeyResult}
+          updateObjective={updateObjective}
           confirm={confirm}
         />
       </Grid.Column>
@@ -90,7 +113,7 @@ class MeetingPage extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       fetchKeyResultCommentLabels()
     }
-    if(!isFetchedObjectiveCommentLabels) {
+    if (!isFetchedObjectiveCommentLabels) {
       fetchObjectiveCommentLabels()
     }
   }
@@ -112,20 +135,21 @@ class MeetingPage extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null
     }
-    if(!isFetchedObjectiveCommentLabels) {
+    if (!isFetchedObjectiveCommentLabels) {
       return null
     }
 
     const keyResults = objective.get('keyResults')
-    const objectiveComment = objective.get('comments')
-    const objectiveCommentLabels = this.props.objectiveCommentLabels
-
-    const comments = this.selectKeyResultComments(
+    const comments = this.selectOKRComments(
+      objective,
       keyResults,
       objective.get('id')
     )
+    const objectiveComments = objective.get('comments')
+
     const labels = new Map()
     keyResultCommentLabels.forEach(v => labels.set(v.get('name'), v))
+    const objectiveCommentLabels = this.props.objectiveCommentLabels
     const title = `${objective.get('name')} -ミーティングボード-`
 
     return (
@@ -142,7 +166,10 @@ class MeetingPage extends PureComponent {
               <p className="meeting-board__headerPane__title">{title}</p>
               <a
                 className="meeting-board__headerPane__button"
-                onClick={openObjectiveCommentModal.bind(this, objectiveCommentLabels)}
+                onClick={openObjectiveCommentModal.bind(
+                  this,
+                  objectiveCommentLabels
+                )}
               >
                 <Icon name="plus" />
                 <span>コメントを追加する</span>
@@ -192,16 +219,18 @@ class MeetingPage extends PureComponent {
           </Grid>
           <CommentModal
             objective={objective}
-            comments={this.selectKeyResultComments(
+            comments={this.selectOKRComments(
+              objective,
               keyResults,
-              objective.get('id')
+              objective.get('id'),
+              true
             )}
             keyResultCommentLabels={keyResultCommentLabels}
           />
           <ObjectiveCommentModal
             objectiveId={objectiveId}
             objective={objective}
-            comments={objectiveComment.toList()}
+            comments={objectiveComments}
           />
         </div>
       </DocumentTitle>
@@ -220,6 +249,7 @@ MeetingPage.propTypes = {
   fetchObjective: PropTypes.func.isRequired,
   fetchKeyResultCommentLabels: PropTypes.func.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
+  updateObjective: PropTypes.func.isRequired,
   openCommentModal: PropTypes.func.isRequired,
   openObjectiveCommentModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired

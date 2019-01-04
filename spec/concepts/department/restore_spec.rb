@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Department::Restore do
   using DepartmentHelper
   include DepartmentDataset

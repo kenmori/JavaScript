@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ## Schema Information
 #
 # Table name: `objective_comments`
@@ -7,7 +9,7 @@
 # Name                              | Type               | Attributes
 # --------------------------------- | ------------------ | ---------------------------
 # **`id`**                          | `bigint(8)`        | `not null, primary key`
-# **`show_meeting_board`**          | `boolean`          | `default(FALSE)`
+# **`show_meeting_board`**          | `boolean`          | `default(TRUE)`
 # **`text`**                        | `text(65535)`      |
 # **`created_at`**                  | `datetime`         | `not null`
 # **`updated_at`**                  | `datetime`         | `not null`

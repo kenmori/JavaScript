@@ -220,7 +220,7 @@ class ObjectivesController < ApplicationController
           id: comment_data["objective_comment_label"]["id"],
           organization: current_user.organization
         )
-        
+
         @objective.objective_comments.create!(
           text: comment_data["data"],
           user_id: current_user.id,
@@ -237,6 +237,10 @@ class ObjectivesController < ApplicationController
       when "remove"
         comment = @objective.objective_comments.find(comment_data["data"])
         comment.destroy!
+      when "update_show_meeting_board"
+        data = comment_data["data"]
+        comment = @objective.objective_comments.find(data["id"])
+        comment.update!(show_meeting_board: data[:show_meeting_board])
       end
     end
 end

@@ -12,13 +12,13 @@ class ObjectiveCommentFactory < AbstractActiveRecordFactory
 
   private
 
-  def default_params
-    {
-      objective: @objective,
-      user: user,
-      text: "新しいコメント",
-      show_meeting_board: false,
-      objective_comment_label: nil
-    }
-  end
+    def default_params
+      {
+        objective: @objective,
+        user: user,
+        text: "新しいコメント",
+        show_meeting_board: false,
+        objective_comment_label: nil
+      }
+    end
 end

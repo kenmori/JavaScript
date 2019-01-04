@@ -289,7 +289,7 @@ RSpec.describe Department::Update do
 
     example "ERROR: サインインユーザとは異なる組織の部署をidで指定することは出来ない" do
       params = {
-        id: dep_2.id,
+        id: dep_2.id
       }
 
       result = described_class.call(params: params, current_user: admin_user)

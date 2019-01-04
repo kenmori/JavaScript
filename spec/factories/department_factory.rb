@@ -14,8 +14,8 @@ class DepartmentFactory < AbstractOperationFactory
   end
   attr_reader :organization, :owner, :parent_department, :current_user
 
-  def create(params={}, options={})
-    default_options = {current_user: current_user}
+  def create(params = {}, options = {})
+    default_options = { current_user: current_user }
 
     super(params, default_options.merge(options))
   end

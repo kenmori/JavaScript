@@ -22,7 +22,7 @@ class ErrorsController < ActionController::Base
   private
 
     def json_error_handling
-      message = I18n.t("http_status.code_#{@status_code.to_s}", default: I18n.t('http_status.default'))
+      message = I18n.t("http_status.code_#{@status_code}", default: I18n.t("http_status.default"))
 
       render_error_json(@status_code, message)
     end
