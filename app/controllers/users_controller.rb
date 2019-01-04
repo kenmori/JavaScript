@@ -1,25 +1,19 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :valid_operatable_user?
+  before_action :valid_operatable_user?, except: %i(create update)
 
   def create
-    ActiveRecord::Base.transaction do
-      @user = current_user.organization.users.create!(create_user_params)
+    runner(User::Create, params[:user], render_method: :render_with_error) do |result|
+      @user = result[:model]
+      render status: :created
     end
-    render status: :created
-  rescue StandardError => e
-    unprocessable_entity(e.message)
   end
 
   def update
-    @user = User.find(params[:id])
-    forbidden and return unless valid_permission?(@user.organization.id)
-
-    if @user.update(update_user_params)
+    runner(User::Update, params[:user], render_method: :render_with_error) do |result|
+      @user = result[:model]
       render action: :create, status: :ok
-    else
-      unprocessable_entity_with_errors(@user.errors.full_messages)
     end
   end
 
@@ -77,14 +71,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-    def create_user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :admin, :skip_notification)
-    end
-
-    def update_user_params
-      params.require(:user).permit(:id, :first_name, :last_name, :email, :password, :avatar, :remove_avatar, :admin)
-    end
 
     def password_params
       params.require(:user)

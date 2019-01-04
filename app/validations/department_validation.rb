@@ -2,7 +2,7 @@
 
 class DepartmentValidation < ValidationSchema
   setting :default, -> {
-    validates :name, VH[:required, :default_text_field]
+    validates :name, VH[:required, :short_text_field]
     validates :display_order, VH[:required]
     validates :organization_id, VH[:required]
     validate VH.existence_of(Organization, :organization_id)

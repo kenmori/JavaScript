@@ -30,6 +30,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 ja:
+  # TODO 下記の部分をmodel毎のファイルに分割する
   activerecord:
     attributes:
       organization:
@@ -46,9 +47,6 @@ ja:
         actual_value: "実績値"
         expired_date: "期限"
         progress_rate: "進捗"
-      user:
-        first_name: "ユーザー名 (名) "
-        last_name: "ユーザー名 (姓) "
     errors:
       messages:
         record_invalid: "%{errors}"

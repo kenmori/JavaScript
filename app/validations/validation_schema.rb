@@ -58,7 +58,7 @@ class ValidationSchema < Module
 
   class << self
     def setting(name, lambda)
-      contexts.merge!(name => lambda)
+      self.contexts = contexts.merge(name => lambda)
     end
   end
 
