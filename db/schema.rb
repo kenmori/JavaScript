@@ -36,11 +36,12 @@ ActiveRecord::Schema.define(version: 2019_01_03_151802) do
   end
 
   create_table "department_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "role"
+    t.integer "role", null: false
     t.bigint "department_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["department_id", "user_id"], name: "index_department_members_on_department_id_and_user_id", unique: true
     t.index ["department_id"], name: "index_department_members_on_department_id"
     t.index ["user_id"], name: "index_department_members_on_user_id"
   end
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_151802) do
     t.integer "display_order", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "kind"
     t.index ["ancestry"], name: "index_departments_on_ancestry"
     t.index ["display_order"], name: "index_departments_on_display_order"
     t.index ["organization_id"], name: "index_departments_on_organization_id"
