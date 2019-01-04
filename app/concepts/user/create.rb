@@ -11,7 +11,6 @@ class User::Create < Trailblazer::Operation
 
     include UserValidation.new(:default, :department_ids)
     validates :skip_notification, VH[:boolean]
-    validates :department_ids, VH[:required]
   end
 
   step Model(User, :new)
