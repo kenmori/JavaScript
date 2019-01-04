@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Department::CreateDefault do
   include OrganizationDataset
 
@@ -35,9 +37,9 @@ RSpec.describe Department::CreateDefault do
       owner_id: nil
     }
 
-    expect {
+    expect do
       described_class.call(params: params, current_user: admin_user)
-    }.to raise_error(
+    end.to raise_error(
       ConceptInputError,
       /((組織を入力してください|部署責任者を入力してください)(, )?){2}/
     )
@@ -49,9 +51,9 @@ RSpec.describe Department::CreateDefault do
       owner_id: other_org_user.id
     }
 
-    expect {
+    expect do
       described_class.call(params: params, current_user: admin_user)
-    }.to raise_error(
+    end.to raise_error(
       ConceptInputError,
       "部署責任者は組織内から選択してください"
     )

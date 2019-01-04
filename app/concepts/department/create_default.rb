@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Department::CreateDefault < Trailblazer::Operation
   class Form < Reform::Form
     property :organization_id, virtual: true
@@ -39,6 +41,6 @@ class Department::CreateDefault < Trailblazer::Operation
   end
 
   def raise_error!(options, **_metadata)
-    raise ConceptInputError.new(options["contract.default"].errors.full_messages.join(', '))
+    raise ConceptInputError, options["contract.default"].errors.full_messages.join(", ")
   end
 end
