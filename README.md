@@ -5,7 +5,7 @@
 
 OKR の作成・運用・管理を目的としたクラウド OKR ツール。
 
-詳細は [スタートガイド](https://github.com/suikalemoned/resily/wiki/%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%AC%E3%82%A4%E3%83%89) を参照。
+詳細は [スタートガイド](https://github.com/Resily/resily/wiki/%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%AC%E3%82%A4%E3%83%89) を参照。
 
 ## ローカル開発環境の構築
 
@@ -43,13 +43,13 @@ docker-compose up -d
 ### テストの実行
 
 ```
-docker-compose run web bundle exec rake
+docker-compose run --rm web bundle exec rake
 ```
 
 `rspec` コマンドを用いてテストを実行する場合には `RAILS_ENV` を明示的に指定する必要があります。
 
 ```
-docker-compose run -e RAILS_ENV=test web bundle exec rspec
+docker-compose run --rm -e RAILS_ENV=test web bundle exec rspec
 ```
 
 ### data migrate
