@@ -20,23 +20,17 @@ module ErrorJsonResponder
 
     # render 403
     def forbidden(message = "許可されていない操作です")
-      render_with_error(:forbidden, message)
+      render_error_json(:forbidden, message)
     end
 
     # render 422
     def unprocessable_entity(message = "正常に処理できません")
-      render_with_error(:unprocessable_entity, message)
+      render_error_json(:unprocessable_entity, message)
     end
 
     # render 422 with errors
     def unprocessable_entity_with_errors(errors)
-      render_with_error(:unprocessable_entity, errors)
-    end
-
-    # TODO: DEPRECATION WARNING 仕様が古いので render_error_json を使うこと
-    # render_with_error is render json of error.
-    def render_with_error(code, message)
-      render json: { error: message }, status: code
+      render_error_json(:unprocessable_entity, errors)
     end
 
     def render_error_json(status_code, messages)

@@ -308,7 +308,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         )
 
         expect(response_status).to eq(422)
-        expect(parse_response_body.keys).to contain_exactly("error")
+        expect(parse_response_body.keys).to contain_exactly("errors")
       end
     end
 
@@ -415,7 +415,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         )
 
         expect(response_status).to eq(422)
-        expect(parse_response_body.keys).to contain_exactly("error")
+        expect(parse_response_body.keys).to contain_exactly("errors")
       end
 
       example "ERROR: When member id is different organization" do
@@ -433,7 +433,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         )
 
         expect(response_status).to eq(422)
-        expect(parse_response_body.keys).to contain_exactly("error")
+        expect(parse_response_body.keys).to contain_exactly("errors")
       end
     end
 
@@ -572,7 +572,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
           )
 
           expect(response_status).to eq(422)
-          expect(parse_response_body.keys).to contain_exactly("error")
+          expect(parse_response_body.keys).to contain_exactly("errors")
         end
       end
 
@@ -622,7 +622,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         )
 
         expect(response_status).to eq(422)
-        expect(parse_response_body.keys).to contain_exactly("error")
+        expect(parse_response_body.keys).to contain_exactly("errors")
       end
     end
 
@@ -640,7 +640,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         )
 
         expect(response_status).to eq(403)
-        expect(parse_response_body("error")).to eq("許可されていない操作です")
+        expect(parse_response_error).to eq(["許可されていない操作です"])
       end
     end
 
@@ -660,7 +660,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         )
 
         expect(response_status).to eq(403)
-        expect(parse_response_body("error")).to eq("Objective 責任者または Key Result 責任者のみ編集できます")
+        expect(parse_response_error).to eq(["Objective 責任者または Key Result 責任者のみ編集できます"])
       end
     end
   end
