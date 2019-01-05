@@ -6,7 +6,7 @@
   "scripts": {
     "fixpack": "fixpack",
     "lint": "eslint app/frontend/javascript",
-    "lint:fix": "eslint --fix app/frontend/javascript/**/*.js"
+    "lint:fix": "eslint --fix app/frontend/javascript"
   },
   "dependencies": {
     "@rails/webpacker": "^3.5.5",
