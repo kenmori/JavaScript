@@ -1,33 +1,40 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Input, Button, Divider } from 'semantic-ui-react'
-import UsersTable from './UsersTable'
-import UserAddForm from './UserAddForm'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Tab, Input, Button, Divider } from "semantic-ui-react";
+import UsersTable from "./UsersTable";
+import UserAddForm from "./UserAddForm";
 
 class UserSettingTab extends PureComponent {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      keyword: '',
+      keyword: "",
       showDisabledUsers: false,
-    }
+    };
   }
 
-  handleKeywordChange = (e, { value }) => this.setState({ keyword: value })
+  handleKeywordChange = (e, { value }) => this.setState({ keyword: value });
 
-  handleShowDisabledUsersClick = () => this.setState({ showDisabledUsers: true })
+  handleShowDisabledUsersClick = () =>
+    this.setState({ showDisabledUsers: true });
 
   render() {
-    const { enabledUsers, disabledUsers } = this.props
+    const { enabledUsers, disabledUsers } = this.props;
     return (
       <Tab.Pane className="user-setting-tab">
-        <UserAddForm addUser={this.props.addUser} confirm={this.props.confirm} />
+        <UserAddForm
+          addUser={this.props.addUser}
+          confirm={this.props.confirm}
+        />
 
         <Divider />
 
-        <Input icon="search" placeholder="ユーザーを検索&#8230;" onChange={this.handleKeywordChange} />
+        <Input
+          icon="search"
+          placeholder="ユーザーを検索&#8230;"
+          onChange={this.handleKeywordChange}
+        />
 
         <UsersTable
           users={enabledUsers}
@@ -41,8 +48,8 @@ class UserSettingTab extends PureComponent {
 
         {!disabledUsers.isEmpty() && <Divider />}
 
-        {!disabledUsers.isEmpty() && (
-          this.state.showDisabledUsers ?
+        {!disabledUsers.isEmpty() &&
+          (this.state.showDisabledUsers ? (
             <div>
               <h3>無効なユーザー</h3>
               <UsersTable
@@ -51,11 +58,14 @@ class UserSettingTab extends PureComponent {
                 keyword={this.state.keyword}
               />
             </div>
-            :
-            <Button content="無効なユーザーを表示する" onClick={this.handleShowDisabledUsersClick} />
-        )}
+          ) : (
+            <Button
+              content="無効なユーザーを表示する"
+              onClick={this.handleShowDisabledUsersClick}
+            />
+          ))}
       </Tab.Pane>
-    )
+    );
   }
 }
 
@@ -71,6 +81,6 @@ UserSettingTab.propTypes = {
   resendEmail: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default UserSettingTab
+export default UserSettingTab;

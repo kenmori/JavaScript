@@ -1,14 +1,13 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { TextArea } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { TextArea } from "semantic-ui-react";
 
 class AutoTextArea extends PureComponent {
-
   handleCommit = event => {
     if (this.props.value !== event.target.value || this.props.verbose) {
-      this.props.onCommit(event.target.value)
+      this.props.onCommit(event.target.value);
     }
-  }
+  };
 
   render() {
     return (
@@ -21,7 +20,7 @@ class AutoTextArea extends PureComponent {
         readOnly={this.props.readOnly}
         onBlur={this.handleCommit}
       />
-    )
+    );
   }
 }
 
@@ -35,16 +34,16 @@ AutoTextArea.propTypes = {
   readOnly: PropTypes.bool,
   verbose: PropTypes.bool,
   onCommit: PropTypes.func,
-}
+};
 
 AutoTextArea.defaultProps = {
-  value: '',
+  value: "",
   placeholder: null,
   rows: 3,
   autoHeight: true,
   readOnly: false,
   verbose: false,
   onCommit: () => {},
-}
+};
 
-export default AutoTextArea
+export default AutoTextArea;

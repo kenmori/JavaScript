@@ -1,41 +1,46 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
-import AutoTextArea from './AutoTextArea'
-import Markdown from '../util/Markdown'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Button } from "semantic-ui-react";
+import Markdown from "../util/Markdown";
+import AutoTextArea from "./AutoTextArea";
 
 class OkrDescription extends PureComponent {
-
   constructor() {
-    super()
-    this.state = { isEditing: false }
+    super();
+    this.state = { isEditing: false };
   }
 
-  handleEditClick = () => this.setState({ isEditing: true })
+  handleEditClick = () => this.setState({ isEditing: true });
 
   handleTextCommit = text => {
-    const { text: textBefore, onCommit } = this.props
+    const { text: textBefore, onCommit } = this.props;
     if (textBefore !== text) {
-      onCommit(text)
+      onCommit(text);
     }
-    this.setState({ isEditing: false })
-  }
+    this.setState({ isEditing: false });
+  };
 
   renderTextOnly() {
-    const { text } = this.props
+    const { text } = this.props;
     return (
       <div className="okr-description-text-only">
-        <div className="okr-description-text-only__text"><Markdown text={text} /></div>
+        <div className="okr-description-text-only__text">
+          <Markdown text={text} />
+        </div>
         <div className="okr-description-text-only__button">
-          <Button content="編集する" onClick={this.handleEditClick} size="small" />
+          <Button
+            content="編集する"
+            onClick={this.handleEditClick}
+            size="small"
+          />
         </div>
       </div>
-    )
+    );
   }
 
   renderTextArea() {
-    const { text, isObjective } = this.props
-    const okr = isObjective ? 'Objective' : 'Key Result'
+    const { text, isObjective } = this.props;
+    const okr = isObjective ? "Objective" : "Key Result";
     return (
       <div className="okr-description-text-area">
         <AutoTextArea
@@ -45,13 +50,13 @@ class OkrDescription extends PureComponent {
           verbose
         />
       </div>
-    )
+    );
   }
 
   render() {
-    const { text } = this.props
-    const { isEditing } = this.state
-    return (!text || isEditing) ? this.renderTextArea() : this.renderTextOnly()
+    const { text } = this.props;
+    const { isEditing } = this.state;
+    return !text || isEditing ? this.renderTextArea() : this.renderTextOnly();
   }
 }
 
@@ -61,11 +66,11 @@ OkrDescription.propTypes = {
   text: PropTypes.string,
   isObjective: PropTypes.bool,
   onCommit: PropTypes.func.isRequired,
-}
+};
 
 OkrDescription.defaultProps = {
-  text: '',
+  text: "",
   isObjective: true,
-}
+};
 
-export default OkrDescription
+export default OkrDescription;

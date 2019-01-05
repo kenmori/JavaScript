@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Icon, Popup } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Icon, Popup } from "semantic-ui-react";
 
 class RequiredLabel extends PureComponent {
-
   render() {
     return (
       <label className="required-label">
@@ -14,11 +13,18 @@ class RequiredLabel extends PureComponent {
             size="tiny"
             position="right center"
             content="必須"
-            trigger={<Icon name="asterisk" color="red" size="small" className="required-label__icon" />}
+            trigger={(
+<Icon
+                name="asterisk"
+                color="red"
+                size="small"
+                className="required-label__icon"
+              />
+)}
           />
         )}
       </label>
-    )
+    );
   }
 }
 
@@ -27,10 +33,10 @@ RequiredLabel.propTypes = {
   // component
   text: PropTypes.string.isRequired,
   required: PropTypes.bool,
-}
+};
 
 RequiredLabel.defaultProps = {
   required: true,
-}
+};
 
-export default RequiredLabel
+export default RequiredLabel;

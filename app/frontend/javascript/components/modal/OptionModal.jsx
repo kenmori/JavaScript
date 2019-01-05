@@ -1,65 +1,65 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Button, Modal, List, Checkbox, Header } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Button, Modal, List, Checkbox, Header } from "semantic-ui-react";
 
 class OptionModal extends PureComponent {
   constructor() {
-    super()
+    super();
     this.state = {
       showChildObjectives: false,
       showObjectiveKeyResults: false,
       showMemberKeyResults: false,
-      showDisabledOkrs: false
-    }
+      showDisabledOkrs: false,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({
-        showChildObjectives: nextProps.userSetting.get('showChildObjectives'),
+        showChildObjectives: nextProps.userSetting.get("showChildObjectives"),
         showObjectiveKeyResults: nextProps.userSetting.get(
-          'showObjectiveKeyResults'
+          "showObjectiveKeyResults",
         ),
-        showMemberKeyResults: nextProps.userSetting.get('showMemberKeyResults'),
-        showDisabledOkrs: nextProps.userSetting.get('showDisabledOkrs')
-      })
+        showMemberKeyResults: nextProps.userSetting.get("showMemberKeyResults"),
+        showDisabledOkrs: nextProps.userSetting.get("showDisabledOkrs"),
+      });
     }
   }
 
   update = () => {
-    const { userSetting } = this.props
+    const { userSetting } = this.props;
     const {
       showChildObjectives,
       showObjectiveKeyResults,
       showMemberKeyResults,
-      showDisabledOkrs
-    } = this.state
+      showDisabledOkrs,
+    } = this.state;
     const isDirty =
-      userSetting.get('showChildObjectives') !== showChildObjectives ||
-      userSetting.get('showObjectiveKeyResults') !== showObjectiveKeyResults ||
-      userSetting.get('showMemberKeyResults') !== showMemberKeyResults ||
-      userSetting.get('showDisabledOkrs') !== showDisabledOkrs
+      userSetting.get("showChildObjectives") !== showChildObjectives ||
+      userSetting.get("showObjectiveKeyResults") !== showObjectiveKeyResults ||
+      userSetting.get("showMemberKeyResults") !== showMemberKeyResults ||
+      userSetting.get("showDisabledOkrs") !== showDisabledOkrs;
     if (isDirty) {
       this.props.updateUserSetting({
         showChildObjectives,
         showObjectiveKeyResults,
         showMemberKeyResults,
-        showDisabledOkrs
-      })
+        showDisabledOkrs,
+      });
     } else {
-      this.props.closeModal()
+      this.props.closeModal();
     }
-  }
+  };
 
   render() {
-    const { isOpen, closeModal } = this.props
+    const { isOpen, closeModal } = this.props;
     const {
       showChildObjectives,
       showObjectiveKeyResults,
       showMemberKeyResults,
-      showDisabledOkrs
-    } = this.state
+      showDisabledOkrs,
+    } = this.state;
     return (
       <Modal closeIcon open={isOpen} size="small" onClose={closeModal}>
         <Modal.Content>
@@ -118,7 +118,7 @@ class OptionModal extends PureComponent {
           </Button>
         </Modal.Actions>
       </Modal>
-    )
+    );
   }
 }
 
@@ -127,8 +127,8 @@ OptionModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   userSetting: ImmutablePropTypes.map,
   updateUserSetting: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default OptionModal
+export default OptionModal;

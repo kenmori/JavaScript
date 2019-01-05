@@ -1,47 +1,50 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { List } from 'immutable'
-import { Select } from 'semantic-ui-react'
-import avatar_image from '../../images/avatar.png'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { List } from "immutable";
+import { Select } from "semantic-ui-react";
+import avatar_image from "../../images/avatar.png";
 
 class UserSelect extends PureComponent {
-
-  userOptions = () => {
-    return this.props.users.map(user => {
-      const fullName = `${user.get('lastName')} ${user.get('firstName')}`
-      const isDisabled = user.get('disabled')
-      return {
-        key: user.get('id'),
-        value: user.get('id'),
-        text: (isDisabled ? '[無効] ' : '') + fullName,
-        image: { avatar: true, src: user.get('avatarUrl') || avatar_image },
-        searchtext: `${fullName} ${user.get('email')}`.toLowerCase(),
-      }
-    }).toArray()
-  }
+  userOptions = () =>
+    this.props.users
+      .map(user => {
+        const fullName = `${user.get("lastName")} ${user.get("firstName")}`;
+        const isDisabled = user.get("disabled");
+        return {
+          key: user.get("id"),
+          value: user.get("id"),
+          text: (isDisabled ? "[無効] " : "") + fullName,
+          image: { avatar: true, src: user.get("avatarUrl") || avatar_image },
+          searchtext: `${fullName} ${user.get("email")}`.toLowerCase(),
+        };
+      })
+      .toArray();
 
   handleChange = (event, { value }) => {
-    let isChanged = false
-    if (typeof value === 'number') {
-      isChanged = this.props.value !== value
+    let isChanged = false;
+    if (typeof value === "number") {
+      isChanged = this.props.value !== value;
     } else {
-      value = List.of(...value)
-      isChanged = !this.props.value.equals(value)
+      value = List.of(...value);
+      isChanged = !this.props.value.equals(value);
     }
     if (isChanged) {
-      this.props.onChange(value)
+      this.props.onChange(value);
     }
-  }
+  };
 
   search = (options, query) => {
-    if (!query) return options
-    query = query.toLowerCase()
-    return options.filter(option => option.searchtext.includes(query))
-  }
+    if (!query) return options;
+    query = query.toLowerCase();
+    return options.filter(option => option.searchtext.includes(query));
+  };
 
   render() {
-    const value = (typeof this.props.value === 'number') ? this.props.value : this.props.value.toArray()
+    const value =
+      typeof this.props.value === "number"
+        ? this.props.value
+        : this.props.value.toArray();
     return (
       <div>
         <Select
@@ -51,10 +54,10 @@ class UserSelect extends PureComponent {
           multiple={this.props.multiple}
           onChange={this.handleChange}
           selectOnNavigation={false}
-          noResultsMessage='結果が見つかりません'
+          noResultsMessage="結果が見つかりません"
         />
       </div>
-    )
+    );
   }
 }
 
@@ -65,10 +68,10 @@ UserSelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, ImmutablePropTypes.list]),
   multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-}
+};
 
 UserSelect.defaultProps = {
   multiple: false,
-}
+};
 
-export default UserSelect
+export default UserSelect;

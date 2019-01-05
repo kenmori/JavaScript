@@ -1,43 +1,43 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Menu, Button, Label } from 'semantic-ui-react'
-import TaskList from '../../containers/TaskList'
-import ObjectiveList from '../../containers/ObjectiveList'
-import KeyResultList from '../../containers/KeyResultList'
-import OkrMap from '../../containers/OkrMap'
-import { OkrTypes } from '../../utils/okr'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Menu, Button, Label } from "semantic-ui-react";
+import TaskList from "../../containers/TaskList";
+import ObjectiveList from "../../containers/ObjectiveList";
+import KeyResultList from "../../containers/KeyResultList";
+import OkrMap from "../../containers/OkrMap";
+import { OkrTypes } from "../../utils/okr";
 
 class Dashboard extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   handleMenuItemClick = (e, { name }) => {
-    this.props.selectTab(name)
-  }
+    this.props.selectTab(name);
+  };
 
   getSelectedTab = () => {
-    const { selectedTab, taskKeyResults } = this.props
+    const { selectedTab, taskKeyResults } = this.props;
     // selectedTab = TASK でタスク KR がない場合を考慮
     return selectedTab === OkrTypes.TASK && taskKeyResults.isEmpty()
       ? OkrTypes.OBJECTIVE
-      : selectedTab
-  }
+      : selectedTab;
+  };
 
   getTabContent = selectedTab => {
     switch (selectedTab) {
       case OkrTypes.TASK:
-        return <TaskList keyResults={this.props.taskKeyResults} />
+        return <TaskList keyResults={this.props.taskKeyResults} />;
       case OkrTypes.OBJECTIVE:
-        return <ObjectiveList objectives={this.props.objectives} />
+        return <ObjectiveList objectives={this.props.objectives} />;
       case OkrTypes.KEY_RESULT:
-        return <KeyResultList keyResults={this.props.keyResults} />
+        return <KeyResultList keyResults={this.props.keyResults} />;
     }
-  }
+  };
 
   render() {
-    const selectedTab = this.getSelectedTab()
+    const selectedTab = this.getSelectedTab();
     return (
       <div className="dashboard">
         <section className="okr-list__section">
@@ -47,8 +47,7 @@ class Dashboard extends PureComponent {
                 <Menu.Item
                   name={OkrTypes.TASK}
                   active={selectedTab === OkrTypes.TASK}
-                  onClick={this.handleMenuItemClick}
-                >
+                  onClick={this.handleMenuItemClick}>
                   タスク
                   <Label>{this.props.taskKeyResults.size}</Label>
                 </Menu.Item>
@@ -56,16 +55,14 @@ class Dashboard extends PureComponent {
               <Menu.Item
                 name={OkrTypes.OBJECTIVE}
                 active={selectedTab === OkrTypes.OBJECTIVE}
-                onClick={this.handleMenuItemClick}
-              >
+                onClick={this.handleMenuItemClick}>
                 Objective
                 <Label>{this.props.objectives.size}</Label>
               </Menu.Item>
               <Menu.Item
                 name={OkrTypes.KEY_RESULT}
                 active={selectedTab === OkrTypes.KEY_RESULT}
-                onClick={this.handleMenuItemClick}
-              >
+                onClick={this.handleMenuItemClick}>
                 Key Result
                 <Label>{this.props.keyResults.size}</Label>
               </Menu.Item>
@@ -96,7 +93,7 @@ class Dashboard extends PureComponent {
           <OkrMap />
         </section>
       </div>
-    )
+    );
   }
 }
 
@@ -108,8 +105,8 @@ Dashboard.propTypes = {
   selectedTab: PropTypes.string.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   openOptionModal: PropTypes.func.isRequired,
-  selectTab: PropTypes.func.isRequired
+  selectTab: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default Dashboard
+export default Dashboard;

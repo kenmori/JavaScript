@@ -1,56 +1,73 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Field } from 'redux-form'
-import { Form, TextArea } from 'semantic-ui-react'
-import KeyResultMemberSelect from '../form/KeyResultMemberSelect'
-import UserSelect from '../form/UserSelect'
-import RequiredLabel from '../form/RequiredLabel'
-import RenderField from '../form/RenderField'
-import RenderDateField from '../form/RenderDateField'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Field } from "redux-form";
+import { Form, TextArea } from "semantic-ui-react";
+import KeyResultMemberSelect from "../form/KeyResultMemberSelect";
+import UserSelect from "../form/UserSelect";
+import RequiredLabel from "../form/RequiredLabel";
+import RenderField from "../form/RenderField";
+import RenderDateField from "../form/RenderDateField";
 import {
-  validateKeyResultName, validateTargetValue, validateExpiredDate, normalizeExpiredDate
-} from '../../utils/validator'
+  validateKeyResultName,
+  validateTargetValue,
+  validateExpiredDate,
+  normalizeExpiredDate,
+} from "../../utils/validator";
 
 class KeyResultForm extends PureComponent {
+  handleDescriptionChange = (e, { value }) =>
+    this.props.onChange({ description: value });
 
-  handleDescriptionChange = (e, { value }) => this.props.onChange({ description: value })
+  handleValueUnitChange = (e, valueUnit) =>
+    this.props.onChange({ isRequiredTargetValue: !!valueUnit });
 
-  handleValueUnitChange = (e, valueUnit) => this.props.onChange({ isRequiredTargetValue: !!valueUnit })
+  handleOwnerChange = ownerId =>
+    this.props.onChange({
+      ownerId,
+      members: this.props.members.filter(id => id !== ownerId),
+    });
 
-  handleOwnerChange = ownerId => this.props.onChange({ ownerId, members: this.props.members.filter(id => id !== ownerId) })
+  handleKeyResultMemberAdd = value =>
+    this.props.onChange({ members: this.props.members.push(value) });
 
-  handleKeyResultMemberAdd = value => this.props.onChange({ members: this.props.members.push(value) })
-
-  handleKeyResultMemberRemove = value => this.props.onChange({ members: this.props.members.filter(id => id !== value) })
+  handleKeyResultMemberRemove = value =>
+    this.props.onChange({
+      members: this.props.members.filter(id => id !== value),
+    });
 
   render() {
     return (
       <Form className="key-result-form">
-        <Form.Group widths='equal'>
+        <Form.Group widths="equal">
           <Form.Field>
-            <RequiredLabel text='Key Result' />
+            <RequiredLabel text="Key Result" />
             <Field
-              name='name'
+              name="name"
               component={RenderField}
               validate={validateKeyResultName}
             />
           </Form.Field>
         </Form.Group>
-        <Form.Group widths='equal'>
+        <Form.Group widths="equal">
           <Form.Field>
             <label>説明</label>
             <TextArea
               autoHeight
               rows={3}
               onChange={this.handleDescriptionChange}
-              placeholder={'Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)'}
+              placeholder={
+                "Key Result についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)"
+              }
             />
           </Form.Field>
         </Form.Group>
         <Form.Group>
           <Form.Field className="key-result-form__target-value">
-            <RequiredLabel text="目標値" required={this.props.isRequiredTargetValue} />
+            <RequiredLabel
+              text="目標値"
+              required={this.props.isRequiredTargetValue}
+            />
             <Field
               name="targetValue"
               component={RenderField}
@@ -69,9 +86,9 @@ class KeyResultForm extends PureComponent {
         </Form.Group>
         <Form.Group>
           <Form.Field>
-            <RequiredLabel text='期限' />
+            <RequiredLabel text="期限" />
             <Field
-              name='expiredDate'
+              name="expiredDate"
               component={RenderDateField}
               validate={validateExpiredDate}
               normalize={normalizeExpiredDate}
@@ -80,7 +97,7 @@ class KeyResultForm extends PureComponent {
         </Form.Group>
         <Form.Group>
           <Form.Field>
-            <RequiredLabel text='責任者' />
+            <RequiredLabel text="責任者" />
             <UserSelect
               users={this.props.users}
               value={this.props.ownerId}
@@ -101,7 +118,7 @@ class KeyResultForm extends PureComponent {
           </Form.Field>
         </Form.Group>
       </Form>
-    )
+    );
   }
 }
 
@@ -113,6 +130,6 @@ KeyResultForm.propTypes = {
   ownerId: PropTypes.number,
   isRequiredTargetValue: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-}
+};
 
-export default KeyResultForm
+export default KeyResultForm;

@@ -1,102 +1,99 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import moment from 'moment'
-import { Card, Icon, List } from 'semantic-ui-react'
-import OwnerAvatar from '../util/OwnerAvatar'
-import ProgressRate from '../util/ProgressRate'
-import ToggleButton from '../util/ToggleButton'
-import MeetingboardLinkButton from '../util/MeetingboardLinkButton'
-import OkrName from '../util/OkrName'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import moment from "moment";
+import { Card, Icon, List } from "semantic-ui-react";
+import OwnerAvatar from "../util/OwnerAvatar";
+import ProgressRate from "../util/ProgressRate";
+import ToggleButton from "../util/ToggleButton";
+import MeetingboardLinkButton from "../util/MeetingboardLinkButton";
+import OkrName from "../util/OkrName";
 import {
   openObjective,
   openKeyResult,
-  encodeObjectiveId
-} from '../../utils/linker'
+  encodeObjectiveId,
+} from "../../utils/linker";
 
 class OkrCard extends PureComponent {
-  handleObjectiveClick = () => openObjective(this.props.objective.get('id'))
+  handleObjectiveClick = () => openObjective(this.props.objective.get("id"));
 
-  handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId)
+  handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId);
 
   handleToggleClick = (keyResult, isToggleOn) => () =>
-    this.props.toggleKeyResult(this.props.objective, keyResult, isToggleOn)
+    this.props.toggleKeyResult(this.props.objective, keyResult, isToggleOn);
 
   handleAddKeyResultClick = () =>
-    this.props.openKeyResultModal(this.props.objective)
+    this.props.openKeyResultModal(this.props.objective);
 
   handleObjectiveEnter = () =>
-    this.props.highlightObjective(this.props.objective)
+    this.props.highlightObjective(this.props.objective);
 
   handleKeyResultEnter = keyResult => () =>
-    this.props.highlightKeyResult(keyResult)
+    this.props.highlightKeyResult(keyResult);
 
   handleMeetingBoardLinkClick = objectiveId =>
     window.open(
       `/meetings/${encodeObjectiveId(objectiveId)}`,
-      '_blank',
+      "_blank",
       `height=${window.parent.screen.height},
-      width=${window.parent.screen.width}`
-    )
+      width=${window.parent.screen.width}`,
+    );
 
   generateKeyResultList(objective) {
     const {
       selectedKeyResultId,
       highlightedKeyResultId,
       visibleKeyResultIds,
-      unhighlightOkr
-    } = this.props
-    const keyResults = objective.get('keyResults')
+      unhighlightOkr,
+    } = this.props;
+    const keyResults = objective.get("keyResults");
     const showToggle = keyResults.some(
-      keyResult => !keyResult.get('childObjectiveIds').isEmpty()
-    )
+      keyResult => !keyResult.get("childObjectiveIds").isEmpty(),
+    );
     return (
       <Card.Content className="key-results">
         <List>
           {keyResults.map(keyResult => {
-            const keyResultId = keyResult.get('id')
-            const isSelected = keyResultId === selectedKeyResultId
-            const isHighlighted = keyResultId === highlightedKeyResultId
+            const keyResultId = keyResult.get("id");
+            const isSelected = keyResultId === selectedKeyResultId;
+            const isHighlighted = keyResultId === highlightedKeyResultId;
             const isToggleOn = visibleKeyResultIds
               ? visibleKeyResultIds.includes(keyResultId)
-              : false
+              : false;
             return (
               <List.Item
                 className="key-results__item"
                 key={keyResultId}
-                active={isSelected}
-              >
+                active={isSelected}>
                 <OwnerAvatar
-                  owner={keyResult.get('owner')}
-                  members={keyResult.get('members')}
+                  owner={keyResult.get("owner")}
+                  members={keyResult.get("members")}
                 />
                 <div
                   className={`okr-card__name ${
-                    isHighlighted ? 'highlight' : ''
-                  }`}
-                >
+                    isHighlighted ? "highlight" : ""
+                  }`}>
                   <a
                     onClick={this.handleKeyResultClick(keyResultId)}
                     onMouseEnter={this.handleKeyResultEnter(keyResult)}
-                    onMouseLeave={unhighlightOkr}
-                  >
+                    onMouseLeave={unhighlightOkr}>
                     <OkrName okr={keyResult} />
                   </a>
                 </div>
                 <ProgressRate
-                  value={keyResult.get('progressRate')}
-                  status={keyResult.get('status')}
+                  value={keyResult.get("progressRate")}
+                  status={keyResult.get("status")}
                 />
 
                 {showToggle && (
                   <ToggleButton
                     on={isToggleOn}
-                    visible={!keyResult.get('childObjectiveIds').isEmpty()}
+                    visible={!keyResult.get("childObjectiveIds").isEmpty()}
                     onClick={this.handleToggleClick(keyResult, isToggleOn)}
                   />
                 )}
               </List.Item>
-            )
+            );
           })}
           {keyResults.isEmpty() && (
             <List.Item className="key-results__item--add">
@@ -112,7 +109,7 @@ class OkrCard extends PureComponent {
           )}
         </List>
       </Card.Content>
-    )
+    );
   }
 
   render() {
@@ -120,32 +117,30 @@ class OkrCard extends PureComponent {
       objective,
       selectedObjectiveId,
       highlightedObjectiveIds,
-      unhighlightOkr
-    } = this.props
-    const objectiveId = objective.get('id')
-    const isSelected = objectiveId === selectedObjectiveId
-    const isHighlighted = highlightedObjectiveIds.includes(objectiveId)
+      unhighlightOkr,
+    } = this.props;
+    const objectiveId = objective.get("id");
+    const isSelected = objectiveId === selectedObjectiveId;
+    const isHighlighted = highlightedObjectiveIds.includes(objectiveId);
     return (
-      <Card className={`okr-card ${isSelected ? 'active' : ''}`} raised>
+      <Card className={`okr-card ${isSelected ? "active" : ""}`} raised>
         <Card.Content className="objective">
           <Card.Header>
-            <OwnerAvatar owner={objective.get('owner')} size="large" />
+            <OwnerAvatar owner={objective.get("owner")} size="large" />
             <div
-              className={`okr-card__name ${isHighlighted ? 'highlight' : ''}`}
-            >
+              className={`okr-card__name ${isHighlighted ? "highlight" : ""}`}>
               <a
                 onClick={this.handleObjectiveClick}
                 onMouseEnter={this.handleObjectiveEnter}
-                onMouseLeave={unhighlightOkr}
-              >
+                onMouseLeave={unhighlightOkr}>
                 <OkrName okr={objective} />
               </a>
             </div>
-            <ProgressRate value={objective.get('progressRate')} />
+            <ProgressRate value={objective.get("progressRate")} />
             <MeetingboardLinkButton
               onClick={this.handleMeetingBoardLinkClick.bind(
                 this,
-                objective.get('id')
+                objective.get("id"),
               )}
             />
           </Card.Header>
@@ -154,11 +149,11 @@ class OkrCard extends PureComponent {
         <Card.Content extra className="okr-card__meta" textAlign="right">
           <div className="update-time">
             <Icon name="time" />
-            {moment(objective.get('updatedAt')).format('YYYY/M/D')} 更新
+            {moment(objective.get("updatedAt")).format("YYYY/M/D")} 更新
           </div>
         </Card.Content>
       </Card>
-    )
+    );
   }
 }
 
@@ -175,7 +170,7 @@ OkrCard.propTypes = {
   unhighlightOkr: PropTypes.func.isRequired,
   toggleKeyResult: PropTypes.func.isRequired,
   // component
-  objective: ImmutablePropTypes.map.isRequired
-}
+  objective: ImmutablePropTypes.map.isRequired,
+};
 
-export default OkrCard
+export default OkrCard;

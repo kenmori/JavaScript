@@ -1,98 +1,103 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Modal, Header, Form } from 'semantic-ui-react'
-import StretchCommentPane from '../okrmodal/StretchCommentPane'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Modal, Header, Form } from "semantic-ui-react";
+import StretchCommentPane from "../okrmodal/StretchCommentPane";
 
 class CommentModal extends PureComponent {
   constructor() {
-    super()
+    super();
     this.state = {
-      text: '',
-      keyResultId: null
-    }
+      text: "",
+      keyResultId: null,
+    };
   }
 
   componentDidMount() {
-    const { objective } = this.props
-    const keyResults = objective.get('keyResults')
-    this.setState({ keyResultId: keyResults.first().get('id') })
+    const { objective } = this.props;
+    const keyResults = objective.get("keyResults");
+    this.setState({ keyResultId: keyResults.first().get("id") });
   }
 
   addComment = () => {
-    const { commentLabel } = this.props
-    const { text } = this.state
-    if (!text) return
+    const { commentLabel } = this.props;
+    const { text } = this.state;
+    if (!text) return;
 
     this.props.updateKeyResult({
       id: this.state.keyResultId,
       comment: {
         data: text,
-        behavior: 'add',
+        behavior: "add",
         key_result_comment_label: {
-          id: commentLabel.get('id')
-        }
-      }
-    })
-    this.setState({ text: '' })
-  }
+          id: commentLabel.get("id"),
+        },
+      },
+    });
+    this.setState({ text: "" });
+  };
 
   removeComment = id => {
     this.props.confirm({
-      content: 'コメントを削除しますか？',
+      content: "コメントを削除しますか？",
       onConfirm: () =>
         this.props.updateKeyResult({
-          id: this.findKeyResultByCommentId(id).get('id'),
-          comment: { data: id, behavior: 'remove' }
-        })
-    })
-  }
+          id: this.findKeyResultByCommentId(id).get("id"),
+          comment: { data: id, behavior: "remove" },
+        }),
+    });
+  };
 
   editComment = (id, text, label) => {
-    if (!text) return
+    if (!text) return;
 
     this.props.updateKeyResult({
-      id: this.findKeyResultByCommentId(id).get('id'),
+      id: this.findKeyResultByCommentId(id).get("id"),
       comment: {
         data: {
           id,
           text,
-          key_result_comment_label: { id: label }
+          key_result_comment_label: { id: label },
         },
-        behavior: 'edit'
-      }
-    })
-  }
+        behavior: "edit",
+      },
+    });
+  };
 
   handleTextChange = (e, { value }) => {
-    this.setState({ text: value })
-  }
+    this.setState({ text: value });
+  };
 
   handleDropdownChange = (e, { value }) => {
-    this.setState({ keyResultId: value })
-  }
+    this.setState({ keyResultId: value });
+  };
 
-  selectLabelCommnets = (comments, label) => {
-    return comments.filter(v => v.get('label').get('name') === label)
-  }
+  selectLabelCommnets = (comments, label) =>
+    comments.filter(v => v.get("label").get("name") === label);
 
   findKeyResultByCommentId = id => {
-    const { objective } = this.props
-    const keyResults = objective.get('keyResults')
+    const { objective } = this.props;
+    const keyResults = objective.get("keyResults");
 
     return keyResults.find(
-      e => e.get('comments').findIndex(e => e.get('id') == id) != -1
-    )
-  }
+      e => e.get("comments").findIndex(e => e.get("id") == id) != -1,
+    );
+  };
 
   render() {
-    const { objective, comments, commentLabel, isOpen, closeModal } = this.props
-    const { text, keyResultId } = this.state
-    const keyResults = objective.get('keyResults')
-    const keyResultsList = []
+    const {
+      objective,
+      comments,
+      commentLabel,
+      isOpen,
+      closeModal,
+    } = this.props;
+    const { text, keyResultId } = this.state;
+    const keyResults = objective.get("keyResults");
+    const keyResultsList = [];
     keyResults.forEach(v =>
-      keyResultsList.push({ text: v.get('name'), value: v.get('id') })
-    )
+      keyResultsList.push({ text: v.get("name"), value: v.get("id") }),
+    );
 
     return (
       <Modal
@@ -100,16 +105,15 @@ class CommentModal extends PureComponent {
         size="small"
         className="comment-modal"
         open={isOpen}
-        onClose={closeModal}
-      >
+        onClose={closeModal}>
         <Modal.Content scrolling>
           <Header as="h4">{`${
-            commentLabel != null ? commentLabel.get('name') : ''
+            commentLabel != null ? commentLabel.get("name") : ""
           }一覧`}</Header>
           <StretchCommentPane
             comments={this.selectLabelCommnets(
               comments,
-              commentLabel.get('name')
+              commentLabel.get("name"),
             )}
             onDelete={this.removeComment}
             onUpdate={this.editComment}
@@ -122,7 +126,7 @@ class CommentModal extends PureComponent {
                   rows={2}
                   value={text}
                   placeholder={
-                    '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+                    "進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)"
                   }
                   onChange={this.handleTextChange}
                 />
@@ -152,7 +156,7 @@ class CommentModal extends PureComponent {
           </Form>
         </Modal.Content>
       </Modal>
-    )
+    );
   }
 }
 
@@ -164,7 +168,7 @@ CommentModal.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
   commentLabel: ImmutablePropTypes.map.isRequired,
   keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
-  updateKeyResult: PropTypes.func.isRequired
-}
+  updateKeyResult: PropTypes.func.isRequired,
+};
 
-export default CommentModal
+export default CommentModal;

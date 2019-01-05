@@ -1,34 +1,37 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import moment from 'moment'
-import { Label } from 'semantic-ui-react'
-import DatePicker from './DatePicker'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import moment from "moment";
+import { Label } from "semantic-ui-react";
+import DatePicker from "./DatePicker";
 
 class RenderDateField extends PureComponent {
+  handleChange = onChange => date => onChange(date);
 
-  handleChange = onChange => date => onChange(date)
-
-  handleBlur = onBlur => e => onBlur(e)
+  handleBlur = onBlur => e => onBlur(e);
 
   render() {
     const {
       input: { value, onChange, onBlur },
       meta: { touched, error },
-    } = this.props
-    const selected = moment(value, 'YYYY/M/D')
+    } = this.props;
+    const selected = moment(value, "YYYY/M/D");
     return (
       <div className="form-item">
         <DatePicker
-          className={(touched && !!error) ? 'error' : undefined}
-          dateFormat='YYYY/M/D'
-          locale='ja'
+          className={touched && !!error ? "error" : undefined}
+          dateFormat="YYYY/M/D"
+          locale="ja"
           selected={selected.isValid() ? selected : null}
           onChange={this.handleChange(onChange)}
           onBlur={this.handleBlur(onBlur)}
         />
-        {touched && error && <Label basic color='red' pointing>{error}</Label>}
+        {touched && error && (
+          <Label basic color="red" pointing>
+            {error}
+          </Label>
+        )}
       </div>
-    )
+    );
   }
 }
 
@@ -38,6 +41,6 @@ RenderDateField.propTypes = {
   // Redux Form
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
-}
+};
 
-export default RenderDateField
+export default RenderDateField;

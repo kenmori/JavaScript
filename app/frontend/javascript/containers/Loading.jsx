@@ -1,17 +1,13 @@
-import Loading from '../components/util/Loading'
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
+import Loading from "../components/util/Loading";
 
-const mapStateToProps = (state) => {
-  return {
-    isOpened: state.loading.get('isOpened'),
-  }
-}
+const mapStateToProps = state => ({
+  isOpened: state.loading.get("isOpened"),
+});
 
-const mapDispatchToProps = () => {
-  return {}
-}
+const mapDispatchToProps = () => ({});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(Loading)
+  mapDispatchToProps,
+)(Loading);

@@ -1,84 +1,83 @@
-import React, { PureComponent } from 'react'
-import { List } from 'immutable'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import DocumentTitle from 'react-document-title'
-import { Header, Grid, Label, Icon } from 'semantic-ui-react'
-import meetingBoardCommentLabels from '../../constants/meetingBoardCommentLabels'
-import LabelItem from './LabelItem'
-import OkrItem from './OkrItem'
-import CommentModal from '../../containers/CommentModal'
-import ObjectiveCommentModal from '../../containers/ObjectiveCommentModal'
+import React, { PureComponent } from "react";
+import { List } from "immutable";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import DocumentTitle from "react-document-title";
+import { Header, Grid, Label, Icon } from "semantic-ui-react";
+import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels";
+import CommentModal from "../../containers/CommentModal";
+import ObjectiveCommentModal from "../../containers/ObjectiveCommentModal";
+import LabelItem from "./LabelItem";
+import OkrItem from "./OkrItem";
 
 class MeetingPage extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   selectOKRComments = (
     objective,
     keyResults,
     objectiveId,
-    onlyKeyResult = false
+    onlyKeyResult = false,
   ) => {
-    const { showDisabledOkrs } = this.props
-    let objectiveComments = List()
+    const { showDisabledOkrs } = this.props;
+    let objectiveComments = List();
     if (
       !onlyKeyResult &&
-      objective.get('comments') &&
-      (showDisabledOkrs || !objective.get('disabled'))
+      objective.get("comments") &&
+      (showDisabledOkrs || !objective.get("disabled"))
     ) {
       objectiveComments = objective
-        .get('comments')
-        .map(v => v.set('Objective', objective))
-        .toList()
+        .get("comments")
+        .map(v => v.set("Objective", objective))
+        .toList();
     }
 
     const comments = objectiveComments.concat(
       keyResults
         .filter(
           v =>
-            objectiveId === v.get('objectiveId') &&
-            v.get('comments') &&
-            (showDisabledOkrs || !v.get('disabled'))
+            objectiveId === v.get("objectiveId") &&
+            v.get("comments") &&
+            (showDisabledOkrs || !v.get("disabled")),
         )
-        .map(v => v.get('comments').map(c => c.set('KeyResult', v)))
+        .map(v => v.get("comments").map(c => c.set("KeyResult", v)))
         .toList()
-        .flatten(1)
-    )
+        .flatten(1),
+    );
 
     return comments
-      .filter(v => v.get('showMeetingBoard') && v.get('label') != null)
+      .filter(v => v.get("showMeetingBoard") && v.get("label") != null)
       .sort((a, b) => {
-        if (a.get('updatedAt') < b.get('updatedAt')) {
-          return 1
+        if (a.get("updatedAt") < b.get("updatedAt")) {
+          return 1;
         }
-        if (a.get('updatedAt') > b.get('updatedAt')) {
-          return -1
+        if (a.get("updatedAt") > b.get("updatedAt")) {
+          return -1;
         }
-        if (a.get('updatedAt') === b.get('updatedAt')) {
-          return 0
+        if (a.get("updatedAt") === b.get("updatedAt")) {
+          return 0;
         }
-      })
-  }
+      });
+  };
 
-  selectLabelCommnets = (comments, label) => {
-    return comments.filter(v => v.get('label').get('name') === label)
-  }
+  selectLabelCommnets = (comments, label) =>
+    comments.filter(v => v.get("label").get("name") === label);
 
   generateCommentLabelColumn = (comments, labels, labelName) => {
     const {
       updateObjective,
       updateKeyResult,
       openCommentModal,
-      confirm
-    } = this.props
-    const label = labels.get(labelName)
+      confirm,
+    } = this.props;
+    const label = labels.get(labelName);
 
     return (
       <Grid.Column>
         <div className="meeting-board__content__header">
-          <Label color={label.get('color')}>{label.get('name')}</Label>
+          <Label color={label.get("color")}>{label.get("name")}</Label>
           <div className="meeting-board__content__header__button">
             <a onClick={openCommentModal.bind(this, label)}>
               <Icon name="plus" />
@@ -94,8 +93,8 @@ class MeetingPage extends PureComponent {
           confirm={confirm}
         />
       </Grid.Column>
-    )
-  }
+    );
+  };
 
   componentDidMount() {
     const {
@@ -105,16 +104,16 @@ class MeetingPage extends PureComponent {
       isFetchedObjectiveCommentLabels,
       fetchKeyResultCommentLabels,
       fetchObjectiveCommentLabels,
-      fetchObjective
-    } = this.props
+      fetchObjective,
+    } = this.props;
     if (objectives.size < 1) {
-      fetchObjective(objectiveId)
+      fetchObjective(objectiveId);
     }
     if (!isFetchedKeyResultsCommentLabels) {
-      fetchKeyResultCommentLabels()
+      fetchKeyResultCommentLabels();
     }
     if (!isFetchedObjectiveCommentLabels) {
-      fetchObjectiveCommentLabels()
+      fetchObjectiveCommentLabels();
     }
   }
 
@@ -127,30 +126,30 @@ class MeetingPage extends PureComponent {
       showDisabledOkrs,
       isFetchedKeyResultsCommentLabels,
       isFetchedObjectiveCommentLabels,
-      openObjectiveCommentModal
-    } = this.props
+      openObjectiveCommentModal,
+    } = this.props;
     if (objectives.size < 1) {
-      return null
+      return null;
     }
     if (!isFetchedKeyResultsCommentLabels) {
-      return null
+      return null;
     }
     if (!isFetchedObjectiveCommentLabels) {
-      return null
+      return null;
     }
 
-    const keyResults = objective.get('keyResults')
+    const keyResults = objective.get("keyResults");
     const comments = this.selectOKRComments(
       objective,
       keyResults,
-      objective.get('id')
-    )
-    const objectiveComments = objective.get('comments')
+      objective.get("id"),
+    );
+    const objectiveComments = objective.get("comments");
 
-    const labels = new Map()
-    keyResultCommentLabels.forEach(v => labels.set(v.get('name'), v))
-    const objectiveCommentLabels = this.props.objectiveCommentLabels
-    const title = `${objective.get('name')} -ミーティングボード-`
+    const labels = new Map();
+    keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
+    const objectiveCommentLabels = this.props.objectiveCommentLabels;
+    const title = `${objective.get("name")} -ミーティングボード-`;
 
     return (
       <DocumentTitle title={title}>
@@ -160,17 +159,15 @@ class MeetingPage extends PureComponent {
             textAlign="left"
             block
             color="black"
-            className="meeting-board__header"
-          >
+            className="meeting-board__header">
             <div className="meeting-board__headerPane">
               <p className="meeting-board__headerPane__title">{title}</p>
               <a
                 className="meeting-board__headerPane__button"
                 onClick={openObjectiveCommentModal.bind(
                   this,
-                  objectiveCommentLabels
-                )}
-              >
+                  objectiveCommentLabels,
+                )}>
                 <Icon name="plus" />
                 <span>コメントを追加する</span>
               </a>
@@ -181,7 +178,7 @@ class MeetingPage extends PureComponent {
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
-                meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK
+                meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK,
               )}
               <Grid.Column>
                 <Label color="orange" className="meeting-board__content__label">
@@ -196,24 +193,24 @@ class MeetingPage extends PureComponent {
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
-                meetingBoardCommentLabels.WIN_SESSION
+                meetingBoardCommentLabels.WIN_SESSION,
               )}
             </Grid.Row>
             <Grid.Row>
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
-                meetingBoardCommentLabels.NEXT_4_WEEK
+                meetingBoardCommentLabels.NEXT_4_WEEK,
               )}
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
-                meetingBoardCommentLabels.HEALTH
+                meetingBoardCommentLabels.HEALTH,
               )}
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
-                meetingBoardCommentLabels.ISSUE
+                meetingBoardCommentLabels.ISSUE,
               )}
             </Grid.Row>
           </Grid>
@@ -222,8 +219,8 @@ class MeetingPage extends PureComponent {
             comments={this.selectOKRComments(
               objective,
               keyResults,
-              objective.get('id'),
-              true
+              objective.get("id"),
+              true,
             )}
             keyResultCommentLabels={keyResultCommentLabels}
           />
@@ -234,7 +231,7 @@ class MeetingPage extends PureComponent {
           />
         </div>
       </DocumentTitle>
-    )
+    );
   }
 }
 
@@ -252,7 +249,7 @@ MeetingPage.propTypes = {
   updateObjective: PropTypes.func.isRequired,
   openCommentModal: PropTypes.func.isRequired,
   openObjectiveCommentModal: PropTypes.func.isRequired,
-  confirm: PropTypes.func.isRequired
-}
+  confirm: PropTypes.func.isRequired,
+};
 
-export default MeetingPage
+export default MeetingPage;

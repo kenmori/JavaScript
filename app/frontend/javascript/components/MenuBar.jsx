@@ -1,32 +1,32 @@
-import React, { PureComponent } from 'react'
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Dropdown, Menu, Icon } from 'semantic-ui-react'
-import UserSelect from './form/UserSelect'
-import OkrPeriodSelect from './form/OkrPeriodSelect'
-import UserAvatar from '../containers/UserAvatar'
-import Logo from './util/Logo'
+import React, { PureComponent } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Dropdown, Menu, Icon } from "semantic-ui-react";
+import UserAvatar from "../containers/UserAvatar";
+import UserSelect from "./form/UserSelect";
+import OkrPeriodSelect from "./form/OkrPeriodSelect";
+import Logo from "./util/Logo";
 
 class MenuBar extends PureComponent {
   userTrigger = loginUser => {
     if (!this.props.isFetchedMyDetail) {
-      return
+      return;
     }
 
     return (
       <UserAvatar user={loginUser} size="tiny" withInitial={false} withName />
-    )
-  }
+    );
+  };
 
-  handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId)
+  handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId);
 
   render() {
     return (
       <Menu secondary className="menu-bar">
         <Menu.Item header href="/">
           <Logo
-            path={this.props.organization.getIn(['logo', 'url'])}
+            path={this.props.organization.getIn(["logo", "url"])}
             size="tiny"
           />
         </Menu.Item>
@@ -36,8 +36,7 @@ class MenuBar extends PureComponent {
         </Menu.Item>
         <Menu.Item
           className="menu-item__okr"
-          onClick={this.handleOrganizationOkrClick}
-        >
+          onClick={this.handleOrganizationOkrClick}>
           <Icon name="building" size="large" fitted />
           組織 OKR
         </Menu.Item>
@@ -58,8 +57,7 @@ class MenuBar extends PureComponent {
         <Menu.Item position="right">
           <Dropdown
             trigger={this.userTrigger(this.props.loginUser)}
-            pointing="top right"
-          >
+            pointing="top right">
             <Dropdown.Menu>
               <Dropdown.Item
                 as={Link}
@@ -83,7 +81,7 @@ class MenuBar extends PureComponent {
           </Dropdown>
         </Menu.Item>
       </Menu>
-    )
+    );
   }
 }
 
@@ -98,8 +96,8 @@ MenuBar.propTypes = {
   loginUser: ImmutablePropTypes.map.isRequired,
   selectUser: PropTypes.func.isRequired,
   selectOkrPeriod: PropTypes.func.isRequired,
-  signOut: PropTypes.func.isRequired
+  signOut: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default MenuBar
+export default MenuBar;

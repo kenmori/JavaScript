@@ -1,55 +1,55 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Modal, Header, Form } from 'semantic-ui-react'
-import StretchCommentPane from '../okrmodal/StretchCommentPane'
-import CommentLabelDropdown from '../okrmodal/CommentLabelDropdown'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Modal, Header, Form } from "semantic-ui-react";
+import StretchCommentPane from "../okrmodal/StretchCommentPane";
+import CommentLabelDropdown from "../okrmodal/CommentLabelDropdown";
 
 class ObjectiveCommentModal extends PureComponent {
   constructor() {
-    super()
+    super();
     this.state = {
-      text: '',
+      text: "",
       commentLabelId: null,
-      objectiveId: null
-    }
+      objectiveId: null,
+    };
   }
 
   componentDidMount() {
-    this.setState({ objectiveId: this.props.objectiveId })
+    this.setState({ objectiveId: this.props.objectiveId });
   }
 
   addComment = () => {
-    const { text } = this.state
-    if (!text) return
+    const { text } = this.state;
+    if (!text) return;
 
     this.props.updateObjective({
       id: this.state.objectiveId,
       comment: {
         data: text,
-        behavior: 'add',
-        objective_comment_label: { id: this.state.commentLabelId }
-      }
-    })
-    this.setState({ text: '' })
-  }
+        behavior: "add",
+        objective_comment_label: { id: this.state.commentLabelId },
+      },
+    });
+    this.setState({ text: "" });
+  };
 
   removeComment = id => {
     this.props.confirm({
-      content: 'コメントを削除しますか？',
+      content: "コメントを削除しますか？",
       onConfirm: () =>
         this.props.updateObjective({
           id: this.state.objectiveId,
           comment: {
             data: id,
-            behavior: 'remove'
-          }
-        })
-    })
-  }
+            behavior: "remove",
+          },
+        }),
+    });
+  };
 
   editComment = (id, text, label) => {
-    if (!text) return
+    if (!text) return;
 
     this.props.updateObjective({
       id: this.state.objectiveId,
@@ -57,25 +57,31 @@ class ObjectiveCommentModal extends PureComponent {
         data: {
           id,
           text,
-          objective_comment_label: { id: label }
+          objective_comment_label: { id: label },
         },
-        behavior: 'edit'
-      }
-    })
-  }
+        behavior: "edit",
+      },
+    });
+  };
 
   handleTextChange = (e, { value }) => {
-    this.setState({ text: value })
-  }
+    this.setState({ text: value });
+  };
 
   handleDropdownChange = (e, { value }) => {
-    this.setState({ commentLabelId: value})
-  }
+    this.setState({ commentLabelId: value });
+  };
 
   render() {
-    const { objective, comments, commentLabel, isOpen, closeModal } = this.props
-    const { text } = this.state
-    const name = objective.get('name')
+    const {
+      objective,
+      comments,
+      commentLabel,
+      isOpen,
+      closeModal,
+    } = this.props;
+    const { text } = this.state;
+    const name = objective.get("name");
 
     return (
       <Modal
@@ -83,8 +89,7 @@ class ObjectiveCommentModal extends PureComponent {
         size="small"
         className="comment-modal"
         open={isOpen}
-        onClose={closeModal}
-      >
+        onClose={closeModal}>
         <Modal.Content scrolling>
           <Header as="h4">{name}</Header>
           <StretchCommentPane
@@ -101,7 +106,7 @@ class ObjectiveCommentModal extends PureComponent {
                   rows={3}
                   value={text}
                   placeholder={
-                    '進捗状況や、次のアクションなどをメモしてください。\n記述したコメントは関係者にメールで通知されます。\n(Markdown を記述できます)'
+                    "進捗状況や、次のアクションなどをメモしてください。\n記述したコメントは関係者にメールで通知されます。\n(Markdown を記述できます)"
                   }
                   onChange={this.handleTextChange}
                 />
@@ -123,7 +128,7 @@ class ObjectiveCommentModal extends PureComponent {
           </Form>
         </Modal.Content>
       </Modal>
-    )
+    );
   }
 }
 
@@ -135,7 +140,7 @@ ObjectiveCommentModal.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
   objectiveId: PropTypes.number.isRequired,
   commentLabel: ImmutablePropTypes.map.isRequired,
-  updateObjective: PropTypes.func.isRequired
-}
+  updateObjective: PropTypes.func.isRequired,
+};
 
-export default ObjectiveCommentModal
+export default ObjectiveCommentModal;
