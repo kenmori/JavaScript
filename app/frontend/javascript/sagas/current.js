@@ -1,210 +1,210 @@
-import { all, put, select, take, takeLatest } from 'redux-saga/effects'
-import { List } from 'immutable'
-import call from '../utils/call'
-import API from '../utils/api'
-import currentActions from '../actions/current'
-import objectiveActions from '../actions/objectives'
-import organizationActions from '../actions/organization'
-import loginUserActions from '../actions/loginUser'
-import toastActions from '../actions/toasts'
-import ActionTypes from '../constants/actionTypes'
-import { getEnabledObjective, isDisabledChildObjectives } from '../utils/okr'
+import { List } from "immutable";
+import { all, put, select, take, takeLatest } from "redux-saga/effects";
+import call from "../utils/call";
+import API from "../utils/api";
+import currentActions from "../actions/current";
+import objectiveActions from "../actions/objectives";
+import organizationActions from "../actions/organization";
+import loginUserActions from "../actions/loginUser";
+import toastActions from "../actions/toasts";
+import ActionTypes from "../constants/actionTypes";
+import { getEnabledObjective, isDisabledChildObjectives } from "../utils/okr";
 
 function* selectOkrPeriod({ payload }) {
-  const { okrPeriodId } = payload
-  yield put(currentActions.selectedOkrPeriod(okrPeriodId))
+  const { okrPeriodId } = payload;
+  yield put(currentActions.selectedOkrPeriod(okrPeriodId));
 
-  const userId = yield select(state => state.current.get('userId'))
-  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId, true))
+  const userId = yield select(state => state.current.get("userId"));
+  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId, true));
 }
 
 function* selectOkrPeriodByOkr({ payload: { objectiveId, keyResultId } }) {
   if (!objectiveId) {
     objectiveId = yield select(state =>
-      state.entities.keyResults.getIn([keyResultId, 'objectiveId'])
-    )
+      state.entities.keyResults.getIn([keyResultId, "objectiveId"]),
+    );
   }
   const okrPeriodId = yield select(state =>
-    state.entities.objectives.getIn([objectiveId, 'okrPeriodId'])
-  )
-  yield put(currentActions.selectedOkrPeriod(okrPeriodId))
+    state.entities.objectives.getIn([objectiveId, "okrPeriodId"]),
+  );
+  yield put(currentActions.selectedOkrPeriod(okrPeriodId));
 
-  yield put(currentActions.selectOkr(objectiveId, keyResultId))
+  yield put(currentActions.selectOkr(objectiveId, keyResultId));
 
-  const userId = yield select(state => state.current.get('userId'))
-  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId, true, true))
+  const userId = yield select(state => state.current.get("userId"));
+  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId, true, true));
 }
 
 function* selectUser({ payload }) {
-  const { userId } = payload
-  yield put(currentActions.selectedUser(userId))
+  const { userId } = payload;
+  yield put(currentActions.selectedUser(userId));
 
-  const okrPeriodId = yield select(state => state.current.get('okrPeriodId'))
-  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId))
+  const okrPeriodId = yield select(state => state.current.get("okrPeriodId"));
+  yield put(objectiveActions.fetchOkrs(okrPeriodId, userId));
 }
 
 function* selectOkr({ payload }) {
-  const { objectiveId, keyResultId } = payload
-  yield put(currentActions.selectMapOkr(objectiveId, keyResultId))
+  const { objectiveId, keyResultId } = payload;
+  yield put(currentActions.selectMapOkr(objectiveId, keyResultId));
 
-  yield take(ActionTypes.SELECTED_MAP_OKR)
+  yield take(ActionTypes.SELECTED_MAP_OKR);
   const isRoot = yield select(
     state =>
       state.current
-        .get('mapOkr')
+        .get("mapOkr")
         .keySeq()
-        .first() === objectiveId
-  )
+        .first() === objectiveId,
+  );
   if (!isRoot) {
-    yield put(currentActions.scrollToObjective(objectiveId)) // ルート O でない場合はページスクロールする
+    yield put(currentActions.scrollToObjective(objectiveId)); // ルート O でない場合はページスクロールする
   }
 }
 
 function* clearSelectedOkr() {
-  yield put(currentActions.clearMapOkr())
+  yield put(currentActions.clearMapOkr());
 }
 
 function* selectMapOkr({ payload }) {
-  const { objectiveId, keyResultId } = payload
-  let isFetched = yield isFetchedObjective(objectiveId)
+  const { objectiveId, keyResultId } = payload;
+  let isFetched = yield isFetchedObjective(objectiveId);
   if (!isFetched) {
-    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
-    yield take(ActionTypes.FETCHED_OBJECTIVE)
+    yield put(objectiveActions.fetchObjective(objectiveId)); // with loading
+    yield take(ActionTypes.FETCHED_OBJECTIVE);
   }
 
   const objective = yield select(state => {
     const showDisabledOkrs = state.loginUser.getIn([
-      'userSetting',
-      'showDisabledOkrs'
-    ])
-    return getEnabledObjective(objectiveId, showDisabledOkrs, state.entities)
-  })
+      "userSetting",
+      "showDisabledOkrs",
+    ]);
+    return getEnabledObjective(objectiveId, showDisabledOkrs, state.entities);
+  });
   const keyResultIds = keyResultId
     ? List.of(keyResultId)
-    : objective.get('keyResultIds')
+    : objective.get("keyResultIds");
   yield put(
     currentActions.selectedMapOkr(
       objectiveId,
       keyResultIds,
-      objective.get('parentKeyResultId')
-    )
-  )
+      objective.get("parentKeyResultId"),
+    ),
+  );
 
   if (isFetched) {
     // O が fetch 済みで fetchObjective を呼び出していない場合は子 O も fetch 済みかチェックする
-    isFetched = yield isFetchedChildObjectives(keyResultIds)
+    isFetched = yield isFetchedChildObjectives(keyResultIds);
     if (!isFetched) {
-      yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
+      yield put(objectiveActions.fetchObjective(objectiveId)); // with loading
     }
   }
 }
 
 function* expandObjective({ payload }) {
-  const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload
+  const { objectiveId, keyResultIds, parentKeyResultId, toAncestor } = payload;
   const isFetched = yield toAncestor
     ? isFetchedObjective(objectiveId)
-    : isFetchedChildObjectives(keyResultIds)
+    : isFetchedChildObjectives(keyResultIds);
   if (!isFetched) {
-    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
-    yield take(ActionTypes.FETCHED_OBJECTIVE)
+    yield put(objectiveActions.fetchObjective(objectiveId)); // with loading
+    yield take(ActionTypes.FETCHED_OBJECTIVE);
   }
   yield put(
     currentActions.expandedObjective(
       objectiveId,
       keyResultIds,
       parentKeyResultId,
-      toAncestor
-    )
-  )
+      toAncestor,
+    ),
+  );
 
   if (!toAncestor) {
-    const childObjectiveId = yield getChildObjectiveId(keyResultIds.first())
-    yield put(currentActions.scrollToObjective(childObjectiveId))
+    const childObjectiveId = yield getChildObjectiveId(keyResultIds.first());
+    yield put(currentActions.scrollToObjective(childObjectiveId));
 
-    yield showUnexpandedMessage(keyResultIds)
+    yield showUnexpandedMessage(keyResultIds);
   }
 }
 
 function* expandKeyResult({ payload }) {
-  const { objectiveId, keyResultId, parentKeyResultId } = payload
-  const isFetched = yield isFetchedChildObjectives(List.of(keyResultId))
+  const { objectiveId, keyResultId, parentKeyResultId } = payload;
+  const isFetched = yield isFetchedChildObjectives(List.of(keyResultId));
   if (!isFetched) {
-    yield put(objectiveActions.fetchObjective(objectiveId)) // with loading
-    yield take(ActionTypes.FETCHED_OBJECTIVE)
+    yield put(objectiveActions.fetchObjective(objectiveId)); // with loading
+    yield take(ActionTypes.FETCHED_OBJECTIVE);
   }
   yield put(
     currentActions.expandedKeyResult(
       objectiveId,
       keyResultId,
-      parentKeyResultId
-    )
-  )
+      parentKeyResultId,
+    ),
+  );
 
-  const childObjectiveId = yield getChildObjectiveId(keyResultId)
-  yield put(currentActions.scrollToObjective(childObjectiveId))
+  const childObjectiveId = yield getChildObjectiveId(keyResultId);
+  yield put(currentActions.scrollToObjective(childObjectiveId));
 
-  yield showUnexpandedMessage(List.of(keyResultId))
+  yield showUnexpandedMessage(List.of(keyResultId));
 }
 
 function* isFetchedObjective(objectiveId) {
-  return yield select(state => state.entities.objectives.has(objectiveId))
+  return yield select(state => state.entities.objectives.has(objectiveId));
 }
 
 // KR 一覧に紐付いている子 O が全て fetch 済みの場合は true
 function* isFetchedChildObjectives(keyResultIds) {
   return yield select(state =>
     keyResultIds.every(keyResultId => {
-      const keyResult = state.entities.keyResults.get(keyResultId)
+      const keyResult = state.entities.keyResults.get(keyResultId);
       return keyResult
-        .get('childObjectiveIds')
+        .get("childObjectiveIds")
         .every(childObjectiveId =>
-          state.entities.objectives.has(childObjectiveId)
-        )
-    })
-  )
+          state.entities.objectives.has(childObjectiveId),
+        );
+    }),
+  );
 }
 
 function* getChildObjectiveId(keyResultId) {
   return yield select(state => {
-    const keyResult = state.entities.keyResults.get(keyResultId)
-    return keyResult.get('childObjectiveIds').first()
-  })
+    const keyResult = state.entities.keyResults.get(keyResultId);
+    return keyResult.get("childObjectiveIds").first();
+  });
 }
 
 function* showUnexpandedMessage(keyResultIds) {
   const showMessage = yield select(state => {
     const showDisabledOkrs = state.loginUser.getIn([
-      'userSetting',
-      'showDisabledOkrs'
-    ])
+      "userSetting",
+      "showDisabledOkrs",
+    ]);
     return (
       !showDisabledOkrs &&
       isDisabledChildObjectives(keyResultIds, state.entities)
-    )
-  })
+    );
+  });
   if (showMessage) {
-    yield put(toastActions.showToast('無効な OKR のため展開されませんでした'))
+    yield put(toastActions.showToast("無効な OKR のため展開されませんでした"));
   }
 }
 
 function* fetchMyDetail() {
-  const result = yield call(API.get, '/users/me')
-  yield put(currentActions.setCurrent(result.get('user')))
-  yield put(loginUserActions.setCurrentLoginUser(result.get('user')))
+  const result = yield call(API.get, "/users/me");
+  yield put(currentActions.setCurrent(result.get("user")));
+  yield put(loginUserActions.setCurrentLoginUser(result.get("user")));
   yield put(
     organizationActions.setCurrentOrganization(
-      result.get('user').get('organization')
-    )
-  )
+      result.get("user").get("organization"),
+    ),
+  );
   yield put(
     organizationActions.fetchOrganization(
       result
-        .get('user')
-        .get('organization')
-        .get('id')
-    )
-  )
-  yield put(currentActions.fetchedMyDetail(result.get('user')))
+        .get("user")
+        .get("organization")
+        .get("id"),
+    ),
+  );
+  yield put(currentActions.fetchedMyDetail(result.get("user")));
 }
 
 export function* currentSagas() {
@@ -217,6 +217,6 @@ export function* currentSagas() {
     takeLatest(ActionTypes.SELECT_MAP_OKR, selectMapOkr),
     takeLatest(ActionTypes.EXPAND_OBJECTIVE, expandObjective),
     takeLatest(ActionTypes.EXPAND_KEY_RESULT, expandKeyResult),
-    takeLatest(ActionTypes.FETCH_MY_DETAIL, fetchMyDetail)
-  ])
+    takeLatest(ActionTypes.FETCH_MY_DETAIL, fetchMyDetail),
+  ]);
 }

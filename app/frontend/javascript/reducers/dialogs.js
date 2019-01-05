@@ -1,6 +1,6 @@
-import { fromJS } from 'immutable'
-import { handleActions } from 'redux-actions'
-import ActionTypes from '../constants/actionTypes'
+import { fromJS } from "immutable";
+import { handleActions } from "redux-actions";
+import ActionTypes from "../constants/actionTypes";
 
 const initialState = fromJS({
   objectiveForm: { isOpen: false },
@@ -12,90 +12,90 @@ const initialState = fromJS({
   option: { isOpen: false },
   comment: { isOpen: false, commentLabel: {} },
   objectiveComment: { isOpen: false, commentLabel: {} },
-})
+});
 
 export default handleActions(
   {
     [ActionTypes.OPEN_OBJECTIVE_MODAL]: (state, { payload }) =>
       state.set(
-        'objectiveForm',
-        fromJS({ isOpen: true, parentKeyResult: payload.parentKeyResult })
+        "objectiveForm",
+        fromJS({ isOpen: true, parentKeyResult: payload.parentKeyResult }),
       ),
     [ActionTypes.CLOSE_OBJECTIVE_MODAL]: state =>
-      state.set('objectiveForm', fromJS({ isOpen: false })),
+      state.set("objectiveForm", fromJS({ isOpen: false })),
     [ActionTypes.OPEN_KEY_RESULT_MODAL]: (state, { payload }) =>
       state.set(
-        'keyResultForm',
-        fromJS({ isOpen: true, objective: payload.objective })
+        "keyResultForm",
+        fromJS({ isOpen: true, objective: payload.objective }),
       ),
     [ActionTypes.CLOSE_KEY_RESULT_MODAL]: state =>
-      state.set('keyResultForm', fromJS({ isOpen: false })),
+      state.set("keyResultForm", fromJS({ isOpen: false })),
     [ActionTypes.OPENED_OKR_MODAL]: (state, { payload }) =>
       state.set(
-        'okrForm',
+        "okrForm",
         fromJS({
           isOpen: true,
           objectiveId: payload.objectiveId,
-          keyResultId: payload.keyResultId
-        })
+          keyResultId: payload.keyResultId,
+        }),
       ),
     [ActionTypes.CLOSE_OKR_MODAL]: state =>
       state.set(
-        'okrForm',
-        fromJS({ isOpen: false, objectiveId: null, keyResultId: null })
+        "okrForm",
+        fromJS({ isOpen: false, objectiveId: null, keyResultId: null }),
       ),
     [ActionTypes.REMOVED_OBJECTIVE]: (state, { payload }) => {
-      const objectiveId = payload.get('result').first()
-      return state.setIn(['okrForm', 'removedObjectiveId'], objectiveId)
+      const objectiveId = payload.get("result").first();
+      return state.setIn(["okrForm", "removedObjectiveId"], objectiveId);
     },
     [ActionTypes.REMOVED_KEY_RESULT]: (state, { payload }) => {
-      const keyResultId = payload.get('result').first()
-      return state.setIn(['okrForm', 'removedKeyResultId'], keyResultId)
+      const keyResultId = payload.get("result").first();
+      return state.setIn(["okrForm", "removedKeyResultId"], keyResultId);
     },
     [ActionTypes.OPEN_IMAGE_MODAL]: (state, { payload: { id, data, type } }) =>
       state.set(
-        'image',
+        "image",
         fromJS({
           isOpen: true,
           id,
           data,
-          type
-        })
+          type,
+        }),
       ),
     [ActionTypes.CLOSE_IMAGE_MODAL]: state =>
-      state.set('image', fromJS({ isOpen: false })),
+      state.set("image", fromJS({ isOpen: false })),
     [ActionTypes.OPEN_ERROR_MODAL]: (state, { payload }) =>
-      state.set('error', fromJS(payload.params).merge({ isOpen: true })),
+      state.set("error", fromJS(payload.params).merge({ isOpen: true })),
     [ActionTypes.CLOSE_ERROR_MODAL]: state =>
-      state.setIn(['error', 'isOpen'], false),
+      state.setIn(["error", "isOpen"], false),
     [ActionTypes.OPEN_CONFIRM_MODAL]: (state, { payload }) =>
-      state.set('confirm', fromJS(payload.params).merge({ isOpen: true })),
+      state.set("confirm", fromJS(payload.params).merge({ isOpen: true })),
     [ActionTypes.CLOSE_CONFIRM_MODAL]: state =>
-      state.setIn(['confirm', 'isOpen'], false),
+      state.setIn(["confirm", "isOpen"], false),
     [ActionTypes.OPEN_OPTION_MODAL]: state =>
-      state.setIn(['option', 'isOpen'], true),
+      state.setIn(["option", "isOpen"], true),
     [ActionTypes.CLOSE_OPTION_MODAL]: state =>
-      state.setIn(['option', 'isOpen'], false),
+      state.setIn(["option", "isOpen"], false),
     [ActionTypes.OPEN_COMMENT_MODAL]: (state, { payload }) =>
       state.set(
-        'comment',
+        "comment",
         fromJS({
           isOpen: true,
-          commentLabel: payload.commentLabel
-        })
+          commentLabel: payload.commentLabel,
+        }),
       ),
     [ActionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: (state, { payload }) =>
       state.set(
-        'objectiveComment',
+        "objectiveComment",
         fromJS({
           isOpen: true,
-          commentLabel: payload.commentLabel
-        })
+          commentLabel: payload.commentLabel,
+        }),
       ),
     [ActionTypes.CLOSE_COMMENT_MODAL]: state =>
-      state.setIn(['comment', 'isOpen'], false),
+      state.setIn(["comment", "isOpen"], false),
     [ActionTypes.CLOSE_OBJECTIVE_COMMENT_MODAL]: state =>
-      state.setIn(['objectiveComment', 'isOpen'], false)
+      state.setIn(["objectiveComment", "isOpen"], false),
   },
-  initialState
-)
+  initialState,
+);

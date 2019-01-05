@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux'
-import keyResults from './keyResults'
-import objectives from './objectives'
+import { combineReducers } from "redux";
+import keyResults from "./keyResults";
+import objectives from "./objectives";
 
 const reducers = combineReducers({
   keyResults,
-  objectives
-})
+  objectives,
+});
 
-export default reducers
+export default reducers;

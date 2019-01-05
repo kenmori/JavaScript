@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions'
-import actionTypes from '../constants/actionTypes'
+import { createActions } from "redux-actions";
+import actionTypes from "../constants/actionTypes";
 
 const actions = createActions({
   [actionTypes.ADD_USER]: user => ({ user }),
@@ -9,7 +9,7 @@ const actions = createActions({
   [actionTypes.DISABLE_USER]: (id, toDisable) => ({ id, toDisable }),
   [actionTypes.DISABLED_USER]: user => ({ user }),
   [actionTypes.UPDATE_PASSWORD]: user => ({ user }),
-  [actionTypes.RESEND_EMAIL]: id => ({ id })
-})
+  [actionTypes.RESEND_EMAIL]: id => ({ id }),
+});
 
-export default actions
+export default actions;

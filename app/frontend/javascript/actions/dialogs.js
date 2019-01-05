@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions'
-import actionTypes from '../constants/actionTypes'
+import { createActions } from "redux-actions";
+import actionTypes from "../constants/actionTypes";
 
 const actions = createActions({
   [actionTypes.OPEN_KEY_RESULT_MODAL]: objective => ({ objective }),
@@ -8,17 +8,17 @@ const actions = createActions({
   [actionTypes.CLOSE_OBJECTIVE_MODAL]: () => {},
   [actionTypes.OPEN_OKR_MODAL]: (objectiveId, keyResultId) => ({
     objectiveId,
-    keyResultId
+    keyResultId,
   }),
   [actionTypes.OPENED_OKR_MODAL]: (objectiveId, keyResultId) => ({
     objectiveId,
-    keyResultId
+    keyResultId,
   }),
   [actionTypes.CLOSE_OKR_MODAL]: () => {},
-  [actionTypes.OPEN_IMAGE_MODAL]: (id, data, type = 'avatar') => ({
+  [actionTypes.OPEN_IMAGE_MODAL]: (id, data, type = "avatar") => ({
     id,
     data,
-    type
+    type,
   }),
   [actionTypes.CLOSE_IMAGE_MODAL]: () => {},
   [actionTypes.OPEN_ERROR_MODAL]: params => ({ params }),
@@ -29,8 +29,10 @@ const actions = createActions({
   [actionTypes.CLOSE_OPTION_MODAL]: () => {},
   [actionTypes.OPEN_COMMENT_MODAL]: commentLabel => ({ commentLabel }),
   [actionTypes.CLOSE_COMMENT_MODAL]: () => {},
-  [actionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: commentLabel => ({ commentLabel }),
-  [actionTypes.CLOSE_OBJECTIVE_COMMENT_MODAL]: () => {}
-})
+  [actionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: commentLabel => ({
+    commentLabel,
+  }),
+  [actionTypes.CLOSE_OBJECTIVE_COMMENT_MODAL]: () => {},
+});
 
-export default actions
+export default actions;

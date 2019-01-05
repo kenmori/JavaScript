@@ -1,23 +1,23 @@
-import { fromJS } from 'immutable'
-import { handleActions } from 'redux-actions'
-import ActionTypes from '../constants/actionTypes'
+import { fromJS } from "immutable";
+import { handleActions } from "redux-actions";
+import ActionTypes from "../constants/actionTypes";
 
-const initialState = fromJS([])
+const initialState = fromJS([]);
 
 function set(state, { payload }) {
   const index = state.findIndex(
-    user => user.get('id') === payload.user.get('id')
-  )
-  return state.set(index, payload.user)
+    user => user.get("id") === payload.user.get("id"),
+  );
+  return state.set(index, payload.user);
 }
 
 export default handleActions(
   {
     [ActionTypes.FETCHED_ORGANIZATION]: (state, { payload }) =>
-      payload.organization.get('users'),
+      payload.organization.get("users"),
     [ActionTypes.ADDED_USER]: (state, { payload }) => state.push(payload.user),
     [ActionTypes.UPDATED_USER]: set,
-    [ActionTypes.DISABLED_USER]: set
+    [ActionTypes.DISABLED_USER]: set,
   },
-  initialState
-)
+  initialState,
+);

@@ -1,6 +1,6 @@
-import { createActions } from 'redux-actions'
-import actionTypes from '../constants/actionTypes'
-import { normalizeObjective, normalizeObjectives } from '../schemas/index'
+import { createActions } from "redux-actions";
+import actionTypes from "../constants/actionTypes";
+import { normalizeObjective, normalizeObjectives } from "../schemas/index";
 
 const actions = createActions({
   [actionTypes.FETCH_OKRS]: (
@@ -9,7 +9,10 @@ const actions = createActions({
     isOkrPeriodChanged = false,
     isInitialOkrSelected = false,
   ) => ({
-    okrPeriodId, userId, isOkrPeriodChanged, isInitialOkrSelected,
+    okrPeriodId,
+    userId,
+    isOkrPeriodChanged,
+    isInitialOkrSelected,
   }),
   [actionTypes.FETCH_OBJECTIVE]: (objectiveId, keyResultId) => ({
     objectiveId,
@@ -25,25 +28,30 @@ const actions = createActions({
     okrPeriodId,
     userId,
   }),
-  [actionTypes.FETCHED_OBJECTIVES]: objectives => normalizeObjectives(objectives),
+  [actionTypes.FETCHED_OBJECTIVES]: objectives =>
+    normalizeObjectives(objectives),
   [actionTypes.FETCH_PREVIOUS_OBJECTIVES]: (okrPeriodId, userId) => ({
     okrPeriodId,
     userId,
   }),
-  [actionTypes.FETCHED_PREVIOUS_OBJECTIVES]: objectives => normalizeObjectives(objectives),
+  [actionTypes.FETCHED_PREVIOUS_OBJECTIVES]: objectives =>
+    normalizeObjectives(objectives),
   [actionTypes.FETCHED_PREVIOUS_OBJECTIVES_ERROR]: () => {},
   [actionTypes.FETCH_OBJECTIVE_CANDIDATES]: (okrPeriodId, userId) => ({
     okrPeriodId,
     userId,
   }),
-  [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives => normalizeObjectives(objectives),
+  [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives =>
+    normalizeObjectives(objectives),
   [actionTypes.ADD_OBJECTIVE]: (objective, isCopy) => ({ objective, isCopy }),
-  [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
+  [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) =>
+    normalizeObjective(objective).set("currentUserId", currentUserId),
   [actionTypes.UPDATE_OBJECTIVE]: (objective, isToast = true) => ({
     objective,
     isToast,
   }),
-  [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) => normalizeObjective(objective).set('currentUserId', currentUserId),
+  [actionTypes.UPDATED_OBJECTIVE]: (objective, currentUserId) =>
+    normalizeObjective(objective).set("currentUserId", currentUserId),
   [actionTypes.REMOVE_OBJECTIVE]: id => ({ id }),
   [actionTypes.REMOVED_OBJECTIVE]: objective => normalizeObjective(objective),
   [actionTypes.REMOVED_OBJECTIVE_KEY_RESULTS]: keyResultIds => ({
@@ -53,6 +61,6 @@ const actions = createActions({
   [actionTypes.DISABLED_OBJECTIVE]: objective => normalizeObjective(objective),
   [actionTypes.FETCH_OBJECTIVE_COMMENT_LABELS]: () => ({}),
   [actionTypes.FETCHED_OBJECTIVE_COMMENT_LABELS]: labels => ({ labels }),
-})
+});
 
-export default actions
+export default actions;
