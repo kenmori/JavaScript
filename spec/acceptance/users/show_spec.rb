@@ -30,6 +30,7 @@ RSpec.resource "GET /users/:id", warden: true do
         "last_name" => nomal_user.last_name,
         "first_name" => nomal_user.first_name,
         "avatar_url" => nomal_user.avatar_url,
+        "departments" => [],
         "disabled" => false,
         "sign_in_at" => be_time_iso8601,
         "email" => nomal_user.email,
@@ -64,6 +65,7 @@ RSpec.resource "GET /users/:id", warden: true do
             "is_confirming" => nil,
             "disabled" => false,
             "avatar_url" => nil,
+            "departments" => [],
             "sign_in_at" => be_time_iso8601
           }
         }
@@ -83,6 +85,7 @@ RSpec.resource "GET /users/:id", warden: true do
         "last_name" => nomal_user.last_name,
         "first_name" => nomal_user.first_name,
         "avatar_url" => nomal_user.avatar_url,
+        "departments" => [],
         "disabled" => false,
         "sign_in_at" => be_time_iso8601,
         "email" => nomal_user.email,
@@ -117,6 +120,7 @@ RSpec.resource "GET /users/:id", warden: true do
             "is_confirming" => nil,
             "disabled" => false,
             "avatar_url" => nil,
+            "departments" => [],
             "sign_in_at" => be_time_iso8601
           }
         }
