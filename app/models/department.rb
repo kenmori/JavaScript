@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # ## Schema Information
 #
 # Table name: `departments`
@@ -11,7 +10,6 @@
 # **`id`**                 | `bigint(8)`        | `not null, primary key`
 # **`ancestry`**           | `string(255)`      |
 # **`display_order`**      | `integer`          | `not null`
-# **`kind`**               | `integer`          |
 # **`name`**               | `string(255)`      | `not null`
 # **`soft_destroyed_at`**  | `datetime`         |
 # **`created_at`**         | `datetime`         | `not null`

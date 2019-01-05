@@ -5,7 +5,6 @@ class User::Show < Trailblazer::Operation
     property :id, writeable: false
     property :organization_id, writeable: false, virtual: true
 
-    include UserValidation.new(:default)
     validates :id, VH[:required, :natural_number]
     validates :organization_id, VH[:required, :natural_number]
   end
