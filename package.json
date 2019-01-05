@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "fixpack": "fixpack",
-    "lint": "eslint app/frontend/javascript",
-    "lint:fix": "eslint --fix app/frontend/javascript"
+    "lint": "eslint app/frontend/javascript/**/*.{js,jsx}",
+    "lint:fix": "eslint --fix app/frontend/javascript/**/*.{js,jsx}"
   },
   "dependencies": {
     "@rails/webpacker": "^3.5.5",
