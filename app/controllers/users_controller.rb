@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :valid_operatable_user?, except: %i(create update)
+  before_action :valid_operatable_user?, except: %i[create update]
   # 暫定的にshowアクションのみエイリアスを付けている
   # 今後は他のAPIもエイリアスを付ける
   before_action :to_user, only: [:show]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
@@ -19,7 +21,7 @@ RSpec.resource "POST /users", warden: true do
       parameter :email, "メールアドレス", type: :string, required: true
       parameter :admin, "管理者かどうかを設定", type: :boolean, required: true
       parameter :skip_notification, "メール認証をスキップするかどうかを設定", type: :boolean, required: true
-      parameter :department_ids, "所属させる部署のID", type: :array, items: {type: :integer}, required: true
+      parameter :department_ids, "所属させる部署のID", type: :array, items: { type: :integer }, required: true
     end
 
     example "SUCCESS: Add a new user to the organization of the signed-in user" do
@@ -47,7 +49,7 @@ RSpec.resource "POST /users", warden: true do
         "email" => "jojo-q@example.com",
         "is_confirming" => true,
         "is_admin" => false,
-        "departments"=> [
+        "departments" => [
           {
             "id" => dep_1.id,
             "organization_id" => organization.id,

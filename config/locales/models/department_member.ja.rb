@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_dependency Rails.root.join("config/locales/share/model_names")
 
 {
@@ -5,7 +7,7 @@ require_dependency Rails.root.join("config/locales/share/model_names")
     activerecord: {
       attributes: {
         department_member: {
-          role: '役割',
+          role: "役割",
           department_id: "#{model_names[:department]}ID",
           department: model_names[:department],
           user_id: "#{model_names[:user]}ID",

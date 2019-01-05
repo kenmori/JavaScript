@@ -21,6 +21,7 @@ class UserPolicy
   end
 
   private
+
     def myself?
       @current_user == @target_user
     end

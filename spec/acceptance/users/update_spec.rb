@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
@@ -34,9 +36,9 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
           first_name: "Q太郎",
           last_name: "空条",
           email: "kujo-q@example.com",
-          avatar: nil,  # avatar画像を渡したいが Rack::Test::UploadedFile がうまく動かない
+          avatar: nil, # avatar画像を渡したいが Rack::Test::UploadedFile がうまく動かない
           admin: false,
-          department_id: [dep_1.id],
+          department_id: [dep_1.id]
         }
       )
 
@@ -49,7 +51,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
         "disabled" => false,
         "sign_in_at" => be_time_iso8601,
         "email" => "kujo-q@example.com",
-        "is_confirming"=>"kujo-q@example.com",
+        "is_confirming" => "kujo-q@example.com",
         "is_admin" => false,
         "departments" => [
           {
@@ -73,7 +75,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
         id: nomal_user.id,
         user: {
           id: nomal_user.id,
-          last_name: "空条",
+          last_name: "空条"
         }
       )
 
@@ -90,7 +92,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
         id: other_user.id,
         user: {
           id: other_user.id,
-          last_name: "空条",
+          last_name: "空条"
         }
       )
 
@@ -105,7 +107,7 @@ RSpec.resource "PATCH /users/:id", warden: true, gaffe: true do
         id: other_org_user.id,
         user: {
           id: other_org_user.id,
-          last_name: "その他",
+          last_name: "その他"
         }
       )
 
