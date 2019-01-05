@@ -1,19 +1,91 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
-  "plugins": ["react", "jsx-a11y", "import"],
+  "extends": [
+    "eslint-config-airbnb",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": [
+    "import",
+    "react",
+    "jsx-a11y",
+    "dependencies",
+    "prettier",
+  ],
   "rules": {
-    "semi": ["error", "never", { "beforeStatementContinuationChars": "never" }],
-    "semi-spacing": ["error", { "after": true, "before": false }],
-    "semi-style": ["error", "first"],
-    "no-extra-semi": "error",
+    "class-methods-use-this": "off",
+    "consistent-return": ["error", {"treatUndefinedAsUnspecified": true}],
+    "dot-location": ["error", "property"],
+    "no-console": "error",
     "no-unexpected-multiline": "error",
     "no-unreachable": "error",
-    "react/jsx-filename-extension": ["off"],
-    "linebreak-style": ["off"],
-    "no-undef": ["error"],
-    "react/sort-comp": ["off"],
-    "react/prefer-stateless-function": ["off"],
-    "react/prop-types": 0
+    "no-implicit-globals": "error",
+    "no-invalid-this": "error",
+    "no-param-reassign": ["error", {"props": false}],
+    "no-unmodified-loop-condition": "error",
+    "no-useless-call": "error",
+    "no-void": "off",
+    "no-else-return": "off",
+    "no-catch-shadow": "error",
+    "no-label-var": "error",
+    "no-shadow": ["error", {"allow": ["cb", "next", "req", "res", "err", "error"]}],
+    "no-undef-init": "error",
+    "no-undefined": "error",
+    "no-use-before-define": ["error", "nofunc"],
+    "no-unused-expressions": ["error", {"allowShortCircuit": true}],
+    "no-unused-vars": ["error", {"args": "none"}],
+    "constructor-super": "error",
+    "generator-star-spacing": ["error", "after"],
+    "no-this-before-super": "error",
+    "prefer-arrow-callback": ["error", {"allowNamedFunctions": true}],
+    "prefer-spread": "error",
+
+    // React
+    "react/no-danger": "error",
+    "react/no-deprecated": "error",
+    "react/no-did-mount-set-state": "error",
+    "react/no-did-update-set-state": "error",
+    "react/no-direct-mutation-state": "error",
+    "react/no-is-mounted": "error",
+    "react/no-set-state": "error",
+    "react/no-string-refs": "error",
+    "react/prefer-stateless-function": "error",
+    "react/prop-types": "off",
+    "react/self-closing-comp": "off",
+    "react/destructuring-assignment": "off",
+
+    // JSX
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-filename-extension": ["error", {"extensions": [".js", ".jsx"]}],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-key": "error",
+    "react/jsx-max-props-per-line": "off",
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-tag-spacing": ["error", {"beforeSelfClosing": "always"}],
+    "react/jsx-wrap-multilines": "error",
+
+    // a11y
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/anchor-is-valid": [ "error", {
+      "components": [ "Link" ],
+      "specialLink": [ "to" ]
+    }],
+    "jsx-a11y/label-has-for": "off",
+
+    // import
+    "import/order": [
+      "error", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
+      }
+    ],
+
+    // dependencies
+    "dependencies/case-sensitive": "error",
+    "dependencies/no-cycles": "error",
+    "dependencies/no-unresolved": "off",
+
+    // prettier
+    "prettier/prettier": ["error"]
   }
 }
