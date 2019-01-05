@@ -28,7 +28,7 @@ export default handleActions(
         .set('firstName', payload.user.get('firstName'))
         .set('email', payload.user.get('email'))
         .set('avatarUrl', payload.user.get('avatarUrl'))
-        .set('userSetting', payload.user.get('userSetting'))
+        .set('userSetting', payload.user.get('setting'))
   },
   initialState
 )
