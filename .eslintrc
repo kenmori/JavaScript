@@ -6,20 +6,27 @@
     "prettier",
     "prettier/react"
   ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
   "plugins": [
     "import",
     "react",
     "jsx-a11y",
     "dependencies",
-    "prettier",
+    "prettier"
   ],
   "rules": {
-    "class-methods-use-this": "off",
-    "consistent-return": ["error", {"treatUndefinedAsUnspecified": true}],
-    "dot-location": ["error", "property"],
+    // Possible Errors
     "no-console": "error",
     "no-unexpected-multiline": "error",
     "no-unreachable": "error",
+
+    // Best Practices
+    "class-methods-use-this": "off",
+    "consistent-return": ["error", {"treatUndefinedAsUnspecified": true}],
+    "dot-location": ["error", "property"],
     "no-implicit-globals": "error",
     "no-invalid-this": "error",
     "no-param-reassign": ["error", {"props": false}],
@@ -27,6 +34,8 @@
     "no-useless-call": "error",
     "no-void": "off",
     "no-else-return": "off",
+
+    // Variables
     "no-catch-shadow": "error",
     "no-label-var": "error",
     "no-shadow": ["error", {"allow": ["cb", "next", "req", "res", "err", "error"]}],
@@ -35,11 +44,16 @@
     "no-use-before-define": ["error", "nofunc"],
     "no-unused-expressions": ["error", {"allowShortCircuit": true}],
     "no-unused-vars": ["error", {"args": "none"}],
+
+    // Stylistic Issues
+    "linebreak-style": ["error", "unix"],
+    "no-plusplus": "off",
+
+    // ECMAScript 6
     "constructor-super": "error",
     "generator-star-spacing": ["error", "after"],
     "no-this-before-super": "error",
     "prefer-arrow-callback": ["error", {"allowNamedFunctions": true}],
-    "prefer-spread": "error",
 
     // React
     "react/no-danger": "error",
