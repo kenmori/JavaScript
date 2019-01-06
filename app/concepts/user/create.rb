@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User::Create < Trailblazer::Operation
   class Form < Reform::Form
     property :current_user, virtual: true
@@ -26,7 +28,7 @@ class User::Create < Trailblazer::Operation
   def create(_options, model:, params:, current_user:, **)
     current_organization = current_user.organization
 
-    # TODO Userのbefore_create/after_createの処理をここに移動したいが、
+    # TODO: Userのbefore_create/after_createの処理をここに移動したいが、
     # ここ以外でもUserを作成するケースがありそう(現状では他のユーザーが
     # 存在していないとこのクラスを使うことが出来ない)であるため、
     # 影響範囲が明白になってから対応したい

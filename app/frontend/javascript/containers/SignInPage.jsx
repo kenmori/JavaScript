@@ -1,20 +1,16 @@
-import SignInPage from '../components/signin/SignInPage'
-import { connect } from 'react-redux'
-import deviseActions from '../actions/devise'
+import { connect } from "react-redux";
+import SignInPage from "../components/signin/SignInPage";
+import deviseActions from "../actions/devise";
 
-const mapStateToProps = () => {
-  return {}
-}
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    signIn: (email, password) => {
-      dispatch(deviseActions.signIn({ email, password, rememberMe: true }))
-    },
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  signIn: (email, password) => {
+    dispatch(deviseActions.signIn({ email, password, rememberMe: true }));
+  },
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(SignInPage)
+  mapDispatchToProps,
+)(SignInPage);

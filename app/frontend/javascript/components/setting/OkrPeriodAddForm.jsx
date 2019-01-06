@@ -1,64 +1,69 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Form } from 'semantic-ui-react'
-import DatePicker from '../form/DatePicker'
-import moment from 'moment/moment'
-import ImmutablePropTypes from 'react-immutable-proptypes'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Form } from "semantic-ui-react";
+import moment from "moment/moment";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import DatePicker from "../form/DatePicker";
 
 class OkrPeriodAddForm extends PureComponent {
-
   constructor(props) {
-    super(props)
-    const startDate = this.calcStartDate(props.okrPeriods)
-    const endDate = this.calcEndDate(startDate)
-    this.state = { name: '', startDate, endDate }
+    super(props);
+    const startDate = this.calcStartDate(props.okrPeriods);
+    const endDate = this.calcEndDate(startDate);
+    this.state = { name: "", startDate, endDate };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.okrPeriods !== nextProps.okrPeriods) {
-      const startDate = this.calcStartDate(nextProps.okrPeriods)
-      const endDate = this.calcEndDate(startDate)
-      this.setState({ startDate, endDate })
+      const startDate = this.calcStartDate(nextProps.okrPeriods);
+      const endDate = this.calcEndDate(startDate);
+      this.setState({ startDate, endDate });
     }
   }
 
   calcStartDate(okrPeriods) {
-    const endDate = okrPeriods.map(okrPeriod => okrPeriod.get('endDate')).sort().last()
-    return moment(endDate).add(1, 'day')
+    const endDate = okrPeriods
+      .map(okrPeriod => okrPeriod.get("endDate"))
+      .sort()
+      .last();
+    return moment(endDate).add(1, "day");
   }
 
   calcEndDate(startDate) {
-    return startDate.clone().add(this.props.okrSpan, 'month').subtract(1, 'day')
+    return startDate
+      .clone()
+      .add(this.props.okrSpan, "month")
+      .subtract(1, "day");
   }
 
-  handleNameChange = (e, { value }) => this.setState({ name: value })
+  handleNameChange = (e, { value }) => this.setState({ name: value });
 
   handleStartDateChange = startDate => {
     if (startDate) {
-      this.setState({ startDate })
+      this.setState({ startDate });
     }
-  }
+  };
 
   handleEndDateChange = endDate => {
     if (endDate) {
-      this.setState({ endDate })
+      this.setState({ endDate });
     }
-  }
+  };
 
   handleAddClick = () => {
-    const { organizationId } = this.props
-    const { name, startDate, endDate } = this.state
+    const { organizationId } = this.props;
+    const { name, startDate, endDate } = this.state;
     this.props.addOkrPeriod({
       name,
-      startDate: startDate.format('YYYY-MM-DD'),
-      endDate: endDate.format('YYYY-MM-DD'),
+      startDate: startDate.format("YYYY-MM-DD"),
+      endDate: endDate.format("YYYY-MM-DD"),
       organizationId,
-    })
-    this.setState({ name: '' })
-  }
+    });
+    this.setState({ name: "" });
+  };
 
   render() {
-    const { name, startDate, endDate } = this.state
+    const { name, startDate, endDate } = this.state;
     return (
       <Form className="okr-period-add-form">
         <Form.Input
@@ -78,7 +83,7 @@ class OkrPeriodAddForm extends PureComponent {
             locale="ja"
             onChange={this.handleStartDateChange}
           />
-          <span className='between'>〜</span>
+          <span className="between">〜</span>
           <DatePicker
             dateFormat="YYYY/M/D"
             selected={endDate}
@@ -93,7 +98,7 @@ class OkrPeriodAddForm extends PureComponent {
           onClick={this.handleAddClick}
         />
       </Form>
-    )
+    );
   }
 }
 
@@ -104,6 +109,6 @@ OkrPeriodAddForm.propTypes = {
   okrPeriods: ImmutablePropTypes.list.isRequired,
   addOkrPeriod: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default OkrPeriodAddForm
+export default OkrPeriodAddForm;

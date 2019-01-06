@@ -1,83 +1,82 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Comment, Icon } from 'semantic-ui-react'
-import moment from 'moment'
-import OkrName from '../util/OkrName'
-import Markdown from '../util/Markdown'
-import UserName from '../util/UserName'
-import Avatar from '../util/Avatar'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Comment, Icon } from "semantic-ui-react";
+import moment from "moment";
+import OkrName from "../util/OkrName";
+import Markdown from "../util/Markdown";
+import UserName from "../util/UserName";
+import Avatar from "../util/Avatar";
 
-const INITIAL_VIEW_COMMENT = 3
-const VIEW_MORE_COMMENT = 5
+const INITIAL_VIEW_COMMENT = 3;
+const VIEW_MORE_COMMENT = 5;
 
 class LabelItem extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      displayCommentCount: INITIAL_VIEW_COMMENT
-    }
+      displayCommentCount: INITIAL_VIEW_COMMENT,
+    };
   }
 
   handleDisplayComment = value => {
     this.setState({
-      displayCommentCount: this.state.displayCommentCount + value
-    })
-  }
+      displayCommentCount: this.state.displayCommentCount + value,
+    });
+  };
 
   handleDeleteClick = comment => {
-    const { updateObjective, updateKeyResult, confirm } = this.props
+    const { updateObjective, updateKeyResult, confirm } = this.props;
 
     confirm({
-      content: 'コメントをミーティングボードから非表示にしますか？',
+      content: "コメントをミーティングボードから非表示にしますか？",
       onConfirm: () => {
-        if (comment.get('KeyResult') != null) {
+        if (comment.get("KeyResult") != null) {
           updateKeyResult({
-            id: comment.get('KeyResult').get('id'),
+            id: comment.get("KeyResult").get("id"),
             comment: {
               data: {
-                id: comment.get('id'),
-                show_meeting_board: false
+                id: comment.get("id"),
+                show_meeting_board: false,
               },
-              behavior: 'update_show_meeting_board'
-            }
-          })
+              behavior: "update_show_meeting_board",
+            },
+          });
         } else {
           updateObjective({
-            id: comment.get('Objective').get('id'),
+            id: comment.get("Objective").get("id"),
             comment: {
               data: {
-                id: comment.get('id'),
-                show_meeting_board: false
+                id: comment.get("id"),
+                show_meeting_board: false,
               },
-              behavior: 'update_show_meeting_board'
-            }
-          })
+              behavior: "update_show_meeting_board",
+            },
+          });
         }
-      }
-    })
-  }
+      },
+    });
+  };
 
   render() {
-    const { comments } = this.props
-    const viewComments = comments.filter((_, index) => {
-      return index < this.state.displayCommentCount
-    })
+    const { comments } = this.props;
+    const viewComments = comments.filter(
+      (_, index) => index < this.state.displayCommentCount,
+    );
 
     return (
       <div className="meeting-board__comment">
         <div>
           {viewComments.map(v => {
-            const user = v.get('user')
-            const comment = v.get('text')
-            const updatedAt = v.get('updatedAt')
-            const okr = v.get('Objective') || v.get('KeyResult')
+            const user = v.get("user");
+            const comment = v.get("text");
+            const updatedAt = v.get("updatedAt");
+            const okr = v.get("Objective") || v.get("KeyResult");
 
             return (
               <Comment.Group
-                key={v.get('id')}
-                className="okr-comment-text-only"
-              >
+                key={v.get("id")}
+                className="okr-comment-text-only">
                 <Comment>
                   <div className="meeting-board__comment__okrname">
                     <OkrName okr={okr} />
@@ -88,13 +87,12 @@ class LabelItem extends PureComponent {
                       <UserName user={user} />
                     </Comment.Author>
                     <Comment.Metadata>
-                      {moment(updatedAt).format('YYYY/M/D H:mm')}
+                      {moment(updatedAt).format("YYYY/M/D H:mm")}
                     </Comment.Metadata>
                     <Comment.Metadata>
                       <Comment.Actions>
                         <Comment.Action
-                          onClick={this.handleDeleteClick.bind(this, v)}
-                        >
+                          onClick={this.handleDeleteClick.bind(this, v)}>
                           <Icon name="delete" />
                         </Comment.Action>
                       </Comment.Actions>
@@ -105,7 +103,7 @@ class LabelItem extends PureComponent {
                   </Comment.Content>
                 </Comment>
               </Comment.Group>
-            )
+            );
           })}
         </div>
         {comments.size > this.state.displayCommentCount ? (
@@ -116,7 +114,7 @@ class LabelItem extends PureComponent {
           </div>
         ) : null}
       </div>
-    )
+    );
   }
 }
 
@@ -125,7 +123,7 @@ LabelItem.propTypes = {
   comments: ImmutablePropTypes.list.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
   updateObjective: PropTypes.func.isRequired,
-  confirm: PropTypes.func.isRequired
-}
+  confirm: PropTypes.func.isRequired,
+};
 
-export default LabelItem
+export default LabelItem;

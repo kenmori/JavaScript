@@ -1,42 +1,47 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Form } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Form } from "semantic-ui-react";
 
 class UserAddForm extends PureComponent {
-
   constructor() {
-    super()
+    super();
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: "",
+      lastName: "",
+      email: "",
       admin: false,
-    }
+    };
   }
 
   handleAddClick = () => {
-    const { firstName, lastName, email, admin } = this.state
+    const { firstName, lastName, email, admin } = this.state;
     const addUser = skipNotification => () => {
-      this.props.addUser({ firstName, lastName, email, admin, skipNotification })
-      this.setState({ firstName: '', lastName: '', email: '' }) // admin はリセットしない
-    }
+      this.props.addUser({
+        firstName,
+        lastName,
+        email,
+        admin,
+        skipNotification,
+      });
+      this.setState({ firstName: "", lastName: "", email: "" }); // admin はリセットしない
+    };
     this.props.confirm({
       content: `${email} に確認メールを送信しますか？メール中の URL がクリックされると処理が完了します。確認メールはあとから再送信できます。`,
       onConfirm: addUser(false),
       onCancel: addUser(true),
-    })
-  }
+    });
+  };
 
-  handleFirstNameChange = (e, { value }) => this.setState({ firstName: value })
+  handleFirstNameChange = (e, { value }) => this.setState({ firstName: value });
 
-  handleLastNameChange = (e, { value }) => this.setState({ lastName: value })
+  handleLastNameChange = (e, { value }) => this.setState({ lastName: value });
 
-  handleEmailChange = (e, { value }) => this.setState({ email: value })
+  handleEmailChange = (e, { value }) => this.setState({ email: value });
 
-  handleAdminChange = (e, { checked }) => this.setState({ admin: checked })
+  handleAdminChange = (e, { checked }) => this.setState({ admin: checked });
 
   render() {
-    const { firstName, lastName, email, admin } = this.state
+    const { firstName, lastName, email, admin } = this.state;
     return (
       <Form className="user-add-form">
         <Form.Group inline>
@@ -66,7 +71,7 @@ class UserAddForm extends PureComponent {
         />
 
         <Form.Checkbox
-          label='管理者'
+          label="管理者"
           checked={admin}
           onChange={this.handleAdminChange}
         />
@@ -78,7 +83,7 @@ class UserAddForm extends PureComponent {
           disabled={!email}
         />
       </Form>
-    )
+    );
   }
 }
 
@@ -87,6 +92,6 @@ UserAddForm.propTypes = {
   // component
   addUser: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-}
+};
 
-export default UserAddForm
+export default UserAddForm;

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PolicyHelper
   def current_user_admin?
     @current_user.admin?

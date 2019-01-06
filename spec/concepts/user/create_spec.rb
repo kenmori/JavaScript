@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe User::Create do
   include DepartmentDataset
 
@@ -34,7 +36,7 @@ RSpec.describe User::Create do
       email: nil,
       admin: nil,
       skip_notification: nil,
-      department_ids: [nil],
+      department_ids: [nil]
     }
 
     result = described_class.call(params: params, current_user: admin_user)
@@ -58,7 +60,7 @@ RSpec.describe User::Create do
       email: nil,
       admin: nil,
       skip_notification: nil,
-      department_ids: [],
+      department_ids: []
     }
 
     result = described_class.call(params: params, current_user: admin_user)

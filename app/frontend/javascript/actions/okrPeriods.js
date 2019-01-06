@@ -1,5 +1,5 @@
-import { createActions } from 'redux-actions'
-import actionTypes from '../constants/actionTypes'
+import { createActions } from "redux-actions";
+import actionTypes from "../constants/actionTypes";
 
 const actions = createActions({
   [actionTypes.ADD_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
@@ -8,6 +8,6 @@ const actions = createActions({
   [actionTypes.UPDATED_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
   [actionTypes.REMOVE_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
   [actionTypes.REMOVED_OKR_PERIOD]: okrPeriod => ({ okrPeriod }),
-})
+});
 
-export default actions
+export default actions;

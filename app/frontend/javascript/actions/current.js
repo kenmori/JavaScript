@@ -1,7 +1,9 @@
-import { createActions } from 'redux-actions'
-import actionTypes from '../constants/actionTypes'
+import { createActions } from "redux-actions";
+import actionTypes from "../constants/actionTypes";
 
 const actions = createActions({
+  [actionTypes.FETCH_MY_DETAIL]: id => ({ id }),
+  [actionTypes.FETCHED_MY_DETAIL]: user => ({ user }),
   [actionTypes.SELECT_OKR_PERIOD]: okrPeriodId => ({ okrPeriodId }),
   [actionTypes.SELECT_OKR_PERIOD_BY_OKR]: (objectiveId, keyResultId) => ({
     objectiveId,
@@ -37,7 +39,10 @@ const actions = createActions({
     parentKeyResultId,
     toAncestor,
   ) => ({
-    objectiveId, keyResultIds, parentKeyResultId, toAncestor,
+    objectiveId,
+    keyResultIds,
+    parentKeyResultId,
+    toAncestor,
   }),
   [actionTypes.EXPANDED_OBJECTIVE]: (
     objectiveId,
@@ -45,7 +50,10 @@ const actions = createActions({
     parentKeyResultId,
     toAncestor,
   ) => ({
-    objectiveId, keyResultIds, parentKeyResultId, toAncestor,
+    objectiveId,
+    keyResultIds,
+    parentKeyResultId,
+    toAncestor,
   }),
   [actionTypes.COLLAPSE_OBJECTIVE]: (objectiveId, toAncestor) => ({
     objectiveId,
@@ -67,6 +75,7 @@ const actions = createActions({
     childObjectiveIds,
   ) => ({ objectiveId, keyResultId, childObjectiveIds }),
   [actionTypes.SCROLL_TO_OBJECTIVE]: objectiveId => ({ objectiveId }),
-})
+  [actionTypes.SET_CURRENT]: user => ({ user }),
+});
 
-export default actions
+export default actions;

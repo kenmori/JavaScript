@@ -1,43 +1,43 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Tab, Menu, Label } from 'semantic-ui-react'
-import KeyResultPane from '../../containers/KeyResultPane'
-import KeyResultInfoPane from '../../containers/KeyResultInfoPane'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Tab, Menu, Label } from "semantic-ui-react";
+import KeyResultPane from "../../containers/KeyResultPane";
+import KeyResultInfoPane from "../../containers/KeyResultInfoPane";
 
 class KeyResultTab extends PureComponent {
   constructor() {
-    super()
-    this.state = { activeIndex: 0 }
+    super();
+    this.state = { activeIndex: 0 };
   }
 
   updateKeyResult = values => {
     this.props.updateKeyResult({
-      id: this.props.keyResult.get('id'),
-      ...values
-    })
-  }
+      id: this.props.keyResult.get("id"),
+      ...values,
+    });
+  };
 
   handleTabChange = (e, { activeIndex }) => {
-    const { isDirty, confirm } = this.props
-    const { activeIndex: currentIndex } = this.state
+    const { isDirty, confirm } = this.props;
+    const { activeIndex: currentIndex } = this.state;
     if (activeIndex !== currentIndex && isDirty) {
       confirm({
-        content: '編集中の内容を破棄します。よろしいですか？',
+        content: "編集中の内容を破棄します。よろしいですか？",
         onConfirm: () => {
-          this.setState({ activeIndex })
-          this.props.setDirty(false)
-        }
-      })
+          this.setState({ activeIndex });
+          this.props.setDirty(false);
+        },
+      });
     } else {
-      this.setState({ activeIndex })
+      this.setState({ activeIndex });
     }
-  }
+  };
 
   render() {
-    const { setDirty } = this.props
-    const { activeIndex } = this.state
-    const dummyLabel = <Label className="zero-width">&nbsp;</Label> // Label 付きタブと高さを合わせるためのダミー Label
+    const { setDirty } = this.props;
+    const { activeIndex } = this.state;
+    const dummyLabel = <Label className="zero-width">&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
 
     return (
       <Tab
@@ -57,7 +57,7 @@ class KeyResultTab extends PureComponent {
                   setDirty={setDirty}
                 />
               </Tab.Pane>
-            )
+            ),
           },
           {
             menuItem: (
@@ -83,13 +83,13 @@ class KeyResultTab extends PureComponent {
                   removeKeyResult={this.props.removeKeyResult}
                 />
               </Tab.Pane>
-            )
-          }
+            ),
+          },
         ]}
         activeIndex={activeIndex}
         onTabChange={this.handleTabChange}
       />
-    )
+    );
   }
 }
 
@@ -108,7 +108,7 @@ KeyResultTab.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-  keyResultCommentLabels: ImmutablePropTypes.list.isRequired
-}
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
+};
 
-export default KeyResultTab
+export default KeyResultTab;

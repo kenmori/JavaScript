@@ -1,79 +1,81 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Form, Label } from 'semantic-ui-react'
-import DatePicker from '../form/DatePicker'
-import AutoInput from '../form/AutoInput'
-import NumberInput from '../form/NumberInput'
-import StatusRadio from '../util/StatusRadio'
-import PopupLabel from '../util/PopupLabel'
-import moment from 'moment'
-import CommentLabelDropdown from './CommentLabelDropdown'
-import StretchCommentPane from './StretchCommentPane'
-import OkrDescription from '../form/OkrDescription'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Form, Label } from "semantic-ui-react";
+import moment from "moment";
+import DatePicker from "../form/DatePicker";
+import AutoInput from "../form/AutoInput";
+import NumberInput from "../form/NumberInput";
+import StatusRadio from "../util/StatusRadio";
+import PopupLabel from "../util/PopupLabel";
+import OkrDescription from "../form/OkrDescription";
+import CommentLabelDropdown from "./CommentLabelDropdown";
+import StretchCommentPane from "./StretchCommentPane";
 
 class KeyResultPane extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      progressRate: props.keyResult.get('progressRate'),
+      progressRate: props.keyResult.get("progressRate"),
       isTargetValueVisible:
-        typeof props.keyResult.get('targetValue') === 'number'
-    }
+        typeof props.keyResult.get("targetValue") === "number",
+    };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.keyResult.get('id') !== nextProps.keyResult.get('id')) {
+    if (this.props.keyResult.get("id") !== nextProps.keyResult.get("id")) {
       this.setState({
-        progressRate: nextProps.keyResult.get('progressRate'),
+        progressRate: nextProps.keyResult.get("progressRate"),
         isTargetValueVisible:
-          typeof nextProps.keyResult.get('targetValue') === 'number'
-      })
+          typeof nextProps.keyResult.get("targetValue") === "number",
+      });
     } else if (
-      this.props.keyResult.get('progressRate') !==
-      nextProps.keyResult.get('progressRate')
+      this.props.keyResult.get("progressRate") !==
+      nextProps.keyResult.get("progressRate")
     ) {
       this.setState({
-        progressRate: nextProps.keyResult.get('progressRate')
-      })
+        progressRate: nextProps.keyResult.get("progressRate"),
+      });
     }
   }
 
   handleTargetValueCommit = targetValue =>
-    this.props.updateKeyResult({ targetValue })
+    this.props.updateKeyResult({ targetValue });
 
   handleActualValueCommit = actualValue =>
-    this.props.updateKeyResult({ actualValue })
+    this.props.updateKeyResult({ actualValue });
 
-  handleValueUnitCommit = valueUnit => this.props.updateKeyResult({ valueUnit })
+  handleValueUnitCommit = valueUnit =>
+    this.props.updateKeyResult({ valueUnit });
 
   handleTargetValueVisibleClick = () =>
-    this.setState({ isTargetValueVisible: true })
+    this.setState({ isTargetValueVisible: true });
 
-  handleProgressRateChange = progressRate => this.setState({ progressRate })
+  handleProgressRateChange = progressRate => this.setState({ progressRate });
 
   handleProgressRateCommit = progressRate =>
-    this.props.updateKeyResult({ progressRate: progressRate || null })
+    this.props.updateKeyResult({ progressRate: progressRate || null });
 
   handleSubProgressRateClick = () =>
-    this.props.updateKeyResult({ progressRate: null })
+    this.props.updateKeyResult({ progressRate: null });
 
   handleExpiredDateChange = expiredDate =>
     this.props.updateKeyResult({
-      expiredDate: expiredDate.format('YYYY-MM-DD')
-    })
+      expiredDate: expiredDate.format("YYYY-MM-DD"),
+    });
 
-  handleStatusChange = status => this.props.updateKeyResult({ status })
+  handleStatusChange = status => this.props.updateKeyResult({ status });
 
-  handleResultCommit = result => this.props.updateKeyResult({ result })
+  handleResultCommit = result => this.props.updateKeyResult({ result });
 
-  handleDescriptionCommit = description => this.props.updateKeyResult({ description })
+  handleDescriptionCommit = description =>
+    this.props.updateKeyResult({ description });
 
   subProgressRateHtml(keyResult) {
-    const progressRate = keyResult.get('progressRate')
-    const subProgressRate = keyResult.get('subProgressRate')
+    const progressRate = keyResult.get("progressRate");
+    const subProgressRate = keyResult.get("subProgressRate");
     return (
-      typeof subProgressRate === 'number' &&
+      typeof subProgressRate === "number" &&
       progressRate !== subProgressRate && (
         <div className="flex-field__item">
           <PopupLabel
@@ -84,68 +86,68 @@ class KeyResultPane extends PureComponent {
           />
         </div>
       )
-    )
+    );
   }
 
   handleTextChange = (e, { value }) => {
-    this.setState({ text: value })
-    this.props.setDirty(!!value)
-  }
+    this.setState({ text: value });
+    this.props.setDirty(!!value);
+  };
 
   addComment = () => {
-    const { text, commentLabel } = this.state
-    if (!text) return
+    const { text, commentLabel } = this.state;
+    if (!text) return;
 
     this.props.updateKeyResult({
       comment: {
         data: text,
-        behavior: 'add',
-        key_result_comment_label: { id: commentLabel }
-      }
-    })
-    this.setState({ text: '' })
-    this.props.setDirty(false)
-  }
+        behavior: "add",
+        key_result_comment_label: { id: commentLabel },
+      },
+    });
+    this.setState({ text: "" });
+    this.props.setDirty(false);
+  };
 
   removeComment = id => {
     this.props.confirm({
-      content: 'コメントを削除しますか？',
+      content: "コメントを削除しますか？",
       onConfirm: () =>
         this.props.updateKeyResult({
-          comment: { data: id, behavior: 'remove' }
-        })
-    })
-  }
+          comment: { data: id, behavior: "remove" },
+        }),
+    });
+  };
 
   editComment = (id, text, label) => {
-    if (!text) return
+    if (!text) return;
 
     this.props.updateKeyResult({
       comment: {
         data: {
           id,
           text,
-          key_result_comment_label: { id: label }
+          key_result_comment_label: { id: label },
         },
-        behavior: 'edit'
-      }
-    })
-  }
+        behavior: "edit",
+      },
+    });
+  };
 
   handleDropdownChange = (e, { value }) => {
-    this.setState({ commentLabel: value })
-  }
+    this.setState({ commentLabel: value });
+  };
 
   render() {
-    const keyResult = this.props.keyResult
-    const keyResultCommentLabels = this.props.keyResultCommentLabels
-    const { text } = this.state
-    const comments = keyResult.get('comments')
-    const descText = keyResult.get('description')
+    const keyResult = this.props.keyResult;
+    const keyResultCommentLabels = this.props.keyResultCommentLabels;
+    const { text } = this.state;
+    const comments = keyResult.get("comments");
+    const descText = keyResult.get("description");
     const [targetValue, actualValue] = [
-      keyResult.get('targetValue'),
-      keyResult.get('actualValue')
-    ]
+      keyResult.get("targetValue"),
+      keyResult.get("actualValue"),
+    ];
 
     return (
       <Form>
@@ -155,12 +157,12 @@ class KeyResultPane extends PureComponent {
               <label>目標値</label>
               <div className="flex-field__item">
                 <AutoInput
-                  value={typeof targetValue === 'number' ? targetValue : ''}
+                  value={typeof targetValue === "number" ? targetValue : ""}
                   placeholder="数値"
                   onCommit={this.handleTargetValueCommit}
                 />
                 <AutoInput
-                  value={keyResult.get('valueUnit') || ''}
+                  value={keyResult.get("valueUnit") || ""}
                   placeholder="単位"
                   onCommit={this.handleValueUnitCommit}
                 />
@@ -171,20 +173,20 @@ class KeyResultPane extends PureComponent {
               <label>実績値</label>
               <div className="flex-field__item">
                 <AutoInput
-                  value={typeof actualValue === 'number' ? actualValue : ''}
+                  value={typeof actualValue === "number" ? actualValue : ""}
                   placeholder="数値"
                   onCommit={this.handleActualValueCommit}
                 />
               </div>
               <div className="flex-field__item">
-                {keyResult.get('valueUnit') || ''}
+                {keyResult.get("valueUnit") || ""}
               </div>
-              {keyResult.get('achievementRate') >= 100 && (
+              {keyResult.get("achievementRate") >= 100 && (
                 <div className="flex-field__item">
                   <Label
                     pointing="left"
                     content={`達成率は ${keyResult.get(
-                      'achievementRate'
+                      "achievementRate",
                     )}% です！`}
                   />
                 </div>
@@ -227,7 +229,7 @@ class KeyResultPane extends PureComponent {
             <DatePicker
               dateFormat="YYYY/M/D"
               locale="ja"
-              selected={moment(keyResult.get('expiredDate'))}
+              selected={moment(keyResult.get("expiredDate"))}
               onChange={this.handleExpiredDateChange}
             />
           </div>
@@ -237,7 +239,7 @@ class KeyResultPane extends PureComponent {
           <label>見通し</label>
           <div className="flex-field__item">
             <StatusRadio
-              status={keyResult.get('status')}
+              status={keyResult.get("status")}
               onChange={this.handleStatusChange}
             />
           </div>
@@ -246,7 +248,7 @@ class KeyResultPane extends PureComponent {
         <Form.Field>
           <label>説明</label>
           <OkrDescription
-            key={keyResult.get('id')}
+            key={keyResult.get("id")}
             text={descText}
             onCommit={this.handleDescriptionCommit}
             isObjective={false}
@@ -257,7 +259,7 @@ class KeyResultPane extends PureComponent {
           <label>結果</label>
           <div className="flex-field__item">
             <AutoInput
-              value={keyResult.get('result') || ''}
+              value={keyResult.get("result") || ""}
               placeholder="Key Result の最終的な進捗を補足する結果を入力してください"
               onCommit={this.handleResultCommit}
             />
@@ -281,7 +283,7 @@ class KeyResultPane extends PureComponent {
               value={text}
               onChange={this.handleTextChange}
               placeholder={
-                '進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)'
+                "進捗状況や、次のアクションなどをメモしてください。\n(Markdown を記述できます)"
               }
             />
             <div className="comment-pane__block">
@@ -296,7 +298,7 @@ class KeyResultPane extends PureComponent {
           </div>
         </Form.Field>
       </Form>
-    )
+    );
   }
 }
 
@@ -313,7 +315,7 @@ KeyResultPane.propTypes = {
   openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
-  keyResultCommentLabels: ImmutablePropTypes.list.isRequired
-}
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
+};
 
-export default KeyResultPane
+export default KeyResultPane;

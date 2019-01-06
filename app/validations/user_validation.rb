@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserValidation < ValidationSchema
   setting :default, -> {
     validates :email, VH[:required, :email]
@@ -16,7 +18,7 @@ class UserValidation < ValidationSchema
       end
 
       departments = Department.where(id: department_ids)
-      if departments.any? {|d| d.organization_id != current_user.organization.id }
+      if departments.any? { |d| d.organization_id != current_user.organization.id }
         errors.add(:department_ids, :must_be_same_organization)
       end
     }

@@ -1,31 +1,31 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import Home from '../containers/Home'
-import configureStore from '../stores/index'
-import { Router, Switch, Route } from 'react-router-dom'
-import history from '../utils/history'
-import ReactGA from '../utils/ga'
-import SignUpPage from '../containers/SignUpPage'
-import PasswordResetPage from '../containers/PasswordResetPage'
-import PasswordSetPage from '../containers/PasswordSetPage'
-import SignInPage from '../containers/SignInPage'
-import SettingsPage from '../containers/SettingsPage'
-import MeetingPage from '../containers/MeetingPage'
-import Loading from '../containers/Loading'
-import Toast from '../containers/Toast'
-import ErrorModal from '../containers/ErrorModal'
-import ConfirmModal from '../containers/ConfirmModal'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { Router, Switch, Route } from "react-router-dom";
+import Home from "../containers/Home";
+import configureStore from "../stores/index";
+import history from "../utils/history";
+import ReactGA from "../utils/ga";
+import SignUpPage from "../containers/SignUpPage";
+import PasswordResetPage from "../containers/PasswordResetPage";
+import PasswordSetPage from "../containers/PasswordSetPage";
+import SignInPage from "../containers/SignInPage";
+import SettingsPage from "../containers/SettingsPage";
+import MeetingPage from "../containers/MeetingPage";
+import Loading from "../containers/Loading";
+import Toast from "../containers/Toast";
+import ErrorModal from "../containers/ErrorModal";
+import ConfirmModal from "../containers/ConfirmModal";
 
-const store = configureStore()
+const store = configureStore();
 history.listen(location => {
-  ReactGA.set({ page: location.pathname })
-  ReactGA.pageview(location.pathname)
-})
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
+});
 
-document.addEventListener('DOMContentLoaded', () => {
-  const bodyElement = document.createElement('div')
-  bodyElement.setAttribute('id', 'body')
+document.addEventListener("DOMContentLoaded", () => {
+  const bodyElement = document.createElement("div");
+  bodyElement.setAttribute("id", "body");
 
   ReactDOM.render(
     <Provider store={store}>
@@ -66,6 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <ConfirmModal />
       </div>
     </Provider>,
-    document.body.appendChild(bodyElement)
-  )
-})
+    document.body.appendChild(bodyElement),
+  );
+});

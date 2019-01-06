@@ -1,14 +1,13 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Select, Label } from 'semantic-ui-react'
-import { okrOptions } from '../../utils/okr'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Select, Label } from "semantic-ui-react";
+import { okrOptions } from "../../utils/okr";
 
 class RenderOkrSelect extends PureComponent {
+  handleChange = onChange => (e, { value }) => onChange(value);
 
-  handleChange = onChange => (e, { value }) => onChange(value)
-
-  handleClose = onBlur => e => onBlur(e)
+  handleClose = onBlur => e => onBlur(e);
 
   render() {
     const {
@@ -17,11 +16,11 @@ class RenderOkrSelect extends PureComponent {
       withNone,
       disabled,
       loading,
-      meta: { touched, error }
-    } = this.props
+      meta: { touched, error },
+    } = this.props;
     return (
       <div className="form-item">
-        <div className={`okr-select ${disabled ? 'disabled' : ''}`}>
+        <div className={`okr-select ${disabled ? "disabled" : ""}`}>
           <Select
             search
             fluid
@@ -33,13 +32,16 @@ class RenderOkrSelect extends PureComponent {
             onChange={this.handleChange(onChange)}
             onClose={this.handleClose(onBlur)}
             selectOnNavigation={false}
-            noResultsMessage='結果が見つかりません'
+            noResultsMessage="結果が見つかりません"
           />
         </div>
-        {touched && error && <Label basic color='red' pointing>{error}</Label>}
+        {touched && error && (
+          <Label basic color="red" pointing>
+            {error}
+          </Label>
+        )}
       </div>
-
-    )
+    );
   }
 }
 
@@ -53,12 +55,12 @@ RenderOkrSelect.propTypes = {
   // Redux Form
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
-}
+};
 
 RenderOkrSelect.defaultProps = {
   withNone: false,
   disabled: false,
   loading: false,
-}
+};
 
-export default RenderOkrSelect
+export default RenderOkrSelect;

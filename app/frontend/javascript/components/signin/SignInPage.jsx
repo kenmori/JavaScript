@@ -1,32 +1,31 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
-import DocumentTitle from 'react-document-title'
-import logo_image from '../../images/logo_large.png'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
+import DocumentTitle from "react-document-title";
+import logo_image from "../../images/logo_large.png";
 
 class SignInPage extends PureComponent {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       email: null,
       password: null,
-    }
+    };
   }
 
-  signIn = () => this.props.signIn(this.state.email, this.state.password)
+  signIn = () => this.props.signIn(this.state.email, this.state.password);
 
   render() {
     return (
       <DocumentTitle title="ログイン - Resily">
         {this.renderBody()}
       </DocumentTitle>
-    )
+    );
   }
 
   renderBody() {
-    const { email } = this.state
+    const { email } = this.state;
     return (
       <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
@@ -59,13 +58,22 @@ class SignInPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="sign-in__submit" content="ログインする" onClick={this.signIn} />
+        <Button
+          positive
+          className="sign-in__submit"
+          content="ログインする"
+          onClick={this.signIn}
+        />
 
         <Message className="sign-in__link" size="small">
-          <p><Link to={{ pathname: '/users/password/reset', state: { email } }}>パスワードを忘れた方はこちら</Link></p>
+          <p>
+            <Link to={{ pathname: "/users/password/reset", state: { email } }}>
+              パスワードを忘れた方はこちら
+            </Link>
+          </p>
         </Message>
       </div>
-    )
+    );
   }
 }
 
@@ -73,6 +81,6 @@ SignInPage.propTypes = {
   // container
   signIn: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default SignInPage
+export default SignInPage;

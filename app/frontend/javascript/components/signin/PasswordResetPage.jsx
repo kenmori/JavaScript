@@ -1,50 +1,50 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Button, Form, Image, Segment, Message } from 'semantic-ui-react'
-import DocumentTitle from 'react-document-title'
-import logo_image from '../../images/logo_large.png'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
+import DocumentTitle from "react-document-title";
+import logo_image from "../../images/logo_large.png";
 
 class PasswordResetPage extends PureComponent {
-
   constructor(props) {
-    super(props)
-    this.state = { email: props.email }
+    super(props);
+    this.state = { email: props.email };
   }
 
-  sendEmail = () => this.props.sendEmail(this.state.email)
+  sendEmail = () => this.props.sendEmail(this.state.email);
 
-  completedView = () => {
-    return (
-      <div className="sign-in">
-        <Image as="h1" src={logo_image} title="Resily" />
+  completedView = () => (
+    <div className="sign-in">
+      <Image as="h1" src={logo_image} title="Resily" />
 
-        <Segment raised compact padded="very">
-          {this.state.email} にメールを送信しました。<br />
-          メールが届かない場合はアドレスを確かめて送信し直してください。
-        </Segment>
+      <Segment raised compact padded="very">
+        {this.state.email} にメールを送信しました。
+        <br />
+        メールが届かない場合はアドレスを確かめて送信し直してください。
+      </Segment>
 
-        <Message className="sign-in__link" size="small">
-          <p><a href="/">トップに戻る</a></p>
-        </Message>
-      </div>
-    )
-  }
+      <Message className="sign-in__link" size="small">
+        <p>
+          <a href="/">トップに戻る</a>
+        </p>
+      </Message>
+    </div>
+  );
 
   render() {
     return (
       <DocumentTitle title="パスワード再設定 - Resily">
         {this.renderBody()}
       </DocumentTitle>
-    )
+    );
   }
 
   renderBody() {
     if (this.props.isCompleted) {
-      return this.completedView()
+      return this.completedView();
     }
     return (
       <div className="sign-in">
-        <Image as='h1' src={logo_image} title='Resily' />
+        <Image as="h1" src={logo_image} title="Resily" />
 
         <Message content="パスワードを再設定するためのメールを送信します。" />
 
@@ -65,13 +65,20 @@ class PasswordResetPage extends PureComponent {
           </Form>
         </Segment>
 
-        <Button positive className="sign-in__submit" content="送信する" onClick={this.sendEmail} />
+        <Button
+          positive
+          className="sign-in__submit"
+          content="送信する"
+          onClick={this.sendEmail}
+        />
 
         <Message className="sign-in__link" size="small">
-          <p><a href="/">トップに戻る</a></p>
+          <p>
+            <a href="/">トップに戻る</a>
+          </p>
         </Message>
       </div>
-    )
+    );
   }
 }
 
@@ -81,6 +88,6 @@ PasswordResetPage.propTypes = {
   isCompleted: PropTypes.bool.isRequired,
   sendEmail: PropTypes.func.isRequired,
   // component
-}
+};
 
-export default PasswordResetPage
+export default PasswordResetPage;

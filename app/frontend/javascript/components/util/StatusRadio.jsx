@@ -1,17 +1,16 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Radio } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Radio } from "semantic-ui-react";
 
 class StatusRadio extends PureComponent {
-
   handleChange = (e, { checked, value }) => {
     if (checked) {
-      this.props.onChange(value)
+      this.props.onChange(value);
     }
-  }
+  };
 
   render() {
-    const { status } = this.props
+    const { status } = this.props;
     return (
       <div className="status-radio">
         <Radio
@@ -20,7 +19,7 @@ class StatusRadio extends PureComponent {
           label="順調"
           name="status"
           value="green"
-          checked={status === 'green'}
+          checked={status === "green"}
           onChange={this.handleChange}
         />
         <Radio
@@ -29,7 +28,7 @@ class StatusRadio extends PureComponent {
           label="注意"
           name="status"
           value="yellow"
-          checked={status === 'yellow'}
+          checked={status === "yellow"}
           onChange={this.handleChange}
         />
         <Radio
@@ -38,11 +37,11 @@ class StatusRadio extends PureComponent {
           label="危険"
           name="status"
           value="red"
-          checked={status === 'red'}
+          checked={status === "red"}
           onChange={this.handleChange}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -51,6 +50,6 @@ StatusRadio.propTypes = {
   // component
   status: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-}
+};
 
-export default StatusRadio
+export default StatusRadio;

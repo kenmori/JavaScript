@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe User::Update do
   include DepartmentDataset
 
@@ -49,7 +51,7 @@ RSpec.describe User::Update do
       expect(nomal_user.unconfirmed_email).to eq("changed@example.com")
     end
 
-    # FIXME Circle CI で落ちるので xexample にしています
+    # FIXME: Circle CI で落ちるので xexample にしています
     xexample "change avatar image" do
       params = {
         id: nomal_user.id,
@@ -112,7 +114,7 @@ RSpec.describe User::Update do
         last_name: nil,
         email: nil,
         admin: nil,
-        department_ids: [],
+        department_ids: []
       }
 
       result = described_class.call(params: params, current_user: admin_user)

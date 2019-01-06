@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Label, Popup } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Label, Popup } from "semantic-ui-react";
 
 class PopupLabel extends PureComponent {
-
   render() {
-    const { icon, text, tips, onClick } = this.props
+    const { icon, text, tips, onClick } = this.props;
     return (
       <Popup
         hoverable
@@ -22,7 +21,7 @@ class PopupLabel extends PureComponent {
           />
         }
       />
-    )
+    );
   }
 }
 
@@ -33,11 +32,11 @@ PopupLabel.propTypes = {
   text: PropTypes.string,
   tips: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-}
+};
 
 PopupLabel.defaultProps = {
   icon: null,
   text: null,
-}
+};
 
-export default PopupLabel
+export default PopupLabel;

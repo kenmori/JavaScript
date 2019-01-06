@@ -1,7 +1,22 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :valid_operatable_user?, except: %i(create update)
+  before_action :valid_operatable_user?, except: %i[create update]
+  # 暫定的にshowアクションのみエイリアスを付けている
+  # 今後は他のAPIもエイリアスを付ける
+  before_action :to_user, only: [:show]
+
+  def show
+    concept_params = {
+      id: @user.id,
+      organization_id: current_organization.id
+    }
+    runner(User::Show, concept_params) do |result|
+      @user = result[:model]
+      @organization = @user.organization
+      render status: :ok
+    end
+  end
 
   def create
     runner(User::Create, params[:user]) do |result|
@@ -89,5 +104,9 @@ class UsersController < ApplicationController
     def valid_operatable_user?
       user_id = params[:id]
       forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
+    end
+
+    def to_user
+      @user = params[:id] == "me" ? current_user : User.find(params[:id])
     end
 end

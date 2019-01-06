@@ -1,20 +1,16 @@
-import UserAvatar from '../components/util/UserAvatar'
-import { connect } from 'react-redux'
-import dialogActions from '../actions/dialogs'
+import { connect } from "react-redux";
+import UserAvatar from "../components/util/UserAvatar";
+import dialogActions from "../actions/dialogs";
 
-const mapStateToProps = () => {
-  return {}
-}
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    openImageModal: (id, data) => {
-      dispatch(dialogActions.openImageModal(id, data))
-    },
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  openImageModal: (id, data) => {
+    dispatch(dialogActions.openImageModal(id, data));
+  },
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(UserAvatar)
+  mapDispatchToProps,
+)(UserAvatar);

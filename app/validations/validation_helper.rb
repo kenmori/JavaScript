@@ -7,7 +7,7 @@ module ValidationHelper
     short_text_field: { length: { maximum: 40, allow_blank: true } },
     middle_text_field: { length: { maximum: 225, allow_blank: true } },
     email: { format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, allow_blank: true } },
-    boolean: { inclusion: {in: [true, false]} },
+    boolean: { inclusion: { in: [true, false] } },
     integer_number: {
       numericality: {
         only_integer: true,

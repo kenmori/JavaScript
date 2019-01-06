@@ -1,53 +1,62 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Field } from 'redux-form'
-import RenderField from '../form/RenderField'
-import UserSelect from '../form/UserSelect'
-import RenderOkrSelect from '../form/RenderOkrSelect'
-import RequiredLabel from '../form/RequiredLabel'
-import { Form, TextArea, Divider } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Field } from "redux-form";
+import { Form, TextArea, Divider } from "semantic-ui-react";
+import RenderField from "../form/RenderField";
+import UserSelect from "../form/UserSelect";
+import RenderOkrSelect from "../form/RenderOkrSelect";
+import RequiredLabel from "../form/RequiredLabel";
 import {
-  validateObjectiveName, validateParentKeyResultId, validateIsolatedObjectiveId, validatePreviousObjectiveId,
-} from '../../utils/validator'
+  validateObjectiveName,
+  validateParentKeyResultId,
+  validateIsolatedObjectiveId,
+  validatePreviousObjectiveId,
+} from "../../utils/validator";
 
 class ObjectiveForm extends PureComponent {
-
   handleObjectiveChange = (e, objectiveId) => {
-    const objective = this.props.objectives.find(objective => objective.get('id') === objectiveId)
+    const objective = this.props.objectives.find(
+      objective => objective.get("id") === objectiveId,
+    );
     this.props.onChange({
-      description: objective.get('description'),
-      ownerId: objective.getIn(['owner', 'id']),
-    })
-    this.props.fieldChange('name', objective.get('name'))
-  }
+      description: objective.get("description"),
+      ownerId: objective.getIn(["owner", "id"]),
+    });
+    this.props.fieldChange("name", objective.get("name"));
+  };
 
-  handleDescriptionChange = (e, { value }) => this.props.onChange({ description: value })
+  handleDescriptionChange = (e, { value }) =>
+    this.props.onChange({ description: value });
 
-  handleOwnerChange = ownerId => this.props.onChange({ ownerId })
+  handleOwnerChange = ownerId => this.props.onChange({ ownerId });
 
   render() {
-    const { isLink, isCopy } = this.props
+    const { isLink, isCopy } = this.props;
     return (
       <Form>
         {(isLink || isCopy) && (
           <Form.Field>
-            <RequiredLabel text={`${isLink ? '孤立' : '前期'} Objective`} />
+            <RequiredLabel text={`${isLink ? "孤立" : "前期"} Objective`} />
             <Field
-              name='objectiveId'
+              name="objectiveId"
               okrs={this.props.objectives}
               loading={!this.props.isFetchedObjectives}
               component={RenderOkrSelect}
-              validate={isLink ? validateIsolatedObjectiveId : validatePreviousObjectiveId}
+              validate={
+                isLink
+                  ? validateIsolatedObjectiveId
+                  : validatePreviousObjectiveId
+              }
               onChange={this.handleObjectiveChange}
             />
           </Form.Field>
         )}
         {(isLink || isCopy) && <Divider />}
         <Form.Field>
-          <RequiredLabel text='上位 Key Result' required={isLink} />
+          <RequiredLabel text="上位 Key Result" required={isLink} />
           <Field
-            name='parentKeyResultId'
+            name="parentKeyResultId"
             okrs={this.props.parentKeyResults}
             withNone={!isLink}
             disabled={this.props.hasParentKeyResult}
@@ -57,9 +66,9 @@ class ObjectiveForm extends PureComponent {
           />
         </Form.Field>
         <Form.Field>
-          <RequiredLabel text='Objective' />
+          <RequiredLabel text="Objective" />
           <Field
-            name='name'
+            name="name"
             component={RenderField}
             validate={validateObjectiveName}
           />
@@ -70,12 +79,14 @@ class ObjectiveForm extends PureComponent {
             autoHeight
             rows={3}
             onChange={this.handleDescriptionChange}
-            placeholder={'Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)'}
+            placeholder={
+              "Objective についての説明や補足を入力してください。\n説明を入力すると、メンバーに目指すべき方向性が伝わりやすくなります。\n(Markdown を記述できます)"
+            }
             value={this.props.description}
           />
         </Form.Field>
         <Form.Field>
-          <RequiredLabel text='責任者' />
+          <RequiredLabel text="責任者" />
           <UserSelect
             users={this.props.users}
             value={this.props.ownerId}
@@ -83,7 +94,7 @@ class ObjectiveForm extends PureComponent {
           />
         </Form.Field>
       </Form>
-    )
+    );
   }
 }
 
@@ -102,6 +113,6 @@ ObjectiveForm.propTypes = {
   isFetchedObjectives: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   fieldChange: PropTypes.func.isRequired,
-}
+};
 
-export default ObjectiveForm
+export default ObjectiveForm;

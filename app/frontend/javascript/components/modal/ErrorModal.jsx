@@ -1,46 +1,50 @@
-import React, { PureComponent } from 'react'
-import { List } from 'immutable'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { Button, Modal } from 'semantic-ui-react'
+import React, { PureComponent } from "react";
+import { List } from "immutable";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { Button, Modal } from "semantic-ui-react";
 
 class ErrorModal extends PureComponent {
-
   getErrorMessage(messages) {
     if (messages.size === 1) {
-      return messages.first()
+      return messages.first();
     }
     return (
       <ul>
-        {messages.map((message, index) => <li key={index}>{message}</li>)}
+        {messages.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
       </ul>
-    )
+    );
   }
 
   handleClose = () => {
-    this.props.onCloseBefore()
-    this.props.closeModal()
-    this.props.onClose()
-  }
+    this.props.onCloseBefore();
+    this.props.closeModal();
+    this.props.onClose();
+  };
 
   render() {
-    const { isOpen, message } = this.props
+    const { isOpen, message } = this.props;
     return (
       <Modal
-        open={isOpen} 
-        size='small' 
+        open={isOpen}
+        size="small"
         closeOnEscape={false}
         closeOnDimmerClick={false}
-        onClose={this.handleClose}
-      >
+        onClose={this.handleClose}>
         <Modal.Content>
-          {this.getErrorMessage(List.isList(message) ? message : List(message.split(', ')))}
+          {this.getErrorMessage(
+            List.isList(message) ? message : List(message.split(", ")),
+          )}
         </Modal.Content>
         <Modal.Actions>
-          <Button negative onClick={this.handleClose}>OK</Button>
+          <Button negative onClick={this.handleClose}>
+            OK
+          </Button>
         </Modal.Actions>
       </Modal>
-    )
+    );
   }
 }
 
@@ -52,12 +56,12 @@ ErrorModal.propTypes = {
   onCloseBefore: PropTypes.func,
   closeModal: PropTypes.func.isRequired,
   // component
-}
+};
 
 ErrorModal.defaultProps = {
-  message: 'エラーが発生しました',
+  message: "エラーが発生しました",
   onClose: () => {},
   onCloseBefore: () => {},
-}
+};
 
-export default ErrorModal
+export default ErrorModal;

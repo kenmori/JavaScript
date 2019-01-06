@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # NOTE USAGE
 # concepts で Contract::Build の constant に対して current_user を渡したいときに使用する builder です。
 # 例えば、次のようにしてください。

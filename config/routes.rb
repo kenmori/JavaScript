@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: %i[create update] do
+  resources :users, only: %i[show create update] do
     member do
       put "disable", to: "users#update_disabled"
       put "password", to: "users#update_password"
