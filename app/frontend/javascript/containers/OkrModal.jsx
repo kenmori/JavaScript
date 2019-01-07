@@ -31,7 +31,6 @@ const mapStateToProps = state => {
     isObjectiveOwner:
       state.loginUser.get("isAdmin") || objectiveOwnerId === loginUserId,
     keyResultCommentLabels: state.keyResults.get("commentLabels"),
-    objectiveCommentLabels: state.objectives.get("commentLabels"),
   };
 };
 

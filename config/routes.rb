@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     end
     collection do
       get "candidates", to: "objectives#index_candidates"
-      get "comment_labels", to: "objectives#comment_labels"
     end
   end
 

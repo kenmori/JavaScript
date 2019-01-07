@@ -15,9 +15,6 @@ const mapStateToProps = state => ({
   isFetchedKeyResultsCommentLabels: state.keyResults.get(
     "isFetchedKeyResultsCommentLabels",
   ),
-  isFetchedObjectiveCommentLabels: state.objectives.get(
-    "isFetchedObjectiveCommentLabels",
-  ),
   isOpenOkrModal: state.dialogs.getIn(["okrForm", "isOpen"]),
 });
 
@@ -27,9 +24,6 @@ const mapDispatchToProps = dispatch => ({
   },
   fetchKeyResultCommentLabels: () => {
     dispatch(keyResultActions.fetchKeyResultCommentLabels());
-  },
-  fetchObjectiveCommentLabels: () => {
-    dispatch(objectiveActions.fetchObjectiveCommentLabels());
   },
   selectOkrPeriod: okrHash => {
     const { objectiveId, keyResultId } = getOkrId(okrHash);

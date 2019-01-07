@@ -1,13 +1,13 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
+import { List } from "immutable";
 import { Form, Label } from "semantic-ui-react";
 import NumberInput from "../form/NumberInput";
 import OkrDescription from "../form/OkrDescription";
 import PopupLabel from "../util/PopupLabel";
 import AutoInput from "../form/AutoInput";
 import StretchCommentPane from "./StretchCommentPane";
-import CommentLabelDropdown from "./CommentLabelDropdown";
 
 class ObjectivePane extends PureComponent {
   constructor(props) {
@@ -70,26 +70,21 @@ class ObjectivePane extends PureComponent {
     );
   }
 
-  handleTextChange = (e, { value }) => {
+  handleTextChange = (_, { value }) => {
     this.setState({ text: value });
     this.props.setDirty(!!value);
-  };
-
-  handleDropdownChange = (e, { value }) => {
-    this.setState({ commentLabel: value });
   };
 
   handleResultCommit = result => this.props.updateObjective({ result });
 
   addComment = () => {
-    const { text, commentLabel } = this.state;
+    const { text } = this.state;
     if (!text) return;
 
     this.props.updateObjective({
       comment: {
         data: text,
         behavior: "add",
-        objective_comment_label: { id: commentLabel },
       },
     });
     this.setState({ text: "" });
@@ -98,7 +93,7 @@ class ObjectivePane extends PureComponent {
 
   removeComment = id => {
     this.props.confirm({
-      content: "コメントを削除しますか？",
+      content: "アナウンスメントを削除しますか？",
       onConfirm: () =>
         this.props.updateObjective({
           comment: { data: id, behavior: "remove" },
@@ -106,7 +101,7 @@ class ObjectivePane extends PureComponent {
     });
   };
 
-  editComment = (id, text, label) => {
+  editComment = (id, text) => {
     if (!text) return;
 
     this.props.updateObjective({
@@ -114,7 +109,6 @@ class ObjectivePane extends PureComponent {
         data: {
           id,
           text,
-          objective_comment_label: { id: label },
         },
         behavior: "edit",
       },
@@ -122,11 +116,9 @@ class ObjectivePane extends PureComponent {
   };
 
   render() {
-    const objective = this.props.objective;
-    const { progressRate } = this.state;
+    const { objective } = this.props;
+    const { progressRate, text } = this.state;
     const comments = objective.get("comments");
-    const { text } = this.state;
-    const objectiveCommentLabels = this.props.objectiveCommentLabels;
 
     return (
       <Form>
@@ -174,12 +166,12 @@ class ObjectivePane extends PureComponent {
         </Form.Field>
 
         <Form.Field>
-          <label>コメント ({comments ? comments.size : 0})</label>
+          <label>アナウンスメント ({comments ? comments.size : 0})</label>
           <div className="comment-pane">
             {comments ? (
               <StretchCommentPane
                 comments={comments}
-                commentLabels={objectiveCommentLabels}
+                commentLabels={List()}
                 onDelete={this.removeComment}
                 onUpdate={this.editComment}
               />
@@ -190,15 +182,11 @@ class ObjectivePane extends PureComponent {
               value={text}
               onChange={this.handleTextChange}
               placeholder={
-                "進捗状況や、次のアクションなどをメモしてください。\n記述したコメントは関係者にメールで通知されます。\n(Markdown を記述できます)"
+                "進捗状況や、次のアクションなどをメモしてください。\n記述したアナウンスメントは関係者にメールで通知されます。\n(Markdown を記述できます)"
               }
             />
             <div className="comment-pane__block">
               <Form.Group className="group">
-                <CommentLabelDropdown
-                  commentLabels={objectiveCommentLabels}
-                  onChange={this.handleDropdownChange}
-                />
                 <Form.Button content="投稿する" onClick={this.addComment} />
               </Form.Group>
             </div>

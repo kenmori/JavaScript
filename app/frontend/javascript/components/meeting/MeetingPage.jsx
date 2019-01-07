@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import { List } from "immutable";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import DocumentTitle from "react-document-title";
@@ -8,6 +7,7 @@ import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels
 import CommentModal from "../../containers/CommentModal";
 import ObjectiveCommentModal from "../../containers/ObjectiveCommentModal";
 import LabelItem from "./LabelItem";
+import AnnouncementItem from "./AnnouncementItem";
 import OkrItem from "./OkrItem";
 
 class MeetingPage extends PureComponent {
@@ -15,26 +15,9 @@ class MeetingPage extends PureComponent {
     super(props);
   }
 
-  selectOKRComments = (
-    objective,
-    keyResults,
-    objectiveId,
-    onlyKeyResult = false,
-  ) => {
+  selectKeyResultComments = (keyResults, objectiveId) => {
     const { showDisabledOkrs } = this.props;
-    let objectiveComments = List();
-    if (
-      !onlyKeyResult &&
-      objective.get("comments") &&
-      (showDisabledOkrs || !objective.get("disabled"))
-    ) {
-      objectiveComments = objective
-        .get("comments")
-        .map(v => v.set("Objective", objective))
-        .toList();
-    }
-
-    const comments = objectiveComments.concat(
+    const comments =
       keyResults
         .filter(
           v =>
@@ -44,11 +27,27 @@ class MeetingPage extends PureComponent {
         )
         .map(v => v.get("comments").map(c => c.set("KeyResult", v)))
         .toList()
-        .flatten(1),
-    );
+        .flatten(1);
 
     return comments
       .filter(v => v.get("showMeetingBoard") && v.get("label") != null)
+      .sort((a, b) => {
+        if (a.get("updatedAt") < b.get("updatedAt")) {
+          return 1;
+        }
+        if (a.get("updatedAt") > b.get("updatedAt")) {
+          return -1;
+        }
+        if (a.get("updatedAt") === b.get("updatedAt")) {
+          return 0;
+        }
+      });
+  };
+
+  selectObjectiveComments = (objective) => {
+    return objective
+      .get('comments')
+      .filter(v => v.get("showMeetingBoard"))
       .sort((a, b) => {
         if (a.get("updatedAt") < b.get("updatedAt")) {
           return 1;
@@ -67,7 +66,6 @@ class MeetingPage extends PureComponent {
 
   generateCommentLabelColumn = (comments, labels, labelName) => {
     const {
-      updateObjective,
       updateKeyResult,
       openCommentModal,
       confirm,
@@ -86,9 +84,35 @@ class MeetingPage extends PureComponent {
           </div>
         </div>
         <LabelItem
-          label={label}
           comments={this.selectLabelCommnets(comments, labelName)}
           updateKeyResult={updateKeyResult}
+          confirm={confirm}
+        />
+      </Grid.Column>
+    );
+  };
+
+  generateAnnouncementColumn = (objectiveId, announcements) => {
+    const {
+      updateObjective,
+      openObjectiveCommentModal,
+      confirm,
+    } = this.props;
+
+    return (
+      <Grid.Column>
+        <div className="meeting-board__content__header">
+          <Label color="green">アナウンスメント</Label>
+          <div className="meeting-board__content__header__button">
+            <a onClick={openObjectiveCommentModal.bind(this)}>
+              <Icon name="plus" />
+              アナウンスメントを追加する
+            </a>
+          </div>
+        </div>
+        <AnnouncementItem
+          objectiveId={objectiveId}
+          comments={announcements}
           updateObjective={updateObjective}
           confirm={confirm}
         />
@@ -101,9 +125,7 @@ class MeetingPage extends PureComponent {
       objectiveId,
       objectives,
       isFetchedKeyResultsCommentLabels,
-      isFetchedObjectiveCommentLabels,
       fetchKeyResultCommentLabels,
-      fetchObjectiveCommentLabels,
       fetchObjective,
     } = this.props;
     if (objectives.size < 1) {
@@ -111,9 +133,6 @@ class MeetingPage extends PureComponent {
     }
     if (!isFetchedKeyResultsCommentLabels) {
       fetchKeyResultCommentLabels();
-    }
-    if (!isFetchedObjectiveCommentLabels) {
-      fetchObjectiveCommentLabels();
     }
   }
 
@@ -123,10 +142,8 @@ class MeetingPage extends PureComponent {
       objectives,
       objective,
       keyResultCommentLabels,
-      objectiveCommentLabels,
       showDisabledOkrs,
       isFetchedKeyResultsCommentLabels,
-      isFetchedObjectiveCommentLabels,
     } = this.props;
     if (objectives.size < 1) {
       return null;
@@ -134,20 +151,16 @@ class MeetingPage extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null;
     }
-    if (!isFetchedObjectiveCommentLabels) {
-      return null;
-    }
 
     const keyResults = objective.get("keyResults");
-    const comments = this.selectOKRComments(
-      objective,
+    const comments = this.selectKeyResultComments(
       keyResults,
-      objective.get("id"),
+      objective.get("id")
     );
-    const objectiveComments = objective.get("comments");
+    const objectiveComments = this.selectObjectiveComments(objective);
 
     const labels = new Map();
-    keyResultCommentLabels.concat(objectiveCommentLabels).forEach(v => labels.set(v.get("name"), v));
+    keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
     const title = `${objective.get("name")} -ミーティングボード-`;
 
     return (
@@ -192,11 +205,7 @@ class MeetingPage extends PureComponent {
                 labels,
                 meetingBoardCommentLabels.NEXT_4_WEEK,
               )}
-              {this.generateCommentLabelColumn(
-                comments,
-                labels,
-                meetingBoardCommentLabels.ANNOUNCEMENTS,
-              )}
+              {this.generateAnnouncementColumn(objective.get("id"), objectiveComments)}
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
@@ -206,11 +215,9 @@ class MeetingPage extends PureComponent {
           </Grid>
           <CommentModal
             objective={objective}
-            comments={this.selectOKRComments(
-              objective,
+            comments={this.selectKeyResultComments(
               keyResults,
               objective.get("id"),
-              true,
             )}
             keyResultCommentLabels={keyResultCommentLabels}
           />
@@ -230,7 +237,6 @@ MeetingPage.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
   objectives: ImmutablePropTypes.map.isRequired,
   keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
-  objectiveCommentLabels: ImmutablePropTypes.list.isRequired,
   isFetchedKeyResultsCommentLabels: PropTypes.bool.isRequired,
   showDisabledOkrs: PropTypes.bool.isRequired,
   fetchObjective: PropTypes.func.isRequired,
