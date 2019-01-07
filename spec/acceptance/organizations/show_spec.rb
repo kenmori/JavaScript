@@ -64,8 +64,7 @@ RSpec.resource "GET /organizations", warden: true do
       )
 
       expect(response_status).to eq(403)
-      # TODO エラーの使用が古いので master を rebase して直すこと
-      expect(parse_response_body("error")).to eq("許可されていない操作です")
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
 end
