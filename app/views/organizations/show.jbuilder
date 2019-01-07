@@ -17,7 +17,7 @@ json.organization do
       json.is_admin user.admin?
 
       json.departments do
-        json.partial! 'departments/department', collection: user.departments, as: :department
+        json.partial! "departments/department", collection: user.departments, as: :department
       end
     end
   end

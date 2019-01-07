@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
@@ -27,20 +29,20 @@ RSpec.resource "GET /organizations", warden: true do
       expect(parse_response_body("organization")).to include(
         "id" => organization.id,
         "name" => "Test",
-        "logo" => {"url"=>nil},
+        "logo" => { "url" => nil },
         "okr_span" => 3,
         "okr_periods" => [],
         "users" => [
           {
             "id" => admin_user.id,
-            "first_name"=> "太郎",
-            "last_name"=> "山田",
-            "avatar_url"=> nil,
-            "disabled"=> false,
-            "sign_in_at"=> be_time_iso8601,
-            "email"=>"yamada@example.com",
-            "is_confirming"=>nil,
-            "is_admin"=>true,
+            "first_name" => "太郎",
+            "last_name" => "山田",
+            "avatar_url" => nil,
+            "disabled" => false,
+            "sign_in_at" => be_time_iso8601,
+            "email" => "yamada@example.com",
+            "is_confirming" => nil,
+            "is_admin" => true,
             "departments" => [
               {
                 "id" => dep_1.id,
