@@ -31,7 +31,6 @@ RSpec.resource "GET /key_results/comment_labels", warden: true do
       expect(parse_response_body("labels").map { |l| l["name"] }).to contain_exactly(
         "今週の優先事項",
         "今後4週間(プロジェクト)",
-        "健康・健全性",
         "ウィンセッション",
         "課題・障害"
       )
