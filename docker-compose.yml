@@ -22,7 +22,7 @@ services:
       args:
         RAILS_ENV: development
         NODE_ENV: development
-    command: bundle exec foreman start -f Procfile.dev
+    command: yarn run start:dev
     volumes:
       - .:/app
       - bundle:/usr/local/bundle

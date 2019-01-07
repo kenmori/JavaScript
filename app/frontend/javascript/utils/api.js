@@ -12,12 +12,10 @@ const defaultHeaders = {
   },
 };
 
-const csrfToken = document.getElementsByName("csrf-token").item(0).content;
 const csrfHeaders = {
   credentials: "same-origin",
   headers: {
     Accept: "application/json",
-    "X-CSRF-Token": csrfToken,
   },
 };
 

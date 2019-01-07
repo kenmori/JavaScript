@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   respond_to :html, :json
 
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :null_session
 
   helper_method :current_user
   helper_method :current_organization
