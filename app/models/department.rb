@@ -37,8 +37,6 @@ class Department < ApplicationRecord
 
   enum kind: { first_root: 0, nomal: 1 } # migration で nomal を default にしている
 
-  scope :default, -> { where(kind: :first_root) }
-
   alias archived? soft_destroyed?
 
   def active?
@@ -48,5 +46,4 @@ class Department < ApplicationRecord
   def first_root?
     kind == "first_root"
   end
-  alias default? first_root?
 end
