@@ -55,5 +55,17 @@ RSpec.resource "GET /organizations", warden: true do
         ]
       )
     end
+
+    example "ERROR: You can not specify an organization different from the sign-in user" do
+      explanation "サインインユーザーとは別の組織を指定することは出来ない"
+
+      do_request(
+        id: other_org.id
+      )
+
+      expect(response_status).to eq(403)
+      # TODO エラーの使用が古いので master を rebase して直すこと
+      expect(parse_response_body("error")).to eq("許可されていない操作です")
+    end
   end
 end
