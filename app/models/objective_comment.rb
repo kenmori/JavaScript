@@ -33,7 +33,7 @@ class ObjectiveComment < ApplicationRecord
 
     # 関係者まで含めると重複が多くなるため uniq で一意にする
     target_users.uniq.each do |user|
-      NotificationMailer.update_o_comment(Current.user, objective, user).deliver_later
+      NotificationMailer.update_o_comment(Current.user, objective, self, user).deliver_later
     end
   end
 end
