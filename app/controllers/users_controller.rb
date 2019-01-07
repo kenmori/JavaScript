@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
     disabled = params[:disabled]
     if @user.update_attribute(:disabled_at, disabled ? Time.current : nil)
-      render action: :show, status: :ok
+      render status: :ok
     else
       unprocessable_entity_with_errors(@user.errors.full_messages)
     end
@@ -102,7 +102,7 @@ class UsersController < ApplicationController
     end
 
     def valid_operatable_user?
-      user_id = params[:id]
+      user_id = params[:id] == "me" ? current_user.id : params[:id]
       forbidden and return unless current_user.id == user_id.to_i || current_user.admin?
     end
 
