@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_091900) do
     t.integer "display_order", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "kind"
     t.index ["ancestry"], name: "index_departments_on_ancestry"
     t.index ["display_order"], name: "index_departments_on_display_order"
     t.index ["organization_id"], name: "index_departments_on_organization_id"
