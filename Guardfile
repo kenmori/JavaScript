@@ -8,7 +8,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(%r{^spec/support/.+\.rb$})                    { "spec" }
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/acceptance/#{m[1]}/#{m[2]}_spec.rb" }
+  watch(%r{^app/views/(.*)/(.*)(\.erb|\.slim|\.jbuilder)$})   { |m| "spec/acceptance/#{m[1]}/#{m[2]}_spec.rb" }
   watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch(%r{^app/controllers/(.+)_controller\.rb$})    { |m| Dir["spec/acceptance/#{m[1]}/*_spec.rb"] }
   watch(%r{^app/concepts/(.+)/(.+)\.rb$})             { |m| "spec/concepts/#{m[1]}/#{m[2]}_spec.rb" }
