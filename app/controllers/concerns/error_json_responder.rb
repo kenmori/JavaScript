@@ -48,10 +48,7 @@ module ErrorJsonResponder
       render json: error_format, status: status_code
     end
 
-    # conceptを実行して成功すれば block を実行し、失敗すればエラーをrenderする
-    # 引数 render_method は古い仕様である render_with_error でエラーを返す必要がある場合にメソッド名を指定する。
-    # これは古い仕様に対応するための処置なので将来的には削除する。
-    def runner(concept, params, render_method: :render_error_json)
+    def runner(concept, params)
       result = concept.call(params: params, current_user: current_user)
 
       if result.success?
@@ -59,13 +56,12 @@ module ErrorJsonResponder
         return true
       end
 
-      renderer = method(render_method)
       if result["result.policy.default"]&.failure?
-        renderer.call(:forbidden, I18n.t("http_status.forbidden"))
+        render_error_json(:forbidden, I18n.t("http_status.forbidden"))
       elsif result["result.contract.default"]&.failure?
-        renderer.call(:bad_request, result["contract.default"].errors.full_messages)
+        render_error_json(:bad_request, result["contract.default"].errors.full_messages)
       else
-        renderer.call(:bad_request, I18n.t("http_status.code_400"))
+        render_error_json(:bad_request, I18n.t("http_status.code_400"))
       end
       false
     end
