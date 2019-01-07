@@ -123,10 +123,10 @@ class MeetingPage extends PureComponent {
       objectives,
       objective,
       keyResultCommentLabels,
+      objectiveCommentLabels,
       showDisabledOkrs,
       isFetchedKeyResultsCommentLabels,
       isFetchedObjectiveCommentLabels,
-      openObjectiveCommentModal,
     } = this.props;
     if (objectives.size < 1) {
       return null;
@@ -147,8 +147,7 @@ class MeetingPage extends PureComponent {
     const objectiveComments = objective.get("comments");
 
     const labels = new Map();
-    keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
-    const objectiveCommentLabels = this.props.objectiveCommentLabels;
+    keyResultCommentLabels.concat(objectiveCommentLabels).forEach(v => labels.set(v.get("name"), v));
     const title = `${objective.get("name")} -ミーティングボード-`;
 
     return (
@@ -162,15 +161,6 @@ class MeetingPage extends PureComponent {
             className="meeting-board__header">
             <div className="meeting-board__headerPane">
               <p className="meeting-board__headerPane__title">{title}</p>
-              <a
-                className="meeting-board__headerPane__button"
-                onClick={openObjectiveCommentModal.bind(
-                  this,
-                  objectiveCommentLabels,
-                )}>
-                <Icon name="plus" />
-                <span>コメントを追加する</span>
-              </a>
             </div>
           </Header>
           <Grid celled columns={3} className="meeting-board__content">
@@ -205,7 +195,7 @@ class MeetingPage extends PureComponent {
               {this.generateCommentLabelColumn(
                 comments,
                 labels,
-                meetingBoardCommentLabels.HEALTH,
+                meetingBoardCommentLabels.ANNOUNCEMENTS,
               )}
               {this.generateCommentLabelColumn(
                 comments,

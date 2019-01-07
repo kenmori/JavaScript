@@ -4,7 +4,7 @@ module PresetObjectiveCommentLabels
   module Objective
     DEFAULT_LABELS = [
       {
-        name: "健康・健全性",
+        name: "アナウンスメント",
         color: "green"
       }
     ].map(&:freeze).freeze

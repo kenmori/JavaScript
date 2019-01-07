@@ -12,10 +12,6 @@ module PresetCommentLabels
         color: "teal"
       },
       {
-        name: "健康・健全性",
-        color: "green"
-      },
-      {
         name: "ウィンセッション",
         color: "pink"
       },
