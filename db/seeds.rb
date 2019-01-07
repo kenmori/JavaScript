@@ -209,22 +209,4 @@ ApplicationRecord.transaction do
     progress_rate: 100,
     expired_date: "2017-09-30"
   )
-
-  # 開発部 OKR を作成
-  development_group = organization.groups.create(name: "開発部")
-  development_group.group_members.create(user_id: another.id)
-  development_group.owner.objectives.create(
-    name: "生産的な開発体制を構築する",
-    description: "",
-    okr_period_id: inactive_okr_period.id
-  )
-
-  # マーケティング部 OKR 作成
-  marketing_group = organization.groups.create(name: "マーケティング部")
-  marketing_group.group_members.create(user_id: login_user.id)
-  marketing_group.owner.objectives.create(
-    name: "グローバルマーケティングを実施する",
-    description: "",
-    okr_period_id: inactive_okr_period.id
-  )
 end

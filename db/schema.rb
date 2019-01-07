@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_151802) do
+ActiveRecord::Schema.define(version: 2019_01_04_082649) do
 
   create_table "bounce_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -67,21 +67,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_151802) do
     t.index ["display_order"], name: "index_departments_on_display_order"
     t.index ["organization_id"], name: "index_departments_on_organization_id"
     t.index ["soft_destroyed_at"], name: "index_departments_on_soft_destroyed_at"
-  end
-
-  create_table "group_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "group_id", null: false
-    t.integer "user_id", null: false
-    t.integer "role", limit: 1, default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "organization_id", null: false
-    t.string "name", null: false
   end
 
   create_table "key_result_comment_labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
