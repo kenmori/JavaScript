@@ -11,7 +11,8 @@ json.organization do
 
   json.users do
     json.array! @organization.users do |user|
-      json.extract! user, :id, :first_name, :last_name, :avatar_url, :disabled, :sign_in_at
+      json.extract! user, :id, :first_name, :last_name, :avatar_url, :sign_in_at
+      json.disabled !!user.disabled_at || @organization.disabled
       json.email user.unconfirmed_email || user.email
       json.is_confirming !user.confirmed? || user.unconfirmed_email
       json.is_admin user.admin?

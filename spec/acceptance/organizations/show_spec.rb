@@ -20,6 +20,8 @@ RSpec.resource "GET /organizations", warden: true do
       explanation "組織情報を取得する"
 
       dep_1
+      okr_period
+      DepartmentMemberFactory.new(department: dep_1, user: other_user).create
 
       do_request(
         id: organization.id
@@ -31,18 +33,46 @@ RSpec.resource "GET /organizations", warden: true do
         "name" => "Test",
         "logo" => { "url" => nil },
         "okr_span" => 3,
-        "okr_periods" => [],
+        "okr_periods" => [
+          {
+            "id" => okr_period.id,
+            "name" => "3Q",
+            "start_date" => a_kind_of(String),
+            "end_date" => a_kind_of(String)
+          }
+        ],
         "users" => [
           {
             "id" => admin_user.id,
             "first_name" => "太郎",
             "last_name" => "山田",
             "avatar_url" => nil,
-            "disabled" => false,
             "sign_in_at" => be_time_iso8601,
+            "disabled" => false,
             "email" => "yamada@example.com",
             "is_confirming" => nil,
             "is_admin" => true,
+            "departments" => [
+              {
+                "id" => dep_1.id,
+                "organization_id" => organization.id,
+                "display_order" => 1,
+                "name" => "代表",
+                "created_at" => be_time_iso8601,
+                "updated_at" => be_time_iso8601
+              }
+            ]
+          },
+          {
+            "id" => other_user.id,
+            "first_name" => "園田",
+            "last_name" => "次郎",
+            "avatar_url" => nil,
+            "sign_in_at" => nil,
+            "disabled" => false,
+            "email" => "other_user@example.com",
+            "is_confirming" => nil,
+            "is_admin" => false,
             "departments" => [
               {
                 "id" => dep_1.id,
