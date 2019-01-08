@@ -32,7 +32,6 @@ gem "rmagick"
 gem "sidekiq", "~> 5.1"
 gem "slim-rails", "~> 3.1", ">= 3.1.3"
 gem "trailblazer-rails"
-gem "webpacker", "= 3.5.5"
 
 group :development do
   gem "annotate"

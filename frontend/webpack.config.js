@@ -6,9 +6,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const devMode = process.env.NODE_ENV !== 'production'
 const rootDir = path.resolve(__dirname, ".");
-const srcDir = path.resolve(rootDir, "app/frontend");
+const srcDir = path.resolve(rootDir, "src");
 const outputPath = path.resolve(rootDir, "dist");
-
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
@@ -57,8 +56,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(rootDir, "public/index.html"),
-      favicon: path.resolve(rootDir, "public/favicon.ico"),
+      template: path.resolve(rootDir, "statics/index.html"),
+      favicon: path.resolve(rootDir, "statics/favicon.ico"),
       hash: true,
       minify: {
         collapseWhitespace: true,
@@ -80,6 +79,16 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://api:8080',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          "^/api": ""
+        },
+      },
+    },
     contentBase: outputPath,
     historyApiFallback: true,
     disableHostCheck: true,

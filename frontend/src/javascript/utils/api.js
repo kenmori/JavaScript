@@ -19,6 +19,8 @@ const csrfHeaders = {
   },
 };
 
+const apiEndpoint = '/api';
+
 const handlerResponse = response => {
   if (response.status == 200 || response.status == 201) {
     return response.json().then(body => fromJS(camelizeKeys(body)));
@@ -80,12 +82,12 @@ const API = {
   get: (url, query = {}) => {
     if (Object.keys(query).length != 0)
       url += `?${queryString.stringify(decamelizeKeys(query))}`;
-    return fetch(url, { ...defaultHeaders, ...{ method: "GET" } })
+    return fetch(`${apiEndpoint}${url}`, { ...defaultHeaders, ...{ method: "GET" } })
       .then(handlerResponse)
       .catch(error => ({ error }));
   },
   post: (url, data) =>
-    fetch(url, {
+    fetch(`${apiEndpoint}${url}`, {
       ...setContentType(data, csrfHeaders),
       ...{ body: bodyData(data) },
       ...{ method: "POST" },
@@ -93,7 +95,7 @@ const API = {
       .then(handlerResponse)
       .catch(error => ({ error })),
   put: (url, data) =>
-    fetch(url, {
+    fetch(`${apiEndpoint}${url}`, {
       ...setContentType(data, csrfHeaders),
       ...{ body: bodyData(data) },
       ...{ method: "PUT" },
@@ -101,7 +103,7 @@ const API = {
       .then(handlerResponse)
       .catch(error => ({ error })),
   delete: url =>
-    fetch(url, { ...csrfHeaders, ...{ method: "DELETE" } })
+    fetch(`${apiEndpoint}${url}`, { ...csrfHeaders, ...{ method: "DELETE" } })
       .then(handlerResponse)
       .catch(error => ({ error })),
 };
