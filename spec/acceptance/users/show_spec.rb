@@ -16,7 +16,7 @@ RSpec.resource "GET /users/:id", warden: true do
   end
 
   get "/users/:id" do
-    parameter :id, "詳細情報を取得するユーザID", type: :integer, required: true
+    parameter :id, "詳細情報を取得するユーザID", type: :string, required: true
 
     example "SUCCESS: Get the user detail" do
       explanation "指定したユーザIDの詳細を取得する"
@@ -77,6 +77,60 @@ RSpec.resource "GET /users/:id", warden: true do
 
       login_as(admin_user)
       do_request(id: nomal_user.id)
+      expect(response_status).to eq(200)
+
+      user = parse_response_body("user")
+      expect(user).to include(
+        "id" => nomal_user.id,
+        "last_name" => nomal_user.last_name,
+        "first_name" => nomal_user.first_name,
+        "avatar_url" => nomal_user.avatar_url,
+        "departments" => [],
+        "disabled" => false,
+        "sign_in_at" => be_time_iso8601,
+        "email" => nomal_user.email,
+        "is_confirming" => nil,
+        "is_admin" => false,
+        "setting" => {
+          "notify_remind_email_enabled" => true,
+          "show_child_objectives" => true,
+          "show_disabled_okrs" => false,
+          "show_member_key_results" => true,
+          "show_objective_key_results" => true
+        },
+        "organization" => {
+          "id" => organization.id,
+          "name" => organization.name,
+          "okr_span" => organization.okr_span,
+          "logo" => {
+            "url" => nil
+          },
+          "current_okr_period" => {
+            "id" => okr_period.id,
+            "start_date" => okr_period.start_date.strftime("%Y-%m-%d"),
+            "end_date" => okr_period.end_date.strftime("%Y-%m-%d"),
+            "name" => okr_period.name
+          },
+          "owner" => {
+            "id" => nomal_user.id,
+            "email" => nomal_user.email,
+            "first_name" => nomal_user.first_name,
+            "last_name" => nomal_user.last_name,
+            "is_admin" => false,
+            "is_confirming" => nil,
+            "disabled" => false,
+            "avatar_url" => nil,
+            "departments" => [],
+            "sign_in_at" => be_time_iso8601
+          }
+        }
+      )
+    end
+
+    example "SUCCESS: Get myself detail" do
+      explanation "自身の詳細を取得する"
+
+      do_request(id: "me")
       expect(response_status).to eq(200)
 
       user = parse_response_body("user")

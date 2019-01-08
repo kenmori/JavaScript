@@ -10,13 +10,7 @@ import Logo from "./util/Logo";
 
 class MenuBar extends PureComponent {
   userTrigger = loginUser => {
-    if (!this.props.isFetchedMyDetail) {
-      return;
-    }
-
-    return (
-      <UserAvatar user={loginUser} size="tiny" withInitial={false} withName />
-    );
+    return <UserAvatar user={loginUser} size='tiny' withInitial={false} withName />
   };
 
   handleOrganizationOkrClick = () => this.props.selectUser(this.props.ownerId);
