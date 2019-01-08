@@ -10,6 +10,7 @@
 # **`id`**                 | `bigint(8)`        | `not null, primary key`
 # **`ancestry`**           | `string(255)`      |
 # **`display_order`**      | `integer`          | `not null`
+# **`kind`**               | `integer`          |
 # **`name`**               | `string(255)`      | `not null`
 # **`soft_destroyed_at`**  | `datetime`         |
 # **`created_at`**         | `datetime`         | `not null`
@@ -35,19 +36,15 @@ class Department < ApplicationRecord
   has_many :department_members_members, -> { where(role: :member) }, class_name: "DepartmentMember"
   has_many :members, through: :department_members_members, class_name: "User", source: :user
 
-  class << self
-    def create_default!(organization:)
-      Department.create!(
-        organization: organization,
-        name: Settings.config.department.default_name,
-        display_order: 1,
-        parent: nil
-      )
-    end
-  end
+  enum kind: { first_root: 0, nomal: 1 } # migration で nomal を default にしている
 
   alias archived? soft_destroyed?
+
   def active?
     !archived?
+  end
+
+  def first_root?
+    kind == "first_root"
   end
 end

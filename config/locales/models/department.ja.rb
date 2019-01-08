@@ -24,6 +24,7 @@ department_create_attrs = {
     activemodel: {
       attributes: {
         'department/create': department_create_attrs,
+        'department/create_default': department_create_attrs,
         'department/index': {
           organization_id: model_names[:organization],
           ids: "#{model_names[:department]}ID"
