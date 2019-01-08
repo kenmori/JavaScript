@@ -21,7 +21,7 @@ class SettingsPage extends React.Component {
           render: () => <AccountSettingTab />,
           name: "account",
         },
-      ]
+      ],
     };
   }
 
@@ -45,9 +45,12 @@ class SettingsPage extends React.Component {
           menuItem: "ユーザー",
           render: () => <UserSettingTab />,
           name: "users",
-        }];
+        },
+      ];
       return {
-        panes: nextProps.isAdmin ? prevState.panes.concat(adminPanes) : prevState.panes,
+        panes: nextProps.isAdmin
+          ? prevState.panes.concat(adminPanes)
+          : prevState.panes,
       };
     }
 
@@ -57,18 +60,24 @@ class SettingsPage extends React.Component {
   handleTabChange = (event, { activeIndex }) => {
     const targetPane =
       this.state.panes.find(item => item.id === Number(activeIndex)) || {};
-    this.props.changeURL(`/settings/${targetPane.name || this.state.panes[0].name}`);
+    this.props.changeURL(
+      `/settings/${targetPane.name || this.state.panes[0].name}`,
+    );
   };
 
   componentDidMount() {
-    const targetPane = this.state.panes.find(item => item.name === this.props.name);
+    const targetPane = this.state.panes.find(
+      item => item.name === this.props.name,
+    );
     if (!targetPane) {
       return this.props.changeURL("/");
     }
   }
 
   render() {
-    const targetPane = this.state.panes.find(pane => pane.name === this.props.name);
+    const targetPane = this.state.panes.find(
+      pane => pane.name === this.props.name,
+    );
     if (!targetPane) return null;
 
     return (

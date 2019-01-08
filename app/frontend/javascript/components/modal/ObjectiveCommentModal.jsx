@@ -65,12 +65,7 @@ class ObjectiveCommentModal extends PureComponent {
   };
 
   render() {
-    const {
-      objective,
-      comments,
-      isOpen,
-      closeModal,
-    } = this.props;
+    const { objective, comments, isOpen, closeModal } = this.props;
     const { text } = this.state;
     const name = objective.get("name");
 

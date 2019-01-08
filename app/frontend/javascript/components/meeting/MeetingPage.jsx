@@ -17,17 +17,16 @@ class MeetingPage extends PureComponent {
 
   selectKeyResultComments = (keyResults, objectiveId) => {
     const { showDisabledOkrs } = this.props;
-    const comments =
-      keyResults
-        .filter(
-          v =>
-            objectiveId === v.get("objectiveId") &&
-            v.get("comments") &&
-            (showDisabledOkrs || !v.get("disabled")),
-        )
-        .map(v => v.get("comments").map(c => c.set("KeyResult", v)))
-        .toList()
-        .flatten(1);
+    const comments = keyResults
+      .filter(
+        v =>
+          objectiveId === v.get("objectiveId") &&
+          v.get("comments") &&
+          (showDisabledOkrs || !v.get("disabled")),
+      )
+      .map(v => v.get("comments").map(c => c.set("KeyResult", v)))
+      .toList()
+      .flatten(1);
 
     return comments
       .filter(v => v.get("showMeetingBoard") && v.get("label") != null)
@@ -44,9 +43,9 @@ class MeetingPage extends PureComponent {
       });
   };
 
-  selectObjectiveComments = (objective) => {
-    return objective
-      .get('comments')
+  selectObjectiveComments = objective =>
+    objective
+      .get("comments")
       .filter(v => v.get("showMeetingBoard"))
       .sort((a, b) => {
         if (a.get("updatedAt") < b.get("updatedAt")) {
@@ -59,17 +58,12 @@ class MeetingPage extends PureComponent {
           return 0;
         }
       });
-  };
 
   selectLabelCommnets = (comments, label) =>
     comments.filter(v => v.get("label").get("name") === label);
 
   generateCommentLabelColumn = (comments, labels, labelName) => {
-    const {
-      updateKeyResult,
-      openCommentModal,
-      confirm,
-    } = this.props;
+    const { updateKeyResult, openCommentModal, confirm } = this.props;
     const label = labels.get(labelName);
 
     return (
@@ -93,11 +87,7 @@ class MeetingPage extends PureComponent {
   };
 
   generateAnnouncementColumn = (objectiveId, announcements) => {
-    const {
-      updateObjective,
-      openObjectiveCommentModal,
-      confirm,
-    } = this.props;
+    const { updateObjective, openObjectiveCommentModal, confirm } = this.props;
 
     return (
       <Grid.Column>
@@ -155,7 +145,7 @@ class MeetingPage extends PureComponent {
     const keyResults = objective.get("keyResults");
     const comments = this.selectKeyResultComments(
       keyResults,
-      objective.get("id")
+      objective.get("id"),
     );
     const objectiveComments = this.selectObjectiveComments(objective);
 
@@ -205,7 +195,10 @@ class MeetingPage extends PureComponent {
                 labels,
                 meetingBoardCommentLabels.NEXT_4_WEEK,
               )}
-              {this.generateAnnouncementColumn(objective.get("id"), objectiveComments)}
+              {this.generateAnnouncementColumn(
+                objective.get("id"),
+                objectiveComments,
+              )}
               {this.generateCommentLabelColumn(
                 comments,
                 labels,

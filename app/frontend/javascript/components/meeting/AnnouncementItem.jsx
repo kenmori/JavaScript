@@ -31,15 +31,15 @@ class AnnouncementItem extends PureComponent {
       content: "アナウンスメントをミーティングボードから非表示にしますか？",
       onConfirm: () => {
         updateObjective({
-            id: objectiveId,
-            comment: {
-              data: {
-                id: comment.get("id"),
-                show_meeting_board: false,
-              },
-              behavior: "update_show_meeting_board",
+          id: objectiveId,
+          comment: {
+            data: {
+              id: comment.get("id"),
+              show_meeting_board: false,
             },
-          });
+            behavior: "update_show_meeting_board",
+          },
+        });
       },
     });
   };

@@ -31,16 +31,16 @@ class LabelItem extends PureComponent {
     confirm({
       content: "コメントをミーティングボードから非表示にしますか？",
       onConfirm: () => {
-          updateKeyResult({
-            id: comment.get("KeyResult").get("id"),
-            comment: {
-              data: {
-                id: comment.get("id"),
-                show_meeting_board: false,
-              },
-              behavior: "update_show_meeting_board",
+        updateKeyResult({
+          id: comment.get("KeyResult").get("id"),
+          comment: {
+            data: {
+              id: comment.get("id"),
+              show_meeting_board: false,
             },
-          });
+            behavior: "update_show_meeting_board",
+          },
+        });
       },
     });
   };

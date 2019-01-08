@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => ({
   updateObjective: objective => {
     dispatch(objectiveActions.updateObjective(objective));
   },
-  openCommentModal: (commentLabel) => {
+  openCommentModal: commentLabel => {
     dispatch(dialogActions.openCommentModal(commentLabel));
   },
   openObjectiveCommentModal: () => {
