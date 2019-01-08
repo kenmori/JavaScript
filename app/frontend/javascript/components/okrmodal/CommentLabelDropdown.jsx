@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Form } from "semantic-ui-react";
+import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels";
 
 class CommentLabelDropdown extends PureComponent {
   constructor() {
@@ -17,12 +18,18 @@ class CommentLabelDropdown extends PureComponent {
         text: "",
       },
     ].concat(
-      commentLabels.toArray().map(e => ({
-        key: e.get("id"),
-        value: e.get("id"),
-        text: e.get("name"),
-        label: { color: e.get("color"), empty: true, circular: true },
-      })),
+      commentLabels
+        // 健康・健全性は過去存在していたラベルで今は存在しない
+        // ただし過去からのユーザは健康・健全性ラベルのついたコメントが残っているので
+        // ラベルとしては残すが新規投稿はさせない
+        .filter(e => e.get("name") !== meetingBoardCommentLabels.HEALTH)
+        .toArray()
+        .map(e => ({
+          key: e.get("id"),
+          value: e.get("id"),
+          text: e.get("name"),
+          label: { color: e.get("color"), empty: true, circular: true },
+        })),
     );
     const value = defaultValue != null ? defaultValue : "";
 

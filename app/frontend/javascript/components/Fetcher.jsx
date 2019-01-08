@@ -19,9 +19,6 @@ class Fetcher extends PureComponent {
     if (!this.props.isFetchedKeyResultsCommentLabels) {
       this.props.fetchKeyResultCommentLabels();
     }
-    if (!this.props.isFetchedObjectiveCommentLabels) {
-      this.props.fetchObjectiveCommentLabels();
-    }
   }
 
   componentWillReceiveProps(nextProps) {

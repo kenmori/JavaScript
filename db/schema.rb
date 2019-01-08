@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_04_082649) do
-
+ActiveRecord::Schema.define(version: 2019_01_07_091900) do
   create_table "bounce_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
     t.datetime "sent_at", null: false
@@ -108,15 +107,6 @@ ActiveRecord::Schema.define(version: 2019_01_04_082649) do
     t.index ["objective_id"], name: "index_key_results_on_objective_id"
   end
 
-  create_table "objective_comment_labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "name"
-    t.string "color"
-    t.bigint "organization_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_objective_comment_labels_on_organization_id"
-  end
-
   create_table "objective_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "objective_id"
     t.integer "user_id"
@@ -124,8 +114,6 @@ ActiveRecord::Schema.define(version: 2019_01_04_082649) do
     t.boolean "show_meeting_board", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "objective_comment_label_id"
-    t.index ["objective_comment_label_id"], name: "index_objective_comments_on_objective_comment_label_id"
   end
 
   create_table "objective_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -240,6 +228,4 @@ ActiveRecord::Schema.define(version: 2019_01_04_082649) do
   add_foreign_key "department_objectives", "objectives"
   add_foreign_key "departments", "organizations"
   add_foreign_key "key_result_comment_labels", "organizations"
-  add_foreign_key "objective_comment_labels", "organizations"
-  add_foreign_key "objective_comments", "objective_comment_labels"
 end

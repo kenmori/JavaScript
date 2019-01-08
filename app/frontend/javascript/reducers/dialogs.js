@@ -84,12 +84,11 @@ export default handleActions(
           commentLabel: payload.commentLabel,
         }),
       ),
-    [ActionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: (state, { payload }) =>
+    [ActionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: state =>
       state.set(
         "objectiveComment",
         fromJS({
           isOpen: true,
-          commentLabel: payload.commentLabel,
         }),
       ),
     [ActionTypes.CLOSE_COMMENT_MODAL]: state =>

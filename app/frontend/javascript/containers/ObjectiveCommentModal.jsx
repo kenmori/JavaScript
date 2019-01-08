@@ -7,7 +7,6 @@ const mapStateToProps = state => {
   const objectiveComment = state.dialogs.get("objectiveComment");
   return {
     isOpen: objectiveComment.get("isOpen"),
-    commentLabel: objectiveComment.get("commentLabel"),
   };
 };
 

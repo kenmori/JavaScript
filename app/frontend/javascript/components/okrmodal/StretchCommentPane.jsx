@@ -23,7 +23,7 @@ class StretchCommentPane extends PureComponent {
   render() {
     const { comments, commentLabels, onDelete, onUpdate } = this.props;
     const viewComments = comments.filter(
-      (el, index) => index < this.state.displayCommentCount,
+      (_, index) => index < this.state.displayCommentCount,
     );
 
     return (

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Comment, Icon } from "semantic-ui-react";
 import moment from "moment";
-import OkrName from "../util/OkrName";
 import Markdown from "../util/Markdown";
 import UserName from "../util/UserName";
 import Avatar from "../util/Avatar";
@@ -11,7 +10,7 @@ import Avatar from "../util/Avatar";
 const INITIAL_VIEW_COMMENT = 3;
 const VIEW_MORE_COMMENT = 5;
 
-class LabelItem extends PureComponent {
+class AnnouncementItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,13 +25,13 @@ class LabelItem extends PureComponent {
   };
 
   handleDeleteClick = comment => {
-    const { updateKeyResult, confirm } = this.props;
+    const { objectiveId, updateObjective, confirm } = this.props;
 
     confirm({
-      content: "コメントをミーティングボードから非表示にしますか？",
+      content: "アナウンスメントをミーティングボードから非表示にしますか？",
       onConfirm: () => {
-          updateKeyResult({
-            id: comment.get("KeyResult").get("id"),
+        updateObjective({
+            id: objectiveId,
             comment: {
               data: {
                 id: comment.get("id"),
@@ -58,16 +57,12 @@ class LabelItem extends PureComponent {
             const user = v.get("user");
             const comment = v.get("text");
             const updatedAt = v.get("updatedAt");
-            const keyResult = v.get("KeyResult");
 
             return (
               <Comment.Group
                 key={v.get("id")}
                 className="okr-comment-text-only">
                 <Comment>
-                  <div className="meeting-board__comment__okrname">
-                    <OkrName okr={keyResult} />
-                  </div>
                   <Avatar user={user} />
                   <Comment.Content>
                     <Comment.Author>
@@ -105,10 +100,11 @@ class LabelItem extends PureComponent {
   }
 }
 
-LabelItem.propTypes = {
+AnnouncementItem.propTypes = {
+  objectiveId: PropTypes.number.isRequired,
   comments: ImmutablePropTypes.list.isRequired,
-  updateKeyResult: PropTypes.func.isRequired,
+  updateObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
 };
 
-export default LabelItem;
+export default AnnouncementItem;

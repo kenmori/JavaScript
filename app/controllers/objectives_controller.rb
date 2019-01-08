@@ -116,10 +116,6 @@ class ObjectivesController < ApplicationController
     end
   end
 
-  def comment_labels
-    @objective_labels = current_user.organization.objective_comment_labels
-  end
-
   private
 
     def valid_user_to_create?
@@ -216,24 +212,14 @@ class ObjectivesController < ApplicationController
 
       case comment_data["behavior"]
       when "add"
-        comment_label = ObjectiveCommentLabel.find_by(
-          id: comment_data["objective_comment_label"]["id"],
-          organization: current_user.organization
-        )
-
         @objective.objective_comments.create!(
           text: comment_data["data"],
-          user_id: current_user.id,
-          objective_comment_label: comment_label
+          user_id: current_user.id
         )
       when "edit"
         data = comment_data["data"]
-        comment_label = ObjectiveCommentLabel.find_by(
-          id: data["objective_comment_label"]["id"],
-          organization: current_user.organization
-        )
         comment = @objective.objective_comments.find(data["id"])
-        comment.update(text: data[:text], objective_comment_label: comment_label)
+        comment.update(text: data[:text])
       when "remove"
         comment = @objective.objective_comments.find(comment_data["data"])
         comment.destroy!
