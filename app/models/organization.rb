@@ -29,7 +29,6 @@ class Organization < ApplicationRecord
   has_many :departments, dependent: :destroy
 
   after_create :create_key_result_comment_labels
-
   mount_uploader :logo, LogoUploader
 
   def owner
