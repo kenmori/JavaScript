@@ -8,7 +8,7 @@ import KeyResultModal from "../containers/KeyResultModal";
 import ObjectiveModal from "../containers/ObjectiveModal";
 import OkrModal from "../containers/OkrModal";
 import OptionModal from "../containers/OptionModal";
-import DefaultLauyout from "./templates/DefaultLayout";
+import DefaultLayout from "./templates/DefaultLayout";
 
 class Home extends PureComponent {
   render() {
@@ -19,7 +19,7 @@ class Home extends PureComponent {
 
   renderBody() {
     return (
-      <DefaultLauyout>
+      <DefaultLayout>
         <div className="home">
           <Fetcher okrHash={this.props.okrHash} />
           <MenuBar />
@@ -31,7 +31,7 @@ class Home extends PureComponent {
             <OptionModal />
           </main>
         </div>
-      </DefaultLauyout>
+      </DefaultLayout>
     );
   }
 }

@@ -7,6 +7,7 @@ import withLoading from "../utils/withLoading";
 
 function* signIn({ payload }) {
   yield call(API.post, "/users/sign_in", { user: payload.user });
+  localStorage.setItem("isLoggedIn", true);
 
   // トップページ以外からの流入であればURLを引き回す
   const path =
@@ -16,7 +17,8 @@ function* signIn({ payload }) {
           .replace(/#.*/, "")
           .replace(/\?.*/, "")
       : "/";
-  if (path == "/") {
+
+  if (path == "" || path == "/") {
     location.href = "/";
   } else {
     location.href = path;
@@ -25,6 +27,8 @@ function* signIn({ payload }) {
 
 function* signOut() {
   yield call(API.delete, "/users/sign_out");
+  localStorage.setItem("isLoggedIn", false);
+
   location.href = "/";
 }
 

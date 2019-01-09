@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
 import ReactGA from "react-ga";
 import Home from "../containers/Home";
 import SignUpPage from "../containers/SignUpPage";
@@ -16,25 +16,47 @@ history.listen(location => {
   ReactGA.pageview(location.pathname);
 });
 
-export default function Router() {
+function isAuthenticated() {
+  return localStorage.getItem("isLoggedIn") === "true";
+}
+
+function PrivateRoute({ component: Component, ...rest }) {
   return (
-    <BrowserRouter history={history}>
-      <Switch>
-        <Route exact path="/users/sign_up" component={SignUpPage} />
-        <Route
-          exact
-          path="/users/password/reset"
-          component={PasswordResetPage}
-        />
-        <Route exact path="/users/password/edit" component={PasswordSetPage} />
-        <Route exact path="/users/confirmation" component={PasswordSetPage} />
-        <Route exact path="/users/sign_in" component={SignInPage} />
-        <Route exact path="/settings" component={SettingsPage} />
-        <Route exact path="/settings/:name" component={SettingsPage} />
-        <Route exact path="/okr/:okrHash" component={Home} />
-        <Route exact path="/meetings/:objectiveHash" component={MeetingPage} />
-        <Route path="/" component={Home} />
-      </Switch>
-    </BrowserRouter>
+    <Route
+      {...rest}
+      render={props =>
+        isAuthenticated() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/users/sign_in",
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
   );
 }
+
+export default () => (
+  <Router history={history}>
+    <Switch>
+      <Route exact path="/login" component={SignInPage} />
+      <Route exact path="/users/sign_up" component={SignUpPage} />
+      <Route exact path="/users/password/reset" component={PasswordResetPage} />
+      <Route exact path="/users/password/edit" component={PasswordSetPage} />
+      <Route exact path="/users/confirmation" component={PasswordSetPage} />
+      <PrivateRoute exact path="/settings" component={SettingsPage} />
+      <PrivateRoute exact path="/settings/:name" component={SettingsPage} />
+      <PrivateRoute exact path="/okr/:okrHash" component={Home} />
+      <PrivateRoute
+        exact
+        path="/meetings/:objectiveHash"
+        component={MeetingPage}
+      />
+      <PrivateRoute path="/" component={Home} />
+    </Switch>
+  </Router>
+);

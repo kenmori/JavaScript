@@ -60,7 +60,10 @@ body {
   margin: 0;
   font-family: $DEFAULT_FONT;
   font-weight: 500;
-  height: 100%;
+
+  > div#root {
+    height: 100%;
+  }
 }
 
 .content {

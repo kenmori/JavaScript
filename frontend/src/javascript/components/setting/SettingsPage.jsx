@@ -9,6 +9,7 @@ import UserSettingTab from "../../containers/UserSettingTab";
 import OrganizationSettingTab from "../../containers/OrganizationSettingTab";
 import OkrPeriodSettingTab from "../../containers/OkrPeriodSettingTab";
 import ImageModal from "../../containers/ImageModal";
+import DefaultLayout from "../templates/DefaultLayout";
 
 class SettingsPage extends React.Component {
   constructor(props) {
@@ -82,9 +83,11 @@ class SettingsPage extends React.Component {
     if (!targetPane) return null;
 
     return (
-      <DocumentTitle title={`${targetPane.menuItem} - 設定 - Resily`}>
-        {this.renderBody(targetPane.id)}
-      </DocumentTitle>
+      <DefaultLayout>
+        <DocumentTitle title={`${targetPane.menuItem} - 設定 - Resily`}>
+          {this.renderBody(targetPane.id)}
+        </DocumentTitle>
+      </DefaultLayout>
     );
   }
 

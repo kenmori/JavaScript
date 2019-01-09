@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  skip_before_action :verify_authenticity_token, only: :create
   respond_to :json
 
   # POST /resource/sign_in
@@ -11,10 +10,7 @@ class Users::SessionsController < Devise::SessionsController
     yield resource if block_given?
     respond_with(resource) do |format|
       format.json do
-        render json: {
-          redirect_url: after_sign_in_path_for(resource),
-          user: resource
-        }, status: 200
+        render json: { user: resource }, status: 200
       end
     end
   end

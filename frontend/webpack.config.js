@@ -17,7 +17,8 @@ module.exports = {
   ],
   output: {
     filename: "bundle.js",
-    path: outputPath
+    path: outputPath,
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -87,6 +88,9 @@ module.exports = {
         secure: false,
         pathRewrite: {
           "^/api": ""
+        },
+        headers: {
+          'Host': 'localhost:3000'
         },
       },
     },

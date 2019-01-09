@@ -14,6 +14,7 @@ import DocumentTitle from "react-document-title";
 import logo_image from "../../images/logo_large.png";
 import DatePicker from "../form/DatePicker";
 import OkrSpanSelect from "../form/OkrSpanSelect";
+import DefaultLayout from "../templates/DefaultLayout";
 
 class SignUpPage extends PureComponent {
   constructor(props) {
@@ -79,9 +80,11 @@ class SignUpPage extends PureComponent {
 
   render() {
     return (
-      <DocumentTitle title="新規ユーザー登録 - Resily">
-        {this.renderBody()}
-      </DocumentTitle>
+      <DefaultLayout>
+        <DocumentTitle title="新規ユーザー登録 - Resily">
+          {this.renderBody()}
+        </DocumentTitle>
+      </DefaultLayout>
     );
   }
 

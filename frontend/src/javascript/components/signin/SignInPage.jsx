@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
 import DocumentTitle from "react-document-title";
+import DefaultLayout from "../templates/DefaultLayout";
 import logo_image from "../../images/logo_large.png";
 
 class SignInPage extends PureComponent {
@@ -18,9 +19,11 @@ class SignInPage extends PureComponent {
 
   render() {
     return (
-      <DocumentTitle title="ログイン - Resily">
-        {this.renderBody()}
-      </DocumentTitle>
+      <DefaultLayout>
+        <DocumentTitle title="ログイン - Resily">
+          {this.renderBody()}
+        </DocumentTitle>
+      </DefaultLayout>
     );
   }
 
@@ -29,7 +32,6 @@ class SignInPage extends PureComponent {
     return (
       <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
-
         <Segment raised compact padded="very">
           <Form className="sign-in__form">
             <Form.Input
@@ -43,7 +45,6 @@ class SignInPage extends PureComponent {
               iconPosition="left"
               onChange={(e, { value }) => this.setState({ email: value })}
             />
-
             <Form.Input
               inline
               label="パスワード"
@@ -57,14 +58,12 @@ class SignInPage extends PureComponent {
             />
           </Form>
         </Segment>
-
         <Button
           positive
           className="sign-in__submit"
           content="ログインする"
           onClick={this.signIn}
         />
-
         <Message className="sign-in__link" size="small">
           <p>
             <Link to={{ pathname: "/users/password/reset", state: { email } }}>

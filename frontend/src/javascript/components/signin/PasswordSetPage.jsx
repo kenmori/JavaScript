@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
 import DocumentTitle from "react-document-title";
 import logo_image from "../../images/logo_large.png";
+import DefaultLayout from "../templates/DefaultLayout";
 
 class PasswordSetPage extends PureComponent {
   constructor() {
@@ -22,9 +23,11 @@ class PasswordSetPage extends PureComponent {
 
   render() {
     return (
-      <DocumentTitle title="パスワード設定 - Resily">
-        {this.renderBody()}
-      </DocumentTitle>
+      <DefaultLayout>
+        <DocumentTitle title="パスワード設定 - Resily">
+          {this.renderBody()}
+        </DocumentTitle>
+      </DefaultLayout>
     );
   }
 

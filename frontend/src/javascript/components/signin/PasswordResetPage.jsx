@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
 import DocumentTitle from "react-document-title";
 import logo_image from "../../images/logo_large.png";
+import DefaultLayout from "../templates/DefaultLayout";
 
 class PasswordResetPage extends PureComponent {
   constructor(props) {
@@ -15,13 +16,11 @@ class PasswordResetPage extends PureComponent {
   completedView = () => (
     <div className="sign-in">
       <Image as="h1" src={logo_image} title="Resily" />
-
       <Segment raised compact padded="very">
         {this.state.email} にメールを送信しました。
         <br />
         メールが届かない場合はアドレスを確かめて送信し直してください。
       </Segment>
-
       <Message className="sign-in__link" size="small">
         <p>
           <a href="/">トップに戻る</a>
@@ -32,9 +31,11 @@ class PasswordResetPage extends PureComponent {
 
   render() {
     return (
-      <DocumentTitle title="パスワード再設定 - Resily">
-        {this.renderBody()}
-      </DocumentTitle>
+      <DefaultLayout>
+        <DocumentTitle title="パスワード再設定 - Resily">
+          {this.renderBody()}
+        </DocumentTitle>
+      </DefaultLayout>
     );
   }
 
@@ -45,9 +46,7 @@ class PasswordResetPage extends PureComponent {
     return (
       <div className="sign-in">
         <Image as="h1" src={logo_image} title="Resily" />
-
         <Message content="パスワードを再設定するためのメールを送信します。" />
-
         <Segment raised compact padded="very">
           <Form className="sign-in__form">
             <Form.Input
@@ -64,14 +63,12 @@ class PasswordResetPage extends PureComponent {
             />
           </Form>
         </Segment>
-
         <Button
           positive
           className="sign-in__submit"
           content="送信する"
           onClick={this.sendEmail}
         />
-
         <Message className="sign-in__link" size="small">
           <p>
             <a href="/">トップに戻る</a>
