@@ -19,7 +19,7 @@ const csrfHeaders = {
   },
 };
 
-const apiEndpoint = '/api';
+const apiEndpoint = "/api";
 
 const handlerResponse = response => {
   if (response.status == 200 || response.status == 201) {
@@ -82,7 +82,10 @@ const API = {
   get: (url, query = {}) => {
     if (Object.keys(query).length != 0)
       url += `?${queryString.stringify(decamelizeKeys(query))}`;
-    return fetch(`${apiEndpoint}${url}`, { ...defaultHeaders, ...{ method: "GET" } })
+    return fetch(`${apiEndpoint}${url}`, {
+      ...defaultHeaders,
+      ...{ method: "GET" },
+    })
       .then(handlerResponse)
       .catch(error => ({ error }));
   },

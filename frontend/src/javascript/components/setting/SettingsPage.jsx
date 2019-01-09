@@ -48,9 +48,10 @@ class SettingsPage extends React.Component {
         },
       ];
       return {
-        panes: nextProps.isAdmin && prevState.panes.length === 1
-          ? prevState.panes.concat(adminPanes)
-          : prevState.panes,
+        panes:
+          nextProps.isAdmin && prevState.panes.length === 1
+            ? prevState.panes.concat(adminPanes)
+            : prevState.panes,
       };
     }
 
