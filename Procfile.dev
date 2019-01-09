@@ -1,2 +1,0 @@
-web: /bin/sh -c "rm -f /app/tmp/pids/server.pid && rails s -b 0.0.0.0 -p 3000 -p 8080"
-sidekiq: bundle exec sidekiq -C config/sidekiq.yml
