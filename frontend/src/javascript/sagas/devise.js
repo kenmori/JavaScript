@@ -4,10 +4,11 @@ import API from "../utils/api";
 import actionTypes from "../constants/actionTypes";
 import deviseActions from "../actions/devise";
 import withLoading from "../utils/withLoading";
+import { transitionAuthenticatedStatus, transitionUnAuthenticatedStatus } from "../utils/auth";
 
 function* signIn({ payload }) {
   yield call(API.post, "/users/sign_in", { user: payload.user });
-  localStorage.setItem("isLoggedIn", true);
+  transitionAuthenticatedStatus();
 
   // トップページ以外からの流入であればURLを引き回す
   const path =
@@ -27,7 +28,7 @@ function* signIn({ payload }) {
 
 function* signOut() {
   yield call(API.delete, "/users/sign_out");
-  localStorage.setItem("isLoggedIn", false);
+  transitionUnAuthenticatedStatus();
 
   location.href = "/";
 }

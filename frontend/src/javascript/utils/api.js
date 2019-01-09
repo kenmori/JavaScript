@@ -3,6 +3,7 @@ import { camelizeKeys, decamelizeKeys } from "humps";
 import queryString from "query-string";
 import { fromJS } from "immutable";
 import isObject from "isobject";
+import { transitionUnAuthenticatedStatus } from "./auth";
 
 const defaultHeaders = {
   credentials: "same-origin",
@@ -22,11 +23,15 @@ const csrfHeaders = {
 const apiEndpoint = "/api";
 
 const handlerResponse = response => {
-  if (response.status == 200 || response.status == 201) {
+  if (response.status == 200 || response.status == 201 || response.status == 202) {
     return response.json().then(body => fromJS(camelizeKeys(body)));
   }
   if (response.status == 204) {
     return {};
+  }
+  if (response.status == 401) {
+    transitionUnAuthenticatedStatus();
+    location.href = "/login";
   }
 
   return response.json().then(body => {

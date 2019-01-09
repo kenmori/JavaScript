@@ -9,16 +9,13 @@ import SignInPage from "../containers/SignInPage";
 import SettingsPage from "../containers/SettingsPage";
 import MeetingPage from "../containers/MeetingPage";
 import history from "../utils/history";
+import { isAuthenticated } from "../utils/auth";
 
 ReactGA.initialize(process.env.GA_TRACKING_CODE);
 history.listen(location => {
   ReactGA.set({ page: location.pathname });
   ReactGA.pageview(location.pathname);
 });
-
-function isAuthenticated() {
-  return localStorage.getItem("isLoggedIn") === "true";
-}
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (
@@ -30,7 +27,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/users/sign_in",
+              pathname: "/login",
               state: { from: props.location },
             }}
           />
