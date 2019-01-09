@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  skip_before_action :verify_authenticity_token, if: -> { Rails.env.stating? }
-
   def index
     concept_params = {
       organization_id: current_organization.id,
