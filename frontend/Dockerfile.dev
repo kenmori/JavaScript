@@ -1,5 +1,7 @@
 FROM node:10.15-alpine
-ARG NODE_ENV="production"
+
+ARG NODE_ENV="development"
+ENV LANG C.UTF-8
 
 WORKDIR /app
 

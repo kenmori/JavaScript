@@ -1,10 +1,9 @@
-version: '3'
+version: "3"
 services:
   frontend:
     build:
       context: frontend
-      args:
-        NODE_ENV: development
+      dockerfile: Dockerfile.dev
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -15,12 +14,14 @@ services:
     environment:
       TZ: Asia/Tokyo
       NODE_ENV: development
-  api:
+  api: &api
     build:
       context: .
       args:
         RAILS_ENV: development
-    command: bundle exec foreman start -f Procfile.dev
+    command: bundle exec rails s -b 0.0.0.0 -p 3000 -p 8080
+    tty: true
+    stdin_open: true
     volumes:
       - .:/app
     ports:
@@ -44,6 +45,10 @@ services:
       MINIO_ENDPOINT: http://minio:9000
       RAILS_DATABASE_HOST: db
       RAILS_DATABASE_PASSWORD: password
+  worker:
+    <<: *api
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    ports: []
   db:
     image: mysql:5.7
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
