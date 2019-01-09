@@ -23,7 +23,7 @@ class PasswordResetPage extends PureComponent {
       </Segment>
       <Message className="sign-in__link" size="small">
         <p>
-          <a href="/">トップに戻る</a>
+          <a href="/login">トップに戻る</a>
         </p>
       </Message>
     </div>
@@ -71,7 +71,7 @@ class PasswordResetPage extends PureComponent {
         />
         <Message className="sign-in__link" size="small">
           <p>
-            <a href="/">トップに戻る</a>
+            <a href="/login">トップに戻る</a>
           </p>
         </Message>
       </div>
