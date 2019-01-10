@@ -7,6 +7,7 @@
     "fixpack": "fixpack",
     "lint": "eslint src/javascript/**/*.{js,jsx}",
     "lint:fix": "eslint --fix src/javascript/**/*.{js,jsx}",
+    "build": "webpack --verbose --colors --display-error-details --config ./webpack.config.js",
     "start:dev": "webpack-dev-server --hot --config ./webpack.config.js"
   },
   "dependencies": {
