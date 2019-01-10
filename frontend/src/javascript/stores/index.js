@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
-import reducers from "../reducers/index";
-import rootSaga from "../sagas/index";
+import reducers from "../reducers";
+import rootSaga from "../sagas";
 
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
@@ -16,6 +16,12 @@ export default function configureStore() {
     );
   } else {
     store = createStore(reducers, applyMiddleware(...middlewares));
+  }
+  if (module.hot) {
+    module.hot.accept("../reducers", () => {
+      const nextReducer = require("../reducers").default;
+      store.replaceReducer(nextReducer);
+    });
   }
 
   sagaMiddleware.run(rootSaga);

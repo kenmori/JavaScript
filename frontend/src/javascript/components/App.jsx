@@ -1,14 +1,9 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { hot } from "react-hot-loader/root";
 import Router from "../routes";
-import configureStore from "../stores/index";
 
-const store = configureStore();
+const App = () => (
+  <Router />
+);
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <Router />
-    </Provider>
-  );
-}
+export default hot(App);
