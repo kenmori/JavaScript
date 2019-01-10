@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import queryString from "query-string";
+import qs from "qs";
 import SignUpPage from "../components/signin/SignUpPage";
 import organizationActions from "../actions/organization";
 
@@ -8,7 +8,7 @@ const isValidToken = token =>
   !!token && token.length >= 8; // 8文字以上であれば OK とする (中身は何でも良い)
 
 const mapStateToProps = (state, { location }) => {
-  const query = queryString.parse(location.search);
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   return {
     hasValidToken: isValidToken(query.registration_token),
     isCompleted: state.organization.get("isCompleted"),

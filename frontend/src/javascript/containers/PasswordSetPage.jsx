@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import queryString from "query-string";
+import qs from "qs";
 import PasswordSetPage from "../components/signin/PasswordSetPage";
 import deviseActions from "../actions/devise";
 
 const mapStateToProps = (state, { location }) => {
-  const query = queryString.parse(location.search);
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   return {
     token: {
       resetPasswordToken: query.reset_password_token,

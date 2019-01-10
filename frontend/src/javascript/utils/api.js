@@ -1,6 +1,6 @@
 import fetch from "isomorphic-fetch";
 import { camelizeKeys, decamelizeKeys } from "humps";
-import queryString from "query-string";
+import qs from "qs";
 import { fromJS } from "immutable";
 import isObject from "isobject";
 import { transitionUnAuthenticatedStatus } from "./auth";
@@ -90,7 +90,7 @@ const bodyData = data =>
 const API = {
   get: (url, query = {}) => {
     if (Object.keys(query).length != 0)
-      url += `?${queryString.stringify(decamelizeKeys(query))}`;
+      url += `?${qs.stringify(decamelizeKeys(query))}`;
     return fetch(`${apiEndpoint}${url}`, {
       ...defaultHeaders,
       ...{ method: "GET" },
