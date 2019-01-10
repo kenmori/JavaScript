@@ -238,3 +238,6 @@ tags
 [._]*.un~
 
 
+### Resily
+# RSpec API Documentation
+/docs/api/
