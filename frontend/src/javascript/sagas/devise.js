@@ -4,7 +4,10 @@ import API from "../utils/api";
 import actionTypes from "../constants/actionTypes";
 import deviseActions from "../actions/devise";
 import withLoading from "../utils/withLoading";
-import { transitionAuthenticatedStatus, transitionUnAuthenticatedStatus } from "../utils/auth";
+import {
+  transitionAuthenticatedStatus,
+  transitionUnAuthenticatedStatus,
+} from "../utils/auth";
 
 function* signIn({ payload }) {
   yield call(API.post, "/users/sign_in", { user: payload.user });

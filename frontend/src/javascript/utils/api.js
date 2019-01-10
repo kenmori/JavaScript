@@ -23,7 +23,11 @@ const csrfHeaders = {
 const apiEndpoint = "/api";
 
 const handlerResponse = response => {
-  if (response.status == 200 || response.status == 201 || response.status == 202) {
+  if (
+    response.status == 200 ||
+    response.status == 201 ||
+    response.status == 202
+  ) {
     return response.json().then(body => fromJS(camelizeKeys(body)));
   }
   if (response.status == 204) {
