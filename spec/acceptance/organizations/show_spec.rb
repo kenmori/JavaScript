@@ -52,6 +52,7 @@ RSpec.resource "GET /organizations", warden: true do
             "email" => "yamada@example.com",
             "is_confirming" => nil,
             "is_admin" => true,
+            "owner_department_ids" => [dep_1.id],
             "departments" => [
               {
                 "id" => dep_1.id,
@@ -73,6 +74,7 @@ RSpec.resource "GET /organizations", warden: true do
             "email" => "other_user@example.com",
             "is_confirming" => nil,
             "is_admin" => false,
+            "owner_department_ids" => [],
             "departments" => [
               {
                 "id" => dep_1.id,
