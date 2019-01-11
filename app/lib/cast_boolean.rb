@@ -1,11 +1,13 @@
 module CastBoolean
   class << self
-    def call(input)
+    def call(input, default: false)
       case input.to_s.downcase
       when 'true'
         true
-      when 'false', ''
+      when 'false'
         false
+      when ''
+        default
       else
         input
       end
