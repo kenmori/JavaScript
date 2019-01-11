@@ -1,4 +1,5 @@
 # General
+.gitignore
 Dockerfile
 Dockerfile.dev
 .dockerignore
