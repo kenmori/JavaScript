@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "webpack --verbose --colors --display-error-details --config ./webpack.config.js",
+    "build": "webpack --verbose --colors --display-error-details --config ./webpack.prod.config.js",
     "fixpack": "fixpack",
     "lint": "eslint src/javascript/**/*.{js,jsx}",
     "lint:fix": "eslint --fix src/javascript/**/*.{js,jsx}",
-    "start:dev": "webpack-dev-server --config ./webpack.config.js",
+    "start:dev": "webpack-dev-server --config ./webpack.dev.config.js",
     "upgrade-interactive": "npm-check --update"
   },
   "dependencies": {
@@ -62,6 +62,7 @@
     "@babel/runtime": "^7.2.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.5",
+    "compression-webpack-plugin": "^2.0.0",
     "css-loader": "^2.1.0",
     "cssnano": "^4.1.8",
     "eslint": "^5.0.0",
