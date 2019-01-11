@@ -1,6 +1,5 @@
 FROM node:10.15-alpine AS builder
 
-ARG NODE_ENV="production"
 ENV LANG C.UTF-8
 
 WORKDIR /app
@@ -8,6 +7,8 @@ WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
 RUN npm i
+ARG NODE_ENV="production"
+
 COPY . .
 RUN npm run build
 
