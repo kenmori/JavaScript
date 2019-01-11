@@ -6,7 +6,8 @@ class DepartmentsController < ApplicationController
   def index
     concept_params = {
       organization_id: current_organization.id,
-      ids: params[:ids]
+      ids: params[:ids],
+      show_users: params[:show_users]
     }
 
     runner(Department::Index, concept_params) do |result|

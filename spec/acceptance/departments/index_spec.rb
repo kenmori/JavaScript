@@ -29,6 +29,7 @@ RSpec.resource "GET /departments", warden: true do
 
   get "/departments" do
     parameter :ids, "指定した部署以下にある部署の情報を返す。未指定の場合はサインイン中の組織の部署を全て返す", type: :array, items: { type: :integer }
+    parameter :show_users, "部署に所属するユーザー情報を含めるかどうかのフラグ。省略した場合はfalse", type: :boolean
 
     example "SUCCESS: Index departments" do
       explanation "サインインユーザーの組織の部署情報を全て返す"
@@ -46,6 +47,28 @@ RSpec.resource "GET /departments", warden: true do
       expect(root.dig("children", 0, "children").map(&l_name)).to contain_exactly("金融部", "Web部")
       expect(root.dig("children", 1, "children").map(&l_name)).to contain_exactly("クラサポ部", "販売部")
       expect(root.dig("children", 2, "children").map(&l_name)).to eq([])
+    end
+
+    example "SUCCESS: Index departments with users" do
+      explanation "部署にユーザー情報を付けて返す"
+
+      do_request(
+        show_users: true
+      )
+
+      user = parse_response_body("departments", 0, "users", 0)
+
+      expect(user).to include(
+        "id"=>admin_user.id,
+        "first_name"=>"太郎",
+        "last_name"=>"山田",
+        "avatar_url"=>nil,
+        "disabled"=>false,
+        "sign_in_at"=>be_time_iso8601,
+        "email"=>"yamada@example.com",
+        "is_confirming"=>nil,
+        "is_admin"=>true
+      )
     end
 
     example "SUCCESS: Index departments of ids' subtree" do
