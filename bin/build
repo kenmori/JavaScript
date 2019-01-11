@@ -1,0 +1,57 @@
+#!/bin/sh -eu
+#
+# Docker image build script.
+# Depends environments
+# - AWS_ACCESS_KEY_ID
+# - AWS_SECRET_ACCESS_KEY
+
+readonly ECR_REPOSITORY_URL="354177550505.dkr.ecr.ap-northeast-1.amazonaws.com"
+
+usage() {
+  echo "Usage: $0 [-t tag]" 1>&2
+}
+
+authenticate() {
+  $(aws ecr get-login --no-include-email --region ap-northeast-1)
+}
+
+build() {
+  local tag="$1"
+
+  # core-api
+  docker build -t core-api .
+  docker tag core-api:${tag} ${ECR_REPOSITORY_URL}/core-api:${tag}
+  docker push ${ECR_REPOSITORY_URL}/core-api:${tag}
+
+  # sidekiq
+  docker build -t sidekiq .
+  docker tag sidekiq:${tag} ${ECR_REPOSITORY_URL}/sidekiq:${tag}
+  docker push ${ECR_REPOSITORY_URL}/sidekiq:${tag}
+
+  # frontend
+  cd frontend
+  docker build -t frontend .
+  docker tag frontend:${tag} ${ECR_REPOSITORY_URL}/frontend:${tag}
+  docker push ${ECR_REPOSITORY_URL}/frontend:${tag}
+}
+
+while getopts t:h OPT
+do
+  case $OPT in
+    t)
+      TAG=$OPTARG
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    \?)
+      usage
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+authenticate
+build ${TAG}

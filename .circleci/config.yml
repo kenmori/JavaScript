@@ -34,7 +34,7 @@ executors:
           MINIO_SECRET_KEY: secret_key
           MINIO_REGION: ap-northeast-1
         command: ["server", "/data"]
-  deploy:
+  python:
     working_directory: ~/repo
     docker:
       - image: circleci/python:3.6.4
@@ -49,9 +49,9 @@ jobs:
           command: bundle -v
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - dependencies-
+            - dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
@@ -87,6 +87,23 @@ jobs:
           path: test-results
       - store_artifacts:
           path: docs/api
+  build:
+    parameters:
+      tag:
+        type: string
+    executor:
+      name: python
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.06.0-ce
+          docker_layer_caching: true
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli --upgrade
+      - run:
+          name: Build Docker images
+          command: ./bin/build -t latest
   deploy:
     parameters:
       env:
@@ -96,13 +113,12 @@ jobs:
         type: enum
         enum: ["https://ap.risily.com/", "https://ap.resily.com/"]
     executor:
-      name: deploy
+      name: python
     steps:
       - checkout
       - run:
-          name: Install awscli
-          command: |
-            sudo pip install awsebcli --upgrade
+          name: Install awsebcli
+          command: sudo pip install awsebcli --upgrade
       - run:
           name: Deploy to << parameters.env >>
           command: eb deploy << parameters.env >> --timeout 25
@@ -113,6 +129,11 @@ workflows:
   test-and-deploy:
     jobs:
       - test
+      - build:
+          name: build-docker-images
+          tag: latest
+          requires:
+            - test
       - deploy:
           name: deploy-to-staging
           env: develop
