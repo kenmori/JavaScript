@@ -1,0 +1,8 @@
+# General
+Dockerfile
+Dockerfile.dev
+.dockerignore
+
+# Node
+node_modules
+dist

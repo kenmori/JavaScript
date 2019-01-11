@@ -1,0 +1,14 @@
+# General
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+
+# Rails
+log
+tmp
+vendor
+
+# temporary
+frontend
