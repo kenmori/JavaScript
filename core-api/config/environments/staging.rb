@@ -89,5 +89,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Action mailer URL options
-  config.action_mailer.default_url_options = { protocol: 'https' }
+  config.action_mailer.default_url_options = { host: 'ap.risily.com', protocol: 'https' }
 end
