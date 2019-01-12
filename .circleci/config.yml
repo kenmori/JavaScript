@@ -1,7 +1,7 @@
 version: 2.1
 executors:
-  default:
-    working_directory: ~/repo
+  core-api:
+    working_directory: ~/repo/core-api
     docker:
       - image: circleci/ruby:2.4.1-node-browsers
         environment:
@@ -41,7 +41,7 @@ executors:
 jobs:
   test:
     executor:
-      name: default
+      name: core-api
     steps:
       - checkout
       - run:
@@ -100,7 +100,7 @@ jobs:
           command: sudo pip install awscli --upgrade
       - run:
           name: Build Docker images
-          command: ./bin/build -t ${CIRCLE_SHA1}
+          command: ./.circleci/build -t ${CIRCLE_SHA1}
   deploy:
     parameters:
       env:

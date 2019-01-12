@@ -18,14 +18,14 @@ services:
       NODE_ENV: development
   api: &api
     build:
-      context: .
+      context: core-api
       args:
         RAILS_ENV: development
     command: bundle exec rails s -b 0.0.0.0 -p 3000 -p 8080
     tty: true
     stdin_open: true
     volumes:
-      - .:/app
+      - ./core-api:/app
     ports:
       - "8080:8080"
     links:

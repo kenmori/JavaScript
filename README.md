@@ -19,8 +19,8 @@ OKR の作成・運用・管理を目的としたクラウド OKR ツール。
 
 ```
 cd /path/to/resily
-docker-compose build web
-docker-compose run --rm web rails db:setup
+docker-compose build api
+docker-compose run --rm api rails db:setup
 docker-compose up -d
 ```
 
@@ -28,10 +28,10 @@ docker-compose up -d
 
 - Web: [http://localhost:3000/](http://localhost:3000/)
   - (未ログイン状態だと) ログイン画面にリダイレクトされる
-  - メールアドレス/パスワードは `./db/seeds.rb` 参照
+  - メールアドレス/パスワードは `./core-api/db/seeds.rb` 参照
 - DB:
   - MySQL
-  - ユーザー名は `./config/database.yml` 参照
+  - ユーザー名は `./core-api/config/database.yml` 参照
   - パスワードは `./docker-compose.yml` 参照
 - MailHog: [http://localhost:8025/](http://localhost:8025/)
   - AWS SES 代替の SMTP サーバー
@@ -43,13 +43,13 @@ docker-compose up -d
 ### テストの実行
 
 ```
-docker-compose run --rm web bundle exec rake
+docker-compose run --rm api bundle exec rake
 ```
 
 `rspec` コマンドを用いてテストを実行する場合には `RAILS_ENV` を明示的に指定する必要があります。
 
 ```
-docker-compose run --rm -e RAILS_ENV=test web bundle exec rspec
+docker-compose run --rm -e RAILS_ENV=test api bundle exec rspec
 ```
 
 ### data migrate

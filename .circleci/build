@@ -19,6 +19,7 @@ build() {
   local tag="$1"
 
   # core-api
+  cd core-api
   docker build -t core-api:${tag} .
   docker tag core-api:${tag} ${ECR_REPOSITORY_URL}/core-api:${tag}
   docker push ${ECR_REPOSITORY_URL}/core-api:${tag}
@@ -29,7 +30,7 @@ build() {
   docker push ${ECR_REPOSITORY_URL}/sidekiq:${tag}
 
   # frontend
-  cd frontend
+  cd ../frontend
   docker build -t frontend:${tag} .
   docker tag frontend:${tag} ${ECR_REPOSITORY_URL}/frontend:${tag}
   docker push ${ECR_REPOSITORY_URL}/frontend:${tag}
