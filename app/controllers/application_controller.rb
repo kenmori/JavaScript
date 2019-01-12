@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   protect_from_forgery with: :exception
+  skip_before_action :verify_authenticity_token
 
   helper_method :current_user
   helper_method :current_organization

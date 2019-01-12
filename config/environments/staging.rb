@@ -88,10 +88,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # SSL setting
-  config.force_ssl = true
-  config.ssl_options = {
-    hsts: { subdomains: true },
-    redirect: { exclude: ->(request) { request.headers[:HTTP_X_FORWARDED_FOR].blank? } }
-  }
+  # Action mailer URL options
+  config.action_mailer.default_url_options = { protocol: 'https' }
 end

@@ -4,8 +4,5 @@ html
     title Resily
     - if Rails.env.in?(%w(production staging))
       link rel='icon' href='/public/favicon.ico'
-    = csrf_meta_tags
-    = stylesheet_pack_tag 'application', media: 'all'
-    = javascript_pack_tag 'application'
   body
     = yield

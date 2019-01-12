@@ -1,0 +1,72 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/var/run/docker.sock"
+      },
+      "name": "docker_sock"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "core-api",
+      "image": "354177550505.dkr.ecr.ap-northeast-1.amazonaws.com/core-api:%tag%",
+      "essential": true,
+      "memory": 3072,
+      "portMappings": [
+        {
+          "hostPort": 3000,
+          "containerPort": 3000
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-group": "/aws/elasticbeanstalk/%environment%/var/log/core-api.log"
+        }
+      }
+    },
+    {
+      "name": "sidekiq",
+      "image": "354177550505.dkr.ecr.ap-northeast-1.amazonaws.com/sidekiq:%tag%",
+      "essential": false,
+      "memory": 256,
+      "command": ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-group": "/aws/elasticbeanstalk/%environment%/var/log/sidekiq.log"
+        }
+      }
+    },
+    {
+      "name": "nginx",
+      "image": "354177550505.dkr.ecr.ap-northeast-1.amazonaws.com/frontend:%tag%",
+      "essential": false,
+      "memory": 256,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["core-api"],
+      "environment": [
+        {
+          "name": "PROXY_PASS",
+          "value": "core-api:3000"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-group": "/aws/elasticbeanstalk/%environment%/var/log/nginx.log"
+        }
+      }
+    }
+  ]
+}

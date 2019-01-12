@@ -1,0 +1,15 @@
+FROM node:10.15-alpine
+
+ARG NODE_ENV="development"
+ENV LANG C.UTF-8
+
+WORKDIR /app
+
+RUN apk --update add --no-cache tzdata
+
+COPY package.json .
+COPY package-lock.json .
+RUN npm i
+COPY . .
+
+CMD ["npm", "run", "start:dev"]

@@ -34,7 +34,7 @@ executors:
           MINIO_SECRET_KEY: secret_key
           MINIO_REGION: ap-northeast-1
         command: ["server", "/data"]
-  deploy:
+  python:
     working_directory: ~/repo
     docker:
       - image: circleci/python:3.6.4
@@ -49,9 +49,9 @@ jobs:
           command: bundle -v
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - dependencies-
+            - dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
@@ -87,6 +87,20 @@ jobs:
           path: test-results
       - store_artifacts:
           path: docs/api
+  build:
+    executor:
+      name: python
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.06.0-ce
+          docker_layer_caching: true
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli --upgrade
+      - run:
+          name: Build Docker images
+          command: ./bin/build -t ${CIRCLE_SHA1}
   deploy:
     parameters:
       env:
@@ -96,16 +110,18 @@ jobs:
         type: enum
         enum: ["https://ap.risily.com/", "https://ap.resily.com/"]
     executor:
-      name: deploy
+      name: python
     steps:
       - checkout
       - run:
-          name: Install awscli
-          command: |
-            sudo pip install awsebcli --upgrade
+          name: Install awsebcli
+          command: sudo pip install awsebcli --upgrade
       - run:
           name: Deploy to << parameters.env >>
-          command: eb deploy << parameters.env >> --timeout 25
+          command: |
+            sed -i -e "s/%tag%/${CIRCLE_SHA1}/g" Dockerrun.aws.json
+            sed -i -e "s/%environment%/<< parameters.env >>/g" Dockerrun.aws.json
+            eb deploy << parameters.env >> --timeout 25
       - run:
           name: Notify deploy completed to slack
           command: curl -X POST --data-urlencode "payload={\"text\":\"Deployed to << parameters.env >>, please check << parameters.url >>\"}" "$SLACK_DEPLOY_TOKEN"
@@ -113,12 +129,28 @@ workflows:
   test-and-deploy:
     jobs:
       - test
+      - build:
+          name: build-docker-images-by-commit
+          requires:
+            - test
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: master
+      - build:
+          name: build-docker-images-by-tag
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
       - deploy:
           name: deploy-to-staging
           env: develop
           url: https://ap.risily.com/
           requires:
-            - test
+            - build
           filters:
             tags:
               ignore: /.*/
@@ -128,6 +160,8 @@ workflows:
           name: deploy-to-staging-from-deploy-branch
           env: develop
           url: https://ap.risily.com/
+          requires:
+            - build
           filters:
             tags:
               ignore: /.*/
@@ -137,6 +171,8 @@ workflows:
           name: deploy-to-production
           env: production
           url: https://ap.resily.com/
+          requires:
+            - build
           filters:
             branches:
               ignore: /.*/

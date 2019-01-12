@@ -1,0 +1,144 @@
+@import 'variable';
+@import 'pages/account_setting_tab';
+@import 'pages/okr_period_setting_tab';
+@import 'pages/organization_setting_tab';
+@import 'pages/user_sertting_tab';
+@import 'pages/sign_in';
+@import 'pages/meeting_board';
+@import 'components/auto_input';
+@import 'components/avatar';
+@import 'components/comment_modal';
+@import 'components/dashboard';
+@import 'components/empty_map';
+@import 'components/home';
+@import 'components/image_modal';
+@import 'components/key_result_form';
+@import 'components/key_result_list';
+@import 'components/key_result_modal';
+@import 'components/loading';
+@import 'components/markdown';
+@import 'components/meetingboard_link_button';
+@import 'components/menu_bar';
+@import 'components/modal';
+@import 'components/objective_list';
+@import 'components/objective_modal';
+@import 'components/okr_card';
+@import 'components/okr_comment';
+@import 'components/okr_description';
+@import 'components/okr_list';
+@import 'components/okr_map';
+@import 'components/okr_modal';
+@import 'components/okr_name';
+@import 'components/okr_sidebar';
+@import 'components/okr_link';
+@import 'components/okr_pie_chart';
+@import 'components/okr_select';
+@import 'components/required_label';
+@import 'components/task_list';
+@import 'components/toast';
+@import 'components/user_name';
+@import 'components/progress_rate';
+@import 'components/toggle_button';
+@import 'components/status_radio';
+@import 'components/date-picker';
+
+body {
+  margin: 0;
+  font-family: $DEFAULT_FONT;
+  font-weight: 500;
+
+  > div#root {
+    height: 100%;
+  }
+}
+
+.content {
+  display: flex;
+}
+
+a.active {
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.continue-check-box {
+  margin-bottom: 15px;
+}
+
+.okr-tabs {
+  .tab {
+    display: flex !important;
+  }
+}
+
+.card {
+  z-index: 1;
+}
+
+.settings-page {
+  h2 {
+    text-align: center;
+  }
+}
+
+.setting-tabs {
+  margin: 0 16px 16px;
+}
+
+#console {
+  height: 20px;
+}
+
+.form-item {
+  .ui.input.error input[type=text], /* SUI bug: Input error style doesn't work in form */
+  input[type=text].error {
+    /* error style for DatePicker */
+    background-color: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+input[readonly],
+textarea[readonly],
+.ui.disabled.checkbox label {
+  cursor: not-allowed !important;
+}
+
+.disabled-box {
+  display: inline-block;
+  cursor: not-allowed;
+}
+
+.auto-input + .auto-input {
+  margin-left: 0.5em;
+}
