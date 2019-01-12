@@ -88,9 +88,6 @@ jobs:
       - store_artifacts:
           path: docs/api
   build:
-    parameters:
-      tag:
-        type: string
     executor:
       name: python
     steps:
@@ -103,7 +100,7 @@ jobs:
           command: sudo pip install awscli --upgrade
       - run:
           name: Build Docker images
-          command: ./bin/build -t latest
+          command: ./bin/build -t ${CIRCLE_SHA1}
   deploy:
     parameters:
       env:
@@ -121,7 +118,10 @@ jobs:
           command: sudo pip install awsebcli --upgrade
       - run:
           name: Deploy to << parameters.env >>
-          command: eb deploy << parameters.env >> --timeout 25
+          command: |
+            sed -i -e "s/%tag%/${CIRCLE_SHA1}/g" Dockerrun.aws.json
+            sed -i -e "s/%environment%/<< parameters.env >>/g" Dockerrun.aws.json
+            eb deploy << parameters.env >> --timeout 25
       - run:
           name: Notify deploy completed to slack
           command: curl -X POST --data-urlencode "payload={\"text\":\"Deployed to << parameters.env >>, please check << parameters.url >>\"}" "$SLACK_DEPLOY_TOKEN"
@@ -131,7 +131,6 @@ workflows:
       - test
       - build:
           name: build-docker-images
-          tag: latest
           requires:
             - test
       - deploy:
