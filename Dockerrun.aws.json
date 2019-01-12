@@ -54,6 +54,16 @@
         }
       ],
       "links": ["core-api"],
+      "environment": [
+        {
+          "name": "PROXY_PASS",
+          "value": "core-api:3000"
+        },
+        {
+          "name": "FORCE_SECURE",
+          "value": "true"
+        }
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
