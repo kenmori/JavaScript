@@ -46,6 +46,35 @@ RSpec.describe Department::Index do
     expect(root.dig("children", 2, "children").map(&l_name)).to eq([])
   end
 
+  example "SUCCESS: 'show_users: true' を指定する場合、ユーザー情報も返す" do
+    params = {
+      organization_id: organization.id,
+      ids: [dep_1.id],
+      show_users: true
+    }
+
+    result = described_class.call(params: params, current_user: admin_user)
+
+    expect(result).to be_success
+    root = result[:query]
+
+    expect(root.dig(0, "users")).to eq(
+      [
+        {
+          "id"=>admin_user.id,
+          "first_name"=>"太郎",
+          "last_name"=>"山田",
+          "avatar_url"=>nil,
+          "disabled"=>false,
+          "sign_in_at"=>nil,
+          "email"=>"yamada@example.com",
+          "is_confirming"=>nil,
+          "is_admin"=>true
+        }
+      ]
+    )
+  end
+
   example "SUCCESS: 指定したIDの部署以下の情報を返す" do
     params = {
       organization_id: organization.id,
