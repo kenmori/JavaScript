@@ -130,15 +130,27 @@ workflows:
     jobs:
       - test
       - build:
-          name: build-docker-images
+          name: build-docker-images-by-commit
           requires:
             - test
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: master
+      - build:
+          name: build-docker-images-by-tag
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
       - deploy:
           name: deploy-to-staging
           env: develop
           url: https://ap.risily.com/
           requires:
-            - test
+            - build
           filters:
             tags:
               ignore: /.*/
@@ -148,6 +160,8 @@ workflows:
           name: deploy-to-staging-from-deploy-branch
           env: develop
           url: https://ap.risily.com/
+          requires:
+            - build
           filters:
             tags:
               ignore: /.*/
@@ -157,6 +171,8 @@ workflows:
           name: deploy-to-production
           env: production
           url: https://ap.resily.com/
+          requires:
+            - build
           filters:
             branches:
               ignore: /.*/
