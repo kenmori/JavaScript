@@ -19,18 +19,18 @@ build() {
   local tag="$1"
 
   # core-api
-  docker build -t core-api .
+  docker build -t core-api:${tag} .
   docker tag core-api:${tag} ${ECR_REPOSITORY_URL}/core-api:${tag}
   docker push ${ECR_REPOSITORY_URL}/core-api:${tag}
 
   # sidekiq
-  docker build -t sidekiq .
+  docker build -t sidekiq:${tag} .
   docker tag sidekiq:${tag} ${ECR_REPOSITORY_URL}/sidekiq:${tag}
   docker push ${ECR_REPOSITORY_URL}/sidekiq:${tag}
 
   # frontend
   cd frontend
-  docker build -t frontend .
+  docker build -t frontend:${tag} .
   docker tag frontend:${tag} ${ECR_REPOSITORY_URL}/frontend:${tag}
   docker push ${ECR_REPOSITORY_URL}/frontend:${tag}
 }
