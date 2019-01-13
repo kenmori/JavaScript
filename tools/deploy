@@ -22,7 +22,11 @@ deploy() {
   fi
 
   git add Dockerrun.aws.json
-  eb deploy --staged ${environment}-new
+  if [[ ${environment} = "production" ]]; then
+    eb deploy --staged production-docker
+  else
+    eb deploy --staged develop-new
+  fi
 }
 
 while getopts e:t:h OPT
