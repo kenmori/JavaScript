@@ -3,6 +3,7 @@ import call from "../utils/call";
 import API from "../utils/api";
 import actionTypes from "../constants/actionTypes";
 import deviseActions from "../actions/devise";
+import history from "../utils/history";
 import withLoading from "../utils/withLoading";
 import {
   transitionAuthenticatedStatus,
@@ -13,19 +14,11 @@ function* signIn({ payload }) {
   yield call(API.post, "/users/sign_in", { user: payload.user });
   transitionAuthenticatedStatus();
 
-  // トップページ以外からの流入であればURLを引き回す
-  const path =
-    document.referrer != null
-      ? document.referrer
-          .replace(/^[^:]+:\/\/[^/]+/, "")
-          .replace(/#.*/, "")
-          .replace(/\?.*/, "")
-      : "/";
-
-  if (path == "" || path == "/") {
-    location.href = "/";
+  const location = payload.location;
+  if (location) {
+    history.push(`${location.from.pathname}${location.from.search}`);
   } else {
-    location.href = path;
+    history.push("/");
   }
 }
 
@@ -46,7 +39,8 @@ function* setPassword({ payload }) {
     ? "/users/password"
     : "/users/confirmation";
   yield call(API.put, url, { user: payload.user });
-  location.href = "/";
+
+  location.href = "/login";
 }
 
 export function* deviseSagas() {

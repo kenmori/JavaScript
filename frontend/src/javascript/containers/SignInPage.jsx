@@ -5,8 +5,8 @@ import deviseActions from "../actions/devise";
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  signIn: (email, password) => {
-    dispatch(deviseActions.signIn({ email, password, rememberMe: true }));
+  signIn: (email, password, location) => {
+    dispatch(deviseActions.signIn({ email, password, rememberMe: true }, location));
   },
 });
 
