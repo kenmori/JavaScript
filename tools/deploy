@@ -1,0 +1,49 @@
+#!/bin/sh -eu
+#
+# Deploy to beanstalk script.
+# Depends environments
+# - AWS_ACCESS_KEY_ID
+# - AWS_SECRET_ACCESS_KEY
+
+usage() {
+  echo "Usage: $0 [-e environment] [-t tag]" 1>&2
+}
+
+deploy() {
+  local environment="$1"
+  local tag="$2"
+
+  sed -i -e "s/%environment%/${environment}/g" Dockerrun.aws.json
+  sed -i -e "s/%tag%/${tag}/g" Dockerrun.aws.json
+  if [[ ${environment} = "production" ]]; then
+    sed -i -e "s/%memory%/3072/g" Dockerrun.aws.json
+  else
+    sed -i -e "s/%memory%/1024/g" Dockerrun.aws.json
+  fi
+
+  git add Dockerrun.aws.json
+  eb deploy --staged ${environment}-new
+}
+
+while getopts e:t:h OPT
+do
+  case $OPT in
+    e)
+      ENVIRONMENT=$OPTARG
+      ;;
+    t)
+      TAG=$OPTARG
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    \?)
+      usage
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+deploy ${ENVIRONMENT} ${TAG} 

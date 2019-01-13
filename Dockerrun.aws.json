@@ -13,7 +13,7 @@
       "name": "core-api",
       "image": "354177550505.dkr.ecr.ap-northeast-1.amazonaws.com/core-api:%tag%",
       "essential": true,
-      "memory": 3072,
+      "memory": %memory%,
       "portMappings": [
         {
           "hostPort": 3000,
