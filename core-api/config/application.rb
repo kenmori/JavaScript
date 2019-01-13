@@ -71,6 +71,12 @@ module Resily
     # Active job
     config.active_job.queue_adapter = :sidekiq
 
+    # logger
+    config.log_formatter = ::Logger::Formatter.new
+    logger               = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter     = config.log_formatter
+    config.logger        = ActiveSupport::TaggedLogging.new(logger)
+
     config.action_dispatch.rescue_responses.merge!(
       "Pundit::NotAuthorizedError" => :forbidden,
       "ConceptInputError" => :bad_request
