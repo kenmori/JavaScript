@@ -7,9 +7,9 @@ import dialogActions from "../actions/dialogs";
 import { getOkrId } from "../utils/linker";
 
 const mapStateToProps = state => ({
-  isFetchedMyDetail: state.current.get("isFetchedMyDetail"),
   okrPeriodId: state.current.get("okrPeriodId"),
   userId: state.current.get("userId"),
+  isFetchedMyDetail: state.current.get("isFetchedMyDetail"),
   isFetchedObjectives: state.objectives.get("isFetchedObjectives"),
   isFetchedOrganization: state.organization.get("isFetched"),
   isFetchedKeyResultsCommentLabels: state.keyResults.get(

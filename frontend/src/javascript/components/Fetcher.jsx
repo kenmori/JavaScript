@@ -11,13 +11,24 @@ class Fetcher extends PureComponent {
   }
 
   componentDidMount() {
-    if (!this.props.isFetchedMyDetail) {
-      this.props.fetchMyDetail();
+    const { isFetchedMyDetail, fetchMyDetail, isFetchedKeyResultsCommentLabels, fetchKeyResultCommentLabels } = this.props;
+
+    if (!isFetchedMyDetail) {
+      fetchMyDetail();
     }
 
     // 現状ユーザアクションで更新されないマスタデータなので初回訪問時のみfetchしている
-    if (!this.props.isFetchedKeyResultsCommentLabels) {
-      this.props.fetchKeyResultCommentLabels();
+    if (!isFetchedKeyResultsCommentLabels) {
+      fetchKeyResultCommentLabels();
+    }
+  }
+
+  componentDidUpdate() {
+    const { isFetchedMyDetail, fetchOkrs, okrPeriodId, userId } = this.props;
+
+    if (isFetchedMyDetail && !this.state.isFetchedOkrs) {
+      fetchOkrs(okrPeriodId, userId);
+      this.setState({ isFetchedOkrs: true });
     }
   }
 
@@ -40,9 +51,6 @@ class Fetcher extends PureComponent {
           this.props.selectOkrPeriod(nextProps.okrHash);
           this.setState({ isFetchedOkrs: true });
         }
-      } else {
-        this.props.fetchOkrs(nextProps.okrPeriodId, nextProps.userId);
-        this.setState({ isFetchedOkrs: true });
       }
     }
   }
