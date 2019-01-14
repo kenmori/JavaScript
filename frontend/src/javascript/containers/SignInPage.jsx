@@ -6,7 +6,9 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
   signIn: (email, password, location) => {
-    dispatch(deviseActions.signIn({ email, password, rememberMe: true }, location));
+    dispatch(
+      deviseActions.signIn({ email, password, rememberMe: true }, location),
+    );
   },
 });
 

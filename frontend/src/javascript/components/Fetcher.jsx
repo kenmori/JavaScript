@@ -11,7 +11,12 @@ class Fetcher extends PureComponent {
   }
 
   componentDidMount() {
-    const { isFetchedMyDetail, fetchMyDetail, isFetchedKeyResultsCommentLabels, fetchKeyResultCommentLabels } = this.props;
+    const {
+      isFetchedMyDetail,
+      fetchMyDetail,
+      isFetchedKeyResultsCommentLabels,
+      fetchKeyResultCommentLabels,
+    } = this.props;
 
     if (!isFetchedMyDetail) {
       fetchMyDetail();
