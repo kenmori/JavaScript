@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 module CastBoolean
   class << self
     def call(input, default: false)
       case input.to_s.downcase
-      when 'true'
+      when "true"
         true
-      when 'false'
+      when "false"
         false
-      when ''
+      when ""
         default
       else
         input

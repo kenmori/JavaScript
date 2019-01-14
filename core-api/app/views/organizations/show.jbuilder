@@ -18,7 +18,7 @@ json.organization do
       json.is_admin user.admin?
 
       # 部署責任者を務める部署のID
-      json.owner_department_ids user.department_members.select {|dm| dm.role == 'owner' }.map(&:department_id)
+      json.owner_department_ids user.department_members.select { |dm| dm.role == "owner" }.map(&:department_id)
 
       json.departments do
         json.partial! "departments/department", collection: user.departments, as: :department

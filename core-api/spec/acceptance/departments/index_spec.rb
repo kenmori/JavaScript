@@ -59,15 +59,15 @@ RSpec.resource "GET /departments", warden: true do
       user = parse_response_body("departments", 0, "users", 0)
 
       expect(user).to include(
-        "id"=>admin_user.id,
-        "first_name"=>"太郎",
-        "last_name"=>"山田",
-        "avatar_url"=>nil,
-        "disabled"=>false,
-        "sign_in_at"=>be_time_iso8601,
-        "email"=>"yamada@example.com",
-        "is_confirming"=>nil,
-        "is_admin"=>true
+        "id" => admin_user.id,
+        "first_name" => "太郎",
+        "last_name" => "山田",
+        "avatar_url" => nil,
+        "disabled" => false,
+        "sign_in_at" => be_time_iso8601,
+        "email" => "yamada@example.com",
+        "is_confirming" => nil,
+        "is_admin" => true
       )
     end
 

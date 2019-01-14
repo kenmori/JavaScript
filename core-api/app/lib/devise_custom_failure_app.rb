@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeviseCustomFailureApp < Devise::FailureApp
   def respond
     if request.format == :json
@@ -12,7 +14,7 @@ class DeviseCustomFailureApp < Devise::FailureApp
     self.content_type = "application/json"
     self.response_body = {
       errors: [{
-        message: i18n_message,
+        message: i18n_message
       }]
     }.to_json
   end

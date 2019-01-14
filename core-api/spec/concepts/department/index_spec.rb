@@ -61,15 +61,15 @@ RSpec.describe Department::Index do
     expect(root.dig(0, "users")).to eq(
       [
         {
-          "id"=>admin_user.id,
-          "first_name"=>"太郎",
-          "last_name"=>"山田",
-          "avatar_url"=>nil,
-          "disabled"=>false,
-          "sign_in_at"=>nil,
-          "email"=>"yamada@example.com",
-          "is_confirming"=>nil,
-          "is_admin"=>true
+          "id" => admin_user.id,
+          "first_name" => "太郎",
+          "last_name" => "山田",
+          "avatar_url" => nil,
+          "disabled" => false,
+          "sign_in_at" => nil,
+          "email" => "yamada@example.com",
+          "is_confirming" => nil,
+          "is_admin" => true
         }
       ]
     )

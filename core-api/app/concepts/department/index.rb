@@ -37,52 +37,52 @@ class Department::Index < Trailblazer::Operation
 
   private
 
-  def department_subtree_with_users(roots)
-    roots.map do |node|
-      node.subtree.includes(:department_members, :users).arrange_serializable(order: :display_order) do |parent, children|
-        {
-          id: parent.id,
-          archived: parent.archived?,
-          soft_destroyed_at: parent.soft_destroyed_at,
-          name: parent.name,
-          display_order: parent.display_order,
-          created_at: parent.created_at,
-          updated_at: parent.updated_at,
-          user_count: parent.department_members.size,
-          users: parent.users.map {|user|
-            {
-              id: user.id,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              avatar_url: user.avatar_url,
-              disabled: user.disabled,
-              sign_in_at: user.sign_in_at,
-              email: user.unconfirmed_email || user.email,
-              is_confirming: !user.confirmed? || user.unconfirmed_email,
-              is_admin: user.admin?
-            }
-          },
-          children: children
-        }.with_indifferent_access
-      end.first
+    def department_subtree_with_users(roots)
+      roots.map do |node|
+        node.subtree.includes(:department_members, :users).arrange_serializable(order: :display_order) do |parent, children|
+          {
+            id: parent.id,
+            archived: parent.archived?,
+            soft_destroyed_at: parent.soft_destroyed_at,
+            name: parent.name,
+            display_order: parent.display_order,
+            created_at: parent.created_at,
+            updated_at: parent.updated_at,
+            user_count: parent.department_members.size,
+            users: parent.users.map do |user|
+              {
+                id: user.id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                avatar_url: user.avatar_url,
+                disabled: user.disabled,
+                sign_in_at: user.sign_in_at,
+                email: user.unconfirmed_email || user.email,
+                is_confirming: !user.confirmed? || user.unconfirmed_email,
+                is_admin: user.admin?
+              }
+            end,
+            children: children
+          }.with_indifferent_access
+        end.first
+      end
     end
-  end
 
-  def department_subtree(roots)
-    roots.map do |node|
-      node.subtree.includes(:department_members).arrange_serializable(order: :display_order) do |parent, children|
-        {
-          id: parent.id,
-          archived: parent.archived?,
-          soft_destroyed_at: parent.soft_destroyed_at,
-          name: parent.name,
-          display_order: parent.display_order,
-          created_at: parent.created_at,
-          updated_at: parent.updated_at,
-          user_count: parent.department_members.size,
-          children: children
-        }.with_indifferent_access
-      end.first
+    def department_subtree(roots)
+      roots.map do |node|
+        node.subtree.includes(:department_members).arrange_serializable(order: :display_order) do |parent, children|
+          {
+            id: parent.id,
+            archived: parent.archived?,
+            soft_destroyed_at: parent.soft_destroyed_at,
+            name: parent.name,
+            display_order: parent.display_order,
+            created_at: parent.created_at,
+            updated_at: parent.updated_at,
+            user_count: parent.department_members.size,
+            children: children
+          }.with_indifferent_access
+        end.first
+      end
     end
-  end
 end

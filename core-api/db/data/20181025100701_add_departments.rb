@@ -10,7 +10,7 @@ class AddDepartments < ActiveRecord::Migration[5.2]
         org_owner = org.organization_members.find(&:owner?).user
 
         # Organizationにdefault部署を作成
-        result = Department::CreateDefault.call(params: {organization_id: org.id, owner_id: org_owner.id}, current_user: org_owner)
+        result = Department::CreateDefault.call(params: { organization_id: org.id, owner_id: org_owner.id }, current_user: org_owner)
         department = result[:model]
 
         # Organizationのメンバーを全員部署に紐付ける
