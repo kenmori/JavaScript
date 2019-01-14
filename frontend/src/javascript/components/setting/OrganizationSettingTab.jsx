@@ -116,7 +116,7 @@ class OrganizationSettingTab extends PureComponent {
           </dd>
           <dd>
             <a
-              href={`/okr_periods/${okrPeriodId}/export`}
+              href={`/api/okr_periods/${okrPeriodId}/export`}
               download
               className="download-link"
               ref="downloadLink"
