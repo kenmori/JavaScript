@@ -33,7 +33,7 @@ const handlerResponse = response => {
   if (response.status == 204) {
     return {};
   }
-  if (response.status == 401) {
+  if (response.status == 401 && location.pathname !== "/login") {
     transitionUnAuthenticatedStatus();
     location.href = "/login";
   }
