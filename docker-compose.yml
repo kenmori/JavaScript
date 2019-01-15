@@ -21,7 +21,7 @@ services:
       context: core-api
       args:
         RAILS_ENV: development
-    command: bundle exec rails s -b 0.0.0.0 -p 3000 -p 8080
+    command: bundle exec rails s -b 0.0.0.0 -p 8080
     tty: true
     stdin_open: true
     volumes:

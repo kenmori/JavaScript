@@ -19,10 +19,25 @@ OKR の作成・運用・管理を目的としたクラウド OKR ツール。
 
 ```
 cd /path/to/resily
-docker-compose build api
-docker-compose run --rm api rails db:setup
-docker-compose up -d
+docker-compose build
+docker-compose run --rm api rails db:setup data:migrate
 ```
+
+### Frontend を含めてサービスを起動
+
+```
+docker-compose up frontend
+```
+
+localhost:3000 でサービスにアクセス可能
+
+### API サーバーのみ起動
+
+```
+docker-compose up api
+```
+
+localhost:8080 でAPIにアクセス可能
 
 ### コンテナー
 
