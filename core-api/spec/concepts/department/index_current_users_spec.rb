@@ -22,7 +22,7 @@ RSpec.describe Department::IndexCurrentUsers do
       DepartmentMemberFactory.new(department: dep_1_1_2, user: nomal_user).create
     end
 
-    example "SUCCESS: " do
+    example "SUCCESS" do
       result = described_class.call(params: {}, current_user: nomal_user)
 
       root = result[:query].first
@@ -56,20 +56,13 @@ RSpec.describe Department::IndexCurrentUsers do
       DepartmentMemberFactory.new(department: dep_1_1_2, user: nomal_user).create
     end
 
-
-    example "SUCCESS: " do
+    example "SUCCESS" do
       result = described_class.call(params: {}, current_user: nomal_user)
 
-      root = result[:query].first
+      query = result[:query]
 
-      pp root
-
-      expect(root.dig("children", 0, "children", 0)).to include(
-        "name" => "金融部"
-      )
-      expect(root.dig("children", 0, "children", 1)).to include(
-        "name" => "Web部"
-      )
+      expect(query.dig(0, "name")).to eq("金融部")
+      expect(query.dig(1, "name")).to eq("Web部")
     end
   end
 end

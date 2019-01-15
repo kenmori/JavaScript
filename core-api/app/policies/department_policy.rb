@@ -12,12 +12,6 @@ class DepartmentPolicy
     current_user_admin?
   end
 
-  def current_users?
-    # TODO どういう権限がいいのか
-    # current_user_admin?
-    true
-  end
-
   def create?
     current_user_admin?
   end
