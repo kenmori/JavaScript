@@ -147,7 +147,7 @@ workflows:
           env: develop
           url: https://ap.risily.com/
           requires:
-            - build
+            - build-docker-images-by-commit
           filters:
             tags:
               ignore: /.*/
@@ -157,8 +157,6 @@ workflows:
           name: deploy-to-staging-from-deploy-branch
           env: develop
           url: https://ap.risily.com/
-          requires:
-            - build
           filters:
             tags:
               ignore: /.*/
@@ -169,7 +167,7 @@ workflows:
           env: production
           url: https://ap.resily.com/
           requires:
-            - build
+            - build-docker-images-by-tag
           filters:
             branches:
               ignore: /.*/
