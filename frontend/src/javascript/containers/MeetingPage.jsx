@@ -13,6 +13,7 @@ const mapStateToProps = (state, { match: { params } }) => {
 
   return {
     userId: state.current.get("userId"),
+    organizationId: state.organization.get("current").get("id"),
     objectiveId,
     objectives: state.entities.objectives,
     objective: getObjectiveById(state, objectiveId) || Map(),

@@ -4,6 +4,7 @@ import history from "../utils/history";
 
 const mapStateToProps = (state, { match }) => ({
   userId: state.current.get("userId"),
+  organizationId: state.organization.get("current").get("id"),
   name: match.params.name,
   isAdmin: state.loginUser.get("isAdmin"),
 });

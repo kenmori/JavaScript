@@ -13,18 +13,24 @@ import DefaultLayout from "./templates/DefaultLayout";
 
 class Home extends PureComponent {
   componentDidMount() {
-    const { userId } = this.props;
+    const { userId, organizationId } = this.props;
 
-    if (userId) {
-      ReactGA.set({ userId });
+    if (userId && organizationId) {
+      ReactGA.set({
+        userId,
+        dimension1: organizationId,
+      });
     }
   }
 
   componentDidUpdate() {
-    const { userId } = this.props;
+    const { userId, organizationId } = this.props;
 
-    if (userId) {
-      ReactGA.set({ userId });
+    if (userId && organizationId) {
+      ReactGA.set({
+        userId,
+        dimension1: organizationId,
+      });
     }
   }
 
