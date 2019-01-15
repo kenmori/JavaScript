@@ -14,6 +14,7 @@ namespace :create_demo_account do
     objective_comments = []
     key_results = []
     key_result_comments = []
+
     members.each do |member|
       user = User.find(member.user_id)
       users.push(user)
@@ -49,9 +50,40 @@ namespace :create_demo_account do
 
   end
 
-  task :create, %w[id] => :environment do |_, args|
-    puts _
-    puts args.id
+  task :create, %w[organization_id] => :environment do |_, args|
+    base_organization = Organization.find(args.organization_id)
+    base_okr_periods = OkrPeriod.where(organization_id: base_organization.id)
+    base_members = OrganizationMember.where(organization_id: base_organization.id)
+
+    # organizations, key_result_comment_labels 作成
+    organization = Organization.create!(
+      name: base_organization.name,
+      logo: base_organization.logo,
+      okr_span: base_organization.okr_span
+    )
+
+    base_okr_periods.each do |okr_period|
+      organization.okr_periods.create!(
+        start_date: okr_period.start_date,
+        end_date: okr_period.end_date,
+        name: okr_period.name
+      )
+    end
+
+    base_members.each do |base_member|
+      base_user = User.find(base_member.user_id)
+
+      # users, organization_member, user_settings 追加
+      user = organization.users.create!(
+        last_name: base_user.last_name,
+        first_name: base_user.first_name,
+        email: "demo_#{organization.id}_#{base_user.email}",
+        password: "Pass0123",
+        admin: base_user.admin,
+        confirmed_at: Time.current
+      )
+    end
+
   end
 
 end
