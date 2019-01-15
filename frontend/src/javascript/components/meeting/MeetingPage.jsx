@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import DocumentTitle from "react-document-title";
+import ReactGA from "react-ga";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
 import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels";
 import CommentModal from "../../containers/CommentModal";
@@ -113,17 +114,35 @@ class MeetingPage extends PureComponent {
 
   componentDidMount() {
     const {
+      isFetchedMyDetail,
+      fetchMyDetail,
+      organizationId,
       objectiveId,
       objectives,
       isFetchedKeyResultsCommentLabels,
       fetchKeyResultCommentLabels,
       fetchObjective,
     } = this.props;
+    if (!isFetchedMyDetail) {
+      fetchMyDetail();
+    }
     if (objectives.size < 1) {
       fetchObjective(objectiveId);
     }
     if (!isFetchedKeyResultsCommentLabels) {
       fetchKeyResultCommentLabels();
+    }
+
+    if (organizationId) {
+      ReactGA.set({ userId: organizationId });
+    }
+  }
+
+  componentDidUpdate() {
+    const { organizationId } = this.props;
+
+    if (organizationId) {
+      ReactGA.set({ userId: organizationId });
     }
   }
 

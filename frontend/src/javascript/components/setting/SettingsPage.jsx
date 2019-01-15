@@ -1,6 +1,7 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
 import PropTypes from "prop-types";
+import ReactGA from "react-ga";
 import DocumentTitle from "react-document-title";
 import Fetcher from "../../containers/Fetcher";
 import MenuBar from "../../containers/MenuBar";
@@ -68,11 +69,25 @@ class SettingsPage extends React.Component {
   };
 
   componentDidMount() {
+    const { organizationId } = this.props;
+
     const targetPane = this.state.panes.find(
       item => item.name === this.props.name,
     );
     if (!targetPane) {
       return this.props.changeURL("/");
+    }
+
+    if (organizationId) {
+      ReactGA.set({ userId: organizationId });
+    }
+  }
+
+  componentDidUpdate() {
+    const { organizationId } = this.props;
+
+    if (organizationId) {
+      ReactGA.set({ userId: organizationId });
     }
   }
 
