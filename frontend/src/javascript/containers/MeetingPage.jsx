@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { Map } from "immutable";
 import MeetingPage from "../components/meeting/MeetingPage";
+import currentActions from "../actions/current";
 import objectiveActions from "../actions/objectives";
 import keyResultActions from "../actions/keyResults";
 import dialogActions from "../actions/dialogs";
@@ -21,6 +22,8 @@ const mapStateToProps = (state, { match: { params } }) => {
       "isFetchedKeyResultsCommentLabels",
     ),
     keyResultCommentLabels: state.keyResults.get("commentLabels"),
+    isFetchedMyDetail: state.current.get("isFetchedMyDetail"),
+    organizationId: state.organization.get("current").get("id"),
   };
 };
 
@@ -45,6 +48,9 @@ const mapDispatchToProps = dispatch => ({
   },
   confirm: params => {
     dispatch(dialogActions.openConfirmModal(params));
+  },
+  fetchMyDetail: () => {
+    dispatch(currentActions.fetchMyDetail());
   },
 });
 

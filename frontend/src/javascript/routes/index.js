@@ -10,12 +10,9 @@ import SettingsPage from "../containers/SettingsPage";
 import MeetingPage from "../containers/MeetingPage";
 import history from "../utils/history";
 import { isAuthenticated } from "../utils/auth";
+import withTracker from "../hocs/withTracker";
 
 ReactGA.initialize(process.env.GA_TRACKING_CODE);
-history.listen(location => {
-  ReactGA.set({ page: location.pathname });
-  ReactGA.pageview(location.pathname);
-});
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (
@@ -40,20 +37,40 @@ function PrivateRoute({ component: Component, ...rest }) {
 export default () => (
   <Router history={history}>
     <Switch>
-      <Route exact path="/login" component={SignInPage} />
-      <Route exact path="/users/sign_up" component={SignUpPage} />
-      <Route exact path="/users/password/reset" component={PasswordResetPage} />
-      <Route exact path="/users/password/edit" component={PasswordSetPage} />
-      <Route exact path="/users/confirmation" component={PasswordSetPage} />
-      <PrivateRoute exact path="/settings" component={SettingsPage} />
-      <PrivateRoute exact path="/settings/:name" component={SettingsPage} />
-      <PrivateRoute exact path="/okr/:okrHash" component={Home} />
+      <Route exact path="/login" component={withTracker(SignInPage)} />
+      <Route exact path="/users/sign_up" component={withTracker(SignUpPage)} />
+      <Route
+        exact
+        path="/users/password/reset"
+        component={withTracker(PasswordResetPage)}
+      />
+      <Route
+        exact
+        path="/users/password/edit"
+        component={withTracker(PasswordSetPage)}
+      />
+      <Route
+        exact
+        path="/users/confirmation"
+        component={withTracker(PasswordSetPage)}
+      />
+      <PrivateRoute
+        exact
+        path="/settings"
+        component={withTracker(SettingsPage)}
+      />
+      <PrivateRoute
+        exact
+        path="/settings/:name"
+        component={withTracker(SettingsPage)}
+      />
+      <PrivateRoute exact path="/okr/:okrHash" component={withTracker(Home)} />
       <PrivateRoute
         exact
         path="/meetings/:objectiveHash"
-        component={MeetingPage}
+        component={withTracker(MeetingPage)}
       />
-      <PrivateRoute path="/" component={Home} />
+      <PrivateRoute path="/" component={withTracker(Home)} />
     </Switch>
   </Router>
 );
