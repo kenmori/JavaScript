@@ -107,9 +107,6 @@ jobs:
       env:
         type: enum
         enum: ["develop", "production"]
-      url:
-        type: enum
-        enum: ["https://ap.risily.com/", "https://ap.resily.com/"]
     executor:
       name: python
     steps:
@@ -122,7 +119,7 @@ jobs:
           command: ./tools/deploy -e << parameters.env >> -t ${CIRCLE_SHA1}
       - run:
           name: Notify deploy completed to slack
-          command: curl -X POST --data-urlencode "payload={\"text\":\"Deployed to << parameters.env >>, please check << parameters.url >>\"}" "$SLACK_DEPLOY_TOKEN"
+          command: curl -X POST --data-urlencode "payload={\"text\":\"[<< parameters.env >>] Job finished ${CIRCLE_BUILD_URL}\"}" "$SLACK_DEPLOY_TOKEN"
 workflows:
   test-and-deploy:
     jobs:
@@ -143,10 +140,18 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v.*/
+      - build:
+          name: build-docker-images-by-deploy-branch
+          requires:
+            - test
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: /^deploy\/.*$/
       - deploy:
           name: deploy-to-staging
           env: develop
-          url: https://ap.risily.com/
           requires:
             - build-docker-images-by-commit
           filters:
@@ -157,7 +162,8 @@ workflows:
       - deploy:
           name: deploy-to-staging-from-deploy-branch
           env: develop
-          url: https://ap.risily.com/
+          requires:
+            - build-docker-images-by-deploy-branch
           filters:
             tags:
               ignore: /.*/
@@ -166,7 +172,6 @@ workflows:
       - deploy:
           name: deploy-to-production
           env: production
-          url: https://ap.resily.com/
           requires:
             - build-docker-images-by-tag
           filters:
