@@ -66,6 +66,10 @@ Rails.application.routes.draw do
   end
 
   resources :departments, only: %i[index create update destroy] do
+    collection do
+      get :current_users
+    end
+
     member do
       patch :restore
     end
