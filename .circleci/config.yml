@@ -33,7 +33,14 @@ executors:
           MINIO_SECRET_KEY: secret_key
           MINIO_REGION: ap-northeast-1
         command: ["server", "/data"]
-  python:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/python:3.6.4
+        environment:
+          RAILS_ENV: production
+          NODE_ENV: production
+  deploy:
     working_directory: ~/repo
     docker:
       - image: circleci/python:3.6.4
@@ -90,7 +97,7 @@ jobs:
           path: docs/api
   build:
     executor:
-      name: python
+      name: build
     steps:
       - checkout
       - setup_remote_docker:
@@ -108,7 +115,7 @@ jobs:
         type: enum
         enum: ["develop", "production"]
     executor:
-      name: python
+      name: deploy
     steps:
       - checkout
       - run:
