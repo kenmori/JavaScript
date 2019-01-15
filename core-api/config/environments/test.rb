@@ -49,4 +49,7 @@ Rails.application.configure do
     Bullet.unused_eager_loading_enable = false
     Bullet.counter_cache_enable = false
   end
+
+  # Logger
+  config.log_level = :warn
 end
