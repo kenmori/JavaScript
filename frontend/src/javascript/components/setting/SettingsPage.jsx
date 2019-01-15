@@ -69,7 +69,7 @@ class SettingsPage extends React.Component {
   };
 
   componentDidMount() {
-    const { organizationId } = this.props;
+    const { userId } = this.props;
 
     const targetPane = this.state.panes.find(
       item => item.name === this.props.name,
@@ -78,16 +78,16 @@ class SettingsPage extends React.Component {
       return this.props.changeURL("/");
     }
 
-    if (organizationId) {
-      ReactGA.set({ userId: organizationId });
+    if (userId) {
+      ReactGA.set({ userId });
     }
   }
 
   componentDidUpdate() {
-    const { organizationId } = this.props;
+    const { userId } = this.props;
 
-    if (organizationId) {
-      ReactGA.set({ userId: organizationId });
+    if (userId) {
+      ReactGA.set({ userId });
     }
   }
 

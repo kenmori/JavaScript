@@ -12,6 +12,7 @@ const mapStateToProps = (state, { match: { params } }) => {
   const { objectiveId } = getOkrId(params.objectiveHash);
 
   return {
+    userId: state.current.get("userId"),
     objectiveId,
     objectives: state.entities.objectives,
     objective: getObjectiveById(state, objectiveId) || Map(),
@@ -23,7 +24,6 @@ const mapStateToProps = (state, { match: { params } }) => {
     ),
     keyResultCommentLabels: state.keyResults.get("commentLabels"),
     isFetchedMyDetail: state.current.get("isFetchedMyDetail"),
-    organizationId: state.organization.get("current").get("id"),
   };
 };
 

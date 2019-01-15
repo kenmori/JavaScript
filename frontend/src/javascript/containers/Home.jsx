@@ -3,7 +3,7 @@ import Home from "../components/Home";
 
 const mapStateToProps = (state, { match: { params } }) => ({
   okrHash: params.okrHash,
-  organizationId: state.organization.get("current").get("id"),
+  userId: state.current.get("userId"),
 });
 
 const mapDispatchToProps = () => ({});

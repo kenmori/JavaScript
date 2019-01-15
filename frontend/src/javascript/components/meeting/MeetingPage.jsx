@@ -116,7 +116,7 @@ class MeetingPage extends PureComponent {
     const {
       isFetchedMyDetail,
       fetchMyDetail,
-      organizationId,
+      userId,
       objectiveId,
       objectives,
       isFetchedKeyResultsCommentLabels,
@@ -133,16 +133,16 @@ class MeetingPage extends PureComponent {
       fetchKeyResultCommentLabels();
     }
 
-    if (organizationId) {
-      ReactGA.set({ userId: organizationId });
+    if (userId) {
+      ReactGA.set({ userId });
     }
   }
 
   componentDidUpdate() {
-    const { organizationId } = this.props;
+    const { userId } = this.props;
 
-    if (organizationId) {
-      ReactGA.set({ userId: organizationId });
+    if (userId) {
+      ReactGA.set({ userId });
     }
   }
 
