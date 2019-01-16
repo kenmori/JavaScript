@@ -69,7 +69,7 @@ class SettingsPage extends React.Component {
   };
 
   componentDidMount() {
-    const { userId, organizationId } = this.props;
+    const { userId, organizationId, organizationName } = this.props;
 
     const targetPane = this.state.panes.find(
       item => item.name === this.props.name,
@@ -82,17 +82,19 @@ class SettingsPage extends React.Component {
       ReactGA.set({
         userId,
         dimension1: organizationId,
+        dimension2: organizationName,
       });
     }
   }
 
   componentDidUpdate() {
-    const { userId, organizationId } = this.props;
+    const { userId, organizationId, organizationName } = this.props;
 
     if (userId && organizationId) {
       ReactGA.set({
         userId,
         dimension1: organizationId,
+        dimension2: organizationName,
       });
     }
   }

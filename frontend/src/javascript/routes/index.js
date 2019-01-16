@@ -37,23 +37,11 @@ function PrivateRoute({ component: Component, ...rest }) {
 export default () => (
   <Router history={history}>
     <Switch>
-      <Route exact path="/login" component={withTracker(SignInPage)} />
-      <Route exact path="/users/sign_up" component={withTracker(SignUpPage)} />
-      <Route
-        exact
-        path="/users/password/reset"
-        component={withTracker(PasswordResetPage)}
-      />
-      <Route
-        exact
-        path="/users/password/edit"
-        component={withTracker(PasswordSetPage)}
-      />
-      <Route
-        exact
-        path="/users/confirmation"
-        component={withTracker(PasswordSetPage)}
-      />
+      <Route exact path="/login" component={SignInPage} />
+      <Route exact path="/users/sign_up" component={SignUpPage} />
+      <Route exact path="/users/password/reset" component={PasswordResetPage} />
+      <Route exact path="/users/password/edit" component={PasswordSetPage} />
+      <Route exact path="/users/confirmation" component={PasswordSetPage} />
       <PrivateRoute
         exact
         path="/settings"
