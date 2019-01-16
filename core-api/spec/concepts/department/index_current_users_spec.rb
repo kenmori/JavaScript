@@ -2,7 +2,6 @@
 
 RSpec.describe Department::IndexCurrentUsers do
   include DepartmentDataset
-  using DepartmentHelper
 
   before do
     dep_1
