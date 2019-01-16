@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_07_091900) do
+ActiveRecord::Schema.define(version: 2019_01_16_101727) do
 
   create_table "bounce_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -89,6 +89,17 @@ ActiveRecord::Schema.define(version: 2019_01_07_091900) do
     t.index ["key_result_id"], name: "index_key_result_members_on_key_result_id"
   end
 
+  create_table "key_result_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "item_type", limit: 191, null: false
+    t.integer "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object", limit: 4294967295
+    t.text "object_changes", limit: 4294967295
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_key_result_versions_on_item_type_and_item_id"
+  end
+
   create_table "key_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.integer "objective_id", null: false
@@ -134,6 +145,17 @@ ActiveRecord::Schema.define(version: 2019_01_07_091900) do
     t.string "list"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "objective_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "item_type", limit: 191, null: false
+    t.integer "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object", limit: 4294967295
+    t.text "object_changes", limit: 4294967295
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_objective_versions_on_item_type_and_item_id"
   end
 
   create_table "objectives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
