@@ -15,7 +15,7 @@ class DepartmentsController < ApplicationController
 
   def current_users
     runner(Department::IndexCurrentUser, {}) do |result|
-      render json: {departments: result[:query]}, status: :ok
+      render json: { departments: result[:query] }, status: :ok
     end
   end
 
