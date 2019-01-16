@@ -22,13 +22,13 @@ RSpec.resource "GET /departments/current_users", warden: true do
     DepartmentMemberFactory.new(department: dep_1_1, user: nomal_user).create
     DepartmentMemberFactory.new(department: dep_1_1_1, user: nomal_user).create
     DepartmentMemberFactory.new(department: dep_1_1_2, user: nomal_user).create
-
-    login_as(nomal_user)
   end
 
   get "/departments/current_users" do
     example "SUCCESS: Return the department information to which the sign-in user belongs" do
       explanation "サインインユーザーが所属する部署情報を返す"
+
+      login_as(nomal_user)
 
       do_request
 
@@ -57,6 +57,15 @@ RSpec.resource "GET /departments/current_users", warden: true do
       expect(root.dig("children", 0, "children", 1)).to include(
         "name" => "Web部"
       )
+    end
+
+    example "ERROR: When the user do not sign-in" do
+      explanation "サインインしていない場合エラー"
+
+      do_request
+
+      expect(response_status).to eq(401)
+      expect(parse_response_error).to eq(["アカウント登録もしくはログインしてください。"])
     end
   end
 end
