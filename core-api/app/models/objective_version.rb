@@ -18,4 +18,8 @@
 
 class ObjectiveVersion < PaperTrail::Version
   self.table_name = :objective_versions
+
+  def user
+    User.find(whodunnit)
+  end
 end

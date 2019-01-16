@@ -18,4 +18,8 @@
 
 class KeyResultVersion < PaperTrail::Version
   self.table_name = :key_result_versions
+
+  def user
+    User.find(whodunnit)
+  end
 end

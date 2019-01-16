@@ -31,7 +31,7 @@ class Objective < ApplicationRecord
   belongs_to :parent_key_result, class_name: "KeyResult", optional: true
   has_one :department_objective, dependent: :destroy
   has_one :department, through: :department_objective
-  has_paper_trail versions: {
+  has_paper_trail ignore: [:updated_at], versions: {
     class_name: 'ObjectiveVersion'
   }
 

@@ -299,6 +299,11 @@ function* disableObjective({ payload: { id, toDisable } }) {
   );
 }
 
+function* fetchObjectiveHistory({ payload }) {
+  const result = yield call(API.get, `/objectives/${payload.id}/histories`);
+  yield put(objectiveActions.fetchedObjectiveHistory(payload.id, result.get("histories")));
+}
+
 export function* objectiveSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_OKRS, fetchOkrs),
@@ -314,5 +319,6 @@ export function* objectiveSagas() {
     takeLatest(actionTypes.UPDATE_OBJECTIVE, withLoading(updateObjective)),
     takeLatest(actionTypes.REMOVE_OBJECTIVE, withLoading(removeObjective)),
     takeLatest(actionTypes.DISABLE_OBJECTIVE, withLoading(disableObjective)),
+    takeLatest(actionTypes.FETCH_OBJECTIVE_HISTORY, withLoading(fetchObjectiveHistory)),
   ]);
 }

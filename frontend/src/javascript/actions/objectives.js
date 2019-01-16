@@ -59,6 +59,8 @@ const actions = createActions({
   }),
   [actionTypes.DISABLE_OBJECTIVE]: (id, toDisable) => ({ id, toDisable }),
   [actionTypes.DISABLED_OBJECTIVE]: objective => normalizeObjective(objective),
+  [actionTypes.FETCH_OBJECTIVE_HISTORY]: id => ({ id }),
+  [actionTypes.FETCHED_OBJECTIVE_HISTORY]: (id, histories) => ({ id, histories }),
 });
 
 export default actions;

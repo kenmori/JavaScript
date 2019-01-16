@@ -116,6 +116,17 @@ class ObjectivesController < ApplicationController
     end
   end
 
+  def history
+    concept_params = {
+      organization_id: current_organization.id,
+      id: params[:id],
+    }
+    runner(Objective::History, concept_params) do |result|
+      @histories = result[:histories]
+      render status: :ok
+    end
+  end
+
   private
 
     def valid_user_to_create?
