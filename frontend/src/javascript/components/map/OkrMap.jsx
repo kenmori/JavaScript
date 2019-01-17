@@ -19,6 +19,9 @@ class OkrMap extends PureComponent {
   }
 
   componentDidMount() {
+    if (this.props.objective) {
+      this.createGroups(this.props);
+    }
     window.addEventListener("resize", this.onResize);
   }
 
@@ -43,10 +46,6 @@ class OkrMap extends PureComponent {
     if (prevProps.scrollToObjectiveId !== this.props.scrollToObjectiveId) {
       scrollToElement(this.refs[`objective_${this.props.scrollToObjectiveId}`]);
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.onResize);
   }
 
   // 基点 Objective と表示リストから上下方向に展開される Objective リストを構築する
