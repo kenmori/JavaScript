@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import remark from "remark";
-import reactRemark from "remark-react";
+import remark2react from "remark-react";
 import emoji from "remark-emoji";
 import breaks from "remark-breaks";
 import externalLinks from "remark-external-links";
@@ -21,17 +21,14 @@ class Markdown extends PureComponent {
   render() {
     const { text } = this.props;
     const { key } = this.state;
-    const options = {
-      sanitize: false, // to use GFM task list (https://github.com/mapbox/remark-react/issues/44)
-    };
     return (
       <div className="markdown markdown-body" key={key}>
         {
           remark()
+            .use(remark2react)
             .use(emoji)
             .use(breaks)
             .use(externalLinks)
-            .use(reactRemark, options)
             .processSync(text).contents
         }
       </div>

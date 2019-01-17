@@ -4,6 +4,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import { Tab, Menu, Label } from "semantic-ui-react";
 import KeyResultPane from "../../containers/KeyResultPane";
 import KeyResultInfoPane from "../../containers/KeyResultInfoPane";
+import KeyResultHistoryPane from "../../containers/KeyResultHistoryPane";
 
 class KeyResultTab extends PureComponent {
   constructor() {
@@ -81,6 +82,21 @@ class KeyResultTab extends PureComponent {
                   confirm={this.props.confirm}
                   disableKeyResult={this.props.disableKeyResult}
                   removeKeyResult={this.props.removeKeyResult}
+                />
+              </Tab.Pane>
+            ),
+          },
+          {
+            menuItem: (
+              <Menu.Item key="history">
+                履歴
+                {dummyLabel}
+              </Menu.Item>
+            ),
+            render: () => (
+              <Tab.Pane>
+                <KeyResultHistoryPane
+                  keyResult={this.props.keyResult}
                 />
               </Tab.Pane>
             ),

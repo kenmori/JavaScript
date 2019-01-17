@@ -93,6 +93,11 @@ function* fetchKeyResultCommentLabels() {
   );
 }
 
+function* fetchKeyResultHistory({ payload }) {
+  const result = yield call(API.get, `/key_results/${payload.id}/histories`);
+  yield put(keyResultActions.fetchedKeyResultHistory(payload.id, result.get("histories")));
+}
+
 export function* keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
@@ -113,5 +118,6 @@ export function* keyResultSagas() {
       actionTypes.FETCH_KEY_RESULT_COMMENT_LABELS,
       withLoading(fetchKeyResultCommentLabels),
     ),
+    takeLatest(actionTypes.FETCH_KEY_RESULT_HISTORY, withLoading(fetchKeyResultHistory)),
   ]);
 }

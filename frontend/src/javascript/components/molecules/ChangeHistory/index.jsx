@@ -4,7 +4,17 @@ import moment from "moment";
 import Markdown from "../../util/Markdown";
 import avatar_image from "../../../images/avatar.png";
 
-const ChangeHistory = React.memo(({ avatar, firstName, lastName, changedAt, changeLog }) => (
+const formatChangeLog = (diffs) => {
+  let message = "";
+
+  for(let e of diffs) {
+    message += `**${e.get("column")}**を \`${e.get("before")}\` から \`${e.get("after")}\` へ変更\n`;
+  }
+
+  return message;
+}
+
+const ChangeHistory = React.memo(({ avatar, firstName, lastName, changedAt, diffs }) => (
   <Comment.Group className="change-history">
   <Comment>
     <Comment.Avatar
@@ -22,7 +32,7 @@ const ChangeHistory = React.memo(({ avatar, firstName, lastName, changedAt, chan
         {moment(changedAt).format("YYYY/M/D H:mm")}
       </Comment.Metadata>
       <Comment.Text>
-        <Markdown text={changeLog} />
+        <Markdown text={formatChangeLog(diffs)} />
       </Comment.Text>
     </Comment.Content>
   </Comment>

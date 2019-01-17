@@ -7,16 +7,13 @@ require_dependency Rails.root.join("config/locales/share/model_names")
     activerecord: {
       attributes: {
         objective: {
-          id: "ID",
+          id: "#{model_names[:objective]}ID",
           description: "説明",
-          disabled_at: "無効日時",
-          key_result_order: "#{model_names[:user]}ID",
-          name: "#{model_names[:department]}名",
+          disabled_at: "ステータス",
+          name: model_names[:objective],
           progress_rate: "進捗率",
           result: "結果",
-          sub_progress_rate: "上位Key Result進捗率",
-          created_at: "作成日時",
-          updated_at: "更新日時",
+          sub_progress_rate: "上位#{model_names[:key_result]}進捗率",
         }
       }
     }

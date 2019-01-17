@@ -117,11 +117,7 @@ class ObjectivesController < ApplicationController
   end
 
   def history
-    concept_params = {
-      organization_id: current_organization.id,
-      id: params[:id],
-    }
-    runner(Objective::History, concept_params) do |result|
+    runner(Objective::History, { id: params[:id] }) do |result|
       @histories = result[:histories]
       render status: :ok
     end

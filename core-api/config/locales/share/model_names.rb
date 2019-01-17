@@ -7,6 +7,7 @@ def model_names
     department_member: "部署メンバー",
     user: "ユーザー",
     objective: "Objective",
-    key_result: "KeyResult",
+    key_result: "Key Result",
+    okr_period: "OKR期間",
   }
 end
