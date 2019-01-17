@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Department::IndexCurrentUsers do
+RSpec.describe User::Departments do
   include DepartmentDataset
 
   before do
@@ -22,7 +22,7 @@ RSpec.describe Department::IndexCurrentUsers do
     end
 
     example "SUCCESS" do
-      result = described_class.call(params: {}, current_user: nomal_user)
+      result = described_class.call(params: {id: nomal_user.id}, current_user: nomal_user)
 
       root = result[:query].first
 
@@ -56,7 +56,7 @@ RSpec.describe Department::IndexCurrentUsers do
     end
 
     example "SUCCESS" do
-      result = described_class.call(params: {}, current_user: nomal_user)
+      result = described_class.call(params: {id: nomal_user.id}, current_user: nomal_user)
 
       query = result[:query]
 

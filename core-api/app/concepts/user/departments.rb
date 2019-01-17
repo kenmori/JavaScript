@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-class Department::IndexCurrentUsers < Trailblazer::Operation
+class User::Departments < Trailblazer::Operation
+  step Model(User, :find_by)
+  step Policy::Pundit(UserPolicy, :departments?)
   step :query
 
-  def query(options, params:, current_user:, **_metadata)
-    options[:query] = current_user.departments.arrange_serializable(order: :display_order) do |parent, children|
+  def query(options, model:, **_metadata)
+    options[:query] = model.departments.arrange_serializable(order: :display_order) do |parent, children|
+      # TODO Department::Index とのコードの重複が気になる。モデルに移動する？
       {
         id: parent.id,
         archived: parent.archived?,
