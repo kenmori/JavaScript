@@ -7,7 +7,7 @@ const ChangeHistoryList = React.memo(({ histories }) => (
 
     return (
       <ChangeHistory
-        avatar={user.get("avatar").get("url")}
+        avatar={user.get("avatarUrl")}
         firstName={user.get("firstName")}
         lastName={user.get("lastName")}
         changedAt={e.get("createdAt")}
