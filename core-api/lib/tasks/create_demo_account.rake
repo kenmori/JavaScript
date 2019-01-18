@@ -62,15 +62,18 @@ namespace :create_demo_account do
       okr_span: base_organization.okr_span
     )
 
-    base_okr_periods.each do |okr_period|
+    # oke_period 作成
+    base_okr_periods.each do |base_okr_period|
       organization.okr_periods.create!(
-        start_date: okr_period.start_date,
-        end_date: okr_period.end_date,
-        name: okr_period.name
+        start_date: base_okr_period.start_date,
+        end_date: base_okr_period.end_date,
+        name: base_okr_period.name
       )
     end
 
+    # 指定した Organization に紐づくメンバーを作成
     base_members.each do |base_member|
+      puts "=== Get user info from objevctive_members ==="
       base_user = User.find(base_member.user_id)
 
       # users, organization_member, user_settings 追加
@@ -82,8 +85,36 @@ namespace :create_demo_account do
         admin: base_user.admin,
         confirmed_at: Time.current
       )
+
+      # User に紐づく上位の objective を作成
+      base_okr_periods.each do |base_okr_period|
+        base_root_objectives_per_period = base_user.objectives.
+        includes(:key_results).
+        where(okr_period_id: base_okr_period.id).
+        where(parent_key_result_id: nil)
+
+        # Objective に紐づく key_result を作成
+        base_root_objectives_per_period.each do |base_objective|
+          create_child_key_result(base_objective)
+        end
+      end
+
     end
+
+    # key_result_members をマッピングから作成
 
   end
 
+  def create_child_key_result(base_objective)
+    base_key_results = base_objective.key_results
+
+    base_key_results.each do |base_key_result|
+    # base_comment = base_key_result.comments
+      create_child_objective(base_key_result)
+    end
+  end
+
+  def create_child_objective(base_key_result)
+    base_child_objective = base_key_result.child_objectives
+  end
 end
