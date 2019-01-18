@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       put "resend"
       put :user_setting, to: "users#update_user_setting"
       put :objective_order, to: "users#update_objective_order"
+      get "departments"
     end
     collection do
       get "sign_up(/*path)" => "home#non_login"
@@ -66,10 +67,6 @@ Rails.application.routes.draw do
   end
 
   resources :departments, only: %i[index create update destroy] do
-    collection do
-      get :current_users
-    end
-
     member do
       patch :restore
     end

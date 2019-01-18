@@ -3,8 +3,8 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "GET /departments/current_users", warden: true do
-  explanation "departmnets#current_users"
+RSpec.resource "GET /users/:id/departments", warden: true do
+  explanation "users#departments"
 
   include RequestHeaderJson
   include DepartmentDataset
@@ -24,13 +24,13 @@ RSpec.resource "GET /departments/current_users", warden: true do
     DepartmentMemberFactory.new(department: dep_1_1_2, user: nomal_user).create
   end
 
-  get "/departments/current_users" do
+  get "/users/:id/departments" do
     example "SUCCESS: Return the department information to which the sign-in user belongs" do
       explanation "サインインユーザーが所属する部署情報を返す"
 
       login_as(nomal_user)
 
-      do_request
+      do_request(id: nomal_user.id)
 
       expect(response_status).to eq(200)
 
@@ -62,7 +62,7 @@ RSpec.resource "GET /departments/current_users", warden: true do
     example "ERROR: When the user do not sign-in" do
       explanation "サインインしていない場合エラー"
 
-      do_request
+      do_request(id: nomal_user.id)
 
       expect(response_status).to eq(401)
       expect(parse_response_error).to eq(["アカウント登録もしくはログインしてください。"])

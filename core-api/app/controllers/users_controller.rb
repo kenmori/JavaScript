@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :valid_operatable_user?, except: %i[create update]
+  before_action :valid_operatable_user?, except: %i[create update departments]
   # 暫定的にshowアクションのみエイリアスを付けている
   # 今後は他のAPIもエイリアスを付ける
   before_action :to_user, only: [:show]
@@ -82,6 +82,12 @@ class UsersController < ApplicationController
     @objective_order = user.objective_orders.find_or_initialize_by(okr_period_id: params[:objective_order][:okr_period_id])
     unless @objective_order.update(objective_order_params)
       unprocessable_entity_with_errors(@objective_order.errors.full_messages)
+    end
+  end
+
+  def departments
+    runner(User::Departments, {id: params[:id]}) do |result|
+      render json: { departments: result[:query] }, status: :ok
     end
   end
 

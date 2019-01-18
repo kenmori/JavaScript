@@ -13,12 +13,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def current_users
-    runner(Department::IndexCurrentUsers, {}) do |result|
-      render json: { departments: result[:query] }, status: :ok
-    end
-  end
-
   def create
     concept_params = params["department"].merge(organization_id: current_organization.id)
 
