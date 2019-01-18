@@ -52,4 +52,7 @@ Rails.application.configure do
 
   # Logger
   config.log_level = :warn
+
+  # ActiveJob
+  config.active_job.queue_adapter = :test
 end

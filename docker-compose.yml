@@ -34,7 +34,7 @@ services:
       - mailhog
       - minio
       - localstack
-    environment:
+    environment: &environments_defaults
       TZ: Asia/Tokyo
       RAILS_ENV: development
       AWS_ACCESS_KEY_ID: access_key_id
@@ -50,6 +50,13 @@ services:
   worker:
     <<: *api
     command: bundle exec sidekiq -C config/sidekiq.yml
+    ports: []
+  guard:
+    <<: *api
+    environment:
+      <<: *environments_defaults
+      RAILS_ENV: test
+    command: bundle exec guard --no-bundler-warning --no-interactions
     ports: []
   db:
     image: mysql:5.7
@@ -98,7 +105,7 @@ services:
       exit 0;
       "
   localstack:
-    image: localstack/localstack:0.8.7
+    image: localstack/localstack:0.8.10
     ports:
       - "18080:8080"
       - "4567-4584:4567-4584"
