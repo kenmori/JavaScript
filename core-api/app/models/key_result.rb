@@ -33,7 +33,7 @@ class KeyResult < ApplicationRecord
   has_many :child_objectives, class_name: "Objective", foreign_key: :parent_key_result_id, dependent: :nullify
   belongs_to :okr_period
   belongs_to :objective, touch: true
-  has_paper_trail ignore: [:updated_at], versions: {
+  has_paper_trail ignore: [:updated_at, :objective_id, :okr_period_id], versions: {
     class_name: 'KeyResultVersion'
   }
 
