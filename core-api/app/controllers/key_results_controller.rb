@@ -117,6 +117,13 @@ class KeyResultsController < ApplicationController
     @labels = current_user.organization.key_result_comment_labels
   end
 
+  def history
+    runner(KeyResult::History, { id: params[:id] }) do |result|
+      @histories = result[:histories]
+      render status: :ok
+    end
+  end
+
   private
 
     # TODO: 別のクラスに切り出してテストを書く

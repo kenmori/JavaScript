@@ -72,6 +72,9 @@ export default handleActions(
       return state;
     },
     [ActionTypes.DISABLED_KEY_RESULT]: merge,
+    [ActionTypes.FETCHED_OBJECTIVE_HISTORY]: (state, { payload }) => {
+      return state.set(payload.id, state.get(payload.id).set("histories", payload.histories));
+    },
   },
   Map(),
 );

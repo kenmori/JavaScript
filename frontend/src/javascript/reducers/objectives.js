@@ -10,6 +10,7 @@ const initialState = fromJS({
   isFetchedObjectives: false,
   isFetchedPreviousObjectives: true,
   isFetchedCandidates: false,
+  histories: [],
 });
 
 function add(state, objectiveId) {

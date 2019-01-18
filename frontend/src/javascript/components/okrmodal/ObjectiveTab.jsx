@@ -4,6 +4,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import { Tab, Menu, Label } from "semantic-ui-react";
 import ObjectivePane from "../../containers/ObjectivePane";
 import ObjectiveInfoPane from "../../containers/ObjectiveInfoPane";
+import ObjectiveHistoryPane from "../../containers/ObjectiveHistoryPane";
 
 class ObjectiveTab extends PureComponent {
   updateObjective = values => {
@@ -53,6 +54,21 @@ class ObjectiveTab extends PureComponent {
                   confirm={this.props.confirm}
                   users={this.props.users}
                   removeObjective={this.props.removeObjective}
+                />
+              </Tab.Pane>
+            ),
+          },
+          {
+            menuItem: (
+              <Menu.Item key="history">
+                履歴
+                {dummyLabel}
+              </Menu.Item>
+            ),
+            render: () => (
+              <Tab.Pane>
+                <ObjectiveHistoryPane
+                  objective={this.props.objective}
                 />
               </Tab.Pane>
             ),
