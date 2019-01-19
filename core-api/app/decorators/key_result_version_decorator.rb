@@ -2,6 +2,7 @@
 
 module KeyResultVersionDecorator
   def diffs
+    snapshot = reify(dup: true)
     JSON.parse(object_changes).each_with_object([]) do |(k, v), memo|
       diff = {}
       case k
@@ -17,6 +18,20 @@ module KeyResultVersionDecorator
           column: I18n.t("activerecord.attributes.key_result.#{k}"),
           before: I18n.t("enums.key_result.status.#{KeyResult.statuses.key(v[0])}"),
           after: I18n.t("enums.key_result.status.#{KeyResult.statuses.key(v[1])}"),
+        }
+      when "progress_rate"
+        # progress_rateがnilでない場合、子の進捗率を無視して直接進捗率編集したことになる
+        # その場合はprogress_rateの値を利用するが、nilであればsub_progress_rateの値を参照する
+        diff = {
+          column: I18n.t("activerecord.attributes.key_result.#{k}"),
+          before: v[0] == nil ? "#{snapshot.sub_progress_rate}%" : "#{v[0]}%",
+          after: v[1] == nil ? "#{snapshot.sub_progress_rate}%" : "#{v[1]}%",
+        }
+      when "sub_progress_rate"
+        diff = {
+          column: I18n.t("activerecord.attributes.key_result.#{k}"),
+          before: v[0] == nil ? "0%" : "#{v[0]}%",
+          after: v[1] == nil ? "0%" : "#{v[1]}%",
         }
       else
         diff = {
