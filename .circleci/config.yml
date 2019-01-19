@@ -5,8 +5,8 @@ executors:
     docker:
       - image: circleci/ruby:2.6
         environment:
-          BUNDLE_JOBS: 3
-          BUNDLE_RETRY: 3
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 4
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
           AWS_ACCESS_KEY_ID: access_key_id
@@ -38,6 +38,8 @@ executors:
     docker:
       - image: circleci/python:3.6.4
         environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 4
           RAILS_ENV: production
           NODE_ENV: production
   deploy:
@@ -108,7 +110,7 @@ jobs:
           command: sudo pip install awscli --upgrade
       - run:
           name: Build Docker images
-          command: ./tools/build -t ${CIRCLE_SHA1}
+          command: DOCKER_BUILDKIT=1 ./tools/build -t ${CIRCLE_SHA1}
   deploy:
     parameters:
       env:
