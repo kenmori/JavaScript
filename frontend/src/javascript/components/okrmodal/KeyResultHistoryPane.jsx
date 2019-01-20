@@ -13,6 +13,14 @@ class KeyResultHistoryPane extends React.PureComponent {
     fetchKeyResultHistory(keyResult.get("id"));
   }
 
+  componentDidUpdate(prevProps) {
+    const { fetchKeyResultHistory, keyResult } = this.props;
+
+    if (prevProps.keyResult.get("id") != keyResult.get("id")) {
+      fetchKeyResultHistory(keyResult.get("id"));
+    }
+  }
+
   render() {
     const { keyResult } = this.props;
 
