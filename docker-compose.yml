@@ -20,6 +20,7 @@ services:
     build:
       context: core-api
       args:
+        BUILD_WITHOUT: production
         RAILS_ENV: development
     command: /bin/sh -c "rm -f /app/tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0 -p 8080"
     tty: true
