@@ -25,16 +25,16 @@ module KeyResultVersionDecorator
         before = v[0]
         after = v[1]
         if before == nil
-          before = snapshot.sub_progress_rate == nil ? "0%" : snapshot.sub_progress_rate
+          before = snapshot.sub_progress_rate == nil ? "0" : snapshot.sub_progress_rate
         end
         if after == nil
-          after = snapshot.sub_progress_rate == nil ? "0%" : snapshot.sub_progress_rate
+          after = snapshot.sub_progress_rate == nil ? "0" : snapshot.sub_progress_rate
         end
 
         diff = {
           column: I18n.t("activerecord.attributes.key_result.#{k}"),
-          before: before,
-          after: after,
+          before: "#{before}%",
+          after: "#{after}%",
         }
       when "sub_progress_rate"
         diff = {
