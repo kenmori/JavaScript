@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Dropdown, Menu, Icon } from "semantic-ui-react";
-import UserAvatar from "../containers/UserAvatar";
-import UserSelect from "./form/UserSelect";
-import OkrPeriodSelect from "./form/OkrPeriodSelect";
-import Logo from "./util/Logo";
+import UserAvatar from "../../../containers/UserAvatar";
+import UserSelect from "../../form/UserSelect";
+import OkrPeriodSelect from "../../form/OkrPeriodSelect";
+import Logo from "../../util/Logo";
 
 class MenuBar extends PureComponent {
   userTrigger = loginUser => (

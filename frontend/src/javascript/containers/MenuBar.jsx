@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import MenuBar from "../components/MenuBar";
+import MenuBar from "../components/organisms/MenuBar";
 import currentActions from "../actions/current";
 import deviseActions from "../actions/devise";
 import history from "../utils/history";

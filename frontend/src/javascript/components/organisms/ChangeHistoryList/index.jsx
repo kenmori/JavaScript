@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import ChangeHistory from "../../molecules/ChangeHistory";
 
-const ChangeHistoryList = React.memo(({ histories }) => (
+const ChangeHistoryList = React.memo(({ histories }) =>
   histories.map(e => {
     const user = e.get("user");
 
@@ -11,10 +11,11 @@ const ChangeHistoryList = React.memo(({ histories }) => (
         firstName={user.get("firstName")}
         lastName={user.get("lastName")}
         changedAt={e.get("createdAt")}
-        diffs={e.get("diffs")} />
-    )
-  })
-));
+        diffs={e.get("diffs")}
+      />
+    );
+  }),
+);
 ChangeHistoryList.defaultProps = {
   histories: [],
 };

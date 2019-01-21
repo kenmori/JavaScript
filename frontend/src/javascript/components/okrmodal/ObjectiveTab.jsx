@@ -67,9 +67,7 @@ class ObjectiveTab extends PureComponent {
             ),
             render: () => (
               <Tab.Pane>
-                <ObjectiveHistoryPane
-                  objective={this.props.objective}
-                />
+                <ObjectiveHistoryPane objective={this.props.objective} />
               </Tab.Pane>
             ),
           },

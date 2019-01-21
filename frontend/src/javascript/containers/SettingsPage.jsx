@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import SettingsPage from "../components/setting/SettingsPage";
+import Settings from "../components/pages/Settings";
 import history from "../utils/history";
 
 const mapStateToProps = (state, { match }) => ({
@@ -19,4 +19,4 @@ const mapDispatchToProps = () => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SettingsPage);
+)(Settings);

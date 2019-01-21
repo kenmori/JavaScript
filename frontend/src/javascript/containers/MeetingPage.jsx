@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Map } from "immutable";
-import MeetingPage from "../components/meeting/MeetingPage";
+import Meeting from "../components/pages/Meeting";
 import currentActions from "../actions/current";
 import objectiveActions from "../actions/objectives";
 import keyResultActions from "../actions/keyResults";
@@ -59,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MeetingPage);
+)(Meeting);

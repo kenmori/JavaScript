@@ -40,7 +40,10 @@ const actions = createActions({
   [actionTypes.PROCESS_KEY_RESULT]: id => ({ id }),
   [actionTypes.PROCESSED_KEY_RESULT]: id => ({ id }),
   [actionTypes.FETCH_KEY_RESULT_HISTORY]: id => ({ id }),
-  [actionTypes.FETCHED_KEY_RESULT_HISTORY]: (id, histories) => ({ id, histories }),
+  [actionTypes.FETCHED_KEY_RESULT_HISTORY]: (id, histories) => ({
+    id,
+    histories,
+  }),
 });
 
 export default actions;

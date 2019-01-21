@@ -5,7 +5,8 @@ import keyResultActions from "../actions/keyResults";
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  fetchKeyResultHistory: id => dispatch(keyResultActions.fetchKeyResultHistory(id)),
+  fetchKeyResultHistory: id =>
+    dispatch(keyResultActions.fetchKeyResultHistory(id)),
 });
 
 export default connect(

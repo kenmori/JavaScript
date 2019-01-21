@@ -1,11 +1,10 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
-import DocumentTitle from "react-document-title";
-import logo_image from "../../images/logo_large.png";
-import DefaultLayout from "../templates/DefaultLayout";
+import logo_image from "../../../images/logo_large.png";
+import LoginLayout from "../../templates/LoginLayout";
 
-class PasswordResetPage extends PureComponent {
+class PasswordReset extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { email: props.email };
@@ -31,11 +30,7 @@ class PasswordResetPage extends PureComponent {
 
   render() {
     return (
-      <DefaultLayout>
-        <DocumentTitle title="パスワード再設定 - Resily">
-          {this.renderBody()}
-        </DocumentTitle>
-      </DefaultLayout>
+      <LoginLayout title="パスワード再設定">{this.renderBody()}</LoginLayout>
     );
   }
 
@@ -79,7 +74,7 @@ class PasswordResetPage extends PureComponent {
   }
 }
 
-PasswordResetPage.propTypes = {
+PasswordReset.propTypes = {
   // container
   email: PropTypes.string,
   isCompleted: PropTypes.bool.isRequired,
@@ -87,4 +82,4 @@ PasswordResetPage.propTypes = {
   // component
 };
 
-export default PasswordResetPage;
+export default PasswordReset;

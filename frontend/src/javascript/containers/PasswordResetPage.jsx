@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import PasswordResetPage from "../components/signin/PasswordResetPage";
+import PasswordReset from "../components/pages/PasswordReset";
 import deviseActions from "../actions/devise";
 
 const mapStateToProps = (state, { location }) => ({
@@ -16,4 +16,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PasswordResetPage);
+)(PasswordReset);

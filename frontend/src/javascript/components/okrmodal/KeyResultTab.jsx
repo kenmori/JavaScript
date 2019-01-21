@@ -95,9 +95,7 @@ class KeyResultTab extends PureComponent {
             ),
             render: () => (
               <Tab.Pane>
-                <KeyResultHistoryPane
-                  keyResult={this.props.keyResult}
-                />
+                <KeyResultHistoryPane keyResult={this.props.keyResult} />
               </Tab.Pane>
             ),
           },

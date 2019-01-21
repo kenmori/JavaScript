@@ -1,18 +1,17 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import DocumentTitle from "react-document-title";
 import ReactGA from "react-ga";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
-import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels";
-import CommentModal from "../../containers/CommentModal";
-import ObjectiveCommentModal from "../../containers/ObjectiveCommentModal";
-import DefaultLayout from "../templates/DefaultLayout";
-import LabelItem from "./LabelItem";
-import AnnouncementItem from "./AnnouncementItem";
-import OkrItem from "./OkrItem";
+import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
+import CommentModal from "../../../containers/CommentModal";
+import ObjectiveCommentModal from "../../../containers/ObjectiveCommentModal";
+import MeetingLayout from "../../templates/MeetingLayout";
+import LabelItem from "../../meeting/LabelItem";
+import AnnouncementItem from "../../meeting/AnnouncementItem";
+import OkrItem from "../../meeting/OkrItem";
 
-class MeetingPage extends PureComponent {
+class Meeting extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -181,85 +180,80 @@ class MeetingPage extends PureComponent {
 
     const labels = new Map();
     keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
-    const title = `${objective.get("name")} -ミーティングボード-`;
 
     return (
-      <DefaultLayout>
-        <DocumentTitle title={title}>
-          <div className="meeting-board">
-            <Header
-              as="h5"
-              textAlign="left"
-              block
-              color="black"
-              className="meeting-board__header">
-              <div className="meeting-board__headerPane">
-                <p className="meeting-board__headerPane__title">{title}</p>
-              </div>
-            </Header>
-            <Grid celled columns={3} className="meeting-board__content">
-              <Grid.Row>
-                {this.generateCommentLabelColumn(
-                  comments,
-                  labels,
-                  meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK,
-                )}
-                <Grid.Column>
-                  <Label
-                    color="orange"
-                    className="meeting-board__content__label">
-                    OKRの見通し
-                  </Label>
-                  <OkrItem
-                    objective={objective}
-                    keyResults={keyResults}
-                    showDisabledOkrs={showDisabledOkrs}
-                  />
-                </Grid.Column>
-                {this.generateCommentLabelColumn(
-                  comments,
-                  labels,
-                  meetingBoardCommentLabels.WIN_SESSION,
-                )}
-              </Grid.Row>
-              <Grid.Row>
-                {this.generateCommentLabelColumn(
-                  comments,
-                  labels,
-                  meetingBoardCommentLabels.NEXT_4_WEEK,
-                )}
-                {this.generateAnnouncementColumn(
-                  objective.get("id"),
-                  objectiveComments,
-                )}
-                {this.generateCommentLabelColumn(
-                  comments,
-                  labels,
-                  meetingBoardCommentLabels.ISSUE,
-                )}
-              </Grid.Row>
-            </Grid>
-            <CommentModal
-              objective={objective}
-              comments={this.selectKeyResultComments(
-                keyResults,
-                objective.get("id"),
+      <MeetingLayout title={`${objective.get("name")} - ミーティングボード`}>
+        <div className="meeting-board">
+          <Header
+            as="h5"
+            textAlign="left"
+            block
+            color="black"
+            className="meeting-board__header">
+            <div className="meeting-board__headerPane">
+              <p className="meeting-board__headerPane__title">{objective.get("name")}</p>
+            </div>
+          </Header>
+          <Grid celled columns={3} className="meeting-board__content">
+            <Grid.Row>
+              {this.generateCommentLabelColumn(
+                comments,
+                labels,
+                meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK,
               )}
-              keyResultCommentLabels={keyResultCommentLabels}
-            />
-            <ObjectiveCommentModal
-              objectiveId={objectiveId}
-              objective={objective}
-              comments={objectiveComments}
-            />
-          </div>
-        </DocumentTitle>
-      </DefaultLayout>
+              <Grid.Column>
+                <Label color="orange" className="meeting-board__content__label">
+                  OKRの見通し
+                </Label>
+                <OkrItem
+                  objective={objective}
+                  keyResults={keyResults}
+                  showDisabledOkrs={showDisabledOkrs}
+                />
+              </Grid.Column>
+              {this.generateCommentLabelColumn(
+                comments,
+                labels,
+                meetingBoardCommentLabels.WIN_SESSION,
+              )}
+            </Grid.Row>
+            <Grid.Row>
+              {this.generateCommentLabelColumn(
+                comments,
+                labels,
+                meetingBoardCommentLabels.NEXT_4_WEEK,
+              )}
+              {this.generateAnnouncementColumn(
+                objective.get("id"),
+                objectiveComments,
+              )}
+              {this.generateCommentLabelColumn(
+                comments,
+                labels,
+                meetingBoardCommentLabels.ISSUE,
+              )}
+            </Grid.Row>
+          </Grid>
+          <CommentModal
+            objective={objective}
+            comments={this.selectKeyResultComments(
+              keyResults,
+              objective.get("id"),
+            )}
+            keyResultCommentLabels={keyResultCommentLabels}
+          />
+          <ObjectiveCommentModal
+            objectiveId={objectiveId}
+            objective={objective}
+            comments={objectiveComments}
+          />
+        </div>
+      </MeetingLayout>
     );
   }
 }
 
-MeetingPage.propTypes = {
+Meeting.propTypes = {
   objectiveId: PropTypes.number.isRequired,
   objective: ImmutablePropTypes.map.isRequired,
   objectives: ImmutablePropTypes.map.isRequired,
@@ -275,4 +269,4 @@ MeetingPage.propTypes = {
   confirm: PropTypes.func.isRequired,
 };
 
-export default MeetingPage;
+export default Meeting;
