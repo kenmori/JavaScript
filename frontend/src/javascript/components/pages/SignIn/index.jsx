@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
 import DocumentTitle from "react-document-title";
-import DefaultLayout from "../templates/DefaultLayout";
-import logo_image from "../../images/logo_large.png";
+import DefaultLayout from "../../templates/DefaultLayout";
+import logo_image from "../../../images/logo_large.png";
 
-class SignInPage extends PureComponent {
+class SignIn extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,10 +81,10 @@ class SignInPage extends PureComponent {
   }
 }
 
-SignInPage.propTypes = {
+SignIn.propTypes = {
   // container
   signIn: PropTypes.func.isRequired,
   // component
 };
 
-export default SignInPage;
+export default SignIn;

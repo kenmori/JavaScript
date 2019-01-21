@@ -11,12 +11,12 @@ import {
 } from "semantic-ui-react";
 import moment from "moment";
 import DocumentTitle from "react-document-title";
-import logo_image from "../../images/logo_large.png";
-import DatePicker from "../form/DatePicker";
-import OkrSpanSelect from "../form/OkrSpanSelect";
-import DefaultLayout from "../templates/DefaultLayout";
+import logo_image from "../../../images/logo_large.png";
+import DatePicker from "../../form/DatePicker";
+import OkrSpanSelect from "../../form/OkrSpanSelect";
+import DefaultLayout from "../../templates/DefaultLayout";
 
-class SignUpPage extends PureComponent {
+class SignUp extends PureComponent {
   constructor(props) {
     super(props);
     const startDate = moment().startOf("month");
@@ -230,7 +230,7 @@ class SignUpPage extends PureComponent {
   }
 }
 
-SignUpPage.propTypes = {
+SignUp.propTypes = {
   // container
   hasValidToken: PropTypes.bool.isRequired,
   isCompleted: PropTypes.bool.isRequired,
@@ -238,4 +238,4 @@ SignUpPage.propTypes = {
   // component
 };
 
-export default SignUpPage;
+export default SignUp;

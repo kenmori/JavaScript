@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import qs from "qs";
-import SignUpPage from "../components/signin/SignUpPage";
+import SignUp from "../components/pages/SignUp";
 import organizationActions from "../actions/organization";
 
 const isValidToken = token =>
@@ -26,4 +26,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SignUpPage);
+)(SignUp);

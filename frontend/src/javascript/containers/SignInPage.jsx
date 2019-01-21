@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import SignInPage from "../components/signin/SignInPage";
+import SignIn from "../components/pages/SignIn";
 import deviseActions from "../actions/devise";
 
 const mapStateToProps = () => ({});
@@ -15,4 +15,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SignInPage);
+)(SignIn);

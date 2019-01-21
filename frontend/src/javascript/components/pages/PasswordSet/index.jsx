@@ -2,10 +2,10 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
 import DocumentTitle from "react-document-title";
-import logo_image from "../../images/logo_large.png";
-import DefaultLayout from "../templates/DefaultLayout";
+import logo_image from "../../../images/logo_large.png";
+import DefaultLayout from "../../templates/DefaultLayout";
 
-class PasswordSetPage extends PureComponent {
+class PasswordSet extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -83,11 +83,11 @@ class PasswordSetPage extends PureComponent {
   }
 }
 
-PasswordSetPage.propTypes = {
+PasswordSet.propTypes = {
   // container
   token: PropTypes.object.isRequired,
   setPassword: PropTypes.func.isRequired,
   // component
 };
 
-export default PasswordSetPage;
+export default PasswordSet;

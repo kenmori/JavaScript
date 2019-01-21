@@ -3,16 +3,16 @@ import { Tab } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ReactGA from "react-ga";
 import DocumentTitle from "react-document-title";
-import Fetcher from "../../containers/Fetcher";
-import MenuBar from "../../containers/MenuBar";
-import AccountSettingTab from "../../containers/AccountSettingTab";
-import UserSettingTab from "../../containers/UserSettingTab";
-import OrganizationSettingTab from "../../containers/OrganizationSettingTab";
-import OkrPeriodSettingTab from "../../containers/OkrPeriodSettingTab";
-import ImageModal from "../../containers/ImageModal";
-import DefaultLayout from "../templates/DefaultLayout";
+import Fetcher from "../../../containers/Fetcher";
+import MenuBar from "../../../containers/MenuBar";
+import AccountSettingTab from "../../../containers/AccountSettingTab";
+import UserSettingTab from "../../../containers/UserSettingTab";
+import OrganizationSettingTab from "../../../containers/OrganizationSettingTab";
+import OkrPeriodSettingTab from "../../../containers/OkrPeriodSettingTab";
+import ImageModal from "../../../containers/ImageModal";
+import DefaultLayout from "../../templates/DefaultLayout";
 
-class SettingsPage extends React.Component {
+class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -133,7 +133,7 @@ class SettingsPage extends React.Component {
   }
 }
 
-SettingsPage.propTypes = {
+Settings.propTypes = {
   // container
   name: PropTypes.string,
   isAdmin: PropTypes.bool.isRequired,
@@ -141,8 +141,8 @@ SettingsPage.propTypes = {
   // component
 };
 
-SettingsPage.defaultProps = {
+Settings.defaultProps = {
   name: "account",
 };
 
-export default SettingsPage;
+export default Settings;

@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import qs from "qs";
-import PasswordSetPage from "../components/signin/PasswordSetPage";
+import PasswordSet from "../components/pages/PasswordSet";
 import deviseActions from "../actions/devise";
 
 const mapStateToProps = (state, { location }) => {
@@ -24,4 +24,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PasswordSetPage);
+)(PasswordSet);

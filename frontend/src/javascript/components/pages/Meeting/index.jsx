@@ -4,15 +4,15 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import DocumentTitle from "react-document-title";
 import ReactGA from "react-ga";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
-import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels";
-import CommentModal from "../../containers/CommentModal";
-import ObjectiveCommentModal from "../../containers/ObjectiveCommentModal";
-import DefaultLayout from "../templates/DefaultLayout";
-import LabelItem from "./LabelItem";
-import AnnouncementItem from "./AnnouncementItem";
-import OkrItem from "./OkrItem";
+import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
+import CommentModal from "../../../containers/CommentModal";
+import ObjectiveCommentModal from "../../../containers/ObjectiveCommentModal";
+import DefaultLayout from "../../templates/DefaultLayout";
+import LabelItem from "../../meeting/LabelItem";
+import AnnouncementItem from "../../meeting/AnnouncementItem";
+import OkrItem from "../../meeting/OkrItem";
 
-class MeetingPage extends PureComponent {
+class Meeting extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -259,7 +259,7 @@ class MeetingPage extends PureComponent {
   }
 }
 
-MeetingPage.propTypes = {
+Meeting.propTypes = {
   objectiveId: PropTypes.number.isRequired,
   objective: ImmutablePropTypes.map.isRequired,
   objectives: ImmutablePropTypes.map.isRequired,
@@ -275,4 +275,4 @@ MeetingPage.propTypes = {
   confirm: PropTypes.func.isRequired,
 };
 
-export default MeetingPage;
+export default Meeting;
