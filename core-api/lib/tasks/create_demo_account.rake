@@ -79,12 +79,14 @@ namespace :create_demo_account do
     end
 
     # マッピング用の変数
+    base_users = []
     users = []
     objectives = []
 
     # 指定した Organization に紐づくメンバーを作成
     base_members.each do |base_member|
       base_user = User.find(base_member.user_id)
+      base_users.push(base_user)
 
       puts "=== User を作成 ==="
       # users, organization_member, user_settings 追加
@@ -97,9 +99,12 @@ namespace :create_demo_account do
         avatar: base_user.avatar,
         confirmed_at: Time.current
       )
+
       users.push({"base_id" => base_user.id, "new_id" => user.id})
       puts "=== User #{user.email} ==="
+    end
 
+    base_users.each do |base_user|
       base_okr_periods.each do |base_okr_period|
         # 最上位の Objective を作成
         base_root_objectives_per_period = base_user.objectives.
@@ -109,6 +114,8 @@ namespace :create_demo_account do
           order("id")
 
         okr_period_id = okr_periods.find {|item| item["base_id"] == base_okr_period.id}
+        user_id = users.find {|item| item["base_id"] == base_user.id}
+        user = User.find(user_id["new_id"])
 
         base_root_objectives_per_period.each do |base_objective|
           puts "=== Objective を作成 ==="
@@ -116,13 +123,12 @@ namespace :create_demo_account do
             name: base_objective.name,
             description: base_objective.description,
             okr_period_id: okr_period_id["new_id"],
-            progress_rate: base_objective.progress_rate,
+            progress_rate: base_objective.progress_rate ? base_objective.progress_rate : nil,
             sub_progress_rate: base_objective.sub_progress_rate,
             result: base_objective.result
           )
-          objectives.push({"old_id" => base_objective.id, "new_id" => objective.id})
+          objectives.push({"base_id" => base_objective.id, "new_id" => objective.id})
 
-          # TODO Objective Comment を作成
           base_objective_comments = base_objective.objective_comments.reorder("id")
           base_objective_comments.each do |base_objective_comment|
             puts "=== Objective comment を作成 ==="
@@ -134,8 +140,8 @@ namespace :create_demo_account do
             )
           end
 
-          # Objective に紐づく key_result を作成
-          # create_child_key_result(base_objective)
+          # 対象の Objective id に紐づく key_result を作成
+          create_child_key_result(user, okr_period_id, objectives, base_objective)
         end
 
         # TODO 親 Key Resutl を持つ Objective を作成
@@ -147,24 +153,40 @@ namespace :create_demo_account do
 
   end
 
-  def create_child_key_result(base_objective)
-    puts "=== Key Result を作成 ==="
+  def create_child_key_result(user, okr_period_id, objectives, base_objective)
     base_key_results = base_objective.key_results
+    objective_id = objectives.find {|item| item["base_id"] == base_objective.id}
 
     base_key_results.each do |base_key_result|
-      # TODO User と Objective に紐づけて Key Result を作成
-      # TODO 作成した key result にコメントを作成
-      base_comments = base_key_result.comments
+     puts "=== Key Result を作成 ==="
 
+      # User と Objective に紐づけて Key Result を作成
+      key_result = user.key_results.create!(
+        name: base_key_result.name,
+        objective_id: objective_id["new_id"],
+        okr_period_id: okr_period_id["new_id"],
+        progress_rate: base_key_result.progress_rate,
+        target_value: base_key_result.target_value,
+        actual_value: base_key_result.actual_value,
+        value_unit: base_key_result.value_unit,
+        expired_date: base_key_result.expired_date,
+        description: base_key_result.description,
+        result: base_key_result.result,
+        sub_progress_rate: base_key_result.sub_progress_rate,
+        status: base_key_result.status
+      )
+
+      base_comments = base_key_result.comments.reorder("id")
       base_comments.each do |base_comment|
-
+        puts "=== Comment を作成 ==="
+        comment = key_result.comments.create!(
+          user_id: user.id,
+          text: base_comment.text,
+          key_result_comment_label_id: base_comment.key_result_comment_label_id,
+          show_meeting_board: base_comment.show_meeting_board
+        )
       end
-
-      # create_child_objective(base_key_result)
     end
   end
 
-  # def create_child_objective(base_key_result)
-  #   base_child_objective = base_key_result.child_objectives
-  # end
 end
