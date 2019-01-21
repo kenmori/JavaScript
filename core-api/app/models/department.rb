@@ -49,7 +49,7 @@ class Department < ApplicationRecord
     kind == "first_root"
   end
 
-  # TODO OPTIMIZE Serialize 関係のメソッドが増えるなら ActiveRecord::Serializer の導入を検討する
+  # TODO OPTIMIZE Serialize 関係のメソッドが増えるなら ActiveModel::Serializers の導入を検討する
   def serialize_index(children)
     {
       id: id,
