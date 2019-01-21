@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       put "resend"
       put :user_setting, to: "users#update_user_setting"
       put :objective_order, to: "users#update_objective_order"
+      get "departments"
     end
     collection do
       get "sign_up(/*path)" => "home#non_login"

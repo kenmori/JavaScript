@@ -20,6 +20,10 @@ class UserPolicy
     (current_user_admin? || myself?) && same_organization?(@target_user)
   end
 
+  def departments?
+    (current_user_admin? || myself?) && same_organization?(@target_user)
+  end
+
   private
 
     def myself?
