@@ -5,7 +5,8 @@ import objectiveActions from "../actions/objectives";
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  fetchObjectiveHistory: id => dispatch(objectiveActions.fetchObjectiveHistory(id)),
+  fetchObjectiveHistory: id =>
+    dispatch(objectiveActions.fetchObjectiveHistory(id)),
 });
 
 export default connect(

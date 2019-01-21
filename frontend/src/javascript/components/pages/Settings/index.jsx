@@ -2,15 +2,13 @@ import React from "react";
 import { Tab } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ReactGA from "react-ga";
-import DocumentTitle from "react-document-title";
+import DefaultLayout from "../../templates/DefaultLayout";
 import Fetcher from "../../../containers/Fetcher";
-import MenuBar from "../../../containers/MenuBar";
 import AccountSettingTab from "../../../containers/AccountSettingTab";
 import UserSettingTab from "../../../containers/UserSettingTab";
 import OrganizationSettingTab from "../../../containers/OrganizationSettingTab";
 import OkrPeriodSettingTab from "../../../containers/OkrPeriodSettingTab";
 import ImageModal from "../../../containers/ImageModal";
-import DefaultLayout from "../../templates/DefaultLayout";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -106,29 +104,20 @@ class Settings extends React.Component {
     if (!targetPane) return null;
 
     return (
-      <DefaultLayout>
-        <DocumentTitle title={`${targetPane.menuItem} - 設定 - Resily`}>
-          {this.renderBody(targetPane.id)}
-        </DocumentTitle>
+      <DefaultLayout title={`${targetPane.menuItem} - 設定`}>
+        <div className="settings-page">
+          <Fetcher />
+          <main>
+            <Tab
+              activeIndex={targetPane.id}
+              panes={this.state.panes}
+              className="setting-tabs"
+              onTabChange={this.handleTabChange}
+            />
+          </main>
+          <ImageModal />
+        </div>
       </DefaultLayout>
-    );
-  }
-
-  renderBody(activeIndex) {
-    return (
-      <div className="settings-page">
-        <Fetcher />
-        <MenuBar />
-        <main>
-          <Tab
-            activeIndex={activeIndex}
-            panes={this.state.panes}
-            className="setting-tabs"
-            onTabChange={this.handleTabChange}
-          />
-        </main>
-        <ImageModal />
-      </div>
     );
   }
 }

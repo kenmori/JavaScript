@@ -43,9 +43,11 @@ export default handleActions(
     [ActionTypes.UPDATED_OBJECTIVE]: merge,
     [ActionTypes.REMOVED_OBJECTIVE]: merge,
     [ActionTypes.DISABLED_OBJECTIVE]: merge,
-    [ActionTypes.FETCHED_KEY_RESULT_HISTORY]: (state, { payload }) => {
-      return state.set(payload.id, state.get(payload.id).set("histories", payload.histories));
-    },
+    [ActionTypes.FETCHED_KEY_RESULT_HISTORY]: (state, { payload }) =>
+      state.set(
+        payload.id,
+        state.get(payload.id).set("histories", payload.histories),
+      ),
   },
   Map(),
 );
