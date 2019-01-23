@@ -186,8 +186,6 @@ namespace :create_demo_account do
         status: base_key_result.status
       )
 
-      puts "=== DEBUG #{key_result.to_yaml} ==="
-
       base_key_result_members.each do |base_key_result_member|
         next if base_key_result_member.role == "owner"
 
