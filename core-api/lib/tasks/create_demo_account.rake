@@ -127,7 +127,7 @@ namespace :create_demo_account do
   end
 
   def create_objective(okr_period_id, base_objective, parent_key_result_id = nil)
-    base_objective_members= base_objective.objective_members.where(role: "owner")
+    base_objective_members = base_objective.objective_members.where(role: "owner")
     user_id = @users.find {|item| item["base_id"] == base_objective_members[0].user_id}
     owner_user = User.find(user_id["new_id"])
 
@@ -163,8 +163,9 @@ namespace :create_demo_account do
     objective_id = @objectives.find {|item| item["base_id"] == base_objective.id}
 
     base_key_results.each do |base_key_result|
-      base_key_result_members = base_key_result.key_result_members.where(role: "owner")
-      user_id = @users.find {|item| item["base_id"] == base_key_result_members[0].user_id}
+      base_key_result_members = base_key_result.key_result_members
+      base_owner_key_result_member = base_key_result_members.find {|member| member.role == "owner"}
+      user_id = @users.find {|item| item["base_id"] == base_owner_key_result_member.user_id}
       owner_user = User.find(user_id["new_id"])
 
       puts "=== Key Result を作成 ==="
@@ -184,6 +185,18 @@ namespace :create_demo_account do
         sub_progress_rate: base_key_result.sub_progress_rate,
         status: base_key_result.status
       )
+
+      puts "=== DEBUG #{key_result.to_yaml} ==="
+
+      base_key_result_members.each do |base_key_result_member|
+        next if base_key_result_member.role == "owner"
+
+        member_user_id = @users.find {|item| item["base_id"] == base_key_result_member.user_id}
+        key_result_member = key_result.key_result_members.create!(
+          user_id: member_user_id["new_id"],
+          role: base_key_result_member.role
+        )
+      end
 
       base_comments = base_key_result.comments.reorder("id")
       base_comments.each do |base_comment|
