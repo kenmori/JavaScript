@@ -101,8 +101,9 @@ namespace :create_demo_account do
       )
 
       @users.push({"base_id" => base_user.id, "new_id" => user.id})
-      puts "=== Debug User #{user.email} ==="
     end
+
+    puts "=== DEBUG #{@users.to_yaml} ==="
 
     # Objective と KeyResult 作成
     base_users.each do |base_user|
@@ -115,19 +116,19 @@ namespace :create_demo_account do
           order("id")
 
         okr_period_id = okr_periods.find {|item| item["base_id"] == base_okr_period.id}
-        # user_id = @users.find {|item| item["base_id"] == base_user.id}
-        # user = User.find(user_id["new_id"])
 
         base_root_objectives_per_period.each do |base_objective|
           create_objective(okr_period_id, base_objective)
         end
       end
     end
+
+    puts "=== DEBUG #{@objectives.to_yaml} ==="
   end
 
   def create_objective(okr_period_id, base_objective, parent_key_result_id = nil)
     base_objective_members= base_objective.objective_members.where(role: "owner")
-    user_id = @users.find {|item| item["base_id"] == base_objective_members[0].id}
+    user_id = @users.find {|item| item["base_id"] == base_objective_members[0].user_id}
     owner_user = User.find(user_id["new_id"])
 
     puts "=== Objective を作成 ==="
@@ -163,7 +164,7 @@ namespace :create_demo_account do
 
     base_key_results.each do |base_key_result|
       base_key_result_members = base_key_result.key_result_members.where(role: "owner")
-      user_id = @users.find {|item| item["base_id"] == base_key_result_members[0].id}
+      user_id = @users.find {|item| item["base_id"] == base_key_result_members[0].user_id}
       owner_user = User.find(user_id["new_id"])
 
       puts "=== Key Result を作成 ==="
@@ -200,7 +201,6 @@ namespace :create_demo_account do
 
       base_child_objectives = base_key_result.child_objectives
       puts "=== Child Objective を作成 ==="
-      puts "=== debug #{base_child_objectives.inspect} ==="
 
       base_child_objectives.each do |base_child_objective|
         create_objective(okr_period_id, base_child_objective, key_result.id)
