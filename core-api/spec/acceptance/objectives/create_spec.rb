@@ -6,7 +6,7 @@ Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependen
 RSpec.resource "POST /objectives", warden: true do
   explanation "objectives#create"
 
-  include OrganizationDataset
+  include DepartmentDataset
   include RequestHeaderJson
 
   before do
@@ -20,6 +20,7 @@ RSpec.resource "POST /objectives", warden: true do
       parameter :parent_key_result_id, "上位KeyResult ID", type: :integer
       parameter :okr_period_id, "OkrPeriod ID",  type: :integer, required: true
       parameter :owner_id, "責任者ID", type: :integer, required: true
+      parameter :department_id, "部署ID", type: :integer, required: true
     end
 
     example "SUCCESS: create a new Objective" do
@@ -31,7 +32,8 @@ RSpec.resource "POST /objectives", warden: true do
           "description" => "他社を追い抜き業界一位になる",
           "parent_key_result_id" => nil,
           "okr_period_id" => okr_period.id,
-          "owner_id" => admin_user.id
+          "owner_id" => admin_user.id,
+          "department_id" => dep_1.id
         }
       )
 
@@ -58,7 +60,11 @@ RSpec.resource "POST /objectives", warden: true do
         },
         "key_results" => [],
         "sub_progress_rate" => nil,
-        "comments" => []
+        "comments" => [],
+        "department" => {
+          "id" => dep_1.id,
+          "name" => "代表"
+        }
       )
     end
   end
