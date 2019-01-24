@@ -21,4 +21,8 @@ json.objective do
   json.comments do
     json.partial! "comments/objective_comment", collection: @objective.objective_comments, as: :comment
   end
+
+  json.department do
+    json.partial! "departments/department", department: @department
+  end
 end

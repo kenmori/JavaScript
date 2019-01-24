@@ -62,8 +62,12 @@ RSpec.resource "POST /objectives", warden: true do
         "sub_progress_rate" => nil,
         "comments" => [],
         "department" => {
+          "organization_id" => organization.id,
           "id" => dep_1.id,
-          "name" => "代表"
+          "name" => "代表",
+          "display_order" => 1,
+          "updated_at" => be_time_iso8601,
+          "created_at" => be_time_iso8601
         }
       )
     end
