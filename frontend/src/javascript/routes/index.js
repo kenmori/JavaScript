@@ -58,6 +58,7 @@ export default () => (
         path="/meetings/:objectiveHash"
         component={withTracker(MeetingPage)}
       />
+      <PrivateRoute exact path="/timeline" component={withTracker(Home)} />
       <PrivateRoute path="/" component={withTracker(Home)} />
     </Switch>
   </Router>
