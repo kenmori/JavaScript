@@ -48,8 +48,8 @@ class ObjectivesController < ApplicationController
       end
     end
     render status: :created
-  # rescue StandardError
-  #   unprocessable_entity_with_errors(@objective.errors.full_messages)
+  rescue StandardError
+    unprocessable_entity_with_errors(@objective.errors.full_messages)
   end
 
   def create_copy
