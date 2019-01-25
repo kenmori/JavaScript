@@ -79,21 +79,21 @@ class HistoryTimeline extends PureComponent {
           <Menu.Item header>タイムライン</Menu.Item>
         </Menu>
         <div className="history-timeline__table">
-          <Table compact="very" size="small" selectable sortable>
+          <Table compact="very" size="small" selectable sortable fixed>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell disabled width={1} />
-                <Table.HeaderCell
+                <Table.HeaderCell width={2}
                   sorted={column === "user" ? direction : null}
                   onClick={this.handleSort("user")}>
                   更新者
                 </Table.HeaderCell>
-                <Table.HeaderCell
+                <Table.HeaderCell width={2}
                   sorted={column === "createdAt" ? direction : null}
                   onClick={this.handleSort("createdAt")}>
                   更新日
                 </Table.HeaderCell>
-                <Table.HeaderCell
+                <Table.HeaderCell width={5}
                   sorted={column === "name" ? direction : null}
                   onClick={this.handleSort("name")}>
                   KeyResult
