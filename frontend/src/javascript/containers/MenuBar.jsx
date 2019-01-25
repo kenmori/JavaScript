@@ -18,13 +18,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   selectUser: userId => {
-    if (location.pathname !== "/") {
+    if (location.pathname.match(/^\/settings.*/)) {
       history.push("/");
     }
     dispatch(currentActions.selectUser(userId));
   },
   selectOkrPeriod: okrPeriodId => {
-    if (location.pathname !== "/") {
+    if (location.pathname.match(/^\/settings.*/)) {
       history.push("/");
     }
     dispatch(currentActions.selectOkrPeriod(okrPeriodId));
