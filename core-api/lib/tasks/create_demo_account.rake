@@ -7,50 +7,23 @@ namespace :create_demo_account do
   @users = []
 
   task :find, %w[organization_id] => :environment do |_, args|
-    organization = Organization.find(args.organization_id)
-    okr_period = OkrPeriod.where(organization_id: organization.id)
-    members = OrganizationMember.where(organization_id: organization.id)
+    base_organization = Organization.find(args.organization_id)
+    base_okr_periods = OkrPeriod.where(organization_id: base_organization.id)
+    base_members = OrganizationMember.where(organization_id: base_organization.id)
 
-    owner = {}
-    users = []
-    objectives = []
-    objective_comments = []
-    key_results = []
-    key_result_comments = []
-
-    members.each do |member|
-      user = User.find(member.user_id)
-      users.push(user)
-      if member.role == "owner"
-        owner = user
-      end
-
-      okr_period.each do |period|
-        objectives_per_period = user.objectives.includes(:key_results).where(okr_period_id: period.id)
-
-        if (objectives_per_period.length != 0)
-          objectives.push(objectives_per_period)
-
-          objectives_per_period.each do |objective|
-            o_comments = objective.objective_comments
-            objective_comments.push(o_comments) unless o_comments.length == 0
-          end
-        end
-
-        key_results_per_period = user.key_results.where(okr_period_id: period.id)
-
-        if (key_results_per_period.length != 0)
-          key_results.push(key_results_per_period)
-
-          key_results_per_period.each do |key_result|
-            kr_comments = key_result.comments
-            key_result_comments.push(kr_comments) unless kr_comments.length == 0
-          end
-
-        end
-      end
+    puts "======================================================================"
+    puts "+ Organization name : #{base_organization.name}"
+    base_okr_periods.each do |base_okr_period|
+      puts "+ Period name : #{base_okr_period.name}"
+      puts "  + Period : #{base_okr_period.start_date} ~ #{base_okr_period.end_date}"
     end
-
+    base_members.each do |base_member|
+      user = User.find(base_member.user_id)
+      puts "-----"
+      puts "+ User name : #{user.last_name} #{user.first_name}"
+      puts "+ User email : #{user.email}"
+    end
+    puts "======================================================================"
   end
 
   task :create, %w[organization_id] => :environment do |_, args|
@@ -66,11 +39,9 @@ namespace :create_demo_account do
       okr_span: base_organization.okr_span
     )
 
-    # マッピング用の変数
-    okr_periods = []
-
     # oke_period 作成
     puts "=== 期間を作成 ==="
+    okr_periods = []
     base_okr_periods.each do |base_okr_period|
       okr_period = organization.okr_periods.create!(
         start_date: base_okr_period.start_date,
@@ -80,10 +51,9 @@ namespace :create_demo_account do
       okr_periods.push({"base_id" => base_okr_period.id, "new_id" => okr_period.id})
     end
 
-    # マッピング用の変数
-    base_users = []
-
     # 指定した Organization に紐づくメンバーを作成
+    base_users = []
+    display_users = []
     base_members.each do |base_member|
       base_user = User.find(base_member.user_id)
       base_users.push(base_user)
@@ -100,15 +70,16 @@ namespace :create_demo_account do
         confirmed_at: Time.current
       )
 
+      # 元の ID と移行後の ID のマッピング
       @users.push({"base_id" => base_user.id, "new_id" => user.id})
+      # 出力用
+      display_users.push(user)
     end
-
-    puts "=== DEBUG #{@users.to_yaml} ==="
 
     # Objective と KeyResult 作成
     base_users.each do |base_user|
       base_okr_periods.each do |base_okr_period|
-        # 最上位の Objective を作成
+        # 最上位の Objective を取得し、そこから下層の Key Result と Objective を作成していく
         base_root_objectives_per_period = base_user.objectives.
           includes(:key_results).
           where(okr_period_id: base_okr_period.id).
@@ -123,11 +94,19 @@ namespace :create_demo_account do
       end
     end
 
-    puts "=== DEBUG #{@objectives.to_yaml} ==="
+    # ログイン用に最終的に作成されたユーザー情報を出力
+    puts "======================================================================"
+    display_users.each do |display_user|
+      puts "+ Created User : #{display_user.email}"
+    end
+    puts "======================================================================"
   end
 
+  # Objective 作成
+  # Key Result に紐づく下位 Objective を作成する際に parent_key_result_id が渡ってくる
   def create_objective(okr_period_id, base_objective, parent_key_result_id = nil)
     base_objective_members = base_objective.objective_members.where(role: "owner")
+    # Objective には Menmer は Owner 一人のみ
     user_id = @users.find {|item| item["base_id"] == base_objective_members[0].user_id}
     owner_user = User.find(user_id["new_id"])
 
@@ -154,7 +133,7 @@ namespace :create_demo_account do
       )
     end
 
-    # 対象の Objective id に紐づく key_result を作成
+    # 作成した Objective に紐づく Key Result を作成
     create_child_key_result(okr_period_id, base_objective)
   end
 
@@ -168,9 +147,8 @@ namespace :create_demo_account do
       user_id = @users.find {|item| item["base_id"] == base_owner_key_result_member.user_id}
       owner_user = User.find(user_id["new_id"])
 
+      # Owner となる User と Objective に紐づけて Key Result を作成
       puts "=== Key Result を作成 ==="
-
-      # User と Objective に紐づけて Key Result を作成
       key_result = owner_user.key_results.create!(
         name: base_key_result.name,
         objective_id: objective_id["new_id"],
@@ -186,6 +164,7 @@ namespace :create_demo_account do
         status: base_key_result.status
       )
 
+      # Owner 以外の Member（関係者）を作成
       base_key_result_members.each do |base_key_result_member|
         next if base_key_result_member.role == "owner"
 
@@ -208,11 +187,8 @@ namespace :create_demo_account do
         )
       end
 
-      # TODO : key_result_members を追加する
-
-      base_child_objectives = base_key_result.child_objectives
       puts "=== Child Objective を作成 ==="
-
+      base_child_objectives = base_key_result.child_objectives
       base_child_objectives.each do |base_child_objective|
         create_objective(okr_period_id, base_child_objective, key_result.id)
       end
