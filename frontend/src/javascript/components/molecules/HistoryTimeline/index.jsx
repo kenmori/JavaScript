@@ -4,6 +4,7 @@ import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
 import Markdown from "../../util/Markdown";
+import { formatChangeLog } from "../../../utils/okr";
 
 class HistoryTimeline extends PureComponent {
   constructor(props) {
@@ -13,18 +14,6 @@ class HistoryTimeline extends PureComponent {
       data: props.histories,
       direction: null,
     };
-  }
-
-  formatChangeLog(diffs) {
-    let message = "";
-
-    for (const e of diffs) {
-      message += `**${e.get("column")}**を \`${e.get(
-        "before",
-      )}\` から \`${e.get("after")}\` へ変更\n`;
-    }
-
-    return message;
   }
 
   sort = (items, column, direction) => {
@@ -120,7 +109,7 @@ class HistoryTimeline extends PureComponent {
                     <OkrName okr={e.get("KeyResult")} />
                   </Table.Cell>
                   <Table.Cell>
-                    <Markdown text={this.formatChangeLog(e.get("diffs"))} />
+                    <Markdown text={formatChangeLog(e.get("diffs"))} />
                   </Table.Cell>
                 </Table.Row>
               ))}

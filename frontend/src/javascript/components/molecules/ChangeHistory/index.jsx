@@ -3,18 +3,7 @@ import { Comment } from "semantic-ui-react";
 import moment from "moment";
 import Markdown from "../../util/Markdown";
 import avatar_image from "../../../images/avatar.png";
-
-const formatChangeLog = diffs => {
-  let message = "";
-
-  for (const e of diffs) {
-    message += `**${e.get("column")}**を \`${e.get("before")}\` から \`${e.get(
-      "after",
-    )}\` へ変更\n`;
-  }
-
-  return message;
-};
+import { formatChangeLog } from "../../../utils/okr";
 
 const ChangeHistory = React.memo(
   ({ avatar, firstName, lastName, changedAt, diffs }) => (
