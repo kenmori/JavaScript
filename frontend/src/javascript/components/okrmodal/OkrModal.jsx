@@ -63,7 +63,9 @@ class OkrModal extends PureComponent {
   };
 
   closeModal = () => {
-    goToRoot();
+    if (this.props.extensionEnabled) {
+      goToRoot();
+    }
     this.props.closeModal();
   };
 
@@ -82,7 +84,7 @@ class OkrModal extends PureComponent {
   }
 
   renderBody(objective, keyResult) {
-    const { keyResultId, users } = this.props;
+    const { keyResultId, users, extensionEnabled } = this.props;
     const { isDirty } = this.state;
     return (
       <Modal
@@ -93,15 +95,17 @@ class OkrModal extends PureComponent {
         onClose={this.handleClose}>
         <div className="okr-content">
           <div className="okr-body">
-            <OkrSidebar
-              objective={objective}
-              keyResultOrder={objective.get("keyResultIds")}
-              keyResultId={keyResultId}
-              openKeyResultModal={this.props.openKeyResultModal}
-              updateKeyResultOrder={this.props.updateKeyResultOrder}
-              canMoveKeyResult={this.props.isObjectiveOwner}
-            />
-            <div className="okr-main">
+            {extensionEnabled && (
+              <OkrSidebar
+                objective={objective}
+                keyResultOrder={objective.get("keyResultIds")}
+                keyResultId={keyResultId}
+                openKeyResultModal={this.props.openKeyResultModal}
+                updateKeyResultOrder={this.props.updateKeyResultOrder}
+                canMoveKeyResult={this.props.isObjectiveOwner}
+              />
+            )}
+            <div className={extensionEnabled ? "okr-main" : "okr-main-small"}>
               {keyResult ? (
                 <KeyResultTab
                   {...this.props}
@@ -151,6 +155,11 @@ OkrModal.propTypes = {
   confirm: PropTypes.func.isRequired,
   keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
   // component
+  extensionEnabled: PropTypes.bool.isRequired,
+};
+
+OkrModal.defaultProps = {
+  extensionEnabled: true,
 };
 
 export default OkrModal;

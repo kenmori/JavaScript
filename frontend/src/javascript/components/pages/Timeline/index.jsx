@@ -14,7 +14,7 @@ class Timeline extends PureComponent {
     return keyResults
       .map(e => {
         const histories = e.get("histories") || List();
-        return histories.map(h => h.set("KeyResult", e))
+        return histories.map(h => h.set("KeyResult", e));
       })
       .flatten(true)
       .sort((a, b) => {
@@ -31,7 +31,15 @@ class Timeline extends PureComponent {
   }
 
   componentDidMount() {
-    const { isFetchedMyDetail, isFetchedKeyResultsCommentLabels, isFetchedObjectives, fetchMyDetail, fetchKeyResultCommentLabels, keyResults, fetchKeyResultHistory } = this.props;
+    const {
+      isFetchedMyDetail,
+      isFetchedKeyResultsCommentLabels,
+      isFetchedObjectives,
+      fetchMyDetail,
+      fetchKeyResultCommentLabels,
+      keyResults,
+      fetchKeyResultHistory,
+    } = this.props;
 
     if (!isFetchedMyDetail) {
       fetchMyDetail();
@@ -45,7 +53,15 @@ class Timeline extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { isFetchedMyDetail, isFetchedObjectives, fetchOKR, keyResults, okrPeriodId, userId, fetchKeyResultHistory } = this.props;
+    const {
+      isFetchedMyDetail,
+      isFetchedObjectives,
+      fetchOKR,
+      keyResults,
+      okrPeriodId,
+      userId,
+      fetchKeyResultHistory,
+    } = this.props;
 
     if (isFetchedMyDetail && !isFetchedObjectives && !this.state.isFetchedOKR) {
       fetchOKR(okrPeriodId, userId);
@@ -58,14 +74,17 @@ class Timeline extends PureComponent {
   }
 
   render() {
-    const { keyResults } = this.props;
+    const { keyResults, openOkrModal } = this.props;
 
     return (
-    <DefaultLayout title="タイムライン">
-      <HistoryTimeline histories={this.selectHistories(keyResults)} />
-      <OkrModal />
-    </DefaultLayout>
-    )
+      <DefaultLayout title="タイムライン">
+        <HistoryTimeline
+          histories={this.selectHistories(keyResults)}
+          handleClick={openOkrModal}
+        />
+        <OkrModal extensionEnabled={false} />
+      </DefaultLayout>
+    );
   }
 }
 export default Timeline;

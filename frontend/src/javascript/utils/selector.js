@@ -102,12 +102,15 @@ export const getOwnershipKeyResults = createSelector(
   getMyObjectives,
   getMyKeyResults,
   (objectives, keyResults) => {
-    const objectiveKeyResultIds = objectives.map(e => e.get("keyResultIds")).flatten(true);
-    const objectiveKeyResults = objectives.map(e => e.get("keyResults")).flatten(true);
-    return objectiveKeyResults
-      .concat(keyResults
-        .filterNot(e => objectiveKeyResultIds.includes(e.get("id")))
-      );
+    const objectiveKeyResultIds = objectives
+      .map(e => e.get("keyResultIds"))
+      .flatten(true);
+    const objectiveKeyResults = objectives
+      .map(e => e.get("keyResults"))
+      .flatten(true);
+    return objectiveKeyResults.concat(
+      keyResults.filterNot(e => objectiveKeyResultIds.includes(e.get("id"))),
+    );
   },
 );
 
