@@ -59,30 +59,34 @@ class HistoryTimeline extends PureComponent {
   };
 
   render() {
-    const { handleClick } = this.props;
+    const { okrPeriodName, userName, handleClick } = this.props;
     const { column, data, direction } = this.state;
 
     return (
       <React.Fragment>
         <Menu tabular compact>
-          <Menu.Item header>タイムライン</Menu.Item>
+          <Menu.Item
+            header>{`タイムライン (${okrPeriodName}の${userName}さんのKeyResult)`}</Menu.Item>
         </Menu>
         <div className="history-timeline__table">
           <Table compact="very" size="small" selectable sortable fixed>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell disabled width={1} />
-                <Table.HeaderCell width={2}
+                <Table.HeaderCell
+                  width={2}
                   sorted={column === "user" ? direction : null}
                   onClick={this.handleSort("user")}>
                   更新者
                 </Table.HeaderCell>
-                <Table.HeaderCell width={2}
+                <Table.HeaderCell
+                  width={2}
                   sorted={column === "createdAt" ? direction : null}
                   onClick={this.handleSort("createdAt")}>
                   更新日
                 </Table.HeaderCell>
-                <Table.HeaderCell width={5}
+                <Table.HeaderCell
+                  width={5}
                   sorted={column === "name" ? direction : null}
                   onClick={this.handleSort("name")}>
                   KeyResult

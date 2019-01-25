@@ -139,9 +139,9 @@ export function formatChangeLog(diffs) {
   let message = "";
 
   for (const e of diffs) {
-    message += `**${e.get("column")}**を \`${e.get(
-      "before",
-    )}\` から \`${e.get("after")}\` へ変更\n`;
+    message += `**${e.get("column")}**を \`${e.get("before")}\` から \`${e.get(
+      "after",
+    )}\` へ変更\n`;
   }
 
   return message;

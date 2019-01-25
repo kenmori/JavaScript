@@ -74,12 +74,18 @@ class Timeline extends PureComponent {
   }
 
   render() {
-    const { keyResults, openOkrModal } = this.props;
+    const { keyResults, okrPeriod, user, openOkrModal } = this.props;
+    const okrPeriodName = okrPeriod ? okrPeriod.get("name") : "";
+    const userName = user
+      ? `${user.get("lastName")} ${user.get("firstName")}`
+      : "";
 
     return (
       <DefaultLayout title="タイムライン">
         <HistoryTimeline
           histories={this.selectHistories(keyResults)}
+          okrPeriodName={okrPeriodName}
+          userName={userName}
           handleClick={openOkrModal}
         />
         <OkrModal extensionEnabled={false} />
