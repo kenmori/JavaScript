@@ -66,7 +66,7 @@ class HistoryTimeline extends PureComponent {
       <React.Fragment>
         <Menu tabular compact>
           <Menu.Item
-            header>{`タイムライン (${okrPeriodName}の${userName}さんのKeyResult)`}</Menu.Item>
+            header>{`タイムライン (${okrPeriodName} ${userName}さんのKeyResult)`}</Menu.Item>
         </Menu>
         <div className="history-timeline__table">
           <Table compact="very" size="small" selectable sortable fixed>
