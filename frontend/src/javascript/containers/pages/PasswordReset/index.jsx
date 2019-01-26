@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
-import PasswordReset from "../components/pages/PasswordReset";
-import deviseActions from "../actions/devise";
+import deviseActions from "../../../actions/devise";
+import PasswordReset from "./PasswordReset";
 
 const mapStateToProps = (state, { location }) => ({
   email: location.state && location.state.email,

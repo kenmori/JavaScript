@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
-import SignIn from "../components/pages/SignIn";
-import deviseActions from "../actions/devise";
+import deviseActions from "../../../actions/devise";
+import SignIn from "./SignIn";
 
 const mapStateToProps = () => ({});
 

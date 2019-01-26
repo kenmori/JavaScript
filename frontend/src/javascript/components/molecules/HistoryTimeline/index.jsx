@@ -23,10 +23,17 @@ class HistoryTimeline extends PureComponent {
       if (typeof a.get(column) === "string") {
         return a.get(column).localeCompare(b.get(column));
       } else if (column === "name") {
-        return a.get("KeyResult").get(column).localeCompare(b.get("KeyResult").get(column));
+        return a
+          .get("KeyResult")
+          .get(column)
+          .localeCompare(b.get("KeyResult").get(column));
       } else if (column === "user") {
-        const aFullName = `${a.get("user").get("lastName")} ${a.get("user").get("firstName")}`;
-        const bFullName = `${b.get("user").get("lastName")} ${b.get("user").get("firstName")}`;
+        const aFullName = `${a.get("user").get("lastName")} ${a
+          .get("user")
+          .get("firstName")}`;
+        const bFullName = `${b.get("user").get("lastName")} ${b
+          .get("user")
+          .get("firstName")}`;
         return aFullName.localeCompare(bFullName);
       } else {
         if (a.get(column) < b.get(column)) return -1;

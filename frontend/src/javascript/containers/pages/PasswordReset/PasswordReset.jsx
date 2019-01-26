@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
 import logo_image from "../../../images/logo_large.png";
-import LoginLayout from "../../templates/LoginLayout";
+import LoginLayout from "../../../components/templates/LoginLayout";
 
 class PasswordReset extends PureComponent {
   constructor(props) {

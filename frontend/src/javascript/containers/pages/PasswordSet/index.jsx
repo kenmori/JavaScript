@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import qs from "qs";
-import PasswordSet from "../components/pages/PasswordSet";
-import deviseActions from "../actions/devise";
+import deviseActions from "../../../actions/devise";
+import PasswordSet from "./PasswordSet";
 
 const mapStateToProps = (state, { location }) => {
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });

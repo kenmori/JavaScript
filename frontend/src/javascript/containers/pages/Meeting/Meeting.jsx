@@ -4,12 +4,12 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import ReactGA from "react-ga";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
 import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
-import CommentModal from "../../../containers/CommentModal";
-import ObjectiveCommentModal from "../../../containers/ObjectiveCommentModal";
-import MeetingLayout from "../../templates/MeetingLayout";
-import LabelItem from "../../meeting/LabelItem";
-import AnnouncementItem from "../../meeting/AnnouncementItem";
-import OkrItem from "../../meeting/OkrItem";
+import CommentModal from "../../../components/modal/CommentModal";
+import ObjectiveCommentModal from "../../../components/modal/ObjectiveCommentModal";
+import MeetingLayout from "../../../components/templates/MeetingLayout";
+import LabelItem from "../../../components/meeting/LabelItem";
+import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
+import OkrItem from "../../../components/meeting/OkrItem";
 
 class Meeting extends PureComponent {
   constructor(props) {

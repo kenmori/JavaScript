@@ -10,11 +10,10 @@ import {
   Message,
 } from "semantic-ui-react";
 import moment from "moment";
-import DocumentTitle from "react-document-title";
 import logo_image from "../../../images/logo_large.png";
-import DatePicker from "../../form/DatePicker";
-import OkrSpanSelect from "../../form/OkrSpanSelect";
-import LoginLayout from "../../templates/LoginLayout";
+import DatePicker from "../../../components/form/DatePicker";
+import OkrSpanSelect from "../../../components/form/OkrSpanSelect";
+import LoginLayout from "../../../components/templates/LoginLayout";
 
 class SignUp extends PureComponent {
   constructor(props) {
@@ -87,7 +86,7 @@ class SignUp extends PureComponent {
   renderBody() {
     const { hasValidToken, isCompleted } = this.props;
     if (!hasValidToken) {
-      return <Redirect to="/users/sign_in" />;
+      return <Redirect to="/login" />;
     }
     if (isCompleted) {
       return this.completedView();

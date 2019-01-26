@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import qs from "qs";
-import SignUp from "../components/pages/SignUp";
-import organizationActions from "../actions/organization";
+import organizationActions from "../../../actions/organization";
+import SignUp from "./SignUp";
 
 const isValidToken = token =>
   // URL を推測した第三者による意図しないユーザー登録を簡易的に避けるためトークンの有無をチェックする

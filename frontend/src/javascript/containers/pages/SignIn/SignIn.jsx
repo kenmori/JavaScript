@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Form, Image, Segment, Message } from "semantic-ui-react";
-import LoginLayout from "../../templates/LoginLayout";
+import LoginLayout from "../../../components/templates/LoginLayout";
 import logo_image from "../../../images/logo_large.png";
 
 class SignIn extends PureComponent {

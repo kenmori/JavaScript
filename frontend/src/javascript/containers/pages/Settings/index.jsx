@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
-import Settings from "../components/pages/Settings";
-import history from "../utils/history";
+import history from "../../../utils/history";
+import Settings from "./Settings";
 
 const mapStateToProps = (state, { match }) => ({
   userId: state.current.get("userId"),

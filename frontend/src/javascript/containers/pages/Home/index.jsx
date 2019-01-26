@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import Home from "../components/pages/Home";
+import Home from "./Home";
 
 const mapStateToProps = (state, { match: { params } }) => ({
   okrHash: params.okrHash,

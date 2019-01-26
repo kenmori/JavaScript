@@ -2,13 +2,13 @@ import React from "react";
 import { Tab } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ReactGA from "react-ga";
-import DefaultLayout from "../../templates/DefaultLayout";
-import Fetcher from "../../../containers/Fetcher";
-import AccountSettingTab from "../../../containers/AccountSettingTab";
-import UserSettingTab from "../../../containers/UserSettingTab";
-import OrganizationSettingTab from "../../../containers/OrganizationSettingTab";
-import OkrPeriodSettingTab from "../../../containers/OkrPeriodSettingTab";
-import ImageModal from "../../../containers/ImageModal";
+import DefaultLayout from "../../../components/templates/DefaultLayout";
+import Fetcher from "../../Fetcher";
+import AccountSettingTab from "../../AccountSettingTab";
+import UserSettingTab from "../../UserSettingTab";
+import OrganizationSettingTab from "../../OrganizationSettingTab";
+import OkrPeriodSettingTab from "../../OkrPeriodSettingTab";
+import ImageModal from "../../ImageModal";
 
 class Settings extends React.Component {
   constructor(props) {

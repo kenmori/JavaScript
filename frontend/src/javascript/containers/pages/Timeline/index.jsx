@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import Timeline from "../components/pages/Timeline";
-import objectiveActions from "../actions/objectives";
-import keyResultActions from "../actions/keyResults";
-import currentActions from "../actions/current";
-import dialogActions from "../actions/dialogs";
-import { getOwnershipKeyResults } from "../utils/selector";
+import objectiveActions from "../../../actions/objectives";
+import keyResultActions from "../../../actions/keyResults";
+import currentActions from "../../../actions/current";
+import dialogActions from "../../../actions/dialogs";
+import { getOwnershipKeyResults } from "../../../utils/selector";
+import Timeline from "./Timeline";
 
 const mapStateToProps = state => ({
   okrPeriodId: state.current.get("okrPeriodId"),

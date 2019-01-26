@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react";
 import { List } from "immutable";
-import DefaultLayout from "../../templates/DefaultLayout";
-import OkrModal from "../../../containers/OkrModal";
-import HistoryTimeline from "../../molecules/HistoryTimeline";
+import DefaultLayout from "../../../components/templates/DefaultLayout";
+import OkrModal from "../../OkrModal";
+import HistoryTimeline from "../../../components/molecules/HistoryTimeline";
 
 class Timeline extends PureComponent {
   constructor(props) {

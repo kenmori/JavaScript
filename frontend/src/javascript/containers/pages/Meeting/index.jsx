@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import { Map } from "immutable";
-import Meeting from "../components/pages/Meeting";
-import currentActions from "../actions/current";
-import objectiveActions from "../actions/objectives";
-import keyResultActions from "../actions/keyResults";
-import dialogActions from "../actions/dialogs";
-import { getOkrId } from "../utils/linker";
-import { getObjectiveById } from "../utils/selector";
+import currentActions from "../../../actions/current";
+import objectiveActions from "../../../actions/objectives";
+import keyResultActions from "../../../actions/keyResults";
+import dialogActions from "../../../actions/dialogs";
+import { getOkrId } from "../../../utils/linker";
+import { getObjectiveById } from "../../../utils/selector";
+import Meeting from "./Meeting";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const { objectiveId } = getOkrId(params.objectiveHash);
