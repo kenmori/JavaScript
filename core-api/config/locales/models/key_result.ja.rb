@@ -20,18 +20,18 @@ require_dependency Rails.root.join("config/locales/share/model_names")
           target_value: "目標値",
           value_unit: "目標値単位",
           objective_id: model_names[:objective],
-          okr_period_id: model_names[:okr_period],
-        },
-      },
+          okr_period_id: model_names[:okr_period]
+        }
+      }
     },
     enums: {
       key_result: {
         status: {
           green: "順調",
           yellow: "注意",
-          red: "危険",
-        },
-      },
-    },
+          red: "危険"
+        }
+      }
+    }
   }
 }

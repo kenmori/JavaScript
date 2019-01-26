@@ -118,7 +118,7 @@ class KeyResultsController < ApplicationController
   end
 
   def history
-    runner(KeyResult::History, { id: params[:id] }) do |result|
+    runner(KeyResult::History, id: params[:id]) do |result|
       @histories = result[:histories]
       render status: :ok
     end

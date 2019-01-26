@@ -8,6 +8,6 @@ def model_names
     user: "ユーザー",
     objective: "Objective",
     key_result: "Key Result",
-    okr_period: "OKR期間",
+    okr_period: "OKR期間"
   }
 end

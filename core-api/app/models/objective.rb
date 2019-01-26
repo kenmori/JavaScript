@@ -31,8 +31,8 @@ class Objective < ApplicationRecord
   belongs_to :parent_key_result, class_name: "KeyResult", optional: true
   has_one :department_objective, dependent: :destroy
   has_one :department, through: :department_objective
-  has_paper_trail ignore: [:key_result_order, :updated_at, :okr_period_id, :parent_key_result_id], versions: {
-    class_name: 'ObjectiveVersion'
+  has_paper_trail ignore: %i[key_result_order updated_at okr_period_id parent_key_result_id], versions: {
+    class_name: "ObjectiveVersion"
   }
 
   scope :enabled, -> { where(disabled_at: nil) }

@@ -86,7 +86,7 @@ class UsersController < ApplicationController
   end
 
   def departments
-    runner(User::Departments, {id: params[:id]}) do |result|
+    runner(User::Departments, id: params[:id]) do |result|
       render json: { departments: result[:query] }, status: :ok
     end
   end

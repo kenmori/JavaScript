@@ -7,7 +7,7 @@ require_dependency Rails.root.join("config/locales/share/model_names")
     activerecord: {
       attributes: {
         okr_period: {
-          name: "期間名",
+          name: "期間名"
         }
       }
     }

@@ -117,7 +117,7 @@ class ObjectivesController < ApplicationController
   end
 
   def history
-    runner(Objective::History, { id: params[:id] }) do |result|
+    runner(Objective::History, id: params[:id]) do |result|
       @histories = result[:histories]
       render status: :ok
     end

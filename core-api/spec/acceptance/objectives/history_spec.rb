@@ -35,31 +35,31 @@ RSpec.resource "GET /objectives/:id/histories", warden: true do
             "diffs" => [{
               "column" => "Objective",
               "before" => target.versions.last.reify.name,
-              "after" => "[UPDATED-2] Objective",
+              "after" => "[UPDATED-2] Objective"
             }],
             "user" => {
               "id" => admin_user.id,
               "first_name" => admin_user.first_name,
               "last_name" => admin_user.last_name,
               "avatar_url" => nil,
-              "disabled" => false,
-            },
+              "disabled" => false
+            }
           },
           {
             "created_at" => be_time_iso8601,
             "diffs" => [{
               "column" => "Objective",
               "before" => target.versions.first.reify.name,
-              "after" => "[UPDATED-1] Objective",
+              "after" => "[UPDATED-1] Objective"
             }],
             "user" => {
               "id" => admin_user.id,
               "first_name" => admin_user.first_name,
               "last_name" => admin_user.last_name,
               "avatar_url" => nil,
-              "disabled" => false,
-            },
-          },
+              "disabled" => false
+            }
+          }
         ]
       )
     end

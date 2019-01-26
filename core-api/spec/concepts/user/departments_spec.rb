@@ -22,7 +22,7 @@ RSpec.describe User::Departments do
     end
 
     example "SUCCESS: 自分が所属する部署を取得する" do
-      result = described_class.call(params: {id: nomal_user.id}, current_user: nomal_user)
+      result = described_class.call(params: { id: nomal_user.id }, current_user: nomal_user)
 
       root = result[:query].first
 
@@ -50,7 +50,7 @@ RSpec.describe User::Departments do
     end
 
     example "SUCCESS: 管理者として指定したユーザの情報を取得する" do
-      result = described_class.call(params: {id: nomal_user.id}, current_user: admin_user)
+      result = described_class.call(params: { id: nomal_user.id }, current_user: admin_user)
 
       root = result[:query].first
 
@@ -69,7 +69,7 @@ RSpec.describe User::Departments do
     end
 
     example "SUCCESS: rootが複数ある場合でも情報を取得できる" do
-      result = described_class.call(params: {id: nomal_user.id}, current_user: nomal_user)
+      result = described_class.call(params: { id: nomal_user.id }, current_user: nomal_user)
 
       query = result[:query]
 
@@ -79,7 +79,7 @@ RSpec.describe User::Departments do
   end
 
   example "ERROR: 管理者でないユーザは自分以外の情報を取得できない" do
-    result = described_class.call(params: {id: admin_user.id}, current_user: nomal_user)
+    result = described_class.call(params: { id: admin_user.id }, current_user: nomal_user)
 
     expect(result["result.policy.default"]).to be_failure
   end
@@ -89,7 +89,7 @@ RSpec.describe User::Departments do
     dep_2
     dep_2_1
 
-    result = described_class.call(params: {id: other_org_user.id}, current_user: admin_user)
+    result = described_class.call(params: { id: other_org_user.id }, current_user: admin_user)
 
     expect(result["result.policy.default"]).to be_failure
   end
