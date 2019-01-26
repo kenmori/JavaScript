@@ -191,7 +191,9 @@ class Meeting extends PureComponent {
             color="black"
             className="meeting-board__header">
             <div className="meeting-board__headerPane">
-              <p className="meeting-board__headerPane__title">{objective.get("name")}</p>
+              <p className="meeting-board__headerPane__title">
+                {objective.get("name")}
+              </p>
             </div>
           </Header>
           <Grid celled columns={3} className="meeting-board__content">

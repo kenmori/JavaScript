@@ -98,6 +98,22 @@ export const getMyKeyResults = createSelector(
   },
 );
 
+export const getOwnershipKeyResults = createSelector(
+  getMyObjectives,
+  getMyKeyResults,
+  (objectives, keyResults) => {
+    const objectiveKeyResultIds = objectives
+      .map(e => e.get("keyResultIds"))
+      .flatten(true);
+    const objectiveKeyResults = objectives
+      .map(e => e.get("keyResults"))
+      .flatten(true);
+    return objectiveKeyResults.concat(
+      keyResults.filterNot(e => objectiveKeyResultIds.includes(e.get("id"))),
+    );
+  },
+);
+
 export const getPreviousObjectives = createSelector(
   state => state.objectives.get("previousIds"),
   state => state.loginUser.getIn(["userSetting", "showDisabledOkrs"]),

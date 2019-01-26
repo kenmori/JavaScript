@@ -72,6 +72,24 @@
     }
   }
 
+  .okr-main-small {
+    width: 100%;
+    padding: 0 5px;
+    overflow-y: scroll;
+    .field {
+      margin: 10px 0;
+    }
+
+    .ui.menu .item > .label {
+      &.zero-width {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 0;
+      }
+    }
+  }
+
   .input-date-picker {
     display: flex;
     align-items: center;

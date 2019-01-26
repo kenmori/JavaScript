@@ -8,6 +8,7 @@ import PasswordSetPage from "../containers/PasswordSetPage";
 import SignInPage from "../containers/SignInPage";
 import SettingsPage from "../containers/SettingsPage";
 import MeetingPage from "../containers/MeetingPage";
+import Timeline from "../containers/Timeline";
 import history from "../utils/history";
 import { isAuthenticated } from "../utils/auth";
 import withTracker from "../hocs/withTracker";
@@ -58,6 +59,7 @@ export default () => (
         path="/meetings/:objectiveHash"
         component={withTracker(MeetingPage)}
       />
+      <PrivateRoute exact path="/timeline" component={withTracker(Timeline)} />
       <PrivateRoute path="/" component={withTracker(Home)} />
     </Switch>
   </Router>

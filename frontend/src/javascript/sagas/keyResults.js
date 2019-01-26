@@ -1,4 +1,4 @@
-import { all, put, takeLatest, select } from "redux-saga/effects";
+import { all, put, takeLatest, takeEvery, select } from "redux-saga/effects";
 import call from "../utils/call";
 import API from "../utils/api";
 import keyResultActions from "../actions/keyResults";
@@ -123,7 +123,7 @@ export function* keyResultSagas() {
       actionTypes.FETCH_KEY_RESULT_COMMENT_LABELS,
       withLoading(fetchKeyResultCommentLabels),
     ),
-    takeLatest(
+    takeEvery(
       actionTypes.FETCH_KEY_RESULT_HISTORY,
       withLoading(fetchKeyResultHistory),
     ),

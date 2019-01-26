@@ -28,6 +28,10 @@ class MenuBar extends PureComponent {
           <Icon name="home" size="large" fitted />
           ホーム
         </Menu.Item>
+        <Menu.Item className="menu-item__timeline" as={Link} to="/timeline">
+          <Icon name="history" size="large" fitted />
+          タイムライン
+        </Menu.Item>
         <Menu.Item
           className="menu-item__okr"
           onClick={this.handleOrganizationOkrClick}>
