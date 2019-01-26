@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
   isFetchedKeyResultsCommentLabels: state.keyResults.get(
     "isFetchedKeyResultsCommentLabels",
   ),
-  isFetchedObjectives: state.objectives.get("isFetchedObjectives"),
+  isFetchedKeyResults: state.keyResults.get("isFetchedKeyResults"),
 });
 
 const mapDispatchToProps = dispatch => ({

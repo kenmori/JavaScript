@@ -34,7 +34,7 @@ class Timeline extends PureComponent {
     const {
       isFetchedMyDetail,
       isFetchedKeyResultsCommentLabels,
-      isFetchedObjectives,
+      isFetchedKeyResults,
       fetchMyDetail,
       fetchKeyResultCommentLabels,
       keyResults,
@@ -47,7 +47,7 @@ class Timeline extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       fetchKeyResultCommentLabels();
     }
-    if (isFetchedObjectives) {
+    if (isFetchedKeyResults) {
       keyResults.map(e => fetchKeyResultHistory(e.get("id")));
     }
   }
@@ -55,7 +55,7 @@ class Timeline extends PureComponent {
   componentDidUpdate(prevProps) {
     const {
       isFetchedMyDetail,
-      isFetchedObjectives,
+      isFetchedKeyResults,
       fetchOKR,
       keyResults,
       okrPeriodId,
@@ -63,12 +63,12 @@ class Timeline extends PureComponent {
       fetchKeyResultHistory,
     } = this.props;
 
-    if (isFetchedMyDetail && !isFetchedObjectives && !this.state.isFetchedOKR) {
+    if (isFetchedMyDetail && !isFetchedKeyResults && !this.state.isFetchedOKR) {
       fetchOKR(okrPeriodId, userId);
       this.setState({ isFetchedOKR: true });
     }
 
-    if (!prevProps.isFetchedObjectives && isFetchedObjectives) {
+    if (!prevProps.isFetchedKeyResults && isFetchedKeyResults) {
       keyResults.map(e => fetchKeyResultHistory(e.get("id")));
     }
   }
