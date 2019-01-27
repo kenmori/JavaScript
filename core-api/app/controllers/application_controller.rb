@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
+  include ActionController::MimeResponds
   include ErrorJsonResponder
   include Pundit
 
   respond_to :json
-
-  protect_from_forgery with: :exception
-  skip_before_action :verify_authenticity_token
 
   helper_method :current_user
   helper_method :current_organization
