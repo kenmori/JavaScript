@@ -14,8 +14,6 @@ Rails.application.routes.draw do
     put "users/confirmation", to: "users/confirmations#update"
   end
 
-  root to: "home#index", as: :root
-
   resources :objectives, only: %i[index show create update destroy] do
     member do
       post "copy", to: "objectives#create_copy"

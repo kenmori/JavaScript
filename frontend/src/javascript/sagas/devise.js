@@ -26,7 +26,7 @@ function* signOut() {
   yield call(API.delete, "/users/sign_out");
   transitionUnAuthenticatedStatus();
 
-  location.href = "/";
+  location.href = "/login";
 }
 
 function* resetPassword({ payload }) {

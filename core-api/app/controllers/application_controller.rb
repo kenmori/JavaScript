@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include ErrorJsonResponder
   include Pundit
 
-  respond_to :html, :json
+  respond_to :json
 
   protect_from_forgery with: :exception
   skip_before_action :verify_authenticity_token

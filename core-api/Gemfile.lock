@@ -598,7 +598,7 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
-  rails (~> 5.2.1)
+  rails
   rails-erd (= 1.5.0)
   redis-namespace (~> 1.6)
   rmagick
