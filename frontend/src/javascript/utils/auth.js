@@ -1,11 +1,15 @@
-export function transitionAuthenticatedStatus() {
-  localStorage.setItem("isLoggedIn", true);
+export function putToken(token) {
+  localStorage.setItem("jwt", token);
 }
 
-export function transitionUnAuthenticatedStatus() {
-  localStorage.setItem("isLoggedIn", false);
+export function removeToken() {
+  localStorage.removeItem("jwt");
+}
+
+export function getToken() {
+  return localStorage.getItem("jwt");
 }
 
 export function isAuthenticated() {
-  return localStorage.getItem("isLoggedIn") === "true";
+  return localStorage.getItem("jwt") ? true : false
 }

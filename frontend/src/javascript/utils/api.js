@@ -3,24 +3,29 @@ import { camelizeKeys, decamelizeKeys } from "humps";
 import qs from "qs";
 import { fromJS } from "immutable";
 import isObject from "isobject";
-import { transitionUnAuthenticatedStatus } from "./auth";
-
-const defaultHeaders = {
-  credentials: "same-origin",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-};
-
-const csrfHeaders = {
-  credentials: "same-origin",
-  headers: {
-    Accept: "application/json",
-  },
-};
+import { removeToken, getToken } from "./auth";
 
 const apiEndpoint = "/api";
+
+function generateHeaders() {
+  const credentials = {
+    credentials: "same-origin",
+  };
+  let headers = {
+    Accept: "application/json",
+  }
+
+  if (getToken()) {
+    headers = Object.assign(headers, {
+      Authorization: `Bearer ${getToken()}`,
+    })
+  }
+
+  return {
+    ...credentials,
+    headers: headers,
+  }
+}
 
 const handlerResponse = response => {
   if (
@@ -34,7 +39,7 @@ const handlerResponse = response => {
     return {};
   }
   if (response.status == 401 && location.pathname !== "/login") {
-    transitionUnAuthenticatedStatus();
+    removeToken();
     location.href = "/login";
   }
 
@@ -92,7 +97,7 @@ const API = {
     if (Object.keys(query).length != 0)
       url += `?${qs.stringify(decamelizeKeys(query))}`;
     return fetch(`${apiEndpoint}${url}`, {
-      ...defaultHeaders,
+      ...generateHeaders(),
       ...{ method: "GET" },
     })
       .then(handlerResponse)
@@ -100,7 +105,7 @@ const API = {
   },
   post: (url, data) =>
     fetch(`${apiEndpoint}${url}`, {
-      ...setContentType(data, csrfHeaders),
+      ...setContentType(data, generateHeaders()),
       ...{ body: bodyData(data) },
       ...{ method: "POST" },
     })
@@ -108,14 +113,14 @@ const API = {
       .catch(error => ({ error })),
   put: (url, data) =>
     fetch(`${apiEndpoint}${url}`, {
-      ...setContentType(data, csrfHeaders),
+      ...setContentType(data, generateHeaders()),
       ...{ body: bodyData(data) },
       ...{ method: "PUT" },
     })
       .then(handlerResponse)
       .catch(error => ({ error })),
   delete: url =>
-    fetch(`${apiEndpoint}${url}`, { ...csrfHeaders, ...{ method: "DELETE" } })
+    fetch(`${apiEndpoint}${url}`, { ...generateHeaders(), ...{ method: "DELETE" } })
       .then(handlerResponse)
       .catch(error => ({ error })),
 };

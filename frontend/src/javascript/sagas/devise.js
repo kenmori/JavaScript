@@ -6,13 +6,13 @@ import deviseActions from "../actions/devise";
 import history from "../utils/history";
 import withLoading from "../utils/withLoading";
 import {
-  transitionAuthenticatedStatus,
-  transitionUnAuthenticatedStatus,
+  putToken,
+  removeToken,
 } from "../utils/auth";
 
 function* signIn({ payload }) {
-  yield call(API.post, "/users/sign_in", { user: payload.user });
-  transitionAuthenticatedStatus();
+  const result = yield call(API.post, "/users/sign_in", { user: payload.user });
+  putToken(result.get("token"));
 
   const location = payload.location;
   if (location) {
@@ -24,7 +24,7 @@ function* signIn({ payload }) {
 
 function* signOut() {
   yield call(API.delete, "/users/sign_out");
-  transitionUnAuthenticatedStatus();
+  removeToken();
 
   location.href = "/login";
 }

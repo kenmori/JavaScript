@@ -1,20 +1,17 @@
 # frozen_string_literal: true
 
-source "https://rails-assets.org"
 source "https://rubygems.org"
-
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "active_decorator"
 gem "ancestry"
 gem "aws-sdk-sqs"
+gem "bootsnap", require: false
 gem "carrierwave"
 gem "carrierwave-i18n"
 gem "data_migrate"
-gem "devise", "~> 4.5.0"
+gem "devise"
+gem "devise-jwt"
 gem "dry-configurable"
 gem "fog"
 gem "gaffe"
@@ -61,7 +58,7 @@ end
 group :test do
   gem "database_rewinder"
   gem "fuubar"
-  gem "rspec_junit_formatter", "~> 0.4.1"
+  gem "rspec_junit_formatter"
   gem "vcr"
   gem "webmock"
 end

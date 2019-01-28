@@ -47,8 +47,8 @@ module KeyResultDecorator
     end
   end
 
-  def processed?
-    key_result_member = key_result_members.find_by(user_id: current_user.id)
+  def processed?(operator)
+    key_result_member = key_result_members.find_by(user_id: operator.id)
     key_result_member.nil? ? true : key_result_member.processed # 関連付いていない KR は処理済みとみなす
   end
 end
