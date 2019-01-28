@@ -2,7 +2,7 @@
 
 json.extract! comment, :id, :text, :show_meeting_board, :updated_at
 
-json.editable comment.editable?
+json.editable comment.editable?(current_user)
 
 json.is_edited comment.created_at != comment.updated_at
 

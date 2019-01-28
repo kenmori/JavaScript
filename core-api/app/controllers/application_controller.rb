@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
 
   before_action :authenticate_user!
   before_action :set_paper_trail_whodunnit
-  around_action :set_current_user
+  before_action :set_current
 
   protected
 
@@ -49,12 +49,9 @@ class ApplicationController < ActionController::API
 
   private
 
-    # Devise の current_user に Model からアクセスするための hack
-    # @see https://stackoverflow.com/a/2513456
-    def set_current_user
+    # @see: https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html
+    def set_current
       Current.user = current_user
-      yield
-    ensure
-      Current.user = nil
+      Current.request_id = request.uuid
     end
 end

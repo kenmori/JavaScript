@@ -5,7 +5,7 @@ class Users::SessionsController < Devise::SessionsController
   def create
     super do |resource|
       @resource = resource
-      @token = request.env['warden-jwt_auth.token']
+      @token = request.env["warden-jwt_auth.token"]
     end
   end
 end
