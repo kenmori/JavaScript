@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "file-saver": "^2.0.0",
     "github-markdown-css": "^2.10.0",
     "hashids": "^1.2.2",
     "humps": "^2.0.1",

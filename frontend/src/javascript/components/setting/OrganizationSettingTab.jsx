@@ -6,6 +6,7 @@ import AutoInput from "../form/AutoInput";
 import OkrSpanSelect from "../form/OkrSpanSelect";
 import OkrPeriodSelect from "../form/OkrPeriodSelect";
 import Logo from "../util/Logo";
+import { downloadFile } from "../../utils/api";
 
 class OrganizationSettingTab extends PureComponent {
   constructor(props) {
@@ -59,7 +60,7 @@ class OrganizationSettingTab extends PureComponent {
     )} 〜 ${okrPeriod.get("endDate")})`;
     confirm({
       content: `OKR 期間 "${okrPeriodName}" に属する OKR 一覧をエクスポートしますか？エクスポートされたデータは CSV 形式のファイルとしてダウンロードされます。`,
-      onConfirm: () => this.refs.downloadLink.click(),
+      onConfirm: () => downloadFile(`/okr_periods/${okrPeriodId}/export`),
     });
   };
 
@@ -115,12 +116,6 @@ class OrganizationSettingTab extends PureComponent {
             />
           </dd>
           <dd>
-            <a
-              href={`/api/okr_periods/${okrPeriodId}/export`}
-              download
-              className="download-link"
-              ref="downloadLink"
-            />
             <Button content="エクスポート" onClick={this.handleExportClick} />
           </dd>
         </dl>

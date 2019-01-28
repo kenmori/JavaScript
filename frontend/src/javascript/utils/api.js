@@ -3,16 +3,37 @@ import { camelizeKeys, decamelizeKeys } from "humps";
 import qs from "qs";
 import { fromJS } from "immutable";
 import isObject from "isobject";
+import { saveAs } from 'file-saver';
 import { removeToken, getToken } from "./auth";
 
 const apiEndpoint = "/api";
 
-function generateHeaders() {
+function generateAuthHeaders() {
   const credentials = {
     credentials: "same-origin",
   };
   let headers = {
     Accept: "application/json",
+  }
+
+  if (getToken()) {
+    headers = Object.assign(headers, {
+      Authorization: `Bearer ${getToken()}`,
+    })
+  }
+
+  return {
+    ...credentials,
+    headers: headers,
+  }
+}
+
+function generateDownloadHeaders() {
+  const credentials = {
+    credentials: "same-origin",
+  };
+  let headers = {
+    Accept: "text/csv,text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
   }
 
   if (getToken()) {
@@ -92,12 +113,29 @@ const bodyData = data =>
     ? toFormData(data)
     : JSON.stringify(decamelizeKeys(data));
 
+export function downloadFile(url, query = {}) {
+  if (Object.keys(query).length != 0) {
+    url += `?${qs.stringify(decamelizeKeys(query))}`;
+  }
+
+  return fetch(`${apiEndpoint}${url}`, {
+    ...generateDownloadHeaders(),
+    ...{ method: "GET" },
+  })
+  .then(async res => ({
+    filename: res.headers.get('content-disposition').split('filename=')[1].replace(/^"|"$/g, ""),
+    blob: await res.blob()
+  }))
+  .then(({ filename, blob }) => saveAs(blob, filename))
+  .catch(error => ({ error }));
+}
+
 const API = {
   get: (url, query = {}) => {
     if (Object.keys(query).length != 0)
       url += `?${qs.stringify(decamelizeKeys(query))}`;
     return fetch(`${apiEndpoint}${url}`, {
-      ...generateHeaders(),
+      ...generateAuthHeaders(),
       ...{ method: "GET" },
     })
       .then(handlerResponse)
@@ -105,7 +143,7 @@ const API = {
   },
   post: (url, data) =>
     fetch(`${apiEndpoint}${url}`, {
-      ...setContentType(data, generateHeaders()),
+      ...setContentType(data, generateAuthHeaders()),
       ...{ body: bodyData(data) },
       ...{ method: "POST" },
     })
@@ -113,14 +151,14 @@ const API = {
       .catch(error => ({ error })),
   put: (url, data) =>
     fetch(`${apiEndpoint}${url}`, {
-      ...setContentType(data, generateHeaders()),
+      ...setContentType(data, generateAuthHeaders()),
       ...{ body: bodyData(data) },
       ...{ method: "PUT" },
     })
       .then(handlerResponse)
       .catch(error => ({ error })),
   delete: url =>
-    fetch(`${apiEndpoint}${url}`, { ...generateHeaders(), ...{ method: "DELETE" } })
+    fetch(`${apiEndpoint}${url}`, { ...generateAuthHeaders(), ...{ method: "DELETE" } })
       .then(handlerResponse)
       .catch(error => ({ error })),
 };
