@@ -1,8 +1,11 @@
 import React, { PureComponent } from "react";
 import { List } from "immutable";
+import moment from "moment";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
 import OkrModal from "../../OkrModal";
-import HistoryTimeline from "../../../components/molecules/HistoryTimeline";
+import HistoryTimeline from "../../../components/organisms/HistoryTimeline";
+import NotUpdatedKeyResultList from "../../../components/organisms/NotUpdatedKeyResultList";
+import { isWithinAWeek } from "../../../utils/date";
 
 class Timeline extends PureComponent {
   constructor(props) {
@@ -28,6 +31,10 @@ class Timeline extends PureComponent {
           return 0;
         }
       });
+  }
+
+  selectNotUpdatedKeyResults(keyResults) {
+    return keyResults.filter(e => !isWithinAWeek(moment(e.get("updatedAt"))));
   }
 
   componentDidMount() {
@@ -82,12 +89,22 @@ class Timeline extends PureComponent {
 
     return (
       <DefaultLayout title="タイムライン">
-        <HistoryTimeline
-          histories={this.selectHistories(keyResults)}
-          okrPeriodName={okrPeriodName}
-          userName={userName}
-          handleClick={openOkrModal}
-        />
+        <div className="widget">
+          <NotUpdatedKeyResultList
+            keyResults={this.selectNotUpdatedKeyResults(keyResults)}
+            okrPeriodName={okrPeriodName}
+            userName={userName}
+            handleClick={openOkrModal}
+          />
+        </div>
+        <div className="widget">
+          <HistoryTimeline
+            histories={this.selectHistories(keyResults)}
+            okrPeriodName={okrPeriodName}
+            userName={userName}
+            handleClick={openOkrModal}
+          />
+        </div>
         <OkrModal extensionEnabled={false} />
       </DefaultLayout>
     );

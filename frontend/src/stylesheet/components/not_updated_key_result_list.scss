@@ -1,0 +1,10 @@
+.not-updated-key-results {
+  &__table {
+    .ui.floating.dropdown {
+      > .menu {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+}

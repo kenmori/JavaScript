@@ -11,5 +11,5 @@ export function getToken() {
 }
 
 export function isAuthenticated() {
-  return localStorage.getItem("jwt") ? true : false
+  return !!localStorage.getItem("jwt");
 }

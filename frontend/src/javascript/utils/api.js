@@ -14,18 +14,18 @@ function generateAuthHeaders() {
   };
   let headers = {
     Accept: "application/json",
-  }
+  };
 
   if (getToken()) {
     headers = Object.assign(headers, {
       Authorization: `Bearer ${getToken()}`,
-    })
+    });
   }
 
   return {
     ...credentials,
-    headers: headers,
-  }
+    headers,
+  };
 }
 
 function generateDownloadHeaders() {
@@ -159,7 +159,10 @@ const API = {
       .then(handlerResponse)
       .catch(error => ({ error })),
   delete: url =>
-    fetch(`${apiEndpoint}${url}`, { ...generateAuthHeaders(), ...{ method: "DELETE" } })
+    fetch(`${apiEndpoint}${url}`, {
+      ...generateHeaders(),
+      ...{ method: "DELETE" },
+    })
       .then(handlerResponse)
       .catch(error => ({ error })),
 };

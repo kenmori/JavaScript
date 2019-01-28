@@ -5,10 +5,7 @@ import actionTypes from "../constants/actionTypes";
 import deviseActions from "../actions/devise";
 import history from "../utils/history";
 import withLoading from "../utils/withLoading";
-import {
-  putToken,
-  removeToken,
-} from "../utils/auth";
+import { putToken, removeToken } from "../utils/auth";
 
 function* signIn({ payload }) {
   const result = yield call(API.post, "/users/sign_in", { user: payload.user });
