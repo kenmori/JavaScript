@@ -11,17 +11,23 @@ namespace :create_demo_account do
     base_okr_periods = OkrPeriod.where(organization_id: base_organization.id)
     base_members = OrganizationMember.where(organization_id: base_organization.id)
 
-    puts "======================================================================"
-    puts "+ Organization name : #{base_organization.name}"
+    display_periods = []
     base_okr_periods.each do |base_okr_period|
+      display_periods.push(base_okr_period)
+    end
+    display_users = []
+    base_members.each do |base_member|
+      display_users.push(User.find(base_member.user_id))
+    end
+
+    puts "===== Find result ====================================================="
+    puts "+ Organization name : #{base_organization.name}"
+    display_periods.each do |base_okr_period|
       puts "+ Period name : #{base_okr_period.name}"
       puts "  + Period : #{base_okr_period.start_date} ~ #{base_okr_period.end_date}"
     end
-    base_members.each do |base_member|
-      user = User.find(base_member.user_id)
-      puts "-----"
-      puts "+ User name : #{user.last_name} #{user.first_name}"
-      puts "+ User email : #{user.email}"
+    display_users.each do |base_user|
+      puts "+ User : #{base_user.email}"
     end
     puts "======================================================================"
   end
@@ -95,9 +101,9 @@ namespace :create_demo_account do
     end
 
     # ログイン用に最終的に作成されたユーザー情報を出力
-    puts "======================================================================"
+    puts "=== Created users ===================================================="
     display_users.each do |display_user|
-      puts "+ Created User : #{display_user.email}"
+      puts "+ User : #{display_user.email}"
     end
     puts "======================================================================"
   end
