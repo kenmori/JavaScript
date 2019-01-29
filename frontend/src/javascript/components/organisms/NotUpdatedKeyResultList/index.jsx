@@ -85,14 +85,13 @@ class NotUpdatedKeyResultList extends PureComponent {
   }
 
   render() {
-    const { okrPeriodName, userName } = this.props;
     const { column, data, direction } = this.state;
 
     return (
       <React.Fragment>
-        <Menu tabular compact>
+        <Menu className="not-updated-key-results__header" tabular compact>
           <Menu.Item
-            header>{`(${okrPeriodName} ${userName}さんの未更新KeyResult)`}</Menu.Item>
+            header>未更新KeyResult</Menu.Item>
         </Menu>
         <div className="not-updated-key-results__table">
           <Table compact="very" size="small" selectable sortable>

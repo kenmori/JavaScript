@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import { Header } from "semantic-ui-react";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
 import OkrModal from "../../OkrModal";
 import ObjectiveCommentModal from "../../ObjectiveCommentModal";
@@ -74,11 +75,10 @@ class Timeline extends PureComponent {
 
     return (
       <DefaultLayout title="タイムライン">
+        <Header as='h4' className="timeline__header" dividing content={`${okrPeriodName} ${userName}さんのタイムライン`} />
         <div className="widget">
           <NotUpdatedKeyResultList
             keyResults={notUpdatedKeyResults}
-            okrPeriodName={okrPeriodName}
-            userName={userName}
             fetchObjective={fetchObjective}
             openObjectiveCommentModal={openObjectiveCommentModal}
           />
@@ -86,8 +86,6 @@ class Timeline extends PureComponent {
         <div className="widget">
           <HistoryTimeline
             histories={histories}
-            okrPeriodName={okrPeriodName}
-            userName={userName}
             handleClick={openOkrModal}
           />
         </div>

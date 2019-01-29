@@ -3,3 +3,10 @@
   overflow-y: auto;
   margin: 8px 20px;
 }
+
+.timeline {
+  &__header {
+    display: inline-block;
+    margin: 4px 20px !important;
+  }
+}

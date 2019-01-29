@@ -1,7 +1,5 @@
 .history-timeline {
-  &__table {
-    overflow-y: auto;
-    margin: 8px 16px;
-    height: 100%;
+  &__header {
+    margin-bottom: 8px !important;
   }
 }

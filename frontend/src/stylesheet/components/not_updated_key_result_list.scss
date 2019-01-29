@@ -1,4 +1,7 @@
 .not-updated-key-results {
+  &__header {
+    margin-bottom: 8px !important;
+  }
   &__table {
     .ui.floating.dropdown {
       > .menu {
