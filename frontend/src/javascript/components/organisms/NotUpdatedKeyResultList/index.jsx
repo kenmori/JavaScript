@@ -84,6 +84,12 @@ class NotUpdatedKeyResultList extends PureComponent {
     );
   }
 
+  handleOpenOKRModal(keyResultId) {
+    const { openOkrModal } = this.props;
+
+    openOkrModal(keyResultId);
+  }
+
   render() {
     const { column, data, direction } = this.state;
 
@@ -167,6 +173,13 @@ class NotUpdatedKeyResultList extends PureComponent {
                           onClick={this.handleDisplayBoardClick.bind(
                             this,
                             keyResult.get("objectiveId"),
+                          )}
+                        />
+                        <Dropdown.Item
+                          text="詳細の表示"
+                          onClick={this.handleOpenOKRModal.bind(
+                            this,
+                            keyResult.get("id"),
                           )}
                         />
                       </Dropdown.Menu>

@@ -33,29 +33,32 @@ function selectKeyResultComments(keyResults, objectiveId, showDisabledOkrs) {
         return 0;
       }
     });
-};
+}
 
 function selectObjectiveComments(objective) {
-  return objective.get("comments") ?
-  objective
-  .get("comments")
-  .filter(v => v.get("showMeetingBoard"))
-  .sort((a, b) => {
-    if (a.get("updatedAt") < b.get("updatedAt")) {
-      return 1;
-    }
-    if (a.get("updatedAt") > b.get("updatedAt")) {
-      return -1;
-    }
-    if (a.get("updatedAt") === b.get("updatedAt")) {
-      return 0;
-    }
-  }) : List();
+  return objective.get("comments")
+    ? objective
+        .get("comments")
+        .filter(v => v.get("showMeetingBoard"))
+        .sort((a, b) => {
+          if (a.get("updatedAt") < b.get("updatedAt")) {
+            return 1;
+          }
+          if (a.get("updatedAt") > b.get("updatedAt")) {
+            return -1;
+          }
+          if (a.get("updatedAt") === b.get("updatedAt")) {
+            return 0;
+          }
+        })
+    : List();
 }
 
 const mapStateToProps = (state, { match: { params } }) => {
   const { objectiveId } = getOkrId(params.objectiveHash);
-  const showDisabledOkrs = state.loginUser.get("userSetting").get("showDisabledOkrs");
+  const showDisabledOkrs = state.loginUser
+    .get("userSetting")
+    .get("showDisabledOkrs");
   const objective = getObjectiveById(state, objectiveId) || Map();
   const keyResults = objective.get("keyResults") || List();
 
@@ -65,11 +68,15 @@ const mapStateToProps = (state, { match: { params } }) => {
     organizationName: state.organization.get("current").get("name"),
     objectiveId,
     objectives: state.entities.objectives,
-    objective: objective,
+    objective,
     objectiveComments: selectObjectiveComments(objective),
-    keyResults: keyResults,
-    keyResultsComments: selectKeyResultComments(keyResults, objective.get("id"), showDisabledOkrs),
-    showDisabledOkrs: showDisabledOkrs,
+    keyResults,
+    keyResultsComments: selectKeyResultComments(
+      keyResults,
+      objective.get("id"),
+      showDisabledOkrs,
+    ),
+    showDisabledOkrs,
     isFetchedKeyResultsCommentLabels: state.keyResults.get(
       "isFetchedKeyResultsCommentLabels",
     ),

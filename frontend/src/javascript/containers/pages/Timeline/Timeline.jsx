@@ -108,6 +108,7 @@ class Timeline extends PureComponent {
             keyResults={notUpdatedKeyResults}
             fetchObjective={fetchObjective}
             openObjectiveCommentModal={openObjectiveCommentModal}
+            openOkrModal={openOkrModal}
           />
         </div>
         <div className="widget">
