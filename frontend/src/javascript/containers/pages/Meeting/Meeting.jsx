@@ -16,50 +16,6 @@ class Meeting extends PureComponent {
     super(props);
   }
 
-  selectKeyResultComments = (keyResults, objectiveId) => {
-    const { showDisabledOkrs } = this.props;
-    const comments = keyResults
-      .filter(
-        v =>
-          objectiveId === v.get("objectiveId") &&
-          v.get("comments") &&
-          (showDisabledOkrs || !v.get("disabled")),
-      )
-      .map(v => v.get("comments").map(c => c.set("KeyResult", v)))
-      .toList()
-      .flatten(1);
-
-    return comments
-      .filter(v => v.get("showMeetingBoard") && v.get("label") != null)
-      .sort((a, b) => {
-        if (a.get("updatedAt") < b.get("updatedAt")) {
-          return 1;
-        }
-        if (a.get("updatedAt") > b.get("updatedAt")) {
-          return -1;
-        }
-        if (a.get("updatedAt") === b.get("updatedAt")) {
-          return 0;
-        }
-      });
-  };
-
-  selectObjectiveComments = objective =>
-    objective
-      .get("comments")
-      .filter(v => v.get("showMeetingBoard"))
-      .sort((a, b) => {
-        if (a.get("updatedAt") < b.get("updatedAt")) {
-          return 1;
-        }
-        if (a.get("updatedAt") > b.get("updatedAt")) {
-          return -1;
-        }
-        if (a.get("updatedAt") === b.get("updatedAt")) {
-          return 0;
-        }
-      });
-
   selectLabelCommnets = (comments, label) =>
     comments.filter(v => v.get("label").get("name") === label);
 
@@ -160,6 +116,9 @@ class Meeting extends PureComponent {
       objectiveId,
       objectives,
       objective,
+      objectiveComments,
+      keyResults,
+      keyResultsComments,
       keyResultCommentLabels,
       showDisabledOkrs,
       isFetchedKeyResultsCommentLabels,
@@ -170,13 +129,6 @@ class Meeting extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null;
     }
-
-    const keyResults = objective.get("keyResults");
-    const comments = this.selectKeyResultComments(
-      keyResults,
-      objective.get("id"),
-    );
-    const objectiveComments = this.selectObjectiveComments(objective);
 
     const labels = new Map();
     keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
@@ -199,7 +151,7 @@ class Meeting extends PureComponent {
           <Grid celled columns={3} className="meeting-board__content">
             <Grid.Row>
               {this.generateCommentLabelColumn(
-                comments,
+                keyResultsComments,
                 labels,
                 meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK,
               )}
@@ -214,14 +166,14 @@ class Meeting extends PureComponent {
                 />
               </Grid.Column>
               {this.generateCommentLabelColumn(
-                comments,
+                keyResultsComments,
                 labels,
                 meetingBoardCommentLabels.WIN_SESSION,
               )}
             </Grid.Row>
             <Grid.Row>
               {this.generateCommentLabelColumn(
-                comments,
+                keyResultsComments,
                 labels,
                 meetingBoardCommentLabels.NEXT_4_WEEK,
               )}
@@ -230,7 +182,7 @@ class Meeting extends PureComponent {
                 objectiveComments,
               )}
               {this.generateCommentLabelColumn(
-                comments,
+                keyResultsComments,
                 labels,
                 meetingBoardCommentLabels.ISSUE,
               )}
@@ -238,10 +190,7 @@ class Meeting extends PureComponent {
           </Grid>
           <CommentModal
             objective={objective}
-            comments={this.selectKeyResultComments(
-              keyResults,
-              objective.get("id"),
-            )}
+            comments={keyResultsComments}
             keyResultCommentLabels={keyResultCommentLabels}
           />
           <ObjectiveCommentModal
