@@ -11,7 +11,7 @@ const initialState = fromJS({
   confirm: { isOpen: false },
   option: { isOpen: false },
   comment: { isOpen: false, commentLabel: {} },
-  objectiveComment: { isOpen: false, commentLabel: {} },
+  objectiveComment: { isOpen: false },
 });
 
 export default handleActions(

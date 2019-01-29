@@ -65,9 +65,8 @@ class ObjectiveCommentModal extends PureComponent {
   };
 
   render() {
-    const { objective, comments, isOpen, closeModal } = this.props;
+    const { title, comments, isOpen, closeModal } = this.props;
     const { text } = this.state;
-    const name = objective.get("name");
 
     return (
       <Modal
@@ -77,7 +76,7 @@ class ObjectiveCommentModal extends PureComponent {
         open={isOpen}
         onClose={closeModal}>
         <Modal.Content scrolling>
-          <Header as="h4">{name}</Header>
+          <Header as="h4">{title}</Header>
           <StretchCommentPane
             comments={comments}
             onDelete={this.removeComment}
@@ -118,7 +117,7 @@ ObjectiveCommentModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   comments: ImmutablePropTypes.list.isRequired,
-  objective: ImmutablePropTypes.map.isRequired,
+  title: PropTypes.string.isRequired,
   objectiveId: PropTypes.number.isRequired,
   updateObjective: PropTypes.func.isRequired,
 };

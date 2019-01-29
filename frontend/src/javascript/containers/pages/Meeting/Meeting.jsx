@@ -245,8 +245,8 @@ class Meeting extends PureComponent {
             keyResultCommentLabels={keyResultCommentLabels}
           />
           <ObjectiveCommentModal
+            title={objective.get("name")}
             objectiveId={objectiveId}
-            objective={objective}
             comments={objectiveComments}
           />
         </div>
