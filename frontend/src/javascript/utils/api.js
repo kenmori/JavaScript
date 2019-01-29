@@ -3,7 +3,7 @@ import { camelizeKeys, decamelizeKeys } from "humps";
 import qs from "qs";
 import { fromJS } from "immutable";
 import isObject from "isobject";
-import { saveAs } from 'file-saver';
+import { saveAs } from "file-saver";
 import { removeToken, getToken } from "./auth";
 
 const apiEndpoint = "/api";
@@ -33,19 +33,20 @@ function generateDownloadHeaders() {
     credentials: "same-origin",
   };
   let headers = {
-    Accept: "text/csv,text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-  }
+    Accept:
+      "text/csv,text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+  };
 
   if (getToken()) {
     headers = Object.assign(headers, {
       Authorization: `Bearer ${getToken()}`,
-    })
+    });
   }
 
   return {
     ...credentials,
-    headers: headers,
-  }
+    headers,
+  };
 }
 
 const handlerResponse = response => {
@@ -123,12 +124,15 @@ export function downloadFile(url, query = {}) {
     ...generateDownloadHeaders(),
     ...{ method: "GET" },
   })
-  .then(async res => ({
-    filename: res.headers.get('content-disposition').split('filename=')[1].replace(/^"|"$/g, ""),
-    blob: await res.blob()
-  }))
-  .then(({ filename, blob }) => saveAs(blob, filename))
-  .catch(error => ({ error }));
+    .then(async res => ({
+      filename: res.headers
+        .get("content-disposition")
+        .split("filename=")[1]
+        .replace(/^"|"$/g, ""),
+      blob: await res.blob(),
+    }))
+    .then(({ filename, blob }) => saveAs(blob, filename))
+    .catch(error => ({ error }));
 }
 
 const API = {
@@ -160,7 +164,7 @@ const API = {
       .catch(error => ({ error })),
   delete: url =>
     fetch(`${apiEndpoint}${url}`, {
-      ...generateHeaders(),
+      ...generateAuthHeaders(),
       ...{ method: "DELETE" },
     })
       .then(handlerResponse)
