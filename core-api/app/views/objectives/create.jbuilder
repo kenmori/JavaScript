@@ -9,7 +9,7 @@ json.objective do
   if parent_key_result
     json.parent_key_result do
       json.partial! "key_results/progress_rate", key_result: parent_key_result
-      json.is_processed parent_key_result.processed?
+      json.is_processed parent_key_result.processed?(current_user)
     end
   end
 
