@@ -58,6 +58,7 @@ RSpec.resource "POST /key_results", warden: true do
         "description" => "使いやすくしてアクセス数を増やす",
         "disabled" => false,
         "is_full" => true,
+        "updated_at" => be_time_iso8601,
         "child_objective_ids" => [],
         "owner" => {
           "id" => admin_user.id,
