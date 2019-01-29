@@ -109,7 +109,8 @@ class HistoryTimeline extends PureComponent {
             </Table.Header>
             <Table.Body className="key-result-table">
               {data.map((e, index) => (
-                <Table.Row key={index}
+                <Table.Row
+                  key={index}
                   onClick={() => handleClick(e.get("KeyResult").get("id"))}>
                   <Table.Cell textAlign="center">
                     <OwnerAvatar owner={e.get("user")} />

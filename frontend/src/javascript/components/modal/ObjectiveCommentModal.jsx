@@ -116,9 +116,9 @@ ObjectiveCommentModal.propTypes = {
   confirm: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  comments: ImmutablePropTypes.list.isRequired,
-  title: PropTypes.string.isRequired,
-  objectiveId: PropTypes.number.isRequired,
+  comments: ImmutablePropTypes.list,
+  title: PropTypes.string,
+  objectiveId: PropTypes.number,
   updateObjective: PropTypes.func.isRequired,
 };
 

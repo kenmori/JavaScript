@@ -4,9 +4,7 @@ import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
 import ProgressRate from "../../util/ProgressRate";
-import {
-  encodeObjectiveId,
-} from "../../../utils/linker";
+import { encodeObjectiveId } from "../../../utils/linker";
 
 class NotUpdatedKeyResultList extends PureComponent {
   constructor(props) {
@@ -27,8 +25,12 @@ class NotUpdatedKeyResultList extends PureComponent {
       } else if (column === "owner") {
         const aOwner = a.get("owner");
         const bOwner = b.get("owner");
-        const aFullName = `${aOwner.get("lastName")} ${aOwner.get("firstName")}`;
-        const bFullName = `${bOwner.get("lastName")} ${bOwner.get("firstName")}`;
+        const aFullName = `${aOwner.get("lastName")} ${aOwner.get(
+          "firstName",
+        )}`;
+        const bFullName = `${bOwner.get("lastName")} ${bOwner.get(
+          "firstName",
+        )}`;
         return aFullName.localeCompare(bFullName);
       } else {
         if (a.get(column) < b.get(column)) return -1;
@@ -66,6 +68,13 @@ class NotUpdatedKeyResultList extends PureComponent {
     });
   };
 
+  handleAddAnnouncementClick(objectiveId) {
+    const { fetchObjective, openObjectiveCommentModal } = this.props;
+
+    fetchObjective(objectiveId);
+    openObjectiveCommentModal(objectiveId);
+  }
+
   handleDisplayBoardClick(objectiveId) {
     window.open(
       `/meetings/${encodeObjectiveId(objectiveId)}`,
@@ -76,7 +85,7 @@ class NotUpdatedKeyResultList extends PureComponent {
   }
 
   render() {
-    const { okrPeriodName, userName, openObjectiveCommentModal } = this.props;
+    const { okrPeriodName, userName } = this.props;
     const { column, data, direction } = this.state;
 
     return (
@@ -148,8 +157,20 @@ class NotUpdatedKeyResultList extends PureComponent {
                       floating
                       className="icon">
                       <Dropdown.Menu>
-                        <Dropdown.Item text="アナウンスメントの追加" />
-                        <Dropdown.Item text="ボードの表示" onClick={this.handleDisplayBoardClick.bind(this, keyResult.get("objectiveId"))}/>
+                        <Dropdown.Item
+                          text="アナウンスメントの追加"
+                          onClick={this.handleAddAnnouncementClick.bind(
+                            this,
+                            keyResult.get("objectiveId"),
+                          )}
+                        />
+                        <Dropdown.Item
+                          text="ボードの表示"
+                          onClick={this.handleDisplayBoardClick.bind(
+                            this,
+                            keyResult.get("objectiveId"),
+                          )}
+                        />
                       </Dropdown.Menu>
                     </Dropdown>
                   </Table.Cell>

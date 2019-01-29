@@ -29,7 +29,9 @@ const actions = createActions({
   [actionTypes.CLOSE_OPTION_MODAL]: () => {},
   [actionTypes.OPEN_COMMENT_MODAL]: commentLabel => ({ commentLabel }),
   [actionTypes.CLOSE_COMMENT_MODAL]: () => {},
-  [actionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: () => {},
+  [actionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: (objectiveId = null) => ({
+    objectiveId,
+  }),
   [actionTypes.CLOSE_OBJECTIVE_COMMENT_MODAL]: () => {},
 });
 
