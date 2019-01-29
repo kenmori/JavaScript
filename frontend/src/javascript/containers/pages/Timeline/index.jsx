@@ -73,6 +73,8 @@ const mapStateToProps = state => {
   return {
     okrPeriodId: state.current.get("okrPeriodId"),
     userId: state.current.get("userId"),
+    organizationId: state.organization.get("current").get("id"),
+    organizationName: state.organization.get("current").get("name"),
     notUpdatedKeyResults: selectNotUpdatedKeyResults(keyResults),
     keyResults,
     histories: selectHistories(keyResults),

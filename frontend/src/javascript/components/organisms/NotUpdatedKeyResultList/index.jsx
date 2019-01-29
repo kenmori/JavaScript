@@ -90,8 +90,7 @@ class NotUpdatedKeyResultList extends PureComponent {
     return (
       <React.Fragment>
         <Menu className="not-updated-key-results__header" tabular compact>
-          <Menu.Item
-            header>未更新KeyResult</Menu.Item>
+          <Menu.Item header>未更新KeyResult</Menu.Item>
         </Menu>
         <div className="not-updated-key-results__table">
           <Table compact="very" size="small" selectable sortable>

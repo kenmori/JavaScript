@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { Header } from "semantic-ui-react";
+import ReactGA from "react-ga";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
 import OkrModal from "../../OkrModal";
 import ObjectiveCommentModal from "../../ObjectiveCommentModal";
@@ -14,6 +15,9 @@ class Timeline extends PureComponent {
 
   componentDidMount() {
     const {
+      userId,
+      organizationId,
+      organizationName,
       isFetchedMyDetail,
       isFetchedKeyResultsCommentLabels,
       isFetchedKeyResults,
@@ -32,16 +36,26 @@ class Timeline extends PureComponent {
     if (isFetchedKeyResults) {
       keyResults.map(e => fetchKeyResultHistory(e.get("id")));
     }
+
+    if (userId && organizationId) {
+      ReactGA.set({
+        userId,
+        dimension1: organizationId,
+        dimension2: organizationName,
+      });
+    }
   }
 
   componentDidUpdate(prevProps) {
     const {
+      userId,
+      organizationId,
+      organizationName,
       isFetchedMyDetail,
       isFetchedKeyResults,
       fetchOKR,
       keyResults,
       okrPeriodId,
-      userId,
       fetchKeyResultHistory,
     } = this.props;
 
@@ -52,6 +66,14 @@ class Timeline extends PureComponent {
 
     if (!prevProps.isFetchedKeyResults && isFetchedKeyResults) {
       keyResults.map(e => fetchKeyResultHistory(e.get("id")));
+    }
+
+    if (userId && organizationId) {
+      ReactGA.set({
+        userId,
+        dimension1: organizationId,
+        dimension2: organizationName,
+      });
     }
   }
 
@@ -75,7 +97,12 @@ class Timeline extends PureComponent {
 
     return (
       <DefaultLayout title="タイムライン">
-        <Header as='h4' className="timeline__header" dividing content={`${okrPeriodName} ${userName}さんのタイムライン`} />
+        <Header
+          as="h4"
+          className="timeline__header"
+          dividing
+          content={`${okrPeriodName} ${userName}さんのタイムライン`}
+        />
         <div className="widget">
           <NotUpdatedKeyResultList
             keyResults={notUpdatedKeyResults}
@@ -84,10 +111,7 @@ class Timeline extends PureComponent {
           />
         </div>
         <div className="widget">
-          <HistoryTimeline
-            histories={histories}
-            handleClick={openOkrModal}
-          />
+          <HistoryTimeline histories={histories} handleClick={openOkrModal} />
         </div>
         <OkrModal extensionEnabled={false} />
         <ObjectiveCommentModal
