@@ -62,6 +62,7 @@ const handlerResponse = response => {
   if (response.status == 401 && location.pathname !== "/login") {
     removeToken();
     location.href = "/login";
+    return {};
   }
 
   return response.json().then(body => {
