@@ -34,7 +34,19 @@ class Timeline extends PureComponent {
   }
 
   selectNotUpdatedKeyResults(keyResults) {
-    return keyResults.filter(e => !isWithinAWeek(moment(e.get("updatedAt"))));
+    return keyResults
+      .filter(e => !isWithinAWeek(moment(e.get("updatedAt"))))
+      .sort((a, b) => {
+        if (a.get("updatedAt") < b.get("updatedAt")) {
+          return -1;
+        }
+        if (a.get("updatedAt") > b.get("updatedAt")) {
+          return 1;
+        }
+        if (a.get("updatedAt") === b.get("updatedAt")) {
+          return 0;
+        }
+      });
   }
 
   componentDidMount() {
@@ -81,7 +93,7 @@ class Timeline extends PureComponent {
   }
 
   render() {
-    const { keyResults, okrPeriod, user, openOkrModal } = this.props;
+    const { keyResults, okrPeriod, user, openOkrModal, openObjectiveCommentModal } = this.props;
     const okrPeriodName = okrPeriod ? okrPeriod.get("name") : "";
     const userName = user
       ? `${user.get("lastName")} ${user.get("firstName")}`
@@ -94,7 +106,6 @@ class Timeline extends PureComponent {
             keyResults={this.selectNotUpdatedKeyResults(keyResults)}
             okrPeriodName={okrPeriodName}
             userName={userName}
-            handleClick={openOkrModal}
           />
         </div>
         <div className="widget">

@@ -4,6 +4,9 @@ import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
 import ProgressRate from "../../util/ProgressRate";
+import {
+  encodeObjectiveId,
+} from "../../../utils/linker";
 
 class NotUpdatedKeyResultList extends PureComponent {
   constructor(props) {
@@ -22,12 +25,10 @@ class NotUpdatedKeyResultList extends PureComponent {
       if (typeof a.get(column) === "string") {
         return a.get(column).localeCompare(b.get(column));
       } else if (column === "owner") {
-        const aFullName = `${a.get("user").get("lastName")} ${a
-          .get("user")
-          .get("firstName")}`;
-        const bFullName = `${b.get("user").get("lastName")} ${b
-          .get("user")
-          .get("firstName")}`;
+        const aOwner = a.get("owner");
+        const bOwner = b.get("owner");
+        const aFullName = `${aOwner.get("lastName")} ${aOwner.get("firstName")}`;
+        const bFullName = `${bOwner.get("lastName")} ${bOwner.get("firstName")}`;
         return aFullName.localeCompare(bFullName);
       } else {
         if (a.get(column) < b.get(column)) return -1;
@@ -65,8 +66,17 @@ class NotUpdatedKeyResultList extends PureComponent {
     });
   };
 
+  handleDisplayBoardClick(objectiveId) {
+    window.open(
+      `/meetings/${encodeObjectiveId(objectiveId)}`,
+      "_blank",
+      `height=${window.parent.screen.height},
+      width=${window.parent.screen.width}`,
+    );
+  }
+
   render() {
-    const { okrPeriodName, userName, handleClick } = this.props;
+    const { okrPeriodName, userName, openObjectiveCommentModal } = this.props;
     const { column, data, direction } = this.state;
 
     return (
@@ -110,28 +120,27 @@ class NotUpdatedKeyResultList extends PureComponent {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {data.map(e => (
-                <Table.Row
-                  onClick={() => handleClick(e.get("KeyResult").get("id"))}>
+              {data.map(keyResult => (
+                <Table.Row key={keyResult.get("id")}>
                   <Table.Cell textAlign="center">
-                    <OwnerAvatar owner={e.get("owner")} />
+                    <OwnerAvatar owner={keyResult.get("owner")} />
                   </Table.Cell>
                   <Table.Cell>
-                    {`${e.get("owner").get("lastName")} ${e
+                    {`${keyResult.get("owner").get("lastName")} ${keyResult
                       .get("owner")
                       .get("firstName")}`}
                   </Table.Cell>
                   <Table.Cell>
-                    <OkrName okr={e} />
+                    <OkrName okr={keyResult} />
                   </Table.Cell>
                   <Table.Cell>
                     <ProgressRate
-                      value={e.get("progressRate")}
-                      status={e.get("status")}
+                      value={keyResult.get("progressRate")}
+                      status={keyResult.get("status")}
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    {moment(e.get("createdAt")).format("YYYY/M/D H:mm")}
+                    {moment(keyResult.get("updatedAt")).format("YYYY/M/D H:mm")}
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <Dropdown
@@ -140,7 +149,7 @@ class NotUpdatedKeyResultList extends PureComponent {
                       className="icon">
                       <Dropdown.Menu>
                         <Dropdown.Item text="アナウンスメントの追加" />
-                        <Dropdown.Item text="ボードの表示" />
+                        <Dropdown.Item text="ボードの表示" onClick={this.handleDisplayBoardClick.bind(this, keyResult.get("objectiveId"))}/>
                       </Dropdown.Menu>
                     </Dropdown>
                   </Table.Cell>
