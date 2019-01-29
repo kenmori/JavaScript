@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Item, Segment } from "semantic-ui-react";
 import OkrName from "../util/OkrName";
-import Markdown from "../util/Markdown";
+import Markdown from "../atoms/Markdown";
 
 class KeyResultSidebar extends PureComponent {
   render() {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Comment } from "semantic-ui-react";
 import moment from "moment";
-import Markdown from "../../util/Markdown";
+import Markdown from "../../atoms/Markdown";
 import avatar_image from "../../../images/avatar.png";
 import { formatChangeLog } from "../../../utils/okr";
 

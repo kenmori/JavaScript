@@ -5,7 +5,7 @@ import { Form, Comment, Label } from "semantic-ui-react";
 import moment from "moment";
 import AutoTextArea from "../form/AutoTextArea";
 import avatar_image from "../../images/avatar.png";
-import Markdown from "../util/Markdown";
+import Markdown from "../atoms/Markdown";
 import UserName from "../util/UserName";
 import CommentLabelDropdown from "./CommentLabelDropdown";
 

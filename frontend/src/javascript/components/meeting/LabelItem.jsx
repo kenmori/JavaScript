@@ -4,7 +4,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import { Comment, Icon } from "semantic-ui-react";
 import moment from "moment";
 import OkrName from "../util/OkrName";
-import Markdown from "../util/Markdown";
+import Markdown from "../atoms/Markdown";
 import UserName from "../util/UserName";
 import Avatar from "../util/Avatar";
 

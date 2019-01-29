@@ -3,7 +3,7 @@ import { Menu, Table, Dropdown } from "semantic-ui-react";
 import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
-import Markdown from "../../util/Markdown";
+import Markdown from "../../atoms/Markdown";
 import { formatChangeLog } from "../../../utils/okr";
 
 class HistoryTimeline extends PureComponent {
