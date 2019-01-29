@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! comment, :id, :text, :show_meeting_board, :updated_at
+json.extract! comment, :id, :text, :show_meeting_board, :created_at, :updated_at
 
 json.editable comment.editable?(current_user)
 
