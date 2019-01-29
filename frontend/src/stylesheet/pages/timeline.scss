@@ -1,12 +1,12 @@
-.widget {
-  height: 50%;
-  overflow-y: auto;
-  margin: 8px 20px;
-}
-
 .timeline {
   &__header {
     display: inline-block;
-    margin: 4px 20px !important;
+    margin: 0px 20px !important;
   }
+}
+
+.widget {
+  height: 50%;
+  overflow-y: auto;
+  margin: 16px 20px;
 }

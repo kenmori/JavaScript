@@ -2,4 +2,12 @@
   &__header {
     margin-bottom: 8px !important;
   }
+  &__table {
+    .ui.floating.dropdown {
+      > .menu {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
 }
