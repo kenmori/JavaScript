@@ -3,8 +3,7 @@ import { Menu, Table, Dropdown } from "semantic-ui-react";
 import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
-import Markdown from "../../atoms/Markdown";
-import { formatChangeLog } from "../../../utils/okr";
+import ChangeLog from "../../atoms/ChangeLog";
 
 class HistoryTimeline extends PureComponent {
   constructor(props) {
@@ -132,7 +131,7 @@ class HistoryTimeline extends PureComponent {
                     <OkrName okr={e.get("KeyResult")} />
                   </Table.Cell>
                   <Table.Cell>
-                    <Markdown text={formatChangeLog(e.get("diffs"))} />
+                    <ChangeLog diffs={e.get("diffs")} />
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <Dropdown

@@ -1,9 +1,8 @@
 import React from "react";
 import { Comment } from "semantic-ui-react";
 import moment from "moment";
-import Markdown from "../../atoms/Markdown";
+import ChangeLog from "../../atoms/ChangeLog";
 import avatar_image from "../../../images/avatar.png";
-import { formatChangeLog } from "../../../utils/okr";
 
 const ChangeHistory = React.memo(
   ({ avatar, firstName, lastName, changedAt, diffs }) => (
@@ -22,7 +21,7 @@ const ChangeHistory = React.memo(
             {moment(changedAt).format("YYYY/M/D H:mm")}
           </Comment.Metadata>
           <Comment.Text>
-            <Markdown text={formatChangeLog(diffs)} />
+            <ChangeLog diffs={diffs} />
           </Comment.Text>
         </Comment.Content>
       </Comment>

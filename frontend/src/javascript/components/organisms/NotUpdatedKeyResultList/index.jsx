@@ -116,7 +116,7 @@ class NotUpdatedKeyResultList extends PureComponent {
                   KeyResult
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  width={2}
+                  width={1}
                   sorted={column === "progressRate" ? direction : null}
                   onClick={this.handleSort("progressRate")}>
                   進捗率
