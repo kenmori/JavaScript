@@ -45,7 +45,6 @@ class KeyResultsController < ApplicationController
     forbidden and return unless valid_permission?(@user.organization.id)
     forbidden and return unless valid_permission?(owner.organization.id)
     forbidden and return unless User.includes(:organization).where(id: params[:key_result][:members]).all? { |u| valid_permission?(u.organization.id) }
-    forbidden("Objective 責任者のみ作成できます") and return unless valid_user?(owner.id)
 
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.new(key_result_create_params)
@@ -63,7 +62,6 @@ class KeyResultsController < ApplicationController
   def update
     @key_result = KeyResult.find(params[:id])
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
-    forbidden("Objective 責任者または Key Result 責任者のみ編集できます") and return unless valid_user_to_update?
 
     ActiveRecord::Base.transaction do
       update_objective if params[:key_result][:objective_id] # 再帰構造による無限ループ回避のため update! より先に処理する
@@ -104,7 +102,6 @@ class KeyResultsController < ApplicationController
     @key_result = KeyResult.find(params[:id])
     key_result_member = @key_result.key_result_members.find_by(user_id: current_user.id)
     forbidden and return unless valid_permission?(@key_result.owner.organization.id)
-    forbidden("Key Result 責任者または関係者のみ編集できます") and return unless key_result_member
 
     ActiveRecord::Base.transaction do
       key_result_member.update!(processed: true)
