@@ -3,12 +3,14 @@
 namespace :create_demo_account do
   desc "Create demo account."
 
+  @target_organization_id = ""
   @objectives = []
   @users = []
 
   # 作成する Organization の情報取得メソッド
   task :find, %w[organization_id] => :environment do |_, args|
-    base_organization = Organization.find(args.organization_id)
+    @target_organization_id = args.organization_id
+    base_organization = Organization.find(@target_organization_id)
     base_okr_periods = OkrPeriod.where(organization_id: base_organization.id)
     base_members = OrganizationMember.where(organization_id: base_organization.id)
 
@@ -35,7 +37,8 @@ namespace :create_demo_account do
 
   # 新規 Organization 作成メソッド
   task :create, %w[organization_id] => :environment do |_, args|
-    base_organization = Organization.find(args.organization_id)
+    @target_organization_id = args.organization_id
+    base_organization = Organization.find(@target_organization_id)
     base_okr_periods = OkrPeriod.where(organization_id: base_organization.id)
     base_members = OrganizationMember.where(organization_id: base_organization.id)
 
@@ -104,37 +107,12 @@ namespace :create_demo_account do
 
     # department を作成
     puts "=== Department を作成 ==="
-    base_departments = Department.where(organization_id: args.organization_id)
-    base_departments.each do |base_department|
-      department = organization.departments.create!(
-        ancestry: base_department.ancestry,
-        soft_destroyed_at: base_department.soft_destroyed_at,
-        name: base_department.name,
-        display_order: base_department.display_order,
-        kind: base_department.kind
-      )
+    base_root_departments = Department.where(organization_id: @target_organization_id).
+      where(ancestry: nil).
+      order("id")
 
-      base_department_members = DepartmentMember.where(department_id: base_department.id)
-      base_department_members.each do |base_department_member|
-        user_id = @users.find {|item| item["base_id"] == base_department_member.user_id}
-
-        department_member = department.department_members.create!(
-          role: base_department_member.role,
-          department_id: department.id,
-          user_id: user_id["new_id"]
-        )
-      end
-
-      base_department_objectives = DepartmentObjective.where(department_id: base_department.id)
-      base_department_objectives.each do |base_department_objective|
-        objective_id = @objectives.find {|item| item["base_id"] == base_department_objective.objective_id}
-        department_objective = department.department_objectives.create!(
-          department_id: department.id,
-          objective_id: objective_id["new_id"]
-
-        )
-
-      end
+    base_root_departments.each do |base_root_department|
+      create_department(base_root_department, organization)
     end
 
     # ログイン用に最終的に作成されたユーザー情報を出力
@@ -238,5 +216,45 @@ namespace :create_demo_account do
 
     end
   end
+
+  # Department を作成
+  def create_department(base_department, organization)
+    department = organization.departments.create!(
+      ancestry: base_department.ancestry,
+      soft_destroyed_at: base_department.soft_destroyed_at,
+      name: base_department.name,
+      display_order: base_department.display_order,
+      kind: base_department.kind
+    )
+
+    base_department_members = DepartmentMember.where(department_id: base_department.id)
+    base_department_members.each do |base_department_member|
+      user_id = @users.find {|item| item["base_id"] == base_department_member.user_id}
+
+      department_member = department.department_members.create!(
+        role: base_department_member.role,
+        department_id: department.id,
+        user_id: user_id["new_id"]
+      )
+    end
+
+    base_department_objectives = DepartmentObjective.where(department_id: base_department.id)
+    base_department_objectives.each do |base_department_objective|
+      objective_id = @objectives.find {|item| item["base_id"] == base_department_objective.objective_id}
+      department_objective = department.department_objectives.create!(
+        department_id: department.id,
+        objective_id: objective_id["new_id"]
+      )
+    end
+
+    base_child_departments = Department.where(organization_id: @target_organization_id).
+      where(ancestry: base_department.id).
+      order("id")
+
+    base_child_departments.each do |base_child_department|
+      create_department(base_child_department, organization)
+    end
+  end
+
 
 end
