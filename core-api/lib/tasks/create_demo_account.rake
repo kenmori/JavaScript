@@ -71,10 +71,11 @@ namespace :create_demo_account do
 
       # users, organization_member, user_settings 追加
       puts "=== User を作成 ==="
+      /^(?<local_part>.+)@(?<domain>.*)$/ =~ base_user.email
       user = organization.users.create!(
         last_name: base_user.last_name,
         first_name: base_user.first_name,
-        email: "demo_#{organization.id}_#{base_user.email}",
+        email: "#{local_part}+#{organization.id}@#{domain}",
         password: "Pass0123",
         admin: base_user.admin,
         avatar: base_user.avatar,
