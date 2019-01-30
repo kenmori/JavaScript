@@ -643,25 +643,5 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
         expect(parse_response_error).to eq(["許可されていない操作です"])
       end
     end
-
-    context "When sign in user is not objective owner, key result owner, and admin" do
-      before do
-        login_as(other_user)
-      end
-
-      example "ERROR: invalid sign in user" do
-        explanation "サインインユーザがObjective 責任者または Key Result 責任者または管理者のみ編集できるので、それら以外の場合はエラーとなる"
-
-        do_request(
-          key_result: {
-            id: id,
-            name: "変更後のKeyResultのタイトル"
-          }
-        )
-
-        expect(response_status).to eq(403)
-        expect(parse_response_error).to eq(["Objective 責任者または Key Result 責任者のみ編集できます"])
-      end
-    end
   end
 end

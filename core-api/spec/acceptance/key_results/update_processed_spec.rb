@@ -30,17 +30,6 @@ RSpec.resource "PUT /key_results/:id/process", warden: true do
       expect(response_body).to be_empty
     end
 
-    example "ERROR: Error when sign-in user is not a member of KeyResult" do
-      explanation "サインインユーザがKeyResultのメンバーでない場合エラー"
-
-      login_as(other_user)
-
-      do_request(id: key_result.id)
-
-      expect(response_status).to eq(403)
-      expect(parse_response_error).to eq(["Key Result 責任者または関係者のみ編集できます"])
-    end
-
     example "ERROR: When owner id is different organization" do
       explanation "異なる組織のユーザーを責任者とする場合エラー"
 

@@ -132,28 +132,6 @@ RSpec.resource "POST /key_results", warden: true do
       expect(parse_response_body("key_result", "name")).to eq("月間アクセスを増やす")
     end
 
-    example "ERROR: invalid signin user" do
-      explanation "サインインユーザが admin でも objective_id で指定した Objective の owner でも無い場合、エラーとなる"
-
-      login_as(nomal_user)
-
-      do_request(
-        key_result: {
-          owner_id: admin_user.id,
-          objective_id: objective.id,
-          name: "月間アクセスを増やす",
-          expired_date: 3.months.since.to_date.to_s,
-          description: "使いやすくしてアクセス数を増やす",
-          target_value: "10000",
-          value_unit: "アクセス/月",
-          members: [other_user.id, nomal_user.id]
-        }
-      )
-
-      expect(response_status).to eq(403)
-      expect(parse_response_error).to eq(["Objective 責任者のみ作成できます"])
-    end
-
     example "ERROR: invalid owner_id" do
       explanation "owner_id で指定したユーザがサインインユーザと異なる組織の場合、エラーとなる"
 
