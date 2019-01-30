@@ -4,6 +4,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "active_decorator"
+gem "active_model_serializers"
 gem "ancestry"
 gem "aws-sdk-sqs"
 gem "bootsnap", require: false
