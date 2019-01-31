@@ -78,7 +78,7 @@ class Timeline extends PureComponent {
 
   render() {
     const {
-      notUpdatedKeyResults,
+      sortedKeyResults,
       histories,
       okrPeriod,
       user,
@@ -100,7 +100,7 @@ class Timeline extends PureComponent {
         />
         <div className="widget">
           <OwnerShipKeyResultList
-            keyResults={notUpdatedKeyResults}
+            keyResults={sortedKeyResults}
             objectives={objectives}
             openOkrModal={openOkrModal}
           />

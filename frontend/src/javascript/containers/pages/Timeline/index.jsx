@@ -27,7 +27,7 @@ function selectHistories(keyResults) {
     });
 }
 
-function selectNotUpdatedKeyResults(keyResults) {
+function sortKeyResults(keyResults) {
   return keyResults.sort((a, b) => {
     if (a.get("updatedAt") < b.get("updatedAt")) {
       return -1;
@@ -49,7 +49,7 @@ const mapStateToProps = state => {
     userId: state.current.get("userId"),
     organizationId: state.organization.get("current").get("id"),
     organizationName: state.organization.get("current").get("name"),
-    notUpdatedKeyResults: selectNotUpdatedKeyResults(keyResults),
+    sortedKeyResults: sortKeyResults(keyResults),
     keyResults,
     objectives: state.entities.objectives,
     histories: selectHistories(keyResults),

@@ -96,8 +96,8 @@ class OwnerShipKeyResultList extends PureComponent {
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   width={3}
-                  sorted={column === "objective" ? direction : null}
-                  onClick={this.handleSort("objective")}>
+                  sorted={column === "objectiveId" ? direction : null}
+                  onClick={this.handleSort("objectiveId")}>
                   Objective
                 </Table.HeaderCell>
                 <Table.HeaderCell
