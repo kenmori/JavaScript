@@ -65,7 +65,6 @@ const mapStateToProps = state => {
       "isFetchedKeyResultsCommentLabels",
     ),
     isFetchedKeyResults: state.keyResults.get("isFetchedKeyResults"),
-    isFetchedObjectives: state.keyResults.get("isFetchedObjectives"),
   };
 };
 
