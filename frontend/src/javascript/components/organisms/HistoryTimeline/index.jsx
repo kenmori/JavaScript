@@ -133,7 +133,7 @@ class HistoryTimeline extends PureComponent {
                     <OkrName okr={e.get("KeyResult")} />
                   </Table.Cell>
                   <Table.Cell>
-                    <ChangeLog diffs={e.get("diffs")} />
+                    <ChangeLog type={e.get("type")} diffs={e.get("diffs")} />
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <Dropdown
