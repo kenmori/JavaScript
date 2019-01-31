@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
-import { Menu, Table, Dropdown } from "semantic-ui-react";
+import { Menu, Table } from "semantic-ui-react";
+import { Map } from "immutable";
 import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
@@ -120,44 +121,48 @@ class OwnerShipKeyResultList extends PureComponent {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {data.map(keyResult => (
-                <Table.Row
-                  key={keyResult.get("id")}
-                  onClick={this.handleOpenOKRModal.bind(
-                    this,
-                    keyResult.get("id"),
-                  )}>
-                  <Table.Cell textAlign="center">
-                    <OwnerAvatar owner={keyResult.get("owner")} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    {`${keyResult.get("owner").get("lastName")} ${keyResult
-                      .get("owner")
-                      .get("firstName")}`}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <OkrName
-                      okr={objectives
-                        .filter(
-                          e => e.get("id") == keyResult.get("objectiveId"),
-                        )
-                        .first()}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <OkrName okr={keyResult} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <ProgressRate
-                      value={keyResult.get("progressRate")}
-                      status={keyResult.get("status")}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    {moment(keyResult.get("updatedAt")).format("YYYY/M/D H:mm")}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+              {data.map(keyResult => {
+                const objective =
+                  objectives
+                    .filter(e => e.get("id") == keyResult.get("objectiveId"))
+                    .first() || Map();
+                return (
+                  <Table.Row
+                    key={keyResult.get("id")}
+                    onClick={this.handleOpenOKRModal.bind(
+                      this,
+                      keyResult.get("id"),
+                    )}>
+                    <Table.Cell textAlign="center">
+                      <OwnerAvatar owner={keyResult.get("owner")} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      {`${keyResult
+                        .get("owner")
+                        .get("lastName")} ${keyResult
+                        .get("owner")
+                        .get("firstName")}`}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <OkrName okr={objective} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <OkrName okr={keyResult} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <ProgressRate
+                        value={keyResult.get("progressRate")}
+                        status={keyResult.get("status")}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      {moment(keyResult.get("updatedAt")).format(
+                        "YYYY/M/D H:mm",
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
             </Table.Body>
           </Table>
         </div>
