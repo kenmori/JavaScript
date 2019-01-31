@@ -82,7 +82,7 @@ class HistoryTimeline extends PureComponent {
     return (
       <React.Fragment>
         <Menu className="history-timeline__header" tabular compact>
-          <Menu.Item header>KeyResultのタイムライン</Menu.Item>
+          <Menu.Item header>Key Resultのタイムライン</Menu.Item>
         </Menu>
         <div className="history-timeline__table">
           <Table compact="very" size="small" selectable sortable>
@@ -105,7 +105,7 @@ class HistoryTimeline extends PureComponent {
                   width={3}
                   sorted={column === "name" ? direction : null}
                   onClick={this.handleSort("name")}>
-                  KeyResult
+                  Key Result
                 </Table.HeaderCell>
                 <Table.HeaderCell width={5} disabled>
                   内容

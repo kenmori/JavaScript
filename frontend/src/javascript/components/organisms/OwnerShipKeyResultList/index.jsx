@@ -81,7 +81,7 @@ class OwnerShipKeyResultList extends PureComponent {
     return (
       <React.Fragment>
         <Menu className="not-updated-key-results__header" tabular compact>
-          <Menu.Item header>KeyResult一覧</Menu.Item>
+          <Menu.Item header>Key Result一覧</Menu.Item>
         </Menu>
         <div className="not-updated-key-results__table">
           <Table compact="very" size="small" selectable sortable>
@@ -104,7 +104,7 @@ class OwnerShipKeyResultList extends PureComponent {
                   width={3}
                   sorted={column === "name" ? direction : null}
                   onClick={this.handleSort("name")}>
-                  KeyResult
+                  Key Result
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   width={1}
