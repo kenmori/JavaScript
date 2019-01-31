@@ -6,7 +6,7 @@ import OkrName from "../../util/OkrName";
 import ProgressRate from "../../util/ProgressRate";
 import { encodeObjectiveId } from "../../../utils/linker";
 
-class NotUpdatedKeyResultList extends PureComponent {
+class OwnerShipKeyResultList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,13 +68,6 @@ class NotUpdatedKeyResultList extends PureComponent {
     });
   };
 
-  handleAddAnnouncementClick(objectiveId) {
-    const { fetchObjective, openObjectiveCommentModal } = this.props;
-
-    fetchObjective(objectiveId);
-    openObjectiveCommentModal(objectiveId);
-  }
-
   handleDisplayBoardClick(objectiveId) {
     window.open(
       `/meetings/${encodeObjectiveId(objectiveId)}`,
@@ -96,7 +89,7 @@ class NotUpdatedKeyResultList extends PureComponent {
     return (
       <React.Fragment>
         <Menu className="not-updated-key-results__header" tabular compact>
-          <Menu.Item header>未更新KeyResult</Menu.Item>
+          <Menu.Item header>KeyResult一覧</Menu.Item>
         </Menu>
         <div className="not-updated-key-results__table">
           <Table compact="very" size="small" selectable sortable>
@@ -162,13 +155,6 @@ class NotUpdatedKeyResultList extends PureComponent {
                       className="icon">
                       <Dropdown.Menu>
                         <Dropdown.Item
-                          text="アナウンスメントの追加"
-                          onClick={this.handleAddAnnouncementClick.bind(
-                            this,
-                            keyResult.get("objectiveId"),
-                          )}
-                        />
-                        <Dropdown.Item
                           text="ボードの表示"
                           onClick={this.handleDisplayBoardClick.bind(
                             this,
@@ -195,4 +181,4 @@ class NotUpdatedKeyResultList extends PureComponent {
   }
 }
 
-export default NotUpdatedKeyResultList;
+export default OwnerShipKeyResultList;

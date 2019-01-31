@@ -5,7 +5,7 @@ import ChangeLog from "../../atoms/ChangeLog";
 import avatar_image from "../../../images/avatar.png";
 
 const ChangeHistory = React.memo(
-  ({ avatar, firstName, lastName, changedAt, diffs }) => (
+  ({ avatar, firstName, lastName, changedAt, type, diffs }) => (
     <Comment.Group className="change-history">
       <Comment>
         <Comment.Avatar src={avatar || avatar_image} />
@@ -21,7 +21,7 @@ const ChangeHistory = React.memo(
             {moment(changedAt).format("YYYY/M/D H:mm")}
           </Comment.Metadata>
           <Comment.Text>
-            <ChangeLog diffs={diffs} />
+            <ChangeLog type={type} diffs={diffs} />
           </Comment.Text>
         </Comment.Content>
       </Comment>

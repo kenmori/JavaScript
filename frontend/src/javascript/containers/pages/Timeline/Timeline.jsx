@@ -3,9 +3,8 @@ import { Header } from "semantic-ui-react";
 import ReactGA from "react-ga";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
 import OkrModal from "../../OkrModal";
-import ObjectiveCommentModal from "../../ObjectiveCommentModal";
 import HistoryTimeline from "../../../components/organisms/HistoryTimeline";
-import NotUpdatedKeyResultList from "../../../components/organisms/NotUpdatedKeyResultList";
+import OwnerShipKeyResultList from "../../../components/organisms/OwnerShipKeyResultList";
 
 class Timeline extends PureComponent {
   constructor(props) {
@@ -83,11 +82,6 @@ class Timeline extends PureComponent {
       histories,
       okrPeriod,
       user,
-      objectiveName,
-      objectiveId,
-      objectiveComments,
-      fetchObjective,
-      openObjectiveCommentModal,
       openOkrModal,
     } = this.props;
     const okrPeriodName = okrPeriod ? okrPeriod.get("name") : "";
@@ -104,10 +98,8 @@ class Timeline extends PureComponent {
           content={`${okrPeriodName} ${userName}さんのタイムライン`}
         />
         <div className="widget">
-          <NotUpdatedKeyResultList
+          <OwnerShipKeyResultList
             keyResults={notUpdatedKeyResults}
-            fetchObjective={fetchObjective}
-            openObjectiveCommentModal={openObjectiveCommentModal}
             openOkrModal={openOkrModal}
           />
         </div>
@@ -115,11 +107,6 @@ class Timeline extends PureComponent {
           <HistoryTimeline histories={histories} handleClick={openOkrModal} />
         </div>
         <OkrModal extensionEnabled={false} />
-        <ObjectiveCommentModal
-          title={objectiveName}
-          objectiveId={objectiveId}
-          comments={objectiveComments}
-        />
       </DefaultLayout>
     );
   }

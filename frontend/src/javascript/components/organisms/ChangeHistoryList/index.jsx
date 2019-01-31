@@ -12,6 +12,7 @@ const ChangeHistoryList = React.memo(({ histories }) =>
         firstName={user.get("firstName")}
         lastName={user.get("lastName")}
         changedAt={e.get("createdAt")}
+        type={e.get("type")}
         diffs={e.get("diffs")}
       />
     );

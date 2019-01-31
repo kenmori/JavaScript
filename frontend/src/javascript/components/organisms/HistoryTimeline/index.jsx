@@ -107,7 +107,9 @@ class HistoryTimeline extends PureComponent {
                   onClick={this.handleSort("name")}>
                   KeyResult
                 </Table.HeaderCell>
-                <Table.HeaderCell width={5} disabled>内容</Table.HeaderCell>
+                <Table.HeaderCell width={5} disabled>
+                  内容
+                </Table.HeaderCell>
                 <Table.HeaderCell width={1} disabled>
                   アクション
                 </Table.HeaderCell>
