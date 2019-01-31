@@ -20,10 +20,13 @@ class Timeline extends PureComponent {
       isFetchedMyDetail,
       isFetchedKeyResultsCommentLabels,
       isFetchedKeyResults,
+      isFetchedObjectives,
       fetchMyDetail,
       fetchKeyResultCommentLabels,
       keyResults,
+      objectives,
       fetchKeyResultHistory,
+      fetchObjective,
     } = this.props;
 
     if (!isFetchedMyDetail) {
@@ -33,7 +36,14 @@ class Timeline extends PureComponent {
       fetchKeyResultCommentLabels();
     }
     if (isFetchedKeyResults) {
-      keyResults.map(e => fetchKeyResultHistory(e.get("id")));
+      keyResults.forEach(e => fetchKeyResultHistory(e.get("id")));
+    }
+    if (isFetchedObjectives && isFetchedKeyResults) {
+      keyResults.forEach(e => {
+        if (!objectives.find(o => o.get("id") === e.get("objectiveId"))) {
+          fetchObjective(e.get("objectiveId"));
+        }
+      });
     }
 
     if (userId && organizationId) {
@@ -52,10 +62,13 @@ class Timeline extends PureComponent {
       organizationName,
       isFetchedMyDetail,
       isFetchedKeyResults,
+      isFetchedObjectives,
       fetchOKR,
       keyResults,
+      objectives,
       okrPeriodId,
       fetchKeyResultHistory,
+      fetchObjective,
     } = this.props;
 
     if (isFetchedMyDetail && !isFetchedKeyResults && !this.state.isFetchedOKR) {
@@ -64,7 +77,18 @@ class Timeline extends PureComponent {
     }
 
     if (!prevProps.isFetchedKeyResults && isFetchedKeyResults) {
-      keyResults.map(e => fetchKeyResultHistory(e.get("id")));
+      keyResults.forEach(e => fetchKeyResultHistory(e.get("id")));
+    }
+    if (
+      !prevProps.isFetchedObjectives &&
+      isFetchedObjectives &&
+      isFetchedKeyResults
+    ) {
+      keyResults.forEach(e => {
+        if (!objectives.find(o => o.get("id") === e.get("objectiveId"))) {
+          fetchObjective(e.get("objectiveId"));
+        }
+      });
     }
 
     if (userId && organizationId) {

@@ -65,6 +65,7 @@ const mapStateToProps = state => {
       "isFetchedKeyResultsCommentLabels",
     ),
     isFetchedKeyResults: state.keyResults.get("isFetchedKeyResults"),
+    isFetchedObjectives: state.keyResults.get("isFetchedObjectives"),
   };
 };
 
@@ -77,6 +78,9 @@ const mapDispatchToProps = dispatch => ({
   },
   fetchOKR: (okrPeriodId, userId) => {
     dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true));
+  },
+  fetchObjective: objectiveId => {
+    dispatch(objectiveActions.fetchObjective(objectiveId));
   },
   fetchKeyResultHistory: ids =>
     dispatch(keyResultActions.fetchKeyResultHistory(ids)),
