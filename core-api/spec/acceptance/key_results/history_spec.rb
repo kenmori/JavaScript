@@ -23,7 +23,14 @@ RSpec.resource "GET /key_results/:id/histories", warden: true do
 
       PaperTrail.request.whodunnit = admin_user.id
       target.update!(name: "[UPDATED-1] KeyResult")
+      travel 1.day
       target.update!(name: "[UPDATED-2] KeyResult")
+      travel 1.day
+      normal_comment = CommentFactory.new(key_result: target, user: admin_user).create
+      travel 1.day
+      label = KeyResultCommentLabelFactory.new(organization: organization).create
+      label_comment = CommentFactory.new(key_result: target, user: admin_user, key_result_comment_label: label).create
+      travel_back
 
       do_request(id: target.id)
       expect(response_status).to eq(200)
@@ -32,6 +39,47 @@ RSpec.resource "GET /key_results/:id/histories", warden: true do
         "histories" => [
           {
             "created_at" => be_time_iso8601,
+            "type" => "comment",
+            "diffs" => [{
+              "column" => label_comment.key_result_comment_label.name,
+              "before" => "",
+              "after" => label_comment.text
+            }],
+            "user" => {
+              "id" => admin_user.id,
+              "first_name" => admin_user.first_name,
+              "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
+              "avatar_url" => nil,
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
+            }
+          },
+          {
+            "created_at" => be_time_iso8601,
+            "type" => "comment",
+            "diffs" => [{
+              "column" => normal_comment.model_name.human,
+              "before" => "",
+              "after" => normal_comment.text
+            }],
+            "user" => {
+              "id" => admin_user.id,
+              "first_name" => admin_user.first_name,
+              "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
+              "avatar_url" => nil,
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
+            }
+          },
+          {
+            "created_at" => be_time_iso8601,
+            "type" => "key_result_version",
             "diffs" => [{
               "column" => "Key Result",
               "before" => target.versions.last.reify.name,
@@ -41,12 +89,17 @@ RSpec.resource "GET /key_results/:id/histories", warden: true do
               "id" => admin_user.id,
               "first_name" => admin_user.first_name,
               "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
               "avatar_url" => nil,
-              "disabled" => false
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
             }
           },
           {
             "created_at" => be_time_iso8601,
+            "type" => "key_result_version",
             "diffs" => [{
               "column" => "Key Result",
               "before" => target.versions.first.reify.name,
@@ -56,8 +109,12 @@ RSpec.resource "GET /key_results/:id/histories", warden: true do
               "id" => admin_user.id,
               "first_name" => admin_user.first_name,
               "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
               "avatar_url" => nil,
-              "disabled" => false
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
             }
           }
         ]

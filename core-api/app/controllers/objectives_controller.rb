@@ -116,7 +116,7 @@ class ObjectivesController < ApplicationController
   def history
     runner(Objective::History, id: params[:id]) do |result|
       render json: {
-        histories: ActiveModel::Serializer::CollectionSerializer.new(result[:histories], serializer: ObjectiveVersionSerializer),
+        histories: ActiveModel::Serializer::CollectionSerializer.new(result[:histories], serializer: ObjectiveVersionSerializer)
       }, status: :ok
     end
   end

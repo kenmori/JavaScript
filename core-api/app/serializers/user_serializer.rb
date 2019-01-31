@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :first_name, :last_name, :email, :is_confirming, :is_admin, :avatar_url, :disabled, :sign_in_at
 

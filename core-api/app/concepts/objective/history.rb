@@ -12,14 +12,14 @@ class Objective::History < Trailblazer::Operation
   end
 
   def comment(options, params:, **_metadata)
-    options[:comments] = options[:model].objective_comments
+    options[:comments] = options[:model].objective_comments.includes(:user)
   end
 
   def merge(options, params:, **_metadata)
     # それぞれのモデルをマージして降順のリストにする
-    options[:histories]= options[:versions]
-      .concat(options[:comments])
-      .sort_by {|e| e.created_at}
-      .reverse
+    options[:histories] = options[:versions]
+                          .concat(options[:comments])
+                          .sort_by(&:created_at)
+                          .reverse
   end
 end
