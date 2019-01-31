@@ -51,6 +51,7 @@ RSpec.resource "PATCH /key_results/:id", warden: true do
             description
             disabled
             is_full
+            updated_at
             child_objective_ids
             owner
             members

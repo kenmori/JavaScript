@@ -1,10 +1,9 @@
 import React, { PureComponent } from "react";
-import { Menu, Table } from "semantic-ui-react";
+import { Menu, Table, Dropdown } from "semantic-ui-react";
 import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
-import Markdown from "../../util/Markdown";
-import { formatChangeLog } from "../../../utils/okr";
+import ChangeLog from "../../atoms/ChangeLog";
 
 class HistoryTimeline extends PureComponent {
   constructor(props) {
@@ -71,18 +70,22 @@ class HistoryTimeline extends PureComponent {
     });
   };
 
+  handleOpenOKRModal(keyResultId) {
+    const { handleClick } = this.props;
+
+    handleClick(keyResultId);
+  }
+
   render() {
-    const { okrPeriodName, userName, handleClick } = this.props;
     const { column, data, direction } = this.state;
 
     return (
       <React.Fragment>
-        <Menu tabular compact>
-          <Menu.Item
-            header>{`タイムライン (${okrPeriodName} ${userName}さんのKeyResult)`}</Menu.Item>
+        <Menu className="history-timeline__header" tabular compact>
+          <Menu.Item header>KeyResultのタイムライン</Menu.Item>
         </Menu>
         <div className="history-timeline__table">
-          <Table compact="very" size="small" selectable sortable fixed>
+          <Table compact="very" size="small" selectable sortable>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell disabled width={1} />
@@ -99,18 +102,24 @@ class HistoryTimeline extends PureComponent {
                   更新日
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  width={5}
+                  width={3}
                   sorted={column === "name" ? direction : null}
                   onClick={this.handleSort("name")}>
                   KeyResult
                 </Table.HeaderCell>
-                <Table.HeaderCell disabled>内容</Table.HeaderCell>
+                <Table.HeaderCell width={5} disabled>
+                  内容
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body className="key-result-table">
-              {data.map(e => (
+              {data.map((e, index) => (
                 <Table.Row
-                  onClick={() => handleClick(e.get("KeyResult").get("id"))}>
+                  key={index}
+                  onClick={this.handleOpenOKRModal.bind(
+                    this,
+                    e.get("KeyResult").get("id"),
+                  )}>
                   <Table.Cell textAlign="center">
                     <OwnerAvatar owner={e.get("user")} />
                   </Table.Cell>
@@ -126,7 +135,7 @@ class HistoryTimeline extends PureComponent {
                     <OkrName okr={e.get("KeyResult")} />
                   </Table.Cell>
                   <Table.Cell>
-                    <Markdown text={formatChangeLog(e.get("diffs"))} />
+                    <ChangeLog type={e.get("type")} diffs={e.get("diffs")} />
                   </Table.Cell>
                 </Table.Row>
               ))}

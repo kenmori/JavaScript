@@ -48,6 +48,7 @@ RSpec.resource "GET /key_results/unprocessed", warden: true do
         "description" => nil,
         "disabled" => false,
         "is_full" => true,
+        "updated_at" => be_time_iso8601,
         "child_objective_ids" => [],
         "owner" =>
         { "id" => a_kind_of(Integer),

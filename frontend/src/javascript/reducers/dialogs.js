@@ -11,7 +11,7 @@ const initialState = fromJS({
   confirm: { isOpen: false },
   option: { isOpen: false },
   comment: { isOpen: false, commentLabel: {} },
-  objectiveComment: { isOpen: false, commentLabel: {} },
+  objectiveComment: { isOpen: false, objectiveId: null },
 });
 
 export default handleActions(
@@ -84,11 +84,12 @@ export default handleActions(
           commentLabel: payload.commentLabel,
         }),
       ),
-    [ActionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: state =>
+    [ActionTypes.OPEN_OBJECTIVE_COMMENT_MODAL]: (state, { payload }) =>
       state.set(
         "objectiveComment",
         fromJS({
           isOpen: true,
+          objectiveId: payload.objectiveId,
         }),
       ),
     [ActionTypes.CLOSE_COMMENT_MODAL]: state =>

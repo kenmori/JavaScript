@@ -116,8 +116,9 @@ class KeyResultsController < ApplicationController
 
   def history
     runner(KeyResult::History, id: params[:id]) do |result|
-      @histories = result[:histories]
-      render status: :ok
+      render json: {
+        histories: ActiveModel::Serializer::CollectionSerializer.new(result[:histories], serializer: KeyResultVersionSerializer)
+      }, status: :ok
     end
   end
 

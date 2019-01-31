@@ -98,18 +98,46 @@ export const getMyKeyResults = createSelector(
   },
 );
 
+/**
+ * オーナーシップを持っているKRを返却する
+ * オーナーシップとは
+ * - 自分が責任者のObjective配下のKR
+ * - 自分が責任者のKR
+ * - 自分が責任者の下位OKR
+ */
 export const getOwnershipKeyResults = createSelector(
   getMyObjectives,
   getMyKeyResults,
-  (objectives, keyResults) => {
-    const objectiveKeyResultIds = objectives
+  getObjectives,
+  (myObjectives, myKeyResults, objectives) => {
+    // 自身が責任者のObjectiveに紐づくKeyResult
+    const objectiveKeyResultIds = myObjectives
       .map(e => e.get("keyResultIds"))
       .flatten(true);
-    const objectiveKeyResults = objectives
+    const objectiveKeyResults = myObjectives
       .map(e => e.get("keyResults"))
       .flatten(true);
-    return objectiveKeyResults.concat(
-      keyResults.filterNot(e => objectiveKeyResultIds.includes(e.get("id"))),
+
+    // 自身が責任者のKeyResultに紐づく下位OKR
+    const childObjectiveIds = myKeyResults
+      .map(e => e.get("childObjectiveIds"))
+      .flatten(true);
+    const childObjectives = objectives.filter(e =>
+      childObjectiveIds.includes(e.get("id")),
+    );
+    const childObjectiveKeyResultIds = childObjectives
+      .map(e => e.get("keyResultIds"))
+      .flatten(true);
+    const childObjectiveKeyResults = childObjectives
+      .map(e => e.get("keyResults"))
+      .flatten(true);
+
+    // 重複のないようチェックしmerge
+    const combined = objectiveKeyResults.concat(
+      myKeyResults.filterNot(e => objectiveKeyResultIds.includes(e.get("id"))),
+    );
+    return childObjectiveKeyResults.concat(
+      combined.filterNot(e => childObjectiveKeyResultIds.includes(e.get("id"))),
     );
   },
 );

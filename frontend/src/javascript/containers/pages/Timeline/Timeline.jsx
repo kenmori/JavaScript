@@ -1,8 +1,10 @@
 import React, { PureComponent } from "react";
-import { List } from "immutable";
+import { Header } from "semantic-ui-react";
+import ReactGA from "react-ga";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
 import OkrModal from "../../OkrModal";
-import HistoryTimeline from "../../../components/molecules/HistoryTimeline";
+import HistoryTimeline from "../../../components/organisms/HistoryTimeline";
+import OwnerShipKeyResultList from "../../../components/organisms/OwnerShipKeyResultList";
 
 class Timeline extends PureComponent {
   constructor(props) {
@@ -10,28 +12,11 @@ class Timeline extends PureComponent {
     this.state = { isFetchedOKR: false };
   }
 
-  selectHistories(keyResults) {
-    return keyResults
-      .map(e => {
-        const histories = e.get("histories") || List();
-        return histories.map(h => h.set("KeyResult", e));
-      })
-      .flatten(true)
-      .sort((a, b) => {
-        if (a.get("createdAt") < b.get("createdAt")) {
-          return 1;
-        }
-        if (a.get("createdAt") > b.get("createdAt")) {
-          return -1;
-        }
-        if (a.get("createdAt") === b.get("createdAt")) {
-          return 0;
-        }
-      });
-  }
-
   componentDidMount() {
     const {
+      userId,
+      organizationId,
+      organizationName,
       isFetchedMyDetail,
       isFetchedKeyResultsCommentLabels,
       isFetchedKeyResults,
@@ -50,16 +35,26 @@ class Timeline extends PureComponent {
     if (isFetchedKeyResults) {
       keyResults.map(e => fetchKeyResultHistory(e.get("id")));
     }
+
+    if (userId && organizationId) {
+      ReactGA.set({
+        userId,
+        dimension1: organizationId,
+        dimension2: organizationName,
+      });
+    }
   }
 
   componentDidUpdate(prevProps) {
     const {
+      userId,
+      organizationId,
+      organizationName,
       isFetchedMyDetail,
       isFetchedKeyResults,
       fetchOKR,
       keyResults,
       okrPeriodId,
-      userId,
       fetchKeyResultHistory,
     } = this.props;
 
@@ -71,10 +66,24 @@ class Timeline extends PureComponent {
     if (!prevProps.isFetchedKeyResults && isFetchedKeyResults) {
       keyResults.map(e => fetchKeyResultHistory(e.get("id")));
     }
+
+    if (userId && organizationId) {
+      ReactGA.set({
+        userId,
+        dimension1: organizationId,
+        dimension2: organizationName,
+      });
+    }
   }
 
   render() {
-    const { keyResults, okrPeriod, user, openOkrModal } = this.props;
+    const {
+      notUpdatedKeyResults,
+      histories,
+      okrPeriod,
+      user,
+      openOkrModal,
+    } = this.props;
     const okrPeriodName = okrPeriod ? okrPeriod.get("name") : "";
     const userName = user
       ? `${user.get("lastName")} ${user.get("firstName")}`
@@ -82,12 +91,21 @@ class Timeline extends PureComponent {
 
     return (
       <DefaultLayout title="タイムライン">
-        <HistoryTimeline
-          histories={this.selectHistories(keyResults)}
-          okrPeriodName={okrPeriodName}
-          userName={userName}
-          handleClick={openOkrModal}
+        <Header
+          as="h4"
+          className="timeline__header"
+          dividing
+          content={`${okrPeriodName} ${userName}さんのタイムライン`}
         />
+        <div className="widget">
+          <OwnerShipKeyResultList
+            keyResults={notUpdatedKeyResults}
+            openOkrModal={openOkrModal}
+          />
+        </div>
+        <div className="widget">
+          <HistoryTimeline histories={histories} handleClick={openOkrModal} />
+        </div>
         <OkrModal extensionEnabled={false} />
       </DefaultLayout>
     );

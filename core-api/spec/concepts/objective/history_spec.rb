@@ -7,7 +7,9 @@ RSpec.describe Objective::History do
 
   before do
     target.update!(name: "[UPDATED-1] Objective")
+    travel 1.day
     target.update!(name: "[UPDATED-2] Objective")
+    travel_back
   end
 
   example "SUCCESS: 降順で変更履歴が取得出来る" do

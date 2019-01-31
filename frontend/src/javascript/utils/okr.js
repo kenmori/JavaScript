@@ -134,15 +134,3 @@ export const isDisabledChildObjectives = (keyResultIds, entities) =>
       return childObjective.get("disabled");
     });
   });
-
-export function formatChangeLog(diffs) {
-  let message = "";
-
-  for (const e of diffs) {
-    message += `**${e.get("column")}**を \`${e.get("before")}\` から \`${e.get(
-      "after",
-    )}\` へ変更\n`;
-  }
-
-  return message;
-}

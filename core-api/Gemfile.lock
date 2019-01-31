@@ -26,6 +26,11 @@ GEM
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
     active_decorator (1.1.1)
+    active_model_serializers (0.10.8)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (5.2.2)
       activesupport (= 5.2.2)
       globalid (>= 0.3.6)
@@ -85,6 +90,8 @@ GEM
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
     carrierwave-i18n (0.2.0)
+    case_transform (0.2)
+      activesupport
     choice (0.2.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.4)
@@ -330,6 +337,7 @@ GEM
       multi_json (>= 1.2)
     jmespath (1.4.0)
     json (2.1.0)
+    jsonapi-renderer (0.2.0)
     jwt (2.1.0)
     kakurenbo-puti (0.5.0)
       activerecord (>= 4.1.0)
@@ -581,6 +589,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_decorator
+  active_model_serializers
   ancestry
   annotate
   awesome_print

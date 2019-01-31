@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Button } from "semantic-ui-react";
-import Markdown from "../util/Markdown";
+import Markdown from "../atoms/Markdown";
 import AutoTextArea from "./AutoTextArea";
 
 class OkrDescription extends PureComponent {

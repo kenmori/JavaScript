@@ -23,7 +23,11 @@ RSpec.resource "GET /objectives/:id/histories", warden: true do
 
       PaperTrail.request.whodunnit = admin_user.id
       target.update!(name: "[UPDATED-1] Objective")
+      travel 1.day
       target.update!(name: "[UPDATED-2] Objective")
+      travel 1.day
+      comment = ObjectiveCommentFactory.new(objective: target, user: admin_user).create
+      travel_back
 
       do_request(id: target.id)
       expect(response_status).to eq(200)
@@ -32,6 +36,27 @@ RSpec.resource "GET /objectives/:id/histories", warden: true do
         "histories" => [
           {
             "created_at" => be_time_iso8601,
+            "type" => "objective_comment",
+            "diffs" => [{
+              "column" => comment.model_name.human,
+              "before" => "",
+              "after" => comment.text
+            }],
+            "user" => {
+              "id" => admin_user.id,
+              "first_name" => admin_user.first_name,
+              "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
+              "avatar_url" => nil,
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
+            }
+          },
+          {
+            "created_at" => be_time_iso8601,
+            "type" => "objective_version",
             "diffs" => [{
               "column" => "Objective",
               "before" => target.versions.last.reify.name,
@@ -41,12 +66,17 @@ RSpec.resource "GET /objectives/:id/histories", warden: true do
               "id" => admin_user.id,
               "first_name" => admin_user.first_name,
               "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
               "avatar_url" => nil,
-              "disabled" => false
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
             }
           },
           {
             "created_at" => be_time_iso8601,
+            "type" => "objective_version",
             "diffs" => [{
               "column" => "Objective",
               "before" => target.versions.first.reify.name,
@@ -56,8 +86,12 @@ RSpec.resource "GET /objectives/:id/histories", warden: true do
               "id" => admin_user.id,
               "first_name" => admin_user.first_name,
               "last_name" => admin_user.last_name,
+              "email" => admin_user.email,
               "avatar_url" => nil,
-              "disabled" => false
+              "is_admin" => true,
+              "is_confirming" => nil,
+              "disabled" => false,
+              "sign_in_at" => be_time_iso8601
             }
           }
         ]

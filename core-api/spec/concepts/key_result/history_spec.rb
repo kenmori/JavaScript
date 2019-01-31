@@ -7,7 +7,9 @@ RSpec.describe KeyResult::History do
 
   before do
     target.update!(name: "[UPDATED-1] KeyResult")
+    travel 1.day
     target.update!(name: "[UPDATED-2] KeyResult")
+    travel_back
   end
 
   example "SUCCESS: 降順で変更履歴が取得出来る" do
