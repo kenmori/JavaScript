@@ -38,6 +38,13 @@ class ObjectivesController < ApplicationController
       @objective = @user.objectives.new(objective_create_params)
       @user.save!
       update_parent_key_result if params[:objective][:parent_key_result_id]
+      if params[:objective][:department_id]
+        @department = Department.find(params[:objective][:department_id])
+        DepartmentObjective.create!(
+          department_id: @department.id,
+          objective_id: @objective.id
+        )
+      end
     end
     render status: :created
   rescue StandardError
