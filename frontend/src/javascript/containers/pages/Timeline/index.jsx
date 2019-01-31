@@ -51,7 +51,7 @@ const mapStateToProps = state => {
     organizationName: state.organization.get("current").get("name"),
     notUpdatedKeyResults: selectNotUpdatedKeyResults(keyResults),
     keyResults,
-    objectives: state.entities.objectives,
+    objectives: state.entities.objectives || List(),
     histories: selectHistories(keyResults),
     okrPeriod: state.okrPeriods.find(
       e => e.get("id") === state.current.get("okrPeriodId"),
