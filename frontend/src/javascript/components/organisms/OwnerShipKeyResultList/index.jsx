@@ -74,6 +74,7 @@ class OwnerShipKeyResultList extends PureComponent {
   }
 
   render() {
+    const { objectives } = this.props;
     const { column, data, direction } = this.state;
 
     return (
@@ -91,6 +92,12 @@ class OwnerShipKeyResultList extends PureComponent {
                   sorted={column === "owner" ? direction : null}
                   onClick={this.handleSort("owner")}>
                   責任者
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  width={3}
+                  sorted={column === "objective" ? direction : null}
+                  onClick={this.handleSort("objective")}>
+                  Objective
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   width={3}
@@ -127,6 +134,15 @@ class OwnerShipKeyResultList extends PureComponent {
                     {`${keyResult.get("owner").get("lastName")} ${keyResult
                       .get("owner")
                       .get("firstName")}`}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <OkrName
+                      okr={objectives
+                        .filter(
+                          e => e.get("id") == keyResult.get("objectiveId"),
+                        )
+                        .first()}
+                    />
                   </Table.Cell>
                   <Table.Cell>
                     <OkrName okr={keyResult} />

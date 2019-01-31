@@ -82,6 +82,7 @@ class Timeline extends PureComponent {
       histories,
       okrPeriod,
       user,
+      objectives,
       openOkrModal,
     } = this.props;
     const okrPeriodName = okrPeriod ? okrPeriod.get("name") : "";
@@ -100,6 +101,7 @@ class Timeline extends PureComponent {
         <div className="widget">
           <OwnerShipKeyResultList
             keyResults={notUpdatedKeyResults}
+            objectives={objectives}
             openOkrModal={openOkrModal}
           />
         </div>
