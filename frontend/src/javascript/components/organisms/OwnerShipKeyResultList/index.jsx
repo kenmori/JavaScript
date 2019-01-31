@@ -4,7 +4,6 @@ import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
 import ProgressRate from "../../util/ProgressRate";
-import { encodeObjectiveId } from "../../../utils/linker";
 
 class OwnerShipKeyResultList extends PureComponent {
   constructor(props) {
@@ -68,15 +67,6 @@ class OwnerShipKeyResultList extends PureComponent {
     });
   };
 
-  handleDisplayBoardClick(objectiveId) {
-    window.open(
-      `/meetings/${encodeObjectiveId(objectiveId)}`,
-      "_blank",
-      `height=${window.parent.screen.height},
-      width=${window.parent.screen.width}`,
-    );
-  }
-
   handleOpenOKRModal(keyResultId) {
     const { openOkrModal } = this.props;
 
@@ -120,14 +110,16 @@ class OwnerShipKeyResultList extends PureComponent {
                   onClick={this.handleSort("updatedAt")}>
                   最終更新日
                 </Table.HeaderCell>
-                <Table.HeaderCell disabled width={1}>
-                  アクション
-                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {data.map(keyResult => (
-                <Table.Row key={keyResult.get("id")}>
+                <Table.Row
+                  key={keyResult.get("id")}
+                  onClick={this.handleOpenOKRModal.bind(
+                    this,
+                    keyResult.get("id"),
+                  )}>
                   <Table.Cell textAlign="center">
                     <OwnerAvatar owner={keyResult.get("owner")} />
                   </Table.Cell>
@@ -147,29 +139,6 @@ class OwnerShipKeyResultList extends PureComponent {
                   </Table.Cell>
                   <Table.Cell>
                     {moment(keyResult.get("updatedAt")).format("YYYY/M/D H:mm")}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Dropdown
-                      icon="ellipsis vertical"
-                      floating
-                      className="icon">
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          text="ボードの表示"
-                          onClick={this.handleDisplayBoardClick.bind(
-                            this,
-                            keyResult.get("objectiveId"),
-                          )}
-                        />
-                        <Dropdown.Item
-                          text="詳細の表示"
-                          onClick={this.handleOpenOKRModal.bind(
-                            this,
-                            keyResult.get("id"),
-                          )}
-                        />
-                      </Dropdown.Menu>
-                    </Dropdown>
                   </Table.Cell>
                 </Table.Row>
               ))}

@@ -110,14 +110,16 @@ class HistoryTimeline extends PureComponent {
                 <Table.HeaderCell width={5} disabled>
                   内容
                 </Table.HeaderCell>
-                <Table.HeaderCell width={1} disabled>
-                  アクション
-                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body className="key-result-table">
               {data.map((e, index) => (
-                <Table.Row key={index}>
+                <Table.Row
+                  key={index}
+                  onClick={this.handleOpenOKRModal.bind(
+                    this,
+                    e.get("KeyResult").get("id"),
+                  )}>
                   <Table.Cell textAlign="center">
                     <OwnerAvatar owner={e.get("user")} />
                   </Table.Cell>
@@ -134,22 +136,6 @@ class HistoryTimeline extends PureComponent {
                   </Table.Cell>
                   <Table.Cell>
                     <ChangeLog type={e.get("type")} diffs={e.get("diffs")} />
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Dropdown
-                      icon="ellipsis vertical"
-                      floating
-                      className="icon">
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          text="詳細の表示"
-                          onClick={this.handleOpenOKRModal.bind(
-                            this,
-                            e.get("KeyResult").get("id"),
-                          )}
-                        />
-                      </Dropdown.Menu>
-                    </Dropdown>
                   </Table.Cell>
                 </Table.Row>
               ))}
