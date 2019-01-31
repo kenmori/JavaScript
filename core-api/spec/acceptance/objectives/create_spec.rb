@@ -72,6 +72,46 @@ RSpec.resource "POST /objectives", warden: true do
       )
     end
 
+    example "SUCCESS: don't input department_id" do
+      explanation "department_idを入力しない場合"
+
+      do_request(
+        "objective" => {
+          "name" => "業界一位になる",
+          "description" => "他社を追い抜き業界一位になる",
+          "parent_key_result_id" => nil,
+          "okr_period_id" => okr_period.id,
+          "owner_id" => admin_user.id,
+          # "department_id" => dep_1.id
+        }
+      )
+
+      expect(response_status).to eq(201)
+      expect(parse_response_body("objective")).to include(
+        "id" => a_kind_of(Integer),
+        "name" => "業界一位になる",
+        "description" => "他社を追い抜き業界一位になる",
+        "okr_period_id" => okr_period.id,
+        "progress_rate" => 0,
+        "parent_key_result_id" => nil,
+        "updated_at" => be_time_iso8601,
+        "key_result_order" => nil,
+        "disabled" => false,
+        "result" => nil,
+        "is_full" => true,
+        "key_result_ids" => [],
+        "owner" =>
+          {"id" => admin_user.id,
+          "first_name" => "太郎",
+          "last_name" => "山田",
+          "avatar_url" => nil,
+          "disabled" => false},
+        "key_results" => [],
+        "sub_progress_rate" => nil,
+        "comments" => []
+      )
+    end
+
     example "ERROR: When don't input required parameters" do
       explanation "必須項目を入力しない場合エラー"
 
