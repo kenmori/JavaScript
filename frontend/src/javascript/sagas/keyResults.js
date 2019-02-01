@@ -1,4 +1,4 @@
-import { all, put, takeLatest, takeEvery, select } from "redux-saga/effects";
+import { all, put, takeLatest, select } from "redux-saga/effects";
 import call from "../utils/call";
 import API from "../utils/api";
 import keyResultActions from "../actions/keyResults";
@@ -103,6 +103,10 @@ function* fetchKeyResultHistory({ payload }) {
   );
 }
 
+function* fetchKeyResultHistories({ payload }) {
+  yield payload.ids.map(id => fetchKeyResultHistory({ payload: { id } }));
+}
+
 export function* keyResultSagas() {
   yield all([
     takeLatest(actionTypes.FETCH_KEY_RESULTS, fetchKeyResults),
@@ -123,9 +127,13 @@ export function* keyResultSagas() {
       actionTypes.FETCH_KEY_RESULT_COMMENT_LABELS,
       withLoading(fetchKeyResultCommentLabels),
     ),
-    takeEvery(
+    takeLatest(
       actionTypes.FETCH_KEY_RESULT_HISTORY,
       withLoading(fetchKeyResultHistory),
+    ),
+    takeLatest(
+      actionTypes.FETCH_KEY_RESULT_HISTORIES,
+      withLoading(fetchKeyResultHistories),
     ),
   ]);
 }

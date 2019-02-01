@@ -77,8 +77,8 @@ const mapDispatchToProps = dispatch => ({
   fetchOKR: (okrPeriodId, userId) => {
     dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true));
   },
-  fetchKeyResultHistory: ids =>
-    dispatch(keyResultActions.fetchKeyResultHistory(ids)),
+  fetchKeyResultHistories: ids =>
+    dispatch(keyResultActions.fetchKeyResultHistories(ids)),
   openOkrModal: keyResultId =>
     dispatch(dialogActions.openOkrModal(null, keyResultId)),
 });

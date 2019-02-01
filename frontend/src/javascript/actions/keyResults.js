@@ -44,6 +44,7 @@ const actions = createActions({
     id,
     histories,
   }),
+  [actionTypes.FETCH_KEY_RESULT_HISTORIES]: ids => ({ ids }),
 });
 
 export default actions;
