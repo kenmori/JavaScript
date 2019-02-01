@@ -32,6 +32,17 @@ class OwnerShipKeyResultList extends PureComponent {
           "firstName",
         )}`;
         return aFullName.localeCompare(bFullName);
+      } else if (column === "objective") {
+        const { objectives } = this.props;
+        const aObjective =
+          objectives
+            .filter(e => e.get("id") == a.get("objectiveId"))
+            .first() || Map();
+        const bObjective =
+          objectives
+            .filter(e => e.get("id") == b.get("objectiveId"))
+            .first() || Map();
+        return aObjective.get("name").localeCompare(bObjective.get("name"));
       } else {
         if (a.get(column) < b.get(column)) return -1;
         if (a.get(column) > b.get(column)) return 1;
@@ -96,8 +107,8 @@ class OwnerShipKeyResultList extends PureComponent {
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   width={3}
-                  sorted={column === "objectiveId" ? direction : null}
-                  onClick={this.handleSort("objectiveId")}>
+                  sorted={column === "objective" ? direction : null}
+                  onClick={this.handleSort("objective")}>
                   Objective
                 </Table.HeaderCell>
                 <Table.HeaderCell

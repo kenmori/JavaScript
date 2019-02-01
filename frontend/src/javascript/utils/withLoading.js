@@ -8,7 +8,11 @@ export default function withLoading(saga) {
     if (++actionCounter === 1) {
       yield put(loadingActions.openLoading());
     }
-    yield saga(...arguments);
+    try {
+      yield saga(...arguments);
+    } catch (e) {
+      // nothing to do
+    }
     if (--actionCounter === 0) {
       yield put(loadingActions.closeLoading());
     }
