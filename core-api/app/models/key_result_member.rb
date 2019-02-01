@@ -30,6 +30,8 @@ class KeyResultMember < ApplicationRecord
   end
 
   after_create do
-    NotificationMailer.assign_key_result(Current.user, user, key_result).deliver_later unless processed
+    if !processed && Current.user
+      NotificationMailer.assign_key_result(Current.user, user, key_result).deliver_later
+    end
   end
 end
