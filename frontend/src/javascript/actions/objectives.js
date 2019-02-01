@@ -64,6 +64,7 @@ const actions = createActions({
     id,
     histories,
   }),
+  [actionTypes.FETCH_OBJECTIVES_DETAIL]: ids => ({ ids }),
 });
 
 export default actions;

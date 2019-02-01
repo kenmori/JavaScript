@@ -176,6 +176,10 @@ function* fetchObjectiveAsync({ payload }) {
   yield put(objectiveActions.fetchedObjective(result.get("objective")));
 }
 
+function* fetchObjectivesDetail({ payload }) {
+  yield payload.ids.map(id => fetchObjective({ payload: { objectiveId: id } }));
+}
+
 function* callFetchObjective(objectiveId, keyResultId) {
   return yield callInSilent(
     API.get,
@@ -327,6 +331,10 @@ export function* objectiveSagas() {
     takeLatest(
       actionTypes.FETCH_OBJECTIVE_HISTORY,
       withLoading(fetchObjectiveHistory),
+    ),
+    takeLatest(
+      actionTypes.FETCH_OBJECTIVES_DETAIL,
+      withLoading(fetchObjectivesDetail),
     ),
   ]);
 }

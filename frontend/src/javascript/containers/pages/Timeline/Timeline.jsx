@@ -22,8 +22,10 @@ class Timeline extends PureComponent {
       isFetchedKeyResults,
       fetchMyDetail,
       fetchKeyResultCommentLabels,
+      objectives,
       keyResults,
       fetchKeyResultHistories,
+      fetchObjectivesDetail,
     } = this.props;
 
     if (!isFetchedMyDetail) {
@@ -33,9 +35,16 @@ class Timeline extends PureComponent {
       fetchKeyResultCommentLabels();
     }
     if (isFetchedKeyResults) {
-      const ids = new Set();
-      keyResults.map(e => ids.add(e.get("id")));
-      fetchKeyResultHistories([...ids]);
+      const keyResultIds = new Set();
+      const objectiveIds = new Set();
+      keyResults.map(e => {
+        keyResultIds.add(e.get("id"));
+        if (!objectives.find(o => o.get("id") === e.get("objectiveId"))) {
+          objectiveIds.add(e.get("objectiveId"));
+        }
+      });
+      fetchKeyResultHistories([...keyResultIds]);
+      fetchObjectivesDetail([...objectiveIds]);
     }
 
     if (userId && organizationId) {
@@ -55,9 +64,11 @@ class Timeline extends PureComponent {
       isFetchedMyDetail,
       isFetchedKeyResults,
       fetchOKR,
+      objectives,
       keyResults,
       okrPeriodId,
       fetchKeyResultHistories,
+      fetchObjectivesDetail,
     } = this.props;
 
     if (isFetchedMyDetail && !isFetchedKeyResults && !this.state.isFetchedOKR) {
@@ -66,9 +77,16 @@ class Timeline extends PureComponent {
     }
 
     if (!prevProps.isFetchedKeyResults && isFetchedKeyResults) {
-      const ids = new Set();
-      keyResults.map(e => ids.add(e.get("id")));
-      fetchKeyResultHistories([...ids]);
+      const keyResultIds = new Set();
+      const objectiveIds = new Set();
+      keyResults.map(e => {
+        keyResultIds.add(e.get("id"));
+        if (!objectives.find(o => o.get("id") === e.get("objectiveId"))) {
+          objectiveIds.add(e.get("objectiveId"));
+        }
+      });
+      fetchKeyResultHistories([...keyResultIds]);
+      fetchObjectivesDetail([...objectiveIds]);
     }
 
     if (userId && organizationId) {
