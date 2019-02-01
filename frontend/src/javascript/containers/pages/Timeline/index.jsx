@@ -51,7 +51,6 @@ const mapStateToProps = state => {
     organizationName: state.organization.get("current").get("name"),
     sortedKeyResults: sortKeyResults(keyResults),
     keyResults,
-    objectives: state.entities.objectives,
     histories: selectHistories(keyResults),
     okrPeriod: state.okrPeriods.find(
       e => e.get("id") === state.current.get("okrPeriodId"),
@@ -77,9 +76,6 @@ const mapDispatchToProps = dispatch => ({
   },
   fetchOKR: (okrPeriodId, userId) => {
     dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true));
-  },
-  fetchObjective: objectiveId => {
-    dispatch(objectiveActions.fetchObjective(objectiveId));
   },
   fetchKeyResultHistory: ids =>
     dispatch(keyResultActions.fetchKeyResultHistory(ids)),
