@@ -59,7 +59,7 @@ namespace :create_demo_account do
         end_date: base_okr_period.end_date,
         name: base_okr_period.name
       )
-      okr_periods.push({"base_id" => base_okr_period.id, "new_id" => okr_period.id})
+      okr_periods.push("base_id" => base_okr_period.id, "new_id" => okr_period.id)
     end
 
     # 指定した Organization に紐づくメンバーを作成
@@ -83,7 +83,7 @@ namespace :create_demo_account do
       )
 
       # 元の ID と移行後の ID のマッピング
-      @users.push({"base_id" => base_user.id, "new_id" => user.id})
+      @users.push("base_id" => base_user.id, "new_id" => user.id)
       # 出力用
       display_users.push(user)
     end
@@ -92,13 +92,13 @@ namespace :create_demo_account do
     base_users.each do |base_user|
       base_okr_periods.each do |base_okr_period|
         # 最上位の Objective を取得し、そこから下層の Key Result と Objective を作成していく
-        base_root_objectives_per_period = base_user.objectives.
-          includes(:key_results).
-          where(okr_period_id: base_okr_period.id).
-          where(parent_key_result_id: nil).
-          order("id")
+        base_root_objectives_per_period = base_user.objectives
+                                                   .includes(:key_results)
+                                                   .where(okr_period_id: base_okr_period.id)
+                                                   .where(parent_key_result_id: nil)
+                                                   .order("id")
 
-        okr_period_id = okr_periods.find {|item| item["base_id"] == base_okr_period.id}
+        okr_period_id = okr_periods.find { |item| item["base_id"] == base_okr_period.id }
 
         base_root_objectives_per_period.each do |base_objective|
           create_objective(okr_period_id, base_objective)
@@ -108,9 +108,9 @@ namespace :create_demo_account do
 
     # department を作成
     puts "=== Department を作成 ==="
-    base_root_departments = Department.where(organization_id: @target_organization_id).
-      where(ancestry: nil).
-      order("id")
+    base_root_departments = Department.where(organization_id: @target_organization_id)
+                                      .where(ancestry: nil)
+                                      .order("id")
 
     base_root_departments.each do |base_root_department|
       create_department(base_root_department, organization)
@@ -129,7 +129,7 @@ namespace :create_demo_account do
   def create_objective(okr_period_id, base_objective, parent_key_result_id = nil)
     base_objective_members = base_objective.objective_members.where(role: "owner")
     # Objective には Menmer は Owner 一人のみ
-    user_id = @users.find {|item| item["base_id"] == base_objective_members[0].user_id}
+    user_id = @users.find { |item| item["base_id"] == base_objective_members[0].user_id }
     owner_user = User.find(user_id["new_id"])
 
     puts "=== Objective を作成 ==="
@@ -138,16 +138,16 @@ namespace :create_demo_account do
       description: base_objective.description,
       parent_key_result_id: parent_key_result_id,
       okr_period_id: okr_period_id["new_id"],
-      progress_rate: base_objective.progress_rate ? base_objective.progress_rate : nil,
+      progress_rate: base_objective.progress_rate || nil,
       sub_progress_rate: base_objective.sub_progress_rate,
       result: base_objective.result
     )
-    @objectives.push({"base_id" => base_objective.id, "new_id" => objective.id})
+    @objectives.push("base_id" => base_objective.id, "new_id" => objective.id)
 
     base_objective_comments = base_objective.objective_comments.reorder("id")
     base_objective_comments.each do |base_objective_comment|
       puts "=== Objective comment を作成 ==="
-      objective_comment = objective.objective_comments.create!(
+      objective.objective_comments.create!(
         objective_id: objective.id,
         user_id: owner_user.id,
         text: base_objective_comment.text,
@@ -161,12 +161,12 @@ namespace :create_demo_account do
 
   def create_child_key_result(okr_period_id, base_objective)
     base_key_results = base_objective.key_results
-    objective_id = @objectives.find {|item| item["base_id"] == base_objective.id}
+    objective_id = @objectives.find { |item| item["base_id"] == base_objective.id }
 
     base_key_results.each do |base_key_result|
       base_key_result_members = base_key_result.key_result_members
-      base_owner_key_result_member = base_key_result_members.find {|member| member.role == "owner"}
-      user_id = @users.find {|item| item["base_id"] == base_owner_key_result_member.user_id}
+      base_owner_key_result_member = base_key_result_members.find { |member| member.role == "owner" }
+      user_id = @users.find { |item| item["base_id"] == base_owner_key_result_member.user_id }
       owner_user = User.find(user_id["new_id"])
 
       # Owner となる User と Objective に紐づけて Key Result を作成
@@ -190,8 +190,8 @@ namespace :create_demo_account do
       base_key_result_members.each do |base_key_result_member|
         next if base_key_result_member.role == "owner"
 
-        member_user_id = @users.find {|item| item["base_id"] == base_key_result_member.user_id}
-        key_result_member = key_result.key_result_members.create!(
+        member_user_id = @users.find { |item| item["base_id"] == base_key_result_member.user_id }
+        key_result.key_result_members.create!(
           user_id: member_user_id["new_id"],
           role: base_key_result_member.role
         )
@@ -199,9 +199,9 @@ namespace :create_demo_account do
 
       base_comments = base_key_result.comments.reorder("id")
       base_comments.each do |base_comment|
-        comment_user_id = @users.find {|item| item["base_id"] == base_comment.user_id}
+        comment_user_id = @users.find { |item| item["base_id"] == base_comment.user_id }
         puts "=== Comment を作成 ==="
-        comment = key_result.comments.create!(
+        key_result.comments.create!(
           user_id: comment_user_id["new_id"],
           text: base_comment.text,
           key_result_comment_label_id: base_comment.key_result_comment_label_id,
@@ -214,7 +214,6 @@ namespace :create_demo_account do
       base_child_objectives.each do |base_child_objective|
         create_objective(okr_period_id, base_child_objective, key_result.id)
       end
-
     end
   end
 
@@ -230,9 +229,9 @@ namespace :create_demo_account do
 
     base_department_members = DepartmentMember.where(department_id: base_department.id)
     base_department_members.each do |base_department_member|
-      user_id = @users.find {|item| item["base_id"] == base_department_member.user_id}
+      user_id = @users.find { |item| item["base_id"] == base_department_member.user_id }
 
-      department_member = department.department_members.create!(
+      department.department_members.create!(
         role: base_department_member.role,
         department_id: department.id,
         user_id: user_id["new_id"]
@@ -241,21 +240,19 @@ namespace :create_demo_account do
 
     base_department_objectives = DepartmentObjective.where(department_id: base_department.id)
     base_department_objectives.each do |base_department_objective|
-      objective_id = @objectives.find {|item| item["base_id"] == base_department_objective.objective_id}
-      department_objective = department.department_objectives.create!(
+      objective_id = @objectives.find { |item| item["base_id"] == base_department_objective.objective_id }
+      department.department_objectives.create!(
         department_id: department.id,
         objective_id: objective_id["new_id"]
       )
     end
 
-    base_child_departments = Department.where(organization_id: @target_organization_id).
-      where(ancestry: base_department.id).
-      order("id")
+    base_child_departments = Department.where(organization_id: @target_organization_id)
+                                       .where(ancestry: base_department.id)
+                                       .order("id")
 
     base_child_departments.each do |base_child_department|
       create_department(base_child_department, organization)
     end
   end
-
-
 end

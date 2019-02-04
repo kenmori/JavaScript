@@ -18,7 +18,7 @@ RSpec.resource "POST /objectives", warden: true do
       parameter :name, "名前", type: :string, required: true
       parameter :description, "説明", type: :string
       parameter :parent_key_result_id, "上位KeyResult ID", type: :integer
-      parameter :okr_period_id, "OkrPeriod ID",  type: :integer, required: true
+      parameter :okr_period_id, "OkrPeriod ID", type: :integer, required: true
       parameter :owner_id, "責任者ID", type: :integer, required: true
       parameter :department_id, "部署ID", type: :integer
     end
@@ -101,11 +101,11 @@ RSpec.resource "POST /objectives", warden: true do
         "is_full" => true,
         "key_result_ids" => [],
         "owner" =>
-          {"id" => admin_user.id,
-          "first_name" => "太郎",
-          "last_name" => "山田",
-          "avatar_url" => nil,
-          "disabled" => false},
+          { "id" => admin_user.id,
+            "first_name" => "太郎",
+            "last_name" => "山田",
+            "avatar_url" => nil,
+            "disabled" => false },
         "key_results" => [],
         "sub_progress_rate" => nil,
         "comments" => []
@@ -150,7 +150,7 @@ RSpec.resource "POST /objectives", warden: true do
 
       expect(response_status).to eq(404)
       expect(parse_response_error).to contain_exactly(
-        "操作の対象が存在しません",
+        "操作の対象が存在しません"
       )
     end
   end
