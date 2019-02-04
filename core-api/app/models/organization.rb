@@ -23,9 +23,9 @@ class Organization < ApplicationRecord
   validates :name, presence: true
 
   has_many :organization_members, dependent: :destroy
-  has_many :key_result_comment_labels, dependent: :destroy
   has_many :users, through: :organization_members
   has_many :okr_periods, -> { order(:start_date) }, dependent: :destroy
+  has_many :key_result_comment_labels, dependent: :destroy
   has_many :departments, dependent: :destroy
 
   after_create :create_key_result_comment_labels
