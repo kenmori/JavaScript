@@ -46,6 +46,12 @@ class KeyResultsController < ApplicationController
     forbidden and return unless valid_permission?(owner.organization.id)
     forbidden and return unless User.includes(:organization).where(id: params[:key_result][:members]).all? { |u| valid_permission?(u.organization.id) }
 
+    if department = Department.find_by(id: params[:key_result][:department_id])
+      unless department.user_ids.include?(params[:key_result][:owner_id])
+        forbidden and return
+      end
+    end
+
     ActiveRecord::Base.transaction do
       @key_result = @user.key_results.new(key_result_create_params)
       @user.save!

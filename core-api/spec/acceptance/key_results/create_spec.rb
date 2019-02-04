@@ -6,7 +6,7 @@ Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependen
 RSpec.resource "POST /key_results", warden: true do
   explanation "key_results#create"
 
-  include OrganizationDataset
+  include DepartmentDataset
   include RequestHeaderJson
 
   before do
@@ -113,6 +113,31 @@ RSpec.resource "POST /key_results", warden: true do
       )
     end
 
+    example "SUCCESS: create a new KeyResult with department" do
+      explanation "部署を指定して新しいKeyResultを作成する"
+
+      expired_date = 3.months.since.to_date.to_s
+
+      DepartmentObjective.create!(department: dep_1, objective: objective)
+
+      do_request(
+        key_result: {
+          department_id: dep_1.id,
+          owner_id: admin_user.id,
+          objective_id: objective.id,
+          name: "月間アクセスを増やす",
+          expired_date: expired_date,
+          description: "使いやすくしてアクセス数を増やす",
+          target_value: "10000",
+          value_unit: "アクセス/月",
+          members: [other_user.id, nomal_user.id]
+        }
+      )
+
+      expect(response_status).to eq(201)
+      expect(parse_response_body("key_result", "name")).to eq("月間アクセスを増やす")
+    end
+
     example "SUCCESS: When input only required parameters" do
       explanation "必須項目のみ入力する場合"
 
@@ -214,6 +239,32 @@ RSpec.resource "POST /key_results", warden: true do
         "期限の値が不正です",
         "Key Resultを入力してください"
       )
+    end
+
+    example "ERROR: When the responsible person does not belong to the department" do
+      explanation "責任者が部署に所属していない場合"
+
+      DepartmentMemberFactory.new(department: dep_1_1, user: other_user).create
+
+      expired_date = 3.months.since.to_date.to_s
+
+      # other_userはdep_1_1には所属しているがdep_1には所属していない
+      do_request(
+        key_result: {
+          department_id: dep_1.id,
+          owner_id: other_user.id,
+          objective_id: objective.id,
+          name: "月間アクセスを増やす",
+          expired_date: expired_date,
+          description: "使いやすくしてアクセス数を増やす",
+          target_value: "10000",
+          value_unit: "アクセス/月",
+          members: [nomal_user.id]
+        }
+      )
+
+      expect(response_status).to eq(403)
+      expect(parse_response_error).to eq(["許可されていない操作です"])
     end
   end
 end
