@@ -266,5 +266,31 @@ RSpec.resource "POST /key_results", warden: true do
       expect(response_status).to eq(403)
       expect(parse_response_error).to eq(["許可されていない操作です"])
     end
+
+    example "ERROR: when the specified department ID is different from the Objective department" do
+      explanation "Objectiveの部署と指定した部署IDが異なる場合"
+
+      DepartmentObjective.create(department: dep_1_1, objective: objective)
+
+      expired_date = 3.months.since.to_date.to_s
+
+      # objective は dep_1_1 に紐付いているので department_id に dep_1 を指定することはできない
+      do_request(
+        key_result: {
+          department_id: dep_1.id,
+          owner_id: admin_user.id,
+          objective_id: objective.id,
+          name: "月間アクセスを増やす",
+          expired_date: expired_date,
+          description: "使いやすくしてアクセス数を増やす",
+          target_value: "10000",
+          value_unit: "アクセス/月",
+          members: [other_user.id, nomal_user.id]
+        }
+      )
+
+      expect(response_status).to eq(403)
+      expect(parse_response_error).to eq(["許可されていない操作です"])
+    end
   end
 end

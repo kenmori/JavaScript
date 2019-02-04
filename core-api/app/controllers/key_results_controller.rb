@@ -41,14 +41,17 @@ class KeyResultsController < ApplicationController
 
   def create
     @user = User.find(params[:key_result][:owner_id])
-    owner = Objective.find(params[:key_result][:objective_id]).owner
+    objective = Objective.find(params[:key_result][:objective_id])
+    owner = objective.owner
     forbidden and return unless valid_permission?(@user.organization.id)
     forbidden and return unless valid_permission?(owner.organization.id)
     forbidden and return unless User.includes(:organization).where(id: params[:key_result][:members]).all? { |u| valid_permission?(u.organization.id) }
 
     if department = Department.find_by(id: params[:key_result][:department_id])
-      unless department.user_ids.include?(params[:key_result][:owner_id])
-        forbidden and return
+      forbidden and return unless department.user_ids.include?(params[:key_result][:owner_id])
+
+      if objective.department
+        forbidden and return unless objective.department == department
       end
     end
 
