@@ -210,3 +210,144 @@ let reverse = function<U>(y: U): U {
 
 identity = reverse; // OK。(x: any)=>any は (y: any)=>any と互換性がある
 ```
+
+### リテラル型と型推論
+
+[https://qiita.com/uhyo/items/e2fdef2d3236b9bfe74a](https://qiita.com/uhyo/items/e2fdef2d3236b9bfe74a)
+
+```ts
+const a = "foo"; //"foo"型
+const b: "bar" = a; //Error "foo型が入っていると推論される"
+
+//letの場合は型が決まらない
+
+let a = "foo"; //"foo型"
+const b: string = a; //letの場合は推論はプリミティブ型(String型)に範囲が変わる
+const c: "foo" = a; //Error Type 'string' is not assignable to type '"foo"'.
+
+//letの時も型注釈をつければリテラル型になる
+let a: "foo" = "foo";
+a = "bar"; //Error
+```
+
+### オブジェクト型
+
+```ts
+interface MyObj {
+  //オブジェクト型に名前をつける
+  foo: string;
+  bar: number;
+}
+
+const a: MyObj = { foo: "foo", bar: 3 };
+const a = { foo: "foo", bar: 3 }; //この場合でもオブジェクト型として型推論してくれる
+```
+
+求めている型に対して代入するオブジェクトのプロパティの型が違うとき
+求めている型に対して代入するオブジェクトのプロパティが足りてないとき
+
+Error
+
+```ts
+interface MyObj {
+  foo: string;
+  bar: number;
+}
+
+interface MyObj2 {
+  foo: string;
+  ee: number;
+}
+
+const a: MyObj = { foo: "foo", bar: 3 };
+const b: MyObj2 = a; //オブジェクト型。MyObjはMyObj2の要件を満たす部分型(MyObj2が要求するプロパティを全て持つ)なので代入可能
+
+//オブジェクトリテラルの場合は違う
+//オブジェクトリテラル型は余計なプロパティを持つと弾かれる
+
+const b: MyObj2 = { foo: "foo", bar: 3 };
+// エラー:
+// Type '{ foo: string; bar: number; }' is not assignable to type 'MyObj2'.
+//  Object literal may only specify known properties, and 'bar' does not exist in type 'MyObj2'.
+
+//関数の引数の場合でも同じ。オブジェクトリテラル型が渡っているかオブジェクト型が渡っているかで違う
+interface MyObj2 {
+  foo: string;
+}
+// エラー:
+// Argument of type '{ foo: string; bar: number; }' is not assignable to parameter of type 'MyObj2'.
+//  Object literal may only specify known properties, and 'bar' does not exist in type 'MyObj2'.
+func({ foo: "foo", bar: 3 });
+
+function func(obj: MyObj2): void {}
+```
+
+### 関数型
+
+型の引数名は実装の引数名と一致してなくてもいい。
+
+関数の部分型
+
+```ts
+interface MyObj {
+  foo: string;
+  bar: number;
+}
+
+interface MyObj2 {
+  foo: string;
+}
+
+const a: (obj: MyObj2) => void = () => {};
+const b: (obj: MyObj) => void = a; //代入しようとしているaの引数のオブジェクト型(MyObj2)を渡そうとしている。
+//MyObjはMyObj2の部分型(受け取るプロパティを自分自身の一部分として持っている)なのでok
+
+const a: (arg: number) => void = () => {};
+const b: (arg: number, arg2: string) => void = a; //ok 引数の受け取る数が違う関数はaも呼び出すことができる
+//引数を2つ受け取る関数として使うことが可能であるということです。これは、関数の側で余計な引数を無視すればいいので。
+
+//当然ok
+const a: (arg: number, arg2: string, arg3: string) => void = () => {};
+const b: (arg: number, arg2: string, ee: string) => void = a;
+
+//代入された後で実行じ引数の数を間違えないように
+const f1: (foo: string) => void = () => {};
+// エラー: Expected 1 arguments, but got 2.
+f1("foo", 3);
+```
+
+### void 型
+
+```ts
+//1. return文がない、何も返さない関数
+//2. return文はあるが、値がない
+```
+
+場合 undefined が返る。
+
+### クラス型
+
+・class Foo と同時に Foo 型が作られる
+・クラス型は下記のようにオブジェクト型で代替可能
+
+```ts
+interface MyFoo {
+  method: () => void;
+}
+class Foo {
+  method(): void {
+    console.log("Hello, world!");
+  }
+}
+
+const obj: MyFoo = new Foo();
+const obj2: Foo = obj;
+```
+
+### タプル型
+
+可変長タプル型は最後に使う
+
+```ts
+(number, ...string[])
+```
