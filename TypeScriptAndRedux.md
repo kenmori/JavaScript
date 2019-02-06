@@ -429,5 +429,51 @@ function f2(obj) {
 
 const f = f1;
 const res = f({ str: "string" });
->>>>>>> add type intersection
 ```
+
+### 疑問点
+
+### Example
+
+parameter が多くなった場合
+
+```ts
+Generally, you just return an object with multiple properties, one of which contains your function. Something like this:
+
+var foo = function (val1 : string){
+    // do something
+
+    return {
+        k1: 22,
+        k2: 33
+    };
+}
+You could also make it implement an interface, so you know what to expect as the returned object.
+
+interface IFoo {
+    (val1: string): INumbers;
+}
+interface INumbers {
+    k1 : number;
+    k2 : number;
+}
+var foo : IFoo = (val1 : string){
+    // do something
+
+    return {
+        k1: 22,
+        k2: 33
+    };
+}
+```
+
+メソッドオーバーライドしたいと思った時の考慮
+
+[https://www.stevefenton.co.uk/2013/02/what-is-wrong-with-method-overloads-in-typescript/](https://www.stevefenton.co.uk/2013/02/what-is-wrong-with-method-overloads-in-typescript/)
+
+```ts
+```
+
+React x Redux x TypeScript
+
+[https://medium.com/swinginc/react-redux-typescript-into-the-better-frontend-tutorial-d32f46e97995]()https://medium.com/swinginc/react-redux-typescript-into-the-better-frontend-tutorial-d32f46e97995
