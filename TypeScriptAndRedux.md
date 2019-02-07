@@ -153,7 +153,7 @@ let fa: f = (value: string, aa) => {
 };
 fa("fafaf", 2);
 
-//use Type Parameter
+//use Type Parameter∏
 interface f {
   <T>(name: T, n: T): void;
 }
@@ -348,6 +348,86 @@ const obj2: Foo = obj;
 
 可変長タプル型は最後に使う
 
-```ts
+````ts
 (number, ...string[])
+
+### never 型
+
+実行されることがない switch 文の default
+
+・Error を throw して返り値が帰ってこない場合の変数代入先への型注釈
+
+```ts
+function func(): never {
+  throw new Error("Hi");
+}
+
+const result: never = func();
+````
+
+TypeScript では関数の返り値の型は推論されるので書く必要はない
+
+### intersection 型
+
+```ts
+//関数に渡した先でif文で分岐する必要がある
+```
+
+#### 関数同士の union
+
+関数同士の union を考える時結果の関数の引数は元々の関数の引数同士の intersection 型を持つ必要がある
+
+```ts
+type StrFunc = (arg: string) => string;
+type NumFunc = (arg: number) => string;
+
+//どちらが入ってくるか分からない
+declare const obj: StrFunc | NumFunc;
+// エラー: Argument of type '123' is not assignable to parameter of type 'string & number'.
+//        Type '123' is not assignable to type 'string'.
+
+// どちらの関数を呼び出しているか分からないので渡す引数はどちらの関数でも実行できるような引数を渡す必要がある
+obj(123);
+```
+
+解決例
+
+```ts
+interface Hoge {
+  foo: string;
+  bar: number;
+}
+interface Piyo {
+  foo: string;
+  baz: boolean;
+}
+
+type HogeFunc = (arg: Hoge) => number;
+type PiyoFunc = (arg: Piyo) => boolean;
+
+declare const func: HogeFunc | PiyoFunc;
+
+// resは number | boolean 型
+const res = func({
+  foo: "foo",
+  bar: 123,
+  baz: false
+});
+```
+
+このような intersection 型を要求されているエラーが出た場合
+どちらが入ってくるか分からないので、string | number ではなく代入元はどちらも含んでいる必要がある
+
+```ts
+function f1(obj) {
+  return obj.str;
+}
+
+function f2(obj) {
+  return obj.num;
+}
+
+const f = f1;
+const res = f({ str: "string" });
+>>>>>>> add type intersection
 ```
