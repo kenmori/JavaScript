@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import ModalLayout from "../../templates/ModalLayout";
 import history from "../../../utils/history";
-import OKRSidebar from "../OKRSidebar";
+import OKRSideBar from "../OKRSideBar";
 import ObjectiveTab from "./ObjectiveTab";
 import KeyResultTab from "./KeyResultTab";
 
@@ -122,7 +122,7 @@ class OKRModal extends PureComponent {
       <ModalLayout title={name} isOpen={isOpen} handleClose={closeModal}>
         <div className="okr-modal-content">
           <div className="okr-body">
-            <OKRSidebar
+            <OKRSideBar
               objective={objective}
               keyResultId={keyResultId}
               keyResultOrder={objective.get("keyResultIds")}

@@ -9,7 +9,7 @@ import ProgressRate from "../../util/ProgressRate";
 import OkrName from "../../util/OkrName";
 import KeyResultItem from "./KeyResultItem";
 
-class OKRSidebar extends PureComponent {
+class OKRSideBar extends PureComponent {
   constructor(props) {
     super(props);
     const { objective, keyResultOrder } = props;
@@ -164,7 +164,7 @@ class OKRSidebar extends PureComponent {
   }
 }
 
-OKRSidebar.propTypes = {
+OKRSideBar.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
   canMoveKeyResult: PropTypes.bool.isRequired,
   keyResultOrder: ImmutablePropTypes.list.isRequired,
@@ -174,4 +174,4 @@ OKRSidebar.propTypes = {
   showToast: PropTypes.func.isRequired,
 };
 
-export default Backend(OKRSidebar);
+export default Backend(OKRSideBar);
