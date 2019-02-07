@@ -54,7 +54,10 @@
   .ui.celled.grid {
     margin-top: 0;
     .row {
-      height: 47vh;
+      height: 48vh;
+      .column {
+        height: inherit;
+      }
     }
   }
   .ui.table {
