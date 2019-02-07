@@ -78,6 +78,8 @@ class OKRSideBar extends PureComponent {
     this.props.showToast("URLをコピーしました");
   };
 
+  handleFocus = (event) => event.target.select();
+
   render() {
     const { objective, keyResultId, canMoveKeyResult } = this.props;
     const { keyResultOrder, showDisabledOkrs } = this.state;
@@ -107,6 +109,7 @@ class OKRSideBar extends PureComponent {
                 },
               }}
               defaultValue={this.generateUrl(objective.get("id"))}
+              onFocus={this.handleFocus}
             />
           </Header>
         </Segment>

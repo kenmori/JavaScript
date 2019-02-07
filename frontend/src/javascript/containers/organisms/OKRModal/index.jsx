@@ -91,7 +91,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(objectiveActions.fetchObjectiveHistory(id)),
   fetchKeyResultHistory: id =>
     dispatch(keyResultActions.fetchKeyResultHistory(id)),
-  showToast: message => dispatch(toastActions.showToast(message, "success")),
+  showToast: message => dispatch(toastActions.showToast(message)),
 });
 
 export default connect(
