@@ -1,16 +1,31 @@
+import { compose } from "redux";
 import { connect } from "react-redux";
+import objectiveActions from "../../../actions/objectives";
+import dialogActions from "../../../actions/dialogs";
+import withInitialFetcher from "../../../hocs/withInitialFetcher";
+import withUserTracker from "../../../hocs/withUserTracker";
 import Home from "./Home";
 
 const mapStateToProps = (state, { match: { params } }) => ({
-  okrHash: params.okrHash,
+  isModal: params.objectiveId || params.keyResultId,
+  objectiveId: parseInt(params.objectiveId),
+  keyResultId: parseInt(params.keyResultId),
+  okrPeriodId: state.current.get("okrPeriodId"),
   userId: state.current.get("userId"),
-  organizationId: state.organization.get("current").get("id"),
-  organizationName: state.organization.get("current").get("name"),
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  fetchOkrs: (okrPeriodId, userId) =>
+    dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true)),
+  openOkrModal: (objectiveId, keyResultId) =>
+    dispatch(dialogActions.openOkrModal(objectiveId, keyResultId)),
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withInitialFetcher,
+  withUserTracker,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(Home);

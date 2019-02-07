@@ -25,6 +25,10 @@ class OkrMap extends PureComponent {
     window.addEventListener("resize", this.onResize);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!nextProps.objective) return;
     if (

@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import ReactGA from "react-ga";
 
-export default function withTracker(WrappedComponent, options = {}) {
+export default function withPageTracker(WrappedComponent, options = {}) {
   const trackPage = page => {
     ReactGA.set({
       page,

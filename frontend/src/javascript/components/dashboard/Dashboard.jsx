@@ -32,7 +32,12 @@ class Dashboard extends PureComponent {
       case OkrTypes.OBJECTIVE:
         return <ObjectiveList objectives={this.props.objectives} />;
       case OkrTypes.KEY_RESULT:
-        return <KeyResultList keyResults={this.props.keyResults} />;
+        return (
+          <KeyResultList
+            keyResults={this.props.keyResults}
+            openOKRModal={this.props.openOKRModal}
+          />
+        );
     }
   };
 
@@ -103,6 +108,7 @@ Dashboard.propTypes = {
   keyResults: ImmutablePropTypes.list.isRequired,
   taskKeyResults: ImmutablePropTypes.list.isRequired,
   selectedTab: PropTypes.string.isRequired,
+  openOKRModal: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
   openOptionModal: PropTypes.func.isRequired,
   selectTab: PropTypes.func.isRequired,

@@ -6,12 +6,12 @@ import SortableComponent from "../util/SortableComponent";
 import OwnerAvatar from "../util/OwnerAvatar";
 import ProgressRate from "../util/ProgressRate";
 import OkrName from "../util/OkrName";
-import { openKeyResult } from "../../utils/linker";
 
 class KeyResultList extends SortableComponent {
   selectKeyResult = keyResult => () => this.props.selectKeyResult(keyResult);
 
-  handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId);
+  handleKeyResultClick = keyResultId => () =>
+    this.props.openOKRModal(null, keyResultId);
 
   checkObjectiveOwner = (keyResult, loginUserId) => {
     const objectiveOwner = this.props.objectives
@@ -119,6 +119,7 @@ KeyResultList.propTypes = {
   selectKeyResult: PropTypes.func.isRequired,
   isAdmin: PropTypes.bool,
   // component
+  openOKRModal: PropTypes.func.isRequired,
   keyResults: ImmutablePropTypes.list.isRequired,
 };
 

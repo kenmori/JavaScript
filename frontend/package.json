@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "clipboard-copy": "^2.0.1",
     "file-saver": "^2.0.0",
     "github-markdown-css": "^2.10.0",
-    "hashids": "^1.2.2",
     "humps": "^2.0.1",
     "immutable": "^3.8.2",
     "isobject": "^3.0.1",

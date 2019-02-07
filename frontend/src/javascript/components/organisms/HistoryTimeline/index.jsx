@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
-import { Menu, Table, Dropdown } from "semantic-ui-react";
+import { Menu, Table } from "semantic-ui-react";
 import moment from "moment";
 import OwnerAvatar from "../../util/OwnerAvatar";
 import OkrName from "../../util/OkrName";
-import ChangeLog from "../../atoms/ChangeLog";
+import Markdown from "../../atoms/Markdown";
 
 class HistoryTimeline extends PureComponent {
   constructor(props) {
@@ -135,7 +135,10 @@ class HistoryTimeline extends PureComponent {
                     <OkrName okr={e.get("KeyResult")} />
                   </Table.Cell>
                   <Table.Cell>
-                    <ChangeLog type={e.get("type")} diffs={e.get("diffs")} />
+                    <Markdown.ChangeLog
+                      type={e.get("type")}
+                      diffs={e.get("diffs")}
+                    />
                   </Table.Cell>
                 </Table.Row>
               ))}

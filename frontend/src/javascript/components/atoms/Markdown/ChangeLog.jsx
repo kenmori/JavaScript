@@ -1,5 +1,5 @@
 import React from "react";
-import Markdown from "../Markdown";
+import Markdown from ".";
 
 function formatChangeLog(type, diffs) {
   let message = "";
@@ -17,8 +17,8 @@ function formatChangeLog(type, diffs) {
   return message;
 }
 
-const ChangeHistory = React.memo(({ type, diffs }) => (
+const ChangeLog = React.memo(({ type, diffs }) => (
   <Markdown text={formatChangeLog(type, diffs)} />
 ));
 
-export default ChangeHistory;
+export default ChangeLog;

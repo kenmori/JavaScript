@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { DragSource, DropTarget } from "react-dnd";
 import { Segment, Icon } from "semantic-ui-react";
-import { openKeyResult } from "../../utils/linker";
-import OwnerAvatar from "../util/OwnerAvatar";
-import ProgressRate from "../util/ProgressRate";
-import OkrName from "../util/OkrName";
+import OwnerAvatar from "../../util/OwnerAvatar";
+import ProgressRate from "../../util/ProgressRate";
+import OkrName from "../../util/OkrName";
 
 const itemSource = {
   canDrag(props) {
@@ -56,12 +55,11 @@ class KeyResultItem extends PureComponent {
     event.stopPropagation();
   };
 
-  handleClick = () => openKeyResult(this.props.keyResult.get("id"));
-
-  keyResultHtml() {
+  renderItem() {
     const {
       keyResult,
       isSelected,
+      onClick,
       canMoveKeyResult,
       isDragging,
       canDrop,
@@ -74,7 +72,7 @@ class KeyResultItem extends PureComponent {
             isDragging ? "drag" : ""
           } ${canDrop ? "drop" : ""}`}
           key={keyResult.get("id")}
-          onClick={this.handleClick}>
+          onClick={onClick}>
           <OwnerAvatar
             owner={keyResult.get("owner")}
             members={keyResult.get("members")}
@@ -115,19 +113,18 @@ class KeyResultItem extends PureComponent {
 
   render() {
     const { connectDragSource, connectDropTarget } = this.props;
-    return connectDragSource(connectDropTarget(this.keyResultHtml()));
+    return connectDragSource(connectDropTarget(this.renderItem()));
   }
 }
 
 KeyResultItem.propTypes = {
-  // container
-  // component
   index: PropTypes.number.isRequired,
   keyResult: ImmutablePropTypes.map.isRequired,
   isSelected: PropTypes.bool.isRequired,
   canMoveKeyResult: PropTypes.bool.isRequired,
   moveKeyResult: PropTypes.func.isRequired,
   updateKeyResultOrder: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   // React DnD
   isDragging: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,

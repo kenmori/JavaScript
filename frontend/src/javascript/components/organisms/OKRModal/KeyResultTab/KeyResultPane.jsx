@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Form, Label } from "semantic-ui-react";
 import moment from "moment";
-import DatePicker from "../form/DatePicker";
-import AutoInput from "../form/AutoInput";
-import NumberInput from "../form/NumberInput";
-import StatusRadio from "../util/StatusRadio";
-import PopupLabel from "../util/PopupLabel";
-import OkrDescription from "../form/OkrDescription";
-import CommentLabelDropdown from "./CommentLabelDropdown";
-import StretchCommentPane from "./StretchCommentPane";
+import DatePicker from "../../../form/DatePicker";
+import AutoInput from "../../../form/AutoInput";
+import NumberInput from "../../../form/NumberInput";
+import OkrDescription from "../../../form/OkrDescription";
+import StatusRadio from "../../../util/StatusRadio";
+import PopupLabel from "../../../util/PopupLabel";
+import CommentLabelDropdown from "../../../atoms/CommentLabelDropdown";
+import OKRCommentList from "../../OKRCommentList";
 
 class KeyResultPane extends PureComponent {
   constructor(props) {
@@ -23,15 +23,16 @@ class KeyResultPane extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.keyResult.get("id") !== nextProps.keyResult.get("id")) {
+    const { keyResult } = this.props;
+
+    if (keyResult.get("id") !== nextProps.keyResult.get("id")) {
       this.setState({
         progressRate: nextProps.keyResult.get("progressRate"),
         isTargetValueVisible:
           typeof nextProps.keyResult.get("targetValue") === "number",
       });
     } else if (
-      this.props.keyResult.get("progressRate") !==
-      nextProps.keyResult.get("progressRate")
+      keyResult.get("progressRate") !== nextProps.keyResult.get("progressRate")
     ) {
       this.setState({
         progressRate: nextProps.keyResult.get("progressRate"),
@@ -89,16 +90,17 @@ class KeyResultPane extends PureComponent {
     );
   }
 
-  handleTextChange = (e, { value }) => {
+  handleTextChange = (_, { value }) => {
     this.setState({ text: value });
     this.props.setDirty(!!value);
   };
 
   addComment = () => {
+    const { updateKeyResult, setDirty } = this.props;
     const { text, commentLabel } = this.state;
     if (!text) return;
 
-    this.props.updateKeyResult({
+    updateKeyResult({
       comment: {
         data: text,
         behavior: "add",
@@ -106,14 +108,16 @@ class KeyResultPane extends PureComponent {
       },
     });
     this.setState({ text: "" });
-    this.props.setDirty(false);
+    setDirty(false);
   };
 
   removeComment = id => {
-    this.props.confirm({
+    const { confirm, updateKeyResult } = this.props;
+
+    confirm({
       content: "コメントを削除しますか？",
       onConfirm: () =>
-        this.props.updateKeyResult({
+        updateKeyResult({
           comment: { data: id, behavior: "remove" },
         }),
     });
@@ -134,13 +138,12 @@ class KeyResultPane extends PureComponent {
     });
   };
 
-  handleDropdownChange = (e, { value }) => {
+  handleDropdownChange = (_, { value }) => {
     this.setState({ commentLabel: value });
   };
 
   render() {
-    const keyResult = this.props.keyResult;
-    const keyResultCommentLabels = this.props.keyResultCommentLabels;
+    const { keyResult, keyResultCommentLabels } = this.props;
     const { text } = this.state;
     const comments = keyResult.get("comments");
     const descText = keyResult.get("description");
@@ -270,7 +273,7 @@ class KeyResultPane extends PureComponent {
           <label>コメント ({comments ? comments.size : 0})</label>
           <div className="comment-pane">
             {comments ? (
-              <StretchCommentPane
+              <OKRCommentList
                 comments={comments}
                 commentLabels={keyResultCommentLabels}
                 onDelete={this.removeComment}
@@ -303,19 +306,11 @@ class KeyResultPane extends PureComponent {
 }
 
 KeyResultPane.propTypes = {
-  // container
-  isKeyResultOwner: PropTypes.bool.isRequired,
-  // component
   keyResult: ImmutablePropTypes.map.isRequired,
-  users: ImmutablePropTypes.list.isRequired,
-  loginUserId: PropTypes.number.isRequired,
-  isObjectiveOwner: PropTypes.bool.isRequired,
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
-  removeKeyResult: PropTypes.func.isRequired,
-  openObjectiveModal: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
-  keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
 };
 
 export default KeyResultPane;

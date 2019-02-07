@@ -1,16 +1,9 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import ImmutablePropTypes from "react-immutable-proptypes";
+import React from "react";
 import { Form } from "semantic-ui-react";
-import meetingBoardCommentLabels from "../../constants/meetingBoardCommentLabels";
+import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
 
-class CommentLabelDropdown extends PureComponent {
-  constructor() {
-    super();
-  }
-
-  render() {
-    const { commentLabels, defaultValue, onChange } = this.props;
+const CommentLabelDropdown = React.memo(
+  ({ commentLabels, defaultValue, onChange }) => {
     const options = [
       {
         key: "",
@@ -43,15 +36,7 @@ class CommentLabelDropdown extends PureComponent {
         onChange={onChange}
       />
     );
-  }
-}
-
-CommentLabelDropdown.propTypes = {
-  // container
-  // component
-  commentLabels: ImmutablePropTypes.list.isRequired,
-  defaultValue: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
-};
+  },
+);
 
 export default CommentLabelDropdown;

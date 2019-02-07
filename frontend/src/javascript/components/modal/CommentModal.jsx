@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Modal, Header, Form } from "semantic-ui-react";
-import StretchCommentPane from "../okrmodal/StretchCommentPane";
+import OKRCommentList from "../organisms/OKRCommentList";
 
 class CommentModal extends PureComponent {
   constructor() {
@@ -110,7 +110,7 @@ class CommentModal extends PureComponent {
           <Header as="h4">{`${
             commentLabel != null ? commentLabel.get("name") : ""
           }一覧`}</Header>
-          <StretchCommentPane
+          <OKRCommentList
             comments={this.selectLabelCommnets(
               comments,
               commentLabel.get("name"),

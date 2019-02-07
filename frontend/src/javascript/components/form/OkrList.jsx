@@ -2,14 +2,15 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { List } from "semantic-ui-react";
-import { openObjective, openKeyResult } from "../../utils/linker";
 import OwnerAvatar from "../util/OwnerAvatar";
 import ProgressRate from "../util/ProgressRate";
 import OkrName from "../util/OkrName";
 
 class OkrList extends PureComponent {
   handleClick = id => () => {
-    this.props.isObjective ? openObjective(id) : openKeyResult(id);
+    this.props.isObjective
+      ? this.props.openOKRModal(id, null)
+      : this.props.openOKRModal(null, id);
   };
 
   render() {
@@ -43,6 +44,7 @@ OkrList.propTypes = {
   // container
   // component
   okrs: ImmutablePropTypes.list.isRequired,
+  openOKRModal: PropTypes.func.isRequired,
   isObjective: PropTypes.bool,
 };
 

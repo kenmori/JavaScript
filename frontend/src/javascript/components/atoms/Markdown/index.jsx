@@ -5,8 +5,11 @@ import remark2react from "remark-react";
 import emoji from "remark-emoji";
 import breaks from "remark-breaks";
 import externalLinks from "remark-external-links";
+import ChangeLog from "./ChangeLog";
 
 class Markdown extends PureComponent {
+  static ChangeLog = ChangeLog;
+
   constructor() {
     super();
     this.state = { key: new Date().getTime() };

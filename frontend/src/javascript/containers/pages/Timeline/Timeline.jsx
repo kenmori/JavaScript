@@ -1,80 +1,29 @@
 import React, { PureComponent } from "react";
 import { Header } from "semantic-ui-react";
-import ReactGA from "react-ga";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
-import OkrModal from "../../OkrModal";
+import OKRModal from "../../organisms/OKRModal";
 import HistoryTimeline from "../../../components/organisms/HistoryTimeline";
 import OwnerShipKeyResultList from "../../../components/organisms/OwnerShipKeyResultList";
 
 class Timeline extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isFetchedOKR: false };
   }
 
   componentDidMount() {
-    const {
-      userId,
-      organizationId,
-      organizationName,
-      isFetchedMyDetail,
-      isFetchedKeyResultsCommentLabels,
-      isFetchedKeyResults,
-      fetchMyDetail,
-      fetchKeyResultCommentLabels,
-      objectives,
-      keyResults,
-      fetchKeyResultHistories,
-      fetchObjectivesDetail,
-    } = this.props;
+    const { userId, okrPeriodId, fetchOKR } = this.props;
 
-    if (!isFetchedMyDetail) {
-      fetchMyDetail();
-    }
-    if (!isFetchedKeyResultsCommentLabels) {
-      fetchKeyResultCommentLabels();
-    }
-    if (isFetchedKeyResults) {
-      const keyResultIds = new Set();
-      const objectiveIds = new Set();
-      keyResults.map(e => {
-        keyResultIds.add(e.get("id"));
-        if (!objectives.find(o => o.get("id") === e.get("objectiveId"))) {
-          objectiveIds.add(e.get("objectiveId"));
-        }
-      });
-      fetchKeyResultHistories([...keyResultIds]);
-      fetchObjectivesDetail([...objectiveIds]);
-    }
-
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
-    }
+    fetchOKR(okrPeriodId, userId);
   }
 
   componentDidUpdate(prevProps) {
     const {
-      userId,
-      organizationId,
-      organizationName,
-      isFetchedMyDetail,
       isFetchedKeyResults,
-      fetchOKR,
       objectives,
       keyResults,
-      okrPeriodId,
       fetchKeyResultHistories,
       fetchObjectivesDetail,
     } = this.props;
-
-    if (isFetchedMyDetail && !isFetchedKeyResults && !this.state.isFetchedOKR) {
-      fetchOKR(okrPeriodId, userId);
-      this.setState({ isFetchedOKR: true });
-    }
 
     if (!prevProps.isFetchedKeyResults && isFetchedKeyResults) {
       const keyResultIds = new Set();
@@ -87,14 +36,6 @@ class Timeline extends PureComponent {
       });
       fetchKeyResultHistories([...keyResultIds]);
       fetchObjectivesDetail([...objectiveIds]);
-    }
-
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
     }
   }
 
@@ -130,7 +71,7 @@ class Timeline extends PureComponent {
         <div className="widget">
           <HistoryTimeline histories={histories} handleClick={openOkrModal} />
         </div>
-        <OkrModal extensionEnabled={false} />
+        <OKRModal />
       </DefaultLayout>
     );
   }

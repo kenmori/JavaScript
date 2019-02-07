@@ -1,9 +1,11 @@
+import { compose } from "redux";
 import { connect } from "react-redux";
 import { List } from "immutable";
 import objectiveActions from "../../../actions/objectives";
 import keyResultActions from "../../../actions/keyResults";
-import currentActions from "../../../actions/current";
 import dialogActions from "../../../actions/dialogs";
+import withInitialFetcher from "../../../hocs/withInitialFetcher";
+import withUserTracker from "../../../hocs/withUserTracker";
 import { getOwnershipKeyResults } from "../../../utils/selector";
 import Timeline from "./Timeline";
 
@@ -47,8 +49,6 @@ const mapStateToProps = state => {
   return {
     okrPeriodId: state.current.get("okrPeriodId"),
     userId: state.current.get("userId"),
-    organizationId: state.organization.get("current").get("id"),
-    organizationName: state.organization.get("current").get("name"),
     sortedKeyResults: sortKeyResults(keyResults),
     objectives: state.entities.objectives,
     keyResults,
@@ -61,20 +61,11 @@ const mapStateToProps = state => {
     ),
     isFetchedMyDetail: state.current.get("isFetchedMyDetail"),
     isFetchedOrganization: state.organization.get("isFetched"),
-    isFetchedKeyResultsCommentLabels: state.keyResults.get(
-      "isFetchedKeyResultsCommentLabels",
-    ),
     isFetchedKeyResults: state.keyResults.get("isFetchedKeyResults"),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchMyDetail: () => {
-    dispatch(currentActions.fetchMyDetail());
-  },
-  fetchKeyResultCommentLabels: () => {
-    dispatch(keyResultActions.fetchKeyResultCommentLabels());
-  },
   fetchOKR: (okrPeriodId, userId) => {
     dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true));
   },
@@ -86,7 +77,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(dialogActions.openOkrModal(null, keyResultId)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withInitialFetcher,
+  withUserTracker,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(Timeline);

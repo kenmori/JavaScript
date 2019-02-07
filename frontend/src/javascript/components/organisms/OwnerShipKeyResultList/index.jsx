@@ -35,13 +35,11 @@ class OwnerShipKeyResultList extends PureComponent {
       } else if (column === "objective") {
         const { objectives } = this.props;
         const aObjective =
-          objectives
-            .filter(e => e.get("id") == a.get("objectiveId"))
-            .first() || Map();
+          objectives.filter(e => e.get("id") == a.get("objectiveId")).first() ||
+          Map();
         const bObjective =
-          objectives
-            .filter(e => e.get("id") == b.get("objectiveId"))
-            .first() || Map();
+          objectives.filter(e => e.get("id") == b.get("objectiveId")).first() ||
+          Map();
         return aObjective.get("name").localeCompare(bObjective.get("name"));
       } else {
         if (a.get(column) < b.get(column)) return -1;

@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import ReactGA from "react-ga";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
 import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
 import CommentModal from "../../CommentModal";
@@ -68,46 +67,9 @@ class Meeting extends PureComponent {
   };
 
   componentDidMount() {
-    const {
-      isFetchedMyDetail,
-      fetchMyDetail,
-      userId,
-      organizationId,
-      organizationName,
-      objectiveId,
-      objectives,
-      isFetchedKeyResultsCommentLabels,
-      fetchKeyResultCommentLabels,
-      fetchObjective,
-    } = this.props;
-    if (!isFetchedMyDetail) {
-      fetchMyDetail();
-    }
+    const { objectiveId, objectives, fetchObjective } = this.props;
     if (objectives.size < 1) {
       fetchObjective(objectiveId);
-    }
-    if (!isFetchedKeyResultsCommentLabels) {
-      fetchKeyResultCommentLabels();
-    }
-
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
-    }
-  }
-
-  componentDidUpdate() {
-    const { userId, organizationId, organizationName } = this.props;
-
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
     }
   }
 
@@ -209,7 +171,6 @@ Meeting.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
   objectives: ImmutablePropTypes.map.isRequired,
   keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
-  isFetchedKeyResultsCommentLabels: PropTypes.bool.isRequired,
   showDisabledOkrs: PropTypes.bool.isRequired,
   fetchObjective: PropTypes.func.isRequired,
   fetchKeyResultCommentLabels: PropTypes.func.isRequired,

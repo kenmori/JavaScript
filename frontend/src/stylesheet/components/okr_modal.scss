@@ -1,5 +1,5 @@
-.okr-modal {
-  .okr-content {
+.modal {
+  .okr-modal-content {
     padding: 20px 0;
     height: 70vh;
 
@@ -72,24 +72,6 @@
     }
   }
 
-  .okr-main-small {
-    width: 100%;
-    padding: 0 5px;
-    overflow-y: scroll;
-    .field {
-      margin: 10px 0;
-    }
-
-    .ui.menu .item > .label {
-      &.zero-width {
-        margin: 0;
-        padding-left: 0;
-        padding-right: 0;
-        width: 0;
-      }
-    }
-  }
-
   .input-date-picker {
     display: flex;
     align-items: center;
@@ -113,7 +95,6 @@
   }
 
   .comment-pane {
-
     &__block {
       margin-bottom: 16px;
       .group {
@@ -126,7 +107,6 @@
       font-size: 12px;
     }
   }
-
 
   &.ui.modal .scrolling.content {
     overflow-y: scroll;

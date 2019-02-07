@@ -1,6 +1,6 @@
 import React from "react";
 import { Form } from "semantic-ui-react";
-import ChangeHistoryList from "../organisms/ChangeHistoryList";
+import ChangeHistoryList from "../../ChangeHistoryList";
 
 class ObjectiveHistoryPane extends React.PureComponent {
   constructor(props) {

@@ -1,36 +1,30 @@
 import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import ReactGA from "react-ga";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
-import Fetcher from "../../Fetcher";
 import Dashboard from "../../Dashboard";
 import KeyResultModal from "../../KeyResultModal";
 import ObjectiveModal from "../../ObjectiveModal";
-import OkrModal from "../../OkrModal";
+import OKRModal from "../../organisms/OKRModal";
 import OptionModal from "../../OptionModal";
 
 class Home extends PureComponent {
-  componentDidMount() {
-    const { userId, organizationId, organizationName } = this.props;
-
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
-    }
+  constructor(props) {
+    super(props);
   }
 
-  componentDidUpdate() {
-    const { userId, organizationId, organizationName } = this.props;
+  componentDidMount() {
+    const {
+      fetchOkrs,
+      okrPeriodId,
+      userId,
+      isModal,
+      objectiveId,
+      keyResultId,
+      openOkrModal,
+    } = this.props;
 
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
+    fetchOkrs(okrPeriodId, userId);
+    if (isModal) {
+      openOkrModal(objectiveId, keyResultId);
     }
   }
 
@@ -38,24 +32,14 @@ class Home extends PureComponent {
     return (
       <DefaultLayout title="ホーム">
         <div className="home">
-          <Fetcher okrHash={this.props.okrHash} />
-          <main>
-            <Dashboard />
-            <KeyResultModal />
-            <ObjectiveModal />
-            <OkrModal />
-            <OptionModal />
-          </main>
+          <Dashboard />
+          <KeyResultModal />
+          <ObjectiveModal />
+          <OKRModal />
+          <OptionModal />
         </div>
       </DefaultLayout>
     );
   }
 }
-
-Home.propTypes = {
-  // container
-  okrHash: PropTypes.string,
-  // component
-};
-
 export default Home;

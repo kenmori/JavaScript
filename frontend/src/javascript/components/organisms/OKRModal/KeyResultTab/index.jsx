@@ -2,9 +2,9 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Tab, Menu, Label } from "semantic-ui-react";
-import KeyResultPane from "../../containers/KeyResultPane";
-import KeyResultInfoPane from "../../containers/KeyResultInfoPane";
-import KeyResultHistoryPane from "../../containers/KeyResultHistoryPane";
+import KeyResultPane from "./KeyResultPane";
+import KeyResultInfoPane from "./KeyResultInfoPane";
+import KeyResultHistoryPane from "./KeyResultHistoryPane";
 
 class KeyResultTab extends PureComponent {
   constructor() {
@@ -19,15 +19,15 @@ class KeyResultTab extends PureComponent {
     });
   };
 
-  handleTabChange = (e, { activeIndex }) => {
-    const { isDirty, confirm } = this.props;
+  handleTabChange = (_, { activeIndex }) => {
+    const { isDirty, confirm, setDirty } = this.props;
     const { activeIndex: currentIndex } = this.state;
     if (activeIndex !== currentIndex && isDirty) {
       confirm({
         content: "編集中の内容を破棄します。よろしいですか？",
         onConfirm: () => {
           this.setState({ activeIndex });
-          this.props.setDirty(false);
+          setDirty(false);
         },
       });
     } else {
@@ -36,7 +36,24 @@ class KeyResultTab extends PureComponent {
   };
 
   render() {
-    const { setDirty } = this.props;
+    const {
+      loginUserId,
+      users,
+      keyResult,
+      keyResultCommentLabels,
+      objectiveCandidates,
+      isObjectiveOwner,
+      isKeyResultOwner,
+      isFetchedObjectiveCandidates,
+      updateKeyResult,
+      disableKeyResult,
+      removeKeyResult,
+      openObjectiveModal,
+      fetchKeyResultHistory,
+      openOKRModal,
+      confirm,
+      setDirty,
+    } = this.props;
     const { activeIndex } = this.state;
     const dummyLabel = <Label className="zero-width">&nbsp;</Label>; // Label 付きタブと高さを合わせるためのダミー Label
 
@@ -53,8 +70,10 @@ class KeyResultTab extends PureComponent {
             render: () => (
               <Tab.Pane>
                 <KeyResultPane
-                  {...this.props}
+                  keyResult={keyResult}
+                  keyResultCommentLabels={keyResultCommentLabels}
                   updateKeyResult={this.updateKeyResult}
+                  confirm={confirm}
                   setDirty={setDirty}
                 />
               </Tab.Pane>
@@ -70,18 +89,20 @@ class KeyResultTab extends PureComponent {
             render: () => (
               <Tab.Pane>
                 <KeyResultInfoPane
-                  okr={this.props.keyResult}
-                  keyResult={this.props.keyResult}
-                  candidates={this.props.objectiveCandidates}
-                  isObjectiveOwner={this.props.isObjectiveOwner}
-                  isFetchedCandidates={this.props.isFetchedObjectiveCandidates}
+                  loginUserId={loginUserId}
+                  keyResult={keyResult}
+                  users={users}
+                  candidates={objectiveCandidates}
+                  isObjectiveOwner={isObjectiveOwner}
+                  isKeyResultOwner={isKeyResultOwner}
+                  isFetchedCandidates={isFetchedObjectiveCandidates}
+                  openObjectiveModal={openObjectiveModal}
                   updateOkr={this.updateKeyResult}
-                  users={this.props.users}
+                  disableKeyResult={disableKeyResult}
                   updateKeyResult={this.updateKeyResult}
-                  openObjectiveModal={this.props.openObjectiveModal}
-                  confirm={this.props.confirm}
-                  disableKeyResult={this.props.disableKeyResult}
-                  removeKeyResult={this.props.removeKeyResult}
+                  removeKeyResult={removeKeyResult}
+                  openOKRModal={openOKRModal}
+                  confirm={confirm}
                 />
               </Tab.Pane>
             ),
@@ -95,7 +116,10 @@ class KeyResultTab extends PureComponent {
             ),
             render: () => (
               <Tab.Pane>
-                <KeyResultHistoryPane keyResult={this.props.keyResult} />
+                <KeyResultHistoryPane
+                  keyResult={keyResult}
+                  fetchKeyResultHistory={fetchKeyResultHistory}
+                />
               </Tab.Pane>
             ),
           },
@@ -108,21 +132,22 @@ class KeyResultTab extends PureComponent {
 }
 
 KeyResultTab.propTypes = {
-  // container
-  // component
-  keyResult: ImmutablePropTypes.map.isRequired,
-  objectiveCandidates: ImmutablePropTypes.list.isRequired,
-  users: ImmutablePropTypes.list.isRequired,
   loginUserId: PropTypes.number.isRequired,
+  users: ImmutablePropTypes.list.isRequired,
+  keyResult: ImmutablePropTypes.map.isRequired,
+  keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
+  objectiveCandidates: ImmutablePropTypes.list.isRequired,
   isObjectiveOwner: PropTypes.bool.isRequired,
+  isKeyResultOwner: PropTypes.bool.isRequired,
   isFetchedObjectiveCandidates: PropTypes.bool.isRequired,
   isDirty: PropTypes.bool.isRequired,
   updateKeyResult: PropTypes.func.isRequired,
+  disableKeyResult: PropTypes.func.isRequired,
   removeKeyResult: PropTypes.func.isRequired,
   openObjectiveModal: PropTypes.func.isRequired,
+  fetchKeyResultHistory: PropTypes.func.isRequired,
   setDirty: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-  keyResultCommentLabels: ImmutablePropTypes.list.isRequired,
 };
 
 export default KeyResultTab;

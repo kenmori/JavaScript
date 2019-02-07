@@ -1,9 +1,7 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import ReactGA from "react-ga";
 import DefaultLayout from "../../../components/templates/DefaultLayout";
-import Fetcher from "../../Fetcher";
 import AccountSettingTab from "../../AccountSettingTab";
 import UserSettingTab from "../../UserSettingTab";
 import OrganizationSettingTab from "../../OrganizationSettingTab";
@@ -67,7 +65,7 @@ class Settings extends React.Component {
   };
 
   componentDidMount() {
-    const { userId, organizationId, organizationName } = this.props;
+    const { fetchOkrs, okrPeriodId, userId } = this.props;
 
     const targetPane = this.state.panes.find(
       item => item.name === this.props.name,
@@ -76,25 +74,7 @@ class Settings extends React.Component {
       return this.props.changeURL("/");
     }
 
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
-    }
-  }
-
-  componentDidUpdate() {
-    const { userId, organizationId, organizationName } = this.props;
-
-    if (userId && organizationId) {
-      ReactGA.set({
-        userId,
-        dimension1: organizationId,
-        dimension2: organizationName,
-      });
-    }
+    fetchOkrs(okrPeriodId, userId);
   }
 
   render() {
@@ -106,7 +86,6 @@ class Settings extends React.Component {
     return (
       <DefaultLayout title={`${targetPane.menuItem} - 設定`}>
         <div className="settings-page">
-          <Fetcher />
           <main>
             <Tab
               activeIndex={targetPane.id}

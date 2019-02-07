@@ -4,9 +4,9 @@ AllCops:
   Exclude:
     - bin/**/*
     - db/schema.rb
+    - db/data_schema.rb
     - db/migrate/*.rb
     - vendor/**/*
-    - node_modules/**/*
   DisplayStyleGuide: true
   ExtraDetails: true
   TargetRubyVersion: 2.4

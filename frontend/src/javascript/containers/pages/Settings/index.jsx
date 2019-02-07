@@ -1,22 +1,32 @@
+import { compose } from "redux";
 import { connect } from "react-redux";
+import objectiveActions from "../../../actions/objectives";
+import withInitialFetcher from "../../../hocs/withInitialFetcher";
+import withUserTracker from "../../../hocs/withUserTracker";
 import history from "../../../utils/history";
 import Settings from "./Settings";
 
 const mapStateToProps = (state, { match }) => ({
-  userId: state.current.get("userId"),
-  organizationId: state.organization.get("current").get("id"),
-  organizationName: state.organization.get("current").get("name"),
   name: match.params.name,
   isAdmin: state.loginUser.get("isAdmin"),
+  okrPeriodId: state.current.get("okrPeriodId"),
+  userId: state.current.get("userId"),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
   changeURL: url => {
     history.push(url);
   },
+  fetchOkrs: (okrPeriodId, userId) => {
+    dispatch(objectiveActions.fetchOkrs(okrPeriodId, userId, true));
+  },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withInitialFetcher,
+  withUserTracker,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(Settings);

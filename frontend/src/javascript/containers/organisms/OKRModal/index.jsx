@@ -1,14 +1,15 @@
 import { connect } from "react-redux";
-import OkrModal from "../components/okrmodal/OkrModal";
-import objectiveActions from "../actions/objectives";
-import keyResultActions from "../actions/keyResults";
-import dialogActions from "../actions/dialogs";
+import OKRModal from "../../../components/organisms/OKRModal";
+import objectiveActions from "../../../actions/objectives";
+import keyResultActions from "../../../actions/keyResults";
+import dialogActions from "../../../actions/dialogs";
+import toastActions from "../../../actions/toasts";
 import {
   getOkrModalObjective,
   getObjectiveCandidates,
   getParentKeyResultCandidates,
   getEnabledUsers,
-} from "../utils/selector";
+} from "../../../utils/selector";
 
 const mapStateToProps = state => {
   const okrForm = state.dialogs.get("okrForm");
@@ -16,25 +17,32 @@ const mapStateToProps = state => {
   const loginUserId = state.loginUser.get("id");
   const objectiveOwnerId = objective && objective.getIn(["owner", "id"]);
   return {
-    isOpen: okrForm.get("isOpen"),
+    loginUserId,
+    users: getEnabledUsers(state),
     objectiveId: objective && objective.get("id"),
     objective,
     keyResultId: okrForm.get("keyResultId"),
-    users: getEnabledUsers(state),
-    loginUserId,
     objectiveCandidates: getObjectiveCandidates(state),
     parentKeyResultCandidates: getParentKeyResultCandidates(state),
-    isFetchedObjectiveCandidates: state.objectives.get("isFetchedCandidates"),
-    isFetchedKeyResultCandidates: state.keyResults.get("isFetchedCandidates"),
+    keyResultCommentLabels: state.keyResults.get("commentLabels"),
     removedObjectiveId: okrForm.get("removedObjectiveId"),
     removedKeyResultId: okrForm.get("removedKeyResultId"),
+    isOpen: okrForm.get("isOpen"),
+    isAdmin: state.loginUser.get("isAdmin"),
+    isFetchedObjectiveCandidates: state.objectives.get("isFetchedCandidates"),
+    isFetchedKeyResultCandidates: state.keyResults.get("isFetchedCandidates"),
     isObjectiveOwner:
       state.loginUser.get("isAdmin") || objectiveOwnerId === loginUserId,
-    keyResultCommentLabels: state.keyResults.get("commentLabels"),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  openOKRModal: (objectiveId, keyResultId) => {
+    dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));
+  },
+  closeModal: () => {
+    dispatch(dialogActions.closeOkrModal());
+  },
   openObjectiveModal: parentKeyResult => {
     dispatch(dialogActions.openObjectiveModal(parentKeyResult));
   },
@@ -54,9 +62,6 @@ const mapDispatchToProps = dispatch => ({
   updateKeyResult: keyResult => {
     dispatch(keyResultActions.updateKeyResult(keyResult));
   },
-  closeModal: () => {
-    dispatch(dialogActions.closeOkrModal());
-  },
   removeKeyResult: id => {
     dispatch(keyResultActions.removeKeyResult(id));
   },
@@ -66,9 +71,30 @@ const mapDispatchToProps = dispatch => ({
   confirm: params => {
     dispatch(dialogActions.openConfirmModal(params));
   },
+  disableObjective: objective => {
+    dispatch(
+      objectiveActions.disableObjective(
+        objective.get("id"),
+        !objective.get("disabled"),
+      ),
+    );
+  },
+  disableKeyResult: keyResult => {
+    dispatch(
+      keyResultActions.disableKeyResult(
+        keyResult.get("id"),
+        !keyResult.get("disabled"),
+      ),
+    );
+  },
+  fetchObjectiveHistory: id =>
+    dispatch(objectiveActions.fetchObjectiveHistory(id)),
+  fetchKeyResultHistory: id =>
+    dispatch(keyResultActions.fetchKeyResultHistory(id)),
+  showToast: message => dispatch(toastActions.showToast(message, "success")),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(OkrModal);
+)(OKRModal);

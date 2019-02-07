@@ -8,16 +8,13 @@ import ProgressRate from "../util/ProgressRate";
 import ToggleButton from "../util/ToggleButton";
 import MeetingboardLinkButton from "../util/MeetingboardLinkButton";
 import OkrName from "../util/OkrName";
-import {
-  openObjective,
-  openKeyResult,
-  encodeObjectiveId,
-} from "../../utils/linker";
 
 class OkrCard extends PureComponent {
-  handleObjectiveClick = () => openObjective(this.props.objective.get("id"));
+  handleObjectiveClick = () =>
+    this.props.openOKRModal(this.props.objective.get("id"));
 
-  handleKeyResultClick = keyResultId => () => openKeyResult(keyResultId);
+  handleKeyResultClick = keyResultId => () =>
+    this.props.openOKRModal(null, keyResultId);
 
   handleToggleClick = (keyResult, isToggleOn) => () =>
     this.props.toggleKeyResult(this.props.objective, keyResult, isToggleOn);
@@ -33,7 +30,7 @@ class OkrCard extends PureComponent {
 
   handleMeetingBoardLinkClick = objectiveId =>
     window.open(
-      `/meetings/${encodeObjectiveId(objectiveId)}`,
+      `/meetings/${objectiveId}`,
       "_blank",
       `height=${window.parent.screen.height},
       width=${window.parent.screen.width}`,

@@ -10,9 +10,13 @@ export default function configureStore() {
   let store;
   if (process.env.NODE_ENV !== "production") {
     const { composeWithDevTools } = require("redux-devtools-extension");
+    const composeEnhancers = composeWithDevTools({
+      trace: true,
+      traceLimit: 25,
+    });
     store = createStore(
       reducers,
-      composeWithDevTools(applyMiddleware(...middlewares)),
+      composeEnhancers(applyMiddleware(...middlewares)),
     );
   } else {
     store = createStore(reducers, applyMiddleware(...middlewares));

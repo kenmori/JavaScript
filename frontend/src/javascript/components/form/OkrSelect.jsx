@@ -51,6 +51,7 @@ class OkrSelect extends PureComponent {
               okr => okr.get("id") === this.state.value,
             )}
             isObjective={this.props.isObjective}
+            openOKRModal={this.props.openOKRModal}
           />
         )}
         {showPreview && !this.props.readOnly && (
@@ -85,6 +86,7 @@ OkrSelect.propTypes = {
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
+  openOKRModal: PropTypes.func.isRequired,
   onChange: PropTypes.func,
 };
 

@@ -11,7 +11,7 @@ import Meeting from "../containers/pages/Meeting";
 import Timeline from "../containers/pages/Timeline";
 import history from "../utils/history";
 import { isAuthenticated } from "../utils/auth";
-import withTracker from "../hocs/withTracker";
+import withPageTracker from "../hocs/withPageTracker";
 
 ReactGA.initialize(process.env.GA_TRACKING_CODE);
 
@@ -43,20 +43,37 @@ export default () => (
       <Route exact path="/users/password/reset" component={PasswordReset} />
       <Route exact path="/users/password/edit" component={PasswordSet} />
       <Route exact path="/users/confirmation" component={PasswordSet} />
-      <PrivateRoute exact path="/settings" component={withTracker(Settings)} />
+      <PrivateRoute
+        exact
+        path="/settings"
+        component={withPageTracker(Settings)}
+      />
       <PrivateRoute
         exact
         path="/settings/:name"
-        component={withTracker(Settings)}
+        component={withPageTracker(Settings)}
       />
-      <PrivateRoute exact path="/okr/:okrHash" component={withTracker(Home)} />
       <PrivateRoute
         exact
-        path="/meetings/:objectiveHash"
-        component={withTracker(Meeting)}
+        path="/meetings/:objectiveId(\d+)"
+        component={withPageTracker(Meeting)}
       />
-      <PrivateRoute exact path="/timeline" component={withTracker(Timeline)} />
-      <PrivateRoute path="/" component={withTracker(Home)} />
+      <PrivateRoute
+        exact
+        path="/timeline"
+        component={withPageTracker(Timeline)}
+      />
+      <PrivateRoute
+        exact
+        path="/objectives/:objectiveId(\d+)"
+        component={withPageTracker(Home)}
+      />
+      <PrivateRoute
+        exact
+        path="/key_results/:keyResultId(\d+)"
+        component={withPageTracker(Home)}
+      />
+      <PrivateRoute path="/" component={withPageTracker(Home)} />
     </Switch>
   </Router>
 );

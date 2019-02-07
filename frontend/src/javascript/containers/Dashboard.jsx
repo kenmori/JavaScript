@@ -22,6 +22,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  openOKRModal: (objectiveId, keyResultId) => {
+    dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));
+  },
   openObjectiveModal: () => {
     dispatch(dialogActions.openObjectiveModal());
   },

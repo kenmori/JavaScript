@@ -7,22 +7,10 @@ import Markdown from "../atoms/Markdown";
 import UserName from "../util/UserName";
 import Avatar from "../util/Avatar";
 
-const INITIAL_VIEW_COMMENT = 3;
-const VIEW_MORE_COMMENT = 5;
-
 class AnnouncementItem extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      displayCommentCount: INITIAL_VIEW_COMMENT,
-    };
   }
-
-  handleDisplayComment = value => {
-    this.setState({
-      displayCommentCount: this.state.displayCommentCount + value,
-    });
-  };
 
   handleDeleteClick = comment => {
     const { objectiveId, updateObjective, confirm } = this.props;
@@ -46,14 +34,11 @@ class AnnouncementItem extends PureComponent {
 
   render() {
     const { comments } = this.props;
-    const viewComments = comments.filter(
-      (_, index) => index < this.state.displayCommentCount,
-    );
 
     return (
       <div className="meeting-board__comment">
         <div>
-          {viewComments.map(v => {
+          {comments.map(v => {
             const user = v.get("user");
             const comment = v.get("text");
             const updatedAt = v.get("updatedAt");
@@ -88,13 +73,6 @@ class AnnouncementItem extends PureComponent {
             );
           })}
         </div>
-        {comments.size > this.state.displayCommentCount ? (
-          <div className="meeting-board__comment__loadmore">
-            <a onClick={() => this.handleDisplayComment(VIEW_MORE_COMMENT)}>
-              さらに表示
-            </a>
-          </div>
-        ) : null}
       </div>
     );
   }

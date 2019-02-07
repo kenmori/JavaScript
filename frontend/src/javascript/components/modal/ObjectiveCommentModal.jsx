@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Modal, Header, Form } from "semantic-ui-react";
-import StretchCommentPane from "../okrmodal/StretchCommentPane";
+import OKRCommentList from "../organisms/OKRCommentList";
 
 class ObjectiveCommentModal extends PureComponent {
   constructor() {
@@ -77,7 +77,7 @@ class ObjectiveCommentModal extends PureComponent {
         onClose={closeModal}>
         <Modal.Content scrolling>
           <Header as="h4">{title}</Header>
-          <StretchCommentPane
+          <OKRCommentList
             comments={comments}
             onDelete={this.removeComment}
             onUpdate={this.editComment}

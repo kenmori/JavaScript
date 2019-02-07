@@ -1,13 +1,12 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import { List } from "immutable";
 import { Form, Label } from "semantic-ui-react";
-import NumberInput from "../form/NumberInput";
-import OkrDescription from "../form/OkrDescription";
-import PopupLabel from "../util/PopupLabel";
-import AutoInput from "../form/AutoInput";
-import StretchCommentPane from "./StretchCommentPane";
+import NumberInput from "../../../form/NumberInput";
+import OkrDescription from "../../../form/OkrDescription";
+import PopupLabel from "../../../util/PopupLabel";
+import AutoInput from "../../../form/AutoInput";
+import OKRCommentList from "../../OKRCommentList";
 
 class ObjectivePane extends PureComponent {
   constructor(props) {
@@ -145,7 +144,6 @@ class ObjectivePane extends PureComponent {
             objective.get("parentKeyResult"),
           )}
         </Form.Field>
-
         <Form.Field>
           <label>説明</label>
           <OkrDescription
@@ -153,7 +151,6 @@ class ObjectivePane extends PureComponent {
             onCommit={this.handleDescriptionCommit}
           />
         </Form.Field>
-
         <Form.Field className="flex-field">
           <label>結果</label>
           <div className="flex-field__item">
@@ -164,14 +161,12 @@ class ObjectivePane extends PureComponent {
             />
           </div>
         </Form.Field>
-
         <Form.Field>
           <label>アナウンスメント ({comments ? comments.size : 0})</label>
           <div className="comment-pane">
             {comments ? (
-              <StretchCommentPane
+              <OKRCommentList
                 comments={comments}
-                commentLabels={List()}
                 onDelete={this.removeComment}
                 onUpdate={this.editComment}
               />
@@ -198,17 +193,11 @@ class ObjectivePane extends PureComponent {
 }
 
 ObjectivePane.propTypes = {
-  // container
-  disableObjective: PropTypes.func.isRequired,
-  // component
   objective: ImmutablePropTypes.map.isRequired,
-  users: ImmutablePropTypes.list.isRequired,
-  loginUserId: PropTypes.number.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  isObjectiveOwner: PropTypes.bool.isRequired,
-  updateObjective: PropTypes.func.isRequired,
-  removeObjective: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
+  updateObjective: PropTypes.func.isRequired,
+  setDirty: PropTypes.func.isRequired,
 };
 
 export default ObjectivePane;

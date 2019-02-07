@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Form, Comment, Label } from "semantic-ui-react";
 import moment from "moment";
-import AutoTextArea from "../form/AutoTextArea";
-import avatar_image from "../../images/avatar.png";
-import Markdown from "../atoms/Markdown";
-import UserName from "../util/UserName";
-import CommentLabelDropdown from "./CommentLabelDropdown";
+import AutoTextArea from "../../form/AutoTextArea";
+import avatar_image from "../../../images/avatar.png";
+import Markdown from "../../atoms/Markdown";
+import UserName from "../../util/UserName";
+import CommentLabelDropdown from "../../atoms/CommentLabelDropdown";
 
-class OkrComment extends PureComponent {
+class OKRComment extends PureComponent {
   constructor(props) {
     super(props);
     const comment = props.comment;
@@ -138,11 +138,11 @@ class OkrComment extends PureComponent {
   }
 }
 
-OkrComment.propTypes = {
+OKRComment.propTypes = {
   comment: ImmutablePropTypes.map.isRequired,
   commentLabels: ImmutablePropTypes.list,
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
 
-export default OkrComment;
+export default OKRComment;
