@@ -477,3 +477,15 @@ var foo : IFoo = (val1 : string){
 React x Redux x TypeScript
 
 [https://medium.com/swinginc/react-redux-typescript-into-the-better-frontend-tutorial-d32f46e97995]()https://medium.com/swinginc/react-redux-typescript-into-the-better-frontend-tutorial-d32f46e97995
+
+[https://qiita.com/murank/items/588eaddfe8af59914658](https://qiita.com/murank/items/588eaddfe8af59914658)
+
+特定のエラーだけ無視するコメントアウト
+
+```ts
+//@ts-ignore
+```
+
+[https://codeburst.io/five-tips-i-wish-i-knew-when-i-started-with-typescript-c9e8609029db](https://codeburst.io/five-tips-i-wish-i-knew-when-i-started-with-typescript-c9e8609029db)
+
+[https://definitelytyped.org/guides/best-practices.html](https://definitelytyped.org/guides/best-practices.html)
