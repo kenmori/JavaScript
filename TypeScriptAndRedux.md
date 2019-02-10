@@ -519,3 +519,212 @@ React x Redux x TypeScript
 [https://codeburst.io/five-tips-i-wish-i-knew-when-i-started-with-typescript-c9e8609029db](https://codeburst.io/five-tips-i-wish-i-knew-when-i-started-with-typescript-c9e8609029db)
 
 [https://definitelytyped.org/guides/best-practices.html](https://definitelytyped.org/guides/best-practices.html)
+
+### 型アサーション
+
+[https://docs.solab.jp/typescript/class/assertion/](https://docs.solab.jp/typescript/class/assertion/)
+
+```ts
+class Foo {
+  public foo: string = "Foo";
+}
+
+class Bar extends Foo {
+  public bar: string = "Bar";
+}
+
+function factory(type: string) {
+  if (type == "Foo") {
+    return new Foo();
+  } else {
+    return new Bar();
+  }
+}
+
+// factoryには返り値の型指定がない。この場合どちらも代入可能なFooが推論される
+
+var foo = factory("Bar");
+if (foo instanceof Bar) {
+  var bar: Bar = <Bar>foo;
+}
+```
+
+### <T extends Example> は型制約(「T は Example のサブタイプでなければならない」の意味)
+
+```ts
+interface FooInterface1 {
+  foo1(): string;
+}
+
+class FooClass1 implements FooInterface1 {
+  public foo1(): string {
+    return "foo1";
+  }
+}
+
+interface FooInterface2 {
+  foo2(): string;
+}
+
+class FooClass2 implements FooInterface2 {
+  public foo2(): string {
+    return "foo2";
+  }
+}
+
+// 型パラメータ T に 制約 extends FooInterface1 を追加
+class Bar<T extends FooInterface1> {}
+
+var bar1 = new Bar<FooClass1>();
+
+// FooClass2 は FooInterface1 のサブタイプではないのでコンパイルエラー
+var bar2 = new Bar<FooClass2>(); //Error Type 'FooClass2' does not satisfy the constraint 'FooInterface1'.
+//Property 'foo1' is missing in type 'FooClass2' but required in type 'FooInterface1'.
+```
+
+### sybtyping
+
+構造上同じなら互換性がある
+・private を持っている場合は同じでもコンパイルエラー
+
+[https://docs.solab.jp/typescript/object/subtyping/](https://docs.solab.jp/typescript/object/subtyping/)
+
+```ts
+type Foo = {
+  x: string;
+  y(): void;
+};
+
+class Bar {
+  public x: string;
+  public y(): void {}
+  public z(): void {}
+}
+
+var result: Foo = new Bar();
+```
+
+```ts
+type Foo = {
+  x: string;
+  y(): void;
+};
+
+var obj = {
+  x: "fafa",
+  y() {},
+  name: ""
+};
+var result: Foo = obj;
+```
+
+```ts
+type Foo = {
+  x: string;
+  y(): void;
+};
+
+var obj = {
+  x: "fafa",
+  y() {},
+  name: ""
+};
+function F(obj: Foo) {
+  return obj;
+}
+F(obj);
+```
+
+### アンビエント宣言
+
+TypeScript コンパイラに JavaScript ライブラリが静的型付けされることを伝えるため
+
+その宣言ソースファイルが `*.d.ts`
+
+```ts
+declare module "fooModule" {
+  export function bar(): string;
+}
+
+import m = require("fooModule");
+var result5 = m.bar();
+```
+
+```txt
+//https://docs.solab.jp/typescript/ambient/declaration/
+
+TypeScript では console.log などを呼び出してもコンパイルエラーにはなりません。 これは、TypeScript コンパイラがデフォルトで lib.d.ts という宣言ソースファイルを利用しており、 lib.d.ts には次のようなアンビエント宣言が記述されているためです。
+
+// lib.d.ts
+declare var console: Console;
+```
+
+### why
+
+[Why am I getting an error “Object literal may only specify known properties”?](https://stackoverflow.com/questions/31816061/why-am-i-getting-an-error-object-literal-may-only-specify-known-properties)
+
+```ts
+interface Foo {
+  name: string;
+}
+
+class Foo2 implements Foo {
+  name = "string";
+  age = 29;
+}
+
+let obj: Foo = { name: "fafaf", age: 90 };
+// Type '{ name: string; age: number; }' is not assignable to type 'Foo'.
+//  Object literal may only specify known properties, and 'age' does not exist in type 'Foo'.
+```
+
+to fix
+
+```ts
+const other = { name: "fafaf", age: 90 };
+let obj: Foo = other;
+```
+
+or
+
+```ts
+let obj: Foo = <Foo>{ name: "fafaf", age: 90 };
+```
+
+or
+
+```ts
+//何が入ってくるかわからない場合
+interface Foo {
+  name: string;
+  [other: string]: any; //here
+}
+
+class Foo2 implements Foo {
+  name = "string";
+  age = 29;
+}
+
+let obj: Foo = { name: "fafaf", age: 90 };
+```
+
+**type assersion**
+
+追加のプロパティは型チェックをしない。時に使う
+
+```ts
+interface Options {
+  x?: string;
+  y?: number;
+}
+
+// Error, no property 'z' in 'Options'
+let q1: Options = { x: "foo", y: 32, z: 100 }; //通常
+
+// OK
+let q2 = <Options>{ x: "foo", y: 32, z: 100 }; //<T>v or v as T
+let q3 = { x: "foo", y: 32, z: 100 } as Options;
+
+// Still an error (good):
+let q4 = <Options>{ x: 100, y: 32, z: 100 };
+```
