@@ -390,7 +390,37 @@ declare const obj: StrFunc | NumFunc;
 obj(123);
 ```
 
-解決例
+### ?:省略可能なプロパティ
+
+?をつけたプロパティは渡ってこない可能性があるので自動的に `undefined | number`　 の union 型になる
+ので使うときは undefined チェックする必要がある
+
+```ts
+interface MyObj {
+  name: string;
+  age: number | undefined;
+}
+
+let obj: MyObj = {
+  name: "kenji"
+};
+//Property 'age' is missing in type '{ name: string; }' but required in type 'MyObj'.
+```
+
+?を使わない場合は存在はしていないといけない
+
+```ts
+interface MyObj {
+  name: string;
+  age?: number | undefined;
+}
+
+let obj: MyObj = {
+  name: "kenji"
+};
+```
+
+### 解決例
 
 ```ts
 interface Hoge {
