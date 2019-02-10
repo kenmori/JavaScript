@@ -18,13 +18,13 @@ class Home extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const {
-      isFetchedObjectives,
+      isFetchedCandidates,
       isModal,
       objectiveId,
       keyResultId,
       openOkrModal,
     } = this.props;
-    if (!prevProps.isFetchedObjectives && isFetchedObjectives) {
+    if (!prevProps.isFetchedCandidates && isFetchedCandidates) {
       if (isModal) {
         openOkrModal(objectiveId, keyResultId);
       }

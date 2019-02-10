@@ -12,7 +12,7 @@ const mapStateToProps = (state, { match: { params } }) => ({
   keyResultId: parseInt(params.keyResultId),
   okrPeriodId: state.current.get("okrPeriodId"),
   userId: state.current.get("userId"),
-  isFetchedObjectives: state.objectives.get("isFetchedObjectives"),
+  isFetchedCandidates: state.objectives.get("isFetchedCandidates"),
 });
 
 const mapDispatchToProps = dispatch => ({
