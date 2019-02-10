@@ -12,19 +12,22 @@ class Home extends PureComponent {
   }
 
   componentDidMount() {
+    const { fetchOkrs, okrPeriodId, userId } = this.props;
+    fetchOkrs(okrPeriodId, userId);
+  }
+
+  componentDidUpdate(prevProps) {
     const {
-      fetchOkrs,
-      okrPeriodId,
-      userId,
+      isFetchedObjectives,
       isModal,
       objectiveId,
       keyResultId,
       openOkrModal,
     } = this.props;
-
-    fetchOkrs(okrPeriodId, userId);
-    if (isModal) {
-      openOkrModal(objectiveId, keyResultId);
+    if (!prevProps.isFetchedObjectives && isFetchedObjectives) {
+      if (isModal) {
+        openOkrModal(objectiveId, keyResultId);
+      }
     }
   }
 
