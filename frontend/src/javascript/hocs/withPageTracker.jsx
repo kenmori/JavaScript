@@ -3,6 +3,7 @@
  */
 import React, { Component } from "react";
 import ReactGA from "react-ga";
+import mixpanel from "../utils/mixpanel";
 
 export default function withPageTracker(WrappedComponent, options = {}) {
   const trackPage = page => {
@@ -11,6 +12,10 @@ export default function withPageTracker(WrappedComponent, options = {}) {
       ...options,
     });
     ReactGA.pageview(page);
+    mixpanel.track("Page View", {
+      Page: page,
+    });
+    mixpanel.people.increment("page_views");
   };
 
   const HOC = class extends Component {

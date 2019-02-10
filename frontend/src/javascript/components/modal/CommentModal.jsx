@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Modal, Header, Form } from "semantic-ui-react";
 import OKRCommentList from "../organisms/OKRCommentList";
+import { track } from "../../utils/mixpanel";
 
 class CommentModal extends PureComponent {
   constructor() {
@@ -35,6 +36,8 @@ class CommentModal extends PureComponent {
       },
     });
     this.setState({ text: "" });
+
+    track.postComment(commentLabel.get("name"));
   };
 
   removeComment = id => {

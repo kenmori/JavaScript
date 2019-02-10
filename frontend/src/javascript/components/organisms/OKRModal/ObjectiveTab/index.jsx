@@ -1,8 +1,23 @@
 import React from "react";
 import { Tab, Menu, Label } from "semantic-ui-react";
+import { track } from "../../../../utils/mixpanel";
 import ObjectivePane from "./ObjectivePane";
 import ObjectiveInfoPane from "./ObjectiveInfoPane";
 import ObjectiveHistoryPane from "./ObjectiveHistoryPane";
+
+function handleTabChange(_, { activeIndex }) {
+  switch (activeIndex) {
+    case 0:
+      track.changeTabToProgressFromOKRModalO();
+      break;
+    case 1:
+      track.changeTabToInfoFromOKRModalO();
+      break;
+    case 2:
+      track.changeTabToHistoryFromOKRModalO();
+      break;
+  }
+}
 
 const ObjectiveTab = React.memo(
   ({
@@ -95,6 +110,7 @@ const ObjectiveTab = React.memo(
             ),
           },
         ]}
+        onTabChange={handleTabChange}
       />
     );
   },

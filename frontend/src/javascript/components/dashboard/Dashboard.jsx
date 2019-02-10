@@ -7,6 +7,7 @@ import ObjectiveList from "../../containers/ObjectiveList";
 import KeyResultList from "../../containers/KeyResultList";
 import OkrMap from "../../containers/OkrMap";
 import { OkrTypes } from "../../utils/okr";
+import { track } from "../../utils/mixpanel";
 
 class Dashboard extends PureComponent {
   constructor(props) {
@@ -15,6 +16,17 @@ class Dashboard extends PureComponent {
 
   handleMenuItemClick = (e, { name }) => {
     this.props.selectTab(name);
+    switch (name) {
+      case OkrTypes.OBJECTIVE:
+        track.changeTabToObjectiveFromHome();
+        break;
+      case OkrTypes.KEY_RESULT:
+        track.changeTabToKeyResultFromHome();
+        break;
+      case OkrTypes.TASK:
+        track.changeTabToTaskFromHome();
+        break;
+    }
   };
 
   getSelectedTab = () => {

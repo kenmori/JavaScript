@@ -1,6 +1,7 @@
 import { createActions } from "redux-actions";
 import actionTypes from "../constants/actionTypes";
 import { normalizeObjective, normalizeObjectives } from "../schemas/index";
+import { track } from "../utils/mixpanel";
 
 const actions = createActions({
   [actionTypes.FETCH_OKRS]: (
@@ -43,7 +44,14 @@ const actions = createActions({
   }),
   [actionTypes.FETCHED_OBJECTIVE_CANDIDATES]: objectives =>
     normalizeObjectives(objectives),
-  [actionTypes.ADD_OBJECTIVE]: (objective, isCopy) => ({ objective, isCopy }),
+  [actionTypes.ADD_OBJECTIVE]: (objective, isCopy) => {
+    track.createObjective();
+
+    return {
+      objective,
+      isCopy,
+    };
+  },
   [actionTypes.ADDED_OBJECTIVE]: (objective, currentUserId) =>
     normalizeObjective(objective).set("currentUserId", currentUserId),
   [actionTypes.UPDATE_OBJECTIVE]: (objective, isToast = true) => ({

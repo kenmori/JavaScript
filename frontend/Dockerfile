@@ -4,10 +4,11 @@ ENV LANG C.UTF-8
 
 WORKDIR /app
 
-COPY package.json .
-COPY package-lock.json .
+COPY package.json package-lock.json ./
 RUN npm i
 ARG NODE_ENV="production"
+ARG GA_TRACKING_CODE
+ARG MIXPANEL_TOKEN
 
 COPY . .
 RUN npm run build

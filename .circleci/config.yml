@@ -98,6 +98,11 @@ jobs:
       - store_artifacts:
           path: docs/api
   build:
+    parameters:
+      ga_tracking_code:
+        type: string
+      mixpanel_token:
+        type: string
     executor:
       name: build
     steps:
@@ -110,7 +115,7 @@ jobs:
           command: sudo pip install awscli --upgrade
       - run:
           name: Build Docker images
-          command: DOCKER_BUILDKIT=1 ./tools/build -t ${CIRCLE_SHA1}
+          command: DOCKER_BUILDKIT=1 GA_TRACKING_CODE=<< parameters.ga_tracking_code >> MIXPANEL_TOKEN=<< parameters.mixpanel_token >> ./tools/build -t ${CIRCLE_SHA1}
   deploy:
     parameters:
       env:
@@ -135,6 +140,8 @@ workflows:
       - test
       - build:
           name: build-docker-images-by-commit
+          ga_tracking_code: UA-111410984-4
+          mixpanel_token: c8de307c03292a5cb432a4de66d23ea4
           requires:
             - test
           filters:
@@ -144,6 +151,8 @@ workflows:
               only: master
       - build:
           name: build-docker-images-by-tag
+          ga_tracking_code: UA-111410984-3
+          mixpanel_token: 45bea21e3ddaf7e63c8ca0e835775316
           filters:
             branches:
               ignore: /.*/
@@ -151,6 +160,8 @@ workflows:
               only: /^v.*/
       - build:
           name: build-docker-images-by-deploy-branch
+          ga_tracking_code: UA-111410984-4
+          mixpanel_token: c8de307c03292a5cb432a4de66d23ea4
           requires:
             - test
           filters:

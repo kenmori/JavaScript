@@ -16,6 +16,8 @@ services:
     environment:
       TZ: Asia/Tokyo
       NODE_ENV: development
+      GA_TRACKING_CODE: ""
+      MIXPANEL_TOKEN: 1434f6d6d5272917e485b150dd448813
   api: &api
     build:
       context: core-api
@@ -46,6 +48,7 @@ services:
       AWS_SQS_QUEUE_URL: http://localstack:4576/queue/bounces
       MINIO_HOST: minio
       MINIO_ENDPOINT: http://minio:9000
+      MIXPANEL_TOKEN: 1434f6d6d5272917e485b150dd448813
       RAILS_DATABASE_HOST: db
       RAILS_DATABASE_PASSWORD: password
   worker:

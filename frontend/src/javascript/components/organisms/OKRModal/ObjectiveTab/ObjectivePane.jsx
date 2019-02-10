@@ -7,6 +7,7 @@ import OkrDescription from "../../../form/OkrDescription";
 import PopupLabel from "../../../util/PopupLabel";
 import AutoInput from "../../../form/AutoInput";
 import OKRCommentList from "../../OKRCommentList";
+import { track } from "../../../../utils/mixpanel";
 
 class ObjectivePane extends PureComponent {
   constructor(props) {
@@ -25,14 +26,18 @@ class ObjectivePane extends PureComponent {
 
   handleProgressRateChange = progressRate => this.setState({ progressRate });
 
-  handleProgressRateCommit = progressRate =>
+  handleProgressRateCommit = progressRate => {
     this.props.updateObjective({ progressRate: progressRate || null });
+    track.updateObjectiveProgressRate();
+  };
 
   handleSubProgressRateClick = () =>
     this.props.updateObjective({ progressRate: null });
 
-  handleDescriptionCommit = description =>
+  handleDescriptionCommit = description => {
     this.props.updateObjective({ description });
+    track.updateObjectiveDescription();
+  };
 
   subProgressRateHtml(objective) {
     const progressRate = objective.get("progressRate");
@@ -74,7 +79,10 @@ class ObjectivePane extends PureComponent {
     this.props.setDirty(!!value);
   };
 
-  handleResultCommit = result => this.props.updateObjective({ result });
+  handleResultCommit = result => {
+    this.props.updateObjective({ result });
+    track.updateObjectiveResult();
+  };
 
   addComment = () => {
     const { text } = this.state;
@@ -88,6 +96,7 @@ class ObjectivePane extends PureComponent {
     });
     this.setState({ text: "" });
     this.props.setDirty(false);
+    track.postAnnouncement();
   };
 
   removeComment = id => {

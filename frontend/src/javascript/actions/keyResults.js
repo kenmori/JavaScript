@@ -1,6 +1,7 @@
 import { createActions } from "redux-actions";
 import actionTypes from "../constants/actionTypes";
 import { normalizeKeyResult, normalizeKeyResults } from "../schemas/index";
+import { track } from "../utils/mixpanel";
 
 const actions = createActions({
   [actionTypes.FETCH_KEY_RESULTS]: (okrPeriodId, userId) => ({
@@ -23,7 +24,12 @@ const actions = createActions({
   [actionTypes.FETCHED_KEY_RESULT_COMMENT_LABELS]: labels => ({ labels }),
   [actionTypes.FETCHED_TASK_KEY_RESULTS]: keyResults =>
     normalizeKeyResults(keyResults),
-  [actionTypes.ADD_KEY_RESULT]: keyResult => ({ keyResult }),
+  [actionTypes.ADD_KEY_RESULT]: keyResult => {
+    track.createKeyResult();
+    return {
+      keyResult,
+    };
+  },
   [actionTypes.ADDED_KEY_RESULT]: (keyResult, currentUserId) =>
     normalizeKeyResult(keyResult).set("currentUserId", currentUserId),
   [actionTypes.UPDATE_KEY_RESULT]: keyResult => ({ keyResult }),

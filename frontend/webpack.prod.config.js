@@ -82,7 +82,8 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production"),
-      "process.env.GA_TRACKING_CODE": JSON.stringify("UA-111410984-3"),
+      "process.env.GA_TRACKING_CODE": JSON.stringify(process.env.GA_TRACKING_CODE),
+      "process.env.MIXPANEL_TOKEN": JSON.stringify(process.env.MIXPANEL_TOKEN),
     }),
     new CompressionPlugin({
       filename: "[path].gz[query]",
@@ -93,3 +94,4 @@ module.exports = {
     }),
   ],
 };
+``

@@ -11,6 +11,7 @@ import StatusRadio from "../../../util/StatusRadio";
 import PopupLabel from "../../../util/PopupLabel";
 import CommentLabelDropdown from "../../../atoms/CommentLabelDropdown";
 import OKRCommentList from "../../OKRCommentList";
+import { track } from "../../../../utils/mixpanel";
 
 class KeyResultPane extends PureComponent {
   constructor(props) {
@@ -40,11 +41,15 @@ class KeyResultPane extends PureComponent {
     }
   }
 
-  handleTargetValueCommit = targetValue =>
+  handleTargetValueCommit = targetValue => {
     this.props.updateKeyResult({ targetValue });
+    track.updateKeyResultTargetValue();
+  };
 
-  handleActualValueCommit = actualValue =>
+  handleActualValueCommit = actualValue => {
     this.props.updateKeyResult({ actualValue });
+    track.updateKeyResultActualValue();
+  };
 
   handleValueUnitCommit = valueUnit =>
     this.props.updateKeyResult({ valueUnit });
@@ -54,8 +59,10 @@ class KeyResultPane extends PureComponent {
 
   handleProgressRateChange = progressRate => this.setState({ progressRate });
 
-  handleProgressRateCommit = progressRate =>
+  handleProgressRateCommit = progressRate => {
     this.props.updateKeyResult({ progressRate: progressRate || null });
+    track.updateKeyResultProgressRate();
+  };
 
   handleSubProgressRateClick = () =>
     this.props.updateKeyResult({ progressRate: null });
@@ -65,12 +72,20 @@ class KeyResultPane extends PureComponent {
       expiredDate: expiredDate.format("YYYY-MM-DD"),
     });
 
-  handleStatusChange = status => this.props.updateKeyResult({ status });
+  handleStatusChange = status => {
+    this.props.updateKeyResult({ status });
+    track.updateKeyResultHealthy();
+  };
 
-  handleResultCommit = result => this.props.updateKeyResult({ result });
+  handleResultCommit = result => {
+    this.props.updateKeyResult({ result });
+    track.updateKeyResultResult();
+  };
 
-  handleDescriptionCommit = description =>
+  handleDescriptionCommit = description => {
     this.props.updateKeyResult({ description });
+    track.updateKeyResultDescription();
+  };
 
   subProgressRateHtml(keyResult) {
     const progressRate = keyResult.get("progressRate");
@@ -96,7 +111,7 @@ class KeyResultPane extends PureComponent {
   };
 
   addComment = () => {
-    const { updateKeyResult, setDirty } = this.props;
+    const { updateKeyResult, setDirty, keyResultCommentLabels } = this.props;
     const { text, commentLabel } = this.state;
     if (!text) return;
 
@@ -109,6 +124,15 @@ class KeyResultPane extends PureComponent {
     });
     this.setState({ text: "" });
     setDirty(false);
+
+    const label = keyResultCommentLabels.find(
+      e => e.get("id") === commentLabel,
+    );
+    if (label) {
+      track.postComment(label.get("name"));
+    } else {
+      track.postComment();
+    }
   };
 
   removeComment = id => {

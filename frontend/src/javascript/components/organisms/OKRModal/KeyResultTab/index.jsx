@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Tab, Menu, Label } from "semantic-ui-react";
+import { track } from "../../../../utils/mixpanel";
 import KeyResultPane from "./KeyResultPane";
 import KeyResultInfoPane from "./KeyResultInfoPane";
 import KeyResultHistoryPane from "./KeyResultHistoryPane";
@@ -33,6 +34,17 @@ class KeyResultTab extends PureComponent {
     } else {
       this.setState({ activeIndex });
     }
+    switch (activeIndex) {
+      case 0:
+        track.changeTabToProgressFromOKRModalKR();
+        break;
+      case 1:
+        track.changeTabToInfoFromOKRModalKR();
+        break;
+      case 2:
+        track.changeTabToHistoryFromOKRModalKR();
+        break;
+    }
   };
 
   render() {
@@ -45,7 +57,6 @@ class KeyResultTab extends PureComponent {
       isObjectiveOwner,
       isKeyResultOwner,
       isFetchedObjectiveCandidates,
-      updateKeyResult,
       disableKeyResult,
       removeKeyResult,
       openObjectiveModal,

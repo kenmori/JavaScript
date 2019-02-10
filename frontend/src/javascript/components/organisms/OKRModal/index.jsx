@@ -119,7 +119,11 @@ class OKRModal extends PureComponent {
     const name = keyResult ? keyResult.get("name") : objective.get("name");
 
     return (
-      <ModalLayout title={name} isOpen={isOpen} handleClose={closeModal}>
+      <ModalLayout
+        title={name}
+        size="large"
+        isOpen={isOpen}
+        handleClose={closeModal}>
         <div className="okr-modal-content">
           <div className="okr-body">
             <OKRSideBar

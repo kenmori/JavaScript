@@ -1,15 +1,19 @@
 import { createActions } from "redux-actions";
 import actionTypes from "../constants/actionTypes";
+import { track } from "../utils/mixpanel";
 
 const actions = createActions({
   [actionTypes.OPEN_KEY_RESULT_MODAL]: objective => ({ objective }),
   [actionTypes.CLOSE_KEY_RESULT_MODAL]: () => {},
   [actionTypes.OPEN_OBJECTIVE_MODAL]: parentKeyResult => ({ parentKeyResult }),
   [actionTypes.CLOSE_OBJECTIVE_MODAL]: () => {},
-  [actionTypes.OPEN_OKR_MODAL]: (objectiveId, keyResultId) => ({
-    objectiveId,
-    keyResultId,
-  }),
+  [actionTypes.OPEN_OKR_MODAL]: (objectiveId, keyResultId) => {
+    track.openOKRModal();
+    return {
+      objectiveId,
+      keyResultId,
+    };
+  },
   [actionTypes.OPENED_OKR_MODAL]: (objectiveId, keyResultId) => ({
     objectiveId,
     keyResultId,
@@ -25,7 +29,10 @@ const actions = createActions({
   [actionTypes.CLOSE_ERROR_MODAL]: () => {},
   [actionTypes.OPEN_CONFIRM_MODAL]: params => ({ params }),
   [actionTypes.CLOSE_CONFIRM_MODAL]: () => {},
-  [actionTypes.OPEN_OPTION_MODAL]: () => {},
+  [actionTypes.OPEN_OPTION_MODAL]: () => {
+    track.openOptionModal();
+    return {};
+  },
   [actionTypes.CLOSE_OPTION_MODAL]: () => {},
   [actionTypes.OPEN_COMMENT_MODAL]: commentLabel => ({ commentLabel }),
   [actionTypes.CLOSE_COMMENT_MODAL]: () => {},
