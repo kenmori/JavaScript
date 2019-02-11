@@ -8,6 +8,20 @@ Flow で型付けしていったそれと何が違うのか、また使えるユ
 
 [https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)
 
+概要
+interface のなかでオーバーライドする際は
+
+- Number, String, Boolean, or Object を使うな(代わりに number, string, boolean, object を使え)
+- 引数の数だけ違う場合 オプショナルを使え (それだけで違う関数型をオーバーライドしない)
+- ある引数だけの型が違う場合 ユニオンタイプを使え(それだけで違う関数型をオーバーライドしない)
+- 返り値の型が違う場合オーバーライドする
+- オーバーライドする順番は厳密 -> ゆるくする (TS はマッチしたところで検索をやめるため)
+- コールバック関数の戻り値に any を指定せず void を使え (戻り値で何かする場合にチェックされなくなるため)
+- コールバックの引数分だけオーバーライドするな (オプショナルやユニオンタイプ記述しろ)
+- コールバック内の引数はオプショナルを使わず、最大で受け取る引数分だけ片付けしろ
+
+object 型・・・`number, string, boolean, symbol, null, or undefined` 以外と互換性がある
+
 #### Callback Types
 
 callback の返り値に any を指定しないこと
@@ -728,3 +742,108 @@ let q3 = { x: "foo", y: 32, z: 100 } as Options;
 // Still an error (good):
 let q4 = <Options>{ x: 100, y: 32, z: 100 };
 ```
+
+#### 型推論 2
+
+[Type Inference in TypeScript](https://basarat.gitbooks.io/typescript/docs/types/type-inference.html)
+
+これだけで推論は行われる。foo はリテラル型として。
+
+```ts
+let foo = {
+  a: 123,
+  b: 456
+};
+foo.a = "hello"; //Type '"hello"' is not assignable to type 'number'.
+
+//destructuring
+
+let foo = {
+  a: 123,
+  b: 456
+};
+let { a } = foo;
+foo.a = "hello"; //Type '"hello"' is not assignable to type 'number'.
+
+//ex1 これだとfooは型推論できない。なぜならパラメータに型づけされてないので何が起こるかわからないからだ
+const foo = (a, b) => {
+  /* do something */
+};
+
+//この場合
+type TwoNumberFunction = (a: number, b: number) => void;
+const foo: TwoNumberFunction = (a, b) => {
+  /* do something */
+};
+
+//こうすることで推論できる
+
+//ex2 関数の戻り値は型推論が行われるが、期待している型ではないかもしれない
+
+//これは anyになって帰って来ます
+function foo(a: number, b: number) {
+  return a + addOne(b);
+}
+
+// Some external function in a library someone wrote in JavaScript
+function addOne(a) {
+  return a + 1;
+}
+//なぜならaddOneへの型定義は弱いからです
+// a が anyで addOne
+```
+
+### Type Compatibility
+
+```ts
+const str = "Hello";
+str = "fafafa";
+```
+
+**extra information is ok**
+
+this is raiging error
+
+```ts
+interface Foo {
+  name: string;
+}
+let obj: Foo = { name: "fafaf", age: 90 };
+```
+
+```ts
+interface Foo {
+  name: string;
+}
+interface Foo2 {
+  name: string;
+  age: number;
+}
+let obj2: Foo2 = { name: "fafaf", age: 90 };
+let obj: Foo = obj2; //extra info is ok
+```
+
+#### ex4
+
+```ts
+function f(obj: { a: number; b: string }) {
+  return obj;
+}
+
+f({ a: 3, b: "", c: "fafaf" });
+//Argument of type '{ a: number; b: string; c: string; }' is not assignable to parameter of type '{ a: number; b: string; }'.
+//Object literal may only specify known properties, and 'c' does not exist in type '{ a: number; b: string; }'.
+```
+
+interface vs Types
+
+[TypeScript の Interface と Type alias の比較](https://qiita.com/tkrkt/items/d01b96363e58a7df830e)
+
+- 同じ型名が存在する場合 merge される interface, エラーになる types
+- MappedType が使えない interface, 使える Types (インデックスシグネチャ型ではどちらも使える)
+- 交差型、共用体型が使える types, 使えない interface
+- 規定しないプロパティの扱いが interface は他にもあるものとして扱う、types は存在していないものとして扱う
+
+### keyof
+
+[https://qiita.com/Quramy/items/e27a7756170d06bef22a](https://qiita.com/Quramy/items/e27a7756170d06bef22a)
