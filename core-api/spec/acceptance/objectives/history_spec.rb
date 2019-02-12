@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "GET /objectives/:id/histories", warden: true do
-  explanation "objectives#history"
-
+RSpec.resource "objectives", warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 

@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/Resily/resily.svg?style=shield&circle-token=2c0dc0552d295856e1e80cc81633b7f7c5e27695)](https://circleci.com/gh/Resily/resily)
-[![API Doc](https://img.shields.io/badge/API%20Doc-here-green.svg)](https://circleci.com/api/v1.1/project/github/Resily/resily/latest/artifacts/0/home/circleci/repo/core-api/docs/api/index.html?&branch=master&filter=successful)
+[![API Doc](https://img.shields.io/badge/API%20Doc-here-green.svg)](https://circleci.com/api/v1.1/project/github/Resily/resily/latest/artifacts/0/home/circleci/repo/core-api/docs/api/index.html)
+
 # Resily (リシリー)
 
 OKR の作成・運用・管理を目的としたクラウド OKR ツール。
