@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "PUT /key_results/:id/process", warden: true do
-  explanation "key_results#update_processed 指定したKeyResultをサインインユーザーが着手した状態にする"
-
+RSpec.resource "key_results", warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 

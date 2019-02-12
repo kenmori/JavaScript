@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "PATCH /departments/:id/restore", warden: true do
-  explanation "departmnets#restore"
-
+RSpec.resource "departments", warden: true do
   include RequestHeaderJson
   include DepartmentDataset
   using DepartmentHelper

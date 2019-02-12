@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "PUT /key_results/:id/disable", warden: true do
-  explanation "key_results#update_disabled KeyResultを無効化/有効化する"
-
+RSpec.resource "key_results", warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 

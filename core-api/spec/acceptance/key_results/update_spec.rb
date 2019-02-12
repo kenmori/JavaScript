@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "PATCH /key_results/:id", warden: true do
-  explanation "key_results#update フロントエンドのフォームを編集する度にそのパラメータのみ送信されてくる仕様"
-
+RSpec.resource "key_results", warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 

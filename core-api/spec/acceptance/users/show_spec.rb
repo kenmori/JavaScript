@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "GET /users/:id", warden: true do
-  explanation "users#show"
-
+RSpec.resource "users", warden: true do
   include OrganizationDataset
   include RequestHeaderJson
 

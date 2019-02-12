@@ -3,9 +3,7 @@
 require "rspec_api_documentation/dsl"
 Rails.root.join("spec/acceptance/concerns").each_child { |path| require_dependency(path) }
 
-RSpec.resource "POST /departments", warden: true do
-  explanation "departmnets#create"
-
+RSpec.resource "departments", warden: true do
   include RequestHeaderJson
   include OrganizationDataset
 
