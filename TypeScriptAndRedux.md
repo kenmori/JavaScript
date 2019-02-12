@@ -846,4 +846,87 @@ interface vs Types
 
 ### keyof
 
-[https://qiita.com/Quramy/items/e27a7756170d06bef22a](https://qiita.com/Quramy/items/e27a7756170d06bef22a)
+# [https://qiita.com/Quramy/items/e27a7756170d06bef22a](https://qiita.com/Quramy/items/e27a7756170d06bef22a)
+
+### 改善
+
+from
+
+```ts
+export interface IBaseInfo {}
+export interface IMyInfo extends IBaseInfo {
+  name: string;
+}
+function testA(): IBaseInfo {
+  var result: IMyInfo = { name: "Hey!" };
+  return result;
+}
+```
+
+to
+
+```ts
+export interface IBaseInfo {}
+export interface IMyInfo extends IBaseInfo {
+  name: string;
+}
+function testA<T>(a: T): T {
+  return a;
+}
+
+let fafa = testA<IMyInfo>({ name: "key" });
+```
+
+### 1
+
+これだと string になってアサインできない
+
+```ts
+type Fruit = "Orange" | "Apple" | "Banana";
+
+let myString: string = "Banana";
+
+let myFruit: Fruit = myString; //Type 'string' is not assignable to type 'Fruit'.
+```
+
+キャストする
+
+```ts
+let myString: string = "Banana";
+
+let myFruit: Fruit = myString as Fruit;
+```
+
+### 2
+
+```ts
+interface IBaseInfo {}
+interface E extends IBaseInfo {
+  name: string;
+}
+
+let a: E = { name: "fafa" };
+
+let b: IBaseInfo = a; //継承元にはアサインが可能。aはbのsubtypeだから
+
+let cc: IBaseInfo = { name: "fafa" };
+//let c: E = cc //Error Property 'name' is missing in type 'IBaseInfo' but required in type 'E'.
+let c: E = cc as E;
+```
+
+### 宿題
+
+```ts
+export interface IBaseInfo {}
+export interface IMyInfo extends IBaseInfo {
+  name: string;
+}
+
+var kk: IMyInfo = { name: "key" };
+function testA<IMyInfo>(): IMyInfo {
+  var e = { name: "key" };
+  return e; //Type '{ name: string; }' is not assignable to type 'IMyInfo'.
+}
+
+let fafa = testA<IMyInfo>();
+```
