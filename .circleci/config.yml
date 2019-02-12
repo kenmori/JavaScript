@@ -153,6 +153,8 @@ workflows:
           name: build-docker-images-by-tag
           ga_tracking_code: UA-111410984-3
           mixpanel_token: 45bea21e3ddaf7e63c8ca0e835775316
+          requires:
+            - test
           filters:
             branches:
               ignore: /.*/
