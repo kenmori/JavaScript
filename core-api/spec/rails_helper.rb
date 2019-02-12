@@ -93,6 +93,7 @@ RspecApiDocumentation.configure do |config|
   config.docs_dir = Rails.root.join("docs/api")
   config.keep_source_order = true
   config.post_body_formatter = :json
+  config.curl_host = "http://localhost:3000"
   config.api_name = "Resily API Documentation"
 
   # NOTE RspecApiDocumentation に `status` というメソッドがあるが、`parameter :status` を指定したい時に `let(:status)` を作ろうと
