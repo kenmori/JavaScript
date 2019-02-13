@@ -846,4 +846,148 @@ interface vs Types
 
 ### keyof
 
+# [https://qiita.com/Quramy/items/e27a7756170d06bef22a](https://qiita.com/Quramy/items/e27a7756170d06bef22a)
+
+### 改善
+
+from
+
+```ts
+export interface IBaseInfo {}
+export interface IMyInfo extends IBaseInfo {
+  name: string;
+}
+function testA(): IBaseInfo {
+  var result: IMyInfo = { name: "Hey!" };
+  return result;
+}
+```
+
+to
+
+```ts
+export interface IBaseInfo {}
+export interface IMyInfo extends IBaseInfo {
+  name: string;
+}
+function testA<T>(a: T): T {
+  return a;
+}
+
+let fafa = testA<IMyInfo>({ name: "key" });
+```
+
+### 1
+
+これだと string になってアサインできない
+
+```ts
+type Fruit = "Orange" | "Apple" | "Banana";
+
+let myString: string = "Banana";
+
+let myFruit: Fruit = myString; //Type 'string' is not assignable to type 'Fruit'.
+```
+
+キャストする
+
+```ts
+let myString: string = "Banana";
+
+let myFruit: Fruit = myString as Fruit;
+```
+
+### 2
+
+```ts
+interface IBaseInfo {}
+interface E extends IBaseInfo {
+  name: string;
+}
+
+let a: E = { name: "fafa" };
+
+let b: IBaseInfo = a; //継承元にはアサインが可能。aはbのsubtypeだから
+
+let cc: IBaseInfo = { name: "fafa" };
+//let c: E = cc //Error Property 'name' is missing in type 'IBaseInfo' but required in type 'E'.
+let c: E = cc as E;
+```
+
+### 宿題
+
+```ts
+export interface IBaseInfo {}
+export interface IMyInfo extends IBaseInfo {
+  name: string;
+}
+
+var kk: IMyInfo = { name: "key" };
+function testA<IMyInfo>(): IMyInfo {
+  var e = { name: "key" };
+  return e; //Type '{ name: string; }' is not assignable to type 'IMyInfo'.
+}
+
+let fafa = testA<IMyInfo>();
+```
+
 [https://qiita.com/Quramy/items/e27a7756170d06bef22a](https://qiita.com/Quramy/items/e27a7756170d06bef22a)
+
+### Return Type
+
+代入先は少なくとも代入元のメンバーを含んでいないといけない
+
+```ts
+/** Type Hierarchy */
+interface Point2D {
+  x: number;
+  y: number;
+}
+interface Point3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+/** Two sample functions */
+let iMakePoint2D = (): Point2D => ({ x: 0, y: 0 });
+let iMakePoint3D = (): Point3D => ({ x: 0, y: 0, z: 0 });
+
+/** Assignment */
+iMakePoint2D = iMakePoint3D; // Okay
+iMakePoint3D = iMakePoint2D; // ERROR: Point2D is not assignable to Point3D
+```
+
+Number of Arguments
+
+少ない分には OK
+
+```ts
+let iTakeSomethingAndPassItAnErr = (x: (err: Error, data: any) => void) => {
+  /* do something */
+};
+
+iTakeSomethingAndPassItAnErr(() => null); // Okay
+iTakeSomethingAndPassItAnErr(err => null); // Okay
+iTakeSomethingAndPassItAnErr((err, data) => null); // Okay
+
+// ERROR: Argument of type '(err: any, data: any, more: any) => null' is not assignable to parameter of type '(err: Error, data: any) => void'.
+iTakeSomethingAndPassItAnErr((err, data, more) => null);
+```
+
+### unknown type
+
+[TypeScript 3.0.0-RC 変更点](https://qiita.com/vvakame/items/57a0559c45b88b2ae168)
+
+```ts
+```
+
+### ts
+
+[https://github.com/Microsoft/TypeScript/pull/21847](https://github.com/Microsoft/TypeScript/pull/21847)
+
+```ts
+type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; //type T00 = "b" | "d"
+```
+
+https://github.com/Microsoft/TypeScript/pull/21316
