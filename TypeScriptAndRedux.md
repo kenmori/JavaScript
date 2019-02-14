@@ -990,4 +990,183 @@ iTakeSomethingAndPassItAnErr((err, data, more) => null);
 type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; //type T00 = "b" | "d"
 ```
 
-https://github.com/Microsoft/TypeScript/pull/21316
+# https://github.com/Microsoft/TypeScript/pull/21316
+
+### 言葉
+
+- 相対インポートと非相対インポート
+- Classic 検索と Node 検索のモジュール解決時の検索方式の違い ([https://qiita.com/murank/items/5f11466474d49498bbd5#node](https://qiita.com/murank/items/5f11466474d49498bbd5#node))
+- baseUrl ・・・非相対で import されているファイルは全てここの url の相対パスとして扱われる。この値が相対パスの場合 tsconfig からの相対。コマンドラインはカレントからの相対になる
+
+### module
+
+`y`は`export`されていないので参照すると Error になる
+
+```ts
+module MyModule {
+  export var x: number = 0;
+  var y: number = 100;
+}
+```
+
+module をドットで繋ぐと下層のフィールドは`export`されたことになる
+以下は同じ
+
+```ts
+module MyModule {}
+module MyModule.MyNestedModule {}
+
+//と
+
+module MyModule {
+  export module MyNestedModule {}
+}
+```
+
+### Do
+
+if value is global
+
+if global value is read-only. use const.
+if global value is block scope. use let.
+
+```ts
+//declare var foo: number
+console.log("Half the number of widgets is " + foo / 2);
+```
+
+自作の myLib が greeting という関数と countNumber という回数がわかるプロパティを持つ場合
+
+```ts
+declare namespace myLib {
+  function greeting(str: string): void;
+  let count: number;
+}
+```
+
+同じ関数が返り値の型が違う場合
+
+```ts
+let x: Wiget = getWidget(43);
+let x: Wiget[] = getWidget("fafafa");
+
+declare function getWiget(n: number): Widget;
+declare function getWiget(s: string): Widget[];
+```
+
+### declaretion merging
+
+[https://www.typescriptlang.org/docs/handbook/declaration-merging.html](https://www.typescriptlang.org/docs/handbook/declaration-merging.html)
+・interface はプロパティが同じ場合のちに書いたものが順番を変えてマージされる
+
+```ts
+interface Name {
+  get(name: string): string;
+}
+interface Name {
+  get(age: number): number;
+}
+
+//result
+interface Name {
+  get(age: number): number;
+  get(name: string): string;
+}
+```
+
+・interface は同じ名前の同じメソッドの場合、シグネチャのプロパティがリテラルのオーバーロードが上にくる
+
+```ts
+interface Document {
+  createElement(tagName: any): Element;
+}
+interface Document {
+  createElement(tagName: "div"): HTMLDivElement;
+  createElement(tagName: "span"): HTMLSpanElement;
+}
+interface Document {
+  createElement(tagName: string): HTMLElement;
+  createElement(tagName: "canvas"): HTMLCanvasElement;
+}
+
+//result
+interface Document {
+  createElement(tagName: "canvas"): HTMLCanvasElement;
+  createElement(tagName: "div"): HTMLDivElement;
+  createElement(tagName: "span"): HTMLSpanElement;
+  createElement(tagName: string): HTMLElement;
+  createElement(tagName: any): Element;
+}
+```
+
+### namespace
+
+interface と同じだが、
+
+- もし同じ namespace 名を作るならすでに存在している namespace のメンバーを export しなく
+  てはいけない
+- 同じ名前の namespace はマージされるが
+  non-export member は original namespace しか参照できない
+  merge 後の namespace からは見れないことを意味する
+
+既存の namespace と新規の namesspace が同取っていく合
+新規の namespace は新規の namespace の export-member を取っていく
+
+- namespace で既存の class と同じ名前にすると export されている値だけ merge され、
+  static メンバーとして既存のクラスから呼び出しができる
+  存在する class に static メンバーを追加する際に使う
+
+- namespace で既存の function と同じ名前にすると body の中で参照できるプロパティを追加できる
+
+```ts
+function buildLabel(name: string): string {
+  return buildLabel.prefix + name + buildLabel.suffix;
+}
+
+namespace buildLabel {
+  export let suffix = "";
+  export let prefix = "Hello, ";
+}
+
+console.log(buildLabel("Sam Smith"));
+```
+
+- namespace で既存の enum と同じ名前にすると enum に対して static member を拡張できる
+
+### Module Augmentation
+
+・既存の module に対して、prototype などを使って関数を独自の実装にアップデートする場合、TS にお知らせしなくてはいけない
+
+```ts
+import { Observable } from "./observable";
+Observable.prototype.map = function(f) {
+  // ... another exercise for the reader
+};
+```
+
+オーバーロードする
+
+```ts
+//override
+declare module "./observable" {
+  //ここがmodule augmentation
+  interface Observable<T> {
+    map<U>(f: (x: T) => U): Observable<U>;
+  }
+}
+Observable.prototype.map = function(f) {
+  // ... another exercise for the reader
+};
+```
+
+### Global augmentation
+
+すでに実装されている declaretions に対して module の内側からグローバルに追加できる
+
+```ts
+declare global {
+  interface Arra<T> {
+    toObservale(): Obserable<T>;
+  }
+}
+```
