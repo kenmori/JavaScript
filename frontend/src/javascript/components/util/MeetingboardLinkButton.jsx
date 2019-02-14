@@ -4,7 +4,7 @@ import { Button, Popup } from "semantic-ui-react";
 
 class MeetingboardLinkButton extends PureComponent {
   render() {
-    const { onClick } = this.props;
+    const { disabled, onClick } = this.props;
     return (
       <Popup
         hoverable
@@ -13,6 +13,7 @@ class MeetingboardLinkButton extends PureComponent {
         content="ミーティングボードを表示する"
         trigger={
           <Button
+            disabled={disabled}
             className="meeting-link-button"
             circular
             basic
@@ -29,6 +30,7 @@ class MeetingboardLinkButton extends PureComponent {
 }
 
 MeetingboardLinkButton.propTypes = {
+  disabled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

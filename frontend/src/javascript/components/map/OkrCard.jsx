@@ -135,6 +135,7 @@ class OkrCard extends PureComponent {
             </div>
             <ProgressRate value={objective.get("progressRate")} />
             <MeetingboardLinkButton
+              disabled={objective.get("keyResults").isEmpty()}
               onClick={this.handleMeetingBoardLinkClick.bind(
                 this,
                 objective.get("id"),
