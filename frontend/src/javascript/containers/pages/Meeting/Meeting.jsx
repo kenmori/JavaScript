@@ -4,6 +4,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
 import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
 import CommentModal from "../../CommentModal";
+import OKRModal from "../../organisms/OKRModal";
 import ObjectiveCommentModal from "../../ObjectiveCommentModal";
 import MeetingLayout from "../../../components/templates/MeetingLayout";
 import LabelItem from "../../../components/meeting/LabelItem";
@@ -75,14 +76,16 @@ class Meeting extends PureComponent {
 
   render() {
     const {
-      objectiveId,
       objectives,
       objective,
+      objectiveId,
       objectiveComments,
       keyResults,
+      keyResultId,
       keyResultsComments,
       keyResultCommentLabels,
       showDisabledOkrs,
+      openOkrModal,
       isFetchedKeyResultsCommentLabels,
     } = this.props;
     if (objectives.size < 1) {
@@ -123,8 +126,11 @@ class Meeting extends PureComponent {
                 </Label>
                 <OkrItem
                   objective={objective}
+                  objectiveId={objectiveId}
                   keyResults={keyResults}
+                  keyResultId={keyResultId}
                   showDisabledOkrs={showDisabledOkrs}
+                  openOkrModal={openOkrModal}
                 />
               </Grid.Column>
               {this.generateCommentLabelColumn(
@@ -161,6 +167,7 @@ class Meeting extends PureComponent {
             comments={objectiveComments}
           />
         </div>
+        <OKRModal />
       </MeetingLayout>
     );
   }

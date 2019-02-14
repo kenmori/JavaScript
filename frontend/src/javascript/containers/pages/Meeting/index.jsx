@@ -69,6 +69,7 @@ const mapStateToProps = (state, { match: { params } }) => {
     objective,
     objectiveComments: selectObjectiveComments(objective),
     keyResults,
+    keyResultId: parseInt(params.keyResultId),
     keyResultsComments: selectKeyResultComments(
       keyResults,
       objective.get("id"),
@@ -101,6 +102,8 @@ const mapDispatchToProps = dispatch => ({
   confirm: params => {
     dispatch(dialogActions.openConfirmModal(params));
   },
+  openOkrModal: (objectiveId, keyResultId) => {
+    dispatch(dialogActions.openOkrModal(objectiveId, keyResultId))},
 });
 
 export default compose(

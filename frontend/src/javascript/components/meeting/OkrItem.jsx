@@ -12,12 +12,9 @@ class OkrItem extends PureComponent {
   }
 
   generateKeyResultList = objective => {
-    const { keyResults, showDisabledOkrs } = this.props;
+    const { keyResults, showDisabledOkrs, openOkrModal } = this.props;
     const keyResultIds = objective.get("keyResultIds");
-    const filteredKeyResult = keyResults
-      .filter(v => keyResultIds.includes(v.get("id")))
-      .toArray();
-
+    const filteredKeyResult = keyResults.filter(v => keyResultIds.includes(v.get("id"))).toArray();
     return filteredKeyResult.map(keyResult => {
       if (!showDisabledOkrs && keyResult.get("disabled")) {
         return null;
@@ -33,7 +30,7 @@ class OkrItem extends PureComponent {
           </Table.Cell>
           <Table.Cell>
             <div className="okr-card__name">
-              <OkrName okr={keyResult} />
+              <OkrName okr={keyResult} objectiveId={objective.get("id")} keyResultId={keyResult.get("id")} openOkrModal={openOkrModal} />
             </div>
           </Table.Cell>
           <Table.Cell>
@@ -48,7 +45,7 @@ class OkrItem extends PureComponent {
   };
 
   render() {
-    const { objective } = this.props;
+    const { objective, openOkrModal, objectiveId, keyResultId } = this.props;
 
     return (
       <div className="very basic meeting-board__okr">
@@ -60,7 +57,7 @@ class OkrItem extends PureComponent {
               </Table.Cell>
               <Table.Cell>
                 <div className="okr-card__name">
-                  <OkrName okr={objective} />
+                  <OkrName okr={objective} objectiveId={objectiveId} keyResultId={keyResultId} openOkrModal={openOkrModal} />
                 </div>
               </Table.Cell>
               <Table.Cell>
