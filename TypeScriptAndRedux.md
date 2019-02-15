@@ -835,6 +835,14 @@ f({ a: 3, b: "", c: "fafaf" });
 //Object literal may only specify known properties, and 'c' does not exist in type '{ a: number; b: string; }'.
 ```
 
+[理由](https://qiita.com/vvakame/items/072fa78f9fe496edd1f0#%E3%82%88%E3%82%8A%E5%8E%B3%E5%AF%86%E3%81%AA%E5%8D%B3%E5%80%A4%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%AA%E3%83%86%E3%83%A9%E3%83%AB%E3%81%AE%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF)
+
+オブジェクトリテラルは既知のプロパティのみをチェックするので受け入れない
+
+[理由 2](https://basarat.gitbooks.io/typescript/docs/types/freshness.html)
+
+
+
 interface vs Types
 
 [TypeScript の Interface と Type alias の比較](https://qiita.com/tkrkt/items/d01b96363e58a7df830e)
@@ -1170,3 +1178,7 @@ declare global {
   }
 }
 ```
+
+### 参照
+
+[ユーザー定義の type guard](https://qiita.com/vvakame/items/072fa78f9fe496edd1f0#%E3%83%A6%E3%83%BC%E3%82%B6%E5%AE%9A%E7%BE%A9%E3%81%AEtype-guard)
