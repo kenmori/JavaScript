@@ -4,10 +4,10 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 
 class OkrName extends PureComponent {
   render() {
-    const { okr, openOkrModal, objectiveId, keyResultId } = this.props;
+    const { okr } = this.props;
     const isDisabled = okr.get("disabled");
     return (
-      <span onClick={() => openOkrModal(objectiveId, keyResultId)} className={`okr-name ${isDisabled ? "disabled" : ""}`}>
+      <span className={`okr-name ${isDisabled ? "disabled" : ""}`}>
         <span className="okr-name__text">{okr.get("name")}</span>
       </span>
     );

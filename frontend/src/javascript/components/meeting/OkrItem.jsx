@@ -5,74 +5,51 @@ import { Table } from "semantic-ui-react";
 import OwnerAvatar from "../util/OwnerAvatar";
 import ProgressRate from "../util/ProgressRate";
 import OkrName from "../util/OkrName";
+import OkrCard from "../map/OkrCard";
 
-class OkrItem extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
 
-  generateKeyResultList = objective => {
-    const { keyResults, showDisabledOkrs, openOkrModal } = this.props;
-    const keyResultIds = objective.get("keyResultIds");
-    const filteredKeyResult = keyResults.filter(v => keyResultIds.includes(v.get("id"))).toArray();
-    return filteredKeyResult.map(keyResult => {
-      if (!showDisabledOkrs && keyResult.get("disabled")) {
-        return null;
-      }
-
-      return (
-        <Table.Row key={keyResult.get("id")}>
-          <Table.Cell>
-            <OwnerAvatar
-              owner={keyResult.get("owner")}
-              members={keyResult.get("members")}
-            />
-          </Table.Cell>
-          <Table.Cell>
-            <div className="okr-card__name">
-              <OkrName okr={keyResult} objectiveId={objective.get("id")} keyResultId={keyResult.get("id")} openOkrModal={openOkrModal} />
-            </div>
-          </Table.Cell>
-          <Table.Cell>
-            <ProgressRate
-              value={keyResult.get("progressRate")}
-              status={keyResult.get("status")}
-            />
-          </Table.Cell>
-        </Table.Row>
-      );
-    });
-  };
-
-  render() {
-    const { objective, openOkrModal, objectiveId, keyResultId } = this.props;
-
+// TODO ここがなくなる予定
+const GenerateKeyResultList = ({objective, keyResults, showDisabledOkrs, openOkrModal}) => {
+  const keyResultIds = objective.get("keyResultIds");
+  const filteredKeyResult = keyResults.filter(v => keyResultIds.includes(v.get("id"))).toArray();
+  return filteredKeyResult.map(keyResult => {
+    if (!showDisabledOkrs && keyResult.get("disabled")) {
+      return null;
+    }
     return (
-      <div className="very basic meeting-board__okr">
-        <Table className="very basic meeting-board__okr__table">
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <OwnerAvatar owner={objective.get("owner")} />
-              </Table.Cell>
-              <Table.Cell>
-                <div className="okr-card__name">
-                  <OkrName okr={objective} objectiveId={objectiveId} keyResultId={keyResultId} openOkrModal={openOkrModal} />
-                </div>
-              </Table.Cell>
-              <Table.Cell>
-                <ProgressRate value={objective.get("progressRate")} />
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
-        <Table className="very basic">
-          <Table.Body>{this.generateKeyResultList(objective)}</Table.Body>
-        </Table>
-      </div>
+      <Table.Row key={keyResult.get("id")}>
+        <Table.Cell>
+          <OwnerAvatar
+            owner={keyResult.get("owner")}
+            members={keyResult.get("members")}
+          />
+        </Table.Cell>
+        <Table.Cell>
+          <div
+              className={`okr-card__name ${isHighlighted ? "highlight" : ""}`}>
+              <a
+                onClick={this.handleObjectiveClick}
+                onMouseEnter={this.handleObjectiveEnter}
+                onMouseLeave={unhighlightOkr}>
+            <OkrName okr={keyResult} openOkrModal={openOkrModal} />
+            </a>
+            </div>
+        </Table.Cell>
+        <Table.Cell>
+          <ProgressRate
+            value={keyResult.get("progressRate")}
+            status={keyResult.get("status")}
+          />
+        </Table.Cell>
+      </Table.Row>
     );
-  }
-}
+  });
+};
+
+const OkrItem = React.memo((props) => (
+  <OkrCard {...props}
+  />
+))
 
 OkrItem.propTypes = {
   objective: ImmutablePropTypes.map.isRequired,
