@@ -156,7 +156,6 @@ export const getPreviousAllObjectives = createSelector(
   state => state.loginUser.getIn(["userSetting", "showDisabledOkrs"]),
   state => state.entities,
   (objectiveIds, showDisabledOkrs, entities) => {
-    console.log({objectiveIds})
     return denormalizeObjectives(objectiveIds, showDisabledOkrs, entities)
   },
 );

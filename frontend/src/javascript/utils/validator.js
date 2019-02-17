@@ -17,9 +17,10 @@ export const validateIsolatedObjectiveId = (
 export const validatePreviousObjectiveId = (
   value,
   _,
-  { previousObjectives },
+  { previousObjectives, previousAllObjectives, isAdmin },
 ) => {
-  const isPreviousObjective = previousObjectives.some(
+  const targetObjectives = isAdmin ? previousAllObjectives : previousObjectives
+  const isPreviousObjective = targetObjectives.some(
     objective => objective.get("id") === value,
   );
   return isPreviousObjective ? undefined : "前期 Objective を選択してください";
