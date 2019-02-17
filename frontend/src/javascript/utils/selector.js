@@ -150,6 +150,17 @@ export const getPreviousObjectives = createSelector(
     denormalizeObjectives(objectiveIds, showDisabledOkrs, entities),
 );
 
+// 管理者の場合、過去の全ての Objective を取得する
+export const getPreviousAllObjectives = createSelector(
+  state => state.objectives.get("previousAllIds"),
+  state => state.loginUser.getIn(["userSetting", "showDisabledOkrs"]),
+  state => state.entities,
+  (objectiveIds, showDisabledOkrs, entities) => {
+    console.log({objectiveIds})
+    return denormalizeObjectives(objectiveIds, showDisabledOkrs, entities)
+  },
+);
+
 // 孤立 (親のいない) Objective 一覧を返す
 export const getIsolatedObjectives = createSelector(
   getObjectives,

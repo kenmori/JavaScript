@@ -5,6 +5,7 @@ import dialogActions from "../actions/dialogs";
 import {
   getParentKeyResults,
   getPreviousObjectives,
+  getPreviousAllObjectives,
   getIsolatedObjectives,
   getEnabledUsers,
 } from "../utils/selector";
@@ -18,6 +19,7 @@ const mapStateToProps = state => {
     isOpen: state.dialogs.getIn(["objectiveForm", "isOpen"]),
     parentKeyResult,
     currentUserId: state.current.get("userId"),
+    isAdmin: state.loginUser.get("isAdmin"),
     loginUserId: state.loginUser.get("id"),
     users: getEnabledUsers(state),
     okrPeriodId: state.current.get("okrPeriodId"),
@@ -26,6 +28,7 @@ const mapStateToProps = state => {
     isolatedObjectives: getIsolatedObjectives(state),
     isFetchedObjectives: state.objectives.get("isFetchedObjectives"),
     previousObjectives: getPreviousObjectives(state),
+    previousAllObjectives: getPreviousAllObjectives(state),
     isFetchedPreviousObjectives: state.objectives.get(
       "isFetchedPreviousObjectives",
     ),
