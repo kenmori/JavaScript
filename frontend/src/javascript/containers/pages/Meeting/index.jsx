@@ -103,7 +103,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(dialogActions.openConfirmModal(params));
   },
   openOkrModal: (objectiveId, keyResultId) => {
-    dispatch(dialogActions.openOkrModal(objectiveId, keyResultId))},
+    dispatch(dialogActions.openOkrModal(objectiveId, keyResultId));
+  },
 });
 
 export default compose(

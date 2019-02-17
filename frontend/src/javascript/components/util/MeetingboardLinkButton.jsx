@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Button, Popup } from "semantic-ui-react";
 
-//TODO 以下useStateで管理する
-const handleMeetingBoardLinkClick = objectiveId => {
-  window.open(
-    `/meetings/${objectiveId}`,
-    "_blank",
-    `height=${window.parent.screen.height},
-    width=${window.parent.screen.width}`,
-  );
-};
-
-const isMeetingWindow = () => location.pathname.includes("/meetings/");
-
+// TODO
 const MeetingboardLinkButton = ({ objective }) => {
+  const [isDisplayed, setDisplayed] = useState(false);
+  const handleMeetingBoardLinkClick = useCallback(() => {
+    window.open(
+      `/meetings/${objective.get("id")}`,
+      "_blank",
+      `height=${window.parent.screen.height},
+      width=${window.parent.screen.width}`,
+    );
+  }, []);
+  useEffect(() => {
+    location.pathname.includes("/meetings/") && setDisplayed(true);
+  }, [location.pathname]);
   return (
     <>
-      {isMeetingWindow() ? null : (
-        <div onClick={() => handleMeetingBoardLinkClick(objective.get("id"))}>
+      {isDisplayed ? null : (
+        <div onClick={handleMeetingBoardLinkClick}>
           <Popup
             hoverable
             size="tiny"

@@ -11,6 +11,7 @@ import LabelItem from "../../../components/meeting/LabelItem";
 import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
 import OkrCard from "../../../containers//OkrCard";
 
+// TODO
 const selectLabelCommnets = (comments, label) =>
   comments.filter(v => v.get("label").get("name") === label);
 
@@ -18,44 +19,31 @@ const GenerateCommentLabelColumn = ({
   updateKeyResult,
   openCommentModal,
   confirm,
-  comments,
-  label,
+  labels,
   labelName,
+  label,
+  keyResultsComments,
 }) => (
   <Grid.Column>
     <div className="meeting-board__content__header">
-      <Label color={label.get("color")}>{label.get("name")}</Label>
+      <Label color={labels.get(labelName).get("color")}>
+        {labels.get(labelName).get("name")}
+      </Label>
       <div className="meeting-board__content__header__button">
-        <a onClick={openCommentModal.bind(this, label)}>
+        {/* TODO: bindやめる */}
+        <a onClick={openCommentModal.bind(this, labels.get(labelName))}>
           <Icon name="plus" />
           {`${labelName}を追加する`}
         </a>
       </div>
     </div>
     <LabelItem
-      comments={selectLabelCommnets(comments, labelName)}
+    {/* TODO:  useCallback */}
+      comments={selectLabelCommnets(keyResultsComments, labelName)}
       updateKeyResult={updateKeyResult}
       confirm={confirm}
     />
   </Grid.Column>
-);
-
-const GenerateCommentLabelColumnParent = ({
-  updateKeyResult,
-  openCommentModal,
-  confirm,
-  labels,
-  labelName,
-  keyResultsComments,
-}) => (
-  <GenerateCommentLabelColumn
-    comments={keyResultsComments}
-    label={labels.get(labelName)}
-    labelName={labelName}
-    confirm={confirm}
-    openCommentModal={openCommentModal}
-    updateKeyResult={updateKeyResult}
-  />
 );
 
 const GenerateAnnouncementColumn = ({
@@ -70,6 +58,7 @@ const GenerateAnnouncementColumn = ({
       <div className="meeting-board__content__header">
         <Label color="green">アナウンスメント</Label>
         <div className="meeting-board__content__header__button">
+          {/* TODO:  Arrowやめる */}
           <a onClick={() => openObjectiveCommentModal()}>
             <Icon name="plus" />
             アナウンスメントを追加する
@@ -89,6 +78,7 @@ class Meeting extends PureComponent {
   constructor(props) {
     super(props);
   }
+  // TODO
   componentDidMount() {
     const { objectiveId, objectives, fetchObjective } = this.props;
     if (objectives.size < 1) {
@@ -120,7 +110,7 @@ class Meeting extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null;
     }
-
+    // TODO
     const labels = new Map();
     keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
 
@@ -141,7 +131,7 @@ class Meeting extends PureComponent {
           </Header>
           <Grid celled columns={3} className="meeting-board__content">
             <Grid.Row>
-              <GenerateCommentLabelColumnParent
+              <GenerateCommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
@@ -162,7 +152,7 @@ class Meeting extends PureComponent {
                   openOkrModal={openOkrModal}
                 />
               </Grid.Column>
-              <GenerateCommentLabelColumnParent
+              <GenerateCommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
@@ -172,7 +162,7 @@ class Meeting extends PureComponent {
               />
             </Grid.Row>
             <Grid.Row>
-              <GenerateCommentLabelColumnParent
+              <GenerateCommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
@@ -188,7 +178,7 @@ class Meeting extends PureComponent {
                 openObjectiveCommentModal={openObjectiveCommentModal}
                 confirm={confirm}
               />
-              <GenerateCommentLabelColumnParent
+              <GenerateCommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
