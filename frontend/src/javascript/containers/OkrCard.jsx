@@ -14,7 +14,7 @@ const mapStateToProps = (state, { objective }) => {
     highlightedKeyResultId: highlightedOkr.get("keyResultId"),
     visibleKeyResultIds: state.current.getIn(["mapOkr", objective.get("id")]),
     keyResults: objective.get("keyResults"),
-    objectiveId:objective.get("id")
+    objectiveId: objective.get("id"),
   };
 };
 
@@ -41,13 +41,6 @@ const mapDispatchToProps = dispatch => ({
       ),
     );
   },
-  handleMeetingBoardLinkClick: objectiveId => {
-  window.open(
-    `/meetings/${objectiveId}`,
-    "_blank",
-    `height=${window.parent.screen.height},
-    width=${window.parent.screen.width}`,
-  )},
   unhighlightOkr: () => {
     dispatch(currentActions.unhighlightOkr());
   },
@@ -80,15 +73,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
     isSelected: stateProps.objectiveId === stateProps.selectedObjectiveId,
-    isHighlighted: stateProps.highlightedObjectiveIds.includes(stateProps.objectiveId),
+    isHighlighted: stateProps.highlightedObjectiveIds.includes(
+      stateProps.objectiveId,
+    ),
     showToggle: stateProps.keyResults.some(
       keyResult => !keyResult.get("childObjectiveIds").isEmpty(),
-    )
-  }
-}
+    ),
+  };
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps
+  mergeProps,
 )(OkrCard);
