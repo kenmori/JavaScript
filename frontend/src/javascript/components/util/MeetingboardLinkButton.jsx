@@ -2,8 +2,6 @@ import React, { useEffect, useState, useCallback, memo } from "react";
 import PropTypes from "prop-types";
 import { Button, Popup } from "semantic-ui-react";
 
-
-// TODO
 const MeetingboardLinkButton = memo(
   ({ objective }) => {
     const [isVisiable, setIsVisiable] = useState(false);

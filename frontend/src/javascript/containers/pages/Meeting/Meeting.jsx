@@ -9,9 +9,9 @@ import ObjectiveCommentModal from "../../ObjectiveCommentModal";
 import MeetingLayout from "../../../components/templates/MeetingLayout";
 import LabelItem from "../../../components/meeting/LabelItem";
 import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
-import OkrCard from "../../../containers//OkrCard";
+import OkrCard from "../../../containers/OkrCard";
 
-// TODO
+// TODO 上から計算されたものを渡す
 const selectLabelCommnets = (comments, label) =>
   comments.filter(v => v.get("label").get("name") === label);
 
@@ -21,7 +21,6 @@ const GenerateCommentLabelColumn = ({
   confirm,
   labels,
   labelName,
-  label,
   keyResultsComments,
 }) => (
   <Grid.Column>
@@ -77,7 +76,7 @@ class Meeting extends PureComponent {
   constructor(props) {
     super(props);
   }
-  // TODO
+  // TODO useEffectする
   componentDidMount() {
     const { objectiveId, objectives, fetchObjective } = this.props;
     if (objectives.size < 1) {
