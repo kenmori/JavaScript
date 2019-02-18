@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useCallback } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
@@ -38,7 +38,6 @@ const GenerateCommentLabelColumn = ({
       </div>
     </div>
     <LabelItem
-    {/* TODO:  useCallback */}
       comments={selectLabelCommnets(keyResultsComments, labelName)}
       updateKeyResult={updateKeyResult}
       confirm={confirm}
@@ -53,13 +52,13 @@ const GenerateAnnouncementColumn = ({
   openObjectiveCommentModal,
   confirm,
 }) => {
+  const openCommentModal = useCallback(openObjectiveCommentModal);
   return (
     <Grid.Column>
       <div className="meeting-board__content__header">
         <Label color="green">アナウンスメント</Label>
         <div className="meeting-board__content__header__button">
-          {/* TODO:  Arrowやめる */}
-          <a onClick={() => openObjectiveCommentModal()}>
+          <a onClick={openCommentModal}>
             <Icon name="plus" />
             アナウンスメントを追加する
           </a>
@@ -110,7 +109,6 @@ class Meeting extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null;
     }
-    // TODO
     const labels = new Map();
     keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
 
