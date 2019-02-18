@@ -95,8 +95,8 @@ RspecApiDocumentation.configure do |config|
   config.curl_host = "http://localhost:3000"
   config.api_name = "Resily API Documentation"
   config.curl_host = "http://localhost:3000"
-  config.curl_headers_to_filter = %w(Host Cookie)
-  config.request_headers_to_include = %w(Content-Type Accept Authorization)
+  config.curl_headers_to_filter = %w[Host Cookie]
+  config.request_headers_to_include = %w[Content-Type Accept Authorization]
 
   # NOTE RspecApiDocumentation に `status` というメソッドがあるが、`parameter :status` を指定したい時に `let(:status)` を作ろうと
   # するためメソッド名が競合する。これを回避するために disable_dsl_status! を行うと `status` の代わりに `response_status` を

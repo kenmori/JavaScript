@@ -42,86 +42,88 @@ namespace :create_demo_account do
     base_okr_periods = OkrPeriod.where(organization_id: base_organization.id)
     base_members = OrganizationMember.where(organization_id: base_organization.id)
 
-    # organizations, key_result_comment_labels 作成
-    puts "=== Organization を作成 ==="
-    organization = Organization.create!(
-      name: base_organization.name,
-      logo: base_organization.logo,
-      okr_span: base_organization.okr_span
-    )
-
-    # oke_period 作成
-    puts "=== 期間を作成 ==="
-    okr_periods = []
-    base_okr_periods.each do |base_okr_period|
-      okr_period = organization.okr_periods.create!(
-        start_date: base_okr_period.start_date,
-        end_date: base_okr_period.end_date,
-        name: base_okr_period.name
-      )
-      okr_periods.push("base_id" => base_okr_period.id, "new_id" => okr_period.id)
-    end
-
-    # 指定した Organization に紐づくメンバーを作成
-    base_users = []
-    display_users = []
-    base_members.each do |base_member|
-      base_user = User.find(base_member.user_id)
-      base_users.push(base_user)
-
-      # users, organization_member, user_settings 追加
-      puts "=== User を作成 ==="
-      /^(?<local_part>.+)@(?<domain>.*)$/ =~ base_user.email
-      user = organization.users.create!(
-        last_name: base_user.last_name,
-        first_name: base_user.first_name,
-        email: "#{local_part}+#{organization.id}@#{domain}",
-        password: "Pass0123",
-        admin: base_user.admin,
-        avatar: base_user.avatar,
-        confirmed_at: Time.current
+    ApplicationRecord.transaction do
+      # organizations, key_result_comment_labels 作成
+      puts "=== Organization を作成 ==="
+      organization = Organization.create!(
+        name: base_organization.name,
+        logo: base_organization.logo,
+        okr_span: base_organization.okr_span
       )
 
-      # 元の ID と移行後の ID のマッピング
-      @users.push("base_id" => base_user.id, "new_id" => user.id)
-      # 出力用
-      display_users.push(user)
-    end
-
-    # Objective と KeyResult 作成
-    base_users.each do |base_user|
+      # oke_period 作成
+      puts "=== 期間を作成 ==="
+      okr_periods = []
       base_okr_periods.each do |base_okr_period|
-        # 最上位の Objective を取得し、そこから下層の Key Result と Objective を作成していく
-        base_root_objectives_per_period = base_user.objectives
-                                                   .includes(:key_results)
-                                                   .where(okr_period_id: base_okr_period.id)
-                                                   .where(parent_key_result_id: nil)
-                                                   .order("id")
+        okr_period = organization.okr_periods.create!(
+          start_date: base_okr_period.start_date,
+          end_date: base_okr_period.end_date,
+          name: base_okr_period.name
+        )
+        okr_periods.push("base_id" => base_okr_period.id, "new_id" => okr_period.id)
+      end
 
-        okr_period_id = okr_periods.find { |item| item["base_id"] == base_okr_period.id }
+      # 指定した Organization に紐づくメンバーを作成
+      base_users = []
+      display_users = []
+      base_members.each do |base_member|
+        base_user = User.find(base_member.user_id)
+        base_users.push(base_user)
 
-        base_root_objectives_per_period.each do |base_objective|
-          create_objective(okr_period_id, base_objective)
+        # users, organization_member, user_settings 追加
+        puts "=== User を作成 ==="
+        /^(?<local_part>.+)@(?<domain>.*)$/ =~ base_user.email
+        user = organization.users.create!(
+          last_name: base_user.last_name,
+          first_name: base_user.first_name,
+          email: "#{local_part}+#{organization.id}@#{domain}",
+          password: "Pass0123",
+          admin: base_user.admin,
+          avatar: base_user.avatar,
+          confirmed_at: Time.current
+        )
+
+        # 元の ID と移行後の ID のマッピング
+        @users.push("base_id" => base_user.id, "new_id" => user.id)
+        # 出力用
+        display_users.push(user)
+      end
+
+      # Objective と KeyResult 作成
+      base_users.each do |base_user|
+        base_okr_periods.each do |base_okr_period|
+          # 最上位の Objective を取得し、そこから下層の Key Result と Objective を作成していく
+          base_root_objectives_per_period = base_user.objectives
+                                                     .includes(:key_results)
+                                                     .where(okr_period_id: base_okr_period.id)
+                                                     .where(parent_key_result_id: nil)
+                                                     .order("id")
+
+          okr_period_id = okr_periods.find { |item| item["base_id"] == base_okr_period.id }
+
+          base_root_objectives_per_period.each do |base_objective|
+            create_objective(okr_period_id, base_objective)
+          end
         end
       end
-    end
 
-    # department を作成
-    puts "=== Department を作成 ==="
-    base_root_departments = Department.where(organization_id: @target_organization_id)
-                                      .where(ancestry: nil)
-                                      .order("id")
+      # department を作成
+      puts "=== Department を作成 ==="
+      base_root_departments = Department.where(organization_id: @target_organization_id)
+                                        .where(ancestry: nil)
+                                        .order("id")
 
-    base_root_departments.each do |base_root_department|
-      create_department(base_root_department, organization)
-    end
+      base_root_departments.each do |base_root_department|
+        create_department(base_root_department, organization)
+      end
 
-    # ログイン用に最終的に作成されたユーザー情報を出力
-    puts "=== Created users ===================================================="
-    display_users.each do |display_user|
-      puts "+ User : #{display_user.email}"
+      # ログイン用に最終的に作成されたユーザー情報を出力
+      puts "=== Created users ===================================================="
+      display_users.each do |display_user|
+        puts "+ User : #{display_user.email}"
+      end
+      puts "======================================================================"
     end
-    puts "======================================================================"
   end
 
   # Objective 作成
