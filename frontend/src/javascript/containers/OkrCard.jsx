@@ -67,20 +67,18 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  return {
-    ...stateProps,
-    ...dispatchProps,
-    ...ownProps,
-    isSelected: stateProps.objectiveId === stateProps.selectedObjectiveId,
-    isHighlighted: stateProps.highlightedObjectiveIds.includes(
-      stateProps.objectiveId,
-    ),
-    showToggle: stateProps.keyResults.some(
-      keyResult => !keyResult.get("childObjectiveIds").isEmpty(),
-    ),
-  };
-};
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  isSelected: stateProps.objectiveId === stateProps.selectedObjectiveId,
+  isHighlighted: stateProps.highlightedObjectiveIds.includes(
+    stateProps.objectiveId,
+  ),
+  showToggle: stateProps.keyResults.some(
+    keyResult => !keyResult.get("childObjectiveIds").isEmpty(),
+  ),
+});
 
 export default connect(
   mapStateToProps,

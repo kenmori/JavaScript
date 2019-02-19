@@ -9,7 +9,7 @@ import ObjectiveCommentModal from "../../ObjectiveCommentModal";
 import MeetingLayout from "../../../components/templates/MeetingLayout";
 import LabelItem from "../../../components/meeting/LabelItem";
 import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
-import OkrCard from "../../../containers/OkrCard";
+import OkrCard from "../../OkrCard";
 
 // TODO 上から計算されたものを渡す
 const selectLabelCommnets = (comments, label) =>
@@ -22,13 +22,16 @@ const CommentLabelColumn = ({
   labels,
   labelName,
   keyResultsComments,
-}) => <Grid.Column>
+}) => (
+  <Grid.Column>
     <div className="meeting-board__content__header">
       <Label color={labels.get(labelName).get("color")}>
         {labels.get(labelName).get("name")}
       </Label>
       {/* TODO: bindやめる */}
-      <div className="meeting-board__content__header__button" onClick={openCommentModal.bind(this, labels.get(labelName))}>
+      <div
+        className="meeting-board__content__header__button"
+        onClick={openCommentModal.bind(this, labels.get(labelName))}>
         <a>
           <Icon name="plus" />
           {`${labelName}を追加する`}
@@ -41,7 +44,7 @@ const CommentLabelColumn = ({
       confirm={confirm}
     />
   </Grid.Column>
-
+);
 
 const AnnouncementColumn = ({
   objectiveId,
@@ -75,6 +78,7 @@ class Meeting extends PureComponent {
   constructor(props) {
     super(props);
   }
+
   // TODO useEffectする
   componentDidMount() {
     const { objectiveId, objectives, fetchObjective } = this.props;
@@ -82,6 +86,7 @@ class Meeting extends PureComponent {
       fetchObjective(objectiveId);
     }
   }
+
   render() {
     const {
       objectives,

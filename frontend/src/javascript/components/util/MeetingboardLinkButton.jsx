@@ -14,15 +14,15 @@ const MeetingboardLinkButton = memo(
     }, []);
     return (
       <>
-          {isDisplay ?
+        {isDisplay ? (
           <div onClick={handleMeetingBoardLinkClick}>
             <Popup
               hoverable
               size="tiny"
               position="right center"
               content="ミーティングボードを表示する"
-              trigger={
-                <Button
+              trigger={(
+<Button
                   className="meeting-link-button"
                   circular
                   basic
@@ -31,20 +31,19 @@ const MeetingboardLinkButton = memo(
                   size="small"
                   active
                 />
-              }
+)}
             />
-          </div> : null}
+          </div>
+        ) : null}
       </>
     );
   },
-  (p, n) => {
-    return p.objective.get("id") === n.objective.get("id");
-  },
+  (p, n) => p.objective.get("id") === n.objective.get("id"),
 );
 
 MeetingboardLinkButton.defaultProps = {
-  isDisplay: true
-}
+  isDisplay: true,
+};
 
 MeetingboardLinkButton.propTypes = {
   objective: PropTypes.shape({
