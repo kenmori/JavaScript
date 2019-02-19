@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useCallback, memo } from "react";
+import React, { useCallback, memo } from "react";
 import PropTypes from "prop-types";
 import { Button, Popup } from "semantic-ui-react";
 
 const MeetingboardLinkButton = memo(
-  ({ objective }) => {
-    const [isVisiable, setIsVisiable] = useState(false);
+  ({ objective, isDisplay }) => {
     const handleMeetingBoardLinkClick = useCallback(() => {
       window.open(
         `/meetings/${objective.get("id")}`,
@@ -13,12 +12,9 @@ const MeetingboardLinkButton = memo(
       width=${window.parent.screen.width}`,
       );
     }, []);
-    useEffect(() => {
-      location.pathname.includes("/meetings/") && setIsVisiable(true);
-    }, [location.pathname]);
     return (
       <>
-        {isVisiable ? null : (
+          {isDisplay ?
           <div onClick={handleMeetingBoardLinkClick}>
             <Popup
               hoverable
@@ -37,8 +33,7 @@ const MeetingboardLinkButton = memo(
                 />
               }
             />
-          </div>
-        )}
+          </div> : null}
       </>
     );
   },
@@ -46,6 +41,10 @@ const MeetingboardLinkButton = memo(
     return p.objective.get("id") === n.objective.get("id");
   },
 );
+
+MeetingboardLinkButton.defaultProps = {
+  isDisplay: true
+}
 
 MeetingboardLinkButton.propTypes = {
   objective: PropTypes.shape({

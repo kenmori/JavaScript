@@ -15,22 +15,21 @@ import OkrCard from "../../../containers/OkrCard";
 const selectLabelCommnets = (comments, label) =>
   comments.filter(v => v.get("label").get("name") === label);
 
-const GenerateCommentLabelColumn = ({
+const CommentLabelColumn = ({
   updateKeyResult,
   openCommentModal,
   confirm,
   labels,
   labelName,
   keyResultsComments,
-}) => (
-  <Grid.Column>
+}) => <Grid.Column>
     <div className="meeting-board__content__header">
       <Label color={labels.get(labelName).get("color")}>
         {labels.get(labelName).get("name")}
       </Label>
-      <div className="meeting-board__content__header__button">
-        {/* TODO: bindやめる */}
-        <a onClick={openCommentModal.bind(this, labels.get(labelName))}>
+      {/* TODO: bindやめる */}
+      <div className="meeting-board__content__header__button" onClick={openCommentModal.bind(this, labels.get(labelName))}>
+        <a>
           <Icon name="plus" />
           {`${labelName}を追加する`}
         </a>
@@ -42,9 +41,9 @@ const GenerateCommentLabelColumn = ({
       confirm={confirm}
     />
   </Grid.Column>
-);
 
-const GenerateAnnouncementColumn = ({
+
+const AnnouncementColumn = ({
   objectiveId,
   announcements,
   updateObjective,
@@ -128,7 +127,7 @@ class Meeting extends PureComponent {
           </Header>
           <Grid celled columns={3} className="meeting-board__content">
             <Grid.Row>
-              <GenerateCommentLabelColumn
+              <CommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
@@ -149,7 +148,7 @@ class Meeting extends PureComponent {
                   openOkrModal={openOkrModal}
                 />
               </Grid.Column>
-              <GenerateCommentLabelColumn
+              <CommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
@@ -159,7 +158,7 @@ class Meeting extends PureComponent {
               />
             </Grid.Row>
             <Grid.Row>
-              <GenerateCommentLabelColumn
+              <CommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}
@@ -168,14 +167,14 @@ class Meeting extends PureComponent {
                 labelName={meetingBoardCommentLabels.NEXT_4_WEEK}
               />
 
-              <GenerateAnnouncementColumn
+              <AnnouncementColumn
                 objectiveId={objective.get("id")}
                 announcements={objectiveComments}
                 updateObjective={updateObjective}
                 openObjectiveCommentModal={openObjectiveCommentModal}
                 confirm={confirm}
               />
-              <GenerateCommentLabelColumn
+              <CommentLabelColumn
                 updateKeyResult={updateKeyResult}
                 openCommentModal={openCommentModal}
                 confirm={confirm}

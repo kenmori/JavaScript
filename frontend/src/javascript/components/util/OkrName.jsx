@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 
 class OkrName extends PureComponent {
@@ -17,10 +16,7 @@ class OkrName extends PureComponent {
 OkrName.propTypes = {
   // container
   // component
-  okr: ImmutablePropTypes.map.isRequired,
-  objectiveId: PropTypes.number.isRequired,
-  keyResultId: PropTypes.number.isRequired,
-  openOkrModal: PropTypes.func.isRequired
+  okr: ImmutablePropTypes.map.isRequire
 };
 
 export default OkrName;
