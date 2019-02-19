@@ -16,7 +16,7 @@ class OkrName extends PureComponent {
 OkrName.propTypes = {
   // container
   // component
-  okr: ImmutablePropTypes.map.isRequire,
+  okr: ImmutablePropTypes.map.isRequired,
 };
 
 export default OkrName;

@@ -3,46 +3,44 @@ import PropTypes from "prop-types";
 import { Button, Popup } from "semantic-ui-react";
 
 const MeetingboardLinkButton = memo(
-  ({ objective, isDisplay }) => {
+  ({ objectiveId, disabled }) => {
     const handleMeetingBoardLinkClick = useCallback(() => {
       window.open(
-        `/meetings/${objective.get("id")}`,
+        `/meetings/${objectiveId}`,
         "_blank",
         `height=${window.parent.screen.height},
       width=${window.parent.screen.width}`,
       );
-    }, []);
+    }, [objectiveId]);
+
     return (
-      <>
-        {isDisplay ? (
-          <div onClick={handleMeetingBoardLinkClick}>
-            <Popup
-              hoverable
-              size="tiny"
-              position="right center"
-              content="ミーティングボードを表示する"
-              trigger={(
-<Button
-                  className="meeting-link-button"
-                  circular
-                  basic
-                  compact
-                  icon="clipboard"
-                  size="small"
-                  active
-                />
-)}
+      <div onClick={handleMeetingBoardLinkClick}>
+        <Popup
+          hoverable
+          size="tiny"
+          position="right center"
+          content="ミーティングボードを表示する"
+          trigger={
+            <Button
+              className="meeting-link-button"
+              disabled={disabled}
+              circular
+              basic
+              compact
+              icon="clipboard"
+              size="small"
+              active
             />
-          </div>
-        ) : null}
-      </>
+          }
+        />
+      </div>
     );
   },
-  (p, n) => p.objective.get("id") === n.objective.get("id"),
+  (prevProps, nextProps) => prevProps.objectiveId === nextProps.objectiveId,
 );
 
 MeetingboardLinkButton.defaultProps = {
-  isDisplay: true,
+  disabled: false,
 };
 
 MeetingboardLinkButton.propTypes = {

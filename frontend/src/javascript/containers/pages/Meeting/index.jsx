@@ -69,7 +69,6 @@ const mapStateToProps = (state, { match: { params } }) => {
     objective,
     objectiveComments: selectObjectiveComments(objective),
     keyResults,
-    keyResultId: parseInt(params.keyResultId),
     keyResultsComments: selectKeyResultComments(
       keyResults,
       objective.get("id"),

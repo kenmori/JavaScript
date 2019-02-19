@@ -9,7 +9,7 @@ import ObjectiveCommentModal from "../../ObjectiveCommentModal";
 import MeetingLayout from "../../../components/templates/MeetingLayout";
 import LabelItem from "../../../components/meeting/LabelItem";
 import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
-import OkrCard from "../../OkrCard";
+import OkrItem from "../../../components/meeting/OkrItem";
 
 // TODO 上から計算されたものを渡す
 const selectLabelCommnets = (comments, label) =>
@@ -94,7 +94,6 @@ class Meeting extends PureComponent {
       objectiveId,
       objectiveComments,
       keyResults,
-      keyResultId,
       keyResultsComments,
       keyResultCommentLabels,
       showDisabledOkrs,
@@ -144,11 +143,9 @@ class Meeting extends PureComponent {
                 <Label color="orange" className="meeting-board__content__label">
                   OKRの見通し
                 </Label>
-                <OkrCard
+                <OkrItem
                   objective={objective}
-                  objectiveId={objectiveId}
                   keyResults={keyResults}
-                  keyResultId={keyResultId}
                   showDisabledOkrs={showDisabledOkrs}
                   openOkrModal={openOkrModal}
                 />
@@ -171,7 +168,6 @@ class Meeting extends PureComponent {
                 labels={labels}
                 labelName={meetingBoardCommentLabels.NEXT_4_WEEK}
               />
-
               <AnnouncementColumn
                 objectiveId={objective.get("id")}
                 announcements={objectiveComments}

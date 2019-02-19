@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import moment from "moment";
@@ -9,21 +9,21 @@ import ToggleButton from "../util/ToggleButton";
 import MeetingboardLinkButton from "../util/MeetingboardLinkButton";
 import OkrName from "../util/OkrName";
 
-const KeyResultList = ({
-  objective,
-  keyResults,
-  selectedKeyResultId,
-  highlightedKeyResultId,
-  visibleKeyResultIds,
-  openKeyResultModal,
-  highlightKeyResult,
-  toggleKeyResult,
-  unhighlightOkr,
-  openOKRModal,
-  showToggle,
-}) => (
-  (
-<Card.Content className="key-results">
+const KeyResultList = memo(
+  ({
+    objective,
+    keyResults,
+    selectedKeyResultId,
+    highlightedKeyResultId,
+    visibleKeyResultIds,
+    openKeyResultModal,
+    highlightKeyResult,
+    toggleKeyResult,
+    unhighlightOkr,
+    openOKRModal,
+    showToggle,
+  }) => (
+    <Card.Content className="key-results">
       <List>
         {keyResults.map(keyResult => {
           const keyResultId = keyResult.get("id");
@@ -83,43 +83,71 @@ const KeyResultList = ({
         )}
       </List>
     </Card.Content>
-)
+  ),
+);
 
-const OkrCard = props => (
-  <Card className={`okr-card ${props.isSelected ? "active" : ""}`} raised>
-    <Card.Content className="objective">
-      <Card.Header>
-        <OwnerAvatar owner={props.objective.get("owner")} size="large" />
-        <div
-          className={`okr-card__name ${
-            props.isHighlighted ? "highlight" : ""
-          }`}>
-          <a
-            onClick={() => props.openOKRModal(props.objective.get("id"))}
-            onMouseEnter={() => props.highlightObjective(props.objective)}
-            onMouseLeave={props.unhighlightOkr}>
-            <OkrName okr={props.objective} />
-          </a>
+const OkrCard = memo(
+  ({
+    objective,
+    keyResults,
+    unhighlightOkr,
+    highlightObjective,
+    openOKRModal,
+    isSelected,
+    isHighlighted,
+    selectedKeyResultId,
+    highlightedKeyResultId,
+    visibleKeyResultIds,
+    openKeyResultModal,
+    highlightKeyResult,
+    toggleKeyResult,
+    showToggle,
+  }) => (
+    <Card className={`okr-card ${isSelected ? "active" : ""}`} raised>
+      <Card.Content className="objective">
+        <Card.Header>
+          <OwnerAvatar owner={objective.get("owner")} size="large" />
+          <div className={`okr-card__name ${isHighlighted ? "highlight" : ""}`}>
+            <a
+              onClick={() => openOKRModal(objective.get("id"))}
+              onMouseEnter={() => highlightObjective(objective)}
+              onMouseLeave={unhighlightOkr}>
+              <OkrName okr={objective} />
+            </a>
+          </div>
+          <ProgressRate value={objective.get("progressRate")} />
+          <MeetingboardLinkButton
+            objectiveId={objective.get("id")}
+            disabled={objective.get("keyResults").isEmpty()}
+          />
+        </Card.Header>
+      </Card.Content>
+      <KeyResultList
+        objective={objective}
+        keyResults={keyResults}
+        selectedKeyResultId={selectedKeyResultId}
+        highlightedKeyResultId={highlightedKeyResultId}
+        visibleKeyResultIds={visibleKeyResultIds}
+        openKeyResultModal={openKeyResultModal}
+        highlightKeyResult={highlightKeyResult}
+        toggleKeyResult={toggleKeyResult}
+        unhighlightOkr={unhighlightOkr}
+        openOKRModal={openOKRModal}
+        showToggle={showToggle}
+      />
+      <Card.Content extra className="okr-card__meta" textAlign="right">
+        <div className="update-time">
+          <Icon name="time" />
+          {moment(objective.get("updatedAt")).format("YYYY/M/D")} 更新
         </div>
-        <ProgressRate value={props.objective.get("progressRate")} />
-        <MeetingboardLinkButton
-          objective={props.objective}
-          isDisplay={!location.pathname.includes("meeting")}
-        />
-      </Card.Header>
-    </Card.Content>
-    <KeyResultList {...props} />
-    <Card.Content extra className="okr-card__meta" textAlign="right">
-      <div className="update-time">
-        <Icon name="time" />
-        {moment(props.objective.get("updatedAt")).format("YYYY/M/D")} 更新
-      </div>
-    </Card.Content>
-</Card>
+      </Card.Content>
+    </Card>
+  ),
 );
 
 OkrCard.propTypes = {
   // container
+  keyResults: ImmutablePropTypes.List,
   selectedKeyResultId: PropTypes.number,
   highlightedKeyResultId: PropTypes.number,
   visibleKeyResultIds: ImmutablePropTypes.set,
@@ -128,6 +156,7 @@ OkrCard.propTypes = {
   highlightKeyResult: PropTypes.func.isRequired,
   unhighlightOkr: PropTypes.func.isRequired,
   toggleKeyResult: PropTypes.func.isRequired,
+  showToggle: PropTypes.func.isRequired,
   // component
   objective: ImmutablePropTypes.map.isRequired,
 };
