@@ -24,6 +24,7 @@ class App::SegregateSlack < Trailblazer::Operation
       )
       organization.update!(
         slack_access_token: nil,
+        slack_bot_access_token: nil,
         slack_channel: nil
       )
       true

@@ -6,8 +6,9 @@ RSpec.describe App::IntegrateSlack do
   example "SUCCESS: Slack連携を行いDBにアクセストークンが保存される" do
     slack_client = double("slack_client")
     allow(slack_client).to receive(:oauth_access).and_return(
+      "access_token" => "orewa_access_token",
       "bot" => {
-        "bot_access_token" => "orewa_access_token"
+        "bot_access_token" => "orewa_bot_access_token"
       },
       "incoming_webhook" => {
         "channel" => "#歌でもひとつ歌いたいようなイイ気分だ〜"
@@ -20,6 +21,7 @@ RSpec.describe App::IntegrateSlack do
     expect(result).to be_success
     organization.reload
     expect(organization.slack_access_token).to eq("orewa_access_token")
+    expect(organization.slack_bot_access_token).to eq("orewa_bot_access_token")
     expect(organization.slack_channel).to eq("#歌でもひとつ歌いたいようなイイ気分だ〜")
   end
 

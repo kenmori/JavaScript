@@ -1,22 +1,22 @@
 # frozen_string_literal: true
-
 # ## Schema Information
 #
 # Table name: `organizations`
 #
 # ### Columns
 #
-# Name                      | Type               | Attributes
-# ------------------------- | ------------------ | ---------------------------
-# **`id`**                  | `bigint(8)`        | `not null, primary key`
-# **`disabled_at`**         | `datetime`         |
-# **`logo`**                | `string(255)`      |
-# **`name`**                | `string(255)`      | `not null`
-# **`okr_span`**            | `integer`          | `default(3), not null`
-# **`slack_access_token`**  | `string(255)`      |
-# **`slack_channel`**       | `string(255)`      |
-# **`created_at`**          | `datetime`         | `not null`
-# **`updated_at`**          | `datetime`         | `not null`
+# Name                          | Type               | Attributes
+# ----------------------------- | ------------------ | ---------------------------
+# **`id`**                      | `bigint(8)`        | `not null, primary key`
+# **`disabled_at`**             | `datetime`         |
+# **`logo`**                    | `string(255)`      |
+# **`name`**                    | `string(255)`      | `not null`
+# **`okr_span`**                | `integer`          | `default(3), not null`
+# **`slack_access_token`**      | `string(255)`      |
+# **`slack_bot_access_token`**  | `string(255)`      |
+# **`slack_channel`**           | `string(255)`      |
+# **`created_at`**              | `datetime`         | `not null`
+# **`updated_at`**              | `datetime`         | `not null`
 #
 
 class Organization < ApplicationRecord
