@@ -5,5 +5,5 @@ json.objectives do
 end
 
 json.allObjectives do
-    json.partial! "objectives/objective", collection: @all_objectives, as: :objective
+  json.partial! "objectives/objective", collection: @all_objectives, as: :objective
 end

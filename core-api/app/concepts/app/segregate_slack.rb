@@ -12,7 +12,7 @@ class App::SegregateSlack < Trailblazer::Operation
   step Contract::Validate()
   step :segregate
 
-  def segregate(options, model:, params:, **_metadata)
+  def segregate(_options, model:, params:, **_metadata)
     organization = Organization.find(params[:organization_id])
     organization.update!(
       slack_access_token: nil,
