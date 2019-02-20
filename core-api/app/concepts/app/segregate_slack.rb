@@ -13,18 +13,16 @@ class App::SegregateSlack < Trailblazer::Operation
   step :segregate
 
   def segregate(options, model:, params:, **_metadata)
-    organization = Organization.find(params[:organization_id])
-    client = SlackClientFactory.create_web_client(organization.slack_access_token)
+    client = SlackClientFactory.create_web_client
 
     begin
-      client.auth_test
       client.apps_uninstall(
         client_id: ENV["SLACK_CLIENT_ID"],
         client_secret: ENV["SLACK_CLIENT_SECRET"]
       )
+      organization = Organization.find(params[:organization_id])
       organization.update!(
         slack_access_token: nil,
-        slack_bot_access_token: nil,
         slack_channel: nil
       )
       true

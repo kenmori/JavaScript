@@ -25,8 +25,7 @@ class App::IntegrateSlack < Trailblazer::Operation
         code: params[:code]
       )
       organization.update!(
-        slack_access_token: response["access_token"],
-        slack_bot_access_token: response["bot"]["bot_access_token"],
+        slack_access_token: response["bot"]["bot_access_token"],
         slack_channel: response["incoming_webhook"]["channel"]
       )
       true
