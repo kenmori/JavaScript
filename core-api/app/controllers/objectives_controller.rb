@@ -7,9 +7,9 @@ class ObjectivesController < ApplicationController
       forbidden and return unless valid_permission?(@user.organization.id)
 
       objectives = @user.objectives
-                         .includes(:key_results)
-                         .where(okr_period_id: params[:okr_period_id])
-                         .order(created_at: :desc)
+                        .includes(:key_results)
+                        .where(okr_period_id: params[:okr_period_id])
+                        .order(created_at: :desc)
 
       all_abjectives = current_user.admin? ?
                                    Objective

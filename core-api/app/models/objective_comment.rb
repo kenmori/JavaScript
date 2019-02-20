@@ -20,21 +20,25 @@
 class ObjectiveComment < ApplicationRecord
   belongs_to :objective, touch: true
   belongs_to :user
+  after_create :notify_on_create, if: -> { Current.user }
 
-  after_create do
-    # コメントを追加した objective に関連するすべてのユーザーにメールを送信する
-    target_users = []
-    target_users.push(objective.owner)
-    objective.key_results.each do |key_result|
-      target_users.push(key_result.owner)
-      key_result.members.each do |member|
-        target_users.push(member)
+  private
+
+    def notify_on_create
+      # コメントを追加した objective に関連するすべてのユーザーにメールを送信する
+      target_users = []
+      target_users.push(objective.owner)
+      objective.key_results.each do |key_result|
+        target_users.push(key_result.owner)
+        key_result.members.each do |member|
+          target_users.push(member)
+        end
       end
-    end
+      # 関係者まで含めると重複が多くなるため uniq で一意にする
+      target_users.uniq.each do |user|
+        NotificationMailer.update_o_comment(Current.user, objective, self, user).deliver_later
+      end
 
-    # 関係者まで含めると重複が多くなるため uniq で一意にする
-    target_users.uniq.each do |user|
-      NotificationMailer.update_o_comment(Current.user, objective, self, user).deliver_later if Current.user
+      ObjectiveCommentPostNotificationJob.perform_later(self, Current.user)
     end
-  end
 end
