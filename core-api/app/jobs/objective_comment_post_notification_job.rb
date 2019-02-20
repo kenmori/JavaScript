@@ -15,7 +15,7 @@ class ObjectiveCommentPostNotificationJob < ApplicationJob
       author_link: base_url,
       title: objective.name,
       title_link: "#{base_url}/objectives/#{objective.id}",
-      text: comment.text,
+      text: "```#{comment.text}```",
       footer: base_url,
       ts: comment.created_at.to_i,
       mrkdwn_in: %w[text pretext]

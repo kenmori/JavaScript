@@ -20,7 +20,7 @@ class KeyResultCommentPostNotificationJob < ApplicationJob
       author_link: base_url,
       title: key_result.name,
       title_link: "#{base_url}/key_results/#{key_result.id}",
-      text: comment.text,
+      text: "```#{comment.text}```",
       footer: base_url,
       ts: comment.created_at.to_i,
       mrkdwn_in: %w[text pretext]
