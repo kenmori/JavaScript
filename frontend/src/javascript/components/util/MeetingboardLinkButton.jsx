@@ -14,26 +14,25 @@ const MeetingboardLinkButton = memo(
     }, [objectiveId]);
 
     return (
-      <div onClick={handleMeetingBoardLinkClick}>
-        <Popup
-          hoverable
-          size="tiny"
-          position="right center"
-          content="ミーティングボードを表示する"
-          trigger={
-            <Button
-              className="meeting-link-button"
-              disabled={disabled}
-              circular
-              basic
-              compact
-              icon="clipboard"
-              size="small"
-              active
-            />
-          }
-        />
-      </div>
+      <Popup
+        hoverable
+        size="tiny"
+        position="right center"
+        content="ミーティングボードを表示する"
+        trigger={
+          <Button
+            className="meeting-link-button"
+            circular
+            basic
+            compact
+            icon="clipboard"
+            size="small"
+            active
+            disabled={disabled}
+            onClick={handleMeetingBoardLinkClick}
+          />
+        }
+      />
     );
   },
   (prevProps, nextProps) => prevProps.objectiveId === nextProps.objectiveId,
