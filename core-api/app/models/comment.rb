@@ -22,8 +22,12 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :key_result, touch: true
   belongs_to :key_result_comment_label, optional: true
+  after_create :notify_on_create, if: -> { Current.user }
 
-  after_create do
-    NotificationMailer.send_add_kr_comment(Current.user, key_result, self) if Current.user
-  end
+  private
+
+    def notify_on_create
+      NotificationMailer.send_add_kr_comment(Current.user, key_result, self)
+      KeyResultCommentPostNotificationJob.perform_later(self, Current.user)
+    end
 end

@@ -12,7 +12,7 @@ class KeyResultUpdateNotificationJob < ApplicationJob
     attachments = [{
       fallback: "#{operator.last_name} #{operator.first_name} がKey Resultを更新しました",
       pretext: "*#{operator.last_name} #{operator.first_name}* がKey Resultを更新しました",
-      color: "#36a64f",
+      color: "#4a6785",
       author_name: "Resily",
       author_link: base_url,
       title: key_result.name,
@@ -20,7 +20,7 @@ class KeyResultUpdateNotificationJob < ApplicationJob
       text: "*#{diff[:column]}* を `#{diff[:before]}` から `#{diff[:after]}` に更新",
       footer: base_url,
       ts: key_result.updated_at.to_i,
-      mrkdwn_in: ["text", "pretext"]
+      mrkdwn_in: %w[text pretext]
     }]
 
     client = SlackClientFactory.create_web_client(organization.slack_access_token)

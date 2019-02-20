@@ -1,25 +1,23 @@
 # frozen_string_literal: true
 
-class ObjectiveUpdateNotificationJob < ApplicationJob
+class ObjectiveCommentPostNotificationJob < ApplicationJob
   retry_on Slack::Web::Api::Error, wait: :exponentially_longer, attempts: 10
 
-  def perform(objective, operator)
+  def perform(comment, operator)
+    objective = comment.objective
     organization = objective.okr_period.organization
-    history = ActiveModelSerializers::SerializableResource.new(objective.versions.last).as_json
-    diff = history[:diffs].first
     base_url = "#{ActionMailer::Base.default_url_options[:protocol]}://#{ActionMailer::Base.default_url_options[:host]}"
-
     attachments = [{
-      fallback: "#{operator.last_name} #{operator.first_name} がObjectiveを更新しました",
-      pretext: "*#{operator.last_name} #{operator.first_name}* がObjectiveを更新しました",
-      color: "#4a6785",
+      fallback: "#{operator.last_name} #{operator.first_name} がアナウンスメントを投稿しました",
+      pretext: "*#{operator.last_name} #{operator.first_name}* がアナウンスメントを投稿しました",
+      color: "#21ba45",
       author_name: "Resily",
       author_link: base_url,
       title: objective.name,
       title_link: "#{base_url}/objectives/#{objective.id}",
-      text: "*#{diff[:column]}* を `#{diff[:before]}` から `#{diff[:after]}` に更新",
+      text: comment.text,
       footer: base_url,
-      ts: objective.updated_at.to_i,
+      ts: comment.created_at.to_i,
       mrkdwn_in: %w[text pretext]
     }]
 
