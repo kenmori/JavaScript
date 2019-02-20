@@ -23,7 +23,7 @@ class ObjectiveUpdateNotificationJob < ApplicationJob
       mrkdwn_in: ["text", "pretext"]
     }]
 
-    client = SlackClientFactory.create_web_client(organization.slack_access_token)
+    client = SlackClientFactory.create_web_client(organization.slack_bot_access_token)
     client.auth_test
     client.chat_postMessage(channel: organization.slack_channel, attachments: attachments)
   end

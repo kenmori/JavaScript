@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 2019_02_13_065120) do
     t.integer "okr_span", default: 3, null: false
     t.datetime "disabled_at"
     t.string "slack_access_token"
+    t.string "slack_bot_access_token"
     t.string "slack_channel"
   end
 

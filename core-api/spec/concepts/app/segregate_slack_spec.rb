@@ -14,6 +14,7 @@ RSpec.describe App::SegregateSlack do
     expect(result).to be_success
     organization.reload
     expect(organization.slack_access_token).to eq nil
+    expect(organization.slack_bot_access_token).to eq nil
     expect(organization.slack_channel).to eq nil
   end
 
