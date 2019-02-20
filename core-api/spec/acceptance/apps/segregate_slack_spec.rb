@@ -9,11 +9,6 @@ RSpec.resource "apps", warden: true do
 
   before do
     login_as(admin_user)
-
-    # Slackクライアントのモックが提供されていないので差し替える
-    slack_client = double("slack_client")
-    allow(slack_client).to receive(:apps_uninstall)
-    allow(SlackClientFactory).to receive(:create_web_client).and_return(slack_client)
   end
 
   delete "/apps/slack" do
