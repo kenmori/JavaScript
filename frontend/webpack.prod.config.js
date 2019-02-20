@@ -84,6 +84,7 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify("production"),
       "process.env.GA_TRACKING_CODE": JSON.stringify(process.env.GA_TRACKING_CODE),
       "process.env.MIXPANEL_TOKEN": JSON.stringify(process.env.MIXPANEL_TOKEN),
+      "process.env.ADD_TO_SLACK_URL": JSON.stringify(process.env.ADD_TO_SLACK_URL),
     }),
     new CompressionPlugin({
       filename: "[path].gz[query]",

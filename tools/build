@@ -31,7 +31,7 @@ build() {
 
   # frontend
   cd ../frontend
-  docker build --build-arg GA_TRACKING_CODE=${GA_TRACKING_CODE} --build-arg MIXPANEL_TOKEN=${MIXPANEL_TOKEN} -t frontend:${tag} .
+  docker build --build-arg GA_TRACKING_CODE=${GA_TRACKING_CODE} --build-arg MIXPANEL_TOKEN=${MIXPANEL_TOKEN} --build-arg ADD_TO_SLACK_URL=${ADD_TO_SLACK_URL} -t frontend:${tag} .
   docker tag frontend:${tag} ${ECR_REPOSITORY_URL}/frontend:${tag}
   docker push ${ECR_REPOSITORY_URL}/frontend:${tag}
 }

@@ -2,8 +2,8 @@ import React from "react";
 import { Table, Pagination } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import SortableComponent from "../util/SortableComponent";
-import UsersTableRow from "../../containers/UsersTableRow";
+import SortableComponent from "../../util/SortableComponent";
+import UsersTableRow from "./UsersTableRow";
 
 class UsersTable extends SortableComponent {
   static NUMBER_TO_DISPLAY = 50;

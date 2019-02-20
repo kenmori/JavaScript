@@ -73,4 +73,7 @@ Rails.application.routes.draw do
       patch :restore
     end
   end
+
+  put "apps/slack", to: "apps#integrate_slack"
+  delete "apps/slack", to: "apps#segregate_slack"
 end

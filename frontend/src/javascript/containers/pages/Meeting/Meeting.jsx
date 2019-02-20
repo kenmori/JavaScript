@@ -6,7 +6,7 @@ import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLab
 import CommentModal from "../../CommentModal";
 import OKRModal from "../../organisms/OKRModal";
 import ObjectiveCommentModal from "../../ObjectiveCommentModal";
-import MeetingLayout from "../../../components/templates/MeetingLayout";
+import MeetingLayout from "../../../components/layouts/MeetingLayout";
 import LabelItem from "../../../components/meeting/LabelItem";
 import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
 import OkrItem from "../../../components/meeting/OkrItem";

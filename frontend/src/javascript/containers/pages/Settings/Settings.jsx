@@ -1,11 +1,12 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import DefaultLayout from "../../../components/templates/DefaultLayout";
-import AccountSettingTab from "../../AccountSettingTab";
-import UserSettingTab from "../../UserSettingTab";
-import OrganizationSettingTab from "../../OrganizationSettingTab";
-import OkrPeriodSettingTab from "../../OkrPeriodSettingTab";
+import DefaultLayout from "../../../components/layouts/DefaultLayout";
+import AccountSettingTab from "../../organisms/AccountSettingTab";
+import UserSettingTab from "../../organisms/UserSettingTab";
+import OrganizationSettingTab from "../../organisms/OrganizationSettingTab";
+import OkrPeriodSettingTab from "../../organisms/OkrPeriodSettingTab";
+import AppSettingTab from "../../organisms/AppSettingTab";
 import ImageModal from "../../ImageModal";
 
 class Settings extends React.Component {
@@ -43,6 +44,12 @@ class Settings extends React.Component {
           menuItem: "ユーザー",
           render: () => <UserSettingTab />,
           name: "users",
+        },
+        {
+          id: 4,
+          menuItem: "アプリケーション",
+          render: () => <AppSettingTab />,
+          name: "applications",
         },
       ];
       return {

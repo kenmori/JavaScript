@@ -52,38 +52,14 @@ class KeyResult < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
+  after_create :update_progress_rate_on_create
+  after_update :update_progress_rate_on_update
+  after_update :update_child_disabled_on_update
+  after_update :notify_on_update, if: -> { Current.user }
+  after_update_commit :notify_on_commit, if: -> { okr_period.organization.slack_access_token.present? && Current.user && previous_changes.present? }
+
   before_validation do
     self.okr_period_id = objective.okr_period_id
-  end
-
-  after_update do
-    if saved_change_to_disabled_at?
-      child_objectives.each do |objective|
-        objective.update_attribute(:disabled_at, disabled_at) if disabled != objective.disabled
-      end
-
-      NotificationMailer.change_kr_disabled(Current.user, self, disabled).deliver_later
-    end
-
-    if saved_change_to_progress_rate?
-      key_result_owner = owner
-      objective_owner = objective.owner
-      if key_result_owner.id != objective_owner.id && (target_value.present? || actual_value.present?)
-        NotificationMailer.update_kr_progress_rate(Current.user, objective_owner, self).deliver_later
-      end
-    end
-  end
-
-  after_save do
-    objective&.update_sub_progress_rate # 上位進捗率の連動更新
-    if saved_change_to_objective_id?
-      # 紐付け変更時は、変更前の上位進捗率も連動更新する
-      Objective.find(objective_id_before_last_save).update_sub_progress_rate if objective_id_before_last_save
-    end
-
-    if saved_change_to_status? && Current.user
-      NotificationMailer.send_change_kr_status(Current.user, self, status_before_last_save, status)
-    end
   end
 
   after_destroy do
@@ -147,4 +123,53 @@ class KeyResult < ApplicationRecord
   def disabled
     !!disabled_at
   end
+
+  private
+
+    def update_progress_rate_on_create
+      # 上位進捗率の連動更新
+      objective&.update_sub_progress_rate
+    end
+
+    def update_progress_rate_on_update
+      # 上位進捗率の連動更新
+      objective&.update_sub_progress_rate if saved_change_to_progress_rate?
+
+      # 紐付け変更時は、変更前の上位進捗率も連動更新する
+      if saved_change_to_objective_id?
+        if objective_id_before_last_save
+          Objective.find(objective_id_before_last_save).update_sub_progress_rate
+        end
+      end
+    end
+
+    def update_child_disabled_on_update
+      if saved_change_to_disabled_at?
+        child_objectives.each do |objective|
+          objective.update_attribute(:disabled_at, disabled_at) if disabled != objective.disabled
+        end
+      end
+    end
+
+    def notify_on_update
+      if saved_change_to_status?
+        NotificationMailer.send_change_kr_status(Current.user, self, status_before_last_save, status)
+      end
+
+      if saved_change_to_disabled_at?
+        NotificationMailer.change_kr_disabled(Current.user, self, disabled).deliver_later
+      end
+
+      if saved_change_to_progress_rate?
+        key_result_owner = owner
+        objective_owner = objective.owner
+        if key_result_owner.id != objective_owner.id && (target_value.present? || actual_value.present?)
+          NotificationMailer.update_kr_progress_rate(Current.user, objective_owner, self).deliver_later
+        end
+      end
+    end
+
+    def notify_on_commit
+      KeyResultUpdateNotificationJob.perform_later(self, Current.user)
+    end
 end

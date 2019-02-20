@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import DefaultLayout from "../../../components/templates/DefaultLayout";
+import DefaultLayout from "../../../components/layouts/DefaultLayout";
 import Dashboard from "../../Dashboard";
 import KeyResultModal from "../../KeyResultModal";
 import ObjectiveModal from "../../ObjectiveModal";

@@ -103,6 +103,8 @@ jobs:
         type: string
       mixpanel_token:
         type: string
+      add_to_slack_url:
+        type: string
     executor:
       name: build
     steps:
@@ -115,7 +117,7 @@ jobs:
           command: sudo pip install awscli --upgrade
       - run:
           name: Build Docker images
-          command: DOCKER_BUILDKIT=1 GA_TRACKING_CODE=<< parameters.ga_tracking_code >> MIXPANEL_TOKEN=<< parameters.mixpanel_token >> ./tools/build -t ${CIRCLE_SHA1}
+          command: DOCKER_BUILDKIT=1 GA_TRACKING_CODE=<< parameters.ga_tracking_code >> MIXPANEL_TOKEN=<< parameters.mixpanel_token >> ADD_TO_SLACK_URL='<< parameters.add_to_slack_url >>' ./tools/build -t ${CIRCLE_SHA1}
   deploy:
     parameters:
       env:
@@ -142,6 +144,7 @@ workflows:
           name: build-docker-images-by-commit
           ga_tracking_code: UA-111410984-4
           mixpanel_token: c8de307c03292a5cb432a4de66d23ea4
+          add_to_slack_url: "https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=155636730961.547813723329"
           requires:
             - test
           filters:
@@ -153,6 +156,7 @@ workflows:
           name: build-docker-images-by-tag
           ga_tracking_code: UA-111410984-3
           mixpanel_token: 45bea21e3ddaf7e63c8ca0e835775316
+          add_to_slack_url: "https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=155636730961.554466058915"
           filters:
             branches:
               ignore: /.*/
@@ -162,6 +166,7 @@ workflows:
           name: build-docker-images-by-deploy-branch
           ga_tracking_code: UA-111410984-4
           mixpanel_token: c8de307c03292a5cb432a4de66d23ea4
+          add_to_slack_url: "https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=155636730961.547813723329"
           requires:
             - test
           filters:

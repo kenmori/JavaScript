@@ -9,6 +9,7 @@ RUN npm i
 ARG NODE_ENV="production"
 ARG GA_TRACKING_CODE
 ARG MIXPANEL_TOKEN
+ARG ADD_TO_SLACK_URL
 
 COPY . .
 RUN npm run build

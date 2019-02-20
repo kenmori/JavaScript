@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import moment from "moment";
 import { Tab, Table, Button, Divider } from "semantic-ui-react";
-import SortableComponent from "../util/SortableComponent";
-import AutoInput from "../form/AutoInput";
-import DatePicker from "../form/DatePicker";
-import OkrPeriodAddForm from "../../containers/OkrPeriodAddForm";
+import SortableComponent from "../../util/SortableComponent";
+import AutoInput from "../../form/AutoInput";
+import DatePicker from "../../form/DatePicker";
+import OkrPeriodAddForm from "./OkrPeriodAddForm";
 
 class OkrPeriodSettingTab extends SortableComponent {
   handleNameCommit = id => name => this.props.updateOkrPeriod({ id, name });
@@ -31,12 +31,17 @@ class OkrPeriodSettingTab extends SortableComponent {
   };
 
   render() {
-    const { okrPeriodId } = this.props;
+    const { okrPeriodId, organizationId, okrSpan, addOkrPeriod } = this.props;
     const { okrPeriods } = this.state;
+
     return (
       <Tab.Pane className="okr-period-setting-tab">
-        <OkrPeriodAddForm />
-
+        <OkrPeriodAddForm
+          organizationId={organizationId}
+          okrSpan={okrSpan}
+          okrPeriods={okrPeriods}
+          addOkrPeriod={addOkrPeriod}
+        />
         <Divider />
 
         <Table singleLine sortable>

@@ -2,8 +2,8 @@ import React, { PureComponent } from "react";
 import { Button, Checkbox, Radio, Table, Label } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import AutoInput from "../form/AutoInput";
-import UserAvatar from "../../containers/UserAvatar";
+import AutoInput from "../../form/AutoInput";
+import UserAvatar from "../../../containers/UserAvatar";
 
 class UsersTableRow extends PureComponent {
   handleLastNameCommit = lastName => this.props.updateUser({ lastName });

@@ -1,4 +1,5 @@
 import { fork } from "redux-saga/effects";
+import { appSagas } from "./apps";
 import { objectiveSagas } from "./objectives";
 import { keyResultSagas } from "./keyResults";
 import { userSagas } from "./users";
@@ -10,6 +11,7 @@ import { loginUserSagas } from "./loginUser";
 import { currentSagas } from "./current";
 
 const sagas = [
+  appSagas,
   objectiveSagas,
   keyResultSagas,
   userSagas,

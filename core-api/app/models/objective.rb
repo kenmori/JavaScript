@@ -43,23 +43,10 @@ class Objective < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true },
             allow_nil: true
 
-  after_update do
-    if saved_change_to_disabled_at?
-      key_results.each do |key_result|
-        key_result.update_attribute(:disabled_at, disabled_at) if disabled != key_result.disabled
-      end
-
-      NotificationMailer.change_o_disabled(Current.user, self, disabled).deliver_later
-    end
-  end
-
-  after_save do
-    parent_key_result&.update_sub_progress_rate # 上位進捗率の連動更新
-    if saved_change_to_parent_key_result_id?
-      # 紐付け変更時は、変更前の上位進捗率も連動更新する
-      KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate if parent_key_result_id_before_last_save
-    end
-  end
+  after_create :update_progress_rate_on_create
+  after_update :update_progress_rate_on_update
+  after_update :notify_on_update, if: -> { Current.user }
+  after_update_commit :notify_on_commit, if: -> { okr_period.organization.slack_access_token.present? && Current.user && previous_changes.present? }
 
   after_destroy do
     parent_key_result&.update_sub_progress_rate # 上位進捗率の連動更新
@@ -99,4 +86,38 @@ class Objective < ApplicationRecord
   def disabled
     !!disabled_at
   end
+
+  private
+
+    def update_progress_rate_on_create
+      # 上位進捗率の連動更新
+      parent_key_result&.update_sub_progress_rate
+    end
+
+    def update_progress_rate_on_update
+      # 上位進捗率の連動更新
+      if saved_change_to_progress_rate?
+        parent_key_result&.update_sub_progress_rate
+      end
+
+      # 紐付け変更時は、変更前の上位進捗率も連動更新する
+      if saved_change_to_parent_key_result_id?
+        if parent_key_result_id_before_last_save
+          KeyResult.find(parent_key_result_id_before_last_save).update_sub_progress_rate
+        end
+      end
+    end
+
+    def notify_on_update
+      if saved_change_to_disabled_at?
+        key_results.each do |key_result|
+          key_result.update_attribute(:disabled_at, disabled_at) if disabled != key_result.disabled
+        end
+        NotificationMailer.change_o_disabled(Current.user, self, disabled).deliver_later
+      end
+    end
+
+    def notify_on_commit
+      ObjectiveUpdateNotificationJob.perform_later(self, Current.user)
+    end
 end

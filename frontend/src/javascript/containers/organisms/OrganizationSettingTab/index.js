@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
-import OrganizationSettingTab from "../components/setting/OrganizationSettingTab";
-import dialogActions from "../actions/dialogs";
-import organizationActions from "../actions/organization";
+import OrganizationSettingTab from "../../../components/organisms/OrganizationSettingTab";
+import dialogActions from "../../../actions/dialogs";
+import organizationActions from "../../../actions/organization";
 
 const mapStateToProps = state => ({
   organization: state.organization.get("current"),

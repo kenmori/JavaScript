@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import ModalLayout from "../../templates/ModalLayout";
+import ModalLayout from "../../layouts/ModalLayout";
 import history from "../../../utils/history";
 import OKRSideBar from "../OKRSideBar";
 import ObjectiveTab from "./ObjectiveTab";

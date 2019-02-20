@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Header } from "semantic-ui-react";
-import DefaultLayout from "../../../components/templates/DefaultLayout";
+import DefaultLayout from "../../../components/layouts/DefaultLayout";
 import OKRModal from "../../organisms/OKRModal";
 import HistoryTimeline from "../../../components/organisms/HistoryTimeline";
 import OwnerShipKeyResultList from "../../../components/organisms/OwnerShipKeyResultList";

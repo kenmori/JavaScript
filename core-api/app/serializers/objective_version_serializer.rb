@@ -48,8 +48,8 @@ class ObjectiveVersionSerializer < ActiveModel::Serializer
         else
           diff = create_diff(
             column: I18n.t("activerecord.attributes.objective.#{k}"),
-            before: v[0].nil? ? "初期値" : v[0],
-            after: v[1].nil? ? "初期値" : v[1]
+            before: v[0].presence || "初期値",
+            after: v[1].presence || "初期値"
           )
         end
         memo << diff

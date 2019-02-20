@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
-import AccountSettingTab from "../components/setting/AccountSettingTab";
-import loginUserActions from "../actions/loginUser";
-import userActions from "../actions/users";
-import dialogActions from "../actions/dialogs";
+import AccountSettingTab from "../../../components/organisms/AccountSettingTab";
+import loginUserActions from "../../../actions/loginUser";
+import userActions from "../../../actions/users";
+import dialogActions from "../../../actions/dialogs";
 
 const mapStateToProps = state => ({
   loginUser: state.loginUser,

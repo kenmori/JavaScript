@@ -9,6 +9,7 @@ import SignIn from "../containers/pages/SignIn";
 import Settings from "../containers/pages/Settings";
 import Meeting from "../containers/pages/Meeting";
 import Timeline from "../containers/pages/Timeline";
+import Slack from "../containers/pages/Slack";
 import history from "../utils/history";
 import { isAuthenticated } from "../utils/auth";
 import withPageTracker from "../hocs/withPageTracker";
@@ -72,6 +73,11 @@ export default () => (
         exact
         path="/key_results/:keyResultId(\d+)"
         component={withPageTracker(Home)}
+      />
+      <PrivateRoute
+        exact
+        path="/applications/slack/auth"
+        component={withPageTracker(Slack)}
       />
       <PrivateRoute path="/" component={withPageTracker(Home)} />
     </Switch>

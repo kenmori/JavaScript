@@ -45,6 +45,7 @@ RSpec.resource "users", warden: true do
           "id" => organization.id,
           "name" => organization.name,
           "okr_span" => organization.okr_span,
+          "slack_enabled" => false,
           "logo" => {
             "url" => nil
           },
@@ -100,6 +101,7 @@ RSpec.resource "users", warden: true do
           "id" => organization.id,
           "name" => organization.name,
           "okr_span" => organization.okr_span,
+          "slack_enabled" => false,
           "logo" => {
             "url" => nil
           },
@@ -154,6 +156,7 @@ RSpec.resource "users", warden: true do
           "id" => organization.id,
           "name" => organization.name,
           "okr_span" => organization.okr_span,
+          "slack_enabled" => false,
           "logo" => {
             "url" => nil
           },

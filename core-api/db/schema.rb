@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_101727) do
+ActiveRecord::Schema.define(version: 2019_02_13_065120) do
 
   create_table "bounce_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -201,6 +201,8 @@ ActiveRecord::Schema.define(version: 2019_01_16_101727) do
     t.string "logo"
     t.integer "okr_span", default: 3, null: false
     t.datetime "disabled_at"
+    t.string "slack_access_token"
+    t.string "slack_channel"
   end
 
   create_table "user_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

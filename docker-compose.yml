@@ -17,7 +17,8 @@ services:
       TZ: Asia/Tokyo
       NODE_ENV: development
       GA_TRACKING_CODE: ""
-      MIXPANEL_TOKEN: 1434f6d6d5272917e485b150dd448813
+      MIXPANEL_TOKEN: "1434f6d6d5272917e485b150dd448813"
+      ADD_TO_SLACK_URL: "https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=155636730961.547813723329"
   api: &api
     build:
       context: core-api

@@ -13,7 +13,7 @@ import moment from "moment";
 import logo_image from "../../../images/logo_large.png";
 import DatePicker from "../../../components/form/DatePicker";
 import OkrSpanSelect from "../../../components/form/OkrSpanSelect";
-import LoginLayout from "../../../components/templates/LoginLayout";
+import LoginLayout from "../../../components/layouts/LoginLayout";
 
 class SignUp extends PureComponent {
   constructor(props) {

@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 import entities from "./entities";
 import candidates from "./candidates";
+import apps from "./apps";
 import objectives from "./objectives";
 import keyResults from "./keyResults";
 import users from "./users";
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   form: formReducer,
   entities,
   candidates,
+  apps,
   objectives,
   keyResults,
   users,

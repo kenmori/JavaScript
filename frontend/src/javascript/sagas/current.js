@@ -2,6 +2,7 @@ import { List } from "immutable";
 import { all, put, select, take, takeLatest } from "redux-saga/effects";
 import call from "../utils/call";
 import API from "../utils/api";
+import appActions from "../actions/apps";
 import currentActions from "../actions/current";
 import objectiveActions from "../actions/objectives";
 import organizationActions from "../actions/organization";
@@ -202,6 +203,14 @@ function* fetchMyDetail() {
         .get("user")
         .get("organization")
         .get("id"),
+    ),
+  );
+  yield put(
+    appActions.updateSlackIntegrationStatus(
+      result
+        .get("user")
+        .get("organization")
+        .get("slackEnabled"),
     ),
   );
   yield put(currentActions.fetchedMyDetail(result.get("user")));

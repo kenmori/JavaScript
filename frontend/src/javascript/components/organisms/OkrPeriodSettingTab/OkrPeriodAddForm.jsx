@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Form } from "semantic-ui-react";
 import moment from "moment/moment";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import DatePicker from "../form/DatePicker";
+import DatePicker from "../../form/DatePicker";
 
 class OkrPeriodAddForm extends PureComponent {
   constructor(props) {

@@ -10,6 +10,7 @@ RUN apk --update add --no-cache \
   git \
   tzdata \
   curl-dev \
+  openssl \
   libxml2-dev \
   mysql-dev \
   mysql-client \

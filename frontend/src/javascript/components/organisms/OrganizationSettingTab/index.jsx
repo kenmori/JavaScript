@@ -2,11 +2,11 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Tab, Button } from "semantic-ui-react";
-import AutoInput from "../form/AutoInput";
-import OkrSpanSelect from "../form/OkrSpanSelect";
-import OkrPeriodSelect from "../form/OkrPeriodSelect";
-import Logo from "../util/Logo";
-import { downloadFile } from "../../utils/api";
+import AutoInput from "../../form/AutoInput";
+import OkrSpanSelect from "../../form/OkrSpanSelect";
+import OkrPeriodSelect from "../../form/OkrPeriodSelect";
+import Logo from "../../util/Logo";
+import { downloadFile } from "../../../utils/api";
 
 class OrganizationSettingTab extends PureComponent {
   constructor(props) {

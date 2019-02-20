@@ -2,8 +2,8 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Tab, Button, Input, Radio } from "semantic-ui-react";
-import UserAvatar from "../../containers/UserAvatar";
-import AutoInput from "../form/AutoInput";
+import UserAvatar from "../../../containers/UserAvatar";
+import AutoInput from "../../form/AutoInput";
 
 class AccountSettingTab extends PureComponent {
   constructor(props) {
