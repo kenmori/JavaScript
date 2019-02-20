@@ -200,7 +200,7 @@ function* fetchPreviousObjectives({ payload }) {
     objectiveActions.fetchedPreviousObjectives(result.get("objectives")),
   );
   yield put(
-    objectiveActions.fetchedPreviousAllObjectives(result.get("allObjectives"))
+    objectiveActions.fetchedPreviousAllObjectives(result.get("allObjectives")),
   );
 }
 

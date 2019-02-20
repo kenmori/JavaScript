@@ -19,7 +19,7 @@ export const validatePreviousObjectiveId = (
   _,
   { previousObjectives, previousAllObjectives, isAdmin },
 ) => {
-  const targetObjectives = isAdmin ? previousAllObjectives : previousObjectives
+  const targetObjectives = isAdmin ? previousAllObjectives : previousObjectives;
   const isPreviousObjective = targetObjectives.some(
     objective => objective.get("id") === value,
   );

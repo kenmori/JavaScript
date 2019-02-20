@@ -59,9 +59,8 @@ export default handleActions(
         .set("isFetchedPreviousObjectives", true);
     },
     [ActionTypes.FETCHED_PREVIOUS_ALL_OBJECTIVES]: (state, { payload }) => {
-      const objectiveIds = payload.get("result")
-      return state
-        .set("previousAllIds", objectiveIds)
+      const objectiveIds = payload.get("result");
+      return state.set("previousAllIds", objectiveIds);
     },
     [ActionTypes.FETCHED_PREVIOUS_OBJECTIVES_ERROR]: state =>
       state

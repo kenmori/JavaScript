@@ -35,8 +35,10 @@ const actions = createActions({
     okrPeriodId,
     userId,
   }),
-  [actionTypes.FETCHED_PREVIOUS_OBJECTIVES]: objectives => normalizeObjectives(objectives),
-  [actionTypes.FETCHED_PREVIOUS_ALL_OBJECTIVES]: allObjectives => normalizeObjectives(allObjectives),
+  [actionTypes.FETCHED_PREVIOUS_OBJECTIVES]: objectives =>
+    normalizeObjectives(objectives),
+  [actionTypes.FETCHED_PREVIOUS_ALL_OBJECTIVES]: allObjectives =>
+    normalizeObjectives(allObjectives),
   [actionTypes.FETCHED_PREVIOUS_OBJECTIVES_ERROR]: () => {},
   [actionTypes.FETCH_OBJECTIVE_CANDIDATES]: (okrPeriodId, userId) => ({
     okrPeriodId,

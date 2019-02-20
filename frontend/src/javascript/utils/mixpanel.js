@@ -81,12 +81,14 @@ export const track = {
   /**
    * タスククリックイベント
    */
-  clickCreateSubKeyResultFromTask: () => mixpanel.track("Click Create Sub Key Result", {
-    From: "Task",
-  }),
-  clickDoNotCreateFromTask: () => mixpanel.track("Click Do Not Create", {
-    From: "Task",
-  }),
+  clickCreateSubKeyResultFromTask: () =>
+    mixpanel.track("Click Create Sub Key Result", {
+      From: "Task",
+    }),
+  clickDoNotCreateFromTask: () =>
+    mixpanel.track("Click Do Not Create", {
+      From: "Task",
+    }),
 };
 
 export default mixpanel;

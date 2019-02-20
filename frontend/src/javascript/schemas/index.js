@@ -70,7 +70,7 @@ function denormalizeObjective(objectiveId, showDisabledOkrs, entities) {
 }
 
 function denormalizeObjectives(objectiveIds, showDisabledOkrs, entities) {
-  if (typeof objectiveIds === 'undefined') return
+  if (typeof objectiveIds === "undefined") return;
   const objectives = objectiveIds.map(objectiveId => {
     const objective = getObjective(objectiveId, entities);
     if (!objective) return null;

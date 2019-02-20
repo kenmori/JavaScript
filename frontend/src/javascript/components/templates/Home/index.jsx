@@ -1,0 +1,48 @@
+import React, { PureComponent } from "react";
+import DefaultLayout from "../../layouts/DefaultLayout";
+import Dashboard from "../../../containers/Dashboard";
+import KeyResultModal from "../../../containers/KeyResultModal";
+import ObjectiveModal from "../../../containers/ObjectiveModal";
+import OKRModal from "../../../containers/organisms/OKRModal";
+import OptionModal from "../../../containers/OptionModal";
+
+class Home extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const { fetchOkrs, okrPeriodId, userId } = this.props;
+    fetchOkrs(okrPeriodId, userId);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      isFetchedCandidates,
+      isModal,
+      objectiveId,
+      keyResultId,
+      openOkrModal,
+    } = this.props;
+    if (!prevProps.isFetchedCandidates && isFetchedCandidates) {
+      if (isModal) {
+        openOkrModal(objectiveId, keyResultId);
+      }
+    }
+  }
+
+  render() {
+    return (
+      <DefaultLayout title="ホーム">
+        <div className="home">
+          <Dashboard />
+          <KeyResultModal />
+          <ObjectiveModal />
+          <OKRModal />
+          <OptionModal />
+        </div>
+      </DefaultLayout>
+    );
+  }
+}
+export default Home;
