@@ -199,6 +199,9 @@ function* fetchPreviousObjectives({ payload }) {
   yield put(
     objectiveActions.fetchedPreviousObjectives(result.get("objectives")),
   );
+  yield put(
+    objectiveActions.fetchedPreviousAllObjectives(result.get("allObjectives"))
+  );
 }
 
 function* callFetchObjectives(okrPeriodId, userId) {

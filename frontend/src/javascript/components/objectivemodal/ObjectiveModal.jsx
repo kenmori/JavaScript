@@ -146,7 +146,9 @@ class ObjectiveModal extends PureComponent {
           isLink
             ? this.props.isolatedObjectives
             : isCopy
-            ? this.props.previousObjectives
+            ? this.props.isAdmin
+              ? this.props.previousAllObjectives
+              : this.props.previousObjectives
             : undefined
         }
         isFetchedObjectives={
@@ -201,6 +203,7 @@ ObjectiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   parentKeyResult: ImmutablePropTypes.map,
   currentUserId: PropTypes.number.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   users: ImmutablePropTypes.list.isRequired,
   okrPeriodId: PropTypes.number.isRequired,
   parentKeyResults: ImmutablePropTypes.list.isRequired,
@@ -208,6 +211,7 @@ ObjectiveModal.propTypes = {
   isolatedObjectives: ImmutablePropTypes.list.isRequired,
   isFetchedObjectives: PropTypes.bool.isRequired,
   previousObjectives: ImmutablePropTypes.list.isRequired,
+  previousAllObjectives: ImmutablePropTypes.list,
   isFetchedPreviousObjectives: PropTypes.bool.isRequired,
   addObjective: PropTypes.func.isRequired,
   updateObjective: PropTypes.func.isRequired,
