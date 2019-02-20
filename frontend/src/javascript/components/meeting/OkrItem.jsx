@@ -12,7 +12,7 @@ class OkrItem extends PureComponent {
   }
 
   generateKeyResultList = objective => {
-    const { keyResults, showDisabledOkrs } = this.props;
+    const { keyResults, showDisabledOkrs, openOkrModal } = this.props;
     const keyResultIds = objective.get("keyResultIds");
     const filteredKeyResult = keyResults
       .filter(v => keyResultIds.includes(v.get("id")))
@@ -33,7 +33,9 @@ class OkrItem extends PureComponent {
           </Table.Cell>
           <Table.Cell>
             <div className="okr-card__name">
-              <OkrName okr={keyResult} />
+              <a onClick={() => openOkrModal(null, keyResult.get("id"))}>
+                <OkrName okr={keyResult} />
+              </a>
             </div>
           </Table.Cell>
           <Table.Cell>
@@ -48,7 +50,7 @@ class OkrItem extends PureComponent {
   };
 
   render() {
-    const { objective } = this.props;
+    const { objective, openOkrModal } = this.props;
 
     return (
       <div className="very basic meeting-board__okr">
@@ -60,7 +62,9 @@ class OkrItem extends PureComponent {
               </Table.Cell>
               <Table.Cell>
                 <div className="okr-card__name">
-                  <OkrName okr={objective} />
+                  <a onClick={() => openOkrModal(objective.get("id"))}>
+                    <OkrName okr={objective} />
+                  </a>
                 </div>
               </Table.Cell>
               <Table.Cell>

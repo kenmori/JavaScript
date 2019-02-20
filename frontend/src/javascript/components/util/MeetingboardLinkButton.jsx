@@ -1,10 +1,18 @@
-import React, { PureComponent } from "react";
+import React, { useCallback, memo } from "react";
 import PropTypes from "prop-types";
 import { Button, Popup } from "semantic-ui-react";
 
-class MeetingboardLinkButton extends PureComponent {
-  render() {
-    const { disabled, onClick } = this.props;
+const MeetingboardLinkButton = memo(
+  ({ objectiveId, disabled }) => {
+    const handleMeetingBoardLinkClick = useCallback(() => {
+      window.open(
+        `/meetings/${objectiveId}`,
+        "_blank",
+        `height=${window.parent.screen.height},
+      width=${window.parent.screen.width}`,
+      );
+    }, [objectiveId]);
+
     return (
       <Popup
         hoverable
@@ -13,7 +21,6 @@ class MeetingboardLinkButton extends PureComponent {
         content="ミーティングボードを表示する"
         trigger={
           <Button
-            disabled={disabled}
             className="meeting-link-button"
             circular
             basic
@@ -21,17 +28,24 @@ class MeetingboardLinkButton extends PureComponent {
             icon="clipboard"
             size="small"
             active
-            onClick={onClick}
+            disabled={disabled}
+            onClick={handleMeetingBoardLinkClick}
           />
         }
       />
     );
-  }
-}
+  },
+  (prevProps, nextProps) => prevProps.objectiveId === nextProps.objectiveId,
+);
+
+MeetingboardLinkButton.defaultProps = {
+  disabled: false,
+};
 
 MeetingboardLinkButton.propTypes = {
-  disabled: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
+  objective: PropTypes.shape({
+    id: PropTypes.number,
+  }),
 };
 
 export default MeetingboardLinkButton;

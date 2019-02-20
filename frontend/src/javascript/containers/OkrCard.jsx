@@ -13,6 +13,8 @@ const mapStateToProps = (state, { objective }) => {
     highlightedObjectiveIds: highlightedOkr.get("objectiveIds"),
     highlightedKeyResultId: highlightedOkr.get("keyResultId"),
     visibleKeyResultIds: state.current.getIn(["mapOkr", objective.get("id")]),
+    keyResults: objective.get("keyResults"),
+    objectiveId: objective.get("id"),
   };
 };
 
@@ -65,7 +67,21 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  isSelected: stateProps.objectiveId === stateProps.selectedObjectiveId,
+  isHighlighted: stateProps.highlightedObjectiveIds.includes(
+    stateProps.objectiveId,
+  ),
+  showToggle: stateProps.keyResults.some(
+    keyResult => !keyResult.get("childObjectiveIds").isEmpty(),
+  ),
+});
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
+  mergeProps,
 )(OkrCard);

@@ -1,71 +1,85 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useCallback } from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { Header, Grid, Label, Icon } from "semantic-ui-react";
 import meetingBoardCommentLabels from "../../../constants/meetingBoardCommentLabels";
 import CommentModal from "../../CommentModal";
+import OKRModal from "../../organisms/OKRModal";
 import ObjectiveCommentModal from "../../ObjectiveCommentModal";
 import MeetingLayout from "../../../components/templates/MeetingLayout";
 import LabelItem from "../../../components/meeting/LabelItem";
 import AnnouncementItem from "../../../components/meeting/AnnouncementItem";
 import OkrItem from "../../../components/meeting/OkrItem";
 
+// TODO 上から計算されたものを渡す
+const selectLabelCommnets = (comments, label) =>
+  comments.filter(v => v.get("label").get("name") === label);
+
+const CommentLabelColumn = ({
+  updateKeyResult,
+  openCommentModal,
+  confirm,
+  labels,
+  labelName,
+  keyResultsComments,
+}) => (
+  <Grid.Column>
+    <div className="meeting-board__content__header">
+      <Label color={labels.get(labelName).get("color")}>
+        {labels.get(labelName).get("name")}
+      </Label>
+      {/* TODO: bindやめる */}
+      <div
+        className="meeting-board__content__header__button"
+        onClick={openCommentModal.bind(this, labels.get(labelName))}>
+        <a>
+          <Icon name="plus" />
+          {`${labelName}を追加する`}
+        </a>
+      </div>
+    </div>
+    <LabelItem
+      comments={selectLabelCommnets(keyResultsComments, labelName)}
+      updateKeyResult={updateKeyResult}
+      confirm={confirm}
+    />
+  </Grid.Column>
+);
+
+const AnnouncementColumn = ({
+  objectiveId,
+  announcements,
+  updateObjective,
+  openObjectiveCommentModal,
+  confirm,
+}) => {
+  const openCommentModal = useCallback(openObjectiveCommentModal);
+  return (
+    <Grid.Column>
+      <div className="meeting-board__content__header">
+        <Label color="green">アナウンスメント</Label>
+        <div className="meeting-board__content__header__button">
+          <a onClick={openCommentModal}>
+            <Icon name="plus" />
+            アナウンスメントを追加する
+          </a>
+        </div>
+      </div>
+      <AnnouncementItem
+        objectiveId={objectiveId}
+        comments={announcements}
+        updateObjective={updateObjective}
+        confirm={confirm}
+      />
+    </Grid.Column>
+  );
+};
 class Meeting extends PureComponent {
   constructor(props) {
     super(props);
   }
 
-  selectLabelCommnets = (comments, label) =>
-    comments.filter(v => v.get("label").get("name") === label);
-
-  generateCommentLabelColumn = (comments, labels, labelName) => {
-    const { updateKeyResult, openCommentModal, confirm } = this.props;
-    const label = labels.get(labelName);
-
-    return (
-      <Grid.Column>
-        <div className="meeting-board__content__header">
-          <Label color={label.get("color")}>{label.get("name")}</Label>
-          <div className="meeting-board__content__header__button">
-            <a onClick={openCommentModal.bind(this, label)}>
-              <Icon name="plus" />
-              {`${labelName}を追加する`}
-            </a>
-          </div>
-        </div>
-        <LabelItem
-          comments={this.selectLabelCommnets(comments, labelName)}
-          updateKeyResult={updateKeyResult}
-          confirm={confirm}
-        />
-      </Grid.Column>
-    );
-  };
-
-  generateAnnouncementColumn = (objectiveId, announcements) => {
-    const { updateObjective, openObjectiveCommentModal, confirm } = this.props;
-
-    return (
-      <Grid.Column>
-        <div className="meeting-board__content__header">
-          <Label color="green">アナウンスメント</Label>
-          <div className="meeting-board__content__header__button">
-            <a onClick={openObjectiveCommentModal.bind(this)}>
-              <Icon name="plus" />
-              アナウンスメントを追加する
-            </a>
-          </div>
-        </div>
-        <AnnouncementItem
-          objectiveId={objectiveId}
-          comments={announcements}
-          updateObjective={updateObjective}
-          confirm={confirm}
-        />
-      </Grid.Column>
-    );
-  };
-
+  // TODO useEffectする
   componentDidMount() {
     const { objectiveId, objectives, fetchObjective } = this.props;
     if (objectives.size < 1) {
@@ -75,15 +89,21 @@ class Meeting extends PureComponent {
 
   render() {
     const {
-      objectiveId,
       objectives,
       objective,
+      objectiveId,
       objectiveComments,
       keyResults,
       keyResultsComments,
       keyResultCommentLabels,
       showDisabledOkrs,
+      openOkrModal,
       isFetchedKeyResultsCommentLabels,
+      updateKeyResult,
+      openCommentModal,
+      confirm,
+      updateObjective,
+      openObjectiveCommentModal,
     } = this.props;
     if (objectives.size < 1) {
       return null;
@@ -91,7 +111,6 @@ class Meeting extends PureComponent {
     if (!isFetchedKeyResultsCommentLabels) {
       return null;
     }
-
     const labels = new Map();
     keyResultCommentLabels.forEach(v => labels.set(v.get("name"), v));
 
@@ -112,11 +131,14 @@ class Meeting extends PureComponent {
           </Header>
           <Grid celled columns={3} className="meeting-board__content">
             <Grid.Row>
-              {this.generateCommentLabelColumn(
-                keyResultsComments,
-                labels,
-                meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK,
-              )}
+              <CommentLabelColumn
+                updateKeyResult={updateKeyResult}
+                openCommentModal={openCommentModal}
+                confirm={confirm}
+                keyResultsComments={keyResultsComments}
+                labels={labels}
+                labelName={meetingBoardCommentLabels.THIS_WEEK_PRIORITY_TASK}
+              />
               <Grid.Column>
                 <Label color="orange" className="meeting-board__content__label">
                   OKRの見通し
@@ -125,29 +147,42 @@ class Meeting extends PureComponent {
                   objective={objective}
                   keyResults={keyResults}
                   showDisabledOkrs={showDisabledOkrs}
+                  openOkrModal={openOkrModal}
                 />
               </Grid.Column>
-              {this.generateCommentLabelColumn(
-                keyResultsComments,
-                labels,
-                meetingBoardCommentLabels.WIN_SESSION,
-              )}
+              <CommentLabelColumn
+                updateKeyResult={updateKeyResult}
+                openCommentModal={openCommentModal}
+                confirm={confirm}
+                keyResultsComments={keyResultsComments}
+                labels={labels}
+                labelName={meetingBoardCommentLabels.WIN_SESSION}
+              />
             </Grid.Row>
             <Grid.Row>
-              {this.generateCommentLabelColumn(
-                keyResultsComments,
-                labels,
-                meetingBoardCommentLabels.NEXT_4_WEEK,
-              )}
-              {this.generateAnnouncementColumn(
-                objective.get("id"),
-                objectiveComments,
-              )}
-              {this.generateCommentLabelColumn(
-                keyResultsComments,
-                labels,
-                meetingBoardCommentLabels.ISSUE,
-              )}
+              <CommentLabelColumn
+                updateKeyResult={updateKeyResult}
+                openCommentModal={openCommentModal}
+                confirm={confirm}
+                keyResultsComments={keyResultsComments}
+                labels={labels}
+                labelName={meetingBoardCommentLabels.NEXT_4_WEEK}
+              />
+              <AnnouncementColumn
+                objectiveId={objective.get("id")}
+                announcements={objectiveComments}
+                updateObjective={updateObjective}
+                openObjectiveCommentModal={openObjectiveCommentModal}
+                confirm={confirm}
+              />
+              <CommentLabelColumn
+                updateKeyResult={updateKeyResult}
+                openCommentModal={openCommentModal}
+                confirm={confirm}
+                keyResultsComments={keyResultsComments}
+                labels={labels}
+                labelName={meetingBoardCommentLabels.ISSUE}
+              />
             </Grid.Row>
           </Grid>
           <CommentModal
@@ -161,6 +196,7 @@ class Meeting extends PureComponent {
             comments={objectiveComments}
           />
         </div>
+        <OKRModal />
       </MeetingLayout>
     );
   }
