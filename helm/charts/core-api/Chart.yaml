@@ -1,0 +1,11 @@
+name: core-api
+icon: https://resily.com/wp-content/themes/resily/images/logo.svg
+description: A Resily core API chart
+apiVersion: v1
+appVersion: "1.0"
+version: 0.1.0
+keywords:
+  - core-api
+home: https://github.com/Resily/resily
+sources:
+  - https://github.com/Resily/resily.git
