@@ -52,6 +52,8 @@ services:
       MIXPANEL_TOKEN: 1434f6d6d5272917e485b150dd448813
       RAILS_DATABASE_HOST: db
       RAILS_DATABASE_PASSWORD: password
+      SLACK_CLIENT_ID: "155636730961.547813723329"
+      SLACK_CLIENT_SECRET: "a841a92a9979d311220841f71b2be5b2"
   worker:
     <<: *api
     command: bundle exec sidekiq -C config/sidekiq.yml
