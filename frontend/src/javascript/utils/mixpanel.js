@@ -77,6 +77,16 @@ export const track = {
   changeTabToInfoFromOKRModalKR: () => changeTab("Info", "OKR Modal KeyResult"),
   changeTabToHistoryFromOKRModalKR: () =>
     changeTab("History", "OKR Modal KeyResult"),
+
+  /**
+   * タスククリックイベント
+   */
+  clickCreateSubKeyResultFromTask: () => mixpanel.track("Click Create Sub Key Result", {
+    From: "Task",
+  }),
+  clickDoNotCreateFromTask: () => mixpanel.track("Click Do Not Create", {
+    From: "Task",
+  }),
 };
 
 export default mixpanel;

@@ -5,6 +5,7 @@ import { Table, Button } from "semantic-ui-react";
 import SortableComponent from "../util/SortableComponent";
 import OwnerAvatar from "../util/OwnerAvatar";
 import OkrName from "../util/OkrName";
+import { track } from "../../utils/mixpanel";
 
 class TaskList extends SortableComponent {
   selectKeyResult = keyResult => () => this.props.selectKeyResult(keyResult);
@@ -12,11 +13,13 @@ class TaskList extends SortableComponent {
   handleCreateClick = keyResult => event => {
     this.props.openObjectiveModal(keyResult);
     event.stopPropagation();
+    track.clickCreateSubKeyResultFromTask();
   };
 
   handleNotCreateClick = keyResult => event => {
     this.props.processKeyResult(keyResult.get("id"));
     event.stopPropagation();
+    track.clickDoNotCreateFromTask();
   };
 
   render() {
