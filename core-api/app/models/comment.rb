@@ -28,6 +28,9 @@ class Comment < ApplicationRecord
 
     def notify_on_create
       NotificationMailer.send_add_kr_comment(Current.user, key_result, self)
-      KeyResultCommentPostNotificationJob.perform_later(self, Current.user)
+
+      if key_result.okr_period.organization.slack_access_token.present?
+        KeyResultCommentPostNotificationJob.perform_later(self, Current.user)
+      end
     end
 end

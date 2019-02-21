@@ -39,6 +39,8 @@ class ObjectiveComment < ApplicationRecord
         NotificationMailer.update_o_comment(Current.user, objective, self, user).deliver_later
       end
 
-      ObjectiveCommentPostNotificationJob.perform_later(self, Current.user)
+      if objective.okr_period.organization.slack_access_token.present?
+        ObjectiveCommentPostNotificationJob.perform_later(self, Current.user)
+      end
     end
 end
