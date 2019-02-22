@@ -47,7 +47,7 @@ class Settings extends React.Component {
         }
       ];
       // TODO: Feature Toggle無いので仕方なく...
-      if (nextProps.organization.get("id") === 2) {
+      if (nextProps.organization.get("id") === 2 || nextProps.organization.get("id") === 137) {
         adminPanes.push({
           id: 4,
           menuItem: "アプリケーション",
