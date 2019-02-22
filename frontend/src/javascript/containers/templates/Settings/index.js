@@ -11,6 +11,7 @@ const mapStateToProps = (state, { match }) => ({
   isAdmin: state.loginUser.get("isAdmin"),
   okrPeriodId: state.current.get("okrPeriodId"),
   userId: state.current.get("userId"),
+  organization: state.organization.get("current"),
 });
 
 const mapDispatchToProps = dispatch => ({
