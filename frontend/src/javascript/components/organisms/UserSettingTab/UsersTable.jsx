@@ -50,6 +50,7 @@ class UsersTable extends SortableComponent {
   handlePageChange = (e, { activePage }) => this.setState({ activePage });
 
   render() {
+    const { confirm, disableUser } = this.props;
     const { users, activePage } = this.state;
     const filteredUsers = this.getFilteredUsers(users, this.props.keyword);
     const begin = (activePage - 1) * UsersTable.NUMBER_TO_DISPLAY;
@@ -60,6 +61,7 @@ class UsersTable extends SortableComponent {
     const totalPages = Math.ceil(
       filteredUsers.size / UsersTable.NUMBER_TO_DISPLAY,
     );
+
     return (
       <div className="users-table">
         <Table singleLine sortable>
@@ -111,6 +113,8 @@ class UsersTable extends SortableComponent {
                   updateUser={this.updateUser(id)}
                   changeEmail={this.changeEmail(id)}
                   resendEmail={this.resendEmail}
+                  confirm={confirm}
+                  disableUser={disableUser}
                 />
               );
             })}

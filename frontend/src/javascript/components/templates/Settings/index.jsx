@@ -44,10 +44,13 @@ class Settings extends React.Component {
           menuItem: "ユーザー",
           render: () => <UserSettingTab />,
           name: "users",
-        }
+        },
       ];
       // TODO: Feature Toggle無いので仕方なく...
-      if (nextProps.organization.get("id") === 2 || nextProps.organization.get("id") === 137) {
+      if (
+        nextProps.organization.get("id") === 2 ||
+        nextProps.organization.get("id") === 137
+      ) {
         adminPanes.push({
           id: 4,
           menuItem: "アプリケーション",

@@ -21,6 +21,7 @@ class UserSettingTab extends PureComponent {
 
   render() {
     const { enabledUsers, disabledUsers } = this.props;
+
     return (
       <Tab.Pane className="user-setting-tab">
         <UserAddForm
@@ -43,6 +44,7 @@ class UserSettingTab extends PureComponent {
           onUpdateEmail={this.props.updateEmail}
           onResendEmail={this.props.resendEmail}
           confirm={this.props.confirm}
+          disableUser={this.props.disableUser}
           keyword={this.state.keyword}
         />
 
@@ -54,7 +56,12 @@ class UserSettingTab extends PureComponent {
               <h3>無効なユーザー</h3>
               <UsersTable
                 users={disabledUsers}
+                loginUserId={this.props.loginUserId}
+                onUpdateUser={this.props.updateUser}
+                onUpdateEmail={this.props.updateEmail}
+                onResendEmail={this.props.resendEmail}
                 confirm={this.props.confirm}
+                disableUser={this.props.disableUser}
                 keyword={this.state.keyword}
               />
             </div>

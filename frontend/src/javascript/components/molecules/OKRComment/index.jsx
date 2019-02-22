@@ -12,7 +12,7 @@ import CommentLabelDropdown from "../../atoms/CommentLabelDropdown";
 class OKRComment extends PureComponent {
   constructor(props) {
     super(props);
-    const comment = props.comment;
+    const { comment } = props;
     const label = comment.get("label");
 
     this.state = {

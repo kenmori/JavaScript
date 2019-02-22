@@ -11,7 +11,7 @@ function* signIn({ payload }) {
   const result = yield call(API.post, "/users/sign_in", { user: payload.user });
   putToken(result.get("token"));
 
-  const location = payload.location;
+  const { location } = payload;
   if (location) {
     history.push(`${location.from.pathname}${location.from.search}`);
   } else {

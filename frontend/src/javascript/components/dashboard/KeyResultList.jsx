@@ -27,8 +27,7 @@ class KeyResultList extends SortableComponent {
 
   render() {
     const { keyResults } = this.state;
-    const loginUserId = this.props.loginUserId;
-    const isAdmin = this.props.isAdmin;
+    const { loginUserId, isAdmin } = this.props;
 
     return (
       <div className="key-result-list">

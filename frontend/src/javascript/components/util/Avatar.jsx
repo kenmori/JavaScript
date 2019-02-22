@@ -30,7 +30,7 @@ class Avatar extends PureComponent {
   render() {
     let name = this.props.user.get("lastName");
     let path = this.props.user.get("avatarUrl");
-    const size = this.props.size;
+    const { size } = this.props;
     const disabled = this.props.user.get("disabled");
 
     if (size === "tiny" || size === "mini") {
