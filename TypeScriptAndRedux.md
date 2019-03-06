@@ -852,7 +852,7 @@ interface vs Types
 - 交差型、共用体型が使える types, 使えない interface
 - 規定しないプロパティの扱いが interface は他にもあるものとして扱う、types は存在していないものとして扱う
 
-### keyof
+### key
 
 # [https://qiita.com/Quramy/items/e27a7756170d06bef22a](https://qiita.com/Quramy/items/e27a7756170d06bef22a)
 
