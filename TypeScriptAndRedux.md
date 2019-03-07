@@ -841,8 +841,6 @@ f({ a: 3, b: "", c: "fafaf" });
 
 [理由 2](https://basarat.gitbooks.io/typescript/docs/types/freshness.html)
 
-
-
 interface vs Types
 
 [TypeScript の Interface と Type alias の比較](https://qiita.com/tkrkt/items/d01b96363e58a7df830e)
@@ -993,6 +991,8 @@ iTakeSomethingAndPassItAnErr((err, data, more) => null);
 ### ts
 
 [https://github.com/Microsoft/TypeScript/pull/21847](https://github.com/Microsoft/TypeScript/pull/21847)
+
+1 つ目の union 型から 2 つめの型を抜いた型
 
 ```ts
 type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; //type T00 = "b" | "d"
@@ -1182,3 +1182,11 @@ declare global {
 ### 参照
 
 [ユーザー定義の type guard](https://qiita.com/vvakame/items/072fa78f9fe496edd1f0#%E3%83%A6%E3%83%BC%E3%82%B6%E5%AE%9A%E7%BE%A9%E3%81%AEtype-guard)
+
+WIP
+
+### T[K] プロパティアクセス型
+
+K は keyof T の部分型である必要がある
+
+再帰的な処理に対して conditional type が必要
