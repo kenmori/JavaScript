@@ -500,6 +500,43 @@ Google は？
   - 削除したページに検索トラフィックがあった
   - 削除したページは（サイト内の）ほかのページにリンクしていたが、削除したことでどこからもリンクされていない孤立したページを作り出し PageRank の流れをなくしてしまった
 
+#### SEO 改善(2019-2020)チェック表
+
+- コンテンツは文章のみで 3000 文字を超えているか
+- 共起語は 200 文字以上あるか
+- MFI は合格しているか
+- url はユーザーにとって分かりやすいものになっているか
+- url にキャメルケースを使っていないか
+- ゾンビページは抽出されているか
+- 不自然な文章になっていないか。キーワードが適切に使われているか
+- description は 80〜200
+- 文字量 300 以下ページ、確認、送信完了、申し込み完了ページをインデックスしていないか
+- タグやカテゴリーでまとめられたページをインデックスしていないか
+- 評価したくないリンクが貼られているページを robot.txt に追加しているか
+- 評価たいリンクが貼られているページを robot.txt に追加していないか
+- 3 クリック階層以内にトップへの回遊できているか
+- リンク先にページの評価を渡したくないリンクを適切にしているか
+- カノニカルにパラメータを付与していないか
+- SERP の 10 位以内のページ滞在時間は 3 分 10 秒以上か
+- 本来閲覧させたほうがいい記事まで canonical されていないか
+- パンくずリストはあるか
+- ガバレッジ内でエラーは出ていないか
+- ソフト 404 は出ていないか
+- SERP での競合調査はどうなっているか
+- タイトル見出しにキーワードはあるか
+- 同じリンク先で別のアンカーテキストリンクはないか
+- TOP にリダイレクトさせていないか
+- image のサイトマップはあるか
+- 300 以上の被リンクを持つようなサイトになっているか
+- エバーグリーンコンテンツはあるか
+- url はユーザーがわかる文字列になっているか
+
+#### 参照
+
+[The Definitive Guide To SEO In 2019](https://backlinko.com/seo-this-year)
+
+[Google の品質評価ガイドライン](http://static.googleusercontent.com/media/www.google.de/de/de/insidesearch/howsearchworks/assets/searchqualityevaluatorguidelines.pdf)
+
 [What is Page Authority](https://moz.com/learn/seo/page-authority)
 
 [Google アルゴリズムの変更履歴](https://moz.com/google-algorithm-change)
@@ -509,3 +546,7 @@ Google は？
 [Web 担当者](https://webtan.impress.co.jp/)
 
 [パラメータ化された重複コンテンツのクロールをブロックする](https://support.google.com/webmasters/answer/6080548)
+
+#### お知らせ
+
+[大真面目デザイン](https://kenjimorita.jp/omajimedesign-morita/)では SEO 改善の案件を承っています。気軽にご相談ください -> `omajimedesign@gmail.com`
