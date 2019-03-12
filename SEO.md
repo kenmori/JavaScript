@@ -1,6 +1,6 @@
 # SERP で上位に来るための最新(2019)SEO 改善方法(チェック表)
 
-こちらは[フロントエンジニア森田](https://kenjimorita.jp/aboutme)があるサービスの SEO 改善 を調査した際の備忘録です。
+こちらは[フロントエンジニア森田](https://kenjimorita.jp/tag/frontend/)があるサービスの SEO 改善 を調査した際の備忘録です。
 
 ## 1.SEO ページ別改善
 
