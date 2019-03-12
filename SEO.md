@@ -258,7 +258,7 @@ Wantedly の場合
 
 - 速度改善 45 点を合格点にする
 - HTML の品質を担保できるテンプレート化、AMP 化検討
-- クリティカルレンダリングパスを意識した作りにする
+- クリティカルレンダリングパスを意識した作りにする -> [パフォーマンス改善まとめ](https://gist.github.com/kenmori/1bb00024c2675329368fd1b65c750b0d)
 - CSS のインライン化
 - JS の bundle 化
 - リクエストを以下に減らすか、リリース前に検証しながら作る
@@ -450,7 +450,7 @@ https://digitalidentity.co.jp/blog/seo/2018-seo.html
     - 読者目線
     - コンテンツの価値
 
-- 文章を「デザイン」する
+- 文章を整える
 - 適切なリンク(コンテンツ内のリンク管理)
   - 質の高いリンクとは
     - 評価の高いブランド、サイト、人、組織から張られているリンク
@@ -463,7 +463,7 @@ https://digitalidentity.co.jp/blog/seo/2018-seo.html
   無料画像のみが抽出されそれらの画像は使用可能
   [例 「腕組み」で検索後、使用許可できる画像一覧を表示する](https://www.google.com/search?q=%E8%85%95%E7%B5%84%E3%81%BF&tbm=isch&source=lnt&tbs=sur:fc&sa=X&ved=0ahUKEwiKsufQtfvgAhWPF6YKHbT2BkwQpwUIIA&biw=1405&bih=766&dpr=2)
 - ソーシャルボタンを入れる
-- サーチコンソールを入れる
+- Google Search Console を入れる
 
 ## PageAuthority -ページオーソリティ(PA)-
 
@@ -485,6 +485,12 @@ Google は？
 
 ドメイン Authority チェック表
 
+## AMP
+
+[AMP の雛形](https://gist.github.com/kenmori/124d32f1c82bbcb7aacb046d9ea6ba11)
+[AMP の雛形もっと前段階](https://gist.github.com/kenmori/72e768bc0db3f0f3951789cb525a7359)
+[amp-img の layout に responsive にした際の対応](https://gist.github.com/kenmori/3fe3ecc660c3c9b97f7554ea5a8a23a8)
+
 ## 運用
 
 実際 SEO を意識した運用で疑問になりそうなところをまとめる
@@ -495,8 +501,9 @@ Google は？
   以下の要件を満たす時だけ[パラメータツール](https://www.google.com/webmasters/tools/crawl-url-parameters?utm_source=support.google.com/webmasters/&utm_medium=referral&utm_campaign=6080548)を使うことができる
   - 1000 ページ以上存在するサイトであること
   - URL パラメータのみが異なる大量の重複ページ（たとえば: example.com?product=green_dress と example.com?type=dress&color=green）が Googlebot によってインデックス登録されているのがログに表示されていること
-- 低品質なページを何万ページ削除後、ランクが落ちたとしても気にすることはない ()
-  ページのランクが下がるほとんどの原因は
+  - 結論 -> [内部リンクのクリック計測に関しては、パラメータではなくたとえばイベントトラッキングで計測するほうが良い](https://webtan.impress.co.jp/e/2019/03/01/31971)
+- 低品質なページを何万ページ削除後、ランクが落ちたとしても気にすることはない
+  -> ページのランクが下がるほとんどの原因は
   - 削除したページに検索トラフィックがあった
   - 削除したページは（サイト内の）ほかのページにリンクしていたが、削除したことでどこからもリンクされていない孤立したページを作り出し PageRank の流れをなくしてしまった
 
