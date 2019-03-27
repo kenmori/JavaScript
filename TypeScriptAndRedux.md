@@ -1321,3 +1321,7 @@ export { func, b, c, d };
 ```
 
 [Revised Revised TypeScript in Definitelyland: アドバンスド型戦略](http://typescript.ninja/typescript-in-definitelyland/types-advanced.html)
+
+### [型アサーションとキャスト](https://typescript-jp.gitbook.io/deep-dive/type-system/type-assertion)
+
+### TypeScript にはサブタイプ互換性と代入互換性という 2 種類の互換性が存在している

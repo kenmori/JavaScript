@@ -362,6 +362,16 @@ https://digitalidentity.co.jp/blog/seo/2018-seo.html
 
 #### SEO のための構造化データマークアップ
 
+検索エンジンやクローラーが理解出来るマークアップをすること
+
+- メリットはリッチスニペットを表示できること(クリック率の向上)
+- ページ内コンテンツがナレッジグラフに表示されること(ナレッジグラフとは特定のクエリで検索した際に検索結果右に出て来るやつ。検索結果上に出て来ることもあり、こちらはアンサーボックスとも言われるよう)
+  ナレッジグラフが現れるのはクエリに著名人、企業、地名が含まれる時、その情報は権威性が高いと Google が明言されていて、Wikipedia が多い
+
+デメリットは
+ページを汚して、容量が増える。google の仕様の変更についていく必要がある
+-> プラスアルファの SEO として考える
+
 (リッチスニペットを表示させるために HTML をマークアップすること (https://liginc.co.jp/366081))
 
 - React での対応の仕方
@@ -371,6 +381,9 @@ https://digitalidentity.co.jp/blog/seo/2018-seo.html
   https://junzou-marketing.com/seo-alt-text
 - alt にキーワードを必ず含めるは時代遅れ -> スパム扱いになる
   -> 画像を見なくてもそれが何かを説明できる文章にする
+
+構造化データに関しても SSR することを勧める
+[【JavaScript SEO】サーバーサイドでレンダリングすべき要素: メインコンテンツ、構造化データ、title タグ、hreflang ほか](https://www.suzukikenichi.com/blog/elements-that-should-be-server-side-rendered/)
 
 #### canonical による正規化
 
@@ -786,8 +799,6 @@ Google や Yahoo での検索結果表示にある上部の表示枠に表示さ
 一度 WEB サイトに訪問したユーザーに cookie を付与することで配信パートナーの WEB サイトを訪問した際に
 広告表示領域にまるで追いかけているように広告を表示させること
 
-###
-
 ### Not Provide
 
 オーガニック検索キーワードの大半が Not Provide
@@ -802,3 +813,105 @@ Not Provide 対策
 2. ウェブマスターツールを利用する
 
 3. ランディングページを確認してキーワードを推測する
+
+### lang 属性を無視する Google
+
+一部の開発ソフトでは lang 属性が自動的に入るため Google 検索ロボットはそれを無視すると[公式に明言](https://webmaster-ja.googleblog.com/2011/11/blog-post.html)されている
+(他の検索ロボットに対して有効かもしれない)
+ブラウザは lang を参照している(ja にして q タグをつけると鉤括弧、en だとダブルコーテーションなど)
+
+3 つの方法
+
+- head タグ内にリンク要素として記載する
+- HTTP ヘッダーに記載する
+- XML サイトマップに記載する
+
+```html
+<link rel="alternate" hreflang="ja" href="http://example.com/" />
+<link rel="alternate" hreflang="zh" href="http://example.com/chinese/" />
+<link rel="alternate" hreflang="ko" href="http://example.com/korean/" />
+```
+
+多言語サイトではくても hreflang がありませんと表示される。SEO 的には問題ないが非表示にしたい場合
+
+```html
+<link rel="alternate" hreflang="ja" href="該当するページのURL" />
+```
+
+とする
+
+### JavaScript SEO
+
+https://www.suzukikenichi.com/blog/elements-that-should-be-server-side-rendered/
+
+- Googlebot がページがロードイベント開始から待つ時間は 5 秒。
+
+### ツール
+
+- [Google が発表した SEO チェック出来る LightHouse](https://webtan.impress.co.jp/e/2018/02/09/28277)
+
+### リダイレクト
+
+[301 と 302 の SEO における違い](https://www.suzukikenichi.com/blog/a-search-engine-guide-to-301-302-307-and-other-redirects/)
+
+`S(リダイレクト元) ->(リダイレクト) R(リダイレクト先)`
+
+- に S に訪れたユーザーが R にリダイレクトされることについて
+
+#### サーバーサイドのリダイレクト
+
+`301 : Permanent Redirect`
+
+- 「このリダイレクトに関して処理方法を将来変更することはない」とサーバーは伝えてきている「今後は S を使いなさい」
+- 検索エンジンには S にあるコンテンツをインデックスし、R が持つシグナル(PageRank)を S に転送する傾向がある
+- サイトの URL を永久的に変更する際(サイトの移転、サイトの再構築、HTTPS への移行)
+
+`302 : Temporary Redirect`
+
+- 将来変わるかもしれないし、ユーザーの状態(ユーザーの国やデバイス、言語設定)によって変わるかもしれない
+- リダイレクトのコンテンツをキャッシュすることはできない
+- 常に S にリダイレクトするとは限らないので検索エンジンは R をインデックスし、全てのシグナル(PageRank)を R に保持したままにする傾向がある
+- ルートの URL から下層の URL に転送する際に使える（“/” ⇒ “/fancycms/mainpage.php”）
+
+#### クライアントサイドのリダイレクト
+
+- 307・・・ブラウザが返すリダイレクト
+- HTTP から HTTPS へ 301 リダイレクトし、かつ [HSTS](https://webtan.impress.co.jp/e/2014/08/22/18072#f2) を有効にしている場合(http では実際にサーバーにアクセスされることはない)
+- ブラウザで HTTP 版のページへアクセスしようとした際、HTTPS 版のページへブラウザは自動的にアクセスする
+
+HSTS とプリロード HSTS
+
+HSTS(HTTP Strict Transport Security)
+
+- 「このサイトには HTTP ではなく HTTPS で必ず接続するように」と、サーバーがブラウザに指示する HTTP ヘッダー。
+  通信を傍受されたりフィッシング詐欺に遭ったりする危険(特に無線 LAN)があるので
+
+- この設定がされていると 2 回目にサイトに訪れたら必ずそうなる。
+
+プリロード HSTS
+
+- HSTS を適用していることをブラウザが事前に知っていれば、初めてアクセスするときから HTTP を使わず HTTPS で接続できる。
+- プリロード HSTS を登録できるのは、ペイレベルドメイン名（example.com）だけだ。サブドメイン単位（sub.example.com など）では登録できない。
+- [ここに登録する](https://hstspreload.org/)ことで主要ブラウザは初回から HTTPS でアクセスする
+
+```
+//https://webtan.impress.co.jp/e/2016/01/08/21883/page/1#f5
+
+HSTSが機能していない状態ではリダイレクトは次のような流れになる。
+
+- ブラウザがhttpのURLでウェブサーバーにアクセスする
+- ウェブサーバーが301のステータスコードとともにhttpsのURLをブラウザに返す
+- ブラウザはあらためてhttpsのURLでウェブサーバーにアクセスする
+
+一方、HSTSが効いていると、次のような流れになる。
+
+- ブラウザがhttpのURLでウェブサーバーにアクセスする（アクセスしようとする）
+- ブラウザは、アクセスしようとしているURLをHSTSでチェックする。
+- HSTS対象であれば、httpのURLは使わず、最初からウェブサーバーにhttpsでアクセスする
+- このときに307（内部リダイレクト）のステータスコードが内部的に返される
+- 307を返しているのはブラウザだけだ。GooglebotはHSTSに対応してないからなのか、実際にhttpでサーバーにアクセスして301のステータスコードを受け取る。
+```
+
+### 入力フォーム最適化
+
+[https://www.suzukikenichi.com/blog/four-guidelines-for-entry-form-optimization/](https://www.suzukikenichi.com/blog/four-guidelines-for-entry-form-optimization/)
