@@ -1190,3 +1190,138 @@ WIP
 K は keyof T の部分型である必要がある
 
 再帰的な処理に対して conditional type が必要
+
+### DecreationMarging
+
+・interface 名が同じ場合マージされる
+-> その中のメンバー名が被っていて、関数名じゃなく、型が同じならマージされる
+-> 同じ interface 名のマージは後から定義されたものが優先高く先に記述される型を返す
+-> 同じ interface 名で関数名が同じ場合、引数にリテラルを持つものが優先高く先に記述される(union 型ではなく)
+
+・namespace が同じ名前の場合
+-> 両方の namespace と value が marge される。
+-> export されていないメンバーは他の namespace から参照できない。
+-> すでに存在している namespace があった場合、同じ名前で作れば mearge され、interface はより早く記述される
+-> non-export menber はオリジナルの namespace からのみ参照できる。これはマージ後、他の namespace からは参照できないことを意味する
+
+すでに存在する class に対して marge を期待する namespace に class を追加記述することで結果マージ後に参照させる
+
+```ts
+class Album {
+  label: Album.AlbumLabel;
+}
+namespace Album {
+  export class AlbumLabel {} //exportする。margeされたclassが参照できるように
+}
+```
+
+namespace をより static メンバーを既存の class に対して追加できる
+
+```ts
+var M = 0; // 変数宣言空間
+interface M {} // 型宣言空間
+module M {} // 名前空間宣言空間
+```
+
+それぞれはコンフリクトしない
+ルールがある
+
+non-instantiated・・・コンパイルしたら完全に全部消えてしまうモジュール。interface。none-instantiated のみを含むモジュール
+instantiated・・・ コンパイルしたら宣言されるもの。変数、クラス、Enum
+
+[TypeScript の宣言空間とその不満](https://teppeis.hatenablog.com/entry/2014/04/typescript-declaration-spaces#f-979fc156)
+
+```ts
+namespace A {
+  var fafa = "fafa";
+}
+
+var A = 0;
+```
+
+[TypeScript の型定義ファイルと仲良くなろう](http://developer.hatenastaff.com/entry/2016/06/27/140931)
+
+### Declaration space
+
+### open-ended
+
+open-ended のルールが適用されるのは root container が共通で、
+宣言が同じ declaration space で行われている場合
+
+### container
+
+module 内では container はその module になる
+
+```ts
+export {};
+var x = 1;
+```
+
+x の container はこの module
+module 自体の container は global namespace
+
+```ts
+ある namespace 内で宣言された entity の container はその namespace
+ある module 内で宣言された entity の container はその module
+global namespace 内で宣言された entity の container は global namespace
+module 自体の container は global namespace
+```
+
+既存のオブジェクトの型定義を拡張する場合
+
+```ts
+interface Window {
+  fetch;
+}
+```
+
+グローバルなオブジェクトに対する宣言
+
+script タグで読み込んだ時のようなグローバルにオブジェクトが存在しているような場合
+
+```ts
+declare namespace $ {
+  function x(): void;
+  var y: string;
+}
+```
+
+declare namespace 内では定義された entity はデフォルトで ambient 宣言になるため declare は必要ない
+
+単なる関数オブジェクトの場合は
+
+```ts
+declare function f(): void;
+```
+
+### relative module import
+
+[Revised Revised TypeScript in Definitelyland](http://typescript.ninja/typescript-in-definitelyland/definition-file.html#h5-5-3)
+
+###
+
+型注釈として関数を与えるときは記法にちょっと気をつけないとコンパイルエラーになります
+
+```ts
+// 引数無しの返り値stringな関数 な型注釈
+let func: () => string;
+
+// 素直に考えるとこう書けてもいいっしょ！でもダメ！
+// let a: () => string | () => boolean;
+
+// 型名をカッコでくくる必要がある。これならOK
+let b: (() => string) | (() => boolean);
+// もしくはオブジェクト型リテラル使う
+let c: { (): string } | { (): boolean };
+
+// union typesじゃないときでも使えるけど見づらいな！
+let d: () => string;
+
+export { func, b, c, d };
+```
+
+[Revised Revised TypeScript in Definitelyland: アドバンスド型戦略](http://typescript.ninja/typescript-in-definitelyland/types-advanced.html)
+
+### [型アサーションとキャスト](https://typescript-jp.gitbook.io/deep-dive/type-system/type-assertion)
+
+### TypeScript にはサブタイプ互換性と代入互換性という 2 種類の互換性が存在している
