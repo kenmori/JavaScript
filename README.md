@@ -3995,13 +3995,12 @@ list.appendChild(fragment);
 ```
 
 
-**問WIP-195**
+**問195**
+
+文字列の中で改行があったら `<br>`に置き換える正規表現を表して`replace`してください
 
 ```js
-var {c:foo, d} = {
-  c:"foo",
-  d:"bar"
-};
+str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
 ```
 
 **問196**
