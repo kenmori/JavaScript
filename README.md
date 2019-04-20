@@ -4,7 +4,7 @@
 **更新情報**
 
 ```
-・問題を追加(2019/4/16) 問191を変更
+・問題を追加(2019/4/16)
 ・問題を追加(2018/11/26)
 ・問題9の誤字を修正(2018/5/22)
 ```
@@ -3998,10 +3998,12 @@ list.appendChild(fragment);
 
 **問195**
 
-文字列の中で改行があったら `<br>`に置き換える正規表現を表して`replace`してください
+文字列の中で`\n`があったら全てを`<br>`に置き換える正規表現を表して`replace`してください
 
 ```js
 str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+see: [https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags](https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags)
 ```
 
 **問196**
@@ -8447,7 +8449,7 @@ fefe`)
 
 **問369**
 
-Numberオブジェクトにplusという引数をとって加算できるメソッドを追加してください
+Numberオブジェクトに引数をとって加算できるplusメソッドを追加してください
 
 ```js
 Object.defineProperty(
