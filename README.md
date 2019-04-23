@@ -8463,8 +8463,10 @@ Object.defineProperty(
 
 **問370**
 
-```js
+`a`という変数に`{}`かkeyがあるかどうか評価してください
 
+```js
+Object.keys(a).length === 0
 ```
 
 **問370**
