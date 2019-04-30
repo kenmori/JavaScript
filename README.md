@@ -4,6 +4,7 @@
 **更新情報**
 
 ```
+・問題を追加(2019/4/30) 平成最終日
 ・問題を追加(2019/4/16)
 ・問題を追加(2018/11/26)
 ・問題9の誤字を修正(2018/5/22)
@@ -8414,8 +8415,9 @@ alert( alert(1) || 2 || alert(3) );
 どうなりますか
 
 ```js
-1、2とアラートされます
+`1、2とアラートされます`
 ```
+
 why
 
 alertはundefinedを返します
@@ -8435,6 +8437,7 @@ undefineを返すので、ORはtruthyを探しに次のオペランドへ2が返
 /hoge.fefe/.test(`hoge
 fefe`);
 ```
+
 は正規表現内で全ての文字にマッチ「.」を使用しています。test引数内で改行を含める文字列にマッチさせるためです。
 
 が、こちらはfalseが返ります。
@@ -8453,12 +8456,13 @@ Numberオブジェクトに引数をとって加算できるplusメソッドを�
 
 ```js
 Object.defineProperty(
-    Number.prototype,
-    "plus", {
-        value: function (b) {
-            return this + b;
-        }
-    });
+  Number.prototype,
+  "plus", {
+      value: function (b) {
+          return this + b;
+      }
+  }
+);
 ```
 
 **問370**
@@ -8471,26 +8475,126 @@ Object.keys(a).length === 0
 
 **問370**
 
-```js
+このような `{foo: "hogehoge", bar: "fafa"}` 、 `{bar: "fafa"}` 、 `{foo: "hogehoge"}`、 `null` が渡って来る可能性がある関数がある。
 
+```js
+const buildAnObjectFromAQuery = (query) => {
+  const object = {};
+  if (query.foo) {
+    object.foo = query.foo;
+  }
+  if (query.bar) {
+    object.bar = query.bar;
+  }
+  return object;
+}
+```
+
+上記の関数と同じ仕事をする関数をより端的に書いてください。
+
+```js
+const buildAnObjectFromAQuery = query => ({
+  ...query.foo && { foo: query.foo },
+  ...query.bar && { bar: query.bar },
+});
 ```
 
 **問370**
 
-```js
+このような `[1,2,3,3]` 配列がある。 `[1,2,3]`  とユニークな要素だけを取得するようにしてください
 
+```js
+let un = [...new Set([1, 2, 3, 3])]
+console.log(un); //[1, 2, 3]
 ```
 
 **問370**
 
-```js
+このようなfalsyな値を含む配列がある。
 
+```js
+let e = [0, undefined, null, "", 21, "fafa", false]
+```
+それらを除外した ```[21, "fafa"]```を取得してください
+
+```js
+let e = [0, undefined, null, "", 21, "fafa", false]
+let trusy = e.filter(Boolean);
+console.log(trusy);// [21, "fafa"]
 ```
 
 **問370**
 
-```js
+引数が渡って来ない、`undefined` なら Errorをthrowする関数を書いてください
 
+```js
+const required = ()=> { throw new Error("ooops") }
+const fn = (param = required()) => {
+ console.log("ok")
+}
+fn()// Error
+fn(undefined) //Error
+fn(null) // ok
+fn("") //ok
+
+```
+
+**問題371**
+
+```js
+```
+
+**問題372**
+
+
+```js
+```
+
+**問題373**
+
+
+```js
+```
+
+**問題374**
+
+
+```js
+```
+
+**問題375**
+
+
+```js
+```
+
+**問題376**
+
+
+```js
+```
+
+**問題377**
+
+
+```js
+```
+
+**問題378**
+
+
+```js
+```
+
+**問題379**
+
+
+```js
+```
+**問題380**
+
+
+```js
 ```
 
 **WIP**
@@ -8542,6 +8646,56 @@ f(["eeee","ppp","lll"], 1, [1,2,3])
 
 //images:[ "eeee",  {0: 1, 1: 2, 2: 3} ,"lll"]
 ```
+
+[付録] 便利かもしれないユーティリティ関数
+
+```js
+
+var object = {
+   innerObject:{
+       deepObject:{
+           value:'Here am I'
+       }
+   }
+};
+
+if(object && object.innerObject && object.innerObject.deepObject && object.innerObject.deepObject.value) {
+    console.log('We found it!');
+}
+```
+
+このように退屈なif文にならないためのユーティリティ関数
+
+```js
+var obj = {
+  innerObject: {
+    deepObject: {
+      value: 'Here am I'
+    }
+  }
+};
+
+function hasOwnDeepProperty(obj, prop) {
+  if (typeof obj === 'object' && obj !== null) { // only performs property checks on objects (taking care of the corner case for null as well)
+    if (obj.hasOwnProperty(prop)) {              // if this object already contains the property, we are done
+      return true;
+    }
+    for (var p in obj) {                         // otherwise iterate on all the properties of this object
+      if (obj.hasOwnProperty(p) &&               // and as soon as you find the property you are looking for, return true
+          hasOwnDeepProperty(obj[p], prop)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+console.log(hasOwnDeepProperty(obj, 'value'));   // true
+console.log(hasOwnDeepProperty(obj, 'another')); // false
+
+```
+
+
 </details>
 
 
@@ -8584,4 +8738,5 @@ https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
 https://ponyfoo.com/articles/es6-array-extensions-in-depth
 https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan
 https://javascript.info/js
+https://davidwalsh.name/javascript-tricks
 </details>
