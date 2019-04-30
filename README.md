@@ -1,5 +1,5 @@
-## JavaScript練習問題集
-![JavaScript](http://kenjimorita.jp/wp-content/uploads/2017/06/image3-1024x755.jpeg)
+# JavaScript練習問題集
+![JavaScript](https://kenjimorita.jp/wp-content/uploads/2017/06/image3-1024x755.jpeg)
 
 **更新情報**
 
@@ -11,29 +11,31 @@
 ```
 
 
-#### こちらは[よしもと芸人もりたけんじ](http://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。
+こちらは[よしもと芸人もりたけんじ](https://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。
 
-※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017が使える環境で試されることを想定しています。
+**前提**
 
-※表記揺れは鋭意解消中
+※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017,2018,2019が使える環境で試されることを想定しています。
+
+※表記揺れは鋭意解消中。
 
 ※答えはあくまで１つの記述です。
 
-※ECMAScript2015の観点からは非奨励な書き方も載せています。
-現場でまだまだよく見る書き方(varやfor-inなど)、環境に因って使用せざるを得ないなどがその理由です。
-また答えがあなたの考えた答えより冗長な書き方かもしれません。
-置き換えていただけたらと思います。
-・途中似ているような問題が出てくるかもしれませんが気にしないでください。
-・プルリク歓迎です。
-・答えが見えてしまっているのは都度操作させないためです。
-※修正依頼は[こちら](https://omajimedesign.drift.com/omajimedesign)
+※ECMAScript2015の観点からは非奨励な書き方も載せています。(varやfor-in、破壊的メソッドの使用など)、
+環境に因って使用せざるを得ないなどがその理由です。
+また以下に示す問題の答えがあなたの考えた答えより冗長な書き方かもしれません。
+適宜置き換えていただけたらと思います。
+「答え」より端的な書き方、違うメソッド使用で解決できるなら「それが答え」です。
 
-*月一で更新予定。
+・途中似ているような問題が出てくるかもしれませんが気にしないでください。
+
+・答えが見えてしまっているのは都度操作させないためです。
+
+※・プルリク歓迎です。修正依頼は[こちら](https://omajimedesign.drift.com/omajimedesign)
 
 *★を押していただけたら今後もやる気出ます。よろしくお願いします。
 
-
-※[blog/JavaScript](http://kenjimorita.jp/category/javascript/)
+※[blog/JavaScript](https://kenjimorita.jp/category/javascript/)
 
 ※[Twitter](https://twitter.com/bukostunikki)
 
@@ -41,27 +43,29 @@
 
 ※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
 
+## JavaScript問題集
+
 <details><summary>問1〜問50</summary>
 
 **問1**
 
-```const a = {a: 'a'}```と```const b = {b: 'b'}```
+```const a = { a: 'a' }```と```const b = { b: 'b' }```
 をマージした```c```
 を出力してください
-e.g```{a:'a',b:'b'}```
+e.g```{ a:'a', b:'b' }```
 
 ```js
-const a = {a: 'a'};
-const b = {b:'b'};
+const a = { a: 'a' };
+const b = { b:'b'};
 const c = Object.assign({}, a, b);
 c //{a: 'a', b: 'b'}
 
 //Object.assign(target, ...sources)
-・戻り値はtargetオブジェクト
-・sroucesオブジェクトの挙可能で自分が所有するプロパティのみtargetにコピーされる
-・prototypeに定義し直したい場合、Object.getOwnPropertyDescriptorとObject.definePropertyを使う
-・プロパティが書き込み不可の場合TypeErrorが発生。targetオブジェクトは変更されない
-・Object.assignはsources値がnull、undefinedの場合例外を投げない
+//・戻り値はtargetオブジェクト
+//・sroucesオブジェクトの挙可能で自分が所有するプロパティのみtargetにコピーされる
+//・prototypeに定義し直したい場合、Object.getOwnPropertyDescriptorとObject.definePropertyを使う
+//・プロパティが書き込み不可の場合TypeErrorが発生。targetオブジェクトは変更されない
+//・Object.assignはsources値がnull、undefinedの場合例外を投げない
 ```
 
 **問2**
@@ -145,7 +149,7 @@ if(x === undefined){
 
 ```js
 //1
-var x;
+let x;
 if (x === void 0) {
 }
 
@@ -299,7 +303,7 @@ foo.bar
 
 **問11**
 ```js
-var arry =[
+let arry =[
   {id:1,name:'morita'},
   {id:2,name:'kenji'},
   {id:4,name:'uro'},
@@ -339,15 +343,15 @@ arry.sort(function(a,b){
 
 **問12**
 
-```var a, b;```の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
+``` a, b```の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
 
 ```js
-var [a=5, b=7] = [1];
+const [a=5, b=7] = [1];
 console.log(a, b);
 //1 7
 
 //other
-var {a = 5, b = 7} = {a: 1}
+const {a = 5, b = 7} = {a: 1}
 ```
 
 
@@ -356,13 +360,13 @@ var {a = 5, b = 7} = {a: 1}
 next()を実行しただけ返り値が1増える関数を定義してください
 
 ```js
-var setUp = function(){
-  var count = 0;
+const setUp = function(){
+  let count = 0;
   return function(){
 return (count += 1);
   }
 };
-var next = setUp();
+const next = setUp();
 next();//1
 next();//2
 next();//3
@@ -475,7 +479,7 @@ function Who(name){
 Who.prototype.getName = function(){
  console.log('Myname is ' + this.name);
 };
-var o = new Who('morita');
+let o = new Who('morita');
 o.getName()
 ```
 
@@ -487,8 +491,8 @@ o.getName()
 //**shallow copy**
 //プロパティ値や要素値だけのコピーでその先の参照まではコピーしない
 //例
-var arr = [{x : 2}];//オブジェクト参照をもつ配列
-var arr2 = [].concat(arr);//要素をコピー
+let arr = [{x : 2}];//オブジェクト参照をもつ配列
+let arr2 = [].concat(arr);//要素をコピー
 arr2[0].x = 123;//変数arr2から見える要素の参照先オブジェクトを変更。
 arr[0].x//変数arrから変更が見える(shallowだから)
 //123
@@ -503,7 +507,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 下記
 
 ```js
-var array = ['e','a','k','B','c'];
+let array = ['e','a','k','B','c'];
 array.sort();
 ```
 を実行した結果を答えてください
@@ -520,7 +524,7 @@ array.sort();
 上記の配列を大文字小文字区別なく順番通りにしてください。期待する値```['a','B','c', 'e','k']```
 
 ```js
-var array = ['e','a','k','B','c'];
+let array = ['e','a','k','B','c'];
 array.sort(function(a,b){
  return a.toUpperCase() > b.toUpperCase() ? 1 : -1 ;
 });
@@ -536,7 +540,7 @@ array.sort(function(a,b){
 期待する結果```[100, 35, 20, 3, 0]```
 
 ```js
-var numArray = [20,100,3,35,0];
+let numArray = [20,100,3,35,0];
 numArray.sort(function(a,b){
  return b - a;
 });
@@ -552,7 +556,7 @@ return a - b
 '10'をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
 
 ```js
-var a = +'10';
+let a = +'10';
 typeof a
 //number
 isNaN(a);
@@ -561,7 +565,7 @@ a.toString();
 //'10'
 
 //other
-var a = parseInt('10', 10);
+let a = parseInt('10', 10);
 ```
 
 **問25**
@@ -606,7 +610,7 @@ function Factory(name){
    }
  }
 };
-var fafa = Factory('morita');
+const fafa = Factory('morita');
 fafa.introduce()
 //morita
 ```
@@ -618,13 +622,13 @@ applyの第一引数にnullを渡す場合とオブジェクトを渡す場合�
 p83
 
 ```js
-var sayHi = function(name){
+let sayHi = function(name){
  return 'hello!' + (name ? name : '');
 };
 sayHi('kenji');
 sayHi();
 sayHi.apply(null,['kenji']);//関数呼び出し
-var greeting = {
+let greeting = {
   sayHi: function(name){
     return 'hello!' + (name ? name : '');
   }
@@ -640,12 +644,12 @@ greeting.sayHi.apply(greeting);//渡さない
 
 **問28**
 ```js
-var obj = {x : 2, y: 3};
+let obj = {x : 2, y: 3};
 ```
 このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
 
 ```js
-var obj = {x : 2, y: 3};
+let obj = {x : 2, y: 3};
 Object.preventExtensions(obj);
 Objcet.isExtensible(obj);//true
 Object.key(obj);
@@ -654,10 +658,10 @@ Object.key(obj);
 
 **問29**
 
-こちら```var obj = {}``` と等価をObjctメソッドで生成してください
+こちら```let obj = {}``` と等価をObjctメソッドで生成してください
 
 ```js
-var obj = Object.create(Object.prototype);
+let obj = Object.create(Object.prototype);
 
 ```
 
@@ -665,12 +669,12 @@ var obj = Object.create(Object.prototype);
 
 こちら
 ```js
-var obj = {x : 2, y: 3}
+let obj = {x : 2, y: 3}
 ```
 と等価をObjectメソッドで生成してください
 
 ```js
-var obj = Object.create(Object.prototype, {
+let obj = Object.create(Object.prototype, {
    x : {value: 2, writable: true, enumerable: true, configurable: true},
    y : {value: 3, writable: true, enumerable: true, configurable: true}
 })
@@ -681,7 +685,7 @@ var obj = Object.create(Object.prototype, {
 
 こちら
 ```js
-var obj = { x : 2}
+const obj = { x : 2}
 ```
 の属性を出力してください
 
@@ -702,7 +706,7 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 ```var obj2 = {x : 2};```にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
 
 ```js
-var obj2 = {x : 2};
+let obj2 = {x : 2};
 Object.defineProperty(obj2, 'y', {value: 3, enumerable: true});
 //[object Object] {
 //  x: 2,
@@ -735,12 +739,12 @@ f(2)
 **問33**
 
 ```js
-var arr = ['2','23','0','16'];
+let arr = ['2','23','0','16'];
 ```
 を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
 
 ```js
-var arr = ['2','23','0','16'];
+let arr = ['2','23','0','16'];
 arr.sort(function(a,b){ return a - b ;});
 //['0', '2', '16', '23']
 Object.freeze(arr);
@@ -754,8 +758,8 @@ arr.sort();
 ```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。その後```arr2[0]= 123```を代入するとarrは何を出力するか答えなさい
 
 ```js
-var arr = [3,4,5];
-var arr2 = arr.slice(0, arr.length);
+let arr = [3,4,5];
+let arr2 = arr.slice(0, arr.length);
 arr2
 //[3, 4, 5]
 arr2[0] = 123;
@@ -767,7 +771,7 @@ arr2
 
 //別解
 
-var arr2 = arr.map(ele => ele);
+let arr2 = arr.map(ele => ele);
 arr2
 //[3, 4, 5]
 ```
@@ -8203,9 +8207,9 @@ JSON.stringify(user)
 ``
 why:
 
-Function properties(method)
-Symbolic properties、
-値がundefinedなpropertiesはskipされます
+`Function properties(method)`、
+`Symbolic properties`、
+`値がundefinedなproperties`はskipされます
 
 JSON typeとしてサポートされているのは以下です
 
@@ -8473,7 +8477,7 @@ Object.defineProperty(
 Object.keys(a).length === 0
 ```
 
-**問370**
+**問371**
 
 このような `{foo: "hogehoge", bar: "fafa"}` 、 `{bar: "fafa"}` 、 `{foo: "hogehoge"}`、 `null` が渡って来る可能性がある関数がある。
 
@@ -8499,7 +8503,7 @@ const buildAnObjectFromAQuery = query => ({
 });
 ```
 
-**問370**
+**問372**
 
 このような `[1,2,3,3]` 配列がある。 `[1,2,3]`  とユニークな要素だけを取得するようにしてください
 
@@ -8508,7 +8512,7 @@ let un = [...new Set([1, 2, 3, 3])]
 console.log(un); //[1, 2, 3]
 ```
 
-**問370**
+**問373**
 
 このようなfalsyな値を含む配列がある。
 
@@ -8523,7 +8527,7 @@ let trusy = e.filter(Boolean);
 console.log(trusy);// [21, "fafa"]
 ```
 
-**問370**
+**問374**
 
 引数が渡って来ない、`undefined` なら Errorをthrowする関数を書いてください
 
@@ -8539,33 +8543,15 @@ fn("") //ok
 
 ```
 
-**問題371**
-
-```js
-```
-
-**問題372**
-
-
-```js
-```
-
-**問題373**
-
-
-```js
-```
-
-**問題374**
-
-
-```js
-```
-
 **問題375**
 
+文字列 `"hello"`を逆の文字列にしてください expect `"olleh"`
 
 ```js
+const str = "hello"
+str.split('').reverse().join('')
+//other
+[...str].reduce(( prev, next ) => next + prev)
 ```
 
 **問題376**
@@ -8591,7 +8577,31 @@ fn("") //ok
 
 ```js
 ```
+
 **問題380**
+
+
+```js
+```
+
+**問題381**
+
+
+```js
+```
+
+**問題382**
+
+
+```js
+```
+
+**問題383**
+
+
+```js
+```
+**問題384**
 
 
 ```js
