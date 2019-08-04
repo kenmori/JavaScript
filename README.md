@@ -8556,26 +8556,79 @@ str.split('').reverse().join('')
 
 **問題376**
 
+addという関数
+```js
+add(a){
+  return a + a
+}
+add(2) //4
+```
+
+はaを引数に取りa + aの値を返す関数です。
+
+これを改善して、a関数に同じ値a(上記の場合`2`)が渡ったら以前と同じ値なら以前に計算された結果である(上記の場合`4`)の`cache`を返すようにしてください
 
 ```js
+
+function add (a){
+	if(!add.cache){
+       add.cache = {}
+       console.log("cache create!")
+    }
+    if(!add.cache[a]){
+       add.cache[a] = a + a;
+	   console.log("create value in cacche!")
+    }
+    return add.cache[a]
+}
 ```
 
 **問題377**
 
+ 数値 `-6.133`、`6.133` を正数値だけ取得してください。
 
 ```js
+let num = -6.133
+Math.trunc(num)
+// -6
+
+
+let num = 6.133
+Math.trunc(num)
+// 6
 ```
 
 **問題378**
 
+こちら2の4乗
 
 ```js
+Math.pow(2, 4)
+// 16
+```
+
+と同じことをしてください
+
+```js
+2 ** 4
+// 16
+//ECMAScript216の べき乗演算子**（Exponentiation Operator)
 ```
 
 **問題379**
 
+こちらの文字列
 
 ```js
+"パスワードは😄😄😄😄です".length
+// 16
+```
+は16文字として処理されます
+絵文字1つを2とカウントしないようにしてください
+
+```js
+[..."パスワードは😄😄😄😄です"].length
+// 12
 ```
 
 **問題380**
@@ -8644,7 +8697,7 @@ fun(1)
 
 ```js
 
-下記の関数
+//下記の関数
 
 function f(images, index, attributes){
  return {images: [ ...images.slice(0, index), {...images[index], ...attributes}, ...images.slice(index + 1)]}
@@ -8702,6 +8755,14 @@ function hasOwnDeepProperty(obj, prop) {
 
 console.log(hasOwnDeepProperty(obj, 'value'));   // true
 console.log(hasOwnDeepProperty(obj, 'another')); // false
+
+```
+
+[付録] [Observable](https://tc39.github.io/proposal-observable/)
+
+
+```js
+
 
 ```
 
