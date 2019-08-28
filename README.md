@@ -1191,6 +1191,7 @@ map.set('four', 'fafa@eee');
 
 </details>
 <details><summary>問51〜問100</summary>
+
 **問51**
 
 問50の変数fafa内にある要素を出力してください
@@ -5117,6 +5118,7 @@ pop、push、reverse、shift、sort、splice、unshilft
 
 </details>
 <details><summary>問251〜問300</summary>
+
 **問251**
 
 ```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
@@ -5153,6 +5155,7 @@ console.log(obj3.b.a)
 **問252**
 
 このようなobjがあります。
+
 ```js
 var obj = {
  'prop1': 'value1',
@@ -5160,6 +5163,7 @@ var obj = {
  'prop3': 'value3'
 }
 ```
+
 JSON.stringifyを使って
 
 ```
@@ -5209,6 +5213,7 @@ str
 
 **問253**
 this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
+
 ```js
 ・コンストラクタ呼び出し・・・コンストラクタが生成したオブジェクト
 ・メソッド呼び出し・・・レシーバオブジェクト(ドット演算子、ブラケット演算子でオブジェクトのメソッドを読んだとき、演算子の左辺に指定したオブジェクト)
@@ -5220,8 +5225,6 @@ e.g  const obj = {add : function(){some}};
 ・それ以外の呼び出し ・・・グローバルオブジェクト
 
 //this参照はコードのコンテキストに応じて自動的に参照先オブジェクトが変わる特別なもの
-
-
 ```
 
 **問254**
@@ -5235,6 +5238,7 @@ console.log(map); // Map { foo: 'bar', baz: 42 }
 ```
 
 **問255**
+
 ```js
 var Emiiter = {
  callbacks : [],
@@ -5283,6 +5287,7 @@ if(color){
  }
 }
 ```
+
 これをswitch文に変えたのがこちらですが、
 
 ```js
@@ -5302,7 +5307,7 @@ switch (color){
 ```
 
 デバッグしづらいのといくつかの評価をしなくてはならなくなった際につらくなります。
-see: https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/
+see: [https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/](https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/)
 
 ```js
 switch(true) {
@@ -5344,9 +5349,6 @@ if (color in colorObj) {
 //black
 ```
 
-
-
-
 **問257**
 こちら['a','b','c’]をこちら{0: 'a’, 1: 'b’, 2: 'c'}のようにしてください
 
@@ -5367,6 +5369,7 @@ toObject(arry);
 **問258**
 
 こちら
+
 ```js
 let html = '';
 const count = 10;
@@ -5376,6 +5379,7 @@ for(var i = 0;i < count; i++){
 document.querySelector('#mngb').innerHtml = html;
 'hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!hai!!'
 ```
+
 をより高速な書き方をしてください
 
 ```js
@@ -5393,6 +5397,7 @@ document.querySelector('#mngb').innerHtml = html.join('');
 **問259**
 
 このような関数があります
+
 ```js
 function iterateTimerOver(){
  const length = 100;
@@ -5401,6 +5406,7 @@ function iterateTimerOver(){
  }
 }
 ```
+
 Timerはグローバル関数です。より高速にしてください。
 
 ```js
@@ -5435,9 +5441,11 @@ name
 **問260**
 
 こちら
+
 ```js
 const myObject  = {1: ['e', 'ee', 'eee'], 2: ['f', 'ff','fff']};
 ```
+
 を
 多次元配列にしてください
 期待する結果:[[‘e’,’ee’,’eee’],[‘f’,’ff’, ‘fff’]];
@@ -5497,12 +5505,14 @@ obj
 **問261**
 
 こちら
+
 ```js
 const arr = [
     { key: 'foo', val: 'bar' },
     { key: 'hello', val: 'world' }
 ];
 ```
+
 をMapオブジェクトにしてください
 期待する結果:{'foo' => 'bar', 'hello' => 'world'}
 
@@ -5651,6 +5661,7 @@ try {
 **問268**
 
 こちらの
+
 ```js
 const foo = (name, callback) => {
     setTimeout(() => {
@@ -5669,45 +5680,40 @@ foo('a', (a) => {
 // b
 // c
 ```
+
 ネストされた読みにくい処理記述をgenerator関数を使って記述し直してください。
 
 ```js
 const foo = (name, callback) => {
-    setTimeout(() => {
-        callback(name);
-    }, 100);
+  setTimeout(() => {
+    callback(name);
+  }, 100);
 };
- 
+
 const curry = (method, ...args) => {
-    return (callback) => {
-        args.push(callback);
-        return method.apply({}, args);
-    };
+  return (callback) => {
+    args.push(callback);
+    return method.apply({}, args);
+  };
 };
- 
+
 const controller = (generator) => {
-    const iterator = generator();
- 
-    const advancer = (response) => {
-        var state;
- 
-        state = iterator.next(response);
- 
-        if (!state.done) {
-            state.value(advancer);
-        }
-    }
- 
-    advancer();
+  const iterator = generator();
+  const advancer = (response) => {
+      var state;
+      state = iterator.next(response);
+      if (!state.done) {
+          state.value(advancer);
+      }
+  }
+  advancer();
 };
- 
 controller(function* () {
-    const a = yield curry(foo, 'a');
-    const b = yield curry(foo, 'b');
-    const c = yield curry(foo, 'c');
-    console.log(a, b, c);
+  const a = yield curry(foo, 'a');
+  const b = yield curry(foo, 'b');
+  const c = yield curry(foo, 'c');
+  console.log(a, b, c);
 });
- 
 // a
 // b
 // c
@@ -5725,20 +5731,20 @@ controller(function* () {
 
 ```js
 function *foo() {
-    var z = yield 3;
-    var w = yield 4;
-    console.log( 'z: ' + z + ', w: ' + w );
+  const z = yield 3;
+  const w = yield 4;
+  console.log( 'z: ' + z + ', w: ' + w );
 }
 
 function *bar() {
-    var x = yield 1;
-    var y = yield 2;
-    yield *foo(); // `yield*` delegates iteration control to `foo()`
-    var v = yield 5;
-    console.log( 'x: ' + x + ', y: ' + y + ', v: ' + v );
+  const x = yield 1;
+  const y = yield 2;
+  yield *foo(); // `yield*` delegates iteration control to `foo()`
+  const v = yield 5;
+  console.log( 'x: ' + x + ', y: ' + y + ', v: ' + v );
 }
 
-var it = bar();
+const it = bar();
 
 it.next();      // { value:1, done:false }
 it.next( 'X' ); // { value:2, done:false }
@@ -5776,37 +5782,40 @@ for-ofに渡すと1~10までの数値を返すitarableなオブジェクトを�
 ```js
 var obj = {}; // イテラブルなオブジェクト
 obj[Symbol.iterator] = function(){//イテレータを返す関数を代入
-    var iterator = {}; // イテレータ
-    var num = 1;
-    iterator.next = function(){//next実行してリザルトを返す関数を代入
-        var iteratorResult = (num <= 10)
-            ? { value: num++,   done: false }
-            : { value: undefined, done: true };
-        return iteratorResult; // イテレータリザルトを返す
-    };
-    return iterator;//イテレータを返す
+  var iterator = {}; // イテレータ
+  var num = 1;
+  iterator.next = function(){//next実行してリザルトを返す関数を代入
+    var iteratorResult = (num <= 10)
+        ? { value: num++,   done: false }
+        : { value: undefined, done: true };
+    return iteratorResult; // イテレータリザルトを返す
+  };
+  return iterator;//イテレータを返す
 };
 ```
 
 **問272**
 
 こちらの
+
 ```js
 function* g(){
-	const num =  yield 30
-        const num2 = yield 1 + num
-                   yield 2 + num2
-                   yield num + num2
+  const num =  yield 30
+
+  const num2 = yield 1 + num
+              yield 2 + num2
+              yield num + num2
 }
 ```
+
 iteratorのnextメソッドに1を渡してdoneがtrueになるまで```iterator.next(1).value```のように実行していくとそれぞれ何を返すか答えてください。
 
 ```js
 function* g(){
-        const num =  yield 30//numは2回目next()実行時の仮引数になる
-        const num2 = yield 1 + num//num2は3回目next()実行時の仮引数になる
-                   yield 2 + num2
-                   yield num + num2
+  const num =  yield 30//numは2回目next()実行時の仮引数になる
+  const num2 = yield 1 + num//num2は3回目next()実行時の仮引数になる
+              yield 2 + num2
+              yield num + num2
 }
 const iterator = g();
 iterator.next(1).value
@@ -5823,7 +5832,8 @@ iterator.next(1).value
 
 **問273**
 
-こちらのfooを
+こちらの`foo`を
+
 ```js
 function* foo(x) {
     var y = 2 * (yield (x + 1));
@@ -5835,6 +5845,7 @@ it.next();//1
 it.next(12);//2
 it.next(13);//3
 ```
+
 上の1,2,3の箇所のように実行したら出力される値をそれぞれ教えてください
 
 ```js
@@ -5917,12 +5928,14 @@ for-in loop
 
 **問278**
 こちらを実行すると
+
 ```js
 const sym = Symbol('desc');
 const str1 = '' + sym;
 str1
 //???
 ```
+
 どうなりますか？
 
 ```
@@ -5937,24 +5950,23 @@ const str2 = `${sym}`; //TypeError
 シンボルのユースケースをざっくり2つほど教えて下さい。
 
 ```js
-
 //1
 //unique property keys (ユニークなプロパティkey)
 //for-ofを通して使えるobject iterableを作ることができる
 const iterableObject = {
-    [Symbol.iterator]() { // メソッドのキーとしてSymbolを使う
-        const data = ['hello', 'world'];
-        let index = 0;
-        return {
-            next() {
-                if (index < data.length) {
-                    return { value: data[index++] };
-                } else {
-                    return { done: true };
-                }
-            }
-        };
-    }
+  [Symbol.iterator]() { // メソッドのキーとしてSymbolを使う
+    const data = ['hello', 'world'];
+    let index = 0;
+    return {
+      next() {
+        if (index < data.length) {
+          return { value: data[index++] };
+        } else {
+          return { done: true };
+        }
+      }
+    };
+  }
 }
 for (const x of iterableObject) {
     console.log(x);
@@ -5978,25 +5990,26 @@ const COLOR_BLUE   = Symbol('Blue');
 const COLOR_VIOLET = Symbol('Violet');
 
 function getComplement(color) {
-    switch (color) {
-        case COLOR_RED:
-            return COLOR_GREEN;
-        case COLOR_ORANGE:
-            return COLOR_BLUE;
-        case COLOR_YELLOW:
-            return COLOR_VIOLET;
-        case COLOR_GREEN:
-            return COLOR_RED;
-        case COLOR_BLUE:
-            return COLOR_ORANGE;
-        case COLOR_VIOLET:
-            return COLOR_YELLOW;
-        default:
-            throw new Exception('Unknown color: '+color);
-    }
+  switch (color) {
+    case COLOR_RED:
+      return COLOR_GREEN;
+    case COLOR_ORANGE:
+      return COLOR_BLUE;
+    case COLOR_YELLOW:
+      return COLOR_VIOLET;
+    case COLOR_GREEN:
+      return COLOR_RED;
+    case COLOR_BLUE:
+      return COLOR_ORANGE;
+    case COLOR_VIOLET:
+      return COLOR_YELLOW;
+    default:
+      throw new Exception('Unknown color: '+color);
+  }
 }
 
 ```
+
 **問280**
 
 こちらは
@@ -6015,7 +6028,6 @@ TypeErrorをthrowするので、try/catchしているのだが、
 
 if...elseブロックを使える、Reflectを用いて同じ実装になるように修正してください
 
-
 ```js
 let target = {name: 'ken'}
 const isAble = Reflect.defineProperty(target, 'name', {value: 'fe'})
@@ -6024,6 +6036,7 @@ if(isAble){
 } else {}
 
 ```
+
 **問281**
 
 こちらの
@@ -6037,18 +6050,23 @@ Reflect.deletePropery(target, 'key')
 **問282**
 
 こちらはReflect.getを使って
+
 ```js
 var obj = {a : 1}
 Reflct.get(obj, "a")
 //1
 ```
+
 値を取得している。
-```
+
+```js
 obj["a"]
 //1
 ```
+
 との違いを教えてください
-```
+
+```js
 //objが非オブジェクトの際、ReflectはTypeErrorをthrowしますが、obj["a"]は
 //undefinedになります。実行時objの型が適切か気づくことができます。
 
@@ -6103,6 +6121,7 @@ Reflect.apply(fun, ctx, [1,2,3])
 **問284**
 
 こちら
+
 ```js
 String.fromCharCode(104,101,108,108,111)
 "hello"
@@ -6112,7 +6131,6 @@ String型の静的メソッドであるfromCharCodeは常にStringを伴って�
 また返り値はString型ではなく文字列です。
 Number型を渡さなくてはいけない引数に配列を渡し、
 同じ出力になるようにしてください
-
 
 ```js
 Reflect.apply(String.fromCharCode, undefined, [104, 101, 108, 108, 111])
@@ -6188,9 +6206,11 @@ var obj = {
 **問288**
 
 このようながDOMがあります。
- ```
+
+ ```html
  <span id='foo' class='bar baz'>foo</span>
  ```
+
  付与されたclass名が存在するだけ出力してください。
  期待する出力
 
@@ -6220,13 +6240,14 @@ else
   el.className += ' ' + className;
 ```
 
-
 **問289**
 
 こちら
-```
+
+```html
 <span id='foo' class='bar baz'>foo</span>
 ```
+
 の中にbazがあることを真偽値で出力してください
 
 ```js
@@ -6240,9 +6261,11 @@ foo.classList.contains('foo');
 **問290**
 
 こちら
-```
+
+```html
 <span id='foo' class='bar baz'>foo</span>
 ```
+
 にfafaというclass名を追加してbarを削除してください
 
 ```js
@@ -6257,21 +6280,23 @@ foo.classList.remove('bar');
 **問291**
 
 こちら
-```
+
+```js
 $.getJSON('/my/url', function(data) {
 });
 ```
+
 Jqueryでgetしているが、ライブラリを使用しないのでJS記述してください。
 
 ```js
 //一例
-var request = new XMLHttpRequest();
+const request = new XMLHttpRequest();
 request.open('GET', '/my/url', true);
 
 request.onload = function() {
   if (request.status >= 200 && request.status < 400) {
     // Success!
-    var data = JSON.parse(request.responseText);
+    const data = JSON.parse(request.responseText);
   } else {
     // We reached our target server, but it returned an error
   }
@@ -6290,13 +6315,12 @@ var data = { foo: 'abc', bar: 100 }
 期待する結果
 'foo=abc&bar=100'
 
-
 ```js
-var arr = [];
+let arr = [];
 Object.keys(data).forEach(function(el, ind){
     arr.push(encodeURIComponent(el) + "=" + encodeURIComponent(data[el]))
 })
-var str = arr.join("&")
+const str = arr.join("&")
 str
 //'foo=abc&bar=100'
 ```
@@ -6321,6 +6345,7 @@ Array.prototype.forEach.call(elements, function(el, i){
 **問294**
 
 こちら
+
 ```js
 $(el).after(htmlString);//1
 
@@ -6332,6 +6357,7 @@ $(el).next();//4
 
 $(el).parent();//5
 ```
+
 と同じ動きをJSで記述してください
 
 ```js
@@ -6354,9 +6380,11 @@ el.parentNode
 **問295**
 
 こちら
+
 ```js
 $(el).hasClass(className);
 ```
+
 と同じ処理をJSで記述してください
 
 ```js
@@ -6371,10 +6399,12 @@ if (el.classList){
 **問296**
 
 こちらの2つの処理
+
 ```js
 $(el).next();
 $(el).parent();
 ```
+
 と同じことをJSで記述してください
 
 ```js
@@ -6386,10 +6416,12 @@ el.parentNode
 **問297**
 
 こちら
+
 ```js
 $(el).offset();
 //{top: 11, left:11}
 ```
+
 と同じ値を含むオブジェクトを取得できるようにJSで記述してください。
 
 ```js
@@ -6406,6 +6438,7 @@ rect
 ```js
 $(el).remove();
 ```
+
 と同じ処理をするようにJSで記述してください。
 
 ```js
@@ -6415,9 +6448,11 @@ el.parentNode.removeChild(el);
 **問299**
 
 こちら
+
 ```js
 $(el).removeClass(className);
 ```
+
 と同じ処理をするようにJSで記述してください。
 
 ```js
@@ -8270,8 +8305,8 @@ why:
 参照がその参照を参照してその参照がさらにその参照をしてと繰り返されることです
 
 ```js
-var a = {};
-var b = {};
+let a = {};
+let b = {};
 a.child = b;
 b.child = a;
 を実行した場合
@@ -8308,11 +8343,11 @@ JSON.stringify(value[, replacer, space])
 
 //[replacer](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)を設定します
 
-var obj = {
+let obj = {
   a: "foo",
   b: obj
 }
-var replacement = {"b":undefined}; //undefinedをいれてskipさせる
+let replacement = {"b":undefined}; //undefinedをいれてskipさせる
 JSON.stringify(obj,replacement));
 ```
 or
@@ -8682,7 +8717,7 @@ function fn() {
     }
   };
 }
-var fun = fn()
+const fun = fn()
 //Generate cache
 fun(1)
 //Calculate and save to cache
@@ -8714,7 +8749,7 @@ f(["eeee","ppp","lll"], 1, [1,2,3])
 
 ```js
 
-var object = {
+let object = {
    innerObject:{
        deepObject:{
            value:'Here am I'
@@ -8730,7 +8765,7 @@ if(object && object.innerObject && object.innerObject.deepObject && object.inner
 このように退屈なif文にならないためのユーティリティ関数
 
 ```js
-var obj = {
+let obj = {
   innerObject: {
     deepObject: {
       value: 'Here am I'
@@ -8743,7 +8778,7 @@ function hasOwnDeepProperty(obj, prop) {
     if (obj.hasOwnProperty(prop)) {              // if this object already contains the property, we are done
       return true;
     }
-    for (var p in obj) {                         // otherwise iterate on all the properties of this object
+    for (let p in obj) {                         // otherwise iterate on all the properties of this object
       if (obj.hasOwnProperty(p) &&               // and as soon as you find the property you are looking for, return true
           hasOwnDeepProperty(obj[p], prop)) {
         return true;
