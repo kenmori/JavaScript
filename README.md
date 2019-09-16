@@ -41,7 +41,9 @@
 
 ※[GitHub](https://github.com/kenmori)
 
-※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice.md)
+※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice)
+
+# ろーど
 
 ## JavaScript問題集
 
@@ -6466,6 +6468,7 @@ if (el.classList) {
 **問300**
 
 こちら
+
 ```js
 $(el).attr('tabindex', 3);
 ```
@@ -6474,11 +6477,14 @@ $(el).attr('tabindex', 3);
 ```js
 el.setAttribute('tabindex', 3);
 ```
+
 </details>
 <details><summary>問301〜問350</summary>
+
 **問301**
 
 こちら
+
 ```js
 $(el).toggleClass(className);
 ```
@@ -6500,12 +6506,14 @@ if (el.classList) {
 }
 ```
 
-**問302***
+**問302**
 
 こちら
+
 ```js
 $.parseHTML(htmlString);
 ```
+
 と同じ処理をするようにJSで記述してください。
 
 
@@ -6522,9 +6530,11 @@ parseHTML(htmlString);
 **問303**
 
 こちら
+
 ```js
 $(el).on(eventName, eventHandler);
 ```
+
 と同じ処理をするようにJSで記述してください。
 
 ```js
@@ -6534,6 +6544,7 @@ el.addEventListener(eventName, eventHandler);
 **問304**
 
 こちらはDOMの解析とロードの条件で渡されたコールバック、fncが同期的に呼ばれるか非同期に呼ばれるか変わるコードです。
+
 ```js
 function onReady(fnc) {
     var readyState = document.readyState;
@@ -6548,6 +6559,7 @@ onReady(function () {
 });
 console.log('Start');
 ```
+
 大雑把にいうと、body終了直前に書かれていた場合条件式trueの文が実行され同期的に、
 head内で書かれていた場合elseブロックが実行され非同期的に呼ばれます。
 なので'Start'が出力される順番が変わるのですが、
@@ -6570,12 +6582,12 @@ head内で書かれていた場合elseブロックが実行され非同期的に
 
 //ex1 setTimeout
 function onReady(fnc) {
-    var readyState = document.readyState;
-    if (readyState === 'interactive' || readyState === 'complete') {
-        setTimeout(fnc, 0);
-    } else {
-        window.addEventListener('DOMContentLoaded', fnc);
-    }
+  const readyState = document.readyState;
+  if (readyState === 'interactive' || readyState === 'complete') {
+      setTimeout(fnc, 0);
+  } else {
+      window.addEventListener('DOMContentLoaded', fnc);
+  }
 }
 onReady(function () {
     console.log('DOMは解析とロード済み');
@@ -6587,14 +6599,15 @@ console.log('Start');
 
 //ex2 Promise
 function onReady() {
-    return new Promise(function(resolve, reject){
-        var readyState = document.readyState;
-        if (readyState === 'interactive' || readyState === 'complete') {
-            resolve();
-        } else {
-            window.addEventListener('DOMContentLoaded', resolve);
-        }
-})}
+  return new Promise(function(resolve, reject){
+    const readyState = document.readyState;
+    if (readyState === 'interactive' || readyState === 'complete') {
+        resolve();
+    } else {
+        window.addEventListener('DOMContentLoaded', resolve);
+    }
+  })
+}
 onReady().then(function(){
    console.log('DOMは解析とロード済み')
 })
@@ -6622,21 +6635,22 @@ console.log('Start');
 最後のPromiseオブジェクトでそれらが連結された文字列を出力してください。
 
 ```js
-var initPromise = new Promise(function(resolve){
+const initPromise = new Promise(function(resolve){
    resolve('私は')
  })
-var lastName = function(sentence, lastname){
+const lastName = function(sentence, lastname){
    return sentence + '今日、'
 }
-var firstName = function(lastName){
+const firstName = function(lastName){
   return lastName + '運がいいです'
 }
-var comp = function(compName){
+const comp = function(compName){
    console.log(compName)
 }
 initPromise.then(lastName).then(firstName).then(comp);
 //私は今日、運がいいです
 ```
+
 **問307**
 
 Promseオブジェクト作成時にresolveに数値1を渡すコールバックを呼び出し、console出力され、
@@ -6660,6 +6674,7 @@ promise1.then(function(val){
 **問308**
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
+
 ```js
 function get(url) {
   return new Promise(function(resolve, reject) {
@@ -6690,6 +6705,7 @@ get('list.json').then(function(res){
 **問309**
 
 Promiseオブジェクトを使ってこちら
+
 ```js
 function say(callback, msg) {
   setTimeout(callback, msg);
@@ -7997,7 +8013,9 @@ let b = new A('JavaScript');
 //JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(A.prototype)を参照し、A.prototypeにあるcarプロパティ値を返すためです。
 
 ```
+
 </details>
+
 <details><summary>問351〜問400</summary>
 
 **問351**
