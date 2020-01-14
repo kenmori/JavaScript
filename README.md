@@ -4,6 +4,8 @@
 **更新情報**
 
 ```
+・表記揺れを整理(2020/1/13)
+・TypeScript問題集のリンク追加(2019/7/13)
 ・問題を追加(2019/4/30) 平成最終日
 ・問題を追加(2019/4/16)
 ・問題を追加(2018/11/26)
@@ -43,7 +45,6 @@
 
 ※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice)
 
-# ろーど
 
 ## JavaScript問題集
 
@@ -68,8 +69,10 @@ c //{a: 'a', b: 'b'}
 //・prototypeに定義し直したい場合、Object.getOwnPropertyDescriptorとObject.definePropertyを使う
 //・プロパティが書き込み不可の場合TypeErrorが発生。targetオブジェクトは変更されない
 //・Object.assignはsources値がnull、undefinedの場合例外を投げない
-```
 
+別解
+const c = {...a, ...b}
+```
 **問2**
 
 ```js
