@@ -15,6 +15,8 @@
 
 こちらは[よしもと芸人もりたけんじ](https://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。
 
+ [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40bukotsunikki)](https://twitter.com/bukotsunikki)
+
 **前提**
 
 ※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017,2018,2019が使える環境で試されることを想定しています。
