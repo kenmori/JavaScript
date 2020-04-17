@@ -1,9 +1,11 @@
 # JavaScript練習問題集
 ![JavaScript](https://kenjimorita.jp/wp-content/uploads/2017/06/image3-1024x755.jpeg)
 
+
 **更新情報**
 
 ```
+・問題を追加(2020/4/18)
 ・表記揺れを整理(2020/1/13)
 ・TypeScript問題集のリンク追加(2019/7/13)
 ・問題を追加(2019/4/30) 平成最終日
@@ -8691,14 +8693,24 @@ Math.pow(2, 4)
 
 **問題380**
 
+reducerを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` にしてください
 
 ```js
+[{id: 1, name: 'kenji'}].reduce((a, c)=>  (a[c.id] = c) && a, {})
 ```
 
 **問題381**
 
+`[{1: {name: "kenji"}}, {2: {name: "rika"}}]` を reduceを使って `[{name: "kenji"},{name: "rika"}]` にしてください
+
 
 ```js
+
+// 一例)
+[{1: {name: "kenji"}}, {2: {name: "rika"}}].reduce((a, c) => {
+ return [...a, ...Object.values(c)]
+}, [])
+
 ```
 
 **問題382**

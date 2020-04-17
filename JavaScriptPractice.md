@@ -2803,7 +2803,7 @@ new Mapとnew WeakMapの違いを教えていください
 ```js
 //http://uhyohyo.net/javascript/16_1.html
 weakMapは参照元を内部で保持していても他のところに全く関係ない、上書きされるとガーベージコレクションの対象になる
-Mapは内部で参照元を保持し自分自身で「含まれるオブジェクト一覧」を扱うメソッドがある為にガーベージコレクションの対象にならない
+Mapは内部で参照元を保持し自分自身で「含まれるオブジェクト一覧」を扱うメソッドがある為にガーベージコレクションの対象に����らない
 //weakMapのいいところkeyに対してのobjを汚さないで済む
 ```
 
@@ -7208,7 +7208,15 @@ subtractAndLog(4, 3);
 
 **問328**
 
+
+下の
 ```js
+const fruit = [
+  'apple', 'banana', 'cherry', 'mango', 
+  'mango', 'banana', 'cherry', 'apricot', 
+  'apple', 'apple', 'guava', 'banana', 'guava'
+]
+
 
 ```
 
