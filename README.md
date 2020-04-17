@@ -5,7 +5,7 @@
 **更新情報**
 
 ```
-・問題を追加(2020/4/18)
+・ECMAScript2020の問題を追加(2020/4/18)
 ・表記揺れを整理(2020/1/13)
 ・TypeScript問題集のリンク追加(2019/7/13)
 ・問題を追加(2019/4/30) 平成最終日
@@ -28,7 +28,9 @@
 ※答えはあくまで１つの記述です。
 
 ※ECMAScript2015の観点からは非奨励な書き方も載せています。(varやfor-in、破壊的メソッドの使用など)、
-環境に因って使用せざるを得ないなどがその理由です。
+環境に因って使用せざるを得ないなどがその理由です。それぞれletやconstに置き換えてください。
+(WIP:2020/04。var記述撲滅中)
+
 また以下に示す問題の答えがあなたの考えた答えより冗長な書き方かもしれません。
 適宜置き換えていただけたらと思います。
 「答え」より端的な書き方、違うメソッド使用で解決できるなら「それが答え」です。
@@ -1285,12 +1287,12 @@ var str = '「ヤッホー?ヤッホー@」';
 ```js
 //文中に使えるかどうか
 //
-var str = '彼はありがとうと言った';
+const str = '彼はありがとうと言った';
 /彼は(ありがとう|こんにちは｜さようなら)と言った/.exec(str);
 //['彼はありがとうと言った', 'ありがとう']
 
 //
-var str = '彼はありがとうと言った';
+const str = '彼はありがとうと言った';
 /彼はありがとう|こんにちは｜さようならと言った/.exec(str);
 //['彼はありがとう']
 ```
@@ -1299,7 +1301,7 @@ var str = '彼はありがとうと言った';
 「When」、「Where」、「Who」、「What」、「Why」、「How」の単語のみにマッチする正規表現を書きなさい
 
 ```js
-var str = 'How';
+const str = 'How';
 /Wh(en|ere|o|at|y|)|How/.exec(str);
 ```
 
@@ -1321,7 +1323,7 @@ if (x) {
 //undefinedやnull以外のオブジェクトは実行されます
 
 //真偽値オブジェクトは格納されている値がfalseであってもtrueと評価される。
-var falseValue = new Boolean(false);
+const falseValue = new Boolean(false);
 console.log(falseValue)//false,真偽値オブジェクトが出力される
 if(falseValue){//真偽値オブジェクトの内容がfalseでもオブジェクト自体は常にtrue値をみなされる
   //run
@@ -1385,13 +1387,13 @@ if (undefined == null){
 関数iiを実行すると返り値で関数を受け取り、その関数に引数'home'を渡し実行すると'my home'と返ってくるクロージャーを作ってください
 
 ```js
-var ii = function(){
-  var pp = 'my ';
+const ii = function(){
+  const pp = 'my ';
   return function(value){
     console.log(pp + value);
   }
 }
-var kk = ii();
+const kk = ii();
 kk('home');
 //my home
 ```
@@ -1400,8 +1402,8 @@ kk('home');
 今の時間、何時何分何秒を表してください
 
 ```js
-var now = new Date();
-var nowtime = '今' + now.getHours() + '時' +  now.getMinutes() + '分' + now.getSeconds() + '秒';
+const now = new Date();
+const nowtime = '今' + now.getHours() + '時' +  now.getMinutes() + '分' + now.getSeconds() + '秒';
 nowtime
 //'今23時49分56秒'
 ```
@@ -1430,7 +1432,7 @@ function getSomething(){
     third: 3
   }
 }
-var { first, second, third } = getSomething();
+const { first, second, third } = getSomething();
 first
 //1
 second
@@ -1468,7 +1470,7 @@ console.log('repeat'.repeat(2));
 文字列```foo```をイテレーターを使い```['f','o','o']```となるようにしてください。
 
 ```js
-var chars = [];
+let chars = [];
 for (let n of 'foo'){
  chars.push(n);
 }
@@ -1480,9 +1482,9 @@ console.log(chars);//['f','o','o']
 IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力してください
 
 ```js
-var arr = ['ooo', 'eee'];
+const arr = ['ooo', 'eee'];
 
-var Iterator = arr[Symbol.iterator]();
+const Iterator = arr[Symbol.iterator]();
 console.log(Iterator.next()); // { done: false, value: 'ooo'}
 console.log(Iterator.next()); // { done: false, value: 'eee' }
 console.log(Iterator.next()); //{ done: true, value: undefined }
@@ -1494,7 +1496,7 @@ console.log(Iterator.next()); //{ done: true, value: undefined }
 
 ```js
 //スプレッドオペレータ
-var arr = [...'foo'];
+ arr = [...'foo'];
 console.log(arr);
 ```
 
@@ -8715,21 +8717,105 @@ reducerを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` に
 
 **問題382**
 
+`const res = {user: {name: 'kenji'}}`の `res.user` は `null`になりうることがある(`{user: null}`)。
+nameの値が欲しい時、 nullの場合はundefined、nameがある場合はその値を下記のように
+`const name = res.user && res.user.name` ではなく、
+端的に(optional chain。オプショナルチェーンで)書いてください
 
 ```js
+const a = res.user?.name // undefined or "kenji"。 エラーにはならない
+
+// optional chain
+// ?の左がnullになり得る場合、もしnull or undefinedだったら.(ドットアクセス)でエラーにせず、undefinedを返し、そうでない場合はその先を返すというものです
+// つまり res.user == null ? undefined : res.user.name と res.user?.nameは同じです。端的に書けることがわかります
 ```
 
 **問題383**
 
+下記
 
 ```js
+const a = 0
+const b = false
+const c = undefined
+const  d = null
 ```
+のような変数がある
+nullとundefinedの場合は文字列 `"null or undefined"`を返し、そうでない場合はその値を返す
+関数isNullishを実装してください
+
+また、Nullish coalescing Operator(ヌリッシュコアレスオペレーター)とはどんなものですか?
+
+```js
+const a = 0
+const b = false
+const c = undefined
+const  d = null
+const isNullish = (value) => value ?? "null or undefined"
+isNullish(a) // 0
+isNullish(b) // false
+isNullish(c) // "null or undefined"
+isNullish(d) // "null or undefined"
+
+// また、Nullish coalescing Operator(ヌリッシュコアレシングオペレーター)とはどんなものですか?
+// nullish coalescing opearator は もし左がnull か undefinedなら 右 を返す || の代替です
+```
+
 **問題384**
 
+ECMASCript2020で追加された`globalThis`とはなんですか？
+
+```js
+ブラウザがもつグローバルオブジェクトである`window`とNode.jsのグローバルオブジェクト`global`はJavaScript実行環境が違うため分けられていた。
+`globalThis`はブラウザ、Node.jsがもつ共通のグローバルオブジェクトです
+
+// use browser
+// open console.log and then
+// globalThis
+
+// use node with lts version
+// node -v
+// v12.16.2
+// > node
+// Welcome to Node.js v12.16.2.
+// Type ".help" for more information.
+// > globalThis
+// Object [global] {
+//   global: [Circular],
+//   clearInterval: [Function: clearInterval],
+//   clearTimeout: [Function: clearTimeout],
+//   setInterval: [Function: setInterval],
+//   setTimeout: [Function: setTimeout] {
+//     [Symbol(nodejs.util.promisify.custom)]: [Function]
+//   },
+//   queueMicrotask: [Function: queueMicrotask],
+//   clearImmediate: [Function: clearImmediate],
+//   setImmediate: [Function: setImmediate] {
+//     [Symbol(nodejs.util.promisify.custom)]: [Function]
+//   }
+// }
+```
+
+**問題386**
 
 ```js
 ```
 
+**問題387**
+
+```js
+```
+
+
+**問題388**
+
+```js
+```
+
+**問題389**
+
+```js
+```
 **WIP**
 
 //問題文をわかりやすくする
