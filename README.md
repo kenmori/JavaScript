@@ -8716,19 +8716,80 @@ reducerを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` に
 
 **問題382**
 
+`const res = {user: {name: 'kenji'}}`の `res.user` は `null`になりうることがある(`{user: null}`)。 `name`の値が欲しい時、 `null`の場合は`undefined`、`name`がある場合はその値を下記のように `const name = res.user && res.user.name` ではなく、 端的に(`optional chain`。オプショナルチェーンで)書いてください
 
 ```js
+
+const a = res.user?.name // undefined or "kenji"。 エラーにはならない
+
+// optional chain
+// ?の左がnullになり得る場合、もしnull or undefinedだったら.(ドットアクセス)でエラーにせず、undefinedを返し、そうでない場合はその先を返すというものです
+// つまり res.user == null ? undefined : res.user.name と res.user?.nameは同じです。端的に書けることがわかります
 ```
 
 **問題383**
 
+下記
 
 ```js
+const a = 0
+const b = false
+const c = undefined
+const  d = null
 ```
+
+のような変数がある`null`と`undefined`の場合は文字列 `"null or undefined"`を返し、そうでない場合はその値を返す 関数isNullishを実装してください
+
+また、`Nullish coalescing Operator(ヌリッシュコアレスオペレーター)`とはどんなものですか?
+
+```js
+const a = 0
+const b = false
+const c = undefined
+const  d = null
+const isNullish = (value) => value ?? "null or undefined"
+isNullish(a) // 0
+isNullish(b) // false
+isNullish(c) // "null or undefined"
+isNullish(d) // "null or undefined"
+
+// また、Nullish coalescing Operator(ヌリッシュコアレシングオペレーター)とはどんなものですか?
+// nullish coalescing opearator は もし左がnull か undefinedなら 右 を返す || の代替です
+```
+
 **問題384**
 
+ECMASCript2020で追加されたglobalThisとはなんですか？
 
 ```js
+ブラウザがもつグローバルオブジェクトである`window`とNode.jsのグローバルオブジェクト`global`はJavaScript実行環境が違うため分けられていた。
+`globalThis`はブラウザ、Node.jsがもつ共通のグローバルオブジェクトです
+
+// use browser
+// open console.log and then
+// globalThis
+
+// use node with lts version
+// node -v
+// v12.16.2
+// > node
+// Welcome to Node.js v12.16.2.
+// Type ".help" for more information.
+// > globalThis
+// Object [global] {
+//   global: [Circular],
+//   clearInterval: [Function: clearInterval],
+//   clearTimeout: [Function: clearTimeout],
+//   setInterval: [Function: setInterval],
+//   setTimeout: [Function: setTimeout] {
+//     [Symbol(nodejs.util.promisify.custom)]: [Function]
+//   },
+//   queueMicrotask: [Function: queueMicrotask],
+//   clearImmediate: [Function: clearImmediate],
+//   setImmediate: [Function: setImmediate] {
+//     [Symbol(nodejs.util.promisify.custom)]: [Function]
+//   }
+// }
 ```
 
 **WIP**
