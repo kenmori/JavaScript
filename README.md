@@ -5,7 +5,8 @@
 **更新情報**
 
 ```
-・ECMAScript2020の問題を追加(2020/4/18)
+・リンクを追加(2020/5/30)
+・問題を追加(2020/4/18)
 ・表記揺れを整理(2020/1/13)
 ・TypeScript問題集のリンク追加(2019/7/13)
 ・問題を追加(2019/4/30) 平成最終日
@@ -15,7 +16,7 @@
 ```
 
 
-こちらは[よしもと芸人もりたけんじ](https://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。
+こちらは[よしもと芸人もりたけんじ](https://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。([TypeScript練習問題はこちら](https://gist.github.com/kenmori/8cea4b82dd12ad31f565721c9c456662))
 
  [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40bukotsunikki)](https://twitter.com/bukotsunikki)
 
@@ -28,9 +29,7 @@
 ※答えはあくまで１つの記述です。
 
 ※ECMAScript2015の観点からは非奨励な書き方も載せています。(varやfor-in、破壊的メソッドの使用など)、
-環境に因って使用せざるを得ないなどがその理由です。それぞれletやconstに置き換えてください。
-(WIP:2020/04。var記述撲滅中)
-
+環境に因って使用せざるを得ないなどがその理由です。(また、varの場合、コンソールログ上でそのままコピペ、再定義されているエラーを出させないというのもあります)
 また以下に示す問題の答えがあなたの考えた答えより冗長な書き方かもしれません。
 適宜置き換えていただけたらと思います。
 「答え」より端的な書き方、違うメソッド使用で解決できるなら「それが答え」です。
@@ -1167,7 +1166,7 @@ console.log(array2);
 function isBigEnough(ele, ind, arry){
  return (ele >= 10);
 };
-var passed = [12, 5, 8, 130, 44].every(isBigEnough);
+const passed = [12, 5, 8, 130, 44].every(isBigEnough);
 passed //false
 
 ```
@@ -1182,9 +1181,9 @@ passed //false
 の'two'の値を取得してください
 
 ```js
-var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
+const fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
-var map = new Map(fafa);
+const map = new Map(fafa);
 map.get('two');
 //'send@fafa'
 
@@ -1194,9 +1193,9 @@ map.get('two');
 問49の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加してください
 
 ```js
-var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
+const fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
-var map = new Map(fafa);
+const map = new Map(fafa);
 map.set('four', 'fafa@eee');
 ```
 
@@ -1270,10 +1269,10 @@ isImport
 「」の中に「ヤッホー!」の文字列が1回以上続く場合にのみマッチする正規表現を書いてください。(！が英単語を構成する文字以外の場合はどうか、また「ヤッホー！」が2回以上3回以下にマッチにはどう書きますか)
 
 ```js
-var str = '「ヤッホー！ヤッホー！」'; /「(ヤッホー！)+」/.exec(str); //['「ヤッホー！ヤッホー！」', 'ヤッホー！']
+const str = '「ヤッホー！ヤッホー！」'; /「(ヤッホー！)+」/.exec(str); //['「ヤッホー！ヤッホー！」', 'ヤッホー！']
 
 //メタ文字
-var str = '「ヤッホー?ヤッホー@」';
+const str = '「ヤッホー?ヤッホー@」';
 /「(ヤッホー\W)+」/.exec(str);
 ['「ヤッホー?ヤッホー@」', 'ヤッホー@']
 ```
@@ -1323,7 +1322,7 @@ if (x) {
 //undefinedやnull以外のオブジェクトは実行されます
 
 //真偽値オブジェクトは格納されている値がfalseであってもtrueと評価される。
-const falseValue = new Boolean(false);
+var falseValue = new Boolean(false);
 console.log(falseValue)//false,真偽値オブジェクトが出力される
 if(falseValue){//真偽値オブジェクトの内容がfalseでもオブジェクト自体は常にtrue値をみなされる
   //run
@@ -1388,12 +1387,12 @@ if (undefined == null){
 
 ```js
 const ii = function(){
-  const pp = 'my ';
+  var pp = 'my ';
   return function(value){
     console.log(pp + value);
   }
 }
-const kk = ii();
+var kk = ii();
 kk('home');
 //my home
 ```
@@ -1432,7 +1431,7 @@ function getSomething(){
     third: 3
   }
 }
-const { first, second, third } = getSomething();
+var { first, second, third } = getSomething();
 first
 //1
 second
@@ -1470,7 +1469,7 @@ console.log('repeat'.repeat(2));
 文字列```foo```をイテレーターを使い```['f','o','o']```となるようにしてください。
 
 ```js
-let chars = [];
+var chars = [];
 for (let n of 'foo'){
  chars.push(n);
 }
@@ -1482,9 +1481,9 @@ console.log(chars);//['f','o','o']
 IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力してください
 
 ```js
-const arr = ['ooo', 'eee'];
+var arr = ['ooo', 'eee'];
 
-const Iterator = arr[Symbol.iterator]();
+var Iterator = arr[Symbol.iterator]();
 console.log(Iterator.next()); // { done: false, value: 'ooo'}
 console.log(Iterator.next()); // { done: false, value: 'eee' }
 console.log(Iterator.next()); //{ done: true, value: undefined }
@@ -1496,7 +1495,7 @@ console.log(Iterator.next()); //{ done: true, value: undefined }
 
 ```js
 //スプレッドオペレータ
- arr = [...'foo'];
+var arr = [...'foo'];
 console.log(arr);
 ```
 
@@ -8717,105 +8716,21 @@ reducerを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` に
 
 **問題382**
 
-`const res = {user: {name: 'kenji'}}`の `res.user` は `null`になりうることがある(`{user: null}`)。
-nameの値が欲しい時、 nullの場合はundefined、nameがある場合はその値を下記のように
-`const name = res.user && res.user.name` ではなく、
-端的に(optional chain。オプショナルチェーンで)書いてください
 
 ```js
-const a = res.user?.name // undefined or "kenji"。 エラーにはならない
-
-// optional chain
-// ?の左がnullになり得る場合、もしnull or undefinedだったら.(ドットアクセス)でエラーにせず、undefinedを返し、そうでない場合はその先を返すというものです
-// つまり res.user == null ? undefined : res.user.name と res.user?.nameは同じです。端的に書けることがわかります
 ```
 
 **問題383**
 
-下記
 
 ```js
-const a = 0
-const b = false
-const c = undefined
-const  d = null
 ```
-のような変数がある
-nullとundefinedの場合は文字列 `"null or undefined"`を返し、そうでない場合はその値を返す
-関数isNullishを実装してください
-
-また、Nullish coalescing Operator(ヌリッシュコアレスオペレーター)とはどんなものですか?
-
-```js
-const a = 0
-const b = false
-const c = undefined
-const  d = null
-const isNullish = (value) => value ?? "null or undefined"
-isNullish(a) // 0
-isNullish(b) // false
-isNullish(c) // "null or undefined"
-isNullish(d) // "null or undefined"
-
-// また、Nullish coalescing Operator(ヌリッシュコアレシングオペレーター)とはどんなものですか?
-// nullish coalescing opearator は もし左がnull か undefinedなら 右 を返す || の代替です
-```
-
 **問題384**
 
-ECMASCript2020で追加された`globalThis`とはなんですか？
-
-```js
-ブラウザがもつグローバルオブジェクトである`window`とNode.jsのグローバルオブジェクト`global`はJavaScript実行環境が違うため分けられていた。
-`globalThis`はブラウザ、Node.jsがもつ共通のグローバルオブジェクトです
-
-// use browser
-// open console.log and then
-// globalThis
-
-// use node with lts version
-// node -v
-// v12.16.2
-// > node
-// Welcome to Node.js v12.16.2.
-// Type ".help" for more information.
-// > globalThis
-// Object [global] {
-//   global: [Circular],
-//   clearInterval: [Function: clearInterval],
-//   clearTimeout: [Function: clearTimeout],
-//   setInterval: [Function: setInterval],
-//   setTimeout: [Function: setTimeout] {
-//     [Symbol(nodejs.util.promisify.custom)]: [Function]
-//   },
-//   queueMicrotask: [Function: queueMicrotask],
-//   clearImmediate: [Function: clearImmediate],
-//   setImmediate: [Function: setImmediate] {
-//     [Symbol(nodejs.util.promisify.custom)]: [Function]
-//   }
-// }
-```
-
-**問題386**
 
 ```js
 ```
 
-**問題387**
-
-```js
-```
-
-
-**問題388**
-
-```js
-```
-
-**問題389**
-
-```js
-```
 **WIP**
 
 //問題文をわかりやすくする
