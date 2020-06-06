@@ -5,6 +5,7 @@
 **更新情報**
 
 ```
+・Decoratorsに関する問題を追加(2020/6/6)
 ・リンクを追加(2020/5/30)
 ・問題を追加(2020/4/18)
 ・表記揺れを整理(2020/1/13)
@@ -8792,6 +8793,92 @@ ECMASCript2020で追加されたglobalThisとはなんですか？
 // }
 ```
 
+**問題385**
+
+こちらの関数
+
+```js
+function dosomthing(name){
+ console.log("Hello " + name)
+}
+```
+
+に `dosomthing("kenji")`実行すると "Hello kenji"と出力されます。
+
+これを`dosomthing`の関数の中身を変えずに
+
+```
+ start
+ Hello kenji
+ finish
+```
+
+と`Hello kenji`の前と後に`start`, `finish`と出力されるようにしてください
+
+```js
+function dosomthing(name){
+ console.log("Hello " + name)
+}
+
+function loggingDecorator(callback){
+ return function(){
+   console.log("starting");
+   const result = callback.apply(this, arguments);
+   console.log("Finished");
+   return result
+ }
+}
+
+var wrapped = loggingDecorator(dosomthing)
+wrapped("kenji")
+```
+
+**問題386**
+
+下記のように
+```js
+class Example {
+  @log
+  sum(a, b){
+    return a + b
+  }
+}
+const e = new Example();
+e.sum(1, 2)
+```
+
+でsumに対するlog(subに渡された引数)出力される@logz(Decorators)を作ってください
+
+```js
+
+function log(_target, _name, descriptor) {
+  const original = descriptor.value; // decorateしている関数
+  if (typeof original === "function") {
+    descriptor.value = function(...arg) {
+      console.log("arguments:", `${arg}`);
+      try {
+        const result = original.apply(this, arg);
+        return result;
+      } catch (e) {
+        console.log(`Error:${e}`);
+        throw e;
+      }
+    };
+  }
+  return descriptor;
+}
+class Example {
+  @log
+  sum(a, b) {
+    return a + b;
+  }
+}
+const ins = new Example();
+ins.sum(1, 2);
+```
+
+[codeSandbox](https://codesandbox.io/s/decorator-x-typescript-x-react-hm8rj?file=/src/index.tsx)
+
 **WIP**
 
 //問題文をわかりやすくする
@@ -8823,9 +8910,6 @@ fun(1)
 //From cache
 //1
 ```
-
-
-
 
 ```js
 
@@ -8942,4 +9026,5 @@ https://ponyfoo.com/articles/es6-array-extensions-in-depth
 https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan
 https://javascript.info/js
 https://davidwalsh.name/javascript-tricks
+https://www.sitepoint.com/javascript-decorators-what-they-are/
 </details>
