@@ -8695,7 +8695,7 @@ Math.pow(2, 4)
 
 **問題380**
 
-reducerを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` にしてください
+reduceを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` にしてください
 
 ```js
 [{id: 1, name: 'kenji'}].reduce((a, c)=>  (a[c.id] = c) && a, {})
@@ -8878,6 +8878,24 @@ ins.sum(1, 2);
 ```
 
 [codeSandbox](https://codesandbox.io/s/decorator-x-typescript-x-react-hm8rj?file=/src/index.tsx)
+
+
+**問題386**
+
+数値を渡すと、その数値だけlengthを持つ配列で、且つその配列要素はそれぞれ1~999迄のランダムな整数である関数を作ってください eg: 5 -> [342, 920, 888, 292,129]
+
+```js
+
+function generateNumber(num){
+  const arr = Array.from({length: num}, ((_, i) => i))
+  return arr.map(() => {
+    return Math.floor(Math.random() * 1000)
+  })
+}
+
+console.log(generateNumber(4)) // [342, 920, 888, 292,129] or some
+
+```
 
 **WIP**
 
