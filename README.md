@@ -1,6 +1,6 @@
 # JavaScript練習問題集
-![JavaScript](https://kenjimorita.jp/wp-content/uploads/2017/06/image3-1024x755.jpeg)
 
+![JavaScript](https://kenjimorita.jp/wp-content/uploads/2017/06/image3-1024x755.jpeg)
 
 **更新情報**
 
@@ -16,7 +16,6 @@
 ・問題を追加(2018/11/26)
 ・問題9の誤字を修正(2018/5/22)
 ```
-
 
 こちらは[よしもと芸人もりたけんじ](https://profile.yoshimoto.co.jp/talent/detail?id=3871)が自身のテストとして作ったJavaScript練習問題集です。([TypeScript練習問題はこちら](https://gist.github.com/kenmori/8cea4b82dd12ad31f565721c9c456662))
 
@@ -52,7 +51,6 @@
 
 ※English [here](https://github.com/kenmori/javascript/blob/master/JavaScriptPractice)
 
-
 ## JavaScript問題集
 
 <details><summary>問1〜問50</summary>
@@ -80,11 +78,13 @@ c //{a: 'a', b: 'b'}
 別解
 const c = {...a, ...b}
 ```
+
 **問2**
 
 ```js
 const arry = ['aa','bb','cc','dd','ee','ff','gg'];
 ```
+
 のdd,ee,ffを新たな配列として返してください
 
 ```js
@@ -133,6 +133,7 @@ Array.isArray(arry) //true
 
 **問6**
 こちら
+
 ```js
 //1
 if (typeof x === 'undefined') {
@@ -144,6 +145,7 @@ if(x === undefined){
  ???
 }
 ```
+
 変数xが定義されていない場合上の1、2は実行されますか?
 
 ```
@@ -170,6 +172,7 @@ if (x === void 0) {
 if (y === void 0) {
 }
 ```
+
 1,2はそれぞれ実行されますか
 
 ```
@@ -204,6 +207,7 @@ const obj = {
  key2: 'bb'
 }
 ```
+
 の中のkeyとvalueを自身のプロパティのみ全て出力しなさい
 
 ```js
@@ -235,7 +239,7 @@ array.join("");
 const array = ['a', 'b', 'c'];
 let str = '';
 const count = array.length;
-for(var i= 0; i < count; i++){
+for(const i= 0; i < count; i++){
   str += array[i];
 }
 str
@@ -250,11 +254,12 @@ str
 x = 43
 let y = 3
 ```
+
 の2つの変数。deleteできるのはどちらですか？
 
 ```js
 deleteは暗黙に定義された場合は変数は削除できるが、
-var(let) や function文中の変数はnon-configurableであり削除できない
+const(let) や function文中の変数はnon-configurableであり削除できない
 
 //globaleオブジェクト
 x = 43;
@@ -267,7 +272,7 @@ false //削除できない
 
 //関数宣言文の中でのdelete
 function f(){
- var z = 44;
+ const z = 44;
  delete z;
  console.log(z)
 }
@@ -314,6 +319,7 @@ foo.bar
 ```
 
 **問11**
+
 ```js
 let arry =[
   {id:1,name:'morita'},
@@ -322,6 +328,7 @@ let arry =[
   {id:3,name:'ken'}
   ];
 ```
+
 をid番号が若い順にソートしたオブジェクトを含む配列を出力してください
 
 ```js
@@ -355,7 +362,7 @@ arry.sort(function(a,b){
 
 **問12**
 
-``` a, b```の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
+```a, b```の変数はデフォルトとしてaは5、bは7を持ち、aに1を代入してconsole出力してください。
 
 ```js
 const [a=5, b=7] = [1];
@@ -365,7 +372,6 @@ console.log(a, b);
 //other
 const {a = 5, b = 7} = {a: 1}
 ```
-
 
 **問13**
 
@@ -403,18 +409,20 @@ fun(1,2,3)
 //[1,2,3]
 ```
 
-
 **問15**
 
 配列
+
 ```
 const array = ['a1','a2','a3','a4','a5']
 ```
+
 の0〜2番目の要素をそれぞれ
 
 ```
 red, green, yellow
 ```
+
 に置き換えて配列にしてください。また実行した際の返り値を教えてください
 
 ```js
@@ -433,6 +441,7 @@ array
 ```
 const array = ['a1','a2','a3','a4','a5']
 ```
+
 のインデックス2〜4の要素を取り出し、
 配列として出力しなさい。
 実行された後のarrayの要素を教えてください
@@ -451,6 +460,7 @@ array
 ```js
 const array = ['a1','a2','a3','a4','a5']
 ```
+
 の全ての要素を"/"で結合した文字列を出力し、さらにその文字列を'/'区切りで配列に直してください
 
 ```js
@@ -522,6 +532,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 let array = ['e','a','k','B','c'];
 array.sort();
 ```
+
 を実行した結果を答えてください
 
 ```js
@@ -604,12 +615,12 @@ add(1,2) //3
 クロージャーを使ったファクトリー関数。
 
 ```js
-var fafa = Factory('morita');
+const fafa = Factory('morita');
 fafa.introduce()
 //'morita'
 ```
-上記のような実行をしたら渡したname(ここではmorita)が表示されるメソッドintroduceを持つファクトリー関数を定義しなさい。
 
+上記のような実行をしたら渡したname(ここではmorita)が表示されるメソッドintroduceを持つファクトリー関数を定義しなさい。
 
 ```js
 function Factory(name){
@@ -655,9 +666,11 @@ greeting.sayHi.apply(greeting);//渡さない
 ```
 
 **問28**
+
 ```js
 let obj = {x : 2, y: 3};
 ```
+
 このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
 
 ```js
@@ -680,9 +693,11 @@ let obj = Object.create(Object.prototype);
 **問30**
 
 こちら
+
 ```js
 let obj = {x : 2, y: 3}
 ```
+
 と等価をObjectメソッドで生成してください
 
 ```js
@@ -692,13 +707,14 @@ let obj = Object.create(Object.prototype, {
 })
 ```
 
-
 **問31**
 
 こちら
+
 ```js
 const obj = { x : 2}
 ```
+
 の属性を出力してください
 
 ```js
@@ -711,11 +727,10 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 //.fseventsd/}
 ```
 
-
 **問31**
 
 こちら
-```var obj2 = {x : 2};```にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
+```const obj2 = {x : 2};```にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
 
 ```js
 let obj2 = {x : 2};
@@ -753,6 +768,7 @@ f(2)
 ```js
 let arr = ['2','23','0','16'];
 ```
+
 を小さい順にソートしてください。その後ソートをできないようにread-onlyにしてください
 
 ```js
@@ -767,7 +783,7 @@ arr.sort();
 
 **問34**
 
-```var arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。その後```arr2[0]= 123```を代入するとarrは何を出力するか答えなさい
+```let arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。その後```arr2[0]= 123```を代入するとarrは何を出力するか答えなさい
 
 ```js
 let arr = [3,4,5];
@@ -790,17 +806,16 @@ arr2
 
 **問35**
 
-
 こちらは2つのパラメーターを足して返すgetSum関数です。
 
 ```js
 const getSum = (a, b) => a + b
 ```
+
 このパラメーターに何もわたってこなかった場合Errorをスローすようにしてください
 期待する結果
 getSum(10) //throws b is not defined
 getSum(undefined, 10) //throws a is not defined
-
 
 ```js
 const _err = function(message) {
@@ -831,7 +846,7 @@ strict modeの代表的な制約を挙げて説明してください。
 
 //オブジェクト生成時にエラー//標準モードで実行する場合は後に定義されたものが反映される
 
-var object = {
+const object = {
   prop1 : 100,
   prop1 : 200
 }
@@ -901,7 +916,7 @@ arguments オブジェクトへの値の割り当ての禁止
 'use strict';
 //8進数リテラルを使用するとsyntaxError
 //標準モードで実行する場合はあoctに数値8が割り当てられる。
-var oct = 010;
+const oct = 010;
 
 - Functionオブジェクトのcallerプロパティのアクセス禁止
 
@@ -975,18 +990,18 @@ const nodelist = [...document.querySelectorAll('div')];
 ```
 
 **問39**
-配列```var arr = ['f','o','x','k'];```をインデックス順に出力させてください
+配列```const arr = ['f','o','x','k'];```をインデックス順に出力させてください
 
 ```js
-var arr = ['f','o','x','k'];
-for(var j of arr){
+const arr = ['f','o','x','k'];
+for(let j of arr){
 console.log(j)
 }
 
 
 //別解
 
-var arr = ['f','o','x','k'];
+const arr = ['f','o','x','k'];
 arr.forEach(function(ele){
  console.log(ele);
  }
@@ -997,8 +1012,8 @@ arr.forEach(function(ele){
 またイテレーターを使い順番に出力してください
 
 ```js
-var arr = ['f', 'o', 'x', 'k'];
-var eArr = arr[Symbol.iterator]();
+const arr = ['f', 'o', 'x', 'k'];
+const eArr = arr[Symbol.iterator]();
 eArr.next().value //f
 eArr.next().value //o
 eArr.next().value //x
@@ -1010,20 +1025,18 @@ eArr.next().value //k
 配列```['a', 'b', 'c', 'd', 'e']```
 のインデックス2番目に'morita'という要素を加えなさい。期待する結果```['a', 'b','morita', 'c', 'd', 'e']```
 
-
 ```js
-var arry = ['a', 'b', 'c', 'd', 'e'];
+letarry = ['a', 'b', 'c', 'd', 'e'];
 arry.splice(2, 0 , 'morita');
 arry
 //['a', 'b','morita', 'c', 'd', 'e']
 ```
 
 **問42**
-これ```var o = {};```と同じ意味を持つコードをObjectのAPIを使って生成してください
-
+これ```const o = {};```と同じ意味を持つコードをObjectのAPIを使って生成してください
 
 ```js
-var o = Object.create(Object.prototype);
+const o = Object.create(Object.prototype);
 ```
 
 **問43**
@@ -1038,10 +1051,10 @@ o = Object.create({}, {p: {value : 42}});
 1234という数字を文字列に変更後、配列の要素としてインデックス順に格納してください
 
 ```js
-var count = 1234;
-var ee = count.toString();
-var arr = [];
-for(var i = 0; i < ee.length; i++){
+const count = 1234;
+const ee = count.toString();
+let arr = [];
+for(let i = 0; i < ee.length; i++){
  arr[i] = ee.charAt(i);
 }
 console.log(arr)//['1','2','3','4'];
@@ -1063,6 +1076,7 @@ console.log(arr)//['1','2','3','4'];
 });
 // 0, 1, 3, 4
 ```
+
 期待通りになるようにしてください
 
 ```js
@@ -1077,7 +1091,7 @@ console.log(arr)//['1','2','3','4'];
 
 //use for
 const a = [0, 1, 2, 3, 4];
-for (var i = 0; i < a.length; i++) {
+for (let i = 0; i < a.length; i++) {
   if (a[i] === 2) {
     break; // stop the loop
   }
@@ -1089,9 +1103,9 @@ for (var i = 0; i < a.length; i++) {
 **問46**
 
 ```js
-var Speaker = {
+const Speaker = {
  say : function(wordsGetter){
-  var words = wordsGetter();
+  const words = wordsGetter();
    alert(words);
  }
 };
@@ -1105,7 +1119,7 @@ Person.prototype.sayName = function(){
       return self.nickname;
     });
 };
-var person = new Person('moriken');
+const person = new Person('moriken');
 
 person.sayName();
 ```
@@ -1113,9 +1127,9 @@ person.sayName();
 [答え2](http://jsbin.com/wacumupuqo/edit?js,console,output)
 
 ```js
-var Speaker = {
+const Speaker = {
  say : function(wordsGetter){
-  var words = wordsGetter();
+  const words = wordsGetter();
    alert(words);
  }
 };
@@ -1128,7 +1142,7 @@ Person.prototype.sayName = function(){
       return this.nickname;
     }.bind(this));
 };
-var person = new Person('moriken');
+const person = new Person('moriken');
 
 person.sayName();
 ```
@@ -1136,12 +1150,14 @@ person.sayName();
 **問47**
 
 下記のような
+
 ```js
 array = [
 {name: 'kenji', mail:'fafa@eee.com'},
 {name: 'morita', mail: 'kkk@faf.com'}
 ]
 ```
+
 配列内にある連想配列のkeyとmail値を配列に格納して出力してください
 
 ```js
@@ -1149,9 +1165,9 @@ array = [
 {name: 'kenji', mail:'fafa@eee.com'},
 {name: 'morita', mail: 'kkk@faf.com'}
 ];
-var array2 = [];
+let array2 = [];
 array.forEach(function(Element, ind, array){
-   for(var key in Element){
+   for(let key in Element){
     if(key == 'mail'){
 
   array2.push(Element[key])
@@ -1162,7 +1178,7 @@ console.log(array2);
 ```
 
 **問48**
-配列```var passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返してください。また10以上のものが一つでもあった場合trueを返してください。
+配列```let passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返してください。また10以上のものが一つでもあった場合trueを返してください。
 
 ```js
 function isBigEnough(ele, ind, arry){
@@ -1175,6 +1191,7 @@ passed //false
 
 **問49**
 二次元配列
+
 ```
 [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
 ];
@@ -1213,9 +1230,9 @@ map.set('four', 'fafa@eee');
 //['three', 'hoso@fafa']
 
 ```js
-var fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
-var entries = map.entries();
-for (var entry of entries){
+const fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
+const entries = map.entries();
+for (const entry of entries){
  console.log(entry);
 }
 
@@ -1279,8 +1296,6 @@ const str = '「ヤッホー?ヤッホー@」';
 ['「ヤッホー?ヤッホー@」', 'ヤッホー@']
 ```
 
-
-
 **問56**
 
 ```正規表現の/(ありがとう|こんにちは｜さようなら)/```と```/ありがとう|こんにちは｜さようなら/```の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
@@ -1306,13 +1321,13 @@ const str = 'How';
 /Wh(en|ere|o|at|y|)|How/.exec(str);
 ```
 
-
 **問58**
 こちらが
 
 ```js
 x = new Boolean(false)
 ```
+
 if文の式として渡すと実行されるか答えなさい
 [参照](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
 
@@ -1324,7 +1339,7 @@ if (x) {
 //undefinedやnull以外のオブジェクトは実行されます
 
 //真偽値オブジェクトは格納されている値がfalseであってもtrueと評価される。
-var falseValue = new Boolean(false);
+const falseValue = new Boolean(false);
 console.log(falseValue)//false,真偽値オブジェクトが出力される
 if(falseValue){//真偽値オブジェクトの内容がfalseでもオブジェクト自体は常にtrue値をみなされる
   //run
@@ -1375,6 +1390,7 @@ g//true
 ```
 undefined == null
 ```
+
 の真偽値は何か
 
 ```js
@@ -1389,12 +1405,12 @@ if (undefined == null){
 
 ```js
 const ii = function(){
-  var pp = 'my ';
+  const pp = 'my ';
   return function(value){
     console.log(pp + value);
   }
 }
-var kk = ii();
+const kk = ii();
 kk('home');
 //my home
 ```
@@ -1409,7 +1425,6 @@ nowtime
 //'今23時49分56秒'
 ```
 
-
 **問63**
 こちら
 
@@ -1422,6 +1437,7 @@ function getSomething(){
   }
 }
 ```
+
 の関数で返しているオブジェクトのfirst,second,thirdのvalue値をそれぞれ
 first,second,thirdに代入してください
 
@@ -1433,7 +1449,7 @@ function getSomething(){
     third: 3
   }
 }
-var { first, second, third } = getSomething();
+const { first, second, third } = getSomething();
 first
 //1
 second
@@ -1443,7 +1459,6 @@ third
 ```
 
 **問64**
-
 
 **問65**
 
@@ -1471,7 +1486,7 @@ console.log('repeat'.repeat(2));
 文字列```foo```をイテレーターを使い```['f','o','o']```となるようにしてください。
 
 ```js
-var chars = [];
+const chars = [];
 for (let n of 'foo'){
  chars.push(n);
 }
@@ -1483,9 +1498,9 @@ console.log(chars);//['f','o','o']
 IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力してください
 
 ```js
-var arr = ['ooo', 'eee'];
+const arr = ['ooo', 'eee'];
 
-var Iterator = arr[Symbol.iterator]();
+const Iterator = arr[Symbol.iterator]();
 console.log(Iterator.next()); // { done: false, value: 'ooo'}
 console.log(Iterator.next()); // { done: false, value: 'eee' }
 console.log(Iterator.next()); //{ done: true, value: undefined }
@@ -1497,7 +1512,7 @@ console.log(Iterator.next()); //{ done: true, value: undefined }
 
 ```js
 //スプレッドオペレータ
-var arr = [...'foo'];
+const arr = [...'foo'];
 console.log(arr);
 ```
 
@@ -1507,7 +1522,7 @@ console.log(arr);
 
 ```js
 //分割代入
-var [index0, index1, ...rest] = 'morita';
+const [index0, index1, ...rest] = 'morita';
 console.log(index0,index1, rest);
 //'m'
 //'o'
@@ -1536,8 +1551,8 @@ foo(1,2,3,4,5,6);
 ```js
 //スプレッドオペレータ
 
-var arr2 = [4, 5, 6];
-var arr = [1, 2, 3, ...arr2];
+const arr2 = [4, 5, 6];
+const arr = [1, 2, 3, ...arr2];
 console.log(arr);//[1, 2, 3, 4, 5, 6]
 ```
 
@@ -1546,18 +1561,19 @@ console.log(arr);//[1, 2, 3, 4, 5, 6]
 下記のようなあるファイル(module.js)で記述した
 
 ```js
-var foo = 'foo';
+const foo = 'foo';
 function bar(){};
 class Baz{
   baz(){}
 }
 ```
+
 を別のファイル(import.js)にexport、個別のメンバとして読み込む記述を示してください。また「module」という別名で全てのメンバを取得する記述も示してください
 ※module.jsとimport.jsは同階層にあるものとする
 
 ```js
 //読み込まれる側
-var foo = 'foo';
+const foo = 'foo';
 function bar(){};
 class Baz{
   baz(){}
@@ -1583,31 +1599,31 @@ import * as from './module';
 
 **問74**
 
-```var obj = {foo: foo, bar: bar}```
+```const obj = {foo: foo, bar: bar}```
 オブジェクトのkeyとvalueが等しい場合の記述
 をせよ
 
-
 ```js
-var obj = {foo: foo, bar: bar};
-var obj = {foo, bar};
+const obj = {foo: foo, bar: bar};
+const obj = {foo, bar};
 ```
-
 
 **問75**
 
 下のように
+
 ```
-var key = 'foo';
-var obj = {};
+const key = 'foo';
+const obj = {};
 obj[key] = 0;
 obj[key + '_bar'] = 1;
 ```
+
 書いていた記述をECMAScript2015の記述で書いてください
 
 ```js
-var key = 'foo';
-var obj = {
+const key = 'foo';
+const obj = {
   [key] : 0,
   [key + '_bar'] : 1
 }
@@ -1621,11 +1637,13 @@ console.log(obj.foo, obj.foo_bar);
 **問76**
 
 下記
+
 ```js
 function ff(){
   return 'kenji';
 }
 ```
+
 のような関数をconsole.log内からテンプレートリテラルを使って出力してください
 
 期待する出力 my name is kenji
@@ -1660,16 +1678,15 @@ line2
 **問79**
 
 ```js
-var long = '30px';
-var weight = '40px';
+const long = '30px';
+const weight = '40px';
 
 function tag(strings, ...values){
   //console.log(strings);['身長','で、体重は','です']
   return `m:${values[0]}、p:${values[1]}`; };
 
-var str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
+const str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
 ```
-
 
 **問80**
 
@@ -1684,7 +1701,7 @@ fun({a: 1, b: 4});//5
 
 **問81**
 
-```var aa = [['morita', 'kenji', 'keiko'],['morita', 'kenji', 'keiko']```
+```const aa = [['morita', 'kenji', 'keiko'],['morita', 'kenji', 'keiko']```
 
 全てのaaにある多次元配列の全ての要素に文字列'san'を付け加えて一つの配列として出力してください
 
@@ -1705,8 +1722,8 @@ http://stackoverflow.com/questions/3034392/what-use-does-the-javascript-foreach-
 //map
 //新しいarrayを返す
 
-var a = [{ val: 1 }, { val: 2 }, { val: 3 }];
-var uu = a.map(function(el) {
+const a = [{ val: 1 }, { val: 2 }, { val: 3 }];
+const uu = a.map(function(el) {
     el.val++;
     return el.val
 });
@@ -1714,7 +1731,7 @@ a//[{ val: 2 }, { val: 3 }, { val: 4 }]
 uu//[2, 3, 4]
 
 //forEach
-var a = [{ val: 1 }, { val: 2 }, { val: 3 }];
+const a = [{ val: 1 }, { val: 2 }, { val: 3 }];
 a.forEach(function(el) {
     el.val++;
     console.log(el.val);
@@ -1728,7 +1745,7 @@ a.forEach(function(el) {
 
 //forEachが配列の要素を編集して配列で返すには
 //
-var a = [1,2,3],
+const a = [1,2,3],
     b = [];
 a.forEach(function(el) {
     b.push(el+1);
@@ -1736,8 +1753,8 @@ a.forEach(function(el) {
 
 // b is now [2,3,4], a is unchanged [1, 2, 3]
 
-var a = [1, 2, 3];
-var b = a.map(function(elem){
+const a = [1, 2, 3];
+const b = a.map(function(elem){
   return  elem + 1;
 });
 b// [2, 3, 4]
@@ -1750,16 +1767,16 @@ cats.forEach(function(cat) {
 });
 
 
-var oo = [2,3,4,5,6];
-var aa = oo.map(function(x){
+const oo = [2,3,4,5,6];
+const aa = oo.map(function(x){
     return x + 1;
 });
 aa //[3, 4, 5, 6, 7]
 
 //forEach
 それぞれの配列の要素に対して何かしたいとき
-var oo = [2,3,4,5,6];
-var aa = oo.forEach(function(x){
+const oo = [2,3,4,5,6];
+const aa = oo.forEach(function(x){
     return x + 1;
 });
 aa// undefined
@@ -1772,12 +1789,11 @@ aa// undefined
 
 **問83**
 
-```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出してください(文字列'san'を付けています)e.g``` ['kenjisan', 'moritasan']```
-
+```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出してください(文字列'san'を付けています)e.g```['kenjisan', 'moritasan']```
 
 ```js
-var aa = [{name: 'kenji'},{name: 'morita'}];
-var result = aa.map(function(ele, i){
+const aa = [{name: 'kenji'},{name: 'morita'}];
+const result = aa.map(function(ele, i){
    return ele.name + 'san';
 });
 result//['kenjisan', 'moritasan']
@@ -1789,10 +1805,10 @@ result//['kenjisan', 'moritasan']
 問83と同じ事をforEachでしてください
 
 ```js
-var aa = [{name: 'kenji'},{name: 'morita'}];
-var arry = [];
+const aa = [{name: 'kenji'},{name: 'morita'}];
+const arry = [];
 aa.forEach(function(ele, i){
-      for (var key in ele){
+      for (const key in ele){
            arry.push(ele[key] + 'san')
       }
 });
@@ -1855,7 +1871,7 @@ const obj = {
 下記のようなURLのファイルパスごとに配列に格納してください
 
 ```js
-var filepath = location.pathname.substring(1).split('/');
+const filepath = location.pathname.substring(1).split('/');
 filepath;
 
 //['kenmori', 'Angular2_TypeScript', 'tree', 'master', 'angular2-quickstart']
@@ -1881,7 +1897,6 @@ const obj = {
 };
 
 ```
-
 
 **問89**
 
@@ -1924,6 +1939,7 @@ function add (user){
 }
 
 ```
+
 答え
 
 ```js
@@ -1940,10 +1956,10 @@ function add ({name, id}){
 
 **問91**
 
-```var aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力してください
+```const aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力してください
 
 ```js
-var aaa = [['oo','oo1'], ['ll','ll2']];
+const aaa = [['oo','oo1'], ['ll','ll2']];
 aaa.forEach(function(ee){
   ee.filter(function(eee, i){
   if(i == 0){
@@ -1958,44 +1974,43 @@ aaa.forEach(function(ee){
 
 Array destructuringとして簡潔に記述してください。
 シャローコピーとディープコピーの違いを教えてください。また
-```var aa = ['oo', 'll'];```
+```const aa = ['oo', 'll'];```
 aaをbbにシャローコピーしてbb[0]に任意の文字列を代入し、aa[0]の参照する値が変わらないことを確認してください
-
 
 ```js
 //concat
-var aa = ['oo', 'll'];
-var arry = [];
-var bb = arry.concat(aa);//shallow copy
+const aa = ['oo', 'll'];
+const arry = [];
+const bb = arry.concat(aa);//shallow copy
 bb[0] = 'kk';
 aa//['oo', 'll']
 bb//['kk', 'll']
 
 //slice
-var aa = ['oo', 'll'];
-var bb = aa.slice(0, aa.length);
+const aa = ['oo', 'll'];
+const bb = aa.slice(0, aa.length);
 bb[0] = 'kk';
 aa//['oo', 'll']
 bb//['kk', 'll']
 
 //bad
 //spliceは破壊的メソッド(元参照を変える)
-var aa = ['oo', 'll'];
-var bb = aa.splice(0, aa.length);
+const aa = ['oo', 'll'];
+const bb = aa.splice(0, aa.length);
 bb//['oo', 'll']
 aa//[]
 ```
 
 **問93**
 
-```var aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしてください。期待する結果
+```const aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしてください。期待する結果
 
 bb//['oo', 'll'];
 aa//['kk', 'jj'];
 
 ```js
-var aa = ['oo', 'll'];
-var bb = aa.splice(0, aa.length, ['kk','jj'])
+const aa = ['oo', 'll'];
+const bb = aa.splice(0, aa.length, ['kk','jj'])
 bb//['oo', 'll'];
 aa//['kk', 'jj'];
 ```
@@ -2003,58 +2018,57 @@ aa//['kk', 'jj'];
 **問94**
 
 このような配列
-```var aa = ['ii', 'jj', 'kk'];```がある。'jj'要素を削除するために
+```const aa = ['ii', 'jj', 'kk'];```がある。'jj'要素を削除するために
 deleteを使った場合とspliceを使った場合の違いは何か。それがわかるコードを書いてください
 
 ```js
 deleteは削除されたインデックスを残す。spliseは間を詰める。
-var aa = ['ii', 'jj', 'kk'];
+const aa = ['ii', 'jj', 'kk'];
 delete aa[1];
 aa//['ii', undefined, 'kk']
-var aa = ['ii', 'jj', 'kk'];
+const aa = ['ii', 'jj', 'kk'];
 aa.splice(1,1);
 aa//['ii', 'kk']
 ```
 
 **問95**
 
-```var text = 'key and value';```このような文字列を単語毎に配列の要素として格納してください
+```const text = 'key and value';```このような文字列を単語毎に配列の要素として格納してください
 //期待する結果
 //['key','and','value']
 
 ```js
-var text = 'key and value';
-var arraytext = ii.match(/\w+/g);
+const text = 'key and value';
+const arraytext = ii.match(/\w+/g);
 arraytext
 ['text', 'and', 'value']
 ```
 
 **問96**
 
-```var text = 'abc def ghi jkl';```の空白の直前の文字をグループ化してカンマ文字の後ろに移動させなさい。
+```const text = 'abc def ghi jkl';```の空白の直前の文字をグループ化してカンマ文字の後ろに移動させなさい。
 
 期待する文字列
 'ab,cde,fgh,ijkl'
 
 ```js
-var text = 'abc def ghi jkl';
+const text = 'abc def ghi jkl';
 text.replace(/(.)\s/g,',$1');
 'ab,cde,fgh,ijkl'
 
 //or
 
-var text = 'abc def ghi jkl';
+const text = 'abc def ghi jkl';
 text.replace(/(.)\s/g,function(m0, m1){
    return ',' + m1
 });
 'ab,cde,fgh,ijkl'
 ```
 
-
 **問97**
 
-``` var array = ['aa','bb','cc','dd','ff'];```
-このような配列の要素'bb'の前に'ff'を移動させて ``` ['aa','ff','bb','cc','dd'] ```このような配列を完成させてください
+```const array = ['aa','bb','cc','dd','ff'];```
+このような配列の要素'bb'の前に'ff'を移動させて ```['aa','ff','bb','cc','dd']```このような配列を完成させてください
 
 ```js
 array.splice(1,0,array.splice(4,1)[0])
@@ -2116,18 +2130,18 @@ if(obj.a)が存在しても未定義だと実行されない
 
 **問100**
 
-``` var arr = [ 10, 20 ]; ```においてarr[2]が存在しないことを確認してください
+``` const arr = [ 10, 20 ]; ```においてarr[2]が存在しないことを確認してください
 
 ```js
 2 in arry;
 ```
+
 </details>
 <details><summary>問101〜問150</summary>
 
-
 **問101**
 
-```var string = '-9';```を数値に変換してください
+```const string = '-9';```を数値に変換してください
 
 ```js
 string - 0
@@ -2137,6 +2151,7 @@ string - 0
 //+string
 //-9
 ```
+
 **問102**
 
 sliceとsubstringの違いを教えてください
@@ -2144,13 +2159,13 @@ sliceとsubstringの違いを教えてください
 ```js
 //引数に-を与えた際に違いが出ます
 
-var str = 'あいうえお';
+const str = 'あいうえお';
 str.length
 str.slice(0,-2)
 //'あいう'
 //0からインデックス最後の文字を-1とし後ろから数える
 
-var str = 'あいうえお';
+const str = 'あいうえお';
 str.substring(0, -2);
 //'
 //負の数字は0とみなす。
@@ -2158,19 +2173,19 @@ str.substring(0, -2);
 
 //sliceは開始位置が終了位置以上だと空文字を返す
 
-var str = 'あいうえお';
+const str = 'あいうえお';
 str.slice(1,1)
 //'
 
 //「い」を取得したい場合
-var str = 'あいうえお';
+const str = 'あいうえお';
 str.slice(1,2)
 'い'
 
 //substringの場合
 //開始位置が終了位置より大きいと交換されて解釈される
 
-var str = 'あいうえお';
+const str = 'あいうえお';
 str.substring(1,-3);
 //substring(-3,1)と解釈され負の数は0と見なされ
 //substring(0,1)と同等の処理をする
@@ -2183,8 +2198,8 @@ str.substring(1,-3);
 次のような文字列```abcdefg```のcとeそれぞれを大文字にしてください
 
 ```js
-var str = 'abcdefg';
-var replaced = str.replace(/[ce]/g,function(str){
+const str = 'abcdefg';
+const replaced = str.replace(/[ce]/g,function(str){
  return str.toUpperCase();
 });
 //replaced 'abCdEfg'
@@ -2193,7 +2208,7 @@ var replaced = str.replace(/[ce]/g,function(str){
 **問104**
 
 次のような文字列をvar str = 'こんにちは';
-var name = 'もりたさん';
+const name = 'もりたさん';
 連結し'いい天気ですね'を付け足した新しい文字列を生成してください
 
 期待する結果```'こんにちはもりたさんいい天気ですね'```
@@ -2203,9 +2218,9 @@ str
 //こんにちは
 
 ```js
-var str = 'こんにちは';
-var name = 'もりたさん';
-var newstr = str.concat(name, 'いい天気ですね');
+const str = 'こんにちは';
+const name = 'もりたさん';
+const newstr = str.concat(name, 'いい天気ですね');
 newstr
 'こんにちはもりたさんいい天気ですね'
 
@@ -2226,17 +2241,19 @@ target == null
 **問106**
 
 こちら
+
 ```js
-var value = 0;
-var target = value || 10
+const value = 0;
+const target = value || 10
 target
 //10
 ```
+
 はvalueが0の時falseになり10が返る。0の際も代入されるようにしてください
 
 ```js
-var value = 0;
-var target = (value !== undefined) ? value : 10;
+const value = 0;
+const target = (value !== undefined) ? value : 10;
 value
 //0
 ```
@@ -2246,21 +2263,23 @@ value
 配列arrayが空ならfalseが返るようにしてください
 
 ```js
-var array = [];
+const array = [];
 array.length !== 0
 //false
 ```
 
 **問108**
 こちらは自身のプロパティが定義されていない場合falseが返ることを期待しているがtrueが返る
+
 ```js
-var obj = {};
+const obj = {};
 obj ? true : false;
 ```
+
 自身のプロパティを持っていない場合falseが返るようにしてください
 
 ```js
-var obj = {};
+const obj = {};
 Object.keys(obj).length != 0 ? true : false;
 //false
 ```
@@ -2279,7 +2298,7 @@ forでループさせるのとforEachで処理する際の違いを教えてく�
 function isBigEnough(element, index, array) {
   return (element >= 10);
 }
-var passed = [2, 5, 8, 1, 4].some(isBigEnough);
+const passed = [2, 5, 8, 1, 4].some(isBigEnough);
 // passed は false
 passed = [12, 5, 8, 1, 4].some(isBigEnough);
 // passed は true
@@ -2304,7 +2323,6 @@ console.log(Object.getOwnPropertyNames(arr));
 
 オブジェクトoに対してaという値が'morita'、列挙可能、削除可能、書き換え可能なプロパティを作成してください
 
-
 ```js
 let o = {};
 Object.definedProperty(o,'a',{
@@ -2327,16 +2345,15 @@ function sum(x, y) {
   return x + y;
 }
 //2
-var pi = 3.141593;
+const pi = 3.141593;
 ```
-
 
 ```js
 //lib/math.js
 export function sum(x, y) {
   return x + y;
 }
-export var pi = 3.141593;
+export const pi = 3.141593;
 
 //app.js
 import * as math from 'lib/math';
@@ -2364,7 +2381,6 @@ sum(1, 3)
 配列```['A','B','C']```を配列の0番目のインデックス値になるようにしてください
 expect [['A'],['B'],['C']]
 
-
 ```js
 //better
 ['A','B','C'].map(x => Array.of(x));
@@ -2379,7 +2395,6 @@ expect [['A'],['B'],['C']]
 
 配列```['a', 'b', 'c']```のインデックス1番だけを文字列'kenji'に変えてください
 
-
 ```js
 ['a', 'b', 'c'].fill('kenji', 1, 2);
 //['a','kenji','c']
@@ -2389,25 +2404,26 @@ expect [['A'],['B'],['C']]
 
 **問116**
 
-配列``` [6, -5, 8]```を0未満の要素だけ出力してください
+配列```[6, -5, 8]```を0未満の要素だけ出力してください
 
 ```js
 const i = [3, 0, 6, -1].find(x=> x < 0);
 console.log(i)
 //-1
 ```
+
 **問117**
 
 gen.next().valueを実行すると値が1づつ返ってくるようなGenerator関数を作り、1,2,3と出力してください
 
 ```js
 function* idMaker(){
-    var index = 0;
+    const index = 0;
     while(true)
         yield index++;
 }
 
-var gen = idMaker();
+const gen = idMaker();
 
 console.log(gen.next().value); // 0
 console.log(gen.next().value); // 1
@@ -2424,9 +2440,9 @@ console.log(gen.next().value); // 2
 
 //trueなどのプリミティブ値のプロパティにアクセスするとjavascirptはプリミティブ値に対応するコンストラクタからラッパーオブジェクトを作り、そのラッパーオブジェクトのプロパティやメソッドにアクセスできるようになる。(「オブジェクトのように」あつかうことができる。)作られたラッパーオブジェクトはオブジェクトへのアクセスが終わると破棄されて元のプリミティブ値に戻します。
 例えば下記は文字列オブジェクトから文字列を生成しています。
-var string = new String('foo');
+const string = new String('foo');
 string.length;//3 オブジェクトがもつプロパティにアクセスできます。
-var string = 'foo'//プリミティブ値として代入
+const string = 'foo'//プリミティブ値として代入
 string.length //3 文字列プリミティブをオブジェクトとしてアクセス。同じ3を出力していますが内部的に一時的にラッパーオブジェクトを呼び、オブジェクトにアクセス。その後破棄しています
 
 よく「javascriptは全てがObjectである」と言われるのはこのため
@@ -2450,7 +2466,7 @@ nullとundefinedの違いを教えてください
 変数fafaの値がnullかどうかを確認してください
 
 ```js
-var fafa = null;
+const fafa = null;
 console.log(typeof fafa)//Object
 console.log(fafa == undefined)//等値演算子ではtrueになってしまう
 console.log(fafa === null);//true //同値演算子を使う
@@ -2475,16 +2491,16 @@ div要素を10個作ってidがparentの子要素として追加してくださ�
 
 ```js
 //bad
-var parent = document.getElementById('parent');
-for(var i = 0; i < 10; i++){
-  var child = document.createElement('div');
+const parent = document.getElementById('parent');
+for(const i = 0; i < 10; i++){
+  const child = document.createElement('div');
   parent.appendChild(child);;
 }
 
 //good
-var fragment = document.createDocumentFragment();
-for(var i = 0; i < 10; i++){
-  var child = document.createElement('div');
+const fragment = document.createDocumentFragment();
+for(const i = 0; i < 10; i++){
+  const child = document.createElement('div');
   fragment.appendChild(child);
 }
 
@@ -2526,11 +2542,12 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 **問125**
 
 次の文章中の
+
 ```
  My name is Taro Suzuki and I am a researcher at ABC.
 ```
-小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象で
 
+小文字のaで始まる英単語にのみマッチする正規表現を書いてください。1文字の場合もマッチの対象で
 
 ```js
 const str7 = 'My name is Taro Suzuki and I am a researcher at ABC.';
@@ -2550,7 +2567,7 @@ console.log(str7.match(/\ba\w*\b/g));
 ※</ではじまる閉じタグは除外
 
 タグ名のみ
-``` p ``` や ``` img``` ※いろいろあると思うので答えは一例とさせていただきます
+```p``` や ```img``` ※いろいろあると思うので答えは一例とさせていただきます
 
 ```js
 const str3 = '<img src="fafa.com">'
@@ -2579,7 +2596,7 @@ console.log(re4[0]);
 
 下のこちらを使い
 
-``` var myRe=/ken*/g; var str2 = 'fafakenfafkenji'; ```
+``` const myRe=/ken*/g; const str2 = 'fafakenfafkenji'; ```
 
 文字列の中のkenだけをexecメソッドを使いマッチした文字を全て出力、マッチした文字列の後のインデックスを同時に出力してください
 
@@ -2616,12 +2633,15 @@ console.log(string3.match(reg5));
 **問129**
 
 こちらの文字列
+
 ```
 const nen1 = 'ケンジは昭和55年生まれの35歳であり、ケンジの母は昭和22年生まれの64歳である'
 ```
+
 を使い、後ろに「年」および数字以外の文字が続く1桁以上の数字にマッチする正規表現を書いてください
 
 期待する結果
+
 ```
 ['35','64']
 ```
@@ -2642,7 +2662,6 @@ console.log(nen1.match(reg6));
 下のような文字列```const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';```
 のカギ括弧内とその文字列にマッチするような正規表現を書いてください
 
-
 ['「もりた」','「もりけん」']
 
 ```js
@@ -2662,7 +2681,6 @@ console.log(result);
 期待する結果
 //「もりた」「もりけん」
 
-
 ```js
 const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';
 const re222 = /「(.+?)」/ig;
@@ -2676,6 +2694,7 @@ while ((result = re222.exec(str222)) !== null){
 **問132**
 
 下記の文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
+
 ```
 ○あの客はよく柿食う客だ
 ×あの客はよく柿食う人だ
@@ -2723,13 +2742,14 @@ console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 //false
 ```
 
-
 **問134**
 
 こちらの
+
 ```
 [2, 3,-1, -6, 0, -108, 42, 10].sort();
 ```
+
 sortは正しくsortされない。コンパレータ関数を渡して正しい順序として出力してください。
 
 ```js
@@ -2743,11 +2763,10 @@ return 0;
 
 ```
 
-
 **問135**
 
 ```js
-var i = document.getElementById();
+const i = document.getElementById();
 i.parentNode.tagName
 
 nodeType[1] = ElementNode;
@@ -2760,6 +2779,7 @@ i.firstChild //最初の子要素
 **問136**
 
 下のような
+
 ```html
 <div id='top' align='center'>
   <div id='nested'>
@@ -2767,12 +2787,13 @@ i.firstChild //最初の子要素
   </div>
 </div>
 ```
+
 DOMがある。```#nested```
 要素を削除してください
 
 ```js
-var i = document.getElementById('top');
-var f = document.getElementById('nested');
+const i = document.getElementById('top');
+const f = document.getElementById('nested');
 i.removeChild(f);
 ```
 
@@ -2780,10 +2801,10 @@ i.removeChild(f);
 
 nestedの親要素が不明の場合の時nestedを削除してください
 
-https://developer.mozilla.org/ja/docs/Web/API/Node/removeChild
+<https://developer.mozilla.org/ja/docs/Web/API/Node/removeChild>
 
 ```js
-var node = document.getElementById('nested');
+const node = document.getElementById('nested');
 
 if (node.parentNode) {
   node.parentNode.removeChild(node);
@@ -2795,7 +2816,7 @@ if (node.parentNode) {
 topの子要素全て削除してください
 
 ```js
- var element = document.getElementById('top');
+ const element = document.getElementById('top');
 
  while (element.firstChild) {
    element.removeChild(element.firstChild);
@@ -2809,13 +2830,14 @@ topの子要素全て削除してください
 ```js
 // Object.prototype汚染
 Object.prototype.bar = 1;
-var foo = {goo: undefined};
+const foo = {goo: undefined};
 
 foo.bar; // 1
 'bar' in foo; // true
 ```
 
 答え
+
 ```js
 foo.hasOwnProperty('bar'); // false
 foo.hasOwnProperty('goo'); // true
@@ -2830,14 +2852,14 @@ foo.hasOwnProperty('goo'); // true
 // Object.prototype汚染
 Object.prototype.bar = 1;
 
-var foo = {moo: 2};
-for(var i in foo) {
+const foo = {moo: 2};
+for(const i in foo) {
 console.log(i); // barとmooが両方とも表示される
 }
 
 //good
 // 継承されているfoo
-for(var i in foo) {
+for(const i in foo) {
     if (foo.hasOwnProperty(i)) {
         console.log(i);
     }
@@ -2861,7 +2883,7 @@ Mapは内部で参照元を保持し自分自身で「含まれるオブジェ�
 expect : [0, 7, 7]
 
 ```js
-var ary = [0,0,0];
+const ary = [0,0,0];
 ary.fill(7,1)
 //[0, 7, 7]
 ```
@@ -2869,6 +2891,7 @@ ary.fill(7,1)
 **問143**
 
 このような
+
 ```css
 <style>
 h3:after {
@@ -2876,12 +2899,13 @@ h3:after {
 }
 </style>
 ```
+
 スタイル定義されている
 h3:after(擬似要素)のcontentプロパティにアクセスしてください
 
 ```js
-var h3 = document.querySelector('h3');
-var result = getComputedStyle(h3, ':after').content;
+const h3 = document.querySelector('h3');
+const result = getComputedStyle(h3, ':after').content;
 ```
 
 **問144**
@@ -2898,14 +2922,14 @@ if(window.matchMedia('(min-width:400)').matches){
 
 **問145**
 
-こちらの```var numObj = 12345.6789;```
+こちらの```const numObj = 12345.6789;```
 を小数点以下を丸めてください
 
 期待する結果
 //12346
 
 ```js
-var numObj = 12345.6789;
+const numObj = 12345.6789;
 numObj.toFixed();
 //12346
 ```
@@ -2913,25 +2937,27 @@ numObj.toFixed();
 **問146**
 
 こちらの
+
 ```js
-var thing = 'global';
+const thing = 'global';
 function foo(){
   console.log(thing);
   if(true){
-    var thing = 'local';
+    const thing = 'local';
     console.log(thing);
   }
 }
 foo();
 ```
+
 のconsole.logはそれぞれ何を出力するか答えなさい。またそうなる理由を説明してください
 
 ```js
-var thing = 'global';
+const thing = 'global';
 function foo(){
   console.log(thing);
   if(true){
-    var thing = 'local';
+    const thing = 'local';
     console.log(thing);
   }
 }
@@ -2940,9 +2966,9 @@ foo();
 //local
 
 //この記述をすると関数内宣言内での変数宣言は巻き上げられてjavascriptは下のように解釈をするから
-var thing = 'global';
+const thing = 'global';
 function foo(){
-  var thing;//巻き上げ
+  const thing;//巻き上げ
   console.log(thing);
   if(true){
     thing = 'local';
@@ -2974,8 +3000,8 @@ foo();
 div要素をnodeListとして取得し、Arrayのメソッドで「配列の様なオブジェクト」から配列に変換してください
 
 ```js
-var likeArray = document.querySelector('div');
-var turnArrayFun = function(obj){
+const likeArray = document.querySelector('div');
+const turnArrayFun = function(obj){
     return [].map.call(obj, function(obj){
           return obj;
     })
@@ -2986,17 +3012,19 @@ turnArrayFun(likeArray);
 **問149**
 
 下記のようなDOMがある
+
 ```html
 <div id="target">
   (1)
   <span>既存の内容</span>
 </div>
 ```
+
 この「既存の内容」より前(1)に```<p>子要素</p>```を挿入してください。但しdocument.writeやinnerHTMLは使わないものとする。
 
 ```js
-var target = document.querySelector('div#target');
-var html = '<p>子要素</p>';
+const target = document.querySelector('div#target');
+const html = '<p>子要素</p>';
 target.insertAdjacentHTML('afterbegin',html);
 
 //https://developer.mozilla.org/ja/docs/Web/API/Element/insertAdjacentHTML
@@ -3014,12 +3042,13 @@ target.insertAdjacentHTML('afterbegin',html);
 </div>
 (3)
 ```
+
 上記問題と同じDOM構造でそれぞれtargetより前に挿入(1)、「既存の内容より弟」位置に挿入(2)、targetより後に挿入(3)する記述をしてください
 
 ```js
-var target = document.querySelector('div#target');
-var html = '<p>子要素</p>';
-var position =
+const target = document.querySelector('div#target');
+const html = '<p>子要素</p>';
+const position =
 beforebegin//(1)
 beforeend//(2)
 afterend //(3)
@@ -3035,7 +3064,7 @@ target.insertAdjacentHTML(position,html);
 
 ```js
 const key = 'greeting';
-var objA = {};
+const objA = {};
 objA[key] = 'おはよう';
 objA.greeting
 //'おはよう'
@@ -3045,7 +3074,7 @@ objA.greeting
 
 ```js
 const key = 'greeting';
-var objA = {
+const objA = {
   [key] : 'おはよう'
 };
 objA.greeting
@@ -3054,8 +3083,9 @@ objA.greeting
 **問152**
 
 こちらの記述
+
 ```js
-var objA = {
+const objA = {
  add: function(a,b){
   return a + b;
  }
@@ -3067,7 +3097,7 @@ objA.add(2,5);
 を省略記述してください
 
 ```js
-var objA = {
+const objA = {
  add(a,b){
   return a + b;
  }
@@ -3082,7 +3112,7 @@ objA.add(2,5);
 上記の問題のadd関数をobjA内でアロー関数で記述してください
 
 ```js
-var objA = {
+const objA = {
  add: (a,b)=>{
   return a + b;
  }
@@ -3096,16 +3126,15 @@ objA.add(2,5);
 このような
 
 ```js
-var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+const array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
 ```
 
 配列がある。
 変数aに'shinjuku'、bに'ikebukuro'が代入されるように簡潔に記述してください
 
-
 ```js
-var array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
-var [,a,,,,, b] = array;
+const array = ['shibuya','shinjuku','ebisu','shinagawa','tokyo','ueno','ikebukuro'];
+const [,a,,,,, b] = array;
 a
 //"shinjuku"
 b
@@ -3117,19 +3146,20 @@ b
 このような
 
 ```js
-var obj = {
+const obj = {
  name : 'kenji',
  twon: 'shibuya'
 }
 ```
+
 objを変数name、twonに代入して出力してください
 
 ```js
-var obj = {
+const obj = {
  name : 'kenji',
  twon: 'shibuya'
 }
-var {name, twon} = obj;
+const {name, twon} = obj;
 name
 //"kenji"
 twon
@@ -3138,28 +3168,30 @@ twon
 
 **問156**
 
-var name = 'KenjiMorita';
+const name = 'KenjiMorita';
 のKとMだけをそれぞれ変数a,ｂに入れてください
 
 ```js
-var name = 'KenjiMorita';
-var [a,,,,,b] = name;
+const name = 'KenjiMorita';
+const [a,,,,,b] = name;
 
 ```
 
 **問157**
 
 変数
+
 ```js
-var a = 1;
-var b = 'goodby';
+const a = 1;
+const b = 'goodby';
 ```
+
 のaを'goodby'、bを
 1として出力されるようにしてください(変数のSwap)
 
 ```js
-var a = 1
-var b = 'goodby'
+const a = 1
+const b = 'goodby'
 b = [a, a = b][0];
 a
 //'goodby'
@@ -3173,8 +3205,8 @@ b
 上記(問157)と同じ事をECMAScript2015ライクに簡潔に記述してください
 
 ```js
-var a = 1;
-var b = 'goodby';
+const a = 1;
+const b = 'goodby';
 [a,b] = [b, a]
 ["goodby", 1]
 
@@ -3208,7 +3240,7 @@ inputB
 
 ```js
 document.addEventListener('DOMContentload',function(){
- var target = document.getElementById('inner');
+ const target = document.getElementById('inner');
  target.textContent('fafa');
 },false)
 
@@ -3224,6 +3256,7 @@ document.addEventListener('DOMContentload',function(){
 ```js
 addeventListener('DOMcontentLoad',function(){something},[true,false])
 ```
+
 イベントリスナーの第三引数のフラグは何か説明してください
 
 ```html
@@ -3249,11 +3282,12 @@ see //http://qiita.com/hosomichi/items/49500fea5fdf43f59c58
     <div>some3</div>
 </div>
 ```
+
 DOMがある。classAより子供のdiv要素のみ取得してください
 
 ```js
-var classA = document.getElementsByClassName('classA');
-var result = Array.prototype.filter.call(classA,function(classA){
+const classA = document.getElementsByClassName('classA');
+const result = Array.prototype.filter.call(classA,function(classA){
  return classA.nodeName === 'DIV'
 });
 result instanceof Array
@@ -3268,19 +3302,20 @@ result instanceof Array
 <div class="fafa"><span></span></div>
 <div class="fafa"><span></span></div>
 ```
+
 for文でNodeListを使うのを避けるため、
 DOMのspanタグの分だけ取得してNodeListをArrayに変えてください。
 
-
 ```js
-var tag = document.getElementsByTagName('span');
-var array = Array.prototype.slice.call(tag);
+const tag = document.getElementsByTagName('span');
+const array = Array.prototype.slice.call(tag);
 console.log(array instanceof Array );
 ```
 
 **問164**
 
 このようなODMがある
+
 ```html
 <div id="main">
   <p class="content">
@@ -3298,11 +3333,11 @@ console.log(array instanceof Array );
 </div>
 ```
 
-XPathを使ってidがmainのdiv、classにcontentを含むp要素の3番目hrefがhttp://example.comから始まるa要素を辿り
+XPathを使ってidがmainのdiv、classにcontentを含むp要素の3番目hrefが<http://example.comから始まるa要素を辿り>
 「3link」を出力してください
 
 ```js
-var result = document.evaluate(
+const result = document.evaluate(
   '//div[@id="main"]/p[contains(@class,"content")][3]/a[starts-with(@href,"http://example.com")]',
   document,
   null,
@@ -3311,7 +3346,7 @@ var result = document.evaluate(
 );
 
 console.log(result.snapshotLength); //1
-var elem = result.snapshotItem(0);
+const elem = result.snapshotItem(0);
 console.log(elem.innerHTML);
 
 //evalute([path:string],[Node],[null],[XPathResultObject:Type],[null])
@@ -3332,25 +3367,25 @@ FIRST_ORDERED_NODE_TYPe :9
 参照//パーフェクトJavaScript
 ```
 
-
 **問165**
 
 こちら
+
 ```html
 <div id="target" class="foo-after" onClick="toggleStyle()">
   click here!
 </div>
 ```
+
 clickをしたらclass名がfoo-beforeに変わるtoggleStyleを実装をしてください
 
 ```js
-var target = document.getElementById('target');
+const target = document.getElementById('target');
 target.onclick = function toggleStyle() {
   this.classList.toggle('foo-after');
   this.classList.toggle('foo-before');
 }
 ```
-
 
 **問166**
  " fafa fafa eee "のような最初と最後に空白があるような文字列に対して、それらを含めない配列を返してください
@@ -3391,9 +3426,9 @@ arry
 {0: "apple", 1: "banana", 2: "orenge"}
 
 ```js
-var string = "apple banana orenge";
-var arrayed = string.split(" ");
-var obj ={};
+const string = "apple banana orenge";
+const arrayed = string.split(" ");
+const obj ={};
 arrayed.forEach(function(elem,i){
      obj[i] = elem;
 });
@@ -3402,10 +3437,10 @@ obj
 
 
 //Map
-var string = "apple banana orenge";
-var arrayed = string.split(" ");
-var map = new Map();
-var obj ={};
+const string = "apple banana orenge";
+const arrayed = string.split(" ");
+const map = new Map();
+const obj ={};
 arrayed.forEach(function(elem,i){
      map.set(i,elem);
 })
@@ -3413,17 +3448,16 @@ map
 //{0: "apple", 1: "banana", 2: "orenge"}
 
 //entries
-var string = "apple banana orenge";
-var arrayed = string.split(" ");
-var newarray =[];
+const string = "apple banana orenge";
+const arrayed = string.split(" ");
+const newarray =[];
 for(value of arrayed.entries()){
      newarray.push(value)
 }
-var map = new Map(newarray)
+const map = new Map(newarray)
 map
 //{0: "apple", 1: "banana", 2: "orenge"}
 ```
-
 
 **問170**
 add()を実行した際 3 、add(2)としたら 4 add(2,3)を実行したら 5 が返ってくる関数addを定義してください
@@ -3438,17 +3472,17 @@ add(2);//4
 add(2,3)//5
 ```
 
-
 **問171**
 
 こちらのような
+
 ```
 if(condition){
     dosomething();
 }
 ```
-conditionがtrueの時に実行したい関数があった場合、端的に記述してください
 
+conditionがtrueの時に実行したい関数があった場合、端的に記述してください
 
 ```js
 condition && dosomething();
@@ -3459,12 +3493,13 @@ condition && dosomething();
 こちらは
 
 ```
-for (var i=0; i<5; i++) {
+for (const i=0; i<5; i++) {
     setTimeout(function(){
         console.log(i);
     }, 1000 * (i+1));
 }
 ```
+
 1秒ごとに1からインクリメントされた値が出力されることを期待していますが、実際は5が5回出力されます。
 理由を教えて下さい。
 
@@ -3474,8 +3509,8 @@ for (var i=0; i<5; i++) {
 その後タイムアウトが実行され、
 iの現在の値（5）が使用されます。
 
-for (var i=0; i<5; i++) {
-    var temp = i;
+for (const i=0; i<5; i++) {
+    const temp = i;
     setTimeout(function(){
         console.log(temp);
     }, 1000 * (i+1));
@@ -3486,8 +3521,8 @@ for (var i=0; i<5; i++) {
 変数の初期化はスコープの先頭に吊り下げられるため、
 これも機能しません。
 実際、前のブロックは次のものと同じです
-var temp;
-for (var i=0; i<5; i++) {
+const temp;
+for (const i=0; i<5; i++) {
     temp = i;
     setTimeout(function(){
         console.log(temp);
@@ -3499,7 +3534,7 @@ iをコピーする方法はいくつかあります。
 関数を宣言し、iを引数として渡すことによってクロージャを作成することです。
 ここでは、これを自己呼び出し関数として実行します。
 
-for (var i=0; i<5; i++) {
+for (const i=0; i<5; i++) {
     (function(num){
         setTimeout(function(){
             console.log(num);
@@ -3531,8 +3566,8 @@ Objectを参照渡しすると代入先の値が変わるとオリジンの値�
 
 ```js
 //一例
-var origin = {name: 'hogehoge',age: 80};
-var obj2 = JSON.parse(JSON.stringify(origin));
+const origin = {name: 'hogehoge',age: 80};
+const obj2 = JSON.parse(JSON.stringify(origin));
 obj2
 //Object {name: "hogehoge", age: 80}
 origin.name = "oo"
@@ -3550,8 +3585,9 @@ function getKey(k) {
   return `a key named ${k}`;
 }
 ```
+
 オブジェクトobjのプロパティkeyから上記getKey関数に'enabled'文字列を渡してcallし、objのキーがa keynamed enabled、値がtrueになるようなobjの作りにしてくだささい
-期待する結果:``` {id: 5, name: "San Francisco", a key named enabled: true}```
+期待する結果:```{id: 5, name: "San Francisco", a key named enabled: true}```
 
 ```js
 // bad
@@ -3569,7 +3605,6 @@ const obj = {
 };
 ```
 
-
 **問175**
 
 以下の様な
@@ -3586,6 +3621,7 @@ const obj = {
  address: address,
 }
 ```
+
 objの宣言をショートハンドを使ってなおしてください
 
 ```js
@@ -3613,6 +3649,7 @@ const nodes = Array.from(foo);
 ```
 [[0, 1], [2, 3], [4,5]]
 ```
+
 をフラットにしてください
 期待する値:[0, 1, 2, 3, 4, 5]
 
@@ -3640,6 +3677,7 @@ flat
 const foo = function () {
 };
 ```
+
 なぜ好ましくないとされているか答えてください
 
 ```js
@@ -3653,6 +3691,7 @@ function foo() {
 **問179**
 
 こちらの
+
 ```js
 if (currentUser) {
   function test() {
@@ -3660,6 +3699,7 @@ if (currentUser) {
   }
 }
 ```
+
 は何が悪いか答えてください。また修正してください
 
 ```js
@@ -3678,12 +3718,14 @@ see http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#pa
 **問180**
 
 こちらの
+
 ```js
 function concatenateAll() {
   const args = Array.prototype.slice.call(arguments);
   return args.join('');
 }
 ```
+
 渡ってきたすべての引数を結合して文字列として返す上記を端的に書き換えてください
 
 ```js
@@ -3692,15 +3734,16 @@ function concatenateAll(...args) {
 }
 ```
 
-
 **問181**
 
 こちらはアンチパターンです。
+
 ```js
 function f1(obj) {
   obj.key = 1;
 };
 ```
+
 なぜだかお答えください
 
 ```js
@@ -3711,16 +3754,18 @@ function f2(obj) {
   const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1;
 };
 ```
-https://github.com/airbnb/javascript
+<https://github.com/airbnb/javascript>
 
 **問182**
 
 下記のような
+
 ```js
 const foo = a ? a : b;
 const bar = c ? true : false;
 const baz = c ? false : true;
 ```
+
 不必要な3項演算子を避けて同じ意味を簡潔に書いてください
 
 ```js
@@ -3729,10 +3774,10 @@ const bar = !!c;
 const baz = !c;
 ```
 
-
 **問183**
 
 こちらの記述
+
 ```js
 const foo = {clark: 'kent'};
 ```
@@ -3743,8 +3788,6 @@ jscsのrequireSpacesInsideObjectBracketsで良いとされている書き方に�
 ```js
 const foo = { clark: 'kent' };
 ```
-
-
 
 **問184**
 
@@ -3758,7 +3801,6 @@ function createAddress(address, tyoume = address +  '-1', banch = tyoume + '-10'
 createAddress('meguro')
 //['meguro', 'meguro-1', 'meguro-1-10']
 ```
-
 
 **問185**
 
@@ -3776,8 +3818,9 @@ f()
 **問186**
 
 こちらを使って
+
 ```js
-var people = [
+const people = [
 { name: "ken",
   family: {
    mother: "jone Smith"
@@ -3791,16 +3834,19 @@ var people = [
  age: 27
 }];
 ```
+
 下記のような
 。
+
 ```js
 //Name ken, Mother: jone Smith
 //Name jun, Mother: jone jun
 ```
+
 出力になるように実装してください。
 
 ```js
-var people = [
+const people = [
 { name: "ken",
   family: {
    mother: "jone Smith"
@@ -3813,7 +3859,7 @@ var people = [
   },
  age: 27
 }];
-for (var {name: n, family: {mother : f}} of people){
+for (const {name: n, family: {mother : f}} of people){
  console.log("Name " + n + ", Mother: " + f);
 }
 //Name ken, Mother: jone Smith
@@ -3824,8 +3870,9 @@ for (var {name: n, family: {mother : f}} of people){
 **問187**
 
 こちら
+
 ```js
-var metadata = {
+const metadata = {
  title: 'Scratchpad',
  translations: [
   {
@@ -3839,10 +3886,11 @@ var metadata = {
   url: 'kenjimorita.jp/JavaScript'
 };
 ```
+
 のtitleをenglishTitleとして、translationsの中のtitleをlocalTitleとしてそれぞれ変数に代入してconsole.log出力してください
 
 ```js
-var metadata = {
+const metadata = {
  title: 'Scratchpad',
  translations: [
   {
@@ -3855,7 +3903,7 @@ var metadata = {
  ],
   url: 'kenjimorita.jp/JavaScript'
 };
-var {title: englishTitle, translations: [{title: localeTitle}]} = metadata;
+const {title: englishTitle, translations: [{title: localeTitle}]} = metadata;
 console.log(englishTitle, localeTitle);
 //'Scratchpad'
 //'JavaScript'
@@ -3869,9 +3917,9 @@ console.log(englishTitle, localeTitle);
 ```js
 function drawES5Chart(options) {
   options = options === undefined ? {} : options;
-  var size = options.size === undefined ? 'big' : options.size;
-  var cords = options.cords === undefined ? { x: 0, y: 0 } : options.cords;
-  var radius = options.radius === undefined ? 25 : options.radius;
+  const size = options.size === undefined ? 'big' : options.size;
+  const cords = options.cords === undefined ? { x: 0, y: 0 } : options.cords;
+  const radius = options.radius === undefined ? 25 : options.radius;
   console.log(size, cords, radius);
 }
 drawES5Chart({
@@ -3879,6 +3927,7 @@ drawES5Chart({
   radius: 30
 });
 ```
+
 をECMAScript2015の書き方に修正してください
 
 ```js
@@ -3895,7 +3944,6 @@ drawES6Chart({
 // ({size: size = 'big', cords: cords = { x: 0, y: 0 }, radius: radius = 25} = {})
 
 ```
-
 
 **問189**
 querySelectorAll('.child')やdocument.getElementsByTagName('div')で取得したNodeListからArrayにする場合の方法を4つ答えてください。
@@ -3919,13 +3967,13 @@ Object.keys(nodeList).forEach(function(key){
 })
 ```
 
-
 **問190**
 このような```function add (){console.log(this.x) };```関数ある。新たに変数名objのプロパティとしてx、値5で定義した後、addが参照するthisがobjにbindするように呼び出してください。
+
 ```js
 
 function add (){console.log(this.x) };
-var obj = {x: 5};
+const obj = {x: 5};
 add.apply(obj)
 //5
 ```
@@ -3943,67 +3991,70 @@ function add (y, z){console.log(this.x, y + z ) };
 add.call({x: 3}, 5, 6)
 ```
 
-
 **問192**
 
 下のような記述がある。
+
 ```js
-var int = 8;
-var module = {
+const int = 8;
+const module = {
  int: 4,
  fn : function(){return this.int;}
 }
 ```
+
 module.fnを別の変数にbindして呼び出し、4を出力してください。
 
 ```js
-var int = 8;
-var module = {
+const int = 8;
+const module = {
  int: 4,
  fn : function(){return this.int;}
 }
 module.fn()
 //4
-var fnn = module.fn
+const fnn = module.fn
 fnn()
 //8
 
 //bindして呼び出し
-var fnn = module.fn.bind(module)
+const fnn = module.fn.bind(module)
 fnn()
 //生成する関数にもともとのthis参照しているオブジェクトを束縛させる必要がある
 ```
 
 **問193**
 したのような記述がある
+
 ```js
 function list (){
  return Array.prototype.slice.call(arguments);
 }
 list(2,3,4);
 ```
+
 このままだと返り値が[2,3,4]になるが、インデックス0番目はかならず数値1がsetされ、その後は呼び出し元の値が続く配列を返す関数にしてください。
 
 ```
 function list (){
  return Array.prototype.slice.call(arguments);
 }
-var bindedList = list.bind(null, 1);
+const bindedList = list.bind(null, 1);
 bindedList(3,4,5)
 //[1, 3, 4, 5]
 ```
 
 **問194**
 ```<ul id="list"></ul>```がある。
-document.createFragmentをつかって```var array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];```
+document.createFragmentをつかって```const array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];```
 がliのtextContentとなるようなDOMを作成してください。
 
 ```js
-var list = document.getElementById('list');
-var fragment = document.createDocumentFragment();
-var array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];
-var newnode = array.forEach(function(elem){
-    var li = document.createElement("li");
+const list = document.getElementById('list');
+const fragment = document.createDocumentFragment();
+const array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];
+const newnode = array.forEach(function(elem){
+    const li = document.createElement("li");
     li.textContent = elem;
     fragment.appendChild(li);
 })
@@ -4012,7 +4063,6 @@ list.appendChild(fragment);
 //返り値はDocumentFragmentへの参照。メモリ上に存在
 //DOMツリーに追加するのではないのでリフローが行われない
 ```
-
 
 **問195**
 
@@ -4035,7 +4085,6 @@ console.log(g,h)
 
 **問197**
 ローカルストレージとセッションストレージの違いを教えてください.
-
 
 ```js
 データの保存のされ方が違う
@@ -4066,11 +4115,9 @@ localStrage.setItem('foo','fafa');
 localStrage.getItem('foo');
 localStorage.removeItem('foo')
 localStorage.clear();
-var key = localStorage.key(0)
+const key = localStorage.key(0)
 console.log(key + 'のストレージは' + localStorage[key]);
 ```
-
-
 
 **問199**
 
@@ -4081,25 +4128,29 @@ console.log(key + 'のストレージは' + localStorage[key]);
 
 ```
 ```
+
 </details>
 <details><summary>問201〜問250</summary>
 
 **問201**
 ローカルストレージの値を存在するだけ列挙してください
+
 ```js
-for (var i = 0; i < localStorage.length; i++){
+for (const i = 0; i < localStorage.length; i++){
   console.log(localStorage.key(i))
 }
 ```
 
 **問202**
 ローカルストレージに次のようなオブジェクト
+
 ```js
 const dataObj = {
  'id': 0010,
  'isFavorite': true
 }
 ```
+
 を保存して、取り出してください。
 
 ```js
@@ -4133,10 +4184,11 @@ function CreateId(id){
 CreateId.prototype.get = function(){
  console.log(this.id);
 }
-var create = new CreateId(10);
+const create = new CreateId(10);
 create.get()//10
 setTimeout(create.get, 1000);
 ```
+
 修正してください
 
 ```js
@@ -4153,9 +4205,10 @@ setTimeout(()=> {create.get}, 1000);
 
 **問204**
 こちらの
+
 ```js
 function Person() {
-    var self = this;
+    const self = this;
     self.age = 0;
 
     setInterval(function() {
@@ -4164,10 +4217,11 @@ function Person() {
         self.age++;
     }, 1000);
 }
-var p = new Person();
+const p = new Person();
 p
 //{age: 1} //1秒ごとに1足される
 ```
+
 setInterval内のコールバックをアロー関数で記述してください
 
 ```js
@@ -4179,13 +4233,13 @@ function Person() {
     }, 1000);
 }
 
-var p = new Person();
+const p = new Person();
 ```
-
 
 **問205**
 
 こちら
+
 ```js
 function foo(a, b, c, d){
  console.log([a, b, c, d])
@@ -4194,7 +4248,9 @@ function foo(a, b, c, d){
 foo(1,2,3,4,5)
 //[1, 2, 3, 4]
 ```
+
 のような記述ではなく、RestOperatorを使って渡した実引数を要素にする1つの配列で出力してください。
+
 ```js
 function foo(...args) {
     console.log(args);
@@ -4205,6 +4261,7 @@ foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 **問206**
 
 こちらはSomeClassコンストラクタにインスタンスメソッドをもたせています。
+
 ```js
 SomeClass.prototype.someMethod = function (arg1, arg2) {
     ···
@@ -4213,6 +4270,7 @@ SomeClass.prototype.anotherMethod = function () {
     ···
 };
 ```
+
 こちらとは違う方法(Object.assignを使った方法)でインスタンスメソッドを定義してください
 
 ```js
@@ -4232,6 +4290,7 @@ Object.assign(SomeClass.prototype, {
 **問207**
 
 こちらは値を割り当てられません。
+
 ```js
 const proto = Object.defineProperty({}, 'prop', {
     writable: false,
@@ -4268,15 +4327,13 @@ console.log(obj.prop); // 456
  {id: "12345", category: "script", isname: "true"}
 
 ```js
-var locationsearch = '?id=12345&category=script&isname=true';
-var result = {};
+const locationsearch = '?id=12345&category=script&isname=true';
+const result = {};
 locationsearch.substring(1).split("&").forEach(function(ele, i){
-  var key =  ele.split("=");
+  const key =  ele.split("=");
    result[key[0]] = decodeURIComponent(key[1]);
 })
 ```
-
-
 
 **問209**
 
@@ -4285,9 +4342,8 @@ locationsearch.substring(1).split("&").forEach(function(ele, i){
 期待する結果
 //[1,'a']
 
-
 ```js
-var deduped = [1,1,'a','a'].filter(function(x, i, arr){
+const deduped = [1,1,'a','a'].filter(function(x, i, arr){
   return arr.indexOf(x) === i;
 })
 deduped
@@ -4335,14 +4391,13 @@ flatArray
 
 ```js
 const arr = [];
-for (var i=0; i < 3; i++) {
+for (const i=0; i < 3; i++) {
     arr.push(() => i);
 }
 arr.map(x => x()); // [3,3,3]
 ```
 
 期待する結果[0, 1, 2]にしてください
-
 
 ```js
 //Every i in the bodies of the three arrow functions refers to the same binding,
@@ -4356,11 +4411,10 @@ for (let i=0; i < 3; i++) {
 arr.map(x => x()); // [0,1,2]
 ```
 
-
-
 **問213**
 
 下のような
+
 ```js
  const entries = [
             ['yes', 'ja'],
@@ -4368,6 +4422,7 @@ arr.map(x => x()); // [0,1,2]
             ['perhaps', 'vielleicht'],
         ];
 ```
+
 entriesを'''<div id="content"></div>'''この中でaタグを作りentries[0]をidとtextContent、
 さらにそのaタグにaddEventListenerを使いclickイベントを登録してentriesの[1]が出力されるようにしてください
 
@@ -4400,6 +4455,7 @@ entriesを'''<div id="content"></div>'''この中でaタグを作りentries[0]�
 </html>
 
 ```
+
 [実際のコード](https://jsfiddle.net/zep3dLyy/4/)
 
 **問214**
@@ -4414,8 +4470,8 @@ function bar(func = x => foo) {
 }
 bar();
 ```
-何を出力するか。またその理由を答えてください。
 
+何を出力するか。またその理由を答えてください。
 
 ```js
 //outer
@@ -4425,6 +4481,7 @@ That means that methods or functions defined “inside” parameter default valu
 
 **問215**
 スーパークラスのメソッドspeakをサブクラスgetSpeakからcallしてください
+
 ```js
 class Faa {
  constructor(name){
@@ -4445,17 +4502,17 @@ class Faaaa extends Faa {
  }
 }
 
-var eee = new Faa('kenji');
+const eee = new Faa('kenji');
 eee.speak();
-var iii = new Faaaa('morita');
+const iii = new Faaaa('morita');
 iii.getSpeak();
 eee.speak();
 ```
 
-
 **問216**
 
 こ方法はorigのプロパティ属性を守らない
+
 ```
 function clone(orig) {
     return Object.assign({}, orig);
@@ -4473,7 +4530,6 @@ function clone(orig) {
 }
 
 ```
-
 
 **問217**
 
@@ -4509,8 +4565,8 @@ for (const x of new IterableArguments('hello', 'world')) {
 定義と同時に実行する関数を作ってください
 
 ```js
-var dimension = function(radius, height){
- var dimension = radius * radius * Math.PI;
+const dimension = function(radius, height){
+ const dimension = radius * radius * Math.PI;
  return dimension * height / 3;
 }(10,20);
 console.log(dimension);
@@ -4522,7 +4578,7 @@ console.log(dimension);
 オブジェクトのプロパティが存在するかどうか
 
 ```js
-var obj = {
+const obj = {
  width: 20
 }
 if(!!obj.height){
@@ -4534,7 +4590,6 @@ console.log(!!obj.height)
 //false
 //"heightが定義されていません"
 ```
-
 
 **問220**
 
@@ -4549,42 +4604,41 @@ function multiply(x, y){
 }
 function withLogging(wrappedFunction){
  return function(x, y){
-  var result = wrappedFunction(x, y);
+  const result = wrappedFunction(x, y);
     console.log('result', result);
     return result;
   };
  }
  
-var addAndLog = withLogging(add);
+const addAndLog = withLogging(add);
 addAndLog(1, 2)
 //result 3
 //3
 
-var multiplyAndLog = withLogging(multiply)
+const multiplyAndLog = withLogging(multiply)
 multiplyAndLog(40,4)
 //result 160
 
 ```
-
 
 **問221**
 
 document内のh1を全て取得し、インデックス1番目のh1を削った残りを返してください
 
 ```js
-var hoge = document.querySelectorAll('h1');
-var newHoge = Array.prototype.slice.call(hoge, 1);
+const hoge = document.querySelectorAll('h1');
+const newHoge = Array.prototype.slice.call(hoge, 1);
 
 ```
 
 **問222**
 
-```var a = 'aabbccdde1e23ffgg'; ```と```var b = 'aabbccdde1e23ffgg';```がある。
+```const a = 'aabbccdde1e23ffgg';```と```const b = 'aabbccdde1e23ffgg';```がある。
 aとbを比較してaの方が先に数値が現れる場合trueを返してください
 
 ```js
-var a = 'aabbccdde1e23ffgg';
-var b = 'aabbccddee123ffgg';
+const a = 'aabbccdde1e23ffgg';
+const b = 'aabbccddee123ffgg';
 
 a.search(/\d/) < b.search(/\d/);
 //true
@@ -4595,21 +4649,21 @@ a.search(/\d/) < b.search(/\d/);
 ```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
 
 ```js
-var div = '<div>about me</div>';
-var divarray=[];
+const div = '<div>about me</div>';
+const divarray=[];
 divarray.push(/\<div\>(.+)\<\/div\>/.exec(div)[1])
 divarray
 //['about me']
 
 ```
 
-
 **問224**
 
 WIP
+
 ```js
-var i = 0;
-var array = [];
+const i = 0;
+const array = [];
 do {
 array.push(Math.pow(2,i));
 i += 1;
@@ -4618,25 +4672,22 @@ i += 1;
 
 ```
 
-
 **問225**
 
 1980年8月1日5時55分を表すDateオブジェクトを生成してください
 
 ```js
-var d = new Date('1980/8/1 5:55');
+const d = new Date('1980/8/1 5:55');
 //Fri Aug 01 1980 05:55:00 GMT+0900 (JST)
 
 ```
-
-
 
 **問226**
 
 上で作成した日時を現地フォーマットで出力してください
 
 ```js
-var d = new Date('1980/8/1 5:55');
+const d = new Date('1980/8/1 5:55');
 d.toLocaleString();
 //'2008/7/1 5:55:00'
 
@@ -4653,7 +4704,7 @@ WIP
 上で作成した時間を現地フォーマットで出力してください
 
 ```js
-var d = new Date('1980/8/1 5:55');
+const d = new Date('1980/8/1 5:55');
 d.toLocaleTimeString();
 //'5:55:00'
 
@@ -4662,12 +4713,12 @@ d.toLocaleTimeString();
 
 ```
 
-
 **問228**
 
-var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
+const ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
+
 ```js
-var ary = ['aaa', 'bbb', 'ccc'];
+const ary = ['aaa', 'bbb', 'ccc'];
 ary.unshift('eee');
 //4
 ary
@@ -4678,12 +4729,12 @@ ary
 **問229**
 
 こちらの変数を使って
-var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
+const ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
 2でも3でも割り切れない数を抽出した配列を生成してください
 
 ```js
-var ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
-var newAry = ary.filter(function(elem){
+const ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
+const newAry = ary.filter(function(elem){
     if (elem % 3 !== 0 && elem % 2 !== 0){
          return elem
      }
@@ -4706,8 +4757,6 @@ undefined
 //ビルドインオブジェクトとは異なり、参照する際にオブジェクトを指定せずにプロパティ名を記述するだけ
 ```
 
-
-
 **問231**
 
 ビルドイン関数を9つ挙げてください
@@ -4725,7 +4774,6 @@ parseInt(str,[radix])
 
 
 ```
-
 
 **問232**
 
@@ -4746,7 +4794,7 @@ encodeURI(url)
 
 **問233**
 
-```var s = 'aaa,bbb,ccc,ddd';```
+```const s = 'aaa,bbb,ccc,ddd';```
 を使って、,を/に置換した文字列```aaa/bbb/ccc/ddd```を出力してください。ただしreplaceメソッドは使用しないこととする
 
 ```js
@@ -4763,17 +4811,16 @@ s
 **問234**
 
 下の変数sにある
-```var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
+```const s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
 divの中にあるtextを全て出力してください
 
-
 ```js
-var s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';
-var divStringAry = [];
-var regexp = /<div>.*?<\/div>/g;
-var result = regexp.exec(s);
+const s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';
+const divStringAry = [];
+const regexp = /<div>.*?<\/div>/g;
+const result = regexp.exec(s);
 while(result != null){
- var divStr = result[0]
+ const divStr = result[0]
  divStr = divStr.substring('<div>'.length,
           divStr.length - '</div>'.length);
 divStringAry.push(divStr);
@@ -4794,8 +4841,8 @@ divStringAry.join('\n')
 
 ```js
 
-var ary = [];
-var i = 0;
+const ary = [];
+const i = 0;
 do {
    ary[i] = Math.pow(2, i);
    i += 1;
@@ -4804,22 +4851,21 @@ ary
 //[1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
 
 //別解
-var ary = [];
-for(var n = 0; n <= 10; n++){
+const ary = [];
+for(const n = 0; n <= 10; n++){
  ary[n] = Math.pow(2, n);
 }
 ```
-
 
 **問236**
 
 今年の各月の最終日を配列に格納してくださいｌ。インデックスは各月と一致する数値とする。
 
 ```js
-var ary = [];
-var temp = new Date();
-for (var i = 1; i <= 12; i++){
- var d = 28;
+const ary = [];
+const temp = new Date();
+for (const i = 1; i <= 12; i++){
+ const d = 28;
  temp.setMonth(i - 1, d);
  while(temp.getMonth() == i - 1){//次の月になるまでroop
    d++;
@@ -4835,10 +4881,10 @@ ary
 
 ```
 
-
 **問237**
 
 同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答え、またオリジンを参照してください
+
 ```js
 see : https://tools.ietf.org/html/rfc6454
 
@@ -4877,6 +4923,7 @@ hash - #test
 **問238**
 
 location.assignとlocation.replaceの違いを教えてください
+
 ```js
 //replaceは画面遷移をWebブラウザの履歴に残さず遷移する
 
@@ -4890,14 +4937,14 @@ kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成
 
 ```js
 
-var Person = {
+const Person = {
  say: function(){
    console.log('my name is' + this.name + '。' + '職業は' + this.job + 'です');
  }
 }
 
-var kenji = Object.create(Person, {name :{value: 'kenji' }});
-var compKenji  = Object.create(morita, {job: {value: 'JavascriptEngneer'}});
+const kenji = Object.create(Person, {name :{value: 'kenji' }});
+const compKenji  = Object.create(morita, {job: {value: 'JavascriptEngneer'}});
 compKenji.say()
 'my name is morita。JavascriptEngneer'
 
@@ -4909,11 +4956,10 @@ compKenji.say()
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 ```
 
-
 **問240**
 
-
 Object.createメソッドで以下と同じ記述をしてください。
+
 ```js
 function Constructor(){}
 o = new Constructor();
@@ -4925,7 +4971,7 @@ o = Object.create(Constructor.prototype);
 
 **問241**
 
-```var o = Object.create({},{p: {value: 32}});```
+```const o = Object.create({},{p: {value: 32}});```
 を書き換えtrue、列挙true、変更trueとして新たにオブジェクトを生成してください。
 
 ```js
@@ -4936,7 +4982,7 @@ o2.p = 54;
 //54
 
 列挙
-for (var prop in o2){
+for (const prop in o2){
  console.log(prop)
 }
 //p
@@ -4974,9 +5020,8 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 ```
 
-
 **問243**
-let n = '124';を数値に変換してください。 
+let n = '124';を数値に変換してください。
 
 ```js
 let n = '124';
@@ -4994,7 +5039,7 @@ n
 こちらの評価は
 
 ```
-var n = {value: 0};
+const n = {value: 0};
 if(n.value){
     //something
 }
@@ -5010,46 +5055,48 @@ if(n.value != null){//something}
 
 **問245**
 オブジェクトの存在チェックをしてあったら実行している。
+
 ```js
-var o = {f: function(){console.log('JS')}};
+const o = {f: function(){console.log('JS')}};
 if(o){
  if(o.f){
    o.f();
  }
 }
 ```
+
 より端的な記述をしてください。
 
 ```js
-var o = {f: function(){console.log('JS')}};
+const o = {f: function(){console.log('JS')}};
 o && o.f && o.f();
 
 //同じ様なイデオムで代入の際に括弧でくくらないとエラーが起きることに注意してください
 //o && o.options && o.options.players > 50 && (flag = true);
 ```
 
-
 **問246**
-```var v```の値を確実に数値にしたい。
+```const v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
- 
+
 ```js
-var n = +v || 0;
+const n = +v || 0;
 ```
 
 **問247**
-```var v ```を整数化してください
+```const v```を整数化してください
 
 ```js
-var i = v | 0;
+const i = v | 0;
 
 ```
 
 **問248**
 下の様な場合、
+
 ```js
-var insEmp1 = new Emp();
-var insEmp2= new Emp();
+const insEmp1 = new Emp();
+const insEmp2= new Emp();
 insEmp2.name = "kenji";
 insEmp2.name;
 //"kenji"
@@ -5065,8 +5112,8 @@ Empがnameを持っていない場合Emp1は即座に更新されない。
 
 ```js
 function Emp(){};
-var insEmp1 = new Emp();
-var insEmp2 = new Emp();
+const insEmp1 = new Emp();
+const insEmp2 = new Emp();
 Emp.prototype.name = "kenji";
 
 insEmp1.name
@@ -5075,7 +5122,6 @@ insEmp2.name
 //"kenji"
 ```
 
-
 **問249**
 ObjectとMapの違いを教えてください
 
@@ -5083,7 +5129,7 @@ ObjectとMapの違いを教えてください
 ・Objectのkeyはstring型、Mapは任意の型を指定できる
 ・Objectのsizeは手動で調べる必要がある、MapはMap.size()
 ・Objectの反復は順番を保証しない,Mapの反復は要素の挿入順
-・Objectはデフォルトでプロパティを持つ(var map = Object.create(null)で回避できる)
+・Objectはデフォルトでプロパティを持つ(const map = Object.create(null)で回避できる)
 
 
 //ObjectかMapか、使うべきところ
@@ -5098,32 +5144,32 @@ http://programmers.stackexchange.com/questions/285881/any-point-in-using-es6-map
 http://stackoverflow.com/questions/18541940/map-vs-object-in-javascript
 
     Object:
-        var o = {};
-        var o = Object.create(null);
+        const o = {};
+        const o = Object.create(null);
         o.key = 1;
         o.key += 10;
         for(let k in o) o[k]++;
-        var sum = 0;
+        const sum = 0;
         if('key' in o);
         if(o.hasOwnProperty('key'));
         delete(o.key);
         Object.keys(o).length
     Map:
-        var m = new Map();
+        const m = new Map();
         m.set('key', 1);
         m.set('key', m.get('key') + 10);
         m.foreach((k, v) => m.set(k, m.get(k) + 1));
         for(let k of m.keys()) m.set(k, m.get(k) + 1);
-        var sum = 0;
+        const sum = 0;
         for(let v of m.values()) sum += v;
         if(m.has('key'));
         m.delete('key');
         m.size();
 ```
 
-
 **問250**
 破壊的なメソッドをあげてください
+
 ```js
 pop、push、reverse、shift、sort、splice、unshilft
 ```
@@ -5133,10 +5179,10 @@ pop、push、reverse、shift、sort、splice、unshilft
 
 **問251**
 
-```var arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
+```const arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
 
 ```js
-var arr = ['one', 'two', 'three']
+const arr = ['one', 'two', 'three']
 Object.freeze(arr);
 arr.sort();
 //Uncaught TypeError: Cannot assign to read only property '1' of object '[object Array]'
@@ -5150,14 +5196,14 @@ console.log(obj)
 
 //ex2
 //「子供」までは面倒みない
-var obj2 = Object.freeze({a: 1, b : {a: 2}})
+const obj2 = Object.freeze({a: 1, b : {a: 2}})
 obj2.b.a = 4
 console.log(obj2.b.a);
 //4
 
 //ex3
 //子供も凍結させる
-var obj3 = Object.freeze({a: 1, b: Object.freeze({a: 2})})
+const obj3 = Object.freeze({a: 1, b: Object.freeze({a: 2})})
 obj3.b.a = 4
 console.log(obj3.b.a)
 //2
@@ -5169,7 +5215,7 @@ console.log(obj3.b.a)
 このようなobjがあります。
 
 ```js
-var obj = {
+const obj = {
  'prop1': 'value1',
  'prop2': 'value2',
  'prop3': 'value3'
@@ -5180,24 +5226,25 @@ JSON.stringifyを使って
 
 ```
 "{
-	"prop1": "value1",
-	"prop2": "value2"
+ "prop1": "value1",
+ "prop2": "value2"
 }"
 ```
+
 ように出力されるようにしてください(prop3が出力されていない。1タブ分インデントされていることに注意)
 
 ```js
-var obj = {
+const obj = {
  'prop1': 'value1',
  'prop2': 'value2',
  'prop3': 'value3'
 }
-var str = JSON.stringify(obj, ['prop1', 'prop2'], '\t');
+const str = JSON.stringify(obj, ['prop1', 'prop2'], '\t');
 str
 //
 "{
-	"prop1": "value1",
-	"prop2": "value2"
+ "prop1": "value1",
+ "prop2": "value2"
 }"
 
 
@@ -5213,7 +5260,7 @@ function selectedProperties(key, val) {
     }
     return;
 }
-var str = JSON.stringify(obj, selectedProperties, '\t');
+const str = JSON.stringify(obj, selectedProperties, '\t');
 str
 //
 {
@@ -5221,7 +5268,6 @@ str
     "prop2": "value2"
 }
 ```
-
 
 **問253**
 this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
@@ -5240,11 +5286,11 @@ e.g  const obj = {add : function(){some}};
 ```
 
 **問254**
-var obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
+const obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
-var obj = { foo: 'bar', baz: 42 }; 
-var map = new Map(Object.entries(obj));
+const obj = { foo: 'bar', baz: 42 }; 
+const map = new Map(Object.entries(obj));
 console.log(map); // Map { foo: 'bar', baz: 42 }
 
 ```
@@ -5252,7 +5298,7 @@ console.log(map); // Map { foo: 'bar', baz: 42 }
 **問255**
 
 ```js
-var Emiiter = {
+const Emiiter = {
  callbacks : [],
  register : function(fn){
    this.callbacks.push(fn);
@@ -5273,7 +5319,7 @@ Emiiter.register(function(){console.log('2')});
 こちらはcolorの条件でそれぞれの関数を実行する記述です。
 
 ```js
-var color = "black";
+const color = "black";
 function printBlack(){
  console.log('black')
 }
@@ -5335,7 +5381,7 @@ switch(true) {
 可能な限りswitch文を使用しないようにするためオブジェクトを介して上記のようにcolorに合った関数を実行してください
 
 ```js
-var color = "black";
+const color = "black";
 
 function printBlack(){
  console.log('black')
@@ -5349,7 +5395,7 @@ function printBlue(){
 function printYellow(){
  console.log('yellow')
 }
-var colorObj = {
+const colorObj = {
   'black': printBlack,
   'red': printRed,
   'blue': printBlue,
@@ -5367,8 +5413,8 @@ if (color in colorObj) {
 ```js
 
 function toObject(arry){
- var obj = {};
- for(var i = 0; i < arry.length; i++){
+ const obj = {};
+ for(const i = 0; i < arry.length; i++){
    obj[i] = arry[i];
  }
  return obj
@@ -5385,7 +5431,7 @@ toObject(arry);
 ```js
 let html = '';
 const count = 10;
-for(var i = 0;i < count; i++){
+for(const i = 0;i < count; i++){
  html += 'hai!!';
 }
 document.querySelector('#mngb').innerHtml = html;
@@ -5395,9 +5441,9 @@ document.querySelector('#mngb').innerHtml = html;
 をより高速な書き方をしてください
 
 ```js
-var html = [];
-var count = 10;
-for(var i = 0; i < count; i++){
+const html = [];
+const count = 10;
+for(const i = 0; i < count; i++){
  html.push('hei!!');
 }
 document.querySelector('#mngb').innerHtml = html.join('');
@@ -5448,7 +5494,6 @@ name
 //ken
 
 ```
-
 
 **問260**
 
@@ -5507,7 +5552,7 @@ obj
 
 //3
 [{a: 1},{b: 3}].reduce(function(result, item){
- var key = Object.keys(item)[0]
+ const key = Object.keys(item)[0]
  result[key] = item[key];
  return result;
 },{})
@@ -5561,18 +5606,17 @@ sortedCharacters === characters
 //false
 ```
 
-
 **問263**
 ジェネレーター関数を使って１ずつ値を出力してください。
 
 ```js
-var generatorFunction = function* (){
- var i = 0;
+const generatorFunction = function* (){
+ const i = 0;
  while (true) {
   yield i ++;
  }
 }
-var iterator = generatorFunction();
+const iterator = generatorFunction();
 iterator.next().value;
 //0
 iterator.next().value;
@@ -5583,11 +5627,11 @@ iterator.next().value;
 generator関数がyieldの完了まで前進したら'finish'という文字列を返してください
 
 ```js
-var gen = function* (){
+const gen = function* (){
  yield 'foo';
  return 'finish';
 }
-var iterator = gen();
+const iterator = gen();
 iterator.next();
 //'foo'
 iterator.next();
@@ -5598,14 +5642,14 @@ iterator.next();
 数値1から3までの値を返すgenarator関数で生成されたiteratableをfor-of文に使い値を出力してください。(その際for-of文での戻り値を捨てていることを確認してください。)
 
 ```js
-var fun = function * (){
+const fun = function * (){
  yield 1;
  yield 2;
  yield 3;
  return 4;//for-of文では捨てられる
 }
 
-var iterator = fun();
+const iterator = fun();
 for(index of iterator){
   console.log(index)
  }
@@ -5645,7 +5689,7 @@ for (index of foo()){
 値が'a'ならgenerator関数内のtry-catch内で値をバックアップ、'b'なら呼び出し元で例外を発生させるgenerator関数を定義してください。
 
 ```js
-var generatorFunction = function * (){
+const generatorFunction = function * (){
  while (true){
   try {
     yield;
@@ -5657,7 +5701,7 @@ var generatorFunction = function * (){
   }
  }
 };
-var iterator = generatorFunction();
+const iterator = generatorFunction();
 iterator.next();
 try {
  iterator.throw('a');
@@ -5712,7 +5756,7 @@ const curry = (method, ...args) => {
 const controller = (generator) => {
   const iterator = generator();
   const advancer = (response) => {
-      var state;
+      const state;
       state = iterator.next(response);
       if (!state.done) {
           state.value(advancer);
@@ -5739,7 +5783,6 @@ controller(function* () {
 4回目はさらに'z: Z, w: W'をコンソール出力。
 5回目はbarが5。
 6回目はvalueはundefined。文字列で'x: X, y: Y, v: V'を出力してください。
-
 
 ```js
 function *foo() {
@@ -5782,7 +5825,7 @@ const create = function(i){
    return `<img src='${i}.png'>`;
 }
 const arry = [];
-for(var i of ge(1,7)){
+for(const i of ge(1,7)){
  arry.push(create(i))
 }
 ```
@@ -5792,12 +5835,12 @@ for(var i of ge(1,7)){
 for-ofに渡すと1~10までの数値を返すitarableなオブジェクトを自作してください。
 
 ```js
-var obj = {}; // イテラブルなオブジェクト
+const obj = {}; // イテラブルなオブジェクト
 obj[Symbol.iterator] = function(){//イテレータを返す関数を代入
-  var iterator = {}; // イテレータ
-  var num = 1;
+  const iterator = {}; // イテレータ
+  const num = 1;
   iterator.next = function(){//next実行してリザルトを返す関数を代入
-    var iteratorResult = (num <= 10)
+    const iteratorResult = (num <= 10)
         ? { value: num++,   done: false }
         : { value: undefined, done: true };
     return iteratorResult; // イテレータリザルトを返す
@@ -5848,11 +5891,11 @@ iterator.next(1).value
 
 ```js
 function* foo(x) {
-    var y = 2 * (yield (x + 1));
-    var z = yield (y / 3);
+    const y = 2 * (yield (x + 1));
+    const z = yield (y / 3);
     return (x + y + z);
 }
-var it = foo(5);
+const it = foo(5);
 it.next();//1
 it.next(12);//2
 it.next(13);//3
@@ -5862,11 +5905,11 @@ it.next(13);//3
 
 ```js
 function* foo(x) {
-    var y = 2 * (yield (x + 1));
-    var z = yield (y / 3);//2回目で返すのはyield式の結果までで結果はzに代入されない//3回目のnext引数がzに入る
+    const y = 2 * (yield (x + 1));
+    const z = yield (y / 3);//2回目で返すのはyield式の結果までで結果はzに代入されない//3回目のnext引数がzに入る
     return (x + y + z);
 }
-var it = foo(5);
+const it = foo(5);
 
 it.next();
 //{value: 6, done: false}
@@ -6064,7 +6107,7 @@ Reflect.deletePropery(target, 'key')
 こちらはReflect.getを使って
 
 ```js
-var obj = {a : 1}
+const obj = {a : 1}
 Reflct.get(obj, "a")
 //1
 ```
@@ -6083,7 +6126,7 @@ obj["a"]
 //undefinedになります。実行時objの型が適切か気づくことができます。
 
 e.g
-var obj = 1;//オブジェクトが入ってくる想定のobjにプリミティブ型を代入
+const obj = 1;//オブジェクトが入ってくる想定のobjにプリミティブ型を代入
 Reflect.get(obj, 1)
 //Uncaught TypeError: Reflect.get called on non-object
 
@@ -6097,7 +6140,7 @@ Reflect.applyとはどのようなものですか。
 
 ```js
 //このようにthis.を参照するfun関数を引数を伴って使う必要がある場合、
-var ctx  = {
+const ctx  = {
  num : 5
 }
 function fun (a, b, c){
@@ -6160,13 +6203,13 @@ p.c(cは設定されていない任意のプロパティ)
 //37
 
 ```js
-var handler = {
+const handler = {
  get: function(target, name){
    return name in target ? target[name] : 37
  }
 }
 
-var p = new Proxy({}, handler);
+const p = new Proxy({}, handler);
 p.a = 1
 p.a
 //1
@@ -6189,7 +6232,7 @@ Reflect.has({a: 1}, 'toString');
 Errorオブジェクトのインスタンスにmessageとして"エラーが発生しました"を代入エラーをthrowしてください
 
 ```
-var err = new Error();
+const err = new Error();
 err.message = "エラーが発生しました"
 throw err
 
@@ -6202,7 +6245,7 @@ throw new Error("エラーが発生しました。");
 obj.aに数値以外のものが代入されるとsetterでErrorを投げ、number型ならaに代入。getterはaを返すobjを作ってください。
 
 ```js
-var obj = {
+const obj = {
   _a : 0,
   get a(){return this._a; },
   set a(n){
@@ -6231,8 +6274,8 @@ var obj = {
 
 ```js
 
-var foo = document.getElementById('foo');
-for(var i = 0; i < foo.classList.length; i++) {
+const foo = document.getElementById('foo');
+for(const i = 0; i < foo.classList.length; i++) {
  console.log(foo.classList[i]);
 }
 
@@ -6263,7 +6306,7 @@ else
 の中にbazがあることを真偽値で出力してください
 
 ```js
-var foo = document.getElementById('foo');
+const foo = document.getElementById('foo');
 foo.classList.contains('foo');
 
 //対応ブラウザバージョン
@@ -6281,7 +6324,7 @@ foo.classList.contains('foo');
 にfafaというclass名を追加してbarを削除してください
 
 ```js
-var foo = document.getElementById('foo');
+const foo = document.getElementById('foo');
 foo.classList.add('fafa');
 foo.classList.remove('bar');
 
@@ -6321,7 +6364,7 @@ request.send();
 ```
 
 **問292**
-var data = { foo: 'abc', bar: 100 }
+const data = { foo: 'abc', bar: 100 }
 このようなdataをPOSTで送れるようにしてください
 
 期待する結果
@@ -6340,15 +6383,17 @@ str
 **問293**
 
 こちら
+
 ```js
 $(selector).each(function(i, el){
  something...
 });
 ```
+
 と同じ処理をJSで記述してください
 
 ```js
-var elements = document.querySelectorAll(selector);
+const elements = document.querySelectorAll(selector);
 Array.prototype.forEach.call(elements, function(el, i){
     something...
 });
@@ -6400,7 +6445,7 @@ $(el).hasClass(className);
 と同じ処理をJSで記述してください
 
 ```js
-var el = document.getElementById('container')
+const el = document.getElementById('container')
 if (el.classList){
   el.classList.contains(className);
 } else {
@@ -6420,7 +6465,7 @@ $(el).parent();
 と同じことをJSで記述してください
 
 ```js
-var el = document.getElementById('container')
+const el = document.getElementById('container')
 el.nextElementSibling
 el.parentNode
 ```
@@ -6437,7 +6482,7 @@ $(el).offset();
 と同じ値を含むオブジェクトを取得できるようにJSで記述してください。
 
 ```js
-var rect = el.getBoundingClientRect();
+const rect = el.getBoundingClientRect();
 rect
 //{top:11, height:11, left:11, right:11, bottom:11, width:11}
 
@@ -6482,6 +6527,7 @@ if (el.classList) {
 ```js
 $(el).attr('tabindex', 3);
 ```
+
 と同じ処理をするようにJSで記述してください。
 
 ```js
@@ -6498,14 +6544,15 @@ el.setAttribute('tabindex', 3);
 ```js
 $(el).toggleClass(className);
 ```
+
 と同じ処理をするようにJSで記述してください。
 
 ```js
 if (el.classList) {
   el.classList.toggle(className);
 } else {
-  var classes = el.className.split(' ');
-  var existingIndex = classes.indexOf(className);
+  const classes = el.className.split(' ');
+  const existingIndex = classes.indexOf(className);
 
   if (existingIndex >= 0)
     classes.splice(existingIndex, 1);
@@ -6526,10 +6573,9 @@ $.parseHTML(htmlString);
 
 と同じ処理をするようにJSで記述してください。
 
-
 ```js
-var parseHTML = function(str) {
-  var tmp = document.implementation.createHTMLDocument();
+const parseHTML = function(str) {
+  const tmp = document.implementation.createHTMLDocument();
   tmp.body.innerHTML = str;
   return tmp.body.children;
 };
@@ -6557,7 +6603,7 @@ el.addEventListener(eventName, eventHandler);
 
 ```js
 function onReady(fnc) {
-    var readyState = document.readyState;
+    const readyState = document.readyState;
     if (readyState === 'interactive' || readyState === 'complete') {
         fnc();
     } else {
@@ -6667,7 +6713,7 @@ Promseオブジェクト作成時にresolveに数値1を渡すコールバック
 続くthenメソッドで2を足した値を出力してください。
 
 ```js
-var promise1 = new Promise(function(resolve, reject){
+const promise1 = new Promise(function(resolve, reject){
   resolve(1);
 })
 promise1.then(function(val){
@@ -6678,9 +6724,6 @@ promise1.then(function(val){
 });
 ```
 
-
-
-
 **問308**
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
@@ -6688,29 +6731,28 @@ Promiseオブジェクトを使ってGETメソッドリクエスト，list.json�
 ```js
 function get(url) {
   return new Promise(function(resolve, reject) {
-    var req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
     req.open('GET', url);
     req.onload = function() {
       if (req.status == 200) {
-	    resolve(req.response);
+     resolve(req.response);
       } else {
         reject(Error(req.statusText));
       }
     };
     req.onerror = function() {
-    	 reject(Error("Network Error"));
+      reject(Error("Network Error"));
     };
     req.send();
   });
 };
 
 get('list.json').then(function(res){
-	console.log("Success!", res);
+ console.log("Success!", res);
 }, function(error){
   console.log("Failed", error);
 })
 ```
-
 
 **問309**
 
@@ -6724,6 +6766,7 @@ say(function(){
   console.log('ken!!')
 }, 1000);
 ```
+
 と同じことをしてください
 
 ```js
@@ -6744,7 +6787,7 @@ Promiseを使って0.5秒後毎に文字列の出力がされる非同期処理�
 
 ```js
 function f (name, time){
- var done =  new Promise(function(resolve){
+ const done =  new Promise(function(resolve){
    setTimeout(function(){
      console.log(name)
    resolve();
@@ -6778,7 +6821,7 @@ f().then(()=> f(500))//「fした後に~する」の中身を実装。この場�
 
 ```js
 function f (name, time){
- var done =  new Promise(function(resolve){
+ const done =  new Promise(function(resolve){
 
    setTimeout(function(){
      console.log(name)
@@ -6787,7 +6830,7 @@ function f (name, time){
   });
   return done
 };
-var i = Promise.all([f('morita', 500),f('kkk', 500),f('jji', 500)])
+const i = Promise.all([f('morita', 500),f('kkk', 500),f('jji', 500)])
 i.then(()=> console.log("done"))
 
 ```
@@ -6803,7 +6846,7 @@ i.then(()=> console.log("done"))
 ```js
    function hidouki(url, num){
     return new Promise(function(resolve, reject){
-     var req = new XMLHttpRequest();
+     const req = new XMLHttpRequest();
     req.open('GET', url);
     req.onload = function () {
      console.log(num)
@@ -6820,7 +6863,7 @@ i.then(()=> console.log("done"))
    })
   }
   async function asyncFunction (url, num){
-   var result = await hidouki(url , num);
+   const result = await hidouki(url , num);
    console.log(result);
    return result;
   }
@@ -6836,12 +6879,10 @@ i.then(()=> console.log("done"))
 上記の記述はthenの第一引数にresolve処理を渡しています。
 逐次処理のような記述に修正してください。
 
-
-
 ```js
 function hidouki(url, num){
     return new Promise(function(resolve, reject){
-     var req = new XMLHttpRequest();
+     const req = new XMLHttpRequest();
     req.open('GET', url);
     req.onload = function () {
      console.log(num)
@@ -6886,7 +6927,7 @@ async function asyncFunction (){
 ```js
 const promiseFun = co.wrap( function* (url){
    return new Promise(function(resolve, reject){
-    var req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
     req.open('GET', url, true);
     req.onload = function(){
      if(req.status == 200){
@@ -6905,7 +6946,7 @@ const promiseFun = co.wrap( function* (url){
    });
   })
   co(function* (){
-   var res = yield [
+   const res = yield [
     promiseFun('http://localhost:3000/posts'),
     promiseFun('http://localhost:3000/profile'),
     promiseFun('http://localhost:3000/state'),
@@ -6920,7 +6961,7 @@ const promiseFun = co.wrap( function* (url){
 coを使ってgeneratorをラップしたfnを実行して、Promiseがresolveするまで処理を止める記述をしてください。※Promise.resolveで任意の値をすぐ返してok
 
 ```js
-  var fn = co.wrap(function* (fa){
+  const fn = co.wrap(function* (fa){
     return yield Promise.resolve(fa);
   });
   fn(true).then(function(val){console.log(val)})
@@ -6928,6 +6969,7 @@ coを使ってgeneratorをラップしたfnを実行して、Promiseがresolve�
 
 **問316**
 coを使って、1から始まり1秒ごとにインクルメントされた値からパラメーターに渡した数値まで出力される関数を実装、呼び出し元にresolveのpromiseオブジェクトが返ってきたら'done'を出力してください。
+
 ```js
   function sleep(i){
    return new Promise(function(resolve){
@@ -6935,8 +6977,8 @@ coを使って、1から始まり1秒ごとにインクルメントされた値�
    })
   };
 
-  var num = co.wrap(function* (num){
-    for(var i = 1; i <= num; i++) {
+  const num = co.wrap(function* (num){
+    for(const i = 1; i <= num; i++) {
      yield sleep(i);
      console.log(i)
     }
@@ -6950,6 +6992,7 @@ coを使って、1から始まり1秒ごとにインクルメントされた値�
 
 **問317**
 こちら
+
 ```js
 function asyncFunc() {
     return otherAsyncFunc()
@@ -6958,6 +7001,7 @@ function asyncFunc() {
     });
 }
 ```
+
 は非同期の結果をハンドリングしています。この処理と同等になるようにasync/awaitで記述してください
 
 ```js
@@ -6967,10 +7011,9 @@ async function asyncFunc() {
 }
 ```
 
-
-
 **問318**
 こちら
+
 ```js
 function asyncFunc() {
     return otherAsyncFunc1()
@@ -6983,6 +7026,7 @@ function asyncFunc() {
     });
 }
 ```
+
 は非同期の結果が返ってきたら次の非同期処理をしています(逐次処理)。
 この処理と同等になるようにasync/awaitで記述してください
 
@@ -6994,9 +7038,11 @@ async function asyncFunc() {
     console.log(result2);
 }
 ```
+
 **問319**
 
 こちら
+
 ```js
 function asyncFunc() {
     return Promise.all([
@@ -7008,6 +7054,7 @@ function asyncFunc() {
     });
 }
 ```
+
 は非同期処理を並列でしています。この処理と同等になるようにasync/awaitで記述してください
 
 ```js
@@ -7023,6 +7070,7 @@ async function asyncFunc() {
 **問320**
 
 こちらは
+
 ```js
 function asyncFunc() {
     return otherAsyncFunc()
@@ -7031,6 +7079,7 @@ function asyncFunc() {
     });
 }
 ```
+
 非同期処理を移譲した先で起きたエラーをハンドリングしています
 この処理と同等になるようにasync/awaitで記述してください
 
@@ -7057,6 +7106,7 @@ async function asyncFunc() {
   <li class="item">Code for one hour</li>
 </ul>
 ```
+
 li要素のそれぞれにイベントリスナーをアタッチしたもが下記です。
 
 ```js
@@ -7073,6 +7123,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 ```
+
 この問題はもしli要素が1000個あった場合1000個のリスナーを作るところにあります。
 これは効率的ではありません。
 全体のコンテナーに対し1つのイベントリスナーをアタッチして上記と同じ動作をするようなイベントデリゲーションを実装してください
@@ -7096,9 +7147,10 @@ document.addEventListener('DOMContentLoaded', function() {
 **問322**
 
 こちらの実装は配列のインデックスを3000ms後に出力することを期待しています。
+
 ```js
 const arr = [10, 12, 15, 21];
-for (var i = 0; i < arr.length; i++) {
+for (const i = 0; i < arr.length; i++) {
   setTimeout(function() {
     console.log('The index of this number is: ' + i);
   }, 3000);
@@ -7108,6 +7160,7 @@ for (var i = 0; i < arr.length; i++) {
 //"The index of this number is: 4"
 //"The index of this number is: 4"
 ```
+
 理由はsetTimeout関数はクロージャーを作り、それはスコープ外への参照を持ちます。
 3秒後には関数は実行されその時ループはすでに終わっていてその際参照するiは4となっているためです。
 
@@ -7119,13 +7172,14 @@ for (var i = 0; i < arr.length; i++) {
 //"The index of this number is: 2"
 //"The index of this number is: 3"
 ````
+
 を出力するように実装をしてください。
 
 ```js
 
 //変数iをそれぞれのfunctionに渡す
 const arr = [10, 12, 15, 21];
-for (var i = 0; i < arr.length; i++) {
+for (const i = 0; i < arr.length; i++) {
   // pass in the variable i so that each function
   // has access to the correct index
   setTimeout(function(i_local) {
@@ -7144,6 +7198,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 // read more here: http://exploringjs.com/es6/ch_variables.html#sec_let-const-loop-heads
 ```
+
 **問323**
 こちらのhtmlでcontainer内をscrollした際にイベントを発火させたい。
 
@@ -7156,7 +7211,7 @@ for (let i = 0; i < arr.length; i++) {
 
 ただ、window.scrollのイベント毎に発火するとパフォーマンスに深刻な問題を起こす。
 inputにkeypressする際にも起こるようなこのような問題はdebouncingとthrottlingを実装することで解決できる。
-//https://css-tricks.com/debouncing-throttling-explained-examples/
+//<https://css-tricks.com/debouncing-throttling-explained-examples/>
 
 scroll後、2秒後にイベントが発火するdebouncingを実装してください。
 
@@ -7230,12 +7285,14 @@ for(let value of Object.values(obj)){
 **問325**
 
 こちらはentriesで返されるkeyとvalueのペアー配列を要素とした配列をdestructuringしてそれぞれのkeyとvalueを出力しています。
+
 ```js
 let obj = {a:1,b:2,c:3};
 Object.entries(obj).forEach( ([key, value]) => {
  console.log(`${key} is ${value}`)
 })
 ```
+
 この実装をfor-ofで記述してください
 
 ```js
@@ -7255,6 +7312,7 @@ function add(x, y){
  return x + y;
 }
 ```
+
 こちらの関数の中身を編集せずにx + yの結果、例えばadd(2, 3)を実行したら値をreturnする前にconsoleで'Result:5'を出力する記述をしてください。
 
 ```js
@@ -7262,7 +7320,7 @@ function add (x, y){
  return x + y;
 }
 function addAndLog(x, y){
- var result = add(x, y);
+ const result = add(x, y);
  console.log(`Result:${result}`);
  return result;
 }
@@ -7283,6 +7341,7 @@ function subtract(x, y){
  return x - y;
 }
 ```
+
 subtractかaddを渡すと実行結果をreturnする前にそれぞれの関数結果をconsole出力する汎用的な関数logAndReturnを実装してください
 
 ```js
@@ -7295,17 +7354,17 @@ function subtract(x, y){
 //HigherOrderFunction
 function logAndReturn(func) {
  return function(){
-   var args = Array.prototype.slice.call(arguments);//返した関数の引数を配列にする
-   var result = func.apply(null, args);//渡された関数に引数を渡し実行する
+   const args = Array.prototype.slice.call(arguments);//返した関数の引数を配列にする
+   const result = func.apply(null, args);//渡された関数に引数を渡し実行する
    console.log(`Result:${result}`);
    return result;
  }
 }
 
-var addAndLog = logAndReturn(add);
+const addAndLog = logAndReturn(add);
 addAndLog(4, 4);
 //'Result:8'
-var subtractAndLog = logAndReturn(subtract);
+const subtractAndLog = logAndReturn(subtract);
 subtractAndLog(4, 3);
 //'Result:1'
 ```
@@ -7324,7 +7383,7 @@ console.log(a)
 
 
 //spread operatorが使えない環境下で
-var unique = Array.from(new Set([1,2,2,3,3,3,4,5])); // [1,2,3,4,5]
+const unique = Array.from(new Set([1,2,2,3,3,3,4,5])); // [1,2,3,4,5]
 
 ```
 
@@ -7339,7 +7398,9 @@ function log(){
 }
 log('foo');
 ```
+
 と
+
 ```js
 //2
 function log(){
@@ -7347,6 +7408,7 @@ function log(){
 }
 log('foo');
 ```
+
 の違いを教えてください
 
 ```js
@@ -7370,10 +7432,10 @@ console.log(['foo'])を実行し、
 Math.max(12, 45, 78) //returns 78
 
 //組み込み関数と一緒に使用する
-var max = Math.max.apply(null, [12, 45, 92, 78, 4]);//returns 92
+const max = Math.max.apply(null, [12, 45, 92, 78, 4]);//returns 92
 
 //e.g
-var array = [10, 20, 30];
+const array = [10, 20, 30];
 function average(){
     console.log.apply(console, arguments)
 }
@@ -7397,7 +7459,7 @@ average(...array);//違う方法で
 function foo(x) {
     if (x > 10) return x + 1;
 
-    var y = x / 2;
+    const y = x / 2;
 
     if (y > 3) {
         if (x % 2 == 0) return x;
@@ -7414,8 +7476,8 @@ foo(8);
 foo(12);
 
 ```
-を実行したらそれぞれ何が返るかお答えください
 
+を実行したらそれぞれ何が返るかお答えください
 
 ```js
 //2
@@ -7435,13 +7497,13 @@ function foo(a, b) {
 }
 foo(1);
 ```
+
 bとして出力するのは何ですか?
 ``
 
 ```js
 undefined
 ```
-
 
 **問332**
 
@@ -7450,7 +7512,9 @@ undefined
 ```js
 NaN === NaN
 ```
+
 出力するのは何ですか?
+
 ```
 false
 ```
@@ -7520,7 +7584,6 @@ false
 
 ```
 
-
 **問334**
 
 こちら
@@ -7554,6 +7617,7 @@ const sparseKeys = Object.keys(arr);
 const denseKeys = [...arr.keys()];
 
 ```
+
 のsparseKeysとdenseKeysを出力した際の違いを教えてください
 
 ```
@@ -7567,19 +7631,21 @@ console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない //要素は数�
 **問336**
 
 こちら
+
 ```js
 (function() {
-   var a = b = 5;
+   const a = b = 5;
 })();
 
 console.log(b);
 
 ```
+
 bは何を出力しますか？
 
 ```js
 (function() {
-   var a = b = 5;
+   const a = b = 5;
 })();
 
 console.log(b);
@@ -7598,7 +7664,7 @@ console.log(b);//Uncaught ReferenceError: b is not defined
 その場合明示的にしなくてはいけません。
 (function() {
    'use strict';
-   var a = window.b = 5;
+   const a = window.b = 5;
 })();
 
 console.log(b);
@@ -7611,13 +7677,14 @@ console.log(b);
 こちら
 
 ```js
-var f = function g(){ return 23; };
+const f = function g(){ return 23; };
 typeof g();
 ```
+
 は何を返しますか？？
 
 ```js
-var f = function g(){ return 23; };
+const f = function g(){ return 23; };
 typeof g();
 //Uncaught ReferenceError: g is not defined
 
@@ -7635,13 +7702,14 @@ console.log('hello'.repeatify(3));
 //hellohellohello.
 
 ```
+
 Stringオブジェクト上に整数値を受け取ってその数だけrepeatするrepeatify関数を定義してください。
 
 ```js
 String.prototype.repeatify = String.prototype.repeatify || function(times) {
-   var str = '';
+   const str = '';
 
-   for (var i = 0; i < times; i++) {
+   for (const i = 0; i < times; i++) {
       str += this;
    }
 
@@ -7652,12 +7720,13 @@ String.prototype.repeatify = String.prototype.repeatify || function(times) {
 **問339**
 
 下のコードは
+
 ```js
 function test() {
    console.log(a);
    console.log(foo());
 
-   var a = 1;
+   const a = 1;
    function foo() {
       return 2;
    }
@@ -7665,6 +7734,7 @@ function test() {
 
 test();
 ```
+
 何を出力しますか。またどうしてですか？
 
 ```js
@@ -7678,7 +7748,7 @@ test();
 
 //問題のコードは下記と同じです
 function test() {
-   var a;
+   const a;
    function foo() {
       return 2;
    }
@@ -7694,9 +7764,10 @@ test();
 **問340**
 
 下記コードは
+
 ```js
-var fullname = 'John Doe';
-var obj = {
+const fullname = 'John Doe';
+const obj = {
    fullname: 'Colin Ihrig',
    prop: {
       fullname: 'Aurelio De Rosa',
@@ -7708,11 +7779,12 @@ var obj = {
 
 console.log(obj.prop.getFullname());
 
-var test = obj.prop.getFullname;
+const test = obj.prop.getFullname;
 
 console.log(test());
 
 ```
+
 何を出力しますか
 
 ```js
@@ -7721,16 +7793,15 @@ console.log(test());
 
 ```
 
-
 **問341**
 
-
 第一引数で受け取った数値に3を足して返す関数add3を第一引数に渡すとfを2回繰り返す関数twice。
+
 ```js
 twice(add3, 7);
 ```
-初期値として7をtwiceの第二引数に渡し、13を出力してください。
 
+初期値として7をtwiceの第二引数に渡し、13を出力してください。
 
 ```js
 function add3(v){
@@ -7748,20 +7819,23 @@ twice(add3, 7);
 **問342**
 
 こちらの
+
 ```js
 logStuff({name: 'morita', job: engineer}, log);
 ```
+
 を実行したら
 
 ```
 //name morita
 //job engineer
 ```
+
 と出力する関数logStuffを実装してください。また、第二引数として渡すlogはlogStuffの第一引数のkey,valueを出力するコールバック関数です。
 objはlogStuffの中でString型かObject型かチェックしてください。
 
 ```js
-var arr = [];
+const arr = [];
 function log(obj){
   if (typeof obj === 'string'){
     console.log(obj);
@@ -7782,13 +7856,12 @@ logStuff({name: 'morita', job: 'engineer'}, log);
 
 問342のlogStuffについて、第二引数で渡したcallbackの型をチェックしてFunctionだったら実行するようにしてください
 
-
 **問344**
 
 こちらの
 
 ```js
-var clientData = {
+const clientData = {
     id: 094545,
     fullName: "Not Set",
     setUserName: function (firstName, lastName)  {
@@ -7807,7 +7880,7 @@ console.log(clientData.fullName)
 渡した値がfullNameにセットされて出力するようにしてください。
 
 ```js
-var clientData = {
+const clientData = {
     id: 094545,
     fullName: "Not Set",
     setUserName: function (firstName, lastName)  {
@@ -7825,8 +7898,9 @@ clientData.fullName
 **問345**
 
 こちら
+
 ```js
-var greet = function(greeting, name){
+const greet = function(greeting, name){
  console.log(greeting, name);
 }
 greet('Hello', 'kenji')
@@ -7836,14 +7910,13 @@ Hello kenji
 greetをCurry化してgreetHello('kenji')を実行すると
 同じ出力になるようにしてください
 
-
 ```js
-var greetCurried = function(greeting){
+const greetCurried = function(greeting){
  return function(name){
    console.log(`${greeting} ${name}`)
  }
 }
-var greetHello = greetCurried('Hello')
+const greetHello = greetCurried('Hello')
 greetHello('kenji')
 //Hello kenji
 
@@ -7853,37 +7926,37 @@ greetHello('kenji')
 こちら
 
 ```js
-var greetAwkwardly = greetDeeplyCurried("Hello")("...")("?");
+const greetAwkwardly = greetDeeplyCurried("Hello")("...")("?");
 greetAwkwardly("kenji");
 ```
+
 を実行した際に
 
 ```
 //Hello...kenji?
 ```
+
 が出力されるようにgreetDeeplyCurriedを実装してください
 
 ```
-var greetDeeplyCurried = function(greeting){
+const greetDeeplyCurried = function(greeting){
  return function(spread){
     return function(empasis){
      return function(name){
-     	 console.log(`${greeting}${spread}${name}${empasis}`);
- 	 }
+       console.log(`${greeting}${spread}${name}${empasis}`);
+   }
     }
  }
 }
-var greetAwkwardly = greetDeeplyCurried('Hello')('...')('?');
+const greetAwkwardly = greetDeeplyCurried('Hello')('...')('?');
 greetAwkwardly('kenji')
 //Hello...kenji?
 ```
-
 
 **問347**
 
 文字列が'He'から始まる場合trueになる評価をしてください
 ex 'Hello World' //true 'Goodby World' //false
-
 
 ```js
 'Hello World'.startsWith('He');
@@ -7901,7 +7974,6 @@ ex 'Hello World' //true 'Goodby World' //false
 **問348**
 
 mystring#という文字列があります。最後の文字が#の場合trueになる評価をしてください
-
 
 ```js
 let str = "mystring#";
@@ -7982,7 +8054,7 @@ f.hasOwnProperty('name') //自身にnameをもつ //2
 
 
 //Array
-var arry = [];
+const arry = [];
 arry.__proto__ === Array.prototype
 //true
 arry.__proto__ === [].__proto__
@@ -8050,6 +8122,7 @@ f.hasOwnProperty('y')
 **問352**
 
 こちら
+
 ```
 function a (name) {
   this.name = name;
@@ -8058,6 +8131,7 @@ function a (name) {
  a.prototype.car = 'BMW'
  b.car
 ```
+
 が実行された際のJavaScriptの内部の動きをざっくり教えてください(問350で説明しているところです。復習)
 
 ```js
@@ -8079,12 +8153,12 @@ b.car
 //JavaScriptはb上のプロパティcarを探し、見つからなければ上記2で作成されたb.__proto__(a.prototype)を参照し、a.prototypeにあるcarプロパティ値を返すためです。
 ```
 
-http://exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters
-
+<http://exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters>
 
 **問353**
 
 こちらはmaxからminまでのランダム値を返す関数です。
+
 ```js
 function randam({max=180, min=1}){
  return Math.floor(Math.random() * (max - min) + min);
@@ -8093,6 +8167,7 @@ function randam({max=180, min=1}){
 randam({max:20});//20までの値を返す
 randam({});//1~180の値を返す
 ```
+
 こちらの関数に{}を渡さないでも返してくれるようにしてください eg: randam();//1~180までを返す
 
 ```js
@@ -8104,13 +8179,14 @@ randam()
 
 ```
 
-
 **問354**
 
 下記のようなオブジェクト
+
 ```js
 { foo: { bar: 'baz' } }
 ```
+
 barの値をdeepとして割り当ててください
 
 ```js
@@ -8121,9 +8197,11 @@ console.log(deep)//'baz'
 **問355**
 
 下記
+
 ```js
 [...$('div')]
 ```
+
 を実行すると例外が発生する(Symbol.iteratorがまだ実装されていないため)。任意の数のdivが持つid値を配列の要素になるような関数を定義してください
 
 ```js
@@ -8134,7 +8212,6 @@ Array.from($('div'), el => el.id)
 //.map - 各inputのitemに対して実行されるmapping function
 //.context - mapが呼ばれる際に使われるthis
 ```
-
 
 **問356**
 
@@ -8159,6 +8236,7 @@ typeOf(null, [], NaN);
 **問358**
 
 こちら
+
 ```js
 let faf;
 let ee;
@@ -8171,6 +8249,7 @@ if(true){
 }
 
 ```
+
 をletを書かずにconstで代入できるようにしてください
 
 ```js
@@ -8209,6 +8288,7 @@ const {faf, ee } = (() => {
 ~-1
 ~0
 ```
+
 3つはそれぞれは何を返すか
 
 ```js
@@ -8217,7 +8297,6 @@ const {faf, ee } = (() => {
 -1
 //符号を逆にして-1された値が返る
 ```
-
 
 **問361**
 
@@ -8287,7 +8366,6 @@ _aside_
  `'John'` became `"John"`, `{age: 30}` become `{"age": "30"}`
 `typeof user` will return `"string"`
 
-
 **問363**
 
 こちらは
@@ -8299,12 +8377,14 @@ let meetup = {
 }
 JSON.stringfiy(meetup)
 ```
+
 期待した通りに返ります(深いkey-valueも返すことに注意)
 
 ```js
 JSON.stringify(meetup)
 "{"title":"conference","room":{"number":24,"participants":["johon","ann"]}}"
 ```
+
 ではこちらを実行した結果は何ですか
 
 ```js
@@ -8317,6 +8397,7 @@ meetup.place = room;
 room.occupiedBy = meetup
 JSON.stringify(meetup) // ここを実行した場合は?
 ```
+
 実行後
 
 ```js
@@ -8324,6 +8405,7 @@ VM2804:1 Uncaught TypeError: Converting circular structure to JSON
     at JSON.stringify (<anonymous>)
     at <anonymous>:1:6
 ```
+
 why:
 
 循環オブジェクト参照構造体を文字列に変換できません。
@@ -8378,6 +8460,7 @@ let obj = {
 let replacement = {"b":undefined}; //undefinedをいれてskipさせる
 JSON.stringify(obj,replacement));
 ```
+
 or
 `json-stringify-safe`を使ってそれが`circular`か確認します
 
@@ -8388,6 +8471,7 @@ or
 ```js
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
 ```
+
 をJSだけで(moment.jsを使わず) dateの日付(この場合30)を返す関数を作ってください
 
 ```js
@@ -8424,6 +8508,7 @@ let user = {
   age: 35
 };
 ```
+
 と同じkey-valueをもつオブジェクトになるようにして同じものではないことを確認してください
 
 ```js
@@ -8442,7 +8527,6 @@ user
 //{name: "John Smith", age: 35}
 ```
 
-
 **問366**
 
 こちら
@@ -8451,6 +8535,7 @@ user
 alert( undefined || null || 0 );
 
 ```
+
 を実行すると何がalertとして表示されますか？
 
 ```js
@@ -8494,7 +8579,6 @@ alertはundefinedを返します
 undefineを返すので、ORはtruthyを探しに次のオペランドへ2が返るのでORはそこで終わり、
 
 外側のアラートがそれを実行します
-
 
 **問368**
 
@@ -8582,6 +8666,7 @@ console.log(un); //[1, 2, 3]
 ```js
 let e = [0, undefined, null, "", 21, "fafa", false]
 ```
+
 それらを除外した ```[21, "fafa"]```を取得してください
 
 ```js
@@ -8620,6 +8705,7 @@ str.split('').reverse().join('')
 **問題376**
 
 addという関数
+
 ```js
 add(a){
   return a + a
@@ -8634,13 +8720,13 @@ add(2) //4
 ```js
 
 function add (a){
-	if(!add.cache){
+ if(!add.cache){
        add.cache = {}
        console.log("cache create!")
     }
     if(!add.cache[a]){
        add.cache[a] = a + a;
-	   console.log("create value in cacche!")
+    console.log("create value in cacche!")
     }
     return add.cache[a]
 }
@@ -8686,6 +8772,7 @@ Math.pow(2, 4)
 "パスワードは😄😄😄😄です".length
 // 16
 ```
+
 は16文字として処理されます
 絵文字1つを2とカウントしないようにしてください
 
@@ -8705,7 +8792,6 @@ reduceを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` に�
 **問題381**
 
 `[{1: {name: "kenji"}}, {2: {name: "rika"}}]` を reduceを使って `[{name: "kenji"},{name: "rika"}]` にしてください
-
 
 ```js
 
@@ -8830,13 +8916,14 @@ function loggingDecorator(callback){
  }
 }
 
-var wrapped = loggingDecorator(dosomthing)
+const wrapped = loggingDecorator(dosomthing)
 wrapped("kenji")
 ```
 
 **問題386**
 
 下記のように
+
 ```js
 class Example {
   @log
@@ -8879,7 +8966,6 @@ ins.sum(1, 2);
 ```
 
 [codeSandbox](https://codesandbox.io/s/decorator-x-typescript-x-react-hm8rj?file=/src/index.tsx)
-
 
 **問題386**
 
@@ -8995,55 +9081,51 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
 
-
 ```js
 
 
 ```
 
-
 </details>
-
 
 <details><summary>参照記事</summary>
 
-
 参照
 
-http://exploringjs.com/es6/
-https://leanpub.com/understandinges6/read
-https://github.com/airbnb/javascript
-http://uhyohyo.net/javascript/
-https://developer.mozilla.org/ja/docs/Web/API/document
-http://foreignkey.toyao.net/archives/763
-https://github.com/metagrover/ES6-for-humans
-https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88JavaScript-%E4%BA%95%E4%B8%8A%E8%AA%A0%E4%B8%80%E9%83%8E-ebook/dp/B00P2EG5LC
-https://www.oreilly.co.jp/books/9784873115733/
-https://www.oreilly.co.jp/books/9784873116211/
-http://gihyo.jp/magazine/wdpress/archive/2015/vol87
-https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842
-http://nodejs.jp/nodejs.org_ja/
-http://d.hatena.ne.jp/hasegawayosuke/20130330/p1
-https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
-https://twitter.com/javascript_tips
-http://blog.tojiru.net/article/205007468.html
-http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
-https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
-http://exploringjs.com/es6/ch_overviews.html
-http://www.javascripture.com/DOMTokenList
-http://youmightnotneedjquery.com/
-http://azu.github.io/promises-book/
-http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
-https://github.com/loverajoel/jstips
-https://www.sitepoint.com/react-higher-order-components/
-https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
-http://www.jstips.co/en/javascript/
-http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037
-https://www.sitepoint.com/currying-in-functional-javascript/
-https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
-https://ponyfoo.com/articles/es6-array-extensions-in-depth
-https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan
-https://javascript.info/js
-https://davidwalsh.name/javascript-tricks
-https://www.sitepoint.com/javascript-decorators-what-they-are/
+<http://exploringjs.com/es6/>
+<https://leanpub.com/understandinges6/read>
+<https://github.com/airbnb/javascript>
+<http://uhyohyo.net/javascript/>
+<https://developer.mozilla.org/ja/docs/Web/API/document>
+<http://foreignkey.toyao.net/archives/763>
+<https://github.com/metagrover/ES6-for-humans>
+<https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88JavaScript-%E4%BA%95%E4%B8%8A%E8%AA%A0%E4%B8%80%E9%83%8E-ebook/dp/B00P2EG5LC>
+<https://www.oreilly.co.jp/books/9784873115733/>
+<https://www.oreilly.co.jp/books/9784873116211/>
+<http://gihyo.jp/magazine/wdpress/archive/2015/vol87>
+<https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842>
+<http://nodejs.jp/nodejs.org_ja/>
+<http://d.hatena.ne.jp/hasegawayosuke/20130330/p1>
+<https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create>
+<https://twitter.com/javascript_tips>
+<http://blog.tojiru.net/article/205007468.html>
+<http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators>
+<https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html>
+<http://exploringjs.com/es6/ch_overviews.html>
+<http://www.javascripture.com/DOMTokenList>
+<http://youmightnotneedjquery.com/>
+<http://azu.github.io/promises-book/>
+<http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators>
+<https://github.com/loverajoel/jstips>
+<https://www.sitepoint.com/react-higher-order-components/>
+<https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer>
+<http://www.jstips.co/en/javascript/>
+<http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037>
+<https://www.sitepoint.com/currying-in-functional-javascript/>
+<https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript>
+<https://ponyfoo.com/articles/es6-array-extensions-in-depth>
+<https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan>
+<https://javascript.info/js>
+<https://davidwalsh.name/javascript-tricks>
+<https://www.sitepoint.com/javascript-decorators-what-they-are/>
 </details>
