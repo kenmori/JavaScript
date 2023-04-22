@@ -1,2 +1,0 @@
-# React Test Cheet Sheet
-
