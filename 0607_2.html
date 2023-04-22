@@ -1,124 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
-	<title>0607_2</title>
+	<title>レシカルスコープ</title>
 </head>
+
 <body>
 
 
 
-<script type="text/javascript">
-///////////////////////////////////////////
-//レシカルスコープ(関数定義時に関数の環境(スコープ)が作られる)
-function f1(){
-	var a = 1;
-	f2();
-}
-function f2(){return a;}//ここが読み込まれた時点でaは未定義
-f1();//関数f2()が定義された時点(実行時ではなく)では変数aはf2()の視界の外
-//関数f1()とf2()はローカルスコープを共有していない
-
-
-var n;
-function f3(){
-	var b = "b";
-	n = function(){
-		return b;
-	};
-};
-f3();//n関数が定義される
-n();//f3()のスペースに対するアクセス権を保持している//"b"
-///////////////////////////////////////////
-//関数に引数を渡すとローカル変数として親のスコープを保持するようになりアクセスできる
-//親の引数を返す関数を作ることができる
-function f4(arg){
-	var n = function (){
-		return arg;
-	};
-	arg++;
-	return n;
-};
-var m = f4(123);
-m();
-///////////////////////////////////////////
-//ループの中のクロージャ
-//1,2,3とならないなぜか
-function f(){
-	var a = [];
-	var i;
-	for(i = 0; i<3; i++){
-		a[i] = function(){
-			return i;
-		};
-	}
-	return a;
-}
-var a = f();
-a[0]();//3
-a[1]();//3
-a[2]();//3
-//同じローカル変数を参照している。3つのクロージャがつくられている。クロージャは値を覚えるのでは無く参照を覚える
-function f(){
-	var a = [];
-	var i;
-	for(i = 0; i< 3;i++){
-		a[i] = (function(x){
-			return function (){
-				return x;
-			}
-		})(i);
-	}
-	return a;
-}
-var a = f();
-a[0]();//0
-a[1]();//1
-a[2]();//2
-//上記の方法とは別の方法
-function f(){
-	function makeClosure(x){
-		return function (){
-			return x;
+	<script type="text/javascript">
+		///////////////////////////////////////////
+		//レシカルスコープ(関数定義時に関数の環境(スコープ)が作られる)
+		function f1() {
+			var a = 1;
+			f2();
 		}
-	}
-	var a =[];
-	var i;
-	for (i=0;i<3;i++){
-		a[i] = makeClosure(i);
-	}
-	return a;
-}
-a[0]();//0
-a[1]();//1
-a[2]();//2
-///////////////////////////////////////////
-//ゲッターとセッター
-var getValue,setValue;
-(function(){
-	var secret = 0;
-	getValue = function(){
-		return secret;
-	};
-	setValue = function(v){
-		secret = v;
-	};
-})()
-getValue();//0
-setValue(123);
-getValue();//123
-///////////////////////////////////////////
-//イテレータ
-function setUp(x){
-	var i = 0;
-	return function (){
-		return x [i++];
-	};
-}
-var next = setUp(['a','b','c']);
-next();//a
-next();//b
-next();//c
-</script>
+		function f2() { return a; }//ここが読み込まれた時点でaは未定義
+		f1();//関数f2()が定義された時点(実行時ではなく)では変数aはf2()の視界の外
+		//関数f1()とf2()はローカルスコープを共有していない
+
+
+		var n;
+		function f3() {
+			var b = "b";
+			n = function () {
+				return b;
+			};
+		};
+		f3();//n関数が定義される
+		n();//f3()のスペースに対するアクセス権を保持している//"b"
+		///////////////////////////////////////////
+		//関数に引数を渡すとローカル変数として親のスコープを保持するようになりアクセスできる
+		//親の引数を返す関数を作ることができる
+		function f4(arg) {
+			var n = function () {
+				return arg;
+			};
+			arg++;
+			return n;
+		};
+		var m = f4(123);
+		m();
+		///////////////////////////////////////////
+		//ループの中のクロージャ
+		//1,2,3とならないなぜか
+		function f() {
+			var a = [];
+			var i;
+			for (i = 0; i < 3; i++) {
+				a[i] = function () {
+					return i;
+				};
+			}
+			return a;
+		}
+		var a = f();
+		a[0]();//3
+		a[1]();//3
+		a[2]();//3
+		//同じローカル変数を参照している。3つのクロージャがつくられている。クロージャは値を覚えるのでは無く参照を覚える
+		function f() {
+			var a = [];
+			var i;
+			for (i = 0; i < 3; i++) {
+				a[i] = (function (x) {
+					return function () {
+						return x;
+					}
+				})(i);
+			}
+			return a;
+		}
+		var a = f();
+		a[0]();//0
+		a[1]();//1
+		a[2]();//2
+		//上記の方法とは別の方法
+		function f() {
+			function makeClosure(x) {
+				return function () {
+					return x;
+				}
+			}
+			var a = [];
+			var i;
+			for (i = 0; i < 3; i++) {
+				a[i] = makeClosure(i);
+			}
+			return a;
+		}
+		a[0]();//0
+		a[1]();//1
+		a[2]();//2
+		///////////////////////////////////////////
+		//ゲッターとセッター
+		var getValue, setValue;
+		(function () {
+			var secret = 0;
+			getValue = function () {
+				return secret;
+			};
+			setValue = function (v) {
+				secret = v;
+			};
+		})()
+		getValue();//0
+		setValue(123);
+		getValue();//123
+		///////////////////////////////////////////
+		//イテレータ
+		function setUp(x) {
+			var i = 0;
+			return function () {
+				return x[i++];
+			};
+		}
+		var next = setUp(['a', 'b', 'c']);
+		next();//a
+		next();//b
+		next();//c
+	</script>
 </body>
+
 </html>
