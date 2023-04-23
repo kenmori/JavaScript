@@ -5,6 +5,7 @@
 **更新情報**
 
 ```
+・リファクタリング(2023/4/22)
 ・Decoratorsに関する問題を追加(2020/6/6)
 ・リンクを追加(2020/5/30)
 ・問題を追加(2020/4/18)
@@ -17,9 +18,9 @@
 ```
 
 
-こちらは[よしもと芸人もりたけんじ](https://kenjimorita.jp/aboutme/)が自身のテストとして作ったJavaScript練習問題集です。([TypeScript練習問題はこちら](https://gist.github.com/kenmori/8cea4b82dd12ad31f565721c9c456662))
+こちらは[よしもと芸人もりたけんじ](https://profile.yoshimoto.co.jp/talent/detail?id=3871)が自身のテストとして作ったJavaScript練習問題集です。([TypeScript練習問題はこちら](https://gist.github.com/kenmori/8cea4b82dd12ad31f565721c9c456662))
 
- [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40bukotsunikki)](https://twitter.com/bukotsunikki)
+ [![Twitter URL](https://twitter.com/terrace_tech)](https://twitter.com/terrace_tech)
 
 **前提**
 
