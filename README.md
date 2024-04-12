@@ -4,23 +4,16 @@
 
 **更新情報**
 
-```
+```txt
+・問題を追加(2024/4/12)
 ・リファクタリング(2023/4/22)
 ・Decoratorsに関する問題を追加(2020/6/6)
-・リンクを追加(2020/5/30)
-・問題を追加(2020/4/18)
-・表記揺れを整理(2020/1/13)
-・TypeScript問題集のリンク追加(2019/7/13)
-・問題を追加(2019/4/30) 平成最終日
-・問題を追加(2019/4/16)
-・問題を追加(2018/11/26)
-・問題9の誤字を修正(2018/5/22)
 ```
 
 
 こちらは[よしもと芸人もりたけんじ](https://profile.yoshimoto.co.jp/talent/detail?id=3871)が自身のテストとして作ったJavaScript練習問題集です。([TypeScript練習問題はこちら](https://gist.github.com/kenmori/8cea4b82dd12ad31f565721c9c456662))
 
- [![Twitter URL](https://twitter.com/terrace_tech)](https://twitter.com/terrace_tech)
+[X](https://twitter.com/terrace_tech)
 
 **前提**
 
@@ -30,23 +23,19 @@
 
 ※答えはあくまで１つの記述です。
 
-※ECMAScript2015の観点からは非奨励な書き方も載せています。(varやfor-in、破壊的メソッドの使用など)、
-環境に因って使用せざるを得ないなどがその理由です。(また、varの場合、コンソールログ上でそのままコピペ、再定義されているエラーを出させないというのもあります)
+※ECMAScript2015の観点からは非奨励な書き方も載せています。(varやfor-in、破壊的メソッドの使用など)
+環境に因って使用せざるを得ないなどがその理由です。
 また以下に示す問題の答えがあなたの考えた答えより冗長な書き方かもしれません。
 適宜置き換えていただけたらと思います。
-「答え」より端的な書き方、違うメソッド使用で解決できるなら「それが答え」です。
-
-・途中似ているような問題が出てくるかもしれませんが気にしないでください。
 
 ・答えが見えてしまっているのは都度操作させないためです。
 
-※・プルリク歓迎です。修正依頼は[こちら](https://omajimedesign.drift.com/omajimedesign)
-
+※・プルリク歓迎です。修正依頼は[こちら](https://twitter.com/terrace_tech)のDMからお願いします。
 *★を押していただけたら今後もやる気出ます。よろしくお願いします。
 
 ※[blog/JavaScript](https://kenjimorita.jp/category/javascript/)
 
-※[Twitter](https://twitter.com/bukostunikki)
+※[X](https://twitter.com/bukotsunikki)
 
 ※[GitHub](https://github.com/kenmori)
 
@@ -258,7 +247,7 @@ var(let) や function文中の変数はnon-configurableであり削除できな�
 
 //globaleオブジェクト
 x = 43;
-delete x 
+delete x
 //true //暗黙に定義されたglobale変数なので
 
 //var宣言
@@ -1020,6 +1009,7 @@ arry
 
 **問42**
 これ```var o = {};```と同じ意味を持つコードをObjectのAPIを使って生成してください
+
 
 
 ```js
@@ -2053,7 +2043,11 @@ text.replace(/(.)\s/g,function(m0, m1){
 
 **問97**
 
+<<<<<<< Updated upstream
 ``` var array = ['aa','bb','cc','dd','ff'];```
+=======
+``` const array = ['aa','bb','cc','dd','ff'];```
+>>>>>>> Stashed changes
 このような配列の要素'bb'の前に'ff'を移動させて ``` ['aa','ff','bb','cc','dd'] ```このような配列を完成させてください
 
 ```js
@@ -4579,7 +4573,11 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 
 **問222**
 
+<<<<<<< Updated upstream
 ```var a = 'aabbccdde1e23ffgg'; ```と```var b = 'aabbccdde1e23ffgg';```がある。
+=======
+```const a = 'aabbccdde1e23ffgg'; ```と```const b = 'aabbccdde1e23ffgg';```がある。
+>>>>>>> Stashed changes
 aとbを比較してaの方が先に数値が現れる場合trueを返してください
 
 ```js
@@ -4665,7 +4663,11 @@ d.toLocaleTimeString();
 
 **問228**
 
+<<<<<<< Updated upstream
 var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
+=======
+const ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
+>>>>>>> Stashed changes
 ```js
 var ary = ['aaa', 'bbb', 'ccc'];
 ary.unshift('eee');
@@ -5030,7 +5032,11 @@ o && o.f && o.f();
 
 
 **問246**
+<<<<<<< Updated upstream
 ```var v```の値を確実に数値にしたい。
+=======
+```const v```の値を確実に数値にしたい。
+>>>>>>> Stashed changes
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
  
 ```js
@@ -5038,7 +5044,11 @@ var n = +v || 0;
 ```
 
 **問247**
+<<<<<<< Updated upstream
 ```var v ```を整数化してください
+=======
+```const v ```を整数化してください
+>>>>>>> Stashed changes
 
 ```js
 var i = v | 0;
@@ -8898,52 +8908,6 @@ console.log(generateNumber(4)) // [342, 920, 888, 292,129] or some
 
 ```
 
-**WIP**
-
-//問題文をわかりやすくする
-fun()を実行し、もしキャッシュがあればその値を返し、もしキャッシュがなければその引数をキャッシュのkeyとして値を返す関数を実装してください。
-
-```js
-function fn() {
-  console.log('Generate cache');
-  const cache = {};
-  return function(a) {
-    let res = cache[a];
-    if (res) {
-      console.log('From cache');
-      return res;
-    } else {
-      console.log('Calculate and save to cache');
-      res = 'value' + a;
-      cache[a] = res;
-      return res;
-    }
-  };
-}
-const fun = fn()
-//Generate cache
-fun(1)
-//Calculate and save to cache
-//1
-fun(1)
-//From cache
-//1
-```
-
-```js
-
-//下記の関数
-
-function f(images, index, attributes){
- return {images: [ ...images.slice(0, index), {...images[index], ...attributes}, ...images.slice(index + 1)]}
-}
-の
-f(["eeee","ppp","lll"], 1, [1,2,3])
-実行時出力結果を答えてください
-
-
-//images:[ "eeee",  {0: 1, 1: 2, 2: 3} ,"lll"]
-```
 
 [付録] 便利かもしれないユーティリティ関数
 
@@ -8995,11 +8959,14 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
 
+<<<<<<< Updated upstream
 
 ```js
 
 
 ```
+=======
+>>>>>>> Stashed changes
 
 
 </details>
