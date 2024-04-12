@@ -2043,11 +2043,7 @@ text.replace(/(.)\s/g,function(m0, m1){
 
 **問97**
 
-<<<<<<< Updated upstream
-``` var array = ['aa','bb','cc','dd','ff'];```
-=======
 ``` const array = ['aa','bb','cc','dd','ff'];```
->>>>>>> Stashed changes
 このような配列の要素'bb'の前に'ff'を移動させて ``` ['aa','ff','bb','cc','dd'] ```このような配列を完成させてください
 
 ```js
@@ -4573,11 +4569,7 @@ var newHoge = Array.prototype.slice.call(hoge, 1);
 
 **問222**
 
-<<<<<<< Updated upstream
-```var a = 'aabbccdde1e23ffgg'; ```と```var b = 'aabbccdde1e23ffgg';```がある。
-=======
 ```const a = 'aabbccdde1e23ffgg'; ```と```const b = 'aabbccdde1e23ffgg';```がある。
->>>>>>> Stashed changes
 aとbを比較してaの方が先に数値が現れる場合trueを返してください
 
 ```js
@@ -4663,11 +4655,7 @@ d.toLocaleTimeString();
 
 **問228**
 
-<<<<<<< Updated upstream
-var ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
-=======
 const ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
->>>>>>> Stashed changes
 ```js
 var ary = ['aaa', 'bbb', 'ccc'];
 ary.unshift('eee');
@@ -5032,11 +5020,7 @@ o && o.f && o.f();
 
 
 **問246**
-<<<<<<< Updated upstream
-```var v```の値を確実に数値にしたい。
-=======
 ```const v```の値を確実に数値にしたい。
->>>>>>> Stashed changes
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
  
 ```js
@@ -5044,11 +5028,7 @@ var n = +v || 0;
 ```
 
 **問247**
-<<<<<<< Updated upstream
-```var v ```を整数化してください
-=======
 ```const v ```を整数化してください
->>>>>>> Stashed changes
 
 ```js
 var i = v | 0;
@@ -8958,16 +8938,6 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 ```
 
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
-
-<<<<<<< Updated upstream
-
-```js
-
-
-```
-=======
->>>>>>> Stashed changes
-
 
 </details>
 
