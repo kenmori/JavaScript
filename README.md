@@ -8978,7 +8978,30 @@ console.log(generateNumber(4)) // [342, 920, 888, 292,129] or some
 
 ```
 
+**問題387**
 
+```js
+const MAX = 1000000000;
+```
+こちらの値を読みやすく改善してください
+
+```js
+// Numeric Separator
+const MAX = 1_000_000_000;
+const MAX2 = 1000000000;
+(MAX === MAX2) // true
+
+// const num1 = 1_2_3_4_5;とも書ける
+```
+
+**問題387**
+
+```js
+
+```
+
+
+---
 [付録] 便利かもしれないユーティリティ関数
 
 ```js
@@ -9026,6 +9049,9 @@ console.log(hasOwnDeepProperty(obj, 'value'));   // true
 console.log(hasOwnDeepProperty(obj, 'another')); // false
 
 ```
+
+
+
 
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
 
