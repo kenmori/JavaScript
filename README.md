@@ -8978,7 +8978,30 @@ console.log(generateNumber(4)) // [342, 920, 888, 292,129] or some
 
 ```
 
+**問題387**
 
+```js
+const MAX = 1000000000;
+```
+こちらの値を読みやすく改善してください
+
+```js
+// Numeric Separator
+const MAX = 1_000_000_000;
+const MAX2 = 1000000000;
+(MAX === MAX2) // true
+
+// const num1 = 1_2_3_4_5;とも書ける
+```
+
+**問題387**
+
+```js
+
+```
+
+
+---
 [付録] 便利かもしれないユーティリティ関数
 
 ```js
@@ -9027,6 +9050,7 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 
 ```
 
+
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
 
 </details>
@@ -9035,40 +9059,41 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 
 参照
 
-<http://exploringjs.com/es6/>
-<https://leanpub.com/understandinges6/read>
-<https://github.com/airbnb/javascript>
-<http://uhyohyo.net/javascript/>
-<https://developer.mozilla.org/ja/docs/Web/API/document>
-<http://foreignkey.toyao.net/archives/763>
-<https://github.com/metagrover/ES6-for-humans>
-<https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88JavaScript-%E4%BA%95%E4%B8%8A%E8%AA%A0%E4%B8%80%E9%83%8E-ebook/dp/B00P2EG5LC>
-<https://www.oreilly.co.jp/books/9784873115733/>
-<https://www.oreilly.co.jp/books/9784873116211/>
-<http://gihyo.jp/magazine/wdpress/archive/2015/vol87>
-<https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842>
-<http://nodejs.jp/nodejs.org_ja/>
-<http://d.hatena.ne.jp/hasegawayosuke/20130330/p1>
-<https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create>
-<https://twitter.com/javascript_tips>
-<http://blog.tojiru.net/article/205007468.html>
-<http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators>
-<https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html>
-<http://exploringjs.com/es6/ch_overviews.html>
-<http://www.javascripture.com/DOMTokenList>
-<http://youmightnotneedjquery.com/>
-<http://azu.github.io/promises-book/>
-<http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators>
-<https://github.com/loverajoel/jstips>
-<https://www.sitepoint.com/react-higher-order-components/>
-<https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer>
-<http://www.jstips.co/en/javascript/>
-<http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037>
-<https://www.sitepoint.com/currying-in-functional-javascript/>
-<https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript>
-<https://ponyfoo.com/articles/es6-array-extensions-in-depth>
-<https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan>
-<https://javascript.info/js>
-<https://davidwalsh.name/javascript-tricks>
-<https://www.sitepoint.com/javascript-decorators-what-they-are/>
+http://exploringjs.com/es6/
+https://leanpub.com/understandinges6/read
+https://github.com/airbnb/javascript
+http://uhyohyo.net/javascript/
+https://developer.mozilla.org/ja/docs/Web/API/document
+http://foreignkey.toyao.net/archives/763
+https://github.com/metagrover/ES6-for-humans
+https://www.amazon.co.jp/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88JavaScript-%E4%BA%95%E4%B8%8A%E8%AA%A0%E4%B8%80%E9%83%8E-ebook/dp/B00P2EG5LC
+https://www.oreilly.co.jp/books/9784873115733/
+https://www.oreilly.co.jp/books/9784873116211/
+http://gihyo.jp/magazine/wdpress/archive/2015/vol87
+https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92JavaScript-%E7%AC%AC2%E7%89%88-%E9%AB%98%E6%A9%8B-%E5%92%8C%E4%B9%9F/dp/4798130842
+http://nodejs.jp/nodejs.org_ja/
+http://d.hatena.ne.jp/hasegawayosuke/20130330/p1
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+https://twitter.com/javascript_tips
+http://blog.tojiru.net/article/205007468.html
+http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators
+https://github.com/rauschma/generator-examples/blob/gh-pages/nonblocking-counter/index.html
+http://exploringjs.com/es6/ch_overviews.html
+http://www.javascripture.com/DOMTokenList
+http://youmightnotneedjquery.com/
+http://azu.github.io/promises-book/
+http://exploringjs.com/es2016-es2017/ch_async-functions.html#_writing-asynchronous-code-via-generators
+https://github.com/loverajoel/jstips
+https://www.sitepoint.com/react-higher-order-components/
+https://www.sitepoint.com/5-typical-javascript-interview-exercises/?utm_content=buffer5f461&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
+http://www.jstips.co/en/javascript/
+http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/#more-1037
+https://www.sitepoint.com/currying-in-functional-javascript/
+https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
+https://ponyfoo.com/articles/es6-array-extensions-in-depth
+https://speakerdeck.com/wakamsha/sore-motutosumatonishu-keruyo-javascript-kodowomotutoduan-ku-motutosinpurunishu-ku-tips-4xuan
+https://javascript.info/js
+https://davidwalsh.name/javascript-tricks
+https://www.sitepoint.com/javascript-decorators-what-they-are/
+https://www.w3schools.com/js/js_2021.asp
 </details>
