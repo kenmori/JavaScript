@@ -5,6 +5,7 @@
 **更新情報**
 
 ```txt
+・問題を追加(2024/7/20)
 ・問題を追加(2024/4/12)
 ・リファクタリング(2023/4/22)
 ・Decoratorsに関する問題を追加(2020/6/6)
@@ -16,15 +17,13 @@
 
 **前提**
 
-※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017,2018,2019が使える環境で試されることを想定しています。
+※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017,2018,2019, 2020, 2021, 2022, 2023, 2024, 2025が使える環境で試されることを想定しています
 
 ※表記揺れは鋭意解消中。
 
 ※答えはあくまで１つの記述です。
 
-※ECMAScript2015の観点からは非奨励な書き方も載せています。(varやfor-in、破壊的メソッドの使用など)
-環境に因って使用せざるを得ないなどがその理由です。
-また以下に示す問題の答えがあなたの考えた答えより冗長な書き方かもしれません。
+※以下に示す問題の答えがあなたの考えた答えより冗長な書き方かもしれません。
 適宜置き換えていただけたらと思います。
 
 ・答えが見えてしまっているのは都度操作させないためです。
@@ -8996,10 +8995,153 @@ const MAX2 = 1000000000;
 
 **問題387**
 
+こちらを
+
 ```js
+const fruits = [
+  {name:"apples", quantity:300},
+  {name:"bananas", quantity:500},
+  {name:"oranges", quantity:200},
+  {name:"kiwi", quantity:150}
+]
 
 ```
 
+to
+
+```js
+{
+  "high": [{"name": "apples","quantity": 300}, {"name": "bananas","quantity": 500}],
+  "low": [{"name": "oranges","quantity": 200}, {"name": "kiwi","quantity": 150}]
+}
+```
+
+このようにquantity201以上をhigh、200以下をlowとするgroupでまとめた構造にしてください
+
+```js
+Object.groupBy(fruits, (item) => {
+    return item.quantity > 200 ? "high" : "low"
+})
+// ES2024
+```
+
+**問題388**
+
+こちらの気温リストの中で41度以上の要素を取得してください。
+
+```js
+const temp = [27, 28, 30, 40, 42, 35, 30];
+```
+
+尚、末尾から走査すること
+
+```js
+let high = temp.findLast((t) => t > 40);
+// 42
+
+// ES2023
+```
+
+**問題388**
+
+こちらの気温リストの中で41度以上のインデックスを取得してください。
+
+```js
+const temp = [27, 28, 30, 40, 42, 35, 30];
+```
+
+尚、末尾から走査すること
+
+```js
+let index = temp.findLastIndex((t) => t > 40);
+// 4
+
+// ES2023
+```
+
+**問題389**
+
+こちらの配列
+
+```js
+const months = ["Januar", "Februar", "Mar", "April"];
+```
+
+の`"Mar"`を正しく`"March"`に変更した新しい配列を作ってください。但し元の配列は破壊してはいけない。
+
+```js
+const newMonths = months.with(2, "March");
+months // ["Januar", "Februar", "Mar", "April"];
+newMonths // ["Januar", "Februar", "March", "April"];
+
+// ES2023
+```
+
+**問題390**
+
+こちらの配列
+
+```js
+const months = ["Jan", "Feb", "Mar", "Apr"];
+```
+
+の`"Jan"`を取り除いてた新しい配列を取得してください。尚元の配列(`month`)は破壊しないでください。
+
+```js
+const spliced = months.toSpliced(0, 1);
+month // ["Jan", "Feb", "Mar", "Apr"];
+spliced // ["Feb", "Mar", "Apr"]
+
+// ES2023
+```
+
+> ES2023では、元の配列を変更せずに配列を分割する安全な方法として、Array toSpliced()メソッドが追加されました。 新しいtoSpliced()メソッドと古いsplice()メソッドの違いは、新しいメソッドは元の配列を変更せずに新しい配列を作成するのに対し、古いメソッドは元の配列を変更する点です。
+
+**問題391**
+
+`[1, 2, 3]`と`[1,2,4]`があります。どちらにも含まれている値をSetで取得してください。
+
+```js
+const set = new Set([1,2,3]).intersection(new Set([1, 2, 4]))
+set // Set{1, 2}
+```
+
+Set.intersectionは要素と引数のうちどちらにも含まれるものを返します(AND)
+
+**問題392**
+
+`[1, 2]`と`[1, 3]`があります。要素と引数のうち少なくともどちらか片方に含まれるものをSet型で返してください
+
+```js
+const set = new Set([1,2]).union(new Set([1, 3]))
+set // Set{1, 2, 3}
+```
+
+> Set.union 要素と引数のうち少なくともどちらか片方に含まれるものを返す OR
+
+**問題393**
+
+`[1, 2]`と`[1, 3]`があります。要素の中で引数に含まれないものをSet型で返してください
+
+```js
+const set = new Set([1,2]).difference(new Set([1, 3]))
+set // Set{2}
+```
+
+> Set.difference 要素の中で引数に含まれないものを返す 差集合
+
+**問題394**
+
+`[1, 2]`と`[1, 3]`があります。要素と引数どちらか一方にしか含まれないものをSet値で返してください
+
+```js
+const set = new Set([1,2]).symmetricDifference(new Set([1, 3]))
+set // Set{2, 3}
+
+// ES2025 state 4
+```
+
+> Set.symmetricDifference 要素と引数どちらか一方にしか含まれないものを返す XOR
 
 ---
 [付録] 便利かもしれないユーティリティ関数
@@ -9051,8 +9193,6 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 ```
 
 
-
-
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
 
 </details>
@@ -9097,4 +9237,6 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 <https://javascript.info/js>
 <https://davidwalsh.name/javascript-tricks>
 <https://www.sitepoint.com/javascript-decorators-what-they-are/>
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set>
+<https://tc39.es/proposal-set-methods/#sec-set.prototype.intersection>
 </details>
