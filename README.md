@@ -5,6 +5,8 @@
 **更新情報**
 
 ```txt
+・問題番号の重複を解消して全411問の連番に整理、空の問題を削除、「問」表記に統一(2026/8/27)
+・ES2026、ES2025の問題を追加、誤記を修正(2026/8/27)
 ・constをletに修正、問題を追加(2024/9/27)
 ・問題を追加(2024/7/20)
 ・問題を追加(2024/4/12)
@@ -18,7 +20,7 @@
 
 **前提**
 
-※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017,2018,2019, 2020, 2021, 2022, 2023, 2024, 2025が使える環境で試されることを想定しています
+※この問題集はChrome最新版のコンソール、[Google Chrome Canary](https://www.google.co.jp/chrome/browser/canary.html)のコンソールか、[JS Bin](https://jsbin.com/yenaderite/edit?js,console)などや[babel](http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=es2015%2Ces2015-loose%2Ces2016%2Ces2017%2Clatest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=%5B1%2C2%2C3%5D.map(n%20%3D%3E%20n%20%2B%201)%3B&playground=true)、ECMAScript2015,2016,2017,2018,2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026が使える環境で試されることを想定しています
 
 ※表記揺れは鋭意解消中。
 
@@ -59,7 +61,7 @@ c //{a: 'a', b: 'b'}
 
 //Object.assign(target, ...sources)
 //・戻り値はtargetオブジェクト
-//・sroucesオブジェクトの挙可能で自分が所有するプロパティのみtargetにコピーされる
+//・sourcesオブジェクトの列挙可能で自分が所有するプロパティのみtargetにコピーされる
 //・prototypeに定義し直したい場合、Object.getOwnPropertyDescriptorとObject.definePropertyを使う
 //・プロパティが書き込み不可の場合TypeErrorが発生。targetオブジェクトは変更されない
 //・Object.assignはsources値がnull、undefinedの場合例外を投げない
@@ -172,7 +174,7 @@ if (y === void 0) {
 //2は宣言されていない場合です。
 //実行されない
 
-//void 0 は確実にundefindeを返すことが保証されています
+//void 0 は確実にundefinedを返すことが保証されています
 //undefinedはただのglobal変数なので
 undefined = "foo";
 undefined;
@@ -250,12 +252,12 @@ let y = 3
 deleteは暗黙に定義された場合は変数は削除できるが、
 const(let) や function文中の変数はnon-configurableであり削除できない
 
-//globaleオブジェクト
+//globalオブジェクト
 x = 43;
 delete x
-//true //暗黙に定義されたglobale変数なので
+//true //暗黙に定義されたglobal変数なので
 
-//var宣言
+//let宣言
 delete y
 false //削除できない
 
@@ -328,7 +330,7 @@ let arry =[
   {id:3,name:'ken'}
 ];
 arry.sort(function(a,b){
- return a.id > b.id
+ return a.id - b.id;
 })
 
 //先に位置させたい時はaが'正'をになるように返します
@@ -388,7 +390,7 @@ fun(1,2,3)を実行したら引数が全て配列で返る関数funを定義し�
 function fun(){
  return Array.from(arguments)
 }
-fun(1,2,3)//[1.2,3]
+fun(1,2,3)//[1,2,3]
 
 //other
 function fun (...arg){
@@ -416,13 +418,13 @@ red, green, yellow
 
 ```js
 const array = ['a1','a2','a3','a4','a5']
-//インデックス0から2つの要素を削除
-array.splice(0,2, 'red', 'green','yellow');
+//インデックス0から2つの要素を削除し、その位置に置き換える要素を挿入
+array.splice(0, 2, 'red', 'green', 'yellow');
 //["a1", "a2"]
 
 //返り値:['a1', 'a2']
 array
-//['green', 'red', 'yellow', 'a3', 'a4', 'a5']
+//['red', 'green', 'yellow', 'a3', 'a4', 'a5']
 ```
 
 **問16**
@@ -513,7 +515,7 @@ arr[0].x//変数arrから変更が見える(shallowだから)
 
 ```
 
-**問21**
+**問22**
 
 下記
 
@@ -531,7 +533,7 @@ array.sort();
 //要素に数値があった場合文字列に置き換えられる
 ```
 
-**問22**
+**問23**
 
 上記の配列を大文字小文字区別なく順番通りにしてください。期待する値```['a','B','c', 'e','k']```
 
@@ -544,7 +546,7 @@ array.sort(function(a,b){
 //['a', 'B', 'c', 'e', 'k']
 ```
 
-**問23**
+**問24**
 
 このような```[20,100,3,35,0]```
 
@@ -562,7 +564,7 @@ numArray.sort(function(a,b){
 return a - b
 ```
 
-**問24**
+**問25**
 
 文字列
 '10'をNumber型にし、型判定し、数値かどうか評価後、文字列に変換してください
@@ -580,9 +582,9 @@ a.toString();
 let a = parseInt('10', 10);
 ```
 
-**問25**
+**問26**
 
-カーリー化されたadd(1)(2)もしくはadd(1,2)
+カリー化されたadd(1)(2)もしくはadd(1,2)
 を実行した際両方とも返り値3になる関数を定義しなさい。p85
 
 ```js
@@ -599,7 +601,7 @@ add(1)(2) //3
 add(1,2) //3
 ```
 
-**問26**
+**問27**
 
 クロージャーを使ったファクトリー関数。
 
@@ -627,7 +629,7 @@ fafa.introduce()
 //morita
 ```
 
-**問27**
+**問28**
 関数```sayHi```に自分の名前を引数で渡した際に```hello!yourname```、何も渡さない場合```hello!```
 と返す関数を作成し、それをapplyで実行してください。また
 applyの第一引数にnullを渡す場合とオブジェクトを渡す場合のそれぞれのthisは何を指しますか答えてください
@@ -654,23 +656,23 @@ greeting.sayHi.apply(greeting);//渡さない
 //メソッド呼び出しの場合thisはオブジェクトを指しオブジェクトの参照を渡す
 ```
 
-**問28**
+**問29**
 
 ```js
 let obj = {x : 2, y: 3};
 ```
 
-このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加不可か否かの判定メソッドでtrueが返る事を確認した後、objのkeyを列挙してください。
+このobjをプロパティ追加不可、削除変更は可能にし、プロパティ追加可能か否かの判定メソッドでfalseが返る事を確認した後、objのkeyを列挙してください。
 
 ```js
 let obj = {x : 2, y: 3};
 Object.preventExtensions(obj);
-Objcet.isExtensible(obj);//true
-Object.key(obj);
+Object.isExtensible(obj);//false
+Object.keys(obj);
 //['x', 'y']
 ```
 
-**問29**
+**問30**
 
 こちら```let obj = {}``` と等価をObjctメソッドで生成してください
 
@@ -679,7 +681,7 @@ let obj = Object.create(Object.prototype);
 
 ```
 
-**問30**
+**問31**
 
 こちら
 
@@ -696,7 +698,7 @@ let obj = Object.create(Object.prototype, {
 })
 ```
 
-**問31**
+**問32**
 
 こちら
 
@@ -713,10 +715,10 @@ Object.getOwnPropertyDescriptor(obj, 'x');
 //  enumerable: false,
 //  value: 2,
 //  writable: false
-//.fseventsd/}
+// }
 ```
 
-**問31**
+**問33**
 
 こちら
 ```const obj2 = {x : 2};```にObjectメソッドを用いてプロパティ```y```、値```2```、```プロパティ追加可能```を定義して、Objectメソッドで情報(値と属性)を返してくださいP149
@@ -738,7 +740,7 @@ Object.getOwnPropertyDescriptor(obj2, 'y')
 //}
 ```
 
-**問32**
+**問34**
 
 実引数の数を出力、第一引数を出力する関数fを実行してください
 
@@ -752,7 +754,7 @@ f(2)
 //2
 ```
 
-**問33**
+**問35**
 
 ```js
 let arr = ['2','23','0','16'];
@@ -767,10 +769,10 @@ arr.sort(function(a,b){ return a - b ;});
 Object.freeze(arr);
 //['0', '2', '16', '23']
 arr.sort();
-//.fseventsd/'Cannot assign to read only property '1' of [object Array]'
+//TypeError: Cannot assign to read only property '1' of [object Array]
 ```
 
-**問34**
+**問36**
 
 ```let arr = [3,4,5];```をconcat以外で新たな配列として```arr2```にコピーしてください。その後```arr2[0]= 123```を代入するとarrは何を出力するか答えなさい
 
@@ -793,7 +795,7 @@ arr2
 //[3, 4, 5]
 ```
 
-**問35**
+**問37**
 
 こちらは2つのパラメーターを足して返すgetSum関数です。
 
@@ -818,7 +820,7 @@ getSum(10, 20);
 //30
 ```
 
-**問36**
+**問38**
 strict modeの代表的な制約を挙げて説明してください。
 
 ```
@@ -961,7 +963,7 @@ strictモードではevalで実行されるコードが自身のスコープを�
 //thisの値にnullやundefinedが競ってされていた場合標準モードではthisはこれらの代わりにグローバルオブジェクトを参照する。strictモードではこの強制的な変換は行われずthisにはそれぞれの値がそのまま格納される。this値にプリミティブ値が競ってされた場合標準モードではそのthisはプリミティブ値の型に対応するプリミティブラッパー型オブジェクトを参照するがstrictはこの型変換もしない。
 ```
 
-**問37**
+**問39**
 for in文に関する注意点を3つ挙げてください
 
 ```
@@ -970,7 +972,7 @@ for in文に関する注意点を3つ挙げてください
 - プロトタイプ継承したプロパティも列挙する
 ```
 
-**問38**
+**問40**
 
 DOM上にあるdivをnodeListに変換して配列に格納してください
 
@@ -978,7 +980,7 @@ DOM上にあるdivをnodeListに変換して配列に格納してください
 const nodelist = [...document.querySelectorAll('div')];
 ```
 
-**問39**
+**問41**
 配列```const arr = ['f','o','x','k'];```をインデックス順に出力させてください
 
 ```js
@@ -997,7 +999,7 @@ arr.forEach(function(ele){
 )
 ```
 
-**問40**
+**問42**
 またイテレーターを使い順番に出力してください
 
 ```js
@@ -1009,19 +1011,19 @@ eArr.next().value //x
 eArr.next().value //k
 ```
 
-**問41**
+**問43**
 
 配列```['a', 'b', 'c', 'd', 'e']```
 のインデックス2番目に'morita'という要素を加えなさい。期待する結果```['a', 'b','morita', 'c', 'd', 'e']```
 
 ```js
-letarry = ['a', 'b', 'c', 'd', 'e'];
+let arry = ['a', 'b', 'c', 'd', 'e'];
 arry.splice(2, 0 , 'morita');
 arry
 //['a', 'b','morita', 'c', 'd', 'e']
 ```
 
-**問42**
+**問44**
 これ```const o = {};```と同じ意味を持つコードをObjectのAPIを使って生成してください
 
 
@@ -1029,14 +1031,14 @@ arry
 const o = Object.create(Object.prototype);
 ```
 
-**問43**
+**問45**
 {p: 42}となるようなオブジェクトをObjectメンバを使って生成してください
 
 ```js
 o = Object.create({}, {p: {value : 42}});
 ```
 
-**問44**
+**問46**
 
 1234という数字を文字列に変更後、配列の要素としてインデックス順に格納してください
 
@@ -1050,7 +1052,7 @@ for(let i = 0; i < ee.length; i++){
 console.log(arr)//['1','2','3','4'];
 ```
 
-**問45**
+**問47**
 
 こちらは要素が2だったらループを抜けたいのだが期待どうり動かない
 期待する出力
@@ -1090,7 +1092,7 @@ for (let i = 0; i < a.length; i++) {
 //0, 1
 ```
 
-**問46**
+**問48**
 
 ```js
 const Speaker = {
@@ -1137,7 +1139,7 @@ const person = new Person('moriken');
 person.sayName();
 ```
 
-**問47**
+**問49**
 
 下記のような
 
@@ -1167,7 +1169,7 @@ array.forEach(function(Element, ind, array){
 console.log(array2);
 ```
 
-**問48**
+**問50**
 配列```let passed = [12, 5, 8, 130, 44]```の要素全てが10以上かどうかを評価してtrueかfalseを返してください。また10以上のものが一つでもあった場合trueを返してください。
 
 ```js
@@ -1179,7 +1181,11 @@ passed //false
 
 ```
 
-**問49**
+</details>
+
+<details><summary>問51〜問100</summary>
+
+**問51**
 二次元配列
 
 ```
@@ -1198,8 +1204,8 @@ map.get('two');
 
 ```
 
-**問50**
-問49の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加してください
+**問52**
+問51の変数fafaにインデックス3番目の要素として['four',fafa@eee]の配列を追加してください
 
 ```js
 const fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']
@@ -1208,12 +1214,10 @@ const map = new Map(fafa);
 map.set('four', 'fafa@eee');
 ```
 
-</details>
-<details><summary>問51〜問100</summary>
 
-**問51**
+**問53**
 
-問50の変数fafa内にある要素を出力してください
+問52の変数fafa内にある要素を出力してください
 //期待する出力
 //['one','info@fa']
 //['two', 'send@fafa']
@@ -1221,6 +1225,7 @@ map.set('four', 'fafa@eee');
 
 ```js
 const fafa = [['one', 'info@fa'],['two', 'send@fafa'],['three', 'hoso@fafa']];
+const map = new Map(fafa);
 const entries = map.entries();
 for (const entry of entries){
  console.log(entry);
@@ -1228,7 +1233,7 @@ for (const entry of entries){
 
 ```
 
-**問52**
+**問54**
 
 ```'morita kenji'```のような1つ以上の小英字、半角スペース、1つ以上の小英字にマッチした場合、配列['morita kenji']が返るようにしてください。
 
@@ -1237,7 +1242,7 @@ for (const entry of entries){
 /\w+\s\w+/.exec('morita kenji')
 ```
 
-**問53**
+**問55**
 
 このような
 ```'It is an important problem'```と```'The import duty is not cheap'```の文字列内```import```にマッチするとbooleanを返す記述をしてください
@@ -1254,7 +1259,7 @@ isImport
 //単語の境界線には\b
 ```
 
-**問54**
+**問56**
 
 ひらがな全てにマッチ、半角カタカナ全てにマッチ、カタカナ全てにマッチする正規表現を記述してください
 
@@ -1273,7 +1278,7 @@ isImport
 
 ```
 
-**問55**
+**問57**
 
 「」の中に「ヤッホー!」の文字列が1回以上続く場合にのみマッチする正規表現を書いてください。(！が英単語を構成する文字以外の場合はどうか、また「ヤッホー！」が2回以上3回以下にマッチにはどう書きますか)
 
@@ -1286,7 +1291,7 @@ const str = '「ヤッホー?ヤッホー@」';
 ['「ヤッホー?ヤッホー@」', 'ヤッホー@']
 ```
 
-**問56**
+**問58**
 
 ```正規表現の/(ありがとう|こんにちは｜さようなら)/```と```/ありがとう|こんにちは｜さようなら/```の違いを教えてください。それぞれexecメソッドを使用した際の返り値を教えてください
 
@@ -1303,7 +1308,7 @@ const str = '彼はありがとうと言った';
 //['彼はありがとう']
 ```
 
-**問57**
+**問59**
 「When」、「Where」、「Who」、「What」、「Why」、「How」の単語のみにマッチする正規表現を書きなさい
 
 ```js
@@ -1311,7 +1316,7 @@ const str = 'How';
 /Wh(en|ere|o|at|y|)|How/.exec(str);
 ```
 
-**問58**
+**問60**
 こちらが
 
 ```js
@@ -1351,13 +1356,13 @@ console.log(Boolean(null));
 console.log(Boolean(1789));
 console.log(Boolean('false'));//'false'という文字列は真偽値プリミティブのfalseとは異なる
 
-console.log(Boolean(Math);
+console.log(Boolean(Math));
 console.log(Boolean(Array()));
 
 //see: 開眼!Javascirpt(O'REILLY)
 ```
 
-**問59**
+**問61**
 
 ```js
 myFalse = new Boolean(false);
@@ -1375,7 +1380,7 @@ g//true
 //Boolean オブジェクトの初期値としてオブジェクトを指定した場合、それが値が false の Boolean オブジェクトであっても、新しい Boolean オブジェクトは true の値を持ちます
 ```
 
-**問60**
+**問62**
 
 ```
 undefined == null
@@ -1390,7 +1395,7 @@ if (undefined == null){
 //実行されます
 ```
 
-**問61**
+**問63**
 関数iiを実行すると返り値で関数を受け取り、その関数に引数'home'を渡し実行すると'my home'と返ってくるクロージャーを作ってください
 
 ```js
@@ -1405,7 +1410,7 @@ kk('home');
 //my home
 ```
 
-**問62**
+**問64**
 今の時間、何時何分何秒を表してください
 
 ```js
@@ -1415,7 +1420,7 @@ nowtime
 //'今23時49分56秒'
 ```
 
-**問63**
+**問65**
 こちら
 
 ```js
@@ -1448,9 +1453,7 @@ third
 //3
 ```
 
-**問64**
-
-**問65**
+**問66**
 
 文字列```'fafafakenjifafafa'```に```'kenji'```が含まれているかどうかの真偽値を出力してください
 expect //true
@@ -1460,7 +1463,7 @@ console.log('fafaeeekenjifa'.includes('kenji'));
 //true
 ```
 
-**問66**
+**問67**
 
 文字列'repeat'を2回繰り返した結果を出力してください
 
@@ -1471,7 +1474,7 @@ console.log('repeat'.repeat(2));
 //'repeatrepeat'
 ```
 
-**問67**
+**問68**
 
 文字列```foo```をイテレーターを使い```['f','o','o']```となるようにしてください。
 
@@ -1483,7 +1486,7 @@ for (let n of 'foo'){
 console.log(chars);//['f','o','o']
 ```
 
-**問68**
+**問69**
 
 IteratableからIteratorを取得、要素を出力していきして「要素がもうない意」の```{value: undefined, done: true}```を出力してください
 
@@ -1496,7 +1499,7 @@ console.log(Iterator.next()); // { done: false, value: 'eee' }
 console.log(Iterator.next()); //{ done: true, value: undefined }
 ```
 
-**問69**
+**問70**
 
 文字列'foo'を```['f','o','o']```と出力してください
 
@@ -1506,7 +1509,7 @@ const arr = [...'foo'];
 console.log(arr);
 ```
 
-**問70**
+**問71**
 
 文字列```morita```の1文字目```m```を変数```index0```に代入、2文字目```o```を```index1```に代入、残りを配列```rest```の各要素として出力してください
 
@@ -1519,7 +1522,7 @@ console.log(index0,index1, rest);
 //['r', 'i', 't', 'a']
 ```
 
-**問71**
+**問72**
 
 ```foo(1, 2, 3, 4, 5, 6)```を実行したら1がfirst、2がsecond、残りが配列の要素になるような ```foo```を定義してください
 
@@ -1534,7 +1537,7 @@ function foo(first, second, ...rest){
 foo(1,2,3,4,5,6);
 ```
 
-**問72**
+**問73**
 
 配列```arr = [1, 2, 3]```にArray#concatを使わずに```arr2 = [4, 5, 6]```を結合させ```[1, 2, 3, 4, 5, 6]```となるようにしてください
 
@@ -1546,7 +1549,7 @@ const arr = [1, 2, 3, ...arr2];
 console.log(arr);//[1, 2, 3, 4, 5, 6]
 ```
 
-**問73**
+**問74**
 
 下記のようなあるファイル(module.js)で記述した
 
@@ -1582,12 +1585,12 @@ import {foo as poo} from './module';
 console.log(poo)
 
 //モジュールまとめてインポート
-import * as from './module';
+import * as module from './module';
 //console.log(module.foo)
 
 ```
 
-**問74**
+**問75**
 
 ```const obj = {foo: foo, bar: bar}```
 オブジェクトのkeyとvalueが等しい場合の記述
@@ -1598,7 +1601,7 @@ const obj = {foo: foo, bar: bar};
 const obj = {foo, bar};
 ```
 
-**問75**
+**問76**
 
 下のように
 
@@ -1624,7 +1627,7 @@ console.log(obj.foo, obj.foo_bar);
 
 ```
 
-**問76**
+**問77**
 
 下記
 
@@ -1647,7 +1650,7 @@ console.log(`my name is ${ff()}`);
 //my name is kenji
 ```
 
-**問77**
+**問78**
 
 変数a,bにそれぞれ1,2を代入してください
 
@@ -1655,7 +1658,7 @@ console.log(`my name is ${ff()}`);
 let [a, b] = [1, 2];
 ```
 
-**問78**
+**問79**
 
 文字列 ```line1```と```line2```を改行てconsole.log出力してください
 
@@ -1665,7 +1668,7 @@ line2
 `);
 ```
 
-**問79**
+**問80**
 
 ```js
 const long = '30px';
@@ -1678,7 +1681,7 @@ function tag(strings, ...values){
 const str1 = tag`身長${long}で、体重は${weight}です`; console.log(str1);
 ```
 
-**問80**
+**問81**
 
 ユーザー定義関数funを作り、実行時の引数として、オブジェクトkeyにa,b。値をそれぞれ1,4として加算して返してください
 
@@ -1689,17 +1692,22 @@ function fun({a, b}){
 fun({a: 1, b: 4});//5
 ```
 
-**問81**
+**問82**
 
-```const aa = [['morita', 'kenji', 'keiko'],['morita', 'kenji', 'keiko']```
+```const aa = [['morita', 'kenji', 'keiko'],['morita', 'kenji', 'keiko']];```
 
 全てのaaにある多次元配列の全ての要素に文字列'san'を付け加えて一つの配列として出力してください
 
 ```js
+const aa = [['morita', 'kenji', 'keiko'],['morita', 'kenji', 'keiko']];
+const result = aa.flat().map((name) => name + 'san');
+result
+//['moritasan', 'kenjisan', 'keikosan', 'moritasan', 'kenjisan', 'keikosan']
 
+// Array.prototype.flatはES2019
 ```
 
-**問82**
+**問83**
 
 mapとforEachの違いは何か答えてください
 
@@ -1777,7 +1785,7 @@ aa// undefined
 元の配列を変更せず変換やcopyをしたいとき
 ```
 
-**問83**
+**問84**
 
 ```[{name: 'kenji'},{name: 'morita'}]```の要素のvalueを次のように書き出してください(文字列'san'を付けています)e.g```['kenjisan', 'moritasan']```
 
@@ -1790,9 +1798,9 @@ result//['kenjisan', 'moritasan']
 
 ```
 
-**問84**
+**問85**
 
-問83と同じ事をforEachでしてください
+問84と同じ事をforEachでしてください
 
 ```js
 const aa = [{name: 'kenji'},{name: 'morita'}];
@@ -1807,7 +1815,7 @@ arry//['kenjisan', 'moritasan']
 
 ## Objects
 
-**問85**
+**問86**
 
 ```js
 const atom = {
@@ -1830,7 +1838,7 @@ const atom = {
 };
 ```
 
-**問86**
+**問87**
 
 こちらのobjをkey内でメソッド呼び出しされているのをコンピューティッドプロパティを使って書き換えてください
 
@@ -1856,7 +1864,7 @@ const obj = {
 };
 ```
 
-**問87**
+**問88**
 
 下記のようなURLのファイルパスごとに配列に格納してください
 
@@ -1869,7 +1877,7 @@ filepath;
 
 ```
 
-**問88**
+**問89**
 
 下記のようなobj内のkeyと値が一緒の際できるshorthandで記述してください
 
@@ -1888,7 +1896,7 @@ const obj = {
 
 ```
 
-**問89**
+**問90**
 
 下記のようなある配列itemsの要素をコピーしている記述をspreadArrayを使って簡潔に記述してください
 
@@ -1903,7 +1911,7 @@ for (i = 0; i < len; i++) {
 const itemCopy = [...items];
 ```
 
-**問90**
+**問91**
 
 windowオブジェクトを7つ答えてください
 
@@ -1917,7 +1925,7 @@ document
 parent, top, self
 ```
 
-**問90**
+**問92**
 
 下のようにuserというnameとidをプロパティで持ったオブジェクトを再割り当てやマルチプルなobjectを扱う際に簡潔な書き方にしてください
 
@@ -1944,7 +1952,7 @@ function add ({name, id}){
 }
 ```
 
-**問91**
+**問93**
 
 ```const aaa = [['oo','oo1'], ['ll','ll2']];```このような多次元配列のインデックス0番目だけを出力してください
 
@@ -1960,7 +1968,7 @@ aaa.forEach(function(ee){
 //oo ll
 ```
 
-**問92**
+**問94**
 
 Array destructuringとして簡潔に記述してください。
 シャローコピーとディープコピーの違いを教えてください。また
@@ -1991,7 +1999,7 @@ bb//['oo', 'll']
 aa//[]
 ```
 
-**問93**
+**問95**
 
 ```const aa = ['oo', 'll'];```をbbにコピーしてaaは['kk', 'jj'];が挿入されるようにしてください。期待する結果
 
@@ -2005,7 +2013,7 @@ bb//['oo', 'll'];
 aa//['kk', 'jj'];
 ```
 
-**問94**
+**問96**
 
 このような配列
 ```const aa = ['ii', 'jj', 'kk'];```がある。'jj'要素を削除するために
@@ -2021,7 +2029,7 @@ aa.splice(1,1);
 aa//['ii', 'kk']
 ```
 
-**問95**
+**問97**
 
 ```const text = 'key and value';```このような文字列を単語毎に配列の要素として格納してください
 //期待する結果
@@ -2034,7 +2042,7 @@ arraytext
 ['text', 'and', 'value']
 ```
 
-**問96**
+**問98**
 
 ```const text = 'abc def ghi jkl';```の空白の直前の文字をグループ化してカンマ文字の後ろに移動させなさい。
 
@@ -2055,7 +2063,7 @@ text.replace(/(.)\s/g,function(m0, m1){
 'ab,cde,fgh,ijkl'
 ```
 
-**問97**
+**問99**
 
 ```const array = ['aa','bb','cc','dd','ff'];```
 このような配列の要素'bb'の前に'ff'を移動させて ```['aa','ff','bb','cc','dd']```このような配列を完成させてください
@@ -2068,7 +2076,7 @@ array.splice(1,0,array.splice(4,1)[0])
 
 ```
 
-**問98**
+**問100**
 
 nullの比較についてそれぞれtureかfalseか答えてください
 
@@ -2101,7 +2109,11 @@ null === 0 //false
 //0以上であっても0より大きくはない。
 ```
 
-**問99**
+</details>
+
+<details><summary>問101〜問150</summary>
+
+**問101**
 
 こちらの2つのif分の条件式の違いを教えてください
 
@@ -2119,7 +2131,7 @@ undefinedの場合falseを返す
 if(obj.a)が存在しても未定義だと実行されない
 ```
 
-**問100**
+**問102**
 
 ``` const arr = [ 10, 20 ]; ```においてarr[2]が存在しないことを確認してください
 
@@ -2127,10 +2139,8 @@ if(obj.a)が存在しても未定義だと実行されない
 2 in arry;
 ```
 
-</details>
-<details><summary>問101〜問150</summary>
 
-**問101**
+**問103**
 
 ```const string = '-9';```を数値に変換してください
 
@@ -2143,7 +2153,7 @@ string - 0
 //-9
 ```
 
-**問102**
+**問104**
 
 sliceとsubstringの違いを教えてください
 
@@ -2184,7 +2194,7 @@ str.substring(1,-3);
 //'あ'
 ```
 
-**問103**
+**問105**
 
 次のような文字列```abcdefg```のcとeそれぞれを大文字にしてください
 
@@ -2196,7 +2206,7 @@ const replaced = str.replace(/[ce]/g,function(str){
 //replaced 'abCdEfg'
 ```
 
-**問104**
+**問106**
 
 次のような文字列をvar str = 'こんにちは';
 const name = 'もりたさん';
@@ -2221,7 +2231,7 @@ str //こんにちは
 //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/concat
 ```
 
-**問105**
+**問107**
 
 targetがnullかundefinedのときのみの判定がtrueになる条件式を書いてください
 
@@ -2229,7 +2239,7 @@ targetがnullかundefinedのときのみの判定がtrueになる条件式を書
 target == null
 ```
 
-**問106**
+**問108**
 
 こちら
 
@@ -2249,7 +2259,7 @@ value
 //0
 ```
 
-**問107**
+**問109**
 
 配列arrayが空ならfalseが返るようにしてください
 
@@ -2259,7 +2269,7 @@ array.length !== 0
 //false
 ```
 
-**問108**
+**問110**
 こちらは自身のプロパティが定義されていない場合falseが返ることを期待しているがtrueが返る
 
 ```js
@@ -2275,7 +2285,7 @@ Object.keys(obj).length != 0 ? true : false;
 //false
 ```
 
-**問109**
+**問111**
 
 forでループさせるのとforEachで処理する際の違いを教えてください
 
@@ -2295,7 +2305,7 @@ passed = [12, 5, 8, 1, 4].some(isBigEnough);
 // passed は true
 ```
 
-**問110**
+**問112**
 
 この``` const arry = ['a','b','c']; ``` の列挙可能なプロパティと不可能なプロパティを出力してください
 
@@ -2310,7 +2320,7 @@ console.log(Object.getOwnPropertyNames(arr));
 //['0','1','2','length']
 ```
 
-**問111**
+**問113**
 
 オブジェクトoに対してaという値が'morita'、列挙可能、削除可能、書き換え可能なプロパティを作成してください
 
@@ -2324,7 +2334,7 @@ Object.definedProperty(o,'a',{
 });
 ```
 
-**問112**
+**問114**
 
 下のlib/math.jsに入っている1と2を別のファイルで使えるようにして
 受け取る方app.jsも記述してください
@@ -2357,7 +2367,7 @@ math.sum(x, y){
 sum(1, 3)
 ```
 
-**問113**
+**問115**
 
 ```['morita','kenji','fafafa']```の要素 ```'fafafa'```のインデックスを返してください。
 期待する値 2
@@ -2367,7 +2377,7 @@ sum(1, 3)
 //2
 ```
 
-**問114**
+**問116**
 
 配列```['A','B','C']```を配列の0番目のインデックス値になるようにしてください
 expect [['A'],['B'],['C']]
@@ -2382,7 +2392,7 @@ expect [['A'],['B'],['C']]
 //http://www.2ality.com/2014/05/es6-array-methods.html
 ```
 
-**問115**
+**問117**
 
 配列```['a', 'b', 'c']```のインデックス1番だけを文字列'kenji'に変えてください
 
@@ -2393,7 +2403,7 @@ expect [['A'],['B'],['C']]
 //http://www.2ality.com/2014/05/es6-array-methods.html
 ```
 
-**問116**
+**問118**
 
 配列```[6, -5, 8]```を0未満の要素だけ出力してください
 
@@ -2403,7 +2413,7 @@ console.log(i)
 //-1
 ```
 
-**問117**
+**問119**
 
 gen.next().valueを実行すると値が1づつ返ってくるようなGenerator関数を作り、1,2,3と出力してください
 
@@ -2421,7 +2431,7 @@ console.log(gen.next().value); // 1
 console.log(gen.next().value); // 2
 ```
 
-**問118**
+**問120**
 
 ラッパーオブジェクトとは何ですか？教えてください。
 //解答は理解していてある程度どういうものか答えられればいいものとします
@@ -2442,7 +2452,7 @@ string.length //3 文字列プリミティブをオブジェクトとしてア�
 
 ```
 
-**問119**
+**問121**
 
 nullとundefinedの違いを教えてください
 
@@ -2452,7 +2462,7 @@ nullとundefinedの違いを教えてください
 //undefinedは存在自体がない
 ```
 
-**問120**
+**問122**
 
 変数fafaの値がnullかどうかを確認してください
 
@@ -2465,7 +2475,7 @@ console.log(fafa === null);//true //同値演算子を使う
 //等値演算子ではnullとundefinedはtrueになってしまうことに注意してください。
 ```
 
-**問121**
+**問123**
 
 プリミティブ型と参照型の同値比較の違いを教えてください。
 
@@ -2476,7 +2486,7 @@ console.log(fafa === null);//true //同値演算子を使う
 
 ```
 
-**問122**
+**問124**
 
 div要素を10個作ってidがparentの子要素として追加してください
 
@@ -2498,7 +2508,7 @@ for(let i = 0; i < 10; i++){
 document.getElementById('parent').appendChild(fragment);
 ```
 
-**問123**
+**問125**
 
 XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか教えてください。またもしそれを書かない場合の実体参照、
 ``` > ``` と ``` < ``` をどのように書くか教えてください。また、&と'、'はそれぞれエスケープ文字でどのように書きますか？
@@ -2521,7 +2531,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 &amp;
 ```
 
-**問124**
+**問126**
 
 実体参照に直すscriptを書いてください
 
@@ -2530,7 +2540,7 @@ XHTMLにscriptタグで記述する際のCDATAタグをどのように書くか�
 //http://stackoverflow.com/questions/17966089/how-to-replace-and-with-lt-and-gt-with-jquery-or-js
 ```
 
-**問125**
+**問127**
 
 次の文章中の
 
@@ -2550,7 +2560,7 @@ console.log(str7.match(/\ba\w*\b/g));
 //\sa\w*\sだと\sは文字の先頭や末尾にはマッチしないので、文章の先頭や末尾にある英単語が対象から外れてしまうことに注意してください。
 ```
 
-**問126**
+**問128**
 
 ```<p>```や```<img src="fafafa">```などタグにマッチする正規表現を作ってください。またタグ名だけを抜き取ったものも教えてください。
 
@@ -2583,7 +2593,7 @@ console.log(re4[0]);
 //<p>
 ```
 
-**問127**
+**問129**
 
 下のこちらを使い
 
@@ -2603,7 +2613,7 @@ while ((array = myRe.exec(str2)) !== null) {
 //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 ```
 
-**問128**
+**問130**
 
 次の``` const string3 = 'washable reasonable accessible assemble answerable'; ```
 
@@ -2621,7 +2631,7 @@ console.log(string3.match(reg5));
 //['wash','reason','answer']
 ```
 
-**問129**
+**問131**
 
 こちらの文字列
 
@@ -2648,7 +2658,7 @@ console.log(nen1.match(reg6));
 //see: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
 ```
 
-**問130**
+**問132**
 
 下のような文字列```const str222 = 'わたしの名前は「もりた」です。あだなは「もりけん」です';```
 のカギ括弧内とその文字列にマッチするような正規表現を書いてください
@@ -2665,7 +2675,7 @@ console.log(result);
 
 ```
 
-**問131**
+**問133**
 
 上記の文字列を使ってexecメソッドを使い文字列とし2つとも出力してください
 
@@ -2682,7 +2692,7 @@ while ((result = re222.exec(str222)) !== null){
 
 ```
 
-**問132**
+**問134**
 
 下記の文字列の「客」という文字の部分ともうひとつある同じ文字である場合のみマッチする正規表現を作成してください
 
@@ -2709,7 +2719,7 @@ const res5 =str5.match(/あの(.+)はよく柿食う\1だ/);
 console.log(res5[0]);
 ```
 
-**問133**
+**問135**
 
 次のタグ
 
@@ -2733,7 +2743,7 @@ console.log(/<(\w+)><(\w+)>kenjimorita.jp<\/\2><\/\1>/.test(tag2))
 //false
 ```
 
-**問134**
+**問136**
 
 こちらの
 
@@ -2754,7 +2764,7 @@ return 0;
 
 ```
 
-**問135**
+**問137**
 
 ```js
 const i = document.getElementById();
@@ -2767,7 +2777,7 @@ i.childNodes; //子要素を返す
 i.firstChild //最初の子要素
 ```
 
-**問136**
+**問138**
 
 下のような
 
@@ -2788,7 +2798,7 @@ const f = document.getElementById('nested');
 i.removeChild(f);
 ```
 
-**問137**
+**問139**
 
 nestedの親要素が不明の場合の時nestedを削除してください
 
@@ -2802,7 +2812,7 @@ if (node.parentNode) {
 }
 ```
 
-**問138**
+**問140**
 
 topの子要素全て削除してください
 
@@ -2814,7 +2824,7 @@ topの子要素全て削除してください
  }
 ```
 
-**問139**
+**問141**
 
 下のfooオブジェクトが自身のプロパティとしてbarを持っていないことを示してください
 
@@ -2834,7 +2844,7 @@ foo.hasOwnProperty('bar'); // false
 foo.hasOwnProperty('goo'); // true
 ```
 
-**問140**
+**問142**
 
 こちらのfor inループでも汚染された継承されたプロパティも
 列挙される
@@ -2857,7 +2867,7 @@ for(const i in foo) {
 }
 ```
 
-**問141**
+**問143**
 
 new Mapとnew WeakMapの違いを教えていください
 
@@ -2868,7 +2878,7 @@ Mapは内部で参照元を保持し自分自身で「含まれるオブジェ�
 //weakMapのいいところkeyに対してのobjを汚さないで済む
 ```
 
-**問142**
+**問144**
 
 [0,0,0]の配列をインデックス1と2を7にした配列にしてください
 expect : [0, 7, 7]
@@ -2879,7 +2889,7 @@ ary.fill(7,1)
 //[0, 7, 7]
 ```
 
-**問143**
+**問145**
 
 このような
 
@@ -2899,7 +2909,7 @@ const h3 = document.querySelector('h3');
 const result = getComputedStyle(h3, ':after').content;
 ```
 
-**問144**
+**問146**
 
 少なくとも400pxあるビューポートに対してスタイルを制御したい際のif文を書いてください
 
@@ -2911,7 +2921,7 @@ if(window.matchMedia('(min-width:400)').matches){
 }
 ```
 
-**問145**
+**問147**
 
 こちらの```const numObj = 12345.6789;```
 を小数点以下を丸めてください
@@ -2925,7 +2935,7 @@ numObj.toFixed();
 //12346
 ```
 
-**問146**
+**問148**
 
 こちらの
 
@@ -2969,7 +2979,7 @@ function foo(){
 foo();
 ```
 
-**問147**
+**問149**
 
 先程のfoo()を実行した際に期待する値が出力されるようにしてください
 
@@ -2986,7 +2996,7 @@ foo();
 //block scope。変数スコープがブレース{}の中に閉じる
 ```
 
-**問148**
+**問150**
 
 div要素をnodeListとして取得し、Arrayのメソッドで「配列の様なオブジェクト」から配列に変換してください
 
@@ -3000,7 +3010,11 @@ const turnArrayFun = function(obj){
 turnArrayFun(likeArray);
 ```
 
-**問149**
+</details>
+
+<details><summary>問151〜問200</summary>
+
+**問151**
 
 下記のようなDOMがある
 
@@ -3022,7 +3036,7 @@ target.insertAdjacentHTML('afterbegin',html);
 
 ```
 
-**問150**
+**問152**
 こちら
 
 ```html
@@ -3046,10 +3060,8 @@ afterend //(3)
 target.insertAdjacentHTML(position,html);
 ```
 
-</details>
-<details><summary>問151〜問200</summary>
 
-**問151**
+**問153**
 
 下記
 
@@ -3071,7 +3083,7 @@ const objA = {
 objA.greeting
 ```
 
-**問152**
+**問154**
 
 こちらの記述
 
@@ -3098,7 +3110,7 @@ objA.add(2,5);
 
 ```
 
-**問153**
+**問155**
 
 上記の問題のadd関数をobjA内でアロー関数で記述してください
 
@@ -3112,7 +3124,7 @@ objA.add(2,5);
 //7
 ```
 
-**問154**
+**問156**
 
 このような
 
@@ -3132,7 +3144,7 @@ b
 //"ikebukuro"
 ```
 
-**問155**
+**問157**
 
 このような
 
@@ -3157,7 +3169,7 @@ twon
 //"shibuya"
 ```
 
-**問156**
+**問158**
 
 const name = 'KenjiMorita';
 のKとMだけをそれぞれ変数a,ｂに入れてください
@@ -3168,7 +3180,7 @@ const [a,,,,,b] = name;
 
 ```
 
-**問157**
+**問159**
 
 変数
 
@@ -3191,9 +3203,9 @@ b
 
 ```
 
-**問158**
+**問160**
 
-上記(問157)と同じ事をECMAScript2015ライクに簡潔に記述してください
+上記(問159)と同じ事をECMAScript2015ライクに簡潔に記述してください
 
 ```js
 const a = 1;
@@ -3204,7 +3216,7 @@ const b = 'goodby';
 //http://qiita.com/gaogao_9/items/18b20ad9b76c9c81b5fa#_reference-4b73dec38a62a3fb0ab7
 ```
 
-**問159**
+**問161**
 
 こちら```const input = [0,[1,2,3],4,5,[6]];```を```[0,1,2,3,4,5,6]```となるようにしてください
 
@@ -3216,7 +3228,7 @@ inputB
 //[0,1,2,3,4,5,6]
 ```
 
-**問160**
+**問162**
 
 下記のような
 
@@ -3241,7 +3253,7 @@ document.addEventListener('DOMContentload',function(){
 //[参照](http://qiita.com/gaogao_9/items/ec2b867d6941173fd0b1#_reference-1aa15cfa5c1cf1f77a86)
 ```
 
-**問161**
+**問163**
 このような
 
 ```js
@@ -3263,7 +3275,7 @@ defalutはfalse
 see //http://qiita.com/hosomichi/items/49500fea5fdf43f59c58
 ```
 
-**問162**
+**問164**
 このような
 
 ```html
@@ -3284,7 +3296,7 @@ const result = Array.prototype.filter.call(classA,function(classA){
 result instanceof Array
 ```
 
-**問163**
+**問165**
 このような
 
 ```html
@@ -3303,7 +3315,7 @@ const array = Array.prototype.slice.call(tag);
 console.log(array instanceof Array );
 ```
 
-**問164**
+**問166**
 
 このようなODMがある
 
@@ -3358,7 +3370,7 @@ FIRST_ORDERED_NODE_TYPe :9
 参照//パーフェクトJavaScript
 ```
 
-**問165**
+**問167**
 
 こちら
 
@@ -3378,7 +3390,7 @@ target.onclick = function toggleStyle() {
 }
 ```
 
-**問166**
+**問168**
  " fafa fafa eee "のような最初と最後に空白があるような文字列に対して、それらを含めない配列を返してください
 
 ```js
@@ -3386,7 +3398,7 @@ target.onclick = function toggleStyle() {
  //["fafa", "fafa", "eee"]
 ```
 
-**問167**
+**問169**
 "abcdefg"のような文字列をインデックスと値が取れるオブジェクトに変更してください
 期待する結果。
 {0:a,1:b,2:c,3:d,4:e,5:f,6:g}
@@ -3398,7 +3410,7 @@ obj
 //{0:a,1:b,2:c,3:d,4:e,5:f,6:g}
 ```
 
-**問168**
+**問170**
 "abcdefg"のような文1文字づつの要素となる配列に変更してください
 期待する結果
 ["a", "b", "c", "d", "e", "f", "g"]
@@ -3411,7 +3423,7 @@ arry
 //["a", "b", "c", "d", "e", "f", "g"]
 ```
 
-**問169**
+**問171**
 "apple banana orenge"のような文字列を空白で区切り、それそれの「単語」をObjectのkey値として取得できるようにしてください。
 期待する結果。
 {0: "apple", 1: "banana", 2: "orenge"}
@@ -3450,7 +3462,7 @@ map
 //{0: "apple", 1: "banana", 2: "orenge"}
 ```
 
-**問170**
+**問172**
 add()を実行した際 3 、add(2)としたら 4 add(2,3)を実行したら 5 が返ってくる関数addを定義してください
 
 ```js
@@ -3463,7 +3475,7 @@ add(2);//4
 add(2,3)//5
 ```
 
-**問171**
+**問173**
 
 こちらのような
 
@@ -3479,7 +3491,7 @@ conditionがtrueの時に実行したい関数があった場合、端的に記�
 condition && dosomething();
 ```
 
-**問172**
+**問174**
 
 こちらは
 
@@ -3549,7 +3561,7 @@ for (let i=0; i<5; i++) {
 }
 ```
 
-**問173**
+**問175**
 
 右の様な```{name: 'hogehoge',age: 80}```を別の変数「obj2」に代入したい。
 Objectを参照渡しすると代入先の値が変わるとオリジンの値も変わります。originに影響のない新しいオブジェクトとしてオリジンと同じ値をもつインスタンスを生成してください。
@@ -3567,7 +3579,7 @@ obj2.name
 //"hogehoge"
 ```
 
-**問174**
+**問176**
 
 こちらを使って、
 
@@ -3596,7 +3608,7 @@ const obj = {
 };
 ```
 
-**問175**
+**問177**
 
 以下の様な
 
@@ -3626,7 +3638,7 @@ obj// {name: "kenji morita", episodeTheree: 3, mayTheForth: 4, address: "shibuya
 
 ```
 
-**問176**
+**問178**
 
 document上に何個かある```class='foo'```を配列の様なオブジェクトからnodeオブジェクトに
 
@@ -3635,7 +3647,7 @@ const foo = document.querySelector('.foo');
 const nodes = Array.from(foo);
 ```
 
-**問177**
+**問179**
 
 ```
 [[0, 1], [2, 3], [4,5]]
@@ -3659,7 +3671,7 @@ flat
 //[0, 1, 2, 3, 4, 5]
 ```
 
-**問178**
+**問180**
 
 下記の関数式としての宣言は
 
@@ -3679,7 +3691,7 @@ function foo() {
 }
 ```
 
-**問179**
+**問181**
 
 こちらの
 
@@ -3706,7 +3718,7 @@ if (currentUser) {
 see http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97
 ```
 
-**問180**
+**問182**
 
 こちらの
 
@@ -3725,7 +3737,7 @@ function concatenateAll(...args) {
 }
 ```
 
-**問181**
+**問183**
 
 こちらはアンチパターンです。
 
@@ -3747,7 +3759,7 @@ function f2(obj) {
 ```
 <https://github.com/airbnb/javascript>
 
-**問182**
+**問184**
 
 下記のような
 
@@ -3765,7 +3777,7 @@ const bar = !!c;
 const baz = !c;
 ```
 
-**問183**
+**問185**
 
 こちらの記述
 
@@ -3780,7 +3792,7 @@ jscsのrequireSpacesInsideObjectBracketsで良いとされている書き方に�
 const foo = { clark: 'kent' };
 ```
 
-**問184**
+**問186**
 
 第一引数にaddress,第二引数にtyoume、第三引数にbanchをとりそれらの渡ってきた値をそれぞれ要素とする1つの配列として返すだけの関数createAddressに
 defaultPrameterとして第二引数に「address + -1」、第三引数に「tyoume + '-10'」として設定してください。
@@ -3793,7 +3805,7 @@ createAddress('meguro')
 //['meguro', 'meguro-1', 'meguro-1-10']
 ```
 
-**問185**
+**問187**
 
 f()を実行すると6が返ってくる関数を実装してください。
 但しfは引数にx,y,zを持ち、xはデフォルトで1、yは2で、zはObjectDestructuringとしてkeyとvalueにzにを持ちデフォルトでzの値は3とする
@@ -3806,7 +3818,7 @@ f()
 //6
 ```
 
-**問186**
+**問188**
 
 こちらを使って
 
@@ -3858,7 +3870,7 @@ for (const {name: n, family: {mother : f}} of people){
 
 ```
 
-**問187**
+**問189**
 
 こちら
 
@@ -3901,7 +3913,7 @@ console.log(englishTitle, localeTitle);
 
 ```
 
-**問188**
+**問190**
 
 こちらの渡ってきたoptionの値をデフォルト設定している書き方
 
@@ -3936,7 +3948,7 @@ drawES6Chart({
 
 ```
 
-**問189**
+**問191**
 querySelectorAll('.child')やdocument.getElementsByTagName('div')で取得したNodeListからArrayにする場合の方法を4つ答えてください。
 
 ```js
@@ -3958,7 +3970,7 @@ Object.keys(nodeList).forEach(function(key){
 })
 ```
 
-**問190**
+**問192**
 このような```function add (){console.log(this.x) };```関数ある。新たに変数名objのプロパティとしてx、値5で定義した後、addが参照するthisがobjにbindするように呼び出してください。
 
 ```js
@@ -3969,7 +3981,7 @@ add.apply(obj)
 //5
 ```
 
-**問191**
+**問193**
 このような```function add (y, z){console.log(this.x, y + z ) };```関数がある。この関数に{x:3}にbindさせて、yは5,zは6となるように実行してください。
 
 ```js
@@ -3982,7 +3994,7 @@ function add (y, z){console.log(this.x, y + z ) };
 add.call({x: 3}, 5, 6)
 ```
 
-**問192**
+**問194**
 
 下のような記述がある。
 
@@ -4014,7 +4026,7 @@ fnn()
 //生成する関数にもともとのthis参照しているオブジェクトを束縛させる必要がある
 ```
 
-**問193**
+**問195**
 したのような記述がある
 
 ```js
@@ -4035,7 +4047,7 @@ bindedList(3,4,5)
 //[1, 3, 4, 5]
 ```
 
-**問194**
+**問196**
 ```<ul id="list"></ul>```がある。
 document.createFragmentをつかって```const array = ["Internet Explorer", "Mozilla Firefox", "Safari", "Chrome", "Opera"];```
 がliのtextContentとなるようなDOMを作成してください。
@@ -4055,7 +4067,7 @@ list.appendChild(fragment);
 //DOMツリーに追加するのではないのでリフローが行われない
 ```
 
-**問195**
+**問197**
 
 文字列の中で`\n`があったら全てを`<br>`に置き換える正規表現を表して`replace`してください
 
@@ -4065,7 +4077,7 @@ str = str.replace(/(?:\r\n|\r|\n)/g, '<br>');
 see: [https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags](https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags)
 ```
 
-**問196**
+**問198**
 こちらを{g:3, h:4}それぞれg,hにわりあててください
 
 ```js
@@ -4074,7 +4086,7 @@ console.log(g,h)
 //3, 4
 ```
 
-**問197**
+**問199**
 ローカルストレージとセッションストレージの違いを教えてください.
 
 ```js
@@ -4097,7 +4109,7 @@ localstrageは他のタブ間でもデータが共有される
 
 ```
 
-**問198**
+**問200**
 ローカルストレージのkeyとしてfooを値を"fafa"と設定、取得、削除、全てをクリアーにしてください
 
 ```js
@@ -4110,20 +4122,22 @@ const key = localStorage.key(0)
 console.log(key + 'のストレージは' + localStorage[key]);
 ```
 
-**問199**
-
-```
-```
-
-**問200**
-
-```
-```
-
 </details>
+
 <details><summary>問201〜問250</summary>
 
 **問201**
+
+```
+```
+
+**問202**
+
+```
+```
+
+
+**問203**
 ローカルストレージの値を存在するだけ列挙してください
 
 ```js
@@ -4132,7 +4146,7 @@ for (const i = 0; i < localStorage.length; i++){
 }
 ```
 
-**問202**
+**問204**
 ローカルストレージに次のようなオブジェクト
 
 ```js
@@ -4164,7 +4178,7 @@ const getData = JSON.parse(localStorage.getItem('dataObj'));
 
 ```
 
-**問203**
+**問205**
 
 こちらのsetTimeoutは実行されない。
 
@@ -4194,7 +4208,7 @@ setTimeout(create.get.bind(create), 1000);
 setTimeout(()=> {create.get}, 1000);
 ```
 
-**問204**
+**問206**
 こちらの
 
 ```js
@@ -4227,7 +4241,7 @@ function Person() {
 const p = new Person();
 ```
 
-**問205**
+**問207**
 
 こちら
 
@@ -4249,7 +4263,7 @@ function foo(...args) {
 foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ```
 
-**問206**
+**問208**
 
 こちらはSomeClassコンストラクタにインスタンスメソッドをもたせています。
 
@@ -4278,7 +4292,7 @@ Object.assign(SomeClass.prototype, {
 //Object.assing({}, Someclass.prorotype, {a: fun, b: fun})//新たなObjectとして返す
 ```
 
-**問207**
+**問209**
 
 こちらは値を割り当てられません。
 
@@ -4308,7 +4322,7 @@ Object.defineProperty(obj, 'prop', {value: 456});
 console.log(obj.prop); // 456
 ```
 
-**問208**
+**問210**
 
 下のようなlocation.searchの返り値を想定した文字列がある。
 '?id=12345&category=script&isname=true’
@@ -4326,7 +4340,7 @@ locationsearch.substring(1).split("&").forEach(function(ele, i){
 })
 ```
 
-**問209**
+**問211**
 
 このような[1,1,'a','a']配列がある。
 重複している要素をぬいた配列にしてください。
@@ -4342,7 +4356,7 @@ deduped
 
 ```
 
-**問210**
+**問212**
 このような<div id='box'></div>
 DOMの中に2016年8月27日00時00分00秒から9月11日00時00分00秒まで<span>セール中</span>が表示されるようにしてください。
 
@@ -4359,7 +4373,7 @@ myS <= myD && myE >= myD && campaignDOM.innerHTML += '<span>セール中</span>'
 
 ```
 
-**問211**
+**問213**
 
 こちら```[[1,2],[],[3]]```をフラットにしてください
 期待する結果
@@ -4376,7 +4390,7 @@ flatArray
 
 ```
 
-**問212**
+**問214**
 
 これは期待する値が出力されない。
 
@@ -4402,7 +4416,7 @@ for (let i=0; i < 3; i++) {
 arr.map(x => x()); // [0,1,2]
 ```
 
-**問213**
+**問215**
 
 下のような
 
@@ -4449,7 +4463,7 @@ entriesを'''<div id="content"></div>'''この中でaタグを作りentries[0]�
 
 [実際のコード](https://jsfiddle.net/zep3dLyy/4/)
 
-**問214**
+**問216**
 
 下記consoleは
 
@@ -4470,7 +4484,7 @@ The scope of parameter default values is separate from the scope of the body (th
 That means that methods or functions defined “inside” parameter default values don’t see the local variables of the body:
 ```
 
-**問215**
+**問217**
 スーパークラスのメソッドspeakをサブクラスgetSpeakからcallしてください
 
 ```js
@@ -4500,7 +4514,7 @@ iii.getSpeak();
 eee.speak();
 ```
 
-**問216**
+**問218**
 
 こ方法はorigのプロパティ属性を守らない
 
@@ -4522,7 +4536,7 @@ function clone(orig) {
 
 ```
 
-**問217**
+**問219**
 
 Generator methodsをつくってください(仮)
 
@@ -4551,7 +4565,7 @@ for (const x of new IterableArguments('hello', 'world')) {
 // world
 ```
 
-**問218**
+**問220**
 
 定義と同時に実行する関数を作ってください
 
@@ -4565,7 +4579,7 @@ console.log(dimension);
 //(10,20)を取り除くと関数リテラルになることに注意
 ```
 
-**問219**
+**問221**
 オブジェクトのプロパティが存在するかどうか
 
 ```js
@@ -4582,7 +4596,7 @@ console.log(!!obj.height)
 //"heightが定義されていません"
 ```
 
-**問220**
+**問222**
 
 WIP
 
@@ -4612,7 +4626,7 @@ multiplyAndLog(40,4)
 
 ```
 
-**問221**
+**問223**
 
 document内のh1を全て取得し、インデックス1番目のh1を削った残りを返してください
 
@@ -4622,7 +4636,7 @@ const newHoge = Array.prototype.slice.call(hoge, 1);
 
 ```
 
-**問222**
+**問224**
 
 ```const a = 'aabbccdde1e23ffgg'; ```と```const b = 'aabbccdde1e23ffgg';```がある。
 
@@ -4637,7 +4651,7 @@ a.search(/\d/) < b.search(/\d/);
 //true
 ```
 
-**問223**
+**問225**
 
 ```<div>abuout me</div>```divタグに囲まれた文字列を配列divArrayに格納しなさい
 
@@ -4650,7 +4664,7 @@ divarray
 
 ```
 
-**問224**
+**問226**
 
 WIP
 
@@ -4665,7 +4679,7 @@ i += 1;
 
 ```
 
-**問225**
+**問227**
 
 1980年8月1日5時55分を表すDateオブジェクトを生成してください
 
@@ -4675,7 +4689,7 @@ const d = new Date('1980/8/1 5:55');
 
 ```
 
-**問226**
+**問228**
 
 上で作成した日時を現地フォーマットで出力してください
 
@@ -4690,7 +4704,7 @@ d.toStoring();
 //'Tue Jul 01 2008 05:55:00 GMT+0900 (JST)'
 ```
 
-**問227**
+**問229**
 
 WIP
 
@@ -4706,7 +4720,7 @@ d.toLocaleTimeString();
 
 ```
 
-**問228**
+**問230**
 
 const ary = ['aaa', 'bbb', 'ccc'];に文字列'eee'を先頭に追加してください
 
@@ -4719,7 +4733,7 @@ ary
 
 ```
 
-**問229**
+**問231**
 
 こちらの変数を使って
 const ary = [0, 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10];
@@ -4736,7 +4750,7 @@ newAry
 //[1, 5, 7]
 ```
 
-**問230**
+**問232**
 
 ビルドインプロパティを3つ答えなさい
 
@@ -4750,7 +4764,7 @@ undefined
 //ビルドインオブジェクトとは異なり、参照する際にオブジェクトを指定せずにプロパティ名を記述するだけ
 ```
 
-**問231**
+**問233**
 
 ビルドイン関数を9つ挙げてください
 
@@ -4768,7 +4782,7 @@ parseInt(str,[radix])
 
 ```
 
-**問232**
+**問234**
 
 こちら
 encodeURIComponenとencodeURIの違いを教えてください
@@ -4785,7 +4799,7 @@ encodeURI(url)
 
 ```
 
-**問233**
+**問235**
 
 ```const s = 'aaa,bbb,ccc,ddd';```
 を使って、,を/に置換した文字列```aaa/bbb/ccc/ddd```を出力してください。ただしreplaceメソッドは使用しないこととする
@@ -4801,7 +4815,7 @@ s
 
 ```
 
-**問234**
+**問236**
 
 下の変数sにある
 ```const s = 'aaa<div>bbb</div>ccc<div>ddd</div>eee';```
@@ -4828,7 +4842,7 @@ divStringAry.join('\n')
 
 ```
 
-**問235**
+**問237**
 
 2の0乗〜10乗までを格納した配列を作成してください。インデックスはそれぞれ指数(0〜10)となるようにしてください
 
@@ -4850,7 +4864,7 @@ for(const n = 0; n <= 10; n++){
 }
 ```
 
-**問236**
+**問238**
 
 今年の各月の最終日を配列に格納してくださいｌ。インデックスは各月と一致する数値とする。
 
@@ -4874,7 +4888,7 @@ ary
 
 ```
 
-**問237**
+**問239**
 
 同一制限ポリシー(Same-Origin-Policy)の制限を受けるものを4つ答え、またオリジンを参照してください
 
@@ -4913,7 +4927,7 @@ hash - #test
 
 ```
 
-**問238**
+**問240**
 
 location.assignとlocation.replaceの違いを教えてください
 
@@ -4922,7 +4936,7 @@ location.assignとlocation.replaceの違いを教えてください
 
 ```
 
-**問239**
+**問241**
 
 Object.creteを使ってPersonのにthis.nameとthis.jobを参照して「'my name is' + this.name + '。' + '職業は' + this.job + 'です'」を出力するインスタンスメソッド「say」のみを持ち、それを継承してnameを自身のプロパティとして持つkenjiと、
 kenjiを継承しjobを自身のプロパティとしてもつcompKenjiを作成して
@@ -4949,7 +4963,7 @@ compKenji.say()
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 ```
 
-**問240**
+**問242**
 
 Object.createメソッドで以下と同じ記述をしてください。
 
@@ -4962,7 +4976,7 @@ o = new Constructor();
 o = Object.create(Constructor.prototype);
 ```
 
-**問241**
+**問243**
 
 ```const o = Object.create({},{p: {value: 32}});```
 を書き換えtrue、列挙true、変更trueとして新たにオブジェクトを生成してください。
@@ -4986,7 +5000,7 @@ delete o2.p
 
 ```
 
-**問242**
+**問244**
 
 Object.createとObject.definePropertyesとObject.definePropertyの引数、返り値を教えてください。
 
@@ -5013,7 +5027,7 @@ Object.defineProperty(プロパティをsetする対象オブジェクト,{プ�
 
 ```
 
-**問243**
+**問245**
 let n = '124';を数値に変換してください。
 
 ```js
@@ -5028,7 +5042,7 @@ n
 
 ```
 
-**問244**
+**問246**
 こちらの評価は
 
 ```
@@ -5046,7 +5060,7 @@ if(n.value != null){//something}
 
 ```
 
-**問245**
+**問247**
 オブジェクトの存在チェックをしてあったら実行している。
 
 ```js
@@ -5068,7 +5082,7 @@ o && o.f && o.f();
 //o && o.options && o.options.players > 50 && (flag = true);
 ```
 
-**問246**
+**問248**
 ```const v```の値を確実に数値にしたい。
 'a'が入ってきた場合NaNではなく0を代入するようにしてください。
 
@@ -5076,7 +5090,7 @@ o && o.f && o.f();
 const n = +v || 0;
 ```
 
-**問247**
+**問249**
 
 ```const v```を整数化してください
 
@@ -5085,7 +5099,7 @@ const i = v | 0;
 
 ```
 
-**問248**
+**問250**
 下の様な場合、
 
 ```js
@@ -5116,7 +5130,11 @@ insEmp2.name
 //"kenji"
 ```
 
-**問249**
+</details>
+
+<details><summary>問251〜問300</summary>
+
+**問251**
 ObjectとMapの違いを教えてください
 
 ```js
@@ -5161,17 +5179,15 @@ http://stackoverflow.com/questions/18541940/map-vs-object-in-javascript
         m.size();
 ```
 
-**問250**
+**問252**
 破壊的なメソッドをあげてください
 
 ```js
 pop、push、reverse、shift、sort、splice、unshilft
 ```
 
-</details>
-<details><summary>問251〜問300</summary>
 
-**問251**
+**問253**
 
 ```const arr = ['one', 'two', 'three']```においてarrを不変オブジェクトに変更してください。
 
@@ -5204,7 +5220,7 @@ console.log(obj3.b.a)
 
 ```
 
-**問252**
+**問254**
 
 このようなobjがあります。
 
@@ -5263,7 +5279,7 @@ str
 }
 ```
 
-**問253**
+**問255**
 this呼び出しを4つとそれぞれのthis参照の参照先オブジェクトを答えてください
 
 ```js
@@ -5279,7 +5295,7 @@ e.g  const obj = {add : function(){some}};
 //this参照はコードのコンテキストに応じて自動的に参照先オブジェクトが変わる特別なもの
 ```
 
-**問254**
+**問256**
 const obj = { foo: 'bar', baz: 42 }; をMapオブジェクトに変換してください
 
 ```js
@@ -5289,7 +5305,7 @@ console.log(map); // Map { foo: 'bar', baz: 42 }
 
 ```
 
-**問255**
+**問257**
 
 ```js
 const Emiiter = {
@@ -5308,7 +5324,7 @@ Emiiter.register(function(){console.log('2')});
 
 ```
 
-**問256**
+**問258**
 
 こちらはcolorの条件でそれぞれの関数を実行する記述です。
 
@@ -5401,7 +5417,7 @@ if (color in colorObj) {
 //black
 ```
 
-**問257**
+**問259**
 こちら['a','b','c’]をこちら{0: 'a’, 1: 'b’, 2: 'c'}のようにしてください
 
 ```js
@@ -5418,7 +5434,7 @@ toObject(arry);
 
 ```
 
-**問258**
+**問260**
 
 こちら
 
@@ -5446,7 +5462,7 @@ document.querySelector('#mngb').innerHtml = html.join('');
 //+=より、配列に追加してjoinを使った方が高速
 ```
 
-**問259**
+**問261**
 
 このような関数があります
 
@@ -5489,7 +5505,7 @@ name
 
 ```
 
-**問260**
+**問262**
 
 こちら
 
@@ -5514,7 +5530,7 @@ const arr = Object.values(myObject);
 //※Object.values(ECMAScript2017)を使える環境で(Polyfill: es-shims/Object.values,tc39/proposal-object-values-entries)で
 ```
 
-**問260**
+**問263**
 
 こちら
 
@@ -5553,7 +5569,7 @@ obj
 //{a: 1, b: 3}
 ```
 
-**問261**
+**問264**
 
 こちら
 
@@ -5577,7 +5593,7 @@ console.log(result);
 // Map {'foo' => 'bar', 'hello' => 'world'}
 ```
 
-**問262**
+**問265**
 
 こちら
 
@@ -5600,7 +5616,7 @@ sortedCharacters === characters
 //false
 ```
 
-**問263**
+**問266**
 ジェネレーター関数を使って１ずつ値を出力してください。
 
 ```js
@@ -5617,7 +5633,7 @@ iterator.next().value;
 //1
 ```
 
-**問264**
+**問267**
 generator関数がyieldの完了まで前進したら'finish'という文字列を返してください
 
 ```js
@@ -5632,7 +5648,7 @@ iterator.next();
 //'finish'
 ```
 
-**問265**
+**問268**
 数値1から3までの値を返すgenarator関数で生成されたiteratableをfor-of文に使い値を出力してください。(その際for-of文での戻り値を捨てていることを確認してください。)
 
 ```js
@@ -5652,7 +5668,7 @@ for(index of iterator){
 //3
 ```
 
-**問266**
+**問269**
 3つのgenerator関数、foo,bar,bazはそれぞれ関数名の文字列をyield operatorに持ち、fooは次の処理をbarに代理させて、barは次の処理をbaz、それぞれyield値で実行するように定義してください。さらにfor-of文で'foo','bar','baz'と連続で出力してください。
 
 ```js
@@ -5678,7 +5694,7 @@ for (index of foo()){
 //'baz'
 ```
 
-**問267**
+**問270**
 
 値が'a'ならgenerator関数内のtry-catch内で値をバックアップ、'b'なら呼び出し元で例外を発生させるgenerator関数を定義してください。
 
@@ -5708,7 +5724,7 @@ try {
 //Uncaught b
 ```
 
-**問268**
+**問271**
 
 こちらの
 
@@ -5769,7 +5785,7 @@ controller(function* () {
 // c
 ```
 
-**問269**
+**問272**
 
 ジェネレーター関数barを実行して、返り値のiteratorが持つnext()すると、
 1,2回目はvalue値がそれぞれ1,2。
@@ -5807,7 +5823,7 @@ it.next( 'V' ); // { value:undefined, done:true }
 
 ```
 
-**問270**
+**問273**
 
 generatorを作成してimgタグのsrc属性が1~7.pngを参照するようにしてそれぞれ格納した配列を作ってください。
 
@@ -5824,7 +5840,7 @@ for(const i of ge(1,7)){
 }
 ```
 
-**問271**
+**問274**
 
 for-ofに渡すと1~10までの数値を返すitarableなオブジェクトを自作してください。
 
@@ -5843,7 +5859,7 @@ obj[Symbol.iterator] = function(){//イテレータを返す関数を代入
 };
 ```
 
-**問272**
+**問275**
 
 こちらの
 
@@ -5879,7 +5895,7 @@ iterator.next(1).value
 //undefined
 ```
 
-**問273**
+**問276**
 
 こちらの`foo`を
 
@@ -5913,7 +5929,7 @@ it.next(13);
 //{value: 42, done: true}
 ```
 
-**問274**
+**問277**
 
 1秒毎に1加算した値をコンソール出力してください。
 
@@ -5944,7 +5960,7 @@ run(countUp());
 
 ```
 
-**問275**
+**問278**
 
 location.href'で返す文字列先頭が'http'から始まる場合trueを返す関数を定義してください。
 
@@ -5952,14 +5968,14 @@ location.href'で返す文字列先頭が'http'から始まる場合trueを返�
 location.href.startsWith('http');
 ```
 
-**問276**
+**問279**
 location.href'で返す文字の最後が'/'かどうかを判定する関数を定義してください。
 
 ```js
 location.href.endsWith('/');
 ```
 
-**問277**
+**問280**
 
 Symbolをプロパティキーとして認識する操作と無視する操作を教えて下さい。
 
@@ -5975,7 +5991,7 @@ Object.getOwnPropertyNames()
 for-in loop
 ```
 
-**問278**
+**問281**
 こちらを実行すると
 
 ```js
@@ -5994,7 +6010,7 @@ const str2 = `${sym}`; //TypeError
 //Symbolに対して強制的な型変換をするとTypeErrorがスローされます。
 ```
 
-**問279**
+**問282**
 
 シンボルのユースケースをざっくり2つほど教えて下さい。
 
@@ -6059,7 +6075,7 @@ function getComplement(color) {
 
 ```
 
-**問280**
+**問283**
 
 こちらは
 
@@ -6086,7 +6102,7 @@ if(isAble){
 
 ```
 
-**問281**
+**問284**
 
 こちらの
 delete target['key']
@@ -6096,7 +6112,7 @@ delete target['key']
 Reflect.deletePropery(target, 'key')
 ```
 
-**問282**
+**問285**
 
 こちらはReflect.getを使って
 
@@ -6128,7 +6144,7 @@ obj[1]
 //undefined
 ```
 
-**問283**
+**問286**
 
 Reflect.applyとはどのようなものですか。
 
@@ -6167,7 +6183,7 @@ Reflect.apply(fun, ctx, [1,2,3])
 //11
 ```
 
-**問284**
+**問287**
 
 こちら
 
@@ -6186,7 +6202,7 @@ Reflect.apply(String.fromCharCode, undefined, [104, 101, 108, 108, 111])
 //"hello"
 ```
 
-**問284**
+**問288**
 
 p.aにアクセスしたら1を返し、存在しないプロパティにアクセスしたら37を
 返すオブジェクトを作成してください
@@ -6212,7 +6228,7 @@ p.c
 //37
 ```
 
-**問285**
+**問289**
 
 {a: 1}がprototype上に'toString'持っているかBoolean値を出力してください
 
@@ -6221,7 +6237,7 @@ Reflect.has({a: 1}, 'toString');
 //true
 ```
 
-**問286**
+**問290**
 
 Errorオブジェクトのインスタンスにmessageとして"エラーが発生しました"を代入エラーをthrowしてください
 
@@ -6234,7 +6250,7 @@ throw err
 throw new Error("エラーが発生しました。");
 ```
 
-**問287**
+**問291**
 
 obj.aに数値以外のものが代入されるとsetterでErrorを投げ、number型ならaに代入。getterはaを返すobjを作ってください。
 
@@ -6252,7 +6268,7 @@ const obj = {
 };
 ```
 
-**問288**
+**問292**
 
 このようながDOMがあります。
 
@@ -6289,7 +6305,7 @@ else
   el.className += ' ' + className;
 ```
 
-**問289**
+**問293**
 
 こちら
 
@@ -6307,7 +6323,7 @@ foo.classList.contains('foo');
 //http://caniuse.com/#feat=classlist
 ```
 
-**問290**
+**問294**
 
 こちら
 
@@ -6326,7 +6342,7 @@ foo.classList.remove('bar');
 //http://caniuse.com/#feat=classlist
 ```
 
-**問291**
+**問295**
 
 こちら
 
@@ -6357,7 +6373,7 @@ request.onerror = function() {
 request.send();
 ```
 
-**問292**
+**問296**
 const data = { foo: 'abc', bar: 100 }
 このようなdataをPOSTで送れるようにしてください
 
@@ -6374,7 +6390,7 @@ str
 //'foo=abc&bar=100'
 ```
 
-**問293**
+**問297**
 
 こちら
 
@@ -6393,7 +6409,7 @@ Array.prototype.forEach.call(elements, function(el, i){
 });
 ```
 
-**問294**
+**問298**
 
 こちら
 
@@ -6428,7 +6444,7 @@ el.nextElementSibling
 el.parentNode
 ```
 
-**問295**
+**問299**
 
 こちら
 
@@ -6447,7 +6463,7 @@ if (el.classList){
 }
 ```
 
-**問296**
+**問300**
 
 こちらの2つの処理
 
@@ -6464,7 +6480,11 @@ el.nextElementSibling
 el.parentNode
 ```
 
-**問297**
+</details>
+
+<details><summary>問301〜問350</summary>
+
+**問301**
 
 こちら
 
@@ -6482,7 +6502,7 @@ rect
 
 ```
 
-**問298**
+**問302**
 
 こちら
 
@@ -6496,7 +6516,7 @@ $(el).remove();
 el.parentNode.removeChild(el);
 ```
 
-**問299**
+**問303**
 
 こちら
 
@@ -6514,7 +6534,7 @@ if (el.classList) {
 }
 ```
 
-**問300**
+**問304**
 
 こちら
 
@@ -6528,10 +6548,8 @@ $(el).attr('tabindex', 3);
 el.setAttribute('tabindex', 3);
 ```
 
-</details>
-<details><summary>問301〜問350</summary>
 
-**問301**
+**問305**
 
 こちら
 
@@ -6557,7 +6575,7 @@ if (el.classList) {
 }
 ```
 
-**問302**
+**問306**
 
 こちら
 
@@ -6577,7 +6595,7 @@ const parseHTML = function(str) {
 parseHTML(htmlString);
 ```
 
-**問303**
+**問307**
 
 こちら
 
@@ -6591,7 +6609,7 @@ $(el).on(eventName, eventHandler);
 el.addEventListener(eventName, eventHandler);
 ```
 
-**問304**
+**問308**
 
 こちらはDOMの解析とロードの条件で渡されたコールバック、fncが同期的に呼ばれるか非同期に呼ばれるか変わるコードです。
 
@@ -6668,7 +6686,7 @@ console.log('Start');
 //Promiseは常に非同期で実行されることを保障されている
 ```
 
-**問305**
+**問309**
 
 非同期コールバックを同期的に呼んではいけない理由を教えて下さい。
 
@@ -6679,7 +6697,7 @@ console.log('Start');
 //非同期コールバックを次回に実行されるようスケジューリングするには、setTimeout のような非同期APIを使う。
 ```
 
-**問306**
+**問310**
 
 最初のPromiseオブジェクトがresolveされたら'私は'という文字列を返し、次のPromiseオブジェクトで文字列'今日、'を返し、次のPromiseオブジェクトで'運がいいです'を返し、
 最後のPromiseオブジェクトでそれらが連結された文字列を出力してください。
@@ -6701,7 +6719,7 @@ initPromise.then(lastName).then(firstName).then(comp);
 //私は今日、運がいいです
 ```
 
-**問307**
+**問311**
 
 Promseオブジェクト作成時にresolveに数値1を渡すコールバックを呼び出し、console出力され、
 続くthenメソッドで2を足した値を出力してください。
@@ -6718,7 +6736,7 @@ promise1.then(function(val){
 });
 ```
 
-**問308**
+**問312**
 
 Promiseオブジェクトを使ってGETメソッドリクエスト，list.jsonを取得してください。urlは`http://kenmori.jp/list.json`とする
 
@@ -6748,7 +6766,7 @@ get('list.json').then(function(res){
 })
 ```
 
-**問309**
+**問313**
 
 Promiseオブジェクトを使ってこちら
 
@@ -6775,7 +6793,7 @@ say(1000).then(function(){
 })
 ```
 
-**問310**
+**問314**
 
 Promiseを使って0.5秒後毎に文字列の出力がされる非同期処理を実装をしてください
 
@@ -6809,7 +6827,7 @@ f().then(()=> f(500))//「fした後に~する」の中身を実装。この場�
 .then(()=> f(500)) //それが終わったらさらにf
 ```
 
-**問311**
+**問315**
 
 複数の非同期処理の完了を待って'done'を出力する実装をしてください
 
@@ -6829,7 +6847,7 @@ i.then(()=> console.log("done"))
 
 ```
 
-**問312**
+**問316**
 
 'http://localhost:3000/comments',
 'http://localhost:3000/posts',
@@ -6868,7 +6886,7 @@ i.then(()=> console.log("done"))
       .then(() => console.log('done!'))
 ```
 
-**問313**
+**問317**
 
 上記の記述はthenの第一引数にresolve処理を渡しています。
 逐次処理のような記述に修正してください。
@@ -6908,7 +6926,7 @@ async function asyncFunction (){
 
 ```
 
-**問314**
+**問318**
 
 [co](https://github.com/tj/co)を使って、
 
@@ -6950,7 +6968,7 @@ const promiseFun = co.wrap( function* (url){
 
 ```
 
-**問315**
+**問319**
 
 coを使ってgeneratorをラップしたfnを実行して、Promiseがresolveするまで処理を止める記述をしてください。※Promise.resolveで任意の値をすぐ返してok
 
@@ -6961,7 +6979,7 @@ coを使ってgeneratorをラップしたfnを実行して、Promiseがresolve�
   fn(true).then(function(val){console.log(val)})
 ```
 
-**問316**
+**問320**
 coを使って、1から始まり1秒ごとにインクルメントされた値からパラメーターに渡した数値まで出力される関数を実装、呼び出し元にresolveのpromiseオブジェクトが返ってきたら'done'を出力してください。
 
 ```js
@@ -6984,7 +7002,7 @@ coを使って、1から始まり1秒ごとにインクルメントされた値�
   });
 ```
 
-**問317**
+**問321**
 こちら
 
 ```js
@@ -7005,7 +7023,7 @@ async function asyncFunc() {
 }
 ```
 
-**問318**
+**問322**
 こちら
 
 ```js
@@ -7033,7 +7051,7 @@ async function asyncFunc() {
 }
 ```
 
-**問319**
+**問323**
 
 こちら
 
@@ -7061,7 +7079,7 @@ async function asyncFunc() {
 }
 ```
 
-**問320**
+**問324**
 
 こちらは
 
@@ -7087,7 +7105,7 @@ async function asyncFunc() {
 }
 ```
 
-**問321**
+**問325**
 
 イベントデリゲーションに関して。
 こちらのDOMの
@@ -7138,7 +7156,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
-**問322**
+**問326**
 
 こちらの実装は配列のインデックスを3000ms後に出力することを期待しています。
 
@@ -7193,7 +7211,7 @@ for (let i = 0; i < arr.length; i++) {
 // read more here: http://exploringjs.com/es6/ch_variables.html#sec_let-const-loop-heads
 ```
 
-**問323**
+**問327**
 こちらのhtmlでcontainer内をscrollした際にイベントを発火させたい。
 
 ```html
@@ -7241,7 +7259,7 @@ elem.addEventListener('scroll', debounce(foo, 2000));
 //https://jsfiddle.net/kenjimorita/2pmpvnqw/1/
 ```
 
-**問323**
+**問328**
 変数aに2代入してをaを4乗してください。
 さらにaが16になることを確認してください
 
@@ -7253,7 +7271,7 @@ a === Math.pow(2, 4);
 
 ```
 
-**問324**
+**問329**
 
 ```js
 let obj = {a: 1, b:2, c:3}
@@ -7276,7 +7294,7 @@ for(let value of Object.values(obj)){
 
 ```
 
-**問325**
+**問330**
 
 こちらはentriesで返されるkeyとvalueのペアー配列を要素とした配列をdestructuringしてそれぞれのkeyとvalueを出力しています。
 
@@ -7297,7 +7315,7 @@ for (let [key, value] of Object.entries(obj)) {
 // a is 1, b is 2, c is 3
 ```
 
-**問326**
+**問331**
 
 こちらは副作用がない関数です
 
@@ -7322,7 +7340,7 @@ addAndLog(2, 3)
 //Result:5
 ```
 
-**問327**
+**問332**
 
 下記のような減算する関数subtractと加算する関数addがあります。
 
@@ -7363,7 +7381,7 @@ subtractAndLog(4, 3);
 //'Result:1'
 ```
 
-**問328**
+**問333**
 こちらの配列、[1, 2, 3, 3]で、
 要素が重複しない形で返す記述をしてください
 期待する値 [1, 2, 3]
@@ -7381,7 +7399,7 @@ const unique = Array.from(new Set([1,2,2,3,3,3,4,5])); // [1,2,3,4,5]
 
 ```
 
-**問329**
+**問334**
 
 applyのユースケースについて。このような関数があります
 
@@ -7445,7 +7463,7 @@ average(...array);//違う方法で
 
 ```
 
-**問330**
+**問335**
 
 こちらの関数
 
@@ -7480,7 +7498,7 @@ foo(12);
 //13
 ```
 
-**問331**
+**問336**
 
 以下の関数を実行すると
 
@@ -7499,7 +7517,7 @@ bとして出力するのは何ですか?
 undefined
 ```
 
-**問332**
+**問337**
 
 以下
 
@@ -7513,7 +7531,7 @@ NaN === NaN
 false
 ```
 
-**問333**
+**問338**
 
 こちらを順にお答えください。
 
@@ -7578,7 +7596,7 @@ false
 
 ```
 
-**問334**
+**問339**
 
 こちら
 
@@ -7602,7 +7620,7 @@ false
 
 ```
 
-**問335**
+**問340**
 こちら
 
 ```js
@@ -7622,7 +7640,7 @@ console.log(sparseKeys); // ['0', '2'] //要素はstring
 console.log(denseKeys);  // [0, 1, 2]//抜けを無視しない //要素は数値
 ```
 
-**問336**
+**問341**
 
 こちら
 
@@ -7666,7 +7684,7 @@ console.log(b);
 
 ```
 
-**問337**
+**問342**
 
 こちら
 
@@ -7687,7 +7705,7 @@ typeof g();
 //関数式に識別子を指定するとそれ自体使うことをスルーされます
 ```
 
-**問338**
+**問343**
 
 下のように
 
@@ -7711,7 +7729,7 @@ String.prototype.repeatify = String.prototype.repeatify || function(times) {
 };
 ```
 
-**問339**
+**問344**
 
 下のコードは
 
@@ -7755,7 +7773,7 @@ function test() {
 test();
 ```
 
-**問340**
+**問345**
 
 下記コードは
 
@@ -7787,7 +7805,7 @@ console.log(test());
 
 ```
 
-**問341**
+**問346**
 
 第一引数で受け取った数値に3を足して返す関数add3を第一引数に渡すとfを2回繰り返す関数twice。
 
@@ -7810,7 +7828,7 @@ twice(add3, 7);
 //13
 ```
 
-**問342**
+**問347**
 
 こちらの
 
@@ -7846,11 +7864,11 @@ function logStuff(obj, callback){
 logStuff({name: 'morita', job: 'engineer'}, log);
 ```
 
-**問343**
+**問348**
 
-問342のlogStuffについて、第二引数で渡したcallbackの型をチェックしてFunctionだったら実行するようにしてください
+問347のlogStuffについて、第二引数で渡したcallbackの型をチェックしてFunctionだったら実行するようにしてください
 
-**問344**
+**問349**
 
 こちらの
 
@@ -7889,7 +7907,7 @@ clientData.fullName
 //kenji morita
 ```
 
-**問345**
+**問350**
 
 こちら
 
@@ -7916,7 +7934,11 @@ greetHello('kenji')
 
 ```
 
-**問346**
+</details>
+
+<details><summary>問351〜問400</summary>
+
+**問351**
 こちら
 
 ```js
@@ -7947,7 +7969,7 @@ greetAwkwardly('kenji')
 //Hello...kenji?
 ```
 
-**問347**
+**問352**
 
 文字列が'He'から始まる場合trueになる評価をしてください
 ex 'Hello World' //true 'Goodby World' //false
@@ -7965,7 +7987,7 @@ ex 'Hello World' //true 'Goodby World' //false
 
 ```
 
-**問348**
+**問353**
 
 mystring#という文字列があります。最後の文字が#の場合trueになる評価をしてください
 
@@ -7988,7 +8010,7 @@ let str = "mystring#";
 
 ```
 
-**問349**
+**問354**
 
 引数に文字列を渡すとその最初の文字を大文字にして返す関数を実装してください
 
@@ -8001,7 +8023,7 @@ capitalizeFirstLetter("morita")
 //"Morita"
 ```
 
-**問350**
+**問355**
 
 prototype と \_\_proto\_\_ の違いを説明してください
 
@@ -8090,13 +8112,11 @@ let b = new A('JavaScript');
 
 ```
 
-</details>
 
-<details><summary>問351〜問400</summary>
 
-**問351**
+**問356**
 
-問352を参照にして、自身にyプロパティをもつFクラスのインスタンスfがFのprototypeオブジェクトを参照していることを証明してください。尚、Fはclass構文とする
+問357を参照にして、自身にyプロパティをもつFクラスのインスタンスfがFのprototypeオブジェクトを参照していることを証明してください。尚、Fはclass構文とする
 
 ```js
 class F {
@@ -8113,7 +8133,7 @@ f.hasOwnProperty('y')
 //true
 ```
 
-**問352**
+**問357**
 
 こちら
 
@@ -8126,7 +8146,7 @@ function a (name) {
  b.car
 ```
 
-が実行された際のJavaScriptの内部の動きをざっくり教えてください(問350で説明しているところです。復習)
+が実行された際のJavaScriptの内部の動きをざっくり教えてください(問355で説明しているところです。復習)
 
 ```js
 function a (name) {
@@ -8149,7 +8169,7 @@ b.car
 
 <http://exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters>
 
-**問353**
+**問358**
 
 こちらはmaxからminまでのランダム値を返す関数です。
 
@@ -8173,7 +8193,7 @@ randam()
 
 ```
 
-**問354**
+**問359**
 
 下記のようなオブジェクト
 
@@ -8188,7 +8208,7 @@ const {foo: {bar: deep}};
 console.log(deep)//'baz'
 ```
 
-**問355**
+**問360**
 
 下記
 
@@ -8207,7 +8227,7 @@ Array.from($('div'), el => el.id)
 //.context - mapが呼ばれる際に使われるthis
 ```
 
-**問356**
+**問361**
 
 引数としてnull,[], NaNを渡した際にぞれぞれをtypeofで評価した配列['object', 'object', 'number']を返す関数を作ってください
 
@@ -8219,7 +8239,7 @@ typeOf(null, [], NaN);
 //['object', 'object', 'number']
 ```
 
-**問357**
+**問362**
 
 変数宣言無しで `{ a: "baz", b: 101 }`のそれぞれの値を`a`と`b`に代入してください
 
@@ -8227,7 +8247,7 @@ typeOf(null, [], NaN);
 ({ a, b } = { a: "baz", b: 101 });
 ```
 
-**問358**
+**問363**
 
 こちら
 
@@ -8258,7 +8278,7 @@ const {faf, ee } = (() => {
 })()
 ```
 
-**問359**
+**問364**
 
 上記のような
 
@@ -8273,7 +8293,7 @@ const {faf, ee } = (() => {
 //console.logはundefinedを返すのでfalse。処理が次に移る
 ```
 
-**問360**
+**問365**
 
 下記
 
@@ -8292,7 +8312,7 @@ const {faf, ee } = (() => {
 //符号を逆にして-1された値が返る
 ```
 
-**問361**
+**問366**
 
 下記のように
 
@@ -8319,7 +8339,7 @@ elseifを伴ったif文を一行で書いてください
 const variable = a ? a : b ? b : c
 ```
 
-**問362**
+**問367**
 
 `JSON.stringify`について、
 以下
@@ -8360,7 +8380,7 @@ _aside_
  `'John'` became `"John"`, `{age: 30}` become `{"age": "30"}`
 `typeof user` will return `"string"`
 
-**問363**
+**問368**
 
 こちらは
 
@@ -8458,7 +8478,7 @@ JSON.stringify(obj,replacement));
 or
 `json-stringify-safe`を使ってそれが`circular`か確認します
 
-**問364**
+**問369**
 
 こちらの値
 
@@ -8492,7 +8512,7 @@ schedule.meetups[1].date.getDate();
 //18
 ```
 
-**問365**
+**問370**
 
 こちらのオブジェクト
 
@@ -8521,7 +8541,7 @@ user
 //{name: "John Smith", age: 35}
 ```
 
-**問366**
+**問371**
 
 こちら
 
@@ -8550,7 +8570,7 @@ alert( null || 0 || 1 ); // 1 (the first truthy value)
 alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
 ```
 
-**問367**
+**問372**
 
 こちらを実行したら
 
@@ -8574,7 +8594,7 @@ undefineを返すので、ORはtruthyを探しに次のオペランドへ2が返
 
 外側のアラートがそれを実行します
 
-**問368**
+**問373**
 
 こちら
 
@@ -8595,7 +8615,7 @@ fefe`)
 //今まで.は改行文字に対応できていなかったのですがES2018ではsフラグを付けることで可能になります
 ```
 
-**問369**
+**問374**
 
 Numberオブジェクトに引数をとって加算できるplusメソッドを追加してください
 
@@ -8610,7 +8630,7 @@ Object.defineProperty(
 );
 ```
 
-**問370**
+**問375**
 
 `a`という変数に`{}`かkeyがあるかどうか評価してください
 
@@ -8618,7 +8638,7 @@ Object.defineProperty(
 Object.keys(a).length === 0
 ```
 
-**問371**
+**問376**
 
 このような `{foo: "hogehoge", bar: "fafa"}` 、 `{bar: "fafa"}` 、 `{foo: "hogehoge"}`、 `null` が渡って来る可能性がある関数がある。
 
@@ -8644,7 +8664,7 @@ const buildAnObjectFromAQuery = query => ({
 });
 ```
 
-**問372**
+**問377**
 
 このような `[1,2,3,3]` 配列がある。 `[1,2,3]`  とユニークな要素だけを取得するようにしてください
 
@@ -8653,7 +8673,7 @@ let un = [...new Set([1, 2, 3, 3])]
 console.log(un); //[1, 2, 3]
 ```
 
-**問373**
+**問378**
 
 このようなfalsyな値を含む配列がある。
 
@@ -8669,7 +8689,7 @@ let trusy = e.filter(Boolean);
 console.log(trusy);// [21, "fafa"]
 ```
 
-**問374**
+**問379**
 
 引数が渡って来ない、`undefined` なら Errorをthrowする関数を書いてください
 
@@ -8685,7 +8705,7 @@ fn("") //ok
 
 ```
 
-**問題375**
+**問380**
 
 文字列 `"hello"`を逆の文字列にしてください expect `"olleh"`
 
@@ -8696,7 +8716,7 @@ str.split('').reverse().join('')
 [...str].reduce(( prev, next ) => next + prev)
 ```
 
-**問題376**
+**問381**
 
 addという関数
 
@@ -8726,7 +8746,7 @@ function add (a){
 }
 ```
 
-**問題377**
+**問382**
 
  数値 `-6.133`、`6.133` を正数値だけ取得してください。
 
@@ -8741,7 +8761,7 @@ Math.trunc(num)
 // 6
 ```
 
-**問題378**
+**問383**
 
 こちら2の4乗
 
@@ -8758,7 +8778,7 @@ Math.pow(2, 4)
 //ECMAScript216の べき乗演算子**（Exponentiation Operator)
 ```
 
-**問題379**
+**問384**
 
 こちらの文字列
 
@@ -8775,7 +8795,7 @@ Math.pow(2, 4)
 // 12
 ```
 
-**問題380**
+**問385**
 
 reduceを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` にしてください
 
@@ -8783,7 +8803,7 @@ reduceを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` に�
 [{id: 1, name: 'kenji'}].reduce((a, c)=>  (a[c.id] = c) && a, {})
 ```
 
-**問題381**
+**問386**
 
 `[{1: {name: "kenji"}}, {2: {name: "rika"}}]` を reduceを使って `[{name: "kenji"},{name: "rika"}]` にしてください
 
@@ -8796,7 +8816,7 @@ reduceを使って、 `[{id: 1, name: 'kenji'}]` を `{1: {name: 'kenji'}}` に�
 
 ```
 
-**問題382**
+**問387**
 
 `const res = {user: {name: 'kenji'}}`の `res.user` は `null`になりうることがある(`{user: null}`)。 `name`の値が欲しい時、 `null`の場合は`undefined`、`name`がある場合はその値を下記のように `const name = res.user && res.user.name` ではなく、 端的に(`optional chain`。オプショナルチェーンで)書いてください
 
@@ -8809,7 +8829,7 @@ const a = res.user?.name // undefined or "kenji"。 エラーにはならない
 // つまり res.user == null ? undefined : res.user.name と res.user?.nameは同じです。端的に書けることがわかります
 ```
 
-**問題383**
+**問388**
 
 下記
 
@@ -8839,7 +8859,7 @@ isNullish(d) // "null or undefined"
 // nullish coalescing opearator は もし左がnull か undefinedなら 右 を返す || の代替です
 ```
 
-**問題384**
+**問389**
 
 ECMASCript2020で追加されたglobalThisとはなんですか？
 
@@ -8874,7 +8894,7 @@ ECMASCript2020で追加されたglobalThisとはなんですか？
 // }
 ```
 
-**問題385**
+**問390**
 
 こちらの関数
 
@@ -8914,7 +8934,7 @@ const wrapped = loggingDecorator(dosomthing)
 wrapped("kenji")
 ```
 
-**問題386**
+**問391**
 
 下記のように
 
@@ -8961,7 +8981,7 @@ ins.sum(1, 2);
 
 [codeSandbox](https://codesandbox.io/s/decorator-x-typescript-x-react-hm8rj?file=/src/index.tsx)
 
-**問題386**
+**問392**
 
 数値を渡すと、その数値だけlengthを持つ配列で、且つその配列要素はそれぞれ1~999迄のランダムな整数である関数を作ってください eg: 5 -> [342, 920, 888, 292,129]
 
@@ -8978,7 +8998,7 @@ console.log(generateNumber(4)) // [342, 920, 888, 292,129] or some
 
 ```
 
-**問題387**
+**問393**
 
 ```js
 const MAX = 1000000000;
@@ -8994,7 +9014,7 @@ const MAX2 = 1000000000;
 // const num1 = 1_2_3_4_5;とも書ける
 ```
 
-**問題387**
+**問394**
 
 こちらを
 
@@ -9026,7 +9046,7 @@ Object.groupBy(fruits, (item) => {
 // ES2024
 ```
 
-**問題388**
+**問395**
 
 こちらの気温リストの中で41度以上の要素を取得してください。
 
@@ -9043,7 +9063,7 @@ let high = temp.findLast((t) => t > 40);
 // ES2023
 ```
 
-**問題389**
+**問396**
 
 こちらの気温リストの中で41度以上のインデックスを取得してください。
 
@@ -9060,7 +9080,7 @@ let index = temp.findLastIndex((t) => t > 40);
 // ES2023
 ```
 
-**問題390**
+**問397**
 
 こちらの配列
 
@@ -9078,7 +9098,7 @@ newMonths // ["Januar", "Februar", "March", "April"];
 // ES2023
 ```
 
-**問題391**
+**問398**
 
 こちらの配列
 
@@ -9086,11 +9106,11 @@ newMonths // ["Januar", "Februar", "March", "April"];
 const months = ["Jan", "Feb", "Mar", "Apr"];
 ```
 
-の`"Jan"`を取り除いてた新しい配列を取得してください。尚元の配列(`month`)は破壊しないでください。
+の`"Jan"`を取り除いた新しい配列を取得してください。尚元の配列(`month`)は破壊しないでください。
 
 ```js
 const spliced = months.toSpliced(0, 1);
-month // ["Jan", "Feb", "Mar", "Apr"];
+months // ["Jan", "Feb", "Mar", "Apr"];
 spliced // ["Feb", "Mar", "Apr"]
 
 // ES2023
@@ -9098,7 +9118,7 @@ spliced // ["Feb", "Mar", "Apr"]
 
 > ES2023では、元の配列を変更せずに配列を分割する安全な方法として、Array toSpliced()メソッドが追加されました。 新しいtoSpliced()メソッドと古いsplice()メソッドの違いは、新しいメソッドは元の配列を変更せずに新しい配列を作成するのに対し、古いメソッドは元の配列を変更する点です。
 
-**問題392**
+**問399**
 
 こちらの配列
 
@@ -9120,18 +9140,24 @@ const newNums = nums.toSorted();
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted
 ```
 
-**問題393**
+**問400**
 
 `[1, 2, 3]`と`[1,2,4]`があります。どちらにも含まれている値をSetで取得してください。
 
 ```js
 const set = new Set([1,2,3]).intersection(new Set([1, 2, 4]))
 set // Set{1, 2}
+
+// ES2025
 ```
 
 Set.intersectionは要素と引数のうちどちらにも含まれるものを返します(AND)
 
-**問題394**
+</details>
+
+<details><summary>問401〜問407</summary>
+
+**問401**
 
 `[1, 2]`と`[1, 3]`があります。要素と引数のうち少なくともどちらか片方に含まれるものをSet型で返してください
 
@@ -9142,7 +9168,7 @@ set // Set{1, 2, 3}
 
 > Set.union 要素と引数のうち少なくともどちらか片方に含まれるものを返す OR
 
-**問題395**
+**問402**
 
 `[1, 2]`と`[1, 3]`があります。要素の中で引数に含まれないものをSet型で返してください
 
@@ -9153,7 +9179,7 @@ set // Set{2}
 
 > Set.difference 要素の中で引数に含まれないものを返す 差集合
 
-**問題396**
+**問403**
 
 `[1, 2]`と`[1, 3]`があります。要素と引数どちらか一方にしか含まれないものをSet値で返してください
 
@@ -9161,13 +9187,13 @@ set // Set{2}
 const set = new Set([1,2]).symmetricDifference(new Set([1, 3]))
 set // Set{2, 3}
 
-// ES2025 state 4
+// ES2025
 ```
 
 > Set.symmetricDifference 要素と引数どちらか一方にしか含まれないものを返す XOR
 
 
-**問題397**
+**問404**
 
 次の配列
 
@@ -9184,6 +9210,75 @@ let array = [1, 2, 3, 4, 5]
 ```
 
 になります
+
+```js
+function rotate(array, n) {
+  const shift = n % array.length;
+  if (shift === 0) return [...array];
+  return [...array.slice(-shift), ...array.slice(0, -shift)];
+}
+rotate([1, 2, 3, 4, 5], 2);
+// [4, 5, 1, 2, 3]
+```
+
+**問405**
+
+1から始まる奇数を無限に生成するジェネレーター`odds`があります。
+
+```js
+function* odds() {
+  let n = 1;
+  while (true) {
+    yield n;
+    n += 2;
+  }
+}
+```
+
+一度配列に変換することなく、最初の3つの奇数をそれぞれ2倍した配列`[2, 6, 10]`を取得してください
+
+```js
+const result = odds().map((n) => n * 2).take(3).toArray();
+result
+// [2, 6, 10]
+
+// ES2025 Iterator Helpers
+// 無限に続くイテレーターでもtake()で必要な分だけ遅延評価で取り出せる
+// 他にもfilter/drop/flatMap/reduce/forEach/some/every/findなどが使える
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator
+```
+
+**問406**
+
+同期的に値を返すかもしれないし、Promiseを返すかもしれない関数`f`があります。
+どちらの場合でも同じPromiseチェーンで扱い、同期的にthrowされた例外も`.catch`で受け取れるようにしてください
+
+```js
+Promise.try(f)
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+
+// ES2025
+// new Promise((resolve) => resolve(f()))や
+// Promise.resolve().then(f)と違い、
+// fが同期関数の場合は同期的に実行される(余計なマイクロタスクを挟まない)
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/try
+```
+
+**問407**
+
+ユーザーが入力した文字列`'1+1=2'`をそのままの文字の並びとして検索する正規表現を作ってください。
+`+`や`=`などの特殊文字が正規表現のメタ文字として解釈されないようにすること
+
+```js
+const input = '1+1=2';
+const re = new RegExp(RegExp.escape(input));
+re.test('1+1=2'); // true
+re.test('11=2'); // false (エスケープしないと/1+1=2/は「1が1回以上」の意味になりtrueになってしまう)
+
+// ES2025
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+```
 
 
 ---
@@ -9237,6 +9332,137 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 
 
 [付録] [Observable](https://tc39.github.io/proposal-observable/)
+
+
+
+</details>
+
+<details><summary>問408〜(ECMAScript2026)</summary>
+
+**問408**
+
+こちらの2つの値
+
+```js
+const err = new TypeError('oops');
+const fake = { name: 'TypeError', message: 'oops' };
+```
+
+がErrorオブジェクトかどうかをそれぞれ確実に判定してください。
+尚、`instanceof Error`はiframeなど別realm由来のErrorに対してfalseを返すことがあるため使わないこと
+
+```js
+Error.isError(err); // true
+Error.isError(fake); // false
+
+// ES2026
+// Array.isArrayのError版。realmをまたいだ場合やError.prototypeを
+// 継承しただけのオブジェクトでも正しく判定できる
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/isError
+```
+
+**問409**
+
+こちらの関数
+
+```js
+function getResource() {
+  return {
+    name: 'file',
+    [Symbol.dispose]() {
+      console.log('リソースを解放しました');
+    },
+  };
+}
+```
+
+が返すリソースを、ブロックスコープを抜けたタイミングで自動的に解放されるように宣言して使用してください
+
+期待する出力
+
+```txt
+fileを使用中
+リソースを解放しました
+```
+
+```js
+{
+  using res = getResource();
+  console.log(`${res.name}を使用中`);
+}
+// fileを使用中
+// リソースを解放しました
+
+// ES2026 Explicit Resource Management
+// using宣言した値はスコープを抜けるときに[Symbol.dispose]()が自動で呼ばれる
+// 例外でスコープを抜けた場合も必ず呼ばれるためtry/finallyの解放処理を置き換えられる
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/using
+```
+
+**問410**
+
+非同期で解放する必要があるリソース(DBコネクションなど)を想定した以下のオブジェクトを、
+async関数の中でブロックスコープを抜けたら自動的に非同期解放されるように宣言して使用してください
+
+```js
+const getConnection = () => ({
+  async [Symbol.asyncDispose]() {
+    console.log('接続をクローズしました');
+  },
+});
+```
+
+期待する出力
+
+```txt
+接続を使用中
+接続をクローズしました
+ブロックを抜けました
+```
+
+```js
+async function main() {
+  {
+    await using conn = getConnection();
+    console.log('接続を使用中');
+  }
+  console.log('ブロックを抜けました');
+}
+main();
+
+// ES2026 Explicit Resource Management
+// await usingはスコープを抜けるときに[Symbol.asyncDispose]()をawait付きで呼ぶ
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/await_using
+```
+
+**問411**
+
+2つの後始末処理をまとめて登録し、スコープを抜けたら「登録した順と逆順」で実行されるようにしてください
+
+期待する出力
+
+```txt
+処理本体
+2つ目の後始末
+1つ目の後始末
+```
+
+```js
+{
+  using stack = new DisposableStack();
+  stack.defer(() => console.log('1つ目の後始末'));
+  stack.defer(() => console.log('2つ目の後始末'));
+  console.log('処理本体');
+}
+// 処理本体
+// 2つ目の後始末
+// 1つ目の後始末
+
+// ES2026 Explicit Resource Management
+// DisposableStackは複数のリソースや後始末処理をまとめて管理するコンテナ
+// 非同期版はAsyncDisposableStack
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DisposableStack
+```
 
 </details>
 
